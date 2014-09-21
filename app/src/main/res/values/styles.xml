@@ -94,4 +94,8 @@
         <item name="android:background">@drawable/nav_menu_button_background_selector</item>
     </style>
 
+    <style name="PrimaryButton">
+        <item name="android:background">@drawable/bbuton_primary</item>
+        <item name="android:layout_margin">10dp</item>
+    </style>
 </resources>
