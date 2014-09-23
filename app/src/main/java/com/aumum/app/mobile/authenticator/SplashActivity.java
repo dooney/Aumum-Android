@@ -9,8 +9,6 @@ import android.view.View;
 import com.aumum.app.mobile.R;
 import com.viewpagerindicator.CirclePageIndicator;
 
-import static android.accounts.AccountManager.KEY_ACCOUNT_NAME;
-
 public class SplashActivity extends ActionBarAccountAuthenticatorActivity {
     private FragmentPagerAdapter mAdapter;
     private ViewPager mPager;
@@ -23,9 +21,17 @@ public class SplashActivity extends ActionBarAccountAuthenticatorActivity {
      */
     public static final String PARAM_AUTHTOKEN_TYPE = "authtokenType";
 
+    public static final String KEY_ACCOUNT_EMAIL = "authEmail";
+
+    public static final String SHOW_SIGN_UP = "showSignUp";
+
+    public static final String SHOW_RESET_PASSWORD = "showResetPassword";
+
     private final int LOGIN_REQ_CODE = 1031;
 
     private final int REGISTER_REQ_CODE = 1032;
+
+    private final int RESET_PASSWORD_REQ_CODE = 1033;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,6 +62,11 @@ public class SplashActivity extends ActionBarAccountAuthenticatorActivity {
         startActivityForResult(intent, REGISTER_REQ_CODE);
     }
 
+    public void showForgotPassword(final View view) {
+        final Intent intent = new Intent(this, ResetPasswordActivity.class);
+        startActivityForResult(intent, RESET_PASSWORD_REQ_CODE);
+    }
+
     @Override
     protected void onActivityResult (int requestCode, int resultCode, Intent data) {
         switch (requestCode) {
@@ -65,6 +76,9 @@ public class SplashActivity extends ActionBarAccountAuthenticatorActivity {
             case REGISTER_REQ_CODE:
                 onRegistrationResult(resultCode, data);
                 break;
+            case RESET_PASSWORD_REQ_CODE:
+                onResetPasswordResult(resultCode, data);
+                break;
             default:
                 break;
         }
@@ -73,16 +87,31 @@ public class SplashActivity extends ActionBarAccountAuthenticatorActivity {
 
     private void onLoginResult(int resultCode, Intent data) {
         if (resultCode == RESULT_OK) {
-            setAccountAuthenticatorResult(data.getExtras());
-            finish();
+            if (data.getBooleanExtra(SHOW_SIGN_UP, false)) {
+                showRegister(null);
+            } else if (data.getBooleanExtra(SHOW_RESET_PASSWORD, false)) {
+                showForgotPassword(null);
+            } else {
+                setAccountAuthenticatorResult(data.getExtras());
+                finish();
+            }
         }
     }
 
     private void onRegistrationResult(int resultCode, Intent data) {
         if (resultCode == RESULT_OK) {
-            String email = data.getStringExtra(KEY_ACCOUNT_NAME);
+            String email = data.getStringExtra(KEY_ACCOUNT_EMAIL);
             final Intent intent = new Intent(this, RegistrationSuccessActivity.class);
-            intent.putExtra(KEY_ACCOUNT_NAME, email);
+            intent.putExtra(KEY_ACCOUNT_EMAIL, email);
+            startActivity(intent);
+        }
+    }
+
+    private void onResetPasswordResult(int resultCode, Intent data) {
+        if (resultCode == RESULT_OK) {
+            String email = data.getStringExtra(KEY_ACCOUNT_EMAIL);
+            final Intent intent = new Intent(this, ResetPasswordSuccessActivity.class);
+            intent.putExtra(KEY_ACCOUNT_EMAIL, email);
             startActivity(intent);
         }
     }

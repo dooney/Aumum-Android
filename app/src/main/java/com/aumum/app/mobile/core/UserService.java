@@ -30,4 +30,7 @@ public interface UserService {
 
     @POST(Constants.Http.URL_USERS_FRAG)
     User register(@Body JsonObject data);
+
+    @POST(Constants.Http.URL_RESET_PASSWORD_FRAG)
+    JsonObject resetPassword(@Body JsonObject data);
 }

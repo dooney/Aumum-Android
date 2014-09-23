@@ -40,22 +40,18 @@ import static android.view.KeyEvent.KEYCODE_ENTER;
 import static android.view.inputmethod.EditorInfo.IME_ACTION_DONE;
 import static com.aumum.app.mobile.authenticator.SplashActivity.KEY_ACCOUNT_EMAIL;
 
-public class RegisterActivity extends ActionBarActivity {
+public class ResetPasswordActivity extends ActionBarActivity {
     private AccountManager accountManager;
 
     @Inject BootstrapService bootstrapService;
 
-    @InjectView(R.id.et_username) protected EditText usernameText;
-    @InjectView(R.id.et_password) protected EditText passwordText;
     @InjectView(R.id.et_email) protected AutoCompleteTextView emailText;
-    @InjectView(R.id.b_signup) protected Button signUpButton;
+    @InjectView(R.id.b_reset_password) protected Button submitButton;
 
     private final TextWatcher watcher = validationTextWatcher();
 
-    private SafeAsyncTask<Boolean> registerTask;
+    private SafeAsyncTask<Boolean> resetPasswordTask;
 
-    private String username;
-    private String password;
     private String email;
 
     @Override
@@ -66,7 +62,7 @@ public class RegisterActivity extends ActionBarActivity {
 
         accountManager = AccountManager.get(this);
 
-        setContentView(R.layout.activity_register);
+        setContentView(R.layout.activity_reset_password);
 
         Views.inject(this);
 
@@ -77,8 +73,8 @@ public class RegisterActivity extends ActionBarActivity {
 
             public boolean onKey(final View v, final int keyCode, final KeyEvent event) {
                 if (event != null && ACTION_DOWN == event.getAction()
-                        && keyCode == KEYCODE_ENTER && signUpButton.isEnabled()) {
-                    handleRegister(signUpButton);
+                        && keyCode == KEYCODE_ENTER && submitButton.isEnabled()) {
+                    handleSubmit(submitButton);
                     return true;
                 }
                 return false;
@@ -89,16 +85,14 @@ public class RegisterActivity extends ActionBarActivity {
 
             public boolean onEditorAction(final TextView v, final int actionId,
                                           final KeyEvent event) {
-                if (actionId == IME_ACTION_DONE && signUpButton.isEnabled()) {
-                    handleRegister(signUpButton);
+                if (actionId == IME_ACTION_DONE && submitButton.isEnabled()) {
+                    handleSubmit(submitButton);
                     return true;
                 }
                 return false;
             }
         });
 
-        usernameText.addTextChangedListener(watcher);
-        passwordText.addTextChangedListener(watcher);
         emailText.addTextChangedListener(watcher);
     }
 
@@ -127,8 +121,8 @@ public class RegisterActivity extends ActionBarActivity {
     }
 
     private void updateUIWithValidation() {
-        final boolean populated = populated(usernameText) && populated(passwordText) && populated(emailText);
-        signUpButton.setEnabled(populated);
+        final boolean populated = populated(emailText);
+        submitButton.setEnabled(populated);
     }
 
     private boolean populated(final EditText editText) {
@@ -143,27 +137,25 @@ public class RegisterActivity extends ActionBarActivity {
         dialog.setCancelable(true);
         dialog.setOnCancelListener(new DialogInterface.OnCancelListener() {
             public void onCancel(final DialogInterface dialog) {
-                if (registerTask != null) {
-                    registerTask.cancel(true);
+                if (resetPasswordTask != null) {
+                    resetPasswordTask.cancel(true);
                 }
             }
         });
         return dialog;
     }
 
-    public void handleRegister(final View view) {
-        if (registerTask != null) {
+    public void handleSubmit(final View view) {
+        if (resetPasswordTask != null) {
             return;
         }
 
-        username = usernameText.getText().toString();
-        password = passwordText.getText().toString();
         email = emailText.getText().toString();
         showProgress();
 
-        registerTask = new SafeAsyncTask<Boolean>() {
+        resetPasswordTask = new SafeAsyncTask<Boolean>() {
             public Boolean call() throws Exception {
-                bootstrapService.register(username, password, email);
+                bootstrapService.resetPassword(email);
 
                 return true;
             }
@@ -174,26 +166,26 @@ public class RegisterActivity extends ActionBarActivity {
                 if(!(e instanceof RetrofitError)) {
                     final Throwable cause = e.getCause() != null ? e.getCause() : e;
                     if(cause != null) {
-                        Toaster.showLong(RegisterActivity.this, cause.getMessage());
+                        Toaster.showLong(ResetPasswordActivity.this, cause.getMessage());
                     }
                 }
             }
 
             @Override
             public void onSuccess(final Boolean success) {
-                onRegistrationResult(success);
+                onSubmitResult(success);
             }
 
             @Override
             protected void onFinally() throws RuntimeException {
                 hideProgress();
-                registerTask = null;
+                resetPasswordTask = null;
             }
         };
-        registerTask.execute();
+        resetPasswordTask.execute();
     }
 
-    private void finishRegistration() {
+    private void finishSubmit() {
         final Intent intent = new Intent();
         intent.putExtra(KEY_ACCOUNT_EMAIL, email);
         setResult(RESULT_OK, intent);
@@ -216,12 +208,12 @@ public class RegisterActivity extends ActionBarActivity {
         showDialog(0);
     }
 
-    public void onRegistrationResult(final Boolean result) {
+    public void onSubmitResult(final Boolean result) {
         if (result) {
-            finishRegistration();
+            finishSubmit();
         } else {
-            Toaster.showLong(RegisterActivity.this,
-                    R.string.message_auth_failed_new_account);
+            Toaster.showLong(ResetPasswordActivity.this,
+                    R.string.message_auth_failed_reset_password);
         }
     }
 }

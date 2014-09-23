@@ -78,4 +78,10 @@ public class BootstrapService {
         data.addProperty(Constants.Http.PARAM_EMAIL, email);
         return getUserService().register(data);
     }
+    
+    public void resetPassword(String email) {
+        final JsonObject data = new JsonObject();
+        data.addProperty(Constants.Http.PARAM_EMAIL, email);
+        getUserService().resetPassword(data);
+    }
 }

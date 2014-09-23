@@ -51,6 +51,29 @@
                 android:textColor="@color/text"
                 android:textSize="20sp"
                 android:textStyle="bold" />
+
+            <RelativeLayout
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:layout_marginTop="10dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/label_forgot_password"
+                    android:id="@+id/t_forgot_password"
+                    android:textColor="@color/text_link"
+                    android:layout_alignParentLeft="true" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/label_sign_up"
+                    android:id="@+id/t_signup"
+                    android:textColor="@color/text_link"
+                    android:layout_alignParentRight="true" />
+            </RelativeLayout>
+
         </LinearLayout>
     </ScrollView>
 

@@ -47,30 +47,31 @@ public final class Constants {
 
 
         /**
-         * Authentication URL
+         * Login URL
          */
         public static final String URL_LOGIN_FRAG = "/1/login";
-        public static final String URL_LOGIN = URL_BASE + URL_LOGIN_FRAG;
+
+        /**
+         * Reset Password URL
+         */
+        public static final String URL_RESET_PASSWORD_FRAG = "/1/requestPasswordReset";
 
         /**
          * List Users URL
          */
         public static final String URL_USERS_FRAG =  "/1/users";
-        public static final String URL_USERS = URL_BASE + URL_USERS_FRAG;
 
 
         /**
          * List News URL
          */
         public static final String URL_NEWS_FRAG = "/1/classes/News";
-        public static final String URL_NEWS = URL_BASE + URL_NEWS_FRAG;
 
 
         /**
          * List Checkin's URL
          */
         public static final String URL_CHECKINS_FRAG = "/1/classes/Locations";
-        public static final String URL_CHECKINS = URL_BASE + URL_CHECKINS_FRAG;
 
         /**
          * PARAMS for auth

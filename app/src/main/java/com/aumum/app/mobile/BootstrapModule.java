@@ -4,6 +4,7 @@ import android.accounts.AccountManager;
 import android.content.Context;
 
 import com.aumum.app.mobile.authenticator.ApiKeyProvider;
+import com.aumum.app.mobile.authenticator.ResetPasswordActivity;
 import com.aumum.app.mobile.authenticator.LoginActivity;
 import com.aumum.app.mobile.authenticator.LogoutService;
 import com.aumum.app.mobile.authenticator.RegisterActivity;
@@ -44,6 +45,7 @@ import retrofit.converter.GsonConverter;
                 BootstrapApplication.class,
                 LoginActivity.class,
                 RegisterActivity.class,
+                ResetPasswordActivity.class,
                 MainActivity.class,
                 BootstrapTimerActivity.class,
                 CheckInsListFragment.class,

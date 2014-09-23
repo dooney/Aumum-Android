@@ -7,6 +7,9 @@ import static android.view.KeyEvent.ACTION_DOWN;
 import static android.view.KeyEvent.KEYCODE_ENTER;
 import static android.view.inputmethod.EditorInfo.IME_ACTION_DONE;
 import static com.aumum.app.mobile.authenticator.SplashActivity.PARAM_AUTHTOKEN_TYPE;
+import static com.aumum.app.mobile.authenticator.SplashActivity.SHOW_SIGN_UP;
+import static com.aumum.app.mobile.authenticator.SplashActivity.SHOW_RESET_PASSWORD;
+
 import android.accounts.Account;
 import android.accounts.AccountManager;
 import android.app.Dialog;
@@ -58,6 +61,8 @@ public class LoginActivity extends ActionBarActivity {
     @InjectView(id.et_username) protected EditText usernameText;
     @InjectView(id.et_password) protected EditText passwordText;
     @InjectView(id.b_signin) protected Button signInButton;
+    @InjectView(id.t_forgot_password) protected TextView forgotPasswordText;
+    @InjectView(id.t_signup) protected TextView signUpText;
 
     private final TextWatcher watcher = validationTextWatcher();
 
@@ -117,6 +122,26 @@ public class LoginActivity extends ActionBarActivity {
 
         usernameText.addTextChangedListener(watcher);
         passwordText.addTextChangedListener(watcher);
+
+        forgotPasswordText.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                final Intent intent = new Intent();
+                intent.putExtra(SHOW_RESET_PASSWORD, true);
+                setResult(RESULT_OK, intent);
+                finish();
+            }
+        });
+
+        signUpText.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                final Intent intent = new Intent();
+                intent.putExtra(SHOW_SIGN_UP, true);
+                setResult(RESULT_OK, intent);
+                finish();
+            }
+        });
     }
 
     private TextWatcher validationTextWatcher() {
