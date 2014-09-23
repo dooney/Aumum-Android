@@ -49,8 +49,8 @@ public final class Constants {
         /**
          * Authentication URL
          */
-        public static final String URL_AUTH_FRAG = "/1/login";
-        public static final String URL_AUTH = URL_BASE + URL_AUTH_FRAG;
+        public static final String URL_LOGIN_FRAG = "/1/login";
+        public static final String URL_LOGIN = URL_BASE + URL_LOGIN_FRAG;
 
         /**
          * List Users URL
@@ -77,10 +77,10 @@ public final class Constants {
          */
         public static final String PARAM_USERNAME = "username";
         public static final String PARAM_PASSWORD = "password";
+        public static final String PARAM_EMAIL = "email";
 
-
-        public static final String PARSE_APP_ID = "zHb2bVia6kgilYRWWdmTiEJooYA17NnkBSUVsr4H";
-        public static final String PARSE_REST_API_KEY = "N2kCY1T3t3Jfhf9zpJ5MCURn3b25UpACILhnf5u9";
+        public static final String PARSE_APP_ID = "1CWTxIB11kQiHz7QAY1hZzA1PstlJ2TQuAmZ8Nc6";
+        public static final String PARSE_REST_API_KEY = "YT6Gt3CQUEtLkQsiCMMAnBIm7FrGkX8sqWMNElNx";
         public static final String HEADER_PARSE_REST_API_KEY = "X-Parse-REST-API-Key";
         public static final String HEADER_PARSE_APP_ID = "X-Parse-Application-Id";
         public static final String CONTENT_TYPE_JSON = "application/json";

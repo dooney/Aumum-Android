@@ -16,7 +16,7 @@ public class User implements Serializable {
     protected String sessionToken;
     protected String gravatarId;
     protected String avatarUrl;
-
+    protected Boolean emailVerified;
 
     public String getUsername() {
         return username;
@@ -85,5 +85,9 @@ public class User implements Serializable {
             return "https://secure.gravatar.com/avatar/" + id + "?d=404";
         else
             return null;
+    }
+
+    public Boolean getEmailVerified() {
+        return emailVerified;
     }
 }

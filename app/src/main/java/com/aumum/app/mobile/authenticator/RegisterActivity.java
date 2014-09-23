@@ -2,6 +2,9 @@ package com.aumum.app.mobile.authenticator;
 
 import android.accounts.Account;
 import android.accounts.AccountManager;
+import android.app.Dialog;
+import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
@@ -17,12 +20,15 @@ import android.widget.TextView;
 
 import com.aumum.app.mobile.Injector;
 import com.aumum.app.mobile.R;
+import com.aumum.app.mobile.core.BootstrapService;
 import com.aumum.app.mobile.ui.TextWatcherAdapter;
 import com.aumum.app.mobile.util.SafeAsyncTask;
 import com.github.kevinsawicki.wishlist.Toaster;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import javax.inject.Inject;
 
 import butterknife.InjectView;
 import butterknife.Views;
@@ -35,21 +41,22 @@ import static android.view.KeyEvent.KEYCODE_ENTER;
 import static android.view.inputmethod.EditorInfo.IME_ACTION_DONE;
 
 public class RegisterActivity extends ActionBarActivity {
-
     private AccountManager accountManager;
 
-    @InjectView(R.id.et_email) protected AutoCompleteTextView emailText;
-    @InjectView(R.id.et_password) protected EditText passwordText;
+    @Inject BootstrapService bootstrapService;
+
     @InjectView(R.id.et_username) protected EditText usernameText;
+    @InjectView(R.id.et_password) protected EditText passwordText;
+    @InjectView(R.id.et_email) protected AutoCompleteTextView emailText;
     @InjectView(R.id.b_signup) protected Button signUpButton;
 
     private final TextWatcher watcher = validationTextWatcher();
 
     private SafeAsyncTask<Boolean> registerTask;
 
-    private String email;
-
+    private String username;
     private String password;
+    private String email;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,7 +73,7 @@ public class RegisterActivity extends ActionBarActivity {
         emailText.setAdapter(new ArrayAdapter<String>(this,
                 simple_dropdown_item_1line, userEmailAccounts()));
 
-        passwordText.setOnKeyListener(new View.OnKeyListener() {
+        emailText.setOnKeyListener(new View.OnKeyListener() {
 
             public boolean onKey(final View v, final int keyCode, final KeyEvent event) {
                 if (event != null && ACTION_DOWN == event.getAction()
@@ -78,7 +85,7 @@ public class RegisterActivity extends ActionBarActivity {
             }
         });
 
-        passwordText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+        emailText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
 
             public boolean onEditorAction(final TextView v, final int actionId,
                                           final KeyEvent event) {
@@ -90,8 +97,9 @@ public class RegisterActivity extends ActionBarActivity {
             }
         });
 
-        emailText.addTextChangedListener(watcher);
+        usernameText.addTextChangedListener(watcher);
         passwordText.addTextChangedListener(watcher);
+        emailText.addTextChangedListener(watcher);
     }
 
     private List<String> userEmailAccounts() {
@@ -119,7 +127,7 @@ public class RegisterActivity extends ActionBarActivity {
     }
 
     private void updateUIWithValidation() {
-        final boolean populated = populated(emailText) && populated(passwordText) && populated(usernameText);
+        final boolean populated = populated(usernameText) && populated(passwordText) && populated(emailText);
         signUpButton.setEnabled(populated);
     }
 
@@ -127,17 +135,35 @@ public class RegisterActivity extends ActionBarActivity {
         return editText.length() > 0;
     }
 
+    @Override
+    protected Dialog onCreateDialog(int id) {
+        final ProgressDialog dialog = new ProgressDialog(this);
+        dialog.setMessage(getText(R.string.message_processing));
+        dialog.setIndeterminate(true);
+        dialog.setCancelable(true);
+        dialog.setOnCancelListener(new DialogInterface.OnCancelListener() {
+            public void onCancel(final DialogInterface dialog) {
+                if (registerTask != null) {
+                    registerTask.cancel(true);
+                }
+            }
+        });
+        return dialog;
+    }
+
     public void handleRegister(final View view) {
         if (registerTask != null) {
             return;
         }
 
+        username = usernameText.getText().toString();
+        password = passwordText.getText().toString();
+        email = emailText.getText().toString();
         showProgress();
 
         registerTask = new SafeAsyncTask<Boolean>() {
             public Boolean call() throws Exception {
-                //User loginResponse = bootstrapService.authenticate(email, password);
-                //token = loginResponse.getSessionToken();
+                bootstrapService.register(username, password, email);
 
                 return true;
             }

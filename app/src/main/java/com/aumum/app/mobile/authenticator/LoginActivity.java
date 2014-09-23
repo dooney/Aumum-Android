@@ -1,6 +1,5 @@
 package com.aumum.app.mobile.authenticator;
 
-import static android.R.layout.simple_dropdown_item_1line;
 import static android.accounts.AccountManager.KEY_ACCOUNT_NAME;
 import static android.accounts.AccountManager.KEY_ACCOUNT_TYPE;
 import static android.accounts.AccountManager.KEY_AUTHTOKEN;
@@ -21,8 +20,6 @@ import android.text.TextWatcher;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnKeyListener;
-import android.widget.ArrayAdapter;
-import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -44,8 +41,6 @@ import com.squareup.otto.Bus;
 import com.squareup.otto.Subscribe;
 
 import javax.inject.Inject;
-import java.util.ArrayList;
-import java.util.List;
 
 import butterknife.InjectView;
 import butterknife.Views;
@@ -60,7 +55,7 @@ public class LoginActivity extends ActionBarActivity {
     @Inject BootstrapService bootstrapService;
     @Inject Bus bus;
 
-    @InjectView(id.et_email) protected AutoCompleteTextView emailText;
+    @InjectView(id.et_username) protected EditText usernameText;
     @InjectView(id.et_password) protected EditText passwordText;
     @InjectView(id.b_signin) protected Button signInButton;
 
@@ -70,8 +65,7 @@ public class LoginActivity extends ActionBarActivity {
     private String authToken;
     private String authTokenType;
 
-    private String email;
-
+    private String username;
     private String password;
 
 
@@ -97,9 +91,6 @@ public class LoginActivity extends ActionBarActivity {
 
         Views.inject(this);
 
-        emailText.setAdapter(new ArrayAdapter<String>(this,
-                simple_dropdown_item_1line, userEmailAccounts()));
-
         passwordText.setOnKeyListener(new OnKeyListener() {
 
             public boolean onKey(final View v, final int keyCode, final KeyEvent event) {
@@ -124,17 +115,8 @@ public class LoginActivity extends ActionBarActivity {
             }
         });
 
-        emailText.addTextChangedListener(watcher);
+        usernameText.addTextChangedListener(watcher);
         passwordText.addTextChangedListener(watcher);
-    }
-
-    private List<String> userEmailAccounts() {
-        final Account[] accounts = accountManager.getAccountsByType("com.google");
-        final List<String> emailAddresses = new ArrayList<String>(accounts.length);
-        for (final Account account : accounts) {
-            emailAddresses.add(account.name);
-        }
-        return emailAddresses;
     }
 
     private TextWatcher validationTextWatcher() {
@@ -160,7 +142,7 @@ public class LoginActivity extends ActionBarActivity {
     }
 
     private void updateUIWithValidation() {
-        final boolean populated = populated(emailText) && populated(passwordText);
+        final boolean populated = populated(usernameText) && populated(passwordText);
         signInButton.setEnabled(populated);
     }
 
@@ -203,13 +185,16 @@ public class LoginActivity extends ActionBarActivity {
             return;
         }
 
-        email = emailText.getText().toString();
+        username = usernameText.getText().toString();
         password = passwordText.getText().toString();
         showProgress();
 
         authenticationTask = new SafeAsyncTask<Boolean>() {
             public Boolean call() throws Exception {
-                User loginResponse = bootstrapService.authenticate(email, password);
+                User loginResponse = bootstrapService.authenticate(username, password);
+                if (!loginResponse.getEmailVerified()) {
+                    throw new Exception(getString(R.string.message_auth_failed_not_verified));
+                }
                 token = loginResponse.getSessionToken();
 
                 return true;
@@ -248,12 +233,12 @@ public class LoginActivity extends ActionBarActivity {
      */
 
     protected void finishLogin() {
-        final Account account = new Account(email, Constants.Auth.BOOTSTRAP_ACCOUNT_TYPE);
+        final Account account = new Account(username, Constants.Auth.BOOTSTRAP_ACCOUNT_TYPE);
         accountManager.addAccountExplicitly(account, password, null);
         authToken = token;
 
         final Intent intent = new Intent();
-        intent.putExtra(KEY_ACCOUNT_NAME, email);
+        intent.putExtra(KEY_ACCOUNT_NAME, username);
         intent.putExtra(KEY_ACCOUNT_TYPE, Constants.Auth.BOOTSTRAP_ACCOUNT_TYPE);
 
         if (authTokenType != null

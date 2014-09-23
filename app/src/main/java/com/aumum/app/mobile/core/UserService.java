@@ -1,8 +1,10 @@
 package com.aumum.app.mobile.core;
 
-import java.util.List;
+import com.google.gson.JsonObject;
 
+import retrofit.http.Body;
 import retrofit.http.GET;
+import retrofit.http.POST;
 import retrofit.http.Query;
 
 /**
@@ -18,11 +20,14 @@ public interface UserService {
      * The {@link retrofit.http.Query} values will be transform into query string paramters
      * via Retrofit
      *
-     * @param email The users email
+     * @param username The users name
      * @param password The users password
      * @return A login response.
      */
-    @GET(Constants.Http.URL_AUTH_FRAG)
-    User authenticate(@Query(Constants.Http.PARAM_USERNAME) String email,
-                               @Query(Constants.Http.PARAM_PASSWORD) String password);
+    @GET(Constants.Http.URL_LOGIN_FRAG)
+    User authenticate(@Query(Constants.Http.PARAM_USERNAME) String username,
+                      @Query(Constants.Http.PARAM_PASSWORD) String password);
+
+    @POST(Constants.Http.URL_USERS_FRAG)
+    User register(@Body JsonObject data);
 }

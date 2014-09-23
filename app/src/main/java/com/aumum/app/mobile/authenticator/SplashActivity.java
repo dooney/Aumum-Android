@@ -80,10 +80,10 @@ public class SplashActivity extends ActionBarAccountAuthenticatorActivity {
 
     private void onRegistrationResult(int resultCode, Intent data) {
         if (resultCode == RESULT_OK) {
-            /*String email = data.getStringExtra(KEY_ACCOUNT_NAME);
+            String email = data.getStringExtra(KEY_ACCOUNT_NAME);
             final Intent intent = new Intent(this, RegistrationSuccessActivity.class);
             intent.putExtra(KEY_ACCOUNT_NAME, email);
-            startActivity(intent);*/
+            startActivity(intent);
         }
     }
 }

@@ -1,6 +1,8 @@
 
 package com.aumum.app.mobile.core;
 
+import com.google.gson.JsonObject;
+
 import java.util.List;
 
 import retrofit.RestAdapter;
@@ -65,7 +67,15 @@ public class BootstrapService {
        return getCheckInService().getCheckIns().getResults();
     }
 
-    public User authenticate(String email, String password) {
-        return getUserService().authenticate(email, password);
+    public User authenticate(String username, String password) {
+        return getUserService().authenticate(username, password);
+    }
+
+    public User register(String username, String password, String email) {
+        final JsonObject data = new JsonObject();
+        data.addProperty(Constants.Http.PARAM_USERNAME, username);
+        data.addProperty(Constants.Http.PARAM_PASSWORD, password);
+        data.addProperty(Constants.Http.PARAM_EMAIL, email);
+        return getUserService().register(data);
     }
 }
