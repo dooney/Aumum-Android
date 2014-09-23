@@ -20,19 +20,12 @@
         android:label="@string/app_name"
         android:theme="@style/Theme.Bootstrap.Dark" >
         <activity
-            android:name="com.aumum.app.mobile.ui.SplashActivity"
-            android:label="@string/app_name" >
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
-        <activity
             android:name="com.aumum.app.mobile.ui.MainActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:label="@string/app_name" >
             <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
@@ -67,7 +60,7 @@
         </service>
 
         <activity
-            android:name="com.aumum.app.mobile.authenticator.BootstrapAuthenticatorActivity"
+            android:name=".authenticator.LoginActivity"
             android:excludeFromRecents="true" >
 
             <!--
@@ -79,6 +72,14 @@
         <activity
             android:name="com.aumum.app.mobile.ui.UserActivity"
             android:label="@string/app_name" />
+        <activity
+            android:name=".authenticator.SplashActivity"
+            android:label="@string/app_name" >
+        </activity>
+        <activity
+            android:name="com.aumum.app.mobile.authenticator.RegisterActivity"
+            android:label="@string/title_activity_register" >
+        </activity>
     </application>
 
 </manifest>

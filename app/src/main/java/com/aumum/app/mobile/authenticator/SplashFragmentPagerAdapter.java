@@ -1,8 +1,10 @@
-package com.aumum.app.mobile.ui;
+package com.aumum.app.mobile.authenticator;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
+
+import com.aumum.app.mobile.authenticator.SplashFragment;
 
 /**
  * Created by Simpson Du on 21/09/2014.

@@ -46,18 +46,19 @@
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:text="@string/label_sign_up"
-            android:id="@+id/register_btn"
+            android:background="@drawable/bbuton_primary"
+            android:layout_margin="10dp"
             android:layout_weight="1"
-            style="@style/PrimaryButton"/>
+            android:onClick="showRegister"/>
 
         <Button
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:text="@string/label_sign_in"
-            android:id="@+id/login_btn"
+            android:background="@drawable/bbuton_primary"
+            android:layout_margin="10dp"
             android:layout_weight="1"
-            android:onClick="showLogin"
-            style="@style/PrimaryButton"/>
+            android:onClick="showLogin"/>
     </LinearLayout>
 
 </LinearLayout>

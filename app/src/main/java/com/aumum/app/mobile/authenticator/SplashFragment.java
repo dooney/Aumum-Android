@@ -1,4 +1,4 @@
-package com.aumum.app.mobile.ui;
+package com.aumum.app.mobile.authenticator;
 
 
 

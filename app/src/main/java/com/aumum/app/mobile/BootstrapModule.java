@@ -4,8 +4,9 @@ import android.accounts.AccountManager;
 import android.content.Context;
 
 import com.aumum.app.mobile.authenticator.ApiKeyProvider;
-import com.aumum.app.mobile.authenticator.BootstrapAuthenticatorActivity;
+import com.aumum.app.mobile.authenticator.LoginActivity;
 import com.aumum.app.mobile.authenticator.LogoutService;
+import com.aumum.app.mobile.authenticator.RegisterActivity;
 import com.aumum.app.mobile.core.BootstrapService;
 import com.aumum.app.mobile.core.Constants;
 import com.aumum.app.mobile.core.PostFromAnyThreadBus;
@@ -41,7 +42,8 @@ import retrofit.converter.GsonConverter;
 
         injects = {
                 BootstrapApplication.class,
-                BootstrapAuthenticatorActivity.class,
+                LoginActivity.class,
+                RegisterActivity.class,
                 MainActivity.class,
                 BootstrapTimerActivity.class,
                 CheckInsListFragment.class,
