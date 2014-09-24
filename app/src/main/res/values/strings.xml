@@ -29,6 +29,8 @@
     <string name="label_sign_up">注册</string>
     <string name="label_submit">提交</string>
     <string name="label_forgot_password">忘记密码？</string>
+    <string name="label_join_now">注册新用户</string>
+    <string name="label_prompt_sign_in">已有账户？登录</string>
     <string name="label_input_email">请输入邮箱</string>
     <string name="message_signing_in">登录中…</string>
     <string name="message_processing">处理中…</string>

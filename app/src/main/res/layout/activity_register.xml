@@ -59,6 +59,20 @@
                 android:textColor="@color/text"
                 android:textSize="20sp"
                 android:textStyle="bold" />
+
+            <RelativeLayout
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/label_prompt_sign_in"
+                    android:textColor="@color/text_link"
+                    android:id="@+id/t_prompt_sign_in"
+                    android:layout_centerInParent="true"
+                    android:layout_marginTop="10dp" />
+            </RelativeLayout>
         </LinearLayout>
     </ScrollView>
 

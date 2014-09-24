@@ -62,7 +62,7 @@ public class LoginActivity extends ActionBarActivity {
     @InjectView(id.et_password) protected EditText passwordText;
     @InjectView(id.b_signin) protected Button signInButton;
     @InjectView(id.t_forgot_password) protected TextView forgotPasswordText;
-    @InjectView(id.t_signup) protected TextView signUpText;
+    @InjectView(id.t_join_now) protected TextView joinNowText;
 
     private final TextWatcher watcher = validationTextWatcher();
 
@@ -133,7 +133,7 @@ public class LoginActivity extends ActionBarActivity {
             }
         });
 
-        signUpText.setOnClickListener(new View.OnClickListener() {
+        joinNowText.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 final Intent intent = new Intent();

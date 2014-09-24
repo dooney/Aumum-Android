@@ -39,6 +39,7 @@ import static android.view.KeyEvent.ACTION_DOWN;
 import static android.view.KeyEvent.KEYCODE_ENTER;
 import static android.view.inputmethod.EditorInfo.IME_ACTION_DONE;
 import static com.aumum.app.mobile.authenticator.SplashActivity.KEY_ACCOUNT_EMAIL;
+import static com.aumum.app.mobile.authenticator.SplashActivity.SHOW_SIGN_IN;
 
 public class RegisterActivity extends ActionBarActivity {
     private AccountManager accountManager;
@@ -49,6 +50,7 @@ public class RegisterActivity extends ActionBarActivity {
     @InjectView(R.id.et_password) protected EditText passwordText;
     @InjectView(R.id.et_email) protected AutoCompleteTextView emailText;
     @InjectView(R.id.b_signup) protected Button signUpButton;
+    @InjectView(R.id.t_prompt_sign_in) protected TextView promptSignInText;
 
     private final TextWatcher watcher = validationTextWatcher();
 
@@ -100,6 +102,16 @@ public class RegisterActivity extends ActionBarActivity {
         usernameText.addTextChangedListener(watcher);
         passwordText.addTextChangedListener(watcher);
         emailText.addTextChangedListener(watcher);
+
+        promptSignInText.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                final Intent intent = new Intent();
+                intent.putExtra(SHOW_SIGN_IN, true);
+                setResult(RESULT_OK, intent);
+                finish();
+            }
+        });
     }
 
     private List<String> userEmailAccounts() {

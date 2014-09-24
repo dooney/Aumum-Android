@@ -23,6 +23,8 @@ public class SplashActivity extends ActionBarAccountAuthenticatorActivity {
 
     public static final String KEY_ACCOUNT_EMAIL = "authEmail";
 
+    public static final String SHOW_SIGN_IN = "showSignIn";
+
     public static final String SHOW_SIGN_UP = "showSignUp";
 
     public static final String SHOW_RESET_PASSWORD = "showResetPassword";
@@ -100,10 +102,14 @@ public class SplashActivity extends ActionBarAccountAuthenticatorActivity {
 
     private void onRegistrationResult(int resultCode, Intent data) {
         if (resultCode == RESULT_OK) {
-            String email = data.getStringExtra(KEY_ACCOUNT_EMAIL);
-            final Intent intent = new Intent(this, RegistrationSuccessActivity.class);
-            intent.putExtra(KEY_ACCOUNT_EMAIL, email);
-            startActivity(intent);
+            if (data.getBooleanExtra(SHOW_SIGN_IN, false)) {
+                showLogin(null);
+            } else {
+                String email = data.getStringExtra(KEY_ACCOUNT_EMAIL);
+                final Intent intent = new Intent(this, RegistrationSuccessActivity.class);
+                intent.putExtra(KEY_ACCOUNT_EMAIL, email);
+                startActivity(intent);
+            }
         }
     }
 
