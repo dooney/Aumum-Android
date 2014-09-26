@@ -42,6 +42,10 @@ public class BootstrapService {
         return getRestAdapter().create(CheckInService.class);
     }
 
+    private PartyService getPartyService() {
+        return getRestAdapter().create(PartyService.class);
+    }
+
     private RestAdapter getRestAdapter() {
         return restAdapter;
     }
@@ -83,5 +87,9 @@ public class BootstrapService {
         final JsonObject data = new JsonObject();
         data.addProperty(Constants.Http.PARAM_EMAIL, email);
         getUserService().resetPassword(data);
+    }
+
+    public void newParty(Party party) {
+        getPartyService().newParty(party);
     }
 }

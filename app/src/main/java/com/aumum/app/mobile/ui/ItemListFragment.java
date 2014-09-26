@@ -2,6 +2,7 @@
 package com.aumum.app.mobile.ui;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.LoaderManager.LoaderCallbacks;
@@ -25,6 +26,7 @@ import com.aumum.app.mobile.R;
 import com.aumum.app.mobile.R.id;
 import com.aumum.app.mobile.R.layout;
 import com.aumum.app.mobile.authenticator.LogoutService;
+import com.aumum.app.mobile.core.Constants;
 import com.github.kevinsawicki.wishlist.SingleTypeAdapter;
 import com.github.kevinsawicki.wishlist.Toaster;
 import com.github.kevinsawicki.wishlist.ViewUtils;
@@ -43,6 +45,8 @@ public abstract class ItemListFragment<E> extends Fragment
         implements LoaderCallbacks<List<E>> {
 
     private static final String FORCE_REFRESH = "forceRefresh";
+
+    private final int NEW_PARTY_POST_REQ_CODE = 2031;
 
     /**
      * @param args bundle passed to the loader by the LoaderManager
@@ -156,7 +160,10 @@ public abstract class ItemListFragment<E> extends Fragment
             return false;
         }
         switch (item.getItemId()) {
-            case id.refresh:
+            case R.id.b_new:
+                newPartyPost();
+                return true;
+            case R.id.refresh:
                 forceRefresh();
                 return true;
             case R.id.logout:
@@ -453,5 +460,28 @@ public abstract class ItemListFragment<E> extends Fragment
      */
     protected boolean isUsable() {
         return getActivity() != null;
+    }
+
+    private void newPartyPost() {
+        final Intent intent = new Intent(getActivity(), NewPartyPostActivity.class);
+        startActivityForResult(intent, NEW_PARTY_POST_REQ_CODE);
+    }
+
+    @Override
+    public void onActivityResult (int requestCode, int resultCode, Intent data) {
+        switch (requestCode) {
+            case NEW_PARTY_POST_REQ_CODE:
+                onNewPartyPostResult(resultCode, data);
+                break;
+            default:
+                break;
+        }
+        return;
+    }
+
+    private void onNewPartyPostResult(int resultCode, Intent data) {
+        if (resultCode == Activity.RESULT_OK) {
+            forceRefresh();
+        }
     }
 }

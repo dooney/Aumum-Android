@@ -5,7 +5,7 @@
     android:versionName="1.1" >
 
     <uses-sdk
-        android:minSdkVersion="8"
+        android:minSdkVersion="9"
         android:targetSdkVersion="19" />
 
     <uses-permission android:name="android.permission.INTERNET" />
@@ -16,6 +16,7 @@
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.VIBRATE" />
 
     <application
         android:name="com.aumum.app.mobile.BootstrapApplication"
@@ -95,6 +96,10 @@
         <activity
             android:name="com.aumum.app.mobile.authenticator.ResetPasswordSuccessActivity"
             android:label="@string/title_activity_reset_password_success" >
+        </activity>
+        <activity
+            android:name="com.aumum.app.mobile.ui.NewPartyPostActivity"
+            android:label="@string/title_activity_new_party_post" >
         </activity>
     </application>
 

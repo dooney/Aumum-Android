@@ -19,6 +19,7 @@ import com.aumum.app.mobile.ui.BootstrapTimerActivity;
 import com.aumum.app.mobile.ui.CheckInsListFragment;
 import com.aumum.app.mobile.ui.MainActivity;
 import com.aumum.app.mobile.ui.NavigationDrawerFragment;
+import com.aumum.app.mobile.ui.NewPartyPostActivity;
 import com.aumum.app.mobile.ui.NewsActivity;
 import com.aumum.app.mobile.ui.NewsListFragment;
 import com.aumum.app.mobile.ui.UserActivity;
@@ -54,7 +55,8 @@ import retrofit.converter.GsonConverter;
                 NewsListFragment.class,
                 UserActivity.class,
                 UserListFragment.class,
-                TimerService.class
+                TimerService.class,
+                NewPartyPostActivity.class
         }
 )
 public class BootstrapModule {

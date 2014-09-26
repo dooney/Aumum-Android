@@ -2,18 +2,16 @@
 
 <resources>
 
-    <style name="SignInEditText">
+    <style name="SingleLineEditText">
+        <item name="android:textColor">@color/black</item>
+        <item name="android:background">@drawable/edittext_background</item>
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
-        <item name="android:autoText">false</item>
-        <item name="android:capitalize">none</item>
-        <item name="android:scrollHorizontally">true</item>
         <item name="android:singleLine">true</item>
+    </style>
+
+    <style name="HintEditText" parent="SingleLineEditText">
         <item name="android:padding">10dp</item>
-        <item name="android:textColor">@color/table_text</item>
-        <item name="android:textCursorDrawable">@drawable/edit_text_cursor</item>
-        <item name="android:textSize">20sp</item>
-        <item name="android:background">@drawable/edit_text_background</item>
         <item name="android:layout_marginBottom">10dp</item>
     </style>
 
@@ -93,5 +91,38 @@
     <style name="NavMenuButton">
         <item name="android:textColor">@color/nav_text_selector</item>
         <item name="android:background">@drawable/nav_menu_button_background_selector</item>
+    </style>
+
+    <style name="InlineFrame">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginBottom">10dp</item>
+    </style>
+
+    <style name="InlineLabel">
+        <item name="android:textColor">@color/text_light</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_gravity">center_vertical</item>
+        <item name="android:paddingLeft">10dp</item>
+    </style>
+
+    <style name="InlineButton">
+        <item name="android:textColor">@color/black</item>
+        <item name="android:background">@drawable/bbuton_default</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:gravity">left|center_vertical</item>
+        <item name="android:paddingTop">10dp</item>
+        <item name="android:paddingLeft">50dp</item>
+        <item name="android:paddingBottom">10dp</item>
+        <item name="android:paddingRight">10dp</item>
+    </style>
+
+    <style name="InlineEditText" parent="SingleLineEditText">
+        <item name="android:paddingTop">10dp</item>
+        <item name="android:paddingLeft">50dp</item>
+        <item name="android:paddingBottom">10dp</item>
+        <item name="android:paddingRight">10dp</item>
     </style>
 </resources>

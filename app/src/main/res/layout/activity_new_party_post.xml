@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:fillViewport="true">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingBottom="5dp"
+            android:paddingLeft="15dp"
+            android:paddingRight="15dp"
+            android:paddingTop="5dp" >
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content">
+
+                <FrameLayout
+                    style="@style/InlineFrame"
+                    android:paddingRight="5dp"
+                    android:layout_weight="1">
+                    <Button
+                        android:id="@+id/b_date"
+                        style="@style/InlineButton" />
+                    <TextView
+                        android:text="@string/label_date"
+                        style="@style/InlineLabel"/>
+                </FrameLayout>
+
+                <FrameLayout
+                    style="@style/InlineFrame"
+                    android:paddingLeft="5dp"
+                    android:layout_weight="1">
+                    <Button
+                        android:id="@+id/b_time"
+                        style="@style/InlineButton" />
+                    <TextView
+                        android:text="@string/label_time"
+                        style="@style/InlineLabel"/>
+                </FrameLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content">
+
+                <FrameLayout
+                    style="@style/InlineFrame"
+                    android:paddingRight="5dp"
+                    android:layout_weight="1">
+                    <Button
+                        android:id="@+id/b_age"
+                        style="@style/InlineButton" />
+                    <TextView
+                        android:text="@string/label_age"
+                        style="@style/InlineLabel"/>
+                </FrameLayout>
+
+                <FrameLayout
+                    style="@style/InlineFrame"
+                    android:paddingLeft="5dp"
+                    android:layout_weight="1">
+                    <Button
+                        android:id="@+id/b_gender"
+                        style="@style/InlineButton" />
+                    <TextView
+                        android:text="@string/label_gender"
+                        style="@style/InlineLabel"/>
+                </FrameLayout>
+            </LinearLayout>
+
+            <FrameLayout
+                style="@style/InlineFrame" >
+                <EditText
+                    android:id="@+id/et_title"
+                    style="@style/InlineEditText" />
+                <TextView
+                    android:text="@string/label_title"
+                    style="@style/InlineLabel"/>
+            </FrameLayout>
+
+            <FrameLayout
+                style="@style/InlineFrame" >
+                <EditText
+                    android:id="@+id/et_location"
+                    style="@style/InlineEditText" />
+                <TextView
+                    android:text="@string/label_location"
+                    style="@style/InlineLabel"/>
+            </FrameLayout>
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:textColor="@color/black"
+                android:background="@drawable/edittext_background"
+                android:gravity="left|top"
+                android:id="@+id/et_details"
+                android:inputType="textMultiLine"
+                android:padding="10dp"
+                android:hint="@string/text_party_details"
+                android:textColorHint="@color/text_light"></EditText>
+
+        </LinearLayout>
+    </ScrollView>
+
+</LinearLayout>

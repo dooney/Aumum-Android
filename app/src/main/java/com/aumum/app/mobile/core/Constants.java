@@ -74,6 +74,11 @@ public final class Constants {
         public static final String URL_CHECKINS_FRAG = "/1/classes/Locations";
 
         /**
+         * List Parties URL
+         */
+        public static final String URL_PARTIES_FRAG = "/1/classes/Parties";
+
+        /**
          * PARAMS for auth
          */
         public static final String PARAM_USERNAME = "username";
