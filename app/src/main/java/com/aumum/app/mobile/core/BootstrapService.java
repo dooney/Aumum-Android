@@ -75,11 +75,12 @@ public class BootstrapService {
         return getUserService().authenticate(username, password);
     }
 
-    public User register(String username, String password, String email) {
+    public User register(String username, String password, String email, int area) {
         final JsonObject data = new JsonObject();
         data.addProperty(Constants.Http.PARAM_USERNAME, username);
         data.addProperty(Constants.Http.PARAM_PASSWORD, password);
         data.addProperty(Constants.Http.PARAM_EMAIL, email);
+        data.addProperty(Constants.Http.PARAM_AREA, area);
         return getUserService().register(data);
     }
     

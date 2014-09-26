@@ -45,6 +45,16 @@
                 android:inputType="textEmailAddress" />
 
             <Button
+                android:id="@+id/b_area"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:textColor="@color/black"
+                android:background="@drawable/bbuton_default"
+                android:hint="@string/label_area"
+                android:gravity="left|center_vertical"
+                android:padding="10dp" />
+
+            <Button
                 android:id="@+id/b_signup"
                 style="@style/ShadowText"
                 android:layout_width="match_parent"

@@ -140,6 +140,10 @@ public class NewPartyPostActivity extends ActionBarActivity
             }
         });
 
+        dateButton.addTextChangedListener(watcher);
+        timeButton.addTextChangedListener(watcher);
+        ageButton.addTextChangedListener(watcher);
+        genderButton.addTextChangedListener(watcher);
         titleText.addTextChangedListener(watcher);
         locationText.addTextChangedListener(watcher);
         detailsText.addTextChangedListener(watcher);
@@ -212,7 +216,13 @@ public class NewPartyPostActivity extends ActionBarActivity
     }
 
     private void updateUIWithValidation() {
-        final boolean populated = populated(titleText) && populated(locationText) && populated(detailsText);
+        final boolean populated = dateButton.getText().length() > 0 &&
+                timeButton.getText().length() > 0 &&
+                ageButton.getText().length() > 0 &&
+                genderButton.getText().length() > 0 &&
+                populated(titleText) &&
+                populated(locationText) &&
+                populated(detailsText);
         if (sendButton != null) {
             sendButton.setVisible(populated);
         }

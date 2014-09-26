@@ -26,6 +26,7 @@
     <string name="label_username">用户名</string>
     <string name="label_email_address">邮箱</string>
     <string name="label_password">密码</string>
+    <string name="label_area">所在城市</string>
     <string name="label_sign_in">登录</string>
     <string name="label_sign_up">注册</string>
     <string name="label_submit">提交</string>
@@ -83,4 +84,15 @@
 
     <string name="label_girl_only">仅女孩</string>
     <string name="label_boy_only">仅男孩</string>
+
+    <string name="label_sydney">悉尼</string>
+    <string name="label_melbourne">墨尔本</string>
+    <string name="label_brisbane">布里斯班</string>
+    <string name="label_perth">珀斯</string>
+    <string name="label_adelaide">阿德莱德</string>
+    <string name="label_canberra">堪培拉</string>
+    <string name="label_darwin">达尔文</string>
+    <string name="label_hobart">霍巴特</string>
+    <string name="label_auckland">奥克兰</string>
+    <string name="label_wellington">惠灵顿</string>
 </resources>

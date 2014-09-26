@@ -23,6 +23,7 @@ import com.aumum.app.mobile.R;
 import com.aumum.app.mobile.core.BootstrapService;
 import com.aumum.app.mobile.ui.TextWatcherAdapter;
 import com.aumum.app.mobile.util.SafeAsyncTask;
+import com.aumum.app.mobile.util.UIUtils;
 import com.github.kevinsawicki.wishlist.Toaster;
 
 import java.util.ArrayList;
@@ -49,6 +50,7 @@ public class RegisterActivity extends ActionBarActivity {
     @InjectView(R.id.et_username) protected EditText usernameText;
     @InjectView(R.id.et_password) protected EditText passwordText;
     @InjectView(R.id.et_email) protected AutoCompleteTextView emailText;
+    @InjectView(R.id.b_area) protected Button areaButton;
     @InjectView(R.id.b_signup) protected Button signUpButton;
     @InjectView(R.id.t_prompt_sign_in) protected TextView promptSignInText;
 
@@ -59,6 +61,7 @@ public class RegisterActivity extends ActionBarActivity {
     private String username;
     private String password;
     private String email;
+    private int area;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -102,6 +105,32 @@ public class RegisterActivity extends ActionBarActivity {
         usernameText.addTextChangedListener(watcher);
         passwordText.addTextChangedListener(watcher);
         emailText.addTextChangedListener(watcher);
+        areaButton.addTextChangedListener(watcher);
+
+        areaButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                final CharSequence options[] = {
+                        getString(R.string.label_sydney),
+                        getString(R.string.label_melbourne),
+                        getString(R.string.label_brisbane),
+                        getString(R.string.label_perth),
+                        getString(R.string.label_adelaide),
+                        getString(R.string.label_canberra),
+                        getString(R.string.label_darwin),
+                        getString(R.string.label_hobart),
+                        getString(R.string.label_auckland),
+                        getString(R.string.label_wellington),
+                };
+                UIUtils.showAlert(RegisterActivity.this, R.string.label_area, options, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        area = i;
+                        areaButton.setText(options[i]);
+                    }
+                });
+            }
+        });
 
         promptSignInText.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -139,7 +168,10 @@ public class RegisterActivity extends ActionBarActivity {
     }
 
     private void updateUIWithValidation() {
-        final boolean populated = populated(usernameText) && populated(passwordText) && populated(emailText);
+        final boolean populated = populated(usernameText) &&
+                populated(passwordText) &&
+                populated(emailText) &&
+                areaButton.getText().length() > 0;
         signUpButton.setEnabled(populated);
     }
 
@@ -175,7 +207,7 @@ public class RegisterActivity extends ActionBarActivity {
 
         registerTask = new SafeAsyncTask<Boolean>() {
             public Boolean call() throws Exception {
-                bootstrapService.register(username, password, email);
+                bootstrapService.register(username, password, email, area);
 
                 return true;
             }
