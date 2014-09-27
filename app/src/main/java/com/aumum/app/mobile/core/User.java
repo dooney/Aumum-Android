@@ -2,21 +2,20 @@ package com.aumum.app.mobile.core;
 
 import android.text.TextUtils;
 
-import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
-public class User implements Serializable {
-
-    private static final long serialVersionUID = -7495897652017488896L;
-
+public class User extends AggregateRoot {
     protected String firstName;
     protected String lastName;
     protected String username;
     protected String phone;
-    protected String objectId;
     protected String sessionToken;
     protected String gravatarId;
     protected String avatarUrl;
     protected Boolean emailVerified;
+    protected int area;
+    protected List<String> partyList;
 
     public String getUsername() {
         return username;
@@ -32,14 +31,6 @@ public class User implements Serializable {
 
     public void setPhone(final String phone) {
         this.phone = phone;
-    }
-
-    public String getObjectId() {
-        return objectId;
-    }
-
-    public void setObjectId(final String objectId) {
-        this.objectId = objectId;
     }
 
     public String getSessionToken() {
@@ -89,5 +80,15 @@ public class User implements Serializable {
 
     public Boolean getEmailVerified() {
         return emailVerified;
+    }
+
+    public int getArea() {
+        return area;
+    }
+
+    public List<String> getPartyList() {
+        if (partyList == null)
+            return new ArrayList<String>();
+        return partyList;
     }
 }

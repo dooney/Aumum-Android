@@ -194,7 +194,7 @@ public class LoginActivity extends ActionBarActivity {
     @Subscribe
     public void onUnAuthorizedErrorEvent(UnAuthorizedErrorEvent unAuthorizedErrorEvent) {
         // Could not authorize for some reason.
-        Toaster.showLong(LoginActivity.this, R.string.message_bad_credentials);
+        Toaster.showLong(LoginActivity.this, R.string.message_auth_failed_bad_credentials);
     }
 
     /**
@@ -216,11 +216,11 @@ public class LoginActivity extends ActionBarActivity {
 
         authenticationTask = new SafeAsyncTask<Boolean>() {
             public Boolean call() throws Exception {
-                User loginResponse = bootstrapService.authenticate(username, password);
-                if (!loginResponse.getEmailVerified()) {
+                User response = bootstrapService.authenticate(username, password);
+                if (!response.getEmailVerified()) {
                     throw new Exception(getString(R.string.message_auth_failed_not_verified));
                 }
-                token = loginResponse.getSessionToken();
+                token = response.getSessionToken();
 
                 return true;
             }
@@ -261,6 +261,7 @@ public class LoginActivity extends ActionBarActivity {
         final Account account = new Account(username, Constants.Auth.BOOTSTRAP_ACCOUNT_TYPE);
         accountManager.addAccountExplicitly(account, password, null);
         authToken = token;
+        accountManager.setAuthToken(account, Constants.Auth.AUTHTOKEN_TYPE, authToken);
 
         final Intent intent = new Intent();
         intent.putExtra(KEY_ACCOUNT_NAME, username);

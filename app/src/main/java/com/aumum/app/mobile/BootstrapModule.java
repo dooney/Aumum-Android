@@ -111,8 +111,8 @@ public class BootstrapModule {
     }
 
     @Provides
-    RestAdapterRequestInterceptor provideRestAdapterRequestInterceptor(UserAgentProvider userAgentProvider) {
-        return new RestAdapterRequestInterceptor(userAgentProvider);
+    RestAdapterRequestInterceptor provideRestAdapterRequestInterceptor(UserAgentProvider userAgentProvider, ApiKeyProvider apiKeyProvider) {
+        return new RestAdapterRequestInterceptor(userAgentProvider, apiKeyProvider);
     }
 
     @Provides

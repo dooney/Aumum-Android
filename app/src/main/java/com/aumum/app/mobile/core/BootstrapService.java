@@ -90,7 +90,11 @@ public class BootstrapService {
         getUserService().resetPassword(data);
     }
 
-    public void newParty(Party party) {
-        getPartyService().newParty(party);
+    public Party newParty(Party party) {
+        return getPartyService().newParty(party);
+    }
+
+    public User getCurrentUser() {
+        return getUserService().getMe();
     }
 }

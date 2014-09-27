@@ -22,6 +22,7 @@ import com.aumum.app.mobile.core.BootstrapService;
 import com.aumum.app.mobile.core.Date;
 import com.aumum.app.mobile.core.Party;
 import com.aumum.app.mobile.core.Time;
+import com.aumum.app.mobile.core.User;
 import com.aumum.app.mobile.util.SafeAsyncTask;
 import com.aumum.app.mobile.util.UIUtils;
 import com.doomonafireball.betterpickers.calendardatepicker.CalendarDatePickerDialog;
@@ -291,6 +292,9 @@ public class NewPartyPostActivity extends ActionBarActivity
                 if (!party.validate()) {
                     throw new Exception(getString(R.string.message_model_validation_failed));
                 }
+                User user = bootstrapService.getCurrentUser();
+                party.setUserId(user.getObjectId());
+                party.setArea(user.getArea());
                 bootstrapService.newParty(party);
                 return true;
             }

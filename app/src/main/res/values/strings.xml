@@ -37,9 +37,8 @@
     <string name="message_signing_in">登录中…</string>
     <string name="message_processing">处理中…</string>
     <string name="blank_field_warning">Please populate this field</string>
-    <string name="message_bad_credentials">Email Address or Password is incorrect</string>
-    <string name="message_auth_failed">Please enter a valid password</string>
-    <string name="message_auth_failed_new_account">Please enter a valid email address &amp; password</string>
+    <string name="message_auth_failed_bad_credentials">用户名/密码错误</string>
+    <string name="message_auth_failed_new_account">请输入有效的用户名/密码</string>
     <string name="message_auth_failed_not_verified">未验证用户</string>
     <string name="message_auth_failed_reset_password">重置密码失败</string>
     <string name="timer_running">Timer is running</string>

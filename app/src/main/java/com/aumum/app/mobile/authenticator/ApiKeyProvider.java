@@ -2,6 +2,7 @@
 
 package com.aumum.app.mobile.authenticator;
 
+import android.accounts.Account;
 import android.accounts.AccountManager;
 import android.accounts.AccountManagerFuture;
 import android.accounts.AccountsException;
@@ -49,5 +50,13 @@ public class ApiKeyProvider {
                 AUTHTOKEN_TYPE, new String[0], activity, null, null, null, null);
 
         return accountManagerFuture.getResult().getString(KEY_AUTHTOKEN);
+    }
+
+    public String getAuthToken() {
+        Account accounts[] = accountManager.getAccountsByType(BOOTSTRAP_ACCOUNT_TYPE);
+        if (accounts.length > 0) {
+            return accountManager.peekAuthToken(accounts[0], AUTHTOKEN_TYPE);
+        }
+        return null;
     }
 }

@@ -61,6 +61,11 @@ public final class Constants {
          */
         public static final String URL_USERS_FRAG =  "/1/users";
 
+        /**
+         * Current User URL
+         */
+        public static final String URL_USERS_ME_FRAG =  "/1/users/me";
+
 
         /**
          * List News URL
@@ -90,12 +95,7 @@ public final class Constants {
         public static final String PARSE_REST_API_KEY = "YT6Gt3CQUEtLkQsiCMMAnBIm7FrGkX8sqWMNElNx";
         public static final String HEADER_PARSE_REST_API_KEY = "X-Parse-REST-API-Key";
         public static final String HEADER_PARSE_APP_ID = "X-Parse-Application-Id";
-        public static final String CONTENT_TYPE_JSON = "application/json";
-        public static final String USERNAME = "username";
-        public static final String PASSWORD = "password";
-        public static final String SESSION_TOKEN = "sessionToken";
-
-
+        public static final String HEADER_PARSE_SESSION_TOKEN = "X-Parse-Session-Token";
     }
 
 

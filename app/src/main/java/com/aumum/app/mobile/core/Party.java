@@ -1,22 +1,30 @@
 package com.aumum.app.mobile.core;
 
-import java.io.Serializable;
-
 /**
  * Created by Administrator on 25/09/2014.
  */
-public class Party implements Serializable {
+public class Party extends AggregateRoot {
+    protected String userId;
     protected Date date;
     protected Time time;
     protected int age;
     protected int gender;
     protected String title;
+    protected int area;
     protected String location;
     protected String details;
 
     public Party() {
         date = new Date();
         time = new Time();
+    }
+
+    public String getUserId() {
+        return userId;
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
     }
 
     public Date getDate() {
@@ -57,6 +65,14 @@ public class Party implements Serializable {
 
     public void setTitle(String title) {
         this.title = title;
+    }
+
+    public int getArea() {
+        return area;
+    }
+
+    public void setArea(int area) {
+        this.area = area;
     }
 
     public String getLocation() {
