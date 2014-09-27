@@ -1,9 +1,6 @@
-
-
 package com.aumum.app.mobile.ui;
 
 import android.accounts.OperationCanceledException;
-import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v4.app.ActionBarDrawerToggle;
@@ -98,13 +95,10 @@ public class MainActivity extends BootstrapFragmentActivity {
                     (DrawerLayout) findViewById(R.id.drawer_layout));
         }
 
-
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
 
-
         checkAuth();
-
     }
 
     private boolean isTablet() {
@@ -178,37 +172,11 @@ public class MainActivity extends BootstrapFragmentActivity {
             return true;
         }
 
-        switch (item.getItemId()) {
-            case android.R.id.home:
-                //menuDrawer.toggleMenu();
-                return true;
-            case R.id.timer:
-                navigateToTimer();
-                return true;
-            default:
-                return super.onOptionsItemSelected(item);
-        }
-    }
-
-    private void navigateToTimer() {
-        final Intent i = new Intent(this, BootstrapTimerActivity.class);
-        startActivity(i);
+        return super.onOptionsItemSelected(item);
     }
 
     @Subscribe
     public void onNavigationItemSelected(NavItemSelectedEvent event) {
-
         Ln.d("Selected: %1$s", event.getItemPosition());
-
-        switch(event.getItemPosition()) {
-            case 0:
-                // Home
-                // do nothing as we're already on the home screen.
-                break;
-            case 1:
-                // Timer
-                navigateToTimer();
-                break;
-        }
     }
 }

@@ -1,24 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_name">Aumum</string>
-    <string name="content_column">Content</string>
-    <string name="page_referrers">Referrers</string>
+    <string name="app_name">澳妈圈</string>
     <string name="new_action">新建</string>
     <string name="refresh_action">刷新</string>
     <string name="logout_action">注销</string>
-    <string name="page_news">News</string>
     <string name="page_users">Users</string>
-    <string name="page_checkins">Check In\'s</string>
-    <string name="title_column">Title</string>
-    <string name="location_column">Location</string>
+    <string name="page_party">活动</string>
     <string name="user_column">User</string>
     <string name="date_column">Date</string>
     <string name="error_loading_users">Loading users failed</string>
-    <string name="error_loading_news">Loading news failed</string>
-    <string name="error_loading_checkins">Loading check-ins failed</string>
     <string name="no_users">No Users</string>
-    <string name="no_news">No News</string>
     <string name="avatar">Avatar</string>
     <string name="choose">Choose</string>
 
@@ -41,13 +33,6 @@
     <string name="message_auth_failed_new_account">请输入有效的用户名/密码</string>
     <string name="message_auth_failed_not_verified">未验证用户</string>
     <string name="message_auth_failed_reset_password">重置密码失败</string>
-    <string name="timer_running">Timer is running</string>
-    <string name="timer_is_paused">Timer is paused</string>
-    <string name="stop">Stop</string>
-    <string name="start">Start</string>
-    <string name="pause">Pause</string>
-    <string name="resume">Resume</string>
-    <string name="title_timer">Timer</string>
     <string name="home">Home</string>
     <string name="navigation_drawer_open">Drawer Open</string>
     <string name="navigation_drawer_close">Drawer Close</string>
@@ -56,11 +41,12 @@
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
     <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="title_activity_register">RegisterActivity</string>
-    <string name="title_activity_registration_success">RegistrationSuccessActivity</string>
-    <string name="title_activity_forgot_password">ForgotPasswordActivity</string>
-    <string name="title_activity_reset_password_success">ResetPasswordSuccessActivity</string>
-    <string name="title_activity_new_party_post">NewPartyPostActivity</string>
+    <string name="title_activity_login">用户登录</string>
+    <string name="title_activity_register">注册新用户</string>
+    <string name="title_activity_registration_success">注册成功</string>
+    <string name="title_activity_reset_password">重置密码</string>
+    <string name="title_activity_reset_password_success">重置密码成功</string>
+    <string name="title_activity_new_party_post">创建新活动</string>
 
     <string name="label_unlimited">不限</string>
     <string name="label_title">标题</string>

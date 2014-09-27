@@ -7,8 +7,6 @@ import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.doReturn;
 
 import com.aumum.app.mobile.core.BootstrapService;
-import com.aumum.app.mobile.core.CheckIn;
-import com.aumum.app.mobile.core.News;
 import com.aumum.app.mobile.core.User;
 import com.aumum.app.mobile.core.UserAgentProvider;
 import com.github.kevinsawicki.http.HttpRequest;

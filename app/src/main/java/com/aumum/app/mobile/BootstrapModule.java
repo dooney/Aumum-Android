@@ -13,15 +13,10 @@ import com.aumum.app.mobile.core.Constants;
 import com.aumum.app.mobile.core.PostFromAnyThreadBus;
 import com.aumum.app.mobile.core.RestAdapterRequestInterceptor;
 import com.aumum.app.mobile.core.RestErrorHandler;
-import com.aumum.app.mobile.core.TimerService;
 import com.aumum.app.mobile.core.UserAgentProvider;
-import com.aumum.app.mobile.ui.BootstrapTimerActivity;
-import com.aumum.app.mobile.ui.CheckInsListFragment;
 import com.aumum.app.mobile.ui.MainActivity;
 import com.aumum.app.mobile.ui.NavigationDrawerFragment;
 import com.aumum.app.mobile.ui.NewPartyPostActivity;
-import com.aumum.app.mobile.ui.NewsActivity;
-import com.aumum.app.mobile.ui.NewsListFragment;
 import com.aumum.app.mobile.ui.UserActivity;
 import com.aumum.app.mobile.ui.UserListFragment;
 import com.google.gson.Gson;
@@ -48,14 +43,9 @@ import retrofit.converter.GsonConverter;
                 RegisterActivity.class,
                 ResetPasswordActivity.class,
                 MainActivity.class,
-                BootstrapTimerActivity.class,
-                CheckInsListFragment.class,
                 NavigationDrawerFragment.class,
-                NewsActivity.class,
-                NewsListFragment.class,
                 UserActivity.class,
                 UserListFragment.class,
-                TimerService.class,
                 NewPartyPostActivity.class
         }
 )

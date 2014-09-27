@@ -163,9 +163,6 @@ public abstract class ItemListFragment<E> extends Fragment
             case R.id.b_new:
                 newPartyPost();
                 return true;
-            case R.id.refresh:
-                forceRefresh();
-                return true;
             case R.id.logout:
                 logout();
                 return true;
