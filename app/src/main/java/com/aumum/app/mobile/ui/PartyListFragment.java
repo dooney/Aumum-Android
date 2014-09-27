@@ -2,6 +2,7 @@ package com.aumum.app.mobile.ui;
 
 import android.accounts.OperationCanceledException;
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.Loader;
@@ -24,10 +25,10 @@ import javax.inject.Inject;
  *
  */
 public class PartyListFragment extends ItemListFragment<Party> {
-    @Inject
-    protected BootstrapServiceProvider serviceProvider;
+    @Inject protected BootstrapServiceProvider serviceProvider;
     @Inject protected LogoutService logoutService;
 
+    private final int NEW_PARTY_POST_REQ_CODE = 2031;
 
     @Override
     public void onCreate(final Bundle savedInstanceState) {
@@ -63,6 +64,30 @@ public class PartyListFragment extends ItemListFragment<Party> {
     @Override
     protected SingleTypeAdapter<Party> createAdapter(List<Party> items) {
         return new PartyListAdapter(getActivity().getLayoutInflater(), items);
+    }
+
+    @Override
+    protected void newItem() {
+        final Intent intent = new Intent(getActivity(), NewPartyPostActivity.class);
+        startActivityForResult(intent, NEW_PARTY_POST_REQ_CODE);
+    }
+
+    @Override
+    public void onActivityResult (int requestCode, int resultCode, Intent data) {
+        switch (requestCode) {
+            case NEW_PARTY_POST_REQ_CODE:
+                onNewPartyPostResult(resultCode, data);
+                break;
+            default:
+                break;
+        }
+        return;
+    }
+
+    private void onNewPartyPostResult(int resultCode, Intent data) {
+        if (resultCode == Activity.RESULT_OK) {
+            forceRefresh();
+        }
     }
 
     @Override

@@ -92,6 +92,11 @@ public class UserListFragment extends ItemListFragment<User> {
     }
 
     @Override
+    protected void newItem() {
+
+    }
+
+    @Override
     public void onLoadFinished(final Loader<List<User>> loader, final List<User> items) {
         super.onLoadFinished(loader, items);
 
