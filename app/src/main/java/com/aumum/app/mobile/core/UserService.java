@@ -14,7 +14,7 @@ import retrofit.http.Query;
 public interface UserService {
 
     @GET(Constants.Http.URL_USERS_FRAG)
-    UsersWrapper getUsers();
+    ListWrapper<User> getUsers();
 
     /**
      * The {@link retrofit.http.Query} values will be transform into query string paramters

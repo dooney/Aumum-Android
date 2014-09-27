@@ -17,6 +17,7 @@ import com.aumum.app.mobile.core.UserAgentProvider;
 import com.aumum.app.mobile.ui.MainActivity;
 import com.aumum.app.mobile.ui.NavigationDrawerFragment;
 import com.aumum.app.mobile.ui.NewPartyPostActivity;
+import com.aumum.app.mobile.ui.PartyListFragment;
 import com.aumum.app.mobile.ui.UserActivity;
 import com.aumum.app.mobile.ui.UserListFragment;
 import com.google.gson.Gson;
@@ -46,7 +47,8 @@ import retrofit.converter.GsonConverter;
                 NavigationDrawerFragment.class,
                 UserActivity.class,
                 UserListFragment.class,
-                NewPartyPostActivity.class
+                NewPartyPostActivity.class,
+                PartyListFragment.class
         }
 )
 public class BootstrapModule {

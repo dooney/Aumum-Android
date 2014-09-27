@@ -75,4 +75,8 @@ public class BootstrapService {
     public User getCurrentUser() {
         return getUserService().getMe();
     }
+
+    public List<Party> getParties() {
+        return getPartyService().getAll().getResults();
+    }
 }

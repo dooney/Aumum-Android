@@ -66,18 +66,6 @@ public final class Constants {
          */
         public static final String URL_USERS_ME_FRAG =  "/1/users/me";
 
-
-        /**
-         * List News URL
-         */
-        public static final String URL_NEWS_FRAG = "/1/classes/News";
-
-
-        /**
-         * List Checkin's URL
-         */
-        public static final String URL_CHECKINS_FRAG = "/1/classes/Locations";
-
         /**
          * List Parties URL
          */

@@ -13,6 +13,8 @@
     <string name="no_users">No Users</string>
     <string name="avatar">Avatar</string>
     <string name="choose">Choose</string>
+    <string name="no_parties">暂时没有活动</string>
+    <string name="error_loading_parties">获取活动列表失败</string>
 
     <!-- AuthenticatorActivity -->
     <string name="label_username">用户名</string>

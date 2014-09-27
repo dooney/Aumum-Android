@@ -2,17 +2,16 @@ package com.aumum.app.mobile.ui;
 
 import android.accounts.OperationCanceledException;
 import android.app.Activity;
-import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.support.v4.content.Loader;
-import android.view.View;
 import android.widget.ListView;
 
 import com.aumum.app.mobile.BootstrapServiceProvider;
 import com.aumum.app.mobile.Injector;
 import com.aumum.app.mobile.R;
 import com.aumum.app.mobile.authenticator.LogoutService;
-import com.aumum.app.mobile.core.User;
+import com.aumum.app.mobile.core.Party;
 import com.github.kevinsawicki.wishlist.SingleTypeAdapter;
 
 import java.util.Collections;
@@ -20,11 +19,13 @@ import java.util.List;
 
 import javax.inject.Inject;
 
-import static com.aumum.app.mobile.core.Constants.Extra.USER;
-
-public class UserListFragment extends ItemListFragment<User> {
-
-    @Inject protected BootstrapServiceProvider serviceProvider;
+/**
+ * A simple {@link Fragment} subclass.
+ *
+ */
+public class PartyListFragment extends ItemListFragment<Party> {
+    @Inject
+    protected BootstrapServiceProvider serviceProvider;
     @Inject protected LogoutService logoutService;
 
 
@@ -38,7 +39,7 @@ public class UserListFragment extends ItemListFragment<User> {
     public void onActivityCreated(final Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        setEmptyText(R.string.no_users);
+        setEmptyText(R.string.no_parties);
     }
 
     @Override
@@ -55,17 +56,27 @@ public class UserListFragment extends ItemListFragment<User> {
     }
 
     @Override
-    public Loader<List<User>> onCreateLoader(final int id, final Bundle args) {
-        final List<User> initialItems = items;
-        return new ThrowableLoader<List<User>>(getActivity(), items) {
+    protected int getErrorMessage(Exception exception) {
+        return R.string.error_loading_parties;
+    }
+
+    @Override
+    protected SingleTypeAdapter<Party> createAdapter(List<Party> items) {
+        return new PartyListAdapter(getActivity().getLayoutInflater(), items);
+    }
+
+    @Override
+    public Loader<List<Party>> onCreateLoader(int i, Bundle bundle) {
+        final List<Party> initialItems = items;
+        return new ThrowableLoader<List<Party>>(getActivity(), items) {
             @Override
-            public List<User> loadData() throws Exception {
+            public List<Party> loadData() throws Exception {
 
                 try {
-                    List<User> latest = null;
+                    List<Party> latest = null;
 
                     if (getActivity() != null) {
-                        latest = serviceProvider.getService(getActivity()).getUsers();
+                        latest = serviceProvider.getService(getActivity()).getParties();
                     }
 
                     if (latest != null) {
@@ -82,28 +93,5 @@ public class UserListFragment extends ItemListFragment<User> {
                 }
             }
         };
-
-    }
-
-    public void onListItemClick(final ListView l, final View v, final int position, final long id) {
-        final User user = ((User) l.getItemAtPosition(position));
-
-        startActivity(new Intent(getActivity(), UserActivity.class).putExtra(USER, user));
-    }
-
-    @Override
-    public void onLoadFinished(final Loader<List<User>> loader, final List<User> items) {
-        super.onLoadFinished(loader, items);
-
-    }
-
-    @Override
-    protected int getErrorMessage(final Exception exception) {
-        return R.string.error_loading_users;
-    }
-
-    @Override
-    protected SingleTypeAdapter<User> createAdapter(final List<User> items) {
-        return new UserListAdapter(getActivity().getLayoutInflater(), items);
     }
 }

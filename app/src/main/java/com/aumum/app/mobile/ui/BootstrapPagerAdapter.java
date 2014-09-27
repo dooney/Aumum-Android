@@ -38,7 +38,7 @@ public class BootstrapPagerAdapter extends FragmentPagerAdapter {
         final Fragment result;
         switch (position) {
             case 0:
-                result = new UserListFragment();
+                result = new PartyListFragment();
                 break;
             case 1:
                 result = new UserListFragment();
