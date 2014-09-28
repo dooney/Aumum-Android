@@ -1,9 +1,6 @@
 package com.aumum.app.mobile.ui;
 
-import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
-import android.widget.ListView;
 
 import com.aumum.app.mobile.BootstrapServiceProvider;
 import com.aumum.app.mobile.Injector;
@@ -17,8 +14,6 @@ import java.util.List;
 import javax.inject.Inject;
 
 import it.gmariotti.cardslib.library.internal.Card;
-
-import static com.aumum.app.mobile.core.Constants.Extra.USER;
 
 public class UserListFragment extends CardListFragment {
 
@@ -36,12 +31,6 @@ public class UserListFragment extends CardListFragment {
         super.onActivityCreated(savedInstanceState);
 
         setEmptyText(R.string.no_users);
-    }
-
-    public void onListItemClick(final ListView l, final View v, final int position, final long id) {
-        final User user = ((User) l.getItemAtPosition(position));
-
-        startActivity(new Intent(getActivity(), UserActivity.class).putExtra(USER, user));
     }
 
     @Override

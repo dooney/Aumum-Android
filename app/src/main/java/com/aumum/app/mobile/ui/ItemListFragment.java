@@ -26,6 +26,10 @@ import com.github.kevinsawicki.wishlist.ViewUtils;
 import java.util.ArrayList;
 import java.util.List;
 
+import uk.co.senab.actionbarpulltorefresh.extras.actionbarcompat.PullToRefreshLayout;
+import uk.co.senab.actionbarpulltorefresh.library.ActionBarPullToRefresh;
+import uk.co.senab.actionbarpulltorefresh.library.listeners.OnRefreshListener;
+
 
 /**
  * Base fragment for displaying a list of items that loads with a progress bar
@@ -34,7 +38,7 @@ import java.util.List;
  * @param <E>
  */
 public abstract class ItemListFragment<E> extends Fragment
-        implements LoaderCallbacks<List<E>> {
+        implements LoaderCallbacks<List<E>>, OnRefreshListener {
 
     private static final String FORCE_REFRESH = "forceRefresh";
 
@@ -71,6 +75,8 @@ public abstract class ItemListFragment<E> extends Fragment
      * Is the list currently shown?
      */
     protected boolean listShown;
+
+    private PullToRefreshLayout pullToRefreshLayout;
 
     @Override
     public void onActivityCreated(final Bundle savedInstanceState) {
@@ -120,6 +126,9 @@ public abstract class ItemListFragment<E> extends Fragment
         emptyView = (TextView) view.findViewById(android.R.id.empty);
 
         setListAdapter(createAdapter(items));
+
+        pullToRefreshLayout = (PullToRefreshLayout) view.findViewById(id.ptr_layout);
+        ActionBarPullToRefresh.from(getActivity()).allChildrenArePullable().listener(this).setup(pullToRefreshLayout);
     }
 
     /**
@@ -374,5 +383,11 @@ public abstract class ItemListFragment<E> extends Fragment
      */
     protected boolean isUsable() {
         return getActivity() != null;
+    }
+
+    @Override
+    public void onRefreshStarted(View view) {
+        forceRefresh();
+        pullToRefreshLayout.setRefreshComplete();
     }
 }
