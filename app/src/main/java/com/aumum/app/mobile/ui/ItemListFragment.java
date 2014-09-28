@@ -1,35 +1,29 @@
 
 package com.aumum.app.mobile.ui;
 
-import android.app.Activity;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.LoaderManager.LoaderCallbacks;
 import android.support.v4.content.Loader;
 import android.support.v7.app.ActionBarActivity;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.AnimationUtils;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.ArrayAdapter;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import com.aumum.app.mobile.R;
 import com.aumum.app.mobile.R.id;
 import com.aumum.app.mobile.R.layout;
-import com.aumum.app.mobile.authenticator.LogoutService;
-import com.github.kevinsawicki.wishlist.SingleTypeAdapter;
 import com.github.kevinsawicki.wishlist.Toaster;
 import com.github.kevinsawicki.wishlist.ViewUtils;
 
-import java.util.Collections;
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -56,7 +50,7 @@ public abstract class ItemListFragment<E> extends Fragment
     /**
      * List items provided to {@link #onLoadFinished(Loader, List)}
      */
-    protected List<E> items = Collections.emptyList();
+    protected List<E> items = new ArrayList<E>();
 
     /**
      * List view
@@ -125,59 +119,7 @@ public abstract class ItemListFragment<E> extends Fragment
 
         emptyView = (TextView) view.findViewById(android.R.id.empty);
 
-        configureList(getActivity(), getListView());
-    }
-
-    /**
-     * Configure list after view has been created
-     *
-     * @param activity
-     * @param listView
-     */
-    protected void configureList(final Activity activity, final ListView listView) {
-        listView.setAdapter(createAdapter());
-    }
-
-    @Override
-    public void onCreate(final Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-
-        setHasOptionsMenu(true);
-    }
-
-    @Override
-    public void onCreateOptionsMenu(final Menu optionsMenu, final MenuInflater inflater) {
-        inflater.inflate(R.menu.bootstrap, optionsMenu);
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(final MenuItem item) {
-        if (!isUsable()) {
-            return false;
-        }
-        switch (item.getItemId()) {
-            case R.id.b_new:
-                newItem();
-                return true;
-            case R.id.logout:
-                logout();
-                return true;
-            default:
-                return super.onOptionsItemSelected(item);
-        }
-    }
-
-    protected abstract LogoutService getLogoutService();
-
-    private void logout() {
-        getLogoutService().logout(new Runnable() {
-            @Override
-            public void run() {
-                // Calling a refresh will force the service to look for a logged in user
-                // and when it finds none the user will be requested to log in again.
-                forceRefresh();
-            }
-        });
+        setListAdapter(createAdapter(items));
     }
 
     /**
@@ -230,19 +172,8 @@ public abstract class ItemListFragment<E> extends Fragment
         }
 
         this.items = items;
-        getListAdapter().getWrappedAdapter().setItems(items.toArray());
+        getListAdapter().addAll(this.items);
         showList();
-    }
-
-    /**
-     * Create adapter to display items
-     *
-     * @return adapter
-     */
-    protected HeaderFooterListAdapter<SingleTypeAdapter<E>> createAdapter() {
-        final SingleTypeAdapter<E> wrapped = createAdapter(items);
-        return new HeaderFooterListAdapter<SingleTypeAdapter<E>>(getListView(),
-                wrapped);
     }
 
     /**
@@ -251,7 +182,7 @@ public abstract class ItemListFragment<E> extends Fragment
      * @param items
      * @return adapter
      */
-    protected abstract SingleTypeAdapter<E> createAdapter(final List<E> items);
+    protected abstract ArrayAdapter<E> createAdapter(final List<E> items);
 
     /**
      * Set the list to be shown
@@ -307,18 +238,8 @@ public abstract class ItemListFragment<E> extends Fragment
         return listView;
     }
 
-    /**
-     * Get list adapter
-     *
-     * @return list adapter
-     */
-    @SuppressWarnings("unchecked")
-    protected HeaderFooterListAdapter<SingleTypeAdapter<E>> getListAdapter() {
-        if (listView != null) {
-            return (HeaderFooterListAdapter<SingleTypeAdapter<E>>) listView
-                    .getAdapter();
-        }
-        return null;
+    protected ArrayAdapter<E> getListAdapter() {
+        return (ArrayAdapter<E>)listView.getAdapter();
     }
 
     /**
@@ -454,6 +375,4 @@ public abstract class ItemListFragment<E> extends Fragment
     protected boolean isUsable() {
         return getActivity() != null;
     }
-
-    protected abstract void newItem();
 }

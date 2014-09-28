@@ -1,39 +1,40 @@
 package com.aumum.app.mobile.ui;
 
-import android.accounts.OperationCanceledException;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.content.Loader;
-import android.widget.ListView;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 
 import com.aumum.app.mobile.BootstrapServiceProvider;
 import com.aumum.app.mobile.Injector;
 import com.aumum.app.mobile.R;
-import com.aumum.app.mobile.authenticator.LogoutService;
 import com.aumum.app.mobile.core.Party;
-import com.github.kevinsawicki.wishlist.SingleTypeAdapter;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
 import javax.inject.Inject;
 
+import it.gmariotti.cardslib.library.internal.Card;
+
 /**
  * A simple {@link Fragment} subclass.
  *
  */
-public class PartyListFragment extends ItemListFragment<Party> {
+public class PartyListFragment extends CardListFragment {
     @Inject protected BootstrapServiceProvider serviceProvider;
-    @Inject protected LogoutService logoutService;
 
-    private final int NEW_PARTY_POST_REQ_CODE = 2031;
+    private final int NEW_PARTY_POST_REQ_CODE = 31;
 
     @Override
     public void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Injector.inject(this);
+        setHasOptionsMenu(true);
     }
 
     @Override
@@ -44,32 +45,23 @@ public class PartyListFragment extends ItemListFragment<Party> {
     }
 
     @Override
-    protected void configureList(final Activity activity, final ListView listView) {
-        super.configureList(activity, listView);
-
-        listView.setFastScrollEnabled(true);
-        listView.setDividerHeight(0);
+    public void onCreateOptionsMenu(final Menu optionsMenu, final MenuInflater inflater) {
+        inflater.inflate(R.menu.page_party, optionsMenu);
     }
 
     @Override
-    protected LogoutService getLogoutService() {
-        return logoutService;
-    }
-
-    @Override
-    protected int getErrorMessage(Exception exception) {
-        return R.string.error_loading_parties;
-    }
-
-    @Override
-    protected SingleTypeAdapter<Party> createAdapter(List<Party> items) {
-        return new PartyListAdapter(getActivity().getLayoutInflater(), items);
-    }
-
-    @Override
-    protected void newItem() {
-        final Intent intent = new Intent(getActivity(), NewPartyPostActivity.class);
-        startActivityForResult(intent, NEW_PARTY_POST_REQ_CODE);
+    public boolean onOptionsItemSelected(final MenuItem item) {
+        if (!isUsable()) {
+            return false;
+        }
+        switch (item.getItemId()) {
+            case R.id.b_new_party:
+                final Intent intent = new Intent(getActivity(), NewPartyPostActivity.class);
+                startActivityForResult(intent, NEW_PARTY_POST_REQ_CODE);
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 
     @Override
@@ -91,32 +83,32 @@ public class PartyListFragment extends ItemListFragment<Party> {
     }
 
     @Override
-    public Loader<List<Party>> onCreateLoader(int i, Bundle bundle) {
-        final List<Party> initialItems = items;
-        return new ThrowableLoader<List<Party>>(getActivity(), items) {
-            @Override
-            public List<Party> loadData() throws Exception {
+    protected int getErrorMessage(Exception exception) {
+        return R.string.error_loading_parties;
+    }
 
-                try {
-                    List<Party> latest = null;
+    @Override
+    protected List<Card> loadCards() throws Exception {
+        List<Party> latest = null;
 
-                    if (getActivity() != null) {
-                        latest = serviceProvider.getService(getActivity()).getParties();
-                    }
+        if (getActivity() != null) {
+            latest = serviceProvider.getService(getActivity()).getParties();
+        }
 
-                    if (latest != null) {
-                        return latest;
-                    } else {
-                        return Collections.emptyList();
-                    }
-                } catch (final OperationCanceledException e) {
-                    final Activity activity = getActivity();
-                    if (activity != null) {
-                        activity.finish();
-                    }
-                    return initialItems;
-                }
-            }
-        };
+        if (latest != null) {
+            return buildCards(latest);
+        } else {
+            return Collections.emptyList();
+        }
+    }
+
+    private List<Card> buildCards(List<Party> items) {
+        List<Card> cards = new ArrayList<Card>();
+        for(Party party: items) {
+            Card card = new Card(getActivity());
+            card.setTitle(party.getTitle());
+            cards.add(card);
+        }
+        return cards;
     }
 }

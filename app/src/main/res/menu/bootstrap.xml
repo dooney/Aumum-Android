@@ -1,21 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
       xmlns:bootstrap="http://schemas.android.com/apk/res-auto">
-
-    <item
-        android:id="@+id/b_new"
-        android:icon="@drawable/ic_action_new"
-        bootstrap:showAsAction="always"
-        android:title="@string/new_action" >
-    </item>
 
     <item
         android:id="@+id/logout"
         bootstrap:showAsAction="never"
         android:title="@string/logout_action" >
     </item>
-
 
 </menu>

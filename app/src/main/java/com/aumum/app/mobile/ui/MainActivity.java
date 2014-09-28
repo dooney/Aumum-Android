@@ -6,12 +6,15 @@ import android.os.Bundle;
 import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.widget.DrawerLayout;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
 
 import com.aumum.app.mobile.BootstrapServiceProvider;
 import com.aumum.app.mobile.R;
+import com.aumum.app.mobile.authenticator.LogoutService;
 import com.aumum.app.mobile.core.BootstrapService;
 import com.aumum.app.mobile.events.NavItemSelectedEvent;
 import com.aumum.app.mobile.util.Ln;
@@ -33,6 +36,7 @@ import butterknife.Views;
 public class MainActivity extends BootstrapFragmentActivity {
 
     @Inject protected BootstrapServiceProvider serviceProvider;
+    @Inject protected LogoutService logoutService;
 
     private boolean userHasAuthenticated = false;
 
@@ -101,6 +105,37 @@ public class MainActivity extends BootstrapFragmentActivity {
         checkAuth();
     }
 
+    @Override
+    public boolean onCreateOptionsMenu(final Menu menu) {
+        super.onCreateOptionsMenu(menu);
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.bootstrap, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(final MenuItem item) {
+        if (!isTablet() && drawerToggle.onOptionsItemSelected(item)) {
+            return true;
+        }
+        switch (item.getItemId()) {
+            case R.id.logout:
+                logout();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
+    private void logout() {
+        logoutService.logout(new Runnable() {
+            @Override
+            public void run() {
+                checkAuth();
+            }
+        });
+    }
+
     private boolean isTablet() {
         return UIUtils.isTablet(this);
     }
@@ -163,16 +198,6 @@ public class MainActivity extends BootstrapFragmentActivity {
                 initScreen();
             }
         }.execute();
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(final MenuItem item) {
-
-        if (!isTablet() && drawerToggle.onOptionsItemSelected(item)) {
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
     }
 
     @Subscribe

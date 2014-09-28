@@ -3,7 +3,6 @@ package com.aumum.app.mobile.ui;
 import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
@@ -266,8 +265,7 @@ public class NewPartyPostActivity extends ActionBarActivity
     }
 
     private void finishNewPartyPost() {
-        final Intent intent = new Intent();
-        setResult(RESULT_OK, intent);
+        setResult(RESULT_OK);
         finish();
     }
 
