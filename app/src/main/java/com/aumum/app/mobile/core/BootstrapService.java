@@ -3,6 +3,8 @@ package com.aumum.app.mobile.core;
 
 import com.google.gson.JsonObject;
 
+import org.joda.time.DateTime;
+
 import java.util.List;
 
 import retrofit.RestAdapter;
@@ -76,7 +78,18 @@ public class BootstrapService {
         return getUserService().getMe();
     }
 
-    public List<Party> getParties() {
-        return getPartyService().getAll().getResults();
+    public List<Party> getPartiesAfter(DateTime after, int limit) {
+        String where = null;
+        if (after != null) {
+            where = "{\"createdAt\":{\"$gt\":{ \"__type\": \"Date\", \"iso\": \"" +
+                after.toString("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'") + "\" }}}";
+        }
+        return getPartyService().getAll("-createdAt", where, limit).getResults();
+    }
+
+    public List<Party> getPartiesBefore(DateTime before, int limit) {
+        String where = "{\"createdAt\":{\"$lt\":{ \"__type\": \"Date\", \"iso\": \"" +
+                before.toString("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'") + "\" }}}";
+        return getPartyService().getAll("-createdAt", where, limit).getResults();
     }
 }

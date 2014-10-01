@@ -26,10 +26,6 @@ import com.github.kevinsawicki.wishlist.ViewUtils;
 import java.util.ArrayList;
 import java.util.List;
 
-import uk.co.senab.actionbarpulltorefresh.extras.actionbarcompat.PullToRefreshLayout;
-import uk.co.senab.actionbarpulltorefresh.library.ActionBarPullToRefresh;
-import uk.co.senab.actionbarpulltorefresh.library.listeners.OnRefreshListener;
-
 
 /**
  * Base fragment for displaying a list of items that loads with a progress bar
@@ -38,18 +34,7 @@ import uk.co.senab.actionbarpulltorefresh.library.listeners.OnRefreshListener;
  * @param <E>
  */
 public abstract class ItemListFragment<E> extends Fragment
-        implements LoaderCallbacks<List<E>>, OnRefreshListener {
-
-    private static final String FORCE_REFRESH = "forceRefresh";
-
-    /**
-     * @param args bundle passed to the loader by the LoaderManager
-     * @return true if the bundle indicates a requested forced refresh of the
-     * items
-     */
-    protected static boolean isForceRefresh(final Bundle args) {
-        return args != null && args.getBoolean(FORCE_REFRESH, false);
-    }
+        implements LoaderCallbacks<List<E>> {
 
     /**
      * List items provided to {@link #onLoadFinished(Loader, List)}
@@ -75,8 +60,6 @@ public abstract class ItemListFragment<E> extends Fragment
      * Is the list currently shown?
      */
     protected boolean listShown;
-
-    private PullToRefreshLayout pullToRefreshLayout;
 
     @Override
     public void onActivityCreated(final Bundle savedInstanceState) {
@@ -126,18 +109,6 @@ public abstract class ItemListFragment<E> extends Fragment
         emptyView = (TextView) view.findViewById(android.R.id.empty);
 
         setListAdapter(createAdapter(items));
-
-        pullToRefreshLayout = (PullToRefreshLayout) view.findViewById(id.ptr_layout);
-        ActionBarPullToRefresh.from(getActivity()).allChildrenArePullable().listener(this).setup(pullToRefreshLayout);
-    }
-
-    /**
-     * Force a refresh of the items displayed ignoring any cached items
-     */
-    protected void forceRefresh() {
-        final Bundle bundle = new Bundle();
-        bundle.putBoolean(FORCE_REFRESH, true);
-        refresh(bundle);
     }
 
     /**
@@ -147,7 +118,7 @@ public abstract class ItemListFragment<E> extends Fragment
         refresh(null);
     }
 
-    private void refresh(final Bundle args) {
+    protected void refresh(final Bundle args) {
         if (!isUsable()) {
             return;
         }
@@ -180,10 +151,11 @@ public abstract class ItemListFragment<E> extends Fragment
             return;
         }
 
-        this.items = items;
-        getListAdapter().addAll(this.items);
+        handleLoadResult(items);
         showList();
     }
+
+    protected abstract void handleLoadResult(final List<E> items);
 
     /**
      * Create adapter to display items
@@ -383,11 +355,5 @@ public abstract class ItemListFragment<E> extends Fragment
      */
     protected boolean isUsable() {
         return getActivity() != null;
-    }
-
-    @Override
-    public void onRefreshStarted(View view) {
-        forceRefresh();
-        pullToRefreshLayout.setRefreshComplete();
     }
 }

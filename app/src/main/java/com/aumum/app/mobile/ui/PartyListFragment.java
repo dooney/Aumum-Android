@@ -11,6 +11,7 @@ import android.view.MenuItem;
 import com.aumum.app.mobile.BootstrapServiceProvider;
 import com.aumum.app.mobile.Injector;
 import com.aumum.app.mobile.R;
+import com.aumum.app.mobile.core.DataStore;
 import com.aumum.app.mobile.core.Party;
 
 import java.util.ArrayList;
@@ -27,6 +28,10 @@ import it.gmariotti.cardslib.library.internal.Card;
  */
 public class PartyListFragment extends CardListFragment {
     @Inject protected BootstrapServiceProvider serviceProvider;
+
+    private List<Party> dataSet = new ArrayList<Party>();
+
+    private DataStore dataStore = new DataStore();
 
     private final int NEW_PARTY_POST_REQ_CODE = 31;
 
@@ -78,7 +83,7 @@ public class PartyListFragment extends CardListFragment {
 
     private void onNewPartyPostResult(int resultCode, Intent data) {
         if (resultCode == Activity.RESULT_OK) {
-            forceRefresh();
+            doRefresh(UPWARDS_REFRESH, null);
         }
     }
 
@@ -88,18 +93,41 @@ public class PartyListFragment extends CardListFragment {
     }
 
     @Override
-    protected List<Card> loadCards() throws Exception {
-        List<Party> latest = null;
+    protected void handlePullToRefresh() {
+        doRefresh(UPWARDS_REFRESH, null);
+    }
 
-        if (getActivity() != null) {
-            latest = serviceProvider.getService(getActivity()).getParties();
+    @Override
+    protected void handleLoadMoreRefresh() {
+        if (dataSet.size() > 0) {
+            Party last = dataSet.get(dataSet.size() - 1);
+            doRefresh(BACKWARDS_REFRESH, last.getCreatedAt());
         }
+    }
 
-        if (latest != null) {
-            return buildCards(latest);
-        } else {
-            return Collections.emptyList();
+    @Override
+    protected List<Card> loadCards(int mode, String time) throws Exception {
+        List<Party> partyList;
+        dataStore.setService(serviceProvider.getService(getActivity()));
+        switch (mode) {
+            case UPWARDS_REFRESH:
+                partyList = dataStore.getListUpwards();
+                Collections.reverse(partyList);
+                for(Party party: partyList) {
+                    dataSet.add(0, party);
+                }
+                break;
+            case BACKWARDS_REFRESH:
+                partyList = dataStore.getListBackwards(time);
+                dataSet.addAll(partyList);
+                break;
+            default:
+                throw new Exception("Invalid refresh mode: " + mode);
         }
+        if (partyList != null) {
+            return buildCards(partyList);
+        }
+        return new ArrayList<Card>();
     }
 
     private List<Card> buildCards(List<Party> items) {

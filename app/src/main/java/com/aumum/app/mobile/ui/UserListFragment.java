@@ -39,7 +39,7 @@ public class UserListFragment extends CardListFragment {
     }
 
     @Override
-    protected List<Card> loadCards() throws Exception {
+    protected List<Card> loadCards(int mode, String time) throws Exception {
         List<User> latest = null;
 
         if (getActivity() != null) {
@@ -51,6 +51,16 @@ public class UserListFragment extends CardListFragment {
         } else {
             return Collections.emptyList();
         }
+    }
+
+    @Override
+    protected void handlePullToRefresh() {
+
+    }
+
+    @Override
+    protected void handleLoadMoreRefresh() {
+
     }
 
     private List<Card> buildCards(List<User> items) {

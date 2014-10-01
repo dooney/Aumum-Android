@@ -7,6 +7,7 @@ import java.io.Serializable;
  */
 public abstract class AggregateRoot implements Serializable {
     protected String objectId;
+    protected String createdAt;
 
     public String getObjectId() {
         return objectId;
@@ -14,5 +15,13 @@ public abstract class AggregateRoot implements Serializable {
 
     public void setObjectId(final String objectId) {
         this.objectId = objectId;
+    }
+
+    public String getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(String createdAt) {
+        this.createdAt = createdAt;
     }
 }
