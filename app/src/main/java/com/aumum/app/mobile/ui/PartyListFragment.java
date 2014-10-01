@@ -31,7 +31,7 @@ public class PartyListFragment extends CardListFragment {
 
     private List<Party> dataSet = new ArrayList<Party>();
 
-    private DataStore dataStore = new DataStore();
+    private DataStore dataStore;
 
     private final int NEW_PARTY_POST_REQ_CODE = 31;
 
@@ -40,6 +40,13 @@ public class PartyListFragment extends CardListFragment {
         super.onCreate(savedInstanceState);
         Injector.inject(this);
         setHasOptionsMenu(true);
+    }
+
+    @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+
+        dataStore = new DataStore(activity);
     }
 
     @Override
@@ -70,21 +77,10 @@ public class PartyListFragment extends CardListFragment {
     }
 
     @Override
-    public void onActivityResult (int requestCode, int resultCode, Intent data) {
-        switch (requestCode) {
-            case NEW_PARTY_POST_REQ_CODE:
-                onNewPartyPostResult(resultCode, data);
-                break;
-            default:
-                break;
-        }
-        return;
-    }
+    public void onDestroy() {
+        super.onDestroy();
 
-    private void onNewPartyPostResult(int resultCode, Intent data) {
-        if (resultCode == Activity.RESULT_OK) {
-            doRefresh(UPWARDS_REFRESH, null);
-        }
+        dataStore.saveStaticData(dataSet);
     }
 
     @Override
@@ -93,32 +89,37 @@ public class PartyListFragment extends CardListFragment {
     }
 
     @Override
-    protected void handlePullToRefresh() {
-        doRefresh(UPWARDS_REFRESH, null);
+    protected String getLastItemTime() {
+        if (dataSet.size() > 0) {
+            Party last = dataSet.get(dataSet.size() - 1);
+            return last.getCreatedAt();
+        }
+        return null;
     }
 
     @Override
-    protected void handleLoadMoreRefresh() {
-        if (dataSet.size() > 0) {
-            Party last = dataSet.get(dataSet.size() - 1);
-            doRefresh(BACKWARDS_REFRESH, last.getCreatedAt());
-        }
+    protected boolean hasStaticData() {
+        return dataStore.hasStaticData();
     }
 
     @Override
     protected List<Card> loadCards(int mode, String time) throws Exception {
         List<Party> partyList;
-        dataStore.setService(serviceProvider.getService(getActivity()));
+        dataStore.setBootstrapService(serviceProvider.getService(getActivity()));
         switch (mode) {
             case UPWARDS_REFRESH:
-                partyList = dataStore.getListUpwards();
+                partyList = dataStore.getUpwardsList();
                 Collections.reverse(partyList);
                 for(Party party: partyList) {
                     dataSet.add(0, party);
                 }
                 break;
             case BACKWARDS_REFRESH:
-                partyList = dataStore.getListBackwards(time);
+                partyList = dataStore.getBackwardsList(time);
+                dataSet.addAll(partyList);
+                break;
+            case STATIC_REFRESH:
+                partyList = dataStore.getStaticList();
                 dataSet.addAll(partyList);
                 break;
             default:

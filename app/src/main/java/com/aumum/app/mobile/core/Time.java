@@ -1,9 +1,11 @@
 package com.aumum.app.mobile.core;
 
+import java.io.Serializable;
+
 /**
  * Created by Administrator on 25/09/2014.
  */
-public class Time {
+public class Time implements Serializable {
     protected int hour;
     protected int minute;
 

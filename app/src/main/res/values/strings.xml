@@ -23,7 +23,6 @@
     <string name="label_input_email">请输入邮箱</string>
     <string name="message_signing_in">登录中…</string>
     <string name="message_processing">处理中…</string>
-    <string name="blank_field_warning">Please populate this field</string>
     <string name="message_auth_failed_bad_credentials">用户名/密码错误</string>
     <string name="message_auth_failed_new_account">请输入有效的用户名/密码</string>
     <string name="message_auth_failed_not_verified">未验证用户</string>

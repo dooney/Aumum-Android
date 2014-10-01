@@ -1,9 +1,11 @@
 package com.aumum.app.mobile.core;
 
+import java.io.Serializable;
+
 /**
  * Created by Administrator on 25/09/2014.
  */
-public class Date {
+public class Date implements Serializable {
     protected int year;
     protected int month;
     protected int day;

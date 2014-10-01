@@ -1,6 +1,8 @@
 package com.aumum.app.mobile.ui;
 
 import android.accounts.OperationCanceledException;
+import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.content.Loader;
 import android.view.View;
@@ -28,6 +30,7 @@ public abstract class CardListFragment extends ItemListFragment<Card> {
     private final String TIME_BEFORE = "timeBefore";
     protected final int UPWARDS_REFRESH = 1;
     protected final int BACKWARDS_REFRESH = 2;
+    protected final int STATIC_REFRESH = 3;
     private int currentRefreshMode;
     private boolean isLoading = false;
     private boolean isMore = true;
@@ -43,7 +46,7 @@ public abstract class CardListFragment extends ItemListFragment<Card> {
             @Override
             public void onRefreshStarted(View view) {
                 if (!isLoading) {
-                    handlePullToRefresh();
+                    doRefresh(UPWARDS_REFRESH, null);
                     pullToRefreshLayout.setRefreshComplete();
                 }
             }
@@ -62,7 +65,10 @@ public abstract class CardListFragment extends ItemListFragment<Card> {
                         int lastInScreen = firstVisibleItem + visibleItemCount;
                         if (visibleItemCount > 0 && lastInScreen == totalItemCount) {
                             if (!isLoading && isMore) {
-                                handleLoadMoreRefresh();
+                                String time = getLastItemTime();
+                                if (time != null) {
+                                    doRefresh(BACKWARDS_REFRESH, time);
+                                }
                             }
                         }
                     }
@@ -81,26 +87,28 @@ public abstract class CardListFragment extends ItemListFragment<Card> {
             @Override
             public List<Card> loadData() throws Exception {
                 try {
-                    int mode = UPWARDS_REFRESH;
+                    int mode = STATIC_REFRESH;
                     String time = null;
                     if (bundle != null) {
                         mode = bundle.getInt(REFRESH_MODE);
                         time = bundle.getString(TIME_BEFORE);
                     }
+                    if (mode == STATIC_REFRESH && !hasStaticData()) {
+                        mode = UPWARDS_REFRESH;
+                    }
                     currentRefreshMode = mode;
                     isLoading = true;
                     return loadCards(mode, time);
                 } catch (final OperationCanceledException e) {
-                    isLoading = false;
                     return initialItems;
+                } finally {
+                    isLoading = false;
                 }
             }
         };
     }
 
-    protected abstract List<Card> loadCards(int mode, String time) throws Exception;
-
-    protected void doRefresh(int mode, String time) {
+    private void doRefresh(int mode, String time) {
         final Bundle bundle = new Bundle();
         bundle.putInt(REFRESH_MODE, mode);
         bundle.putString(TIME_BEFORE, time);
@@ -115,6 +123,7 @@ public abstract class CardListFragment extends ItemListFragment<Card> {
                 }
                 break;
             case BACKWARDS_REFRESH:
+            case STATIC_REFRESH:
                 items.addAll(result);
                 isMore = result.size() > 0;
                 break;
@@ -125,7 +134,16 @@ public abstract class CardListFragment extends ItemListFragment<Card> {
         isLoading = false;
     }
 
-    protected abstract void handlePullToRefresh();
+    @Override
+    public void onActivityResult (int requestCode, int resultCode, Intent data) {
+        if (resultCode == Activity.RESULT_OK) {
+            doRefresh(UPWARDS_REFRESH, null);
+        }
+    }
 
-    protected abstract void handleLoadMoreRefresh();
+    protected abstract String getLastItemTime();
+
+    protected abstract boolean hasStaticData();
+
+    protected abstract List<Card> loadCards(int mode, String time) throws Exception;
 }
