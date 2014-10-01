@@ -30,7 +30,7 @@ public class BootstrapPagerAdapter extends FragmentPagerAdapter {
 
     @Override
     public int getCount() {
-        return 2;
+        return 1;
     }
 
     @Override
@@ -39,9 +39,6 @@ public class BootstrapPagerAdapter extends FragmentPagerAdapter {
         switch (position) {
             case 0:
                 result = new PartyListFragment();
-                break;
-            case 1:
-                result = new UserListFragment();
                 break;
             default:
                 result = null;
@@ -58,8 +55,6 @@ public class BootstrapPagerAdapter extends FragmentPagerAdapter {
         switch (position) {
             case 0:
                 return resources.getString(R.string.page_party);
-            case 1:
-                return resources.getString(R.string.page_users);
             default:
                 return null;
         }

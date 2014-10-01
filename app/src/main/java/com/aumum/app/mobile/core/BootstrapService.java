@@ -44,13 +44,6 @@ public class BootstrapService {
         return restAdapter;
     }
 
-    /**
-     * Get all bootstrap Users that exist on Parse.com
-     */
-    public List<User> getUsers() {
-        return getUserService().getUsers().getResults();
-    }
-
     public User authenticate(String username, String password) {
         return getUserService().authenticate(username, password);
     }

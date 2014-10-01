@@ -18,7 +18,6 @@ import com.aumum.app.mobile.ui.MainActivity;
 import com.aumum.app.mobile.ui.NavigationDrawerFragment;
 import com.aumum.app.mobile.ui.NewPartyPostActivity;
 import com.aumum.app.mobile.ui.PartyListFragment;
-import com.aumum.app.mobile.ui.UserListFragment;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.squareup.otto.Bus;
@@ -44,7 +43,6 @@ import retrofit.converter.GsonConverter;
                 ResetPasswordActivity.class,
                 MainActivity.class,
                 NavigationDrawerFragment.class,
-                UserListFragment.class,
                 NewPartyPostActivity.class,
                 PartyListFragment.class
         }
