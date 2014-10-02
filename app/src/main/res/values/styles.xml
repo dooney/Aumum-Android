@@ -99,15 +99,19 @@
         <item name="android:drawablePadding">0dp</item>
     </style>
     <style name="TextView.Follow" parent="ButtonTextView">
-        <item name="android:drawableLeft">@drawable/note_icon_follow</item>
+        <item name="android:drawableLeft">@drawable/ic_fa_plus_circle</item>
         <item name="android:text">@string/label_follow</item>
+    </style>
+    <style name="TextView.CreatedAt" parent="ButtonTextView">
+        <item name="android:drawableLeft">@drawable/ic_fa_clock_o</item>
+        <item name="android:text">@string/label_createdAt</item>
     </style>
     <style name="TextView.Time" parent="ButtonTextView">
         <item name="android:drawableLeft">@drawable/ic_fa_calendar</item>
         <item name="android:text">@string/label_time</item>
     </style>
     <style name="TextView.Location" parent="ButtonTextView">
-        <item name="android:drawableLeft">@drawable/ic_action_place</item>
+        <item name="android:drawableLeft">@drawable/ic_fa_map_marker</item>
         <item name="android:text">@string/label_location</item>
     </style>
     <style name="TextView.Age" parent="ButtonTextView">
@@ -130,7 +134,7 @@
     <style name="TextView.Party.Details" parent="TextView">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
-        <item name="android:textSize">@dimen/text_sz_medium</item>
+        <item name="android:textSize">@dimen/text_sz_large</item>
         <item name="android:textColor">@color/grey_dark</item>
         <item name="android:lineSpacingMultiplier">1.1</item>
         <item name="android:maxLines">4</item>

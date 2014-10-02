@@ -37,6 +37,13 @@
             android:layout_marginTop="@dimen/margin_small"
             android:layout_toRightOf="@+id/image_avatar" />
 
+        <TextView
+            android:id="@+id/text_createdAt"
+            style="@style/TextView.CreatedAt"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="@dimen/margin_medium"/>
+
     </RelativeLayout>
 
     <TextView
