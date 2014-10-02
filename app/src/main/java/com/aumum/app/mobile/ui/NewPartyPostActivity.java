@@ -18,6 +18,7 @@ import android.widget.EditText;
 import com.aumum.app.mobile.Injector;
 import com.aumum.app.mobile.R;
 import com.aumum.app.mobile.core.BootstrapService;
+import com.aumum.app.mobile.core.Constants;
 import com.aumum.app.mobile.core.Date;
 import com.aumum.app.mobile.core.Party;
 import com.aumum.app.mobile.core.Time;
@@ -102,20 +103,11 @@ public class NewPartyPostActivity extends ActionBarActivity
         ageButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                final CharSequence options[] = {
-                        getString(R.string.label_unlimited),
-                        getString(R.string.label_pre_pregnant),
-                        getString(R.string.label_pregnant),
-                        getString(R.string.label_age_0_1),
-                        getString(R.string.label_age_1_3),
-                        getString(R.string.label_age_3_6),
-                        getString(R.string.label_age_6_),
-                };
-                UIUtils.showAlert(NewPartyPostActivity.this, R.string.label_age, options, new DialogInterface.OnClickListener() {
+                UIUtils.showAlert(NewPartyPostActivity.this, R.string.label_age, Constants.ageOptions, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
                         age = i;
-                        ageButton.setText(options[i]);
+                        ageButton.setText(Constants.ageOptions[i]);
                     }
                 });
             }
@@ -125,16 +117,11 @@ public class NewPartyPostActivity extends ActionBarActivity
         genderButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                final CharSequence options[] = {
-                        getString(R.string.label_unlimited),
-                        getString(R.string.label_girl_only),
-                        getString(R.string.label_boy_only)
-                };
-                UIUtils.showAlert(NewPartyPostActivity.this, R.string.label_gender, options, new DialogInterface.OnClickListener() {
+                UIUtils.showAlert(NewPartyPostActivity.this, R.string.label_gender, Constants.genderOptions, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
                         gender = i;
-                        genderButton.setText(options[i]);
+                        genderButton.setText(Constants.genderOptions[i]);
                     }
                 });
             }

@@ -54,16 +54,6 @@
     <string name="message_model_validation_failed">模型数据验证失败</string>
     <string name="message_posting">发布中…</string>
 
-    <string name="label_pre_pregnant">备孕</string>
-    <string name="label_pregnant">怀孕</string>
-    <string name="label_age_0_1">0 - 1岁</string>
-    <string name="label_age_1_3">1 - 3岁</string>
-    <string name="label_age_3_6">3 - 6岁</string>
-    <string name="label_age_6_">6岁以上</string>
-
-    <string name="label_girl_only">仅女孩</string>
-    <string name="label_boy_only">仅男孩</string>
-
     <string name="label_sydney">悉尼</string>
     <string name="label_melbourne">墨尔本</string>
     <string name="label_brisbane">布里斯班</string>
@@ -74,4 +64,9 @@
     <string name="label_hobart">霍巴特</string>
     <string name="label_auckland">奥克兰</string>
     <string name="label_wellington">惠灵顿</string>
+
+    <string name="label_join">报名</string>
+    <string name="label_comment">评论</string>
+    <string name="label_like">支持</string>
+    <string name="label_follow">关注</string>
 </resources>

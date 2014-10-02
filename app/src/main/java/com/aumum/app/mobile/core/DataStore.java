@@ -46,15 +46,15 @@ public class DataStore {
         return bootstrapService.getPartiesBefore(before, limitPerLoad);
     }
 
-    public boolean hasStaticData() {
+    public boolean hasOfflineData() {
         return diskCacheService.hasKey(DISK_CACHE_KEY);
     }
 
-    public void saveStaticData(Object data) {
+    public void saveOfflineData(Object data) {
         diskCacheService.save(DISK_CACHE_KEY, data);
     }
 
-    public List<Party> getStaticList() {
+    public List<Party> getOfflineList() {
         List<Party> partyList = new ArrayList<Party>();
         Object data = diskCacheService.get(DISK_CACHE_KEY);
         if (data != null) {

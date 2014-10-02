@@ -79,4 +79,61 @@
         <item name="android:paddingBottom">10dp</item>
         <item name="android:paddingRight">10dp</item>
     </style>
+
+    <style name="ImageView" />
+    <style name="ImageView.Avatar" parent="ImageView">
+        <item name="android:layout_width">@dimen/avatar_sz_medium</item>
+        <item name="android:layout_height">@dimen/avatar_sz_medium</item>
+    </style>
+
+    <style name="TextView" parent="android:Widget.TextView"/>
+    <style name="ButtonTextView" parent="TextView">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textSize">@dimen/text_sz_medium</item>
+        <item name="android:minWidth">40dp</item>
+        <item name="android:gravity">center</item>
+        <item name="android:paddingTop">@dimen/margin_small</item>
+        <item name="android:paddingBottom">@dimen/margin_small</item>
+        <item name="android:paddingRight">@dimen/margin_medium</item>
+        <item name="android:drawablePadding">0dp</item>
+    </style>
+    <style name="TextView.Follow" parent="ButtonTextView">
+        <item name="android:drawableLeft">@drawable/note_icon_follow</item>
+        <item name="android:text">@string/label_follow</item>
+    </style>
+    <style name="TextView.Time" parent="ButtonTextView">
+        <item name="android:drawableLeft">@drawable/ic_fa_calendar</item>
+        <item name="android:text">@string/label_time</item>
+    </style>
+    <style name="TextView.Location" parent="ButtonTextView">
+        <item name="android:drawableLeft">@drawable/ic_action_place</item>
+        <item name="android:text">@string/label_location</item>
+    </style>
+    <style name="TextView.Age" parent="ButtonTextView">
+        <item name="android:drawableLeft">@drawable/ic_fa_child</item>
+        <item name="android:text">@string/label_age</item>
+    </style>
+    <style name="TextView.Gender" parent="ButtonTextView">
+        <item name="android:drawableLeft">@drawable/ic_fa_gender</item>
+        <item name="android:text">@string/label_gender</item>
+    </style>
+
+    <style name="TextView.Party.Title" parent="TextView">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textSize">@dimen/text_sz_extra_large</item>
+        <item name="android:textColor">@color/grey_dark</item>
+        <item name="android:maxLines">3</item>
+    </style>
+
+    <style name="TextView.Party.Details" parent="TextView">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textSize">@dimen/text_sz_medium</item>
+        <item name="android:textColor">@color/grey_dark</item>
+        <item name="android:lineSpacingMultiplier">1.1</item>
+        <item name="android:maxLines">4</item>
+        <item name="android:ellipsize">end</item>
+    </style>
 </resources>

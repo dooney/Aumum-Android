@@ -2,6 +2,23 @@
 
 <resources>
 
+    <color name="blue_extra_light">#c8eefc</color>  <!-- (not in handbook) -->
+    <color name="blue_light">#78c8e6</color>        <!-- "light blue" -->
+    <color name="blue_new_kid">#2EA2CC</color>      <!-- "new kid on the block blue" -->
+    <color name="blue_medium">#1e8cbe</color>       <!-- "base lighter blue" -->
+    <color name="blue_dark">#0074a2</color>         <!-- "base darker blue" -->
+    <color name="blue_extra_dark">#005684</color>   <!-- "midnight blue" -->
+    <color name="orange_medium">#f1831e</color>     <!-- "jazzy orange" -->
+    <color name="orange_dark">#d54e21</color>       <!-- "fire orange" -->
+    <color name="grey_extra_light">#eeeeee</color>  <!-- "it's everywhere grey" -->
+    <color name="grey_light">#dddddd</color>        <!-- "read grey" -->
+    <color name="grey_medium_light">#bbbbbb</color>
+    <color name="grey_medium">#999999</color>       <!-- "all T, all shade grey" -->
+    <color name="grey_medium_dark">#666666</color>  <!-- "whisper grey" -->
+    <color name="grey_dark">#333333</color>         <!-- "little eddie grey" -->
+    <color name="grey_extra_dark">#222222</color>   <!-- "big eddie grey" -->
+    <color name="semi_transparent_blue_medium">#cc1e8cbe</color>
+
     <color name="text">#FCFCFC</color>
     <color name="text_light">#999999</color>
     <color name="text_inverted">#FFFFFF</color>
@@ -23,6 +40,7 @@
     <color name="actionbar_background_end">#1A1A1A</color>
     <color name="bootstrap_divider_top">#000000</color>
     <color name="bootstrap_divider_bottom">#5A5A5A</color>
+    <color name="bootstrap_divider_grey">#eeeeee</color>
     <color name="main_background_start">#2E2E2E</color>
     <color name="main_background_end">#2C2C2C</color>
     <color name="button_background_enabled_start">#1fb6ed</color>

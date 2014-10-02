@@ -93,7 +93,7 @@ public abstract class CardListFragment extends ItemListFragment<Card> {
                         mode = bundle.getInt(REFRESH_MODE);
                         time = bundle.getString(TIME_BEFORE);
                     }
-                    if (mode == STATIC_REFRESH && !hasStaticData()) {
+                    if (mode == STATIC_REFRESH && !hasOfflineData()) {
                         mode = UPWARDS_REFRESH;
                     }
                     currentRefreshMode = mode;
@@ -143,7 +143,7 @@ public abstract class CardListFragment extends ItemListFragment<Card> {
 
     protected abstract String getLastItemTime();
 
-    protected abstract boolean hasStaticData();
+    protected abstract boolean hasOfflineData();
 
     protected abstract List<Card> loadCards(int mode, String time) throws Exception;
 }

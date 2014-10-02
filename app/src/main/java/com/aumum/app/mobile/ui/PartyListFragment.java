@@ -13,6 +13,7 @@ import com.aumum.app.mobile.Injector;
 import com.aumum.app.mobile.R;
 import com.aumum.app.mobile.core.DataStore;
 import com.aumum.app.mobile.core.Party;
+import com.aumum.app.mobile.ui.view.PartyCard;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -80,7 +81,7 @@ public class PartyListFragment extends CardListFragment {
     public void onDestroy() {
         super.onDestroy();
 
-        dataStore.saveStaticData(dataSet);
+        dataStore.saveOfflineData(dataSet);
     }
 
     @Override
@@ -98,8 +99,8 @@ public class PartyListFragment extends CardListFragment {
     }
 
     @Override
-    protected boolean hasStaticData() {
-        return dataStore.hasStaticData();
+    protected boolean hasOfflineData() {
+        return dataStore.hasOfflineData();
     }
 
     @Override
@@ -119,7 +120,7 @@ public class PartyListFragment extends CardListFragment {
                 dataSet.addAll(partyList);
                 break;
             case STATIC_REFRESH:
-                partyList = dataStore.getStaticList();
+                partyList = dataStore.getOfflineList();
                 dataSet.addAll(partyList);
                 break;
             default:
@@ -131,11 +132,10 @@ public class PartyListFragment extends CardListFragment {
         return new ArrayList<Card>();
     }
 
-    private List<Card> buildCards(List<Party> items) {
+    private List<Card> buildCards(List<Party> partyList) {
         List<Card> cards = new ArrayList<Card>();
-        for(Party party: items) {
-            Card card = new Card(getActivity());
-            card.setTitle(party.getTitle());
+        for(Party party: partyList) {
+            Card card = new PartyCard(getActivity(), party);
             cards.add(card);
         }
         return cards;

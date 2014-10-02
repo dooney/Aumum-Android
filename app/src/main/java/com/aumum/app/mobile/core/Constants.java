@@ -113,6 +113,21 @@ public final class Constants {
         public static final int TIMER_NOTIFICATION_ID = 1000; // Why 1000? Why not? :)
     }
 
+    public static String ageOptions[] = {
+        "不限",
+        "备孕",
+        "怀孕",
+        "0 - 1岁",
+        "1 - 3岁",
+        "3 - 6岁",
+        "6岁以上"
+    };
+
+    public static String genderOptions[] = {
+        "不限",
+        "仅女孩",
+        "仅男孩"
+    };
 }
 
 
