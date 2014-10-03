@@ -1,0 +1,171 @@
+package com.aumum.app.mobile.ui.view;
+
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
+import android.animation.AnimatorSet;
+import android.animation.ObjectAnimator;
+import android.animation.PropertyValuesHolder;
+import android.animation.ValueAnimator;
+import android.content.Context;
+import android.view.View;
+import android.view.animation.AccelerateDecelerateInterpolator;
+import android.view.animation.LinearInterpolator;
+
+/**
+ * Created by Administrator on 3/10/2014.
+ */
+public class Animation {
+    public static enum Duration {
+        SHORT,
+        MEDIUM,
+        LONG;
+
+        private long toMillis(Context context) {
+            switch (this) {
+                case LONG:
+                    return context.getResources().getInteger(android.R.integer.config_longAnimTime);
+                case MEDIUM:
+                    return context.getResources().getInteger(android.R.integer.config_mediumAnimTime);
+                default:
+                    return context.getResources().getInteger(android.R.integer.config_shortAnimTime);
+            }
+        }
+    }
+
+    private static ObjectAnimator getFadeInAnim(final View target, Duration duration) {
+        ObjectAnimator fadeIn = ObjectAnimator.ofFloat(target, View.ALPHA, 0.0f, 1.0f);
+        fadeIn.setDuration(duration.toMillis(target.getContext()));
+        fadeIn.setInterpolator(new LinearInterpolator());
+        fadeIn.addListener(new AnimatorListenerAdapter() {
+            @Override
+            public void onAnimationStart(Animator animation) {
+                target.setVisibility(View.VISIBLE);
+            }
+        });
+        return fadeIn;
+    }
+
+    private static ObjectAnimator getFadeOutAnim(final View target, Duration duration) {
+        ObjectAnimator fadeOut = ObjectAnimator.ofFloat(target, View.ALPHA, 1.0f, 0.0f);
+        fadeOut.setDuration(duration.toMillis(target.getContext()));
+        fadeOut.setInterpolator(new LinearInterpolator());
+        fadeOut.addListener(new AnimatorListenerAdapter() {
+            @Override
+            public void onAnimationEnd(Animator animation) {
+                target.setVisibility(View.GONE);
+            }
+        });
+        return fadeOut;
+    }
+
+    public static void fadeIn(final View target, Duration duration) {
+        if (target == null || duration == null) {
+            return;
+        }
+        getFadeInAnim(target, duration).start();
+    }
+
+    public static void fadeOut(final View target, Duration duration) {
+        if (target == null || duration == null) {
+            return;
+        }
+        getFadeOutAnim(target, duration).start();
+    }
+
+    public static void fadeInFadeOut(final View target, Duration duration) {
+        if (target == null || duration == null) {
+            return;
+        }
+
+        ObjectAnimator fadeIn = getFadeInAnim(target, duration);
+        ObjectAnimator fadeOut = getFadeOutAnim(target, duration);
+
+        // keep view visible for passed duration before fading it out
+        fadeOut.setStartDelay(duration.toMillis(target.getContext()));
+
+        AnimatorSet set = new AnimatorSet();
+        set.play(fadeOut).after(fadeIn);
+        set.start();
+    }
+
+    public static void scaleIn(final View target, Duration duration) {
+        if (target == null || duration == null) {
+            return;
+        }
+
+        PropertyValuesHolder scaleX = PropertyValuesHolder.ofFloat(View.SCALE_X, 0f, 1f);
+        PropertyValuesHolder scaleY = PropertyValuesHolder.ofFloat(View.SCALE_Y, 0f, 1f);
+
+        ObjectAnimator animator = ObjectAnimator.ofPropertyValuesHolder(target, scaleX, scaleY);
+        animator.setDuration(duration.toMillis(target.getContext()));
+        animator.setInterpolator(new AccelerateDecelerateInterpolator());
+
+        if (target.getVisibility() != View.VISIBLE) {
+            animator.addListener(new AnimatorListenerAdapter() {
+                @Override
+                public void onAnimationStart(Animator animation) {
+                    super.onAnimationStart(animation);
+                    target.setVisibility(View.VISIBLE);
+                }
+            });
+        }
+
+        animator.start();
+    }
+
+    public static void scaleInScaleOut(final View target, Duration duration) {
+        if (target == null || duration == null) {
+            return;
+        }
+
+        ObjectAnimator animX = ObjectAnimator.ofFloat(target, View.SCALE_X, 0f, 1f);
+        animX.setRepeatMode(ValueAnimator.REVERSE);
+        animX.setRepeatCount(1);
+        ObjectAnimator animY = ObjectAnimator.ofFloat(target, View.SCALE_Y, 0f, 1f);
+        animY.setRepeatMode(ValueAnimator.REVERSE);
+        animY.setRepeatCount(1);
+
+        AnimatorSet set = new AnimatorSet();
+        set.play(animX).with(animY);
+        set.setDuration(duration.toMillis(target.getContext()));
+        set.setInterpolator(new AccelerateDecelerateInterpolator());
+        set.addListener(new AnimatorListenerAdapter() {
+            @Override
+            public void onAnimationStart(Animator animation) {
+                super.onAnimationStart(animation);
+                target.setVisibility(View.VISIBLE);
+            }
+            @Override
+            public void onAnimationEnd(Animator animation) {
+                super.onAnimationEnd(animation);
+                target.setVisibility(View.GONE);
+            }
+        });
+        set.start();
+    }
+
+    public static void animateIconTextView(final View target) {
+        if (target == null) {
+            return;
+        }
+
+        float endScale = 1.35f;
+
+        ObjectAnimator animX = ObjectAnimator.ofFloat(target, View.SCALE_X, 1f, endScale);
+        animX.setRepeatMode(ValueAnimator.REVERSE);
+        animX.setRepeatCount(1);
+
+        ObjectAnimator animY = ObjectAnimator.ofFloat(target, View.SCALE_Y, 1f, endScale);
+        animY.setRepeatMode(ValueAnimator.REVERSE);
+        animY.setRepeatCount(1);
+
+        AnimatorSet set = new AnimatorSet();
+        set.play(animX).with(animY);
+
+        long durationMillis = Duration.SHORT.toMillis(target.getContext());
+        set.setDuration(durationMillis);
+        set.setInterpolator(new AccelerateDecelerateInterpolator());
+
+        set.start();
+    }
+}

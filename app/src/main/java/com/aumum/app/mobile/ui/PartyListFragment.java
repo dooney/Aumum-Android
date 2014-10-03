@@ -13,7 +13,6 @@ import com.aumum.app.mobile.Injector;
 import com.aumum.app.mobile.R;
 import com.aumum.app.mobile.core.DataStore;
 import com.aumum.app.mobile.core.Party;
-import com.aumum.app.mobile.ui.view.PartyCard;
 
 import java.util.ArrayList;
 import java.util.Collections;

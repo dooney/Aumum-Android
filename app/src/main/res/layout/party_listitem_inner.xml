@@ -30,7 +30,7 @@
             android:ellipsize="end"
             android:maxLines="1" />
 
-        <TextView
+        <com.aumum.app.mobile.ui.view.FollowTextView
             android:id="@+id/text_follow"
             style="@style/TextView.Follow"
             android:layout_below="@+id/text_user_name"

@@ -1,4 +1,4 @@
-package com.aumum.app.mobile.ui.view;
+package com.aumum.app.mobile.ui;
 
 import android.content.Context;
 import android.view.View;
@@ -8,6 +8,7 @@ import android.widget.TextView;
 import com.aumum.app.mobile.R;
 import com.aumum.app.mobile.core.Constants;
 import com.aumum.app.mobile.core.Party;
+import com.aumum.app.mobile.ui.view.FollowTextView;
 
 import it.gmariotti.cardslib.library.internal.Card;
 
@@ -25,6 +26,9 @@ public class PartyCard extends Card {
     @Override
     public void setupInnerViewElements(ViewGroup parent, View view) {
         super.setupInnerViewElements(parent, view);
+
+        FollowTextView followText = (FollowTextView) view.findViewById(R.id.text_follow);
+        followText.setFollowListener(new FollowListener());
 
         TextView userNameText = (TextView) view.findViewById(R.id.text_user_name);
         userNameText.setText(party.getUserId());
