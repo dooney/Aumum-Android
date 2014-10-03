@@ -38,6 +38,8 @@ public class BootstrapApplication extends Application {
         // Perform injection
         Injector.init(getRootModule(), this);
 
+        // Third Party Init
+        ThirdPartyModule.init(this);
     }
 
     private Object getRootModule() {

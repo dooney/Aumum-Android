@@ -79,13 +79,18 @@ public final class Constants {
         public static final String PARAM_EMAIL = "email";
         public static final String PARAM_AREA = "area";
 
-        public static final String PARSE_APP_ID = "1CWTxIB11kQiHz7QAY1hZzA1PstlJ2TQuAmZ8Nc6";
-        public static final String PARSE_REST_API_KEY = "YT6Gt3CQUEtLkQsiCMMAnBIm7FrGkX8sqWMNElNx";
+        public static final String PARSE_APP_ID = ParseCom.PARSE_APP_ID;
+        public static final String PARSE_REST_API_KEY = ParseCom.PARSE_REST_API_KEY;
         public static final String HEADER_PARSE_REST_API_KEY = "X-Parse-REST-API-Key";
         public static final String HEADER_PARSE_APP_ID = "X-Parse-Application-Id";
         public static final String HEADER_PARSE_SESSION_TOKEN = "X-Parse-Session-Token";
     }
 
+    public static final class ParseCom {
+        public static final String PARSE_APP_ID = "1CWTxIB11kQiHz7QAY1hZzA1PstlJ2TQuAmZ8Nc6";
+        public static final String PARSE_REST_API_KEY = "YT6Gt3CQUEtLkQsiCMMAnBIm7FrGkX8sqWMNElNx";
+        public static final String PARSE_NOTIFICATION_API_KEY = "Cxo0Yu68VFoZSDyHVl43qMTfYb23AG9uBrbOqgFk";
+    }
 
     public static final class Extra {
         private Extra() {}
