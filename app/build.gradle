@@ -41,7 +41,6 @@ dependencies {
     }
     compile 'com.jakewharton:disklrucache:2.0.2'
     compile 'de.hdodenhof:circleimageview:1.2.0'
-    compile files('libs/Parse-1.7.0.jar')
 }
 
 android {

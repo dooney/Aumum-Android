@@ -8,6 +8,9 @@
     <string name="page_party">亲子活动</string>
     <string name="no_parties">暂时没有活动</string>
     <string name="error_loading_parties">获取活动列表失败</string>
+    <string name="page_message">消息中心</string>
+    <string name="no_messages">暂时没有消息</string>
+    <string name="error_loading_messages">获取消息列表失败</string>
 
     <!-- AuthenticatorActivity -->
     <string name="label_username">用户名</string>
