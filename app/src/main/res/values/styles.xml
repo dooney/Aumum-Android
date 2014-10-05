@@ -102,6 +102,10 @@
         <item name="android:drawableLeft">@drawable/ic_fa_plus_circle</item>
         <item name="android:text">@string/label_follow</item>
     </style>
+    <style name="TextView.Area" parent="ButtonTextView">
+        <item name="android:drawableLeft">@drawable/ic_fa_home</item>
+        <item name="android:text">@string/label_area</item>
+    </style>
     <style name="TextView.CreatedAt" parent="ButtonTextView">
         <item name="android:drawableLeft">@drawable/ic_fa_clock_o</item>
         <item name="android:text">@string/label_createdAt</item>

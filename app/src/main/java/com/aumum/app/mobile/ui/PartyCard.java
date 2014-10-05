@@ -3,12 +3,12 @@ package com.aumum.app.mobile.ui;
 import android.content.Context;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.aumum.app.mobile.R;
 import com.aumum.app.mobile.core.Constants;
 import com.aumum.app.mobile.core.Party;
-import com.aumum.app.mobile.ui.view.FollowTextView;
 
 import it.gmariotti.cardslib.library.internal.Card;
 
@@ -17,27 +17,25 @@ import it.gmariotti.cardslib.library.internal.Card;
  */
 public class PartyCard extends Card {
     private Party party;
-    private boolean isFollowing;
 
-    public PartyCard(Context context, Party party, boolean isFollowing) {
+    public PartyCard(Context context, Party party) {
         super(context, R.layout.party_listitem_inner);
         this.party = party;
-        this.isFollowing = isFollowing;
     }
 
     @Override
     public void setupInnerViewElements(ViewGroup parent, View view) {
         super.setupInnerViewElements(parent, view);
 
-        FollowTextView followText = (FollowTextView) view.findViewById(R.id.text_follow);
-        int drawableId = (isFollowing ? R.drawable.ic_fa_check_circle : R.drawable.ic_fa_plus_circle);
-        followText.setCompoundDrawablesWithIntrinsicBounds(drawableId, 0, 0, 0);
-        followText.setText(isFollowing ? R.string.label_unfollow : R.string.label_follow);
-        followText.setFollowListener(new FollowListener(party.getUserId()));
-        followText.setFollowing(isFollowing);
+        ImageView avatarImage = (ImageView) view.findViewById(R.id.image_avatar);
+        avatarImage.setOnClickListener(new UserListener(avatarImage.getContext(), party.getUserId()));
+
+        TextView areaText = (TextView) view.findViewById(R.id.text_area);
+        areaText.setText(Constants.areaOptions[party.getArea()]);
 
         TextView userNameText = (TextView) view.findViewById(R.id.text_user_name);
         userNameText.setText(party.getUserId());
+        userNameText.setOnClickListener(new UserListener(userNameText.getContext(), party.getUserId()));
 
         TextView titleText = (TextView) view.findViewById(R.id.text_title);
         titleText.setText(party.getTitle());

@@ -30,6 +30,7 @@
     <string name="message_auth_failed_new_account">请输入有效的用户名/密码</string>
     <string name="message_auth_failed_not_verified">未验证用户</string>
     <string name="message_auth_failed_reset_password">重置密码失败</string>
+
     <string name="home">Home</string>
     <string name="navigation_drawer_open">Drawer Open</string>
     <string name="navigation_drawer_close">Drawer Close</string>
@@ -44,6 +45,7 @@
     <string name="title_activity_reset_password">重置密码</string>
     <string name="title_activity_reset_password_success">重置密码成功</string>
     <string name="title_activity_new_party_post">新亲子活动</string>
+    <string name="title_activity_user">用户</string>
 
     <string name="label_unlimited">不限</string>
     <string name="label_title">标题</string>
@@ -57,21 +59,11 @@
     <string name="message_model_validation_failed">模型数据验证失败</string>
     <string name="message_posting">发布中…</string>
 
-    <string name="label_sydney">悉尼</string>
-    <string name="label_melbourne">墨尔本</string>
-    <string name="label_brisbane">布里斯班</string>
-    <string name="label_perth">珀斯</string>
-    <string name="label_adelaide">阿德莱德</string>
-    <string name="label_canberra">堪培拉</string>
-    <string name="label_darwin">达尔文</string>
-    <string name="label_hobart">霍巴特</string>
-    <string name="label_auckland">奥克兰</string>
-    <string name="label_wellington">惠灵顿</string>
-
     <string name="label_join">报名</string>
     <string name="label_comment">评论</string>
     <string name="label_like">支持</string>
     <string name="label_follow">关注</string>
     <string name="label_unfollow">取消关注</string>
     <string name="label_createdAt">创建时间</string>
+
 </resources>

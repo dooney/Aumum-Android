@@ -21,6 +21,7 @@ import android.widget.TextView;
 import com.aumum.app.mobile.Injector;
 import com.aumum.app.mobile.R;
 import com.aumum.app.mobile.core.BootstrapService;
+import com.aumum.app.mobile.core.Constants;
 import com.aumum.app.mobile.ui.TextWatcherAdapter;
 import com.aumum.app.mobile.util.SafeAsyncTask;
 import com.aumum.app.mobile.util.UIUtils;
@@ -110,23 +111,11 @@ public class RegisterActivity extends ActionBarActivity {
         areaButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                final CharSequence options[] = {
-                        getString(R.string.label_sydney),
-                        getString(R.string.label_melbourne),
-                        getString(R.string.label_brisbane),
-                        getString(R.string.label_perth),
-                        getString(R.string.label_adelaide),
-                        getString(R.string.label_canberra),
-                        getString(R.string.label_darwin),
-                        getString(R.string.label_hobart),
-                        getString(R.string.label_auckland),
-                        getString(R.string.label_wellington),
-                };
-                UIUtils.showAlert(RegisterActivity.this, R.string.label_area, options, new DialogInterface.OnClickListener() {
+                UIUtils.showAlert(RegisterActivity.this, R.string.label_area, Constants.areaOptions, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
                         area = i;
-                        areaButton.setText(options[i]);
+                        areaButton.setText(Constants.areaOptions[i]);
                     }
                 });
             }

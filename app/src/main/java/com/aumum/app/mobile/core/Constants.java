@@ -124,6 +124,19 @@ public final class Constants {
         public static final int TIMER_NOTIFICATION_ID = 1000; // Why 1000? Why not? :)
     }
 
+    public static String areaOptions[] = {
+        "悉尼",
+        "墨尔本",
+        "布里斯班",
+        "珀斯",
+        "阿德莱德",
+        "堪培拉",
+        "达尔文",
+        "霍巴特",
+        "奥克兰",
+        "惠灵顿"
+    };
+
     public static String ageOptions[] = {
         "不限",
         "备孕",

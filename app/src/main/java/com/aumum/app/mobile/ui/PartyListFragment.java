@@ -12,7 +12,6 @@ import com.aumum.app.mobile.R;
 import com.aumum.app.mobile.core.BootstrapService;
 import com.aumum.app.mobile.core.DataStore;
 import com.aumum.app.mobile.core.Party;
-import com.aumum.app.mobile.core.User;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -126,13 +125,9 @@ public class PartyListFragment extends CardListFragment {
 
     private List<Card> buildCards(List<Party> partyList) {
         List<Card> cards = new ArrayList<Card>();
-        if (partyList.size() > 0) {
-            User currentUser = service.getCurrentUser();
-            for (Party party : partyList) {
-                boolean isFollowing = currentUser.getFollowings().contains(party.getUserId());
-                Card card = new PartyCard(getActivity(), party, isFollowing);
-                cards.add(card);
-            }
+        for(Party party: partyList) {
+            Card card = new PartyCard(getActivity(), party);
+            cards.add(card);
         }
         return cards;
     }
