@@ -4,11 +4,11 @@ import android.accounts.OperationCanceledException;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.content.Loader;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.ArrayAdapter;
-import android.widget.ListView;
 
 import com.aumum.app.mobile.R;
 
@@ -38,6 +38,12 @@ public abstract class CardListFragment extends ItemListFragment<Card> {
     private PullToRefreshLayout pullToRefreshLayout;
 
     @Override
+    public View onCreateView(final LayoutInflater inflater, final ViewGroup container,
+                             final Bundle savedInstanceState) {
+        return inflater.inflate(R.layout.card_list, null);
+    }
+
+    @Override
     public void onViewCreated(final View view, final Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
@@ -52,7 +58,6 @@ public abstract class CardListFragment extends ItemListFragment<Card> {
             }
         }).setup(pullToRefreshLayout);
 
-        listView = (ListView) view.findViewById(android.R.id.list);
         listView.setOnScrollListener(
                 new SwipeOnScrollListener() {
                     @Override
@@ -81,31 +86,25 @@ public abstract class CardListFragment extends ItemListFragment<Card> {
     }
 
     @Override
-    public Loader<List<Card>> onCreateLoader(int i, final Bundle bundle) {
-        final List<Card> initialItems = items;
-        return new ThrowableLoader<List<Card>>(getActivity(), items) {
-            @Override
-            public List<Card> loadData() throws Exception {
-                try {
-                    int mode = STATIC_REFRESH;
-                    String time = null;
-                    if (bundle != null) {
-                        mode = bundle.getInt(REFRESH_MODE);
-                        time = bundle.getString(TIME_BEFORE);
-                    }
-                    if (mode == STATIC_REFRESH && !hasOfflineData()) {
-                        mode = UPWARDS_REFRESH;
-                    }
-                    currentRefreshMode = mode;
-                    isLoading = true;
-                    return loadCards(mode, time);
-                } catch (final OperationCanceledException e) {
-                    return initialItems;
-                } finally {
-                    isLoading = false;
-                }
+    protected List<Card> loadDataCore(final Bundle bundle) throws Exception {
+        try {
+            int mode = STATIC_REFRESH;
+            String time = null;
+            if (bundle != null) {
+                mode = bundle.getInt(REFRESH_MODE);
+                time = bundle.getString(TIME_BEFORE);
             }
-        };
+            if (mode == STATIC_REFRESH && !hasOfflineData()) {
+                mode = UPWARDS_REFRESH;
+            }
+            currentRefreshMode = mode;
+            isLoading = true;
+            return loadCards(mode, time);
+        } catch (final OperationCanceledException e) {
+            return data;
+        } finally {
+            isLoading = false;
+        }
     }
 
     private void doRefresh(int mode, String time) {
@@ -119,12 +118,12 @@ public abstract class CardListFragment extends ItemListFragment<Card> {
         switch (currentRefreshMode) {
             case UPWARDS_REFRESH:
                 for(Card item: result) {
-                    items.add(0, item);
+                    data.add(0, item);
                 }
                 break;
             case BACKWARDS_REFRESH:
             case STATIC_REFRESH:
-                items.addAll(result);
+                data.addAll(result);
                 isMore = result.size() > 0;
                 break;
             default:
