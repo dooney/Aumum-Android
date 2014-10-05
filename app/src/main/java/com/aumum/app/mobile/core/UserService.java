@@ -4,7 +4,10 @@ import com.google.gson.JsonObject;
 
 import retrofit.http.Body;
 import retrofit.http.GET;
+import retrofit.http.Headers;
 import retrofit.http.POST;
+import retrofit.http.PUT;
+import retrofit.http.Path;
 import retrofit.http.Query;
 
 /**
@@ -32,4 +35,8 @@ public interface UserService {
 
     @GET(Constants.Http.URL_USERS_ME_FRAG)
     User getMe();
+
+    @Headers(Constants.Http.HEADER_PARSE_MASTER_KEY + ": " + Constants.Http.PARSE_MASTER_KEY)
+    @PUT(Constants.Http.URL_USER_BY_ID_FRAG)
+    JsonObject updateUserById(@Path("id") String id, @Body JsonObject data);
 }

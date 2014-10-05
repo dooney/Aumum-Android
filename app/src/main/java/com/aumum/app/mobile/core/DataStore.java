@@ -22,11 +22,8 @@ public class DataStore {
 
     private String DISK_CACHE_KEY = "Party";
 
-    public DataStore(Context context) {
+    public DataStore(Context context, BootstrapService service) {
         diskCacheService = new DiskCacheService(context, DISK_CACHE_KEY);
-    }
-
-    public void setBootstrapService(BootstrapService service) {
         bootstrapService = service;
     }
 

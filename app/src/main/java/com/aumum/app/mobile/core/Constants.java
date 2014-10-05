@@ -62,6 +62,11 @@ public final class Constants {
         public static final String URL_USERS_FRAG =  "/1/users";
 
         /**
+         * User By Id URL
+         */
+        public static final String URL_USER_BY_ID_FRAG =  "/1/users/{id}";
+
+        /**
          * Current User URL
          */
         public static final String URL_USERS_ME_FRAG =  "/1/users/me";
@@ -81,9 +86,16 @@ public final class Constants {
 
         public static final String PARSE_APP_ID = "1CWTxIB11kQiHz7QAY1hZzA1PstlJ2TQuAmZ8Nc6";
         public static final String PARSE_REST_API_KEY = "YT6Gt3CQUEtLkQsiCMMAnBIm7FrGkX8sqWMNElNx";
+        public static final String PARSE_MASTER_KEY = "MMtsR9A9hywGlZ505DD43VbQwPIu7XT6KFVQpJm8";
         public static final String HEADER_PARSE_REST_API_KEY = "X-Parse-REST-API-Key";
         public static final String HEADER_PARSE_APP_ID = "X-Parse-Application-Id";
+        public static final String HEADER_PARSE_MASTER_KEY = "X-Parse-Master-Key";
         public static final String HEADER_PARSE_SESSION_TOKEN = "X-Parse-Session-Token";
+
+        public static final class User {
+            public static final String PARAM_FOLLOWERS = "followers";
+            public static final String PARAM_FOLLOWINGS = "followings";
+        }
     }
 
     public static final class Extra {

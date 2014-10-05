@@ -17,10 +17,12 @@ import it.gmariotti.cardslib.library.internal.Card;
  */
 public class PartyCard extends Card {
     private Party party;
+    private boolean isFollowing;
 
-    public PartyCard(Context context, Party party) {
+    public PartyCard(Context context, Party party, boolean isFollowing) {
         super(context, R.layout.party_listitem_inner);
         this.party = party;
+        this.isFollowing = isFollowing;
     }
 
     @Override
@@ -28,7 +30,11 @@ public class PartyCard extends Card {
         super.setupInnerViewElements(parent, view);
 
         FollowTextView followText = (FollowTextView) view.findViewById(R.id.text_follow);
-        followText.setFollowListener(new FollowListener());
+        int drawableId = (isFollowing ? R.drawable.ic_fa_check_circle : R.drawable.ic_fa_plus_circle);
+        followText.setCompoundDrawablesWithIntrinsicBounds(drawableId, 0, 0, 0);
+        followText.setText(isFollowing ? R.string.label_unfollow : R.string.label_follow);
+        followText.setFollowListener(new FollowListener(party.getUserId()));
+        followText.setFollowing(isFollowing);
 
         TextView userNameText = (TextView) view.findViewById(R.id.text_user_name);
         userNameText.setText(party.getUserId());

@@ -46,22 +46,23 @@ public class FollowTextView extends IconTextView{
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
-        toggle(!isFollowing);
+        boolean oldValue = isFollowing;
+        update(!isFollowing);
 
         // animation
         boolean ret = super.onTouchEvent(event);
 
-        if (isFollowing) {
+        if (oldValue) {
             getFollowListener().onUnFollow(FollowTextView.this);
         } else {
             getFollowListener().onFollow(FollowTextView.this);
         }
-        isFollowing = !isFollowing;
 
         return ret;
     }
 
-    private void toggle(boolean isFollowing) {
+    private void update(boolean newValue) {
+        isFollowing = newValue;
         int drawableId = (isFollowing ? R.drawable.ic_fa_check_circle : R.drawable.ic_fa_plus_circle);
         setCompoundDrawablesWithIntrinsicBounds(drawableId, 0, 0, 0);
         setText(isFollowing ? R.string.label_unfollow : R.string.label_follow);

@@ -1,7 +1,9 @@
 
 package com.aumum.app.mobile.core;
 
+import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
+import com.google.gson.JsonPrimitive;
 
 import org.joda.time.DateTime;
 
@@ -57,10 +59,10 @@ public class BootstrapService {
         return getUserService().register(data);
     }
     
-    public void resetPassword(String email) {
+    public JsonObject resetPassword(String email) {
         final JsonObject data = new JsonObject();
         data.addProperty(Constants.Http.PARAM_EMAIL, email);
-        getUserService().resetPassword(data);
+        return getUserService().resetPassword(data);
     }
 
     public Party newParty(Party party) {
@@ -84,5 +86,27 @@ public class BootstrapService {
         String where = "{\"createdAt\":{\"$lt\":{ \"__type\": \"Date\", \"iso\": \"" +
                 before.toString("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'") + "\" }}}";
         return getPartyService().getAll("-createdAt", where, limit).getResults();
+    }
+
+    public JsonObject addFollower(String userId, String followerUserId) {
+        final JsonObject data = new JsonObject();
+        final JsonObject op = new JsonObject();
+        op.addProperty("__op", "AddUnique");
+        final JsonArray newFollowers = new JsonArray();
+        newFollowers.add(new JsonPrimitive(followerUserId));
+        op.add("objects", newFollowers);
+        data.add(Constants.Http.User.PARAM_FOLLOWERS, op);
+        return getUserService().updateUserById(userId, data);
+    }
+
+    public JsonObject addFollowing(String userId, String followingUserId) {
+        final JsonObject data = new JsonObject();
+        final JsonObject op = new JsonObject();
+        op.addProperty("__op", "AddUnique");
+        final JsonArray newFollowings = new JsonArray();
+        newFollowings.add(new JsonPrimitive(followingUserId));
+        op.add("objects", newFollowings);
+        data.add(Constants.Http.User.PARAM_FOLLOWINGS, op);
+        return getUserService().updateUserById(userId, data);
     }
 }

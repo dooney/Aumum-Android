@@ -59,4 +59,12 @@ public class ApiKeyProvider {
         }
         return null;
     }
+
+    public String getAuthUserId() {
+        Account accounts[] = accountManager.getAccountsByType(BOOTSTRAP_ACCOUNT_TYPE);
+        if (accounts.length > 0) {
+            return accounts[0].name;
+        }
+        return null;
+    }
 }

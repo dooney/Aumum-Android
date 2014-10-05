@@ -14,6 +14,7 @@ import com.aumum.app.mobile.core.PostFromAnyThreadBus;
 import com.aumum.app.mobile.core.RestAdapterRequestInterceptor;
 import com.aumum.app.mobile.core.RestErrorHandler;
 import com.aumum.app.mobile.core.UserAgentProvider;
+import com.aumum.app.mobile.ui.FollowListener;
 import com.aumum.app.mobile.ui.MainActivity;
 import com.aumum.app.mobile.ui.NavigationDrawerFragment;
 import com.aumum.app.mobile.ui.NewPartyPostActivity;
@@ -44,7 +45,8 @@ import retrofit.converter.GsonConverter;
                 MainActivity.class,
                 NavigationDrawerFragment.class,
                 NewPartyPostActivity.class,
-                PartyListFragment.class
+                PartyListFragment.class,
+                FollowListener.class
         }
 )
 public class BootstrapModule {

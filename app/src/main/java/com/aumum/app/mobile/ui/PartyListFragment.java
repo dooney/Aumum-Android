@@ -1,6 +1,5 @@
 package com.aumum.app.mobile.ui;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -8,11 +7,12 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 
-import com.aumum.app.mobile.BootstrapServiceProvider;
 import com.aumum.app.mobile.Injector;
 import com.aumum.app.mobile.R;
+import com.aumum.app.mobile.core.BootstrapService;
 import com.aumum.app.mobile.core.DataStore;
 import com.aumum.app.mobile.core.Party;
+import com.aumum.app.mobile.core.User;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -27,7 +27,7 @@ import it.gmariotti.cardslib.library.internal.Card;
  *
  */
 public class PartyListFragment extends CardListFragment {
-    @Inject protected BootstrapServiceProvider serviceProvider;
+    @Inject BootstrapService service;
 
     private List<Party> dataSet = new ArrayList<Party>();
 
@@ -40,13 +40,7 @@ public class PartyListFragment extends CardListFragment {
         super.onCreate(savedInstanceState);
         Injector.inject(this);
         setHasOptionsMenu(true);
-    }
-
-    @Override
-    public void onAttach(Activity activity) {
-        super.onAttach(activity);
-
-        dataStore = new DataStore(activity);
+        dataStore = new DataStore(getActivity(), service);
     }
 
     @Override
@@ -105,7 +99,6 @@ public class PartyListFragment extends CardListFragment {
     @Override
     protected List<Card> loadCards(int mode, String time) throws Exception {
         List<Party> partyList;
-        dataStore.setBootstrapService(serviceProvider.getService(getActivity()));
         switch (mode) {
             case UPWARDS_REFRESH:
                 partyList = dataStore.getUpwardsList();
@@ -133,9 +126,13 @@ public class PartyListFragment extends CardListFragment {
 
     private List<Card> buildCards(List<Party> partyList) {
         List<Card> cards = new ArrayList<Card>();
-        for(Party party: partyList) {
-            Card card = new PartyCard(getActivity(), party);
-            cards.add(card);
+        if (partyList.size() > 0) {
+            User currentUser = service.getCurrentUser();
+            for (Party party : partyList) {
+                boolean isFollowing = currentUser.getFollowings().contains(party.getUserId());
+                Card card = new PartyCard(getActivity(), party, isFollowing);
+                cards.add(card);
+            }
         }
         return cards;
     }
