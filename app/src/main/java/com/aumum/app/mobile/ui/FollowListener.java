@@ -35,9 +35,14 @@ public class FollowListener implements FollowTextView.OnFollowListener {
     public void onFollow(FollowTextView view) {
         followTask = new SafeAsyncTask<Boolean>() {
             public Boolean call() throws Exception {
-                User user = userStore.getCurrentUser();
-                service.addFollower(followedUserId, user.getObjectId());
-                service.addFollowing(user.getObjectId(), followedUserId);
+                User currentUser = userStore.getCurrentUser();
+                User followedUser = userStore.getUserById(followedUserId);
+                service.addFollower(followedUserId, currentUser.getObjectId());
+                service.addFollowing(currentUser.getObjectId(), followedUserId);
+                currentUser.getFollowings().add(followedUserId);
+                followedUser.getFollowers().add(currentUser.getObjectId());
+                userStore.saveCurrentUser(currentUser);
+                userStore.saveUser(followedUser);
                 return true;
             }
 
@@ -64,6 +69,14 @@ public class FollowListener implements FollowTextView.OnFollowListener {
     public void onUnFollow(FollowTextView view) {
         unFollowTask = new SafeAsyncTask<Boolean>() {
             public Boolean call() throws Exception {
+                User currentUser = userStore.getCurrentUser();
+                User followedUser = userStore.getUserById(followedUserId);
+                service.removeFollower(followedUserId, currentUser.getObjectId());
+                service.removeFollowing(currentUser.getObjectId(), followedUserId);
+                currentUser.getFollowings().remove(followedUserId);
+                followedUser.getFollowers().remove(currentUser.getObjectId());
+                userStore.saveCurrentUser(currentUser);
+                userStore.saveUser(followedUser);
                 return true;
             }
 

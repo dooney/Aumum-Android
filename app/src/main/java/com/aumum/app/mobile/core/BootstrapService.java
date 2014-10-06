@@ -88,10 +88,8 @@ public class BootstrapService {
         return getPartyService().getAll("-createdAt", where, limit).getResults();
     }
 
-    public JsonObject addFollower(String userId, String followerUserId) {
+    private JsonObject updateFollower(JsonObject op, String userId, String followerUserId) {
         final JsonObject data = new JsonObject();
-        final JsonObject op = new JsonObject();
-        op.addProperty("__op", "AddUnique");
         final JsonArray newFollowers = new JsonArray();
         newFollowers.add(new JsonPrimitive(followerUserId));
         op.add("objects", newFollowers);
@@ -99,15 +97,37 @@ public class BootstrapService {
         return getUserService().updateUserById(userId, data);
     }
 
-    public JsonObject addFollowing(String userId, String followingUserId) {
-        final JsonObject data = new JsonObject();
+    public JsonObject addFollower(String userId, String followerUserId) {
         final JsonObject op = new JsonObject();
         op.addProperty("__op", "AddUnique");
+        return updateFollower(op, userId, followerUserId);
+    }
+
+    public JsonObject removeFollower(String userId, String followerUserId) {
+        final JsonObject op = new JsonObject();
+        op.addProperty("__op", "Remove");
+        return updateFollower(op, userId, followerUserId);
+    }
+
+    private JsonObject updateFollowing(JsonObject op, String userId, String followingUserId) {
+        final JsonObject data = new JsonObject();
         final JsonArray newFollowings = new JsonArray();
         newFollowings.add(new JsonPrimitive(followingUserId));
         op.add("objects", newFollowings);
         data.add(Constants.Http.User.PARAM_FOLLOWINGS, op);
         return getUserService().updateUserById(userId, data);
+    }
+
+    public JsonObject addFollowing(String userId, String followingUserId) {
+        final JsonObject op = new JsonObject();
+        op.addProperty("__op", "AddUnique");
+        return updateFollowing(op, userId, followingUserId);
+    }
+
+    public JsonObject removeFollowing(String userId, String followingUserId) {
+        final JsonObject op = new JsonObject();
+        op.addProperty("__op", "Remove");
+        return updateFollowing(op, userId, followingUserId);
     }
 
     public User getUserById(String id) {
