@@ -22,13 +22,10 @@
 
         <TextView
             android:id="@+id/text_user_name"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            style="@style/TextView.UserName"
             android:layout_marginRight="@dimen/margin_large"
             android:layout_marginTop="@dimen/margin_large"
-            android:layout_toRightOf="@+id/image_avatar"
-            android:ellipsize="end"
-            android:maxLines="1" />
+            android:layout_toRightOf="@+id/image_avatar" />
 
         <TextView
             android:id="@+id/text_area"
