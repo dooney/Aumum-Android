@@ -1,8 +1,9 @@
 package com.aumum.app.mobile.ui;
 
 import com.aumum.app.mobile.Injector;
-import com.aumum.app.mobile.authenticator.ApiKeyProvider;
 import com.aumum.app.mobile.core.BootstrapService;
+import com.aumum.app.mobile.core.User;
+import com.aumum.app.mobile.core.UserStore;
 import com.aumum.app.mobile.ui.view.FollowTextView;
 import com.aumum.app.mobile.util.Ln;
 import com.aumum.app.mobile.util.SafeAsyncTask;
@@ -21,10 +22,12 @@ public class FollowListener implements FollowTextView.OnFollowListener {
     private String followedUserId;
 
     @Inject BootstrapService service;
-    @Inject ApiKeyProvider apiKeyProvider;
+
+    private UserStore userStore;
 
     public FollowListener(String userId) {
         this.followedUserId = userId;
+        userStore = UserStore.getInstance(null);
         Injector.inject(this);
     }
 
@@ -32,9 +35,9 @@ public class FollowListener implements FollowTextView.OnFollowListener {
     public void onFollow(FollowTextView view) {
         followTask = new SafeAsyncTask<Boolean>() {
             public Boolean call() throws Exception {
-                String currentUserId = apiKeyProvider.getAuthUserId();
-                service.addFollower(followedUserId, currentUserId);
-                service.addFollowing(currentUserId, followedUserId);
+                User user = userStore.getCurrentUser();
+                service.addFollower(followedUserId, user.getObjectId());
+                service.addFollowing(user.getObjectId(), followedUserId);
                 return true;
             }
 

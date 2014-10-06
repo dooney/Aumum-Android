@@ -61,7 +61,7 @@ public class FollowTextView extends IconTextView{
         return ret;
     }
 
-    private void update(boolean newValue) {
+    public void update(boolean newValue) {
         isFollowing = newValue;
         int drawableId = (isFollowing ? R.drawable.ic_fa_check_circle : R.drawable.ic_fa_plus_circle);
         setCompoundDrawablesWithIntrinsicBounds(drawableId, 0, 0, 0);

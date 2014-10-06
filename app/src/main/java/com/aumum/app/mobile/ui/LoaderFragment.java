@@ -172,5 +172,5 @@ public abstract class LoaderFragment<E> extends Fragment
 
     protected abstract E loadDataCore(final Bundle bundle) throws Exception;
 
-    protected abstract void handleLoadResult(E data);
+    protected abstract void handleLoadResult(E result);
 }

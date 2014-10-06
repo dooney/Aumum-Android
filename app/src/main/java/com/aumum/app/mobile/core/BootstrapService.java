@@ -109,4 +109,8 @@ public class BootstrapService {
         data.add(Constants.Http.User.PARAM_FOLLOWINGS, op);
         return getUserService().updateUserById(userId, data);
     }
+
+    public User getUserById(String id) {
+        return getUserService().getById(id);
+    }
 }

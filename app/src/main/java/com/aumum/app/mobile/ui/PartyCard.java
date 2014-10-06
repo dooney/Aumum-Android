@@ -34,7 +34,7 @@ public class PartyCard extends Card {
         areaText.setText(Constants.areaOptions[party.getArea()]);
 
         TextView userNameText = (TextView) view.findViewById(R.id.text_user_name);
-        userNameText.setText(party.getUserId());
+        userNameText.setText(party.getUser().getUsername());
         userNameText.setOnClickListener(new UserListener(userNameText.getContext(), party.getUserId()));
 
         TextView titleText = (TextView) view.findViewById(R.id.text_title);

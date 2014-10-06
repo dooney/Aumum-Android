@@ -36,6 +36,7 @@ import com.aumum.app.mobile.R.string;
 import com.aumum.app.mobile.core.BootstrapService;
 import com.aumum.app.mobile.core.Constants;
 import com.aumum.app.mobile.core.User;
+import com.aumum.app.mobile.core.UserStore;
 import com.aumum.app.mobile.events.UnAuthorizedErrorEvent;
 import com.aumum.app.mobile.ui.TextWatcherAdapter;
 import com.aumum.app.mobile.util.SafeAsyncTask;
@@ -55,6 +56,8 @@ import retrofit.RetrofitError;
 public class LoginActivity extends ActionBarActivity {
     private AccountManager accountManager;
 
+    private UserStore userStore;
+
     @Inject BootstrapService bootstrapService;
     @Inject Bus bus;
 
@@ -72,7 +75,6 @@ public class LoginActivity extends ActionBarActivity {
 
     private String username;
     private String password;
-    private String userId;
 
     /**
      * In this instance the token is simply the sessionId returned from Parse.com. This could be a
@@ -88,6 +90,8 @@ public class LoginActivity extends ActionBarActivity {
         Injector.inject(this);
 
         accountManager = AccountManager.get(this);
+
+        userStore = UserStore.getInstance(this);
 
         final Intent intent = getIntent();
         authTokenType = intent.getStringExtra(PARAM_AUTHTOKEN_TYPE);
@@ -220,8 +224,8 @@ public class LoginActivity extends ActionBarActivity {
                 if (!response.getEmailVerified()) {
                     throw new Exception(getString(R.string.message_auth_failed_not_verified));
                 }
+                userStore.saveCurrentUser(response);
                 token = response.getSessionToken();
-                userId = response.getObjectId();
 
                 return true;
             }
@@ -259,7 +263,7 @@ public class LoginActivity extends ActionBarActivity {
      */
 
     protected void finishLogin() {
-        final Account account = new Account(userId, Constants.Auth.BOOTSTRAP_ACCOUNT_TYPE);
+        final Account account = new Account(username, Constants.Auth.BOOTSTRAP_ACCOUNT_TYPE);
         accountManager.addAccountExplicitly(account, password, null);
         authToken = token;
         accountManager.setAuthToken(account, Constants.Auth.AUTHTOKEN_TYPE, authToken);

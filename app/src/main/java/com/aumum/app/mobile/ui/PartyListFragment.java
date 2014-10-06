@@ -7,17 +7,15 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 
-import com.aumum.app.mobile.Injector;
 import com.aumum.app.mobile.R;
-import com.aumum.app.mobile.core.BootstrapService;
-import com.aumum.app.mobile.core.DataStore;
+import com.aumum.app.mobile.core.PartyStore;
 import com.aumum.app.mobile.core.Party;
+import com.aumum.app.mobile.core.User;
+import com.aumum.app.mobile.core.UserStore;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-
-import javax.inject.Inject;
 
 import it.gmariotti.cardslib.library.internal.Card;
 
@@ -26,20 +24,21 @@ import it.gmariotti.cardslib.library.internal.Card;
  *
  */
 public class PartyListFragment extends CardListFragment {
-    @Inject BootstrapService service;
 
     private List<Party> dataSet = new ArrayList<Party>();
 
-    private DataStore dataStore;
+    private PartyStore dataStore;
+
+    private UserStore userStore;
 
     private final int NEW_PARTY_POST_REQ_CODE = 31;
 
     @Override
     public void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Injector.inject(this);
         setHasOptionsMenu(true);
-        dataStore = new DataStore(getActivity(), service);
+        dataStore = PartyStore.getInstance(getActivity());
+        userStore = UserStore.getInstance(getActivity());
     }
 
     @Override
@@ -118,6 +117,10 @@ public class PartyListFragment extends CardListFragment {
                 throw new Exception("Invalid refresh mode: " + mode);
         }
         if (partyList != null) {
+            for(Party party: partyList) {
+                User user = userStore.getUserById(party.getUserId());
+                party.setUser(user);
+            }
             return buildCards(partyList);
         }
         return new ArrayList<Card>();

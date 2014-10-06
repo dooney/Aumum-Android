@@ -13,6 +13,7 @@ public class Party extends AggregateRoot {
     protected int area;
     protected String location;
     protected String details;
+    protected User user;
 
     public Party() {
         date = new Date();
@@ -89,6 +90,14 @@ public class Party extends AggregateRoot {
 
     public void setDetails(String details) {
         this.details = details;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 
     public boolean validate() {

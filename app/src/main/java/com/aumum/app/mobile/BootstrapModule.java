@@ -10,16 +10,16 @@ import com.aumum.app.mobile.authenticator.LogoutService;
 import com.aumum.app.mobile.authenticator.RegisterActivity;
 import com.aumum.app.mobile.core.BootstrapService;
 import com.aumum.app.mobile.core.Constants;
+import com.aumum.app.mobile.core.PartyStore;
 import com.aumum.app.mobile.core.PostFromAnyThreadBus;
 import com.aumum.app.mobile.core.RestAdapterRequestInterceptor;
 import com.aumum.app.mobile.core.RestErrorHandler;
 import com.aumum.app.mobile.core.UserAgentProvider;
+import com.aumum.app.mobile.core.UserStore;
 import com.aumum.app.mobile.ui.FollowListener;
 import com.aumum.app.mobile.ui.MainActivity;
 import com.aumum.app.mobile.ui.NavigationDrawerFragment;
 import com.aumum.app.mobile.ui.NewPartyPostActivity;
-import com.aumum.app.mobile.ui.PartyListFragment;
-import com.aumum.app.mobile.ui.UserActivity;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.squareup.otto.Bus;
@@ -46,9 +46,9 @@ import retrofit.converter.GsonConverter;
                 MainActivity.class,
                 NavigationDrawerFragment.class,
                 NewPartyPostActivity.class,
-                PartyListFragment.class,
+                PartyStore.class,
                 FollowListener.class,
-                UserActivity.class
+                UserStore.class
         }
 )
 public class BootstrapModule {

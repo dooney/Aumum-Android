@@ -23,6 +23,7 @@ import com.aumum.app.mobile.core.Date;
 import com.aumum.app.mobile.core.Party;
 import com.aumum.app.mobile.core.Time;
 import com.aumum.app.mobile.core.User;
+import com.aumum.app.mobile.core.UserStore;
 import com.aumum.app.mobile.util.SafeAsyncTask;
 import com.aumum.app.mobile.util.UIUtils;
 import com.doomonafireball.betterpickers.calendardatepicker.CalendarDatePickerDialog;
@@ -43,6 +44,8 @@ public class NewPartyPostActivity extends ActionBarActivity
                    RadialTimePickerDialog.OnTimeSetListener{
 
     @Inject BootstrapService bootstrapService;
+
+    private UserStore userStore;
 
     @InjectView(R.id.b_date) protected Button dateButton;
     @InjectView(R.id.b_time) protected Button timeButton;
@@ -69,6 +72,8 @@ public class NewPartyPostActivity extends ActionBarActivity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        userStore = UserStore.getInstance(this);
 
         Injector.inject(this);
 
@@ -277,7 +282,7 @@ public class NewPartyPostActivity extends ActionBarActivity
                 if (!party.validate()) {
                     throw new Exception(getString(R.string.message_model_validation_failed));
                 }
-                User user = bootstrapService.getCurrentUser();
+                User user = userStore.getCurrentUser();
                 party.setUserId(user.getObjectId());
                 party.setArea(user.getArea());
                 bootstrapService.newParty(party);

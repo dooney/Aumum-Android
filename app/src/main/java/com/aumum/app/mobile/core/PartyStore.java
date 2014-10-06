@@ -2,17 +2,23 @@ package com.aumum.app.mobile.core;
 
 import android.content.Context;
 
+import com.aumum.app.mobile.Injector;
+
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.inject.Inject;
+
 /**
  * Created by Administrator on 30/09/2014.
  */
-public class DataStore {
-    private BootstrapService bootstrapService;
+public class PartyStore {
+    private static PartyStore instance;
+
+    @Inject BootstrapService bootstrapService;
 
     private DiskCacheService diskCacheService;
 
@@ -22,9 +28,16 @@ public class DataStore {
 
     private String DISK_CACHE_KEY = "Party";
 
-    public DataStore(Context context, BootstrapService service) {
+    public static PartyStore getInstance(Context context) {
+        if (instance == null) {
+            instance = new PartyStore(context);
+        }
+        return instance;
+    }
+
+    private PartyStore(Context context) {
         diskCacheService = new DiskCacheService(context, DISK_CACHE_KEY);
-        bootstrapService = service;
+        Injector.inject(this);
     }
 
     public List<Party> getUpwardsList() {

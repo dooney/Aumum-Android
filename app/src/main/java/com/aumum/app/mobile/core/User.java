@@ -3,11 +3,16 @@ package com.aumum.app.mobile.core;
 import java.util.List;
 
 public class User extends AggregateRoot {
+    protected String username;
     protected String sessionToken;
     protected Boolean emailVerified;
     protected int area;
     protected List<String> followers;
     protected List<String> followings;
+
+    public String getUsername() {
+        return username;
+    }
 
     public String getSessionToken() {
         return sessionToken;
