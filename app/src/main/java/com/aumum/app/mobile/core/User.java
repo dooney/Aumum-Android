@@ -9,6 +9,7 @@ public class User extends AggregateRoot {
     protected int area;
     protected List<String> followers;
     protected List<String> followings;
+    protected List<String> messages;
 
     public String getUsername() {
         return username;
@@ -32,5 +33,9 @@ public class User extends AggregateRoot {
 
     public List<String> getFollowings() {
         return followings;
+    }
+
+    public List<String> getMessages() {
+        return messages;
     }
 }

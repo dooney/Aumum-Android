@@ -17,16 +17,6 @@ public final class Constants {
         public static final String BOOTSTRAP_ACCOUNT_TYPE = "com.aumum.app.mobile";
 
         /**
-         * Account name
-         */
-        public static final String BOOTSTRAP_ACCOUNT_NAME = "Aumum";
-
-        /**
-         * Provider id
-         */
-        public static final String BOOTSTRAP_PROVIDER_AUTHORITY = "com.aumum.app.mobile.sync";
-
-        /**
          * Auth token type
          */
         public static final String AUTHTOKEN_TYPE = BOOTSTRAP_ACCOUNT_TYPE;
@@ -77,6 +67,11 @@ public final class Constants {
         public static final String URL_PARTIES_FRAG = "/1/classes/Parties";
 
         /**
+         * List Messages URL
+         */
+        public static final String URL_MESSAGES_FRAG = "/1/classes/Messages";
+
+        /**
          * PARAMS for auth
          */
         public static final String PARAM_USERNAME = "username";
@@ -95,33 +90,8 @@ public final class Constants {
         public static final class User {
             public static final String PARAM_FOLLOWERS = "followers";
             public static final String PARAM_FOLLOWINGS = "followings";
+            public static final String PARAM_MESSAGES = "messages";
         }
-    }
-
-    public static final class Extra {
-        private Extra() {}
-
-        public static final String NEWS_ITEM = "news_item";
-
-        public static final String USER = "user";
-
-    }
-
-    public static final class Intent {
-        private Intent() {}
-
-        /**
-         * Action prefix for all intents created
-         */
-        public static final String INTENT_PREFIX = "com.aumum.app.mobile.";
-
-    }
-
-    public static class Notification {
-        private Notification() {
-        }
-
-        public static final int TIMER_NOTIFICATION_ID = 1000; // Why 1000? Why not? :)
     }
 
     public static String areaOptions[] = {

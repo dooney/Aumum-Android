@@ -42,6 +42,10 @@ public class BootstrapService {
         return getRestAdapter().create(PartyService.class);
     }
 
+    private MessageService getMessageService() {
+        return getRestAdapter().create(MessageService.class);
+    }
+
     private RestAdapter getRestAdapter() {
         return restAdapter;
     }
@@ -132,5 +136,24 @@ public class BootstrapService {
 
     public User getUserById(String id) {
         return getUserService().getById(id);
+    }
+
+    public Message newMessage(Message message) {
+        return getMessageService().newMessage(message);
+    }
+
+    public JsonObject addUserMessage(String userId, String messageId) {
+        final JsonObject op = new JsonObject();
+        op.addProperty("__op", "AddUnique");
+        return updateUserMessage(op, userId, messageId);
+    }
+
+    private JsonObject updateUserMessage(JsonObject op, String userId, String messageId) {
+        final JsonObject data = new JsonObject();
+        final JsonArray messages = new JsonArray();
+        messages.add(new JsonPrimitive(messageId));
+        op.add("objects", messages);
+        data.add(Constants.Http.User.PARAM_MESSAGES, op);
+        return getUserService().updateUserById(userId, data);
     }
 }
