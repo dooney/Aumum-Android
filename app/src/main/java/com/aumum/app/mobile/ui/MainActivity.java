@@ -14,9 +14,12 @@ import android.view.Window;
 
 import com.aumum.app.mobile.BootstrapServiceProvider;
 import com.aumum.app.mobile.R;
+import com.aumum.app.mobile.authenticator.ApiKeyProvider;
 import com.aumum.app.mobile.authenticator.LogoutService;
 import com.aumum.app.mobile.core.BootstrapService;
 import com.aumum.app.mobile.events.NavItemSelectedEvent;
+import com.aumum.app.mobile.events.SubscribeChannelEvent;
+import com.aumum.app.mobile.events.UnSubscribeChannelEvent;
 import com.aumum.app.mobile.util.Ln;
 import com.aumum.app.mobile.util.SafeAsyncTask;
 import com.aumum.app.mobile.util.UIUtils;
@@ -37,8 +40,9 @@ public class MainActivity extends BootstrapFragmentActivity {
 
     @Inject protected BootstrapServiceProvider serviceProvider;
     @Inject protected LogoutService logoutService;
+    @Inject protected ApiKeyProvider apiKeyProvider;
 
-    private boolean userHasAuthenticated = false;
+    private String userChannel;
 
     private DrawerLayout drawerLayout;
     private ActionBarDrawerToggle drawerToggle;
@@ -131,6 +135,7 @@ public class MainActivity extends BootstrapFragmentActivity {
         logoutService.logout(new Runnable() {
             @Override
             public void run() {
+                unSubscribeUserChannel();
                 checkAuth();
             }
         });
@@ -161,15 +166,10 @@ public class MainActivity extends BootstrapFragmentActivity {
 
 
     private void initScreen() {
-        if (userHasAuthenticated) {
-
-            Ln.d("Foo");
-            final FragmentManager fragmentManager = getSupportFragmentManager();
-            fragmentManager.beginTransaction()
-                    .replace(R.id.container, new CarouselFragment())
-                    .commit();
-        }
-
+        final FragmentManager fragmentManager = getSupportFragmentManager();
+        fragmentManager.beginTransaction()
+                .replace(R.id.container, new CarouselFragment())
+                .commit();
     }
 
     private void checkAuth() {
@@ -194,7 +194,7 @@ public class MainActivity extends BootstrapFragmentActivity {
             @Override
             protected void onSuccess(final Boolean hasAuthenticated) throws Exception {
                 super.onSuccess(hasAuthenticated);
-                userHasAuthenticated = true;
+                subscribeUserChannel();
                 initScreen();
             }
         }.execute();
@@ -203,5 +203,14 @@ public class MainActivity extends BootstrapFragmentActivity {
     @Subscribe
     public void onNavigationItemSelected(NavItemSelectedEvent event) {
         Ln.d("Selected: %1$s", event.getItemPosition());
+    }
+
+    private void subscribeUserChannel() {
+        userChannel = apiKeyProvider.getAuthUserId();
+        eventBus.post(new UnSubscribeChannelEvent(userChannel));
+    }
+
+    private void unSubscribeUserChannel() {
+        eventBus.post(new SubscribeChannelEvent(userChannel));
     }
 }

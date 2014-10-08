@@ -41,6 +41,7 @@ dependencies {
     }
     compile 'com.jakewharton:disklrucache:2.0.2'
     compile 'de.hdodenhof:circleimageview:1.2.0'
+    compile files('src/main/libs/Parse-1.7.0.jar')
 }
 
 android {
@@ -75,7 +76,6 @@ android {
 
     buildTypes {
         debug {
-            applicationIdSuffix '.debug'
             runProguard false
             // zipAlign false // this is default for debug
         }

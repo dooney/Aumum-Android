@@ -53,7 +53,8 @@ import retrofit.converter.GsonConverter;
                 FollowListener.class,
                 UserStore.class,
                 MessageListFragment.class,
-                MessageStore.class
+                MessageStore.class,
+                ParseModule.class
         }
 )
 public class BootstrapModule {
