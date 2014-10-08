@@ -25,7 +25,13 @@ public class MessageCard extends Card {
     public void setupInnerViewElements(ViewGroup parent, View view) {
         super.setupInnerViewElements(parent, view);
 
+        TextView fromUser = (TextView)view.findViewById(R.id.text_from_user);
+        fromUser.setText(message.getFromUser().getUsername());
+
         TextView body = (TextView)view.findViewById(R.id.text_body);
         body.setText(message.getBody());
+
+        TextView createdAt = (TextView)view.findViewById(R.id.text_createdAt);
+        createdAt.setText("5分钟前");
     }
 }

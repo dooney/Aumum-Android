@@ -31,7 +31,8 @@ public class MessageHandler {
             public Boolean call() throws Exception {
 
                 Message message = new Message();
-                message.setBody(event.getMessage());
+                message.setType(event.getMessageType());
+                message.setFromUserId(event.getFollowingUserId());
                 message = service.newMessage(message);
                 service.addUserMessage(event.getFollowedUserId(), message.getObjectId());
                 return true;

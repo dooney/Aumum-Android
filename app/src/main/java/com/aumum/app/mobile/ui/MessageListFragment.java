@@ -84,6 +84,10 @@ public class MessageListFragment extends CardListFragment {
                 throw new Exception("Invalid refresh mode: " + mode);
         }
         if (messageList != null) {
+            for(Message message: messageList) {
+                User user = userStore.getUserById(message.getFromUserId());
+                message.setFromUser(user);
+            }
             return buildCards(messageList);
         }
         return new ArrayList<Card>();

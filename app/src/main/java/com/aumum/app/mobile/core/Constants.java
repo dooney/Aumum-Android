@@ -122,6 +122,16 @@ public final class Constants {
         "仅女孩",
         "仅男孩"
     };
+
+    public static final class MessageType {
+        public static final int DELETED = 0;
+        public static final int FOLLOW = 1;
+    }
+
+    public static String messageBodyOptions[] = {
+        "该消息已删除",
+        "关注了你"
+    };
 }
 
 

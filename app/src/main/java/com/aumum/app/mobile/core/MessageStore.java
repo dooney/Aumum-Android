@@ -46,7 +46,10 @@ public class MessageStore {
         } else {
             messageList = bootstrapService.getMessagesBefore(idList, null, limitPerLoad);
         }
-        lastUpdateTime = DateTime.now(DateTimeZone.UTC);
+        if (messageList.size() > 0) {
+            String time = messageList.get(messageList.size() - 1).getCreatedAt();
+            lastUpdateTime = new DateTime(time, DateTimeZone.UTC);
+        }
         return messageList;
     }
 
