@@ -37,8 +37,8 @@ public class PartyListFragment extends CardListFragment {
     public void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
-        dataStore = PartyStore.getInstance(getActivity());
         userStore = UserStore.getInstance(getActivity());
+        dataStore = new PartyStore(getActivity());
     }
 
     @Override

@@ -75,6 +75,7 @@ public class LoginActivity extends ActionBarActivity {
 
     private String username;
     private String password;
+    private String userId;
 
     /**
      * In this instance the token is simply the sessionId returned from Parse.com. This could be a
@@ -226,6 +227,7 @@ public class LoginActivity extends ActionBarActivity {
                 }
                 userStore.saveCurrentUser(response);
                 token = response.getSessionToken();
+                userId = response.getObjectId();
 
                 return true;
             }
@@ -263,7 +265,7 @@ public class LoginActivity extends ActionBarActivity {
      */
 
     protected void finishLogin() {
-        final Account account = new Account(username, Constants.Auth.BOOTSTRAP_ACCOUNT_TYPE);
+        final Account account = new Account(userId, Constants.Auth.BOOTSTRAP_ACCOUNT_TYPE);
         accountManager.addAccountExplicitly(account, password, null);
         authToken = token;
         accountManager.setAuthToken(account, Constants.Auth.AUTHTOKEN_TYPE, authToken);

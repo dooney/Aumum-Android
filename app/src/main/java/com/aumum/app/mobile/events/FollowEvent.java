@@ -6,19 +6,21 @@ import com.aumum.app.mobile.core.User;
  * Created by Administrator on 7/10/2014.
  */
 public class FollowEvent {
-    private User user;
+    private String followedUserId;
+    private User followingUser;
 
-    public FollowEvent(User user) {
-        this.user = user;
+    public FollowEvent(String followedUserId, User followingUser) {
+        this.followedUserId = followedUserId;
+        this.followingUser = followingUser;
     }
 
-    public User getFollowedUser() {
-        return user;
+    public String getFollowedUserId() {
+        return followedUserId;
     }
 
     public String getMessage() {
-        if (user != null) {
-            return user.getUsername() + " 关注了你";
+        if (followingUser != null) {
+            return followingUser.getUsername() + " 关注了你";
         }
         return null;
     }

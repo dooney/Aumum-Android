@@ -80,15 +80,27 @@ public class BootstrapService {
     public List<Party> getPartiesAfter(DateTime after, int limit) {
         String where = null;
         if (after != null) {
-            where = "{\"createdAt\":{\"$gt\":{ \"__type\": \"Date\", \"iso\": \"" +
-                after.toString("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'") + "\" }}}";
+            final JsonObject timeJson = new JsonObject();
+            timeJson.addProperty("__type", "Date");
+            timeJson.addProperty("iso", after.toString("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'"));
+            final JsonObject gtJson = new JsonObject();
+            gtJson.add("$gt", timeJson);
+            final JsonObject whereJson = new JsonObject();
+            whereJson.add("createdAt", gtJson);
+            where = whereJson.toString();
         }
         return getPartyService().getAll("-createdAt", where, limit).getResults();
     }
 
     public List<Party> getPartiesBefore(DateTime before, int limit) {
-        String where = "{\"createdAt\":{\"$lt\":{ \"__type\": \"Date\", \"iso\": \"" +
-                before.toString("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'") + "\" }}}";
+        final JsonObject timeJson = new JsonObject();
+        timeJson.addProperty("__type", "Date");
+        timeJson.addProperty("iso", before.toString("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'"));
+        final JsonObject gtJson = new JsonObject();
+        gtJson.add("$lt", timeJson);
+        final JsonObject whereJson = new JsonObject();
+        whereJson.add("createdAt", gtJson);
+        String where = whereJson.toString();
         return getPartyService().getAll("-createdAt", where, limit).getResults();
     }
 
@@ -155,5 +167,26 @@ public class BootstrapService {
         op.add("objects", messages);
         data.add(Constants.Http.User.PARAM_MESSAGES, op);
         return getUserService().updateUserById(userId, data);
+    }
+
+    public List<Message> getMessagesBefore(List<String> idList, DateTime after, int limit) {
+        final JsonObject whereJson = new JsonObject();
+        final JsonArray idListJson = new JsonArray();
+        for (String id: idList) {
+            idListJson.add(new JsonPrimitive(id));
+        }
+        final JsonObject inJson = new JsonObject();
+        inJson.add("$in", idListJson);
+        whereJson.add("objectId", inJson);
+        if (after != null) {
+            final JsonObject timeJson = new JsonObject();
+            timeJson.addProperty("__type", "Date");
+            timeJson.addProperty("iso", after.toString("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'"));
+            final JsonObject gtJson = new JsonObject();
+            gtJson.add("$lt", timeJson);
+            whereJson.add("createdAt", gtJson);
+        }
+        String where = whereJson.toString();
+        return getMessageService().getMessages("-createdAt", where, limit).getResults();
     }
 }

@@ -13,6 +13,8 @@ import com.aumum.app.mobile.core.User;
 import com.aumum.app.mobile.core.UserStore;
 import com.aumum.app.mobile.ui.view.FollowTextView;
 
+import java.util.List;
+
 /**
  * A simple {@link Fragment} subclass.
  *
@@ -116,7 +118,8 @@ public class UserFragment extends LoaderFragment<User> {
             followText.setVisibility(View.INVISIBLE);
             return;
         }
-        if (currentUser.getFollowings().contains(user.getObjectId())) {
+        List<String> followings = currentUser.getFollowings();
+        if (followings != null && followings.contains(user.getObjectId())) {
             followText.update(true);
         }
         return;

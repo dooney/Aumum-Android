@@ -33,8 +33,7 @@ public class MessageHandler {
                 Message message = new Message();
                 message.setBody(event.getMessage());
                 message = service.newMessage(message);
-                User user = event.getFollowedUser();
-                service.addUserMessage(user.getObjectId(), message.getObjectId());
+                service.addUserMessage(event.getFollowedUserId(), message.getObjectId());
                 return true;
             }
 

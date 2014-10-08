@@ -3,6 +3,7 @@ package com.aumum.app.mobile.core;
 import android.content.Context;
 
 import com.aumum.app.mobile.Injector;
+import com.aumum.app.mobile.authenticator.ApiKeyProvider;
 
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
@@ -16,9 +17,8 @@ import javax.inject.Inject;
  * Created by Administrator on 30/09/2014.
  */
 public class PartyStore {
-    private static PartyStore instance;
-
     @Inject BootstrapService bootstrapService;
+    @Inject ApiKeyProvider apiKeyProvider;
 
     private DiskCacheService diskCacheService;
 
@@ -26,18 +26,13 @@ public class PartyStore {
 
     private int limitPerLoad = 25;
 
-    private String DISK_CACHE_KEY = "Party";
+    private String diskCacheKey;
 
-    public static PartyStore getInstance(Context context) {
-        if (instance == null) {
-            instance = new PartyStore(context);
-        }
-        return instance;
-    }
-
-    private PartyStore(Context context) {
-        diskCacheService = new DiskCacheService(context, DISK_CACHE_KEY);
+    public PartyStore(Context context) {
         Injector.inject(this);
+        String userId = apiKeyProvider.getAuthUserId();
+        diskCacheKey = "Party_" + userId;
+        diskCacheService = new DiskCacheService(context, diskCacheKey);
     }
 
     public List<Party> getUpwardsList() {
@@ -57,16 +52,16 @@ public class PartyStore {
     }
 
     public boolean hasOfflineData() {
-        return diskCacheService.hasKey(DISK_CACHE_KEY);
+        return diskCacheService.hasKey(diskCacheKey);
     }
 
     public void saveOfflineData(Object data) {
-        diskCacheService.save(DISK_CACHE_KEY, data);
+        diskCacheService.save(diskCacheKey, data);
     }
 
     public List<Party> getOfflineList() {
         List<Party> partyList = new ArrayList<Party>();
-        Object data = diskCacheService.get(DISK_CACHE_KEY);
+        Object data = diskCacheService.get(diskCacheKey);
         if (data != null) {
             partyList = (List<Party>) data;
             String time = partyList.get(0).getCreatedAt();
