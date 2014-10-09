@@ -207,10 +207,10 @@ public class MainActivity extends BootstrapFragmentActivity {
 
     private void subscribeUserChannel() {
         userChannel = apiKeyProvider.getAuthUserId();
-        eventBus.post(new UnSubscribeChannelEvent(userChannel));
+        eventBus.post(new SubscribeChannelEvent(userChannel));
     }
 
     private void unSubscribeUserChannel() {
-        eventBus.post(new SubscribeChannelEvent(userChannel));
+        eventBus.post(new UnSubscribeChannelEvent(userChannel));
     }
 }

@@ -111,11 +111,11 @@ public class RegisterActivity extends ActionBarActivity {
         areaButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                UIUtils.showAlert(RegisterActivity.this, R.string.label_area, Constants.areaOptions, new DialogInterface.OnClickListener() {
+                UIUtils.showAlert(RegisterActivity.this, R.string.label_area, Constants.AREA_OPTIONS, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
                         area = i;
-                        areaButton.setText(Constants.areaOptions[i]);
+                        areaButton.setText(Constants.AREA_OPTIONS[i]);
                     }
                 });
             }

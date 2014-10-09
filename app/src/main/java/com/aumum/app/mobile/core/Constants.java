@@ -95,7 +95,7 @@ public final class Constants {
         }
     }
 
-    public static String areaOptions[] = {
+    public static final String AREA_OPTIONS[] = {
         "悉尼",
         "墨尔本",
         "布里斯班",
@@ -108,7 +108,7 @@ public final class Constants {
         "惠灵顿"
     };
 
-    public static String ageOptions[] = {
+    public static final String AGE_OPTIONS[] = {
         "不限",
         "备孕",
         "怀孕",
@@ -118,7 +118,7 @@ public final class Constants {
         "6岁以上"
     };
 
-    public static String genderOptions[] = {
+    public static final String GENDER_OPTIONS[] = {
         "不限",
         "仅女孩",
         "仅男孩"
@@ -129,10 +129,12 @@ public final class Constants {
         public static final int FOLLOW = 1;
     }
 
-    public static String messageBodyOptions[] = {
+    public static final String MESSAGE_BODY_OPTIONS[] = {
         "该消息已删除",
         "关注了你"
     };
+
+    public static final String NOTIFICATION_TEXT = "你有一条新的消息";
 }
 
 

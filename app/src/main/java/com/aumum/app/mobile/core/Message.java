@@ -29,6 +29,6 @@ public class Message extends AggregateRoot {
     }
 
     public String getBody() {
-        return Constants.messageBodyOptions[type];
+        return Constants.MESSAGE_BODY_OPTIONS[type];
     }
 }

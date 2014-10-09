@@ -31,7 +31,7 @@ public class PartyCard extends Card {
         avatarImage.setOnClickListener(new UserListener(avatarImage.getContext(), party.getUserId()));
 
         TextView areaText = (TextView) view.findViewById(R.id.text_area);
-        areaText.setText(Constants.areaOptions[party.getArea()]);
+        areaText.setText(Constants.AREA_OPTIONS[party.getArea()]);
 
         TextView userNameText = (TextView) view.findViewById(R.id.text_user_name);
         userNameText.setText(party.getUser().getUsername());
@@ -50,10 +50,10 @@ public class PartyCard extends Card {
         locationText.setText(party.getLocation());
 
         TextView ageText = (TextView) view.findViewById(R.id.text_age);
-        ageText.setText(Constants.ageOptions[party.getAge()]);
+        ageText.setText(Constants.AGE_OPTIONS[party.getAge()]);
 
         TextView genderText = (TextView) view.findViewById(R.id.text_gender);
-        genderText.setText(Constants.genderOptions[party.getGender()]);
+        genderText.setText(Constants.GENDER_OPTIONS[party.getGender()]);
 
         TextView detailsText = (TextView) view.findViewById(R.id.text_details);
         detailsText.setText(party.getDetails());

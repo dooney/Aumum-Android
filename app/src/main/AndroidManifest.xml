@@ -93,7 +93,7 @@
                 <action android:name="android.intent.action.USER_PRESENT" />
             </intent-filter>
         </receiver>
-        <receiver android:name="com.parse.ParsePushBroadcastReceiver"
+        <receiver android:name="com.aumum.app.mobile.ui.NotificationReceiver"
             android:exported="false">
             <intent-filter>
                 <action android:name="com.parse.push.intent.RECEIVE" />
@@ -109,6 +109,9 @@
                 <category android:name="com.aumum.app.mobile" />
             </intent-filter>
         </receiver>
+        <meta-data
+            android:name="com.parse.push.notification_icon"
+            android:resource="@drawable/icon" />
     </application>
 
 </manifest>

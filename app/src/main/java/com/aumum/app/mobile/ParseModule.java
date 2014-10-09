@@ -3,14 +3,12 @@ package com.aumum.app.mobile;
 import android.content.Context;
 
 import com.aumum.app.mobile.core.Constants;
+import com.aumum.app.mobile.events.PushNotificationEvent;
 import com.aumum.app.mobile.events.SubscribeChannelEvent;
 import com.aumum.app.mobile.events.UnSubscribeChannelEvent;
-import com.aumum.app.mobile.util.Ln;
 import com.parse.Parse;
-import com.parse.ParseException;
 import com.parse.ParseInstallation;
 import com.parse.ParsePush;
-import com.parse.SaveCallback;
 import com.squareup.otto.Bus;
 import com.squareup.otto.Subscribe;
 
@@ -43,29 +41,19 @@ public class ParseModule {
 
     @Subscribe
     public void onSubscribeChannelEvent(SubscribeChannelEvent subscribeChannelEvent) {
-        ParsePush.subscribeInBackground(subscribeChannelEvent.getChannel(), new SaveCallback() {
-            @Override
-            public void done(ParseException e) {
-                if (e != null) {
-                    Ln.e("com.parse.push", "successfully subscribed.");
-                } else {
-                    Ln.e("com.parse.push", "failed to subscribe.");
-                }
-            }
-        });
+        ParsePush.subscribeInBackground(subscribeChannelEvent.getChannel());
     }
 
     @Subscribe
     public void onUnSubscribeChannelEvent(UnSubscribeChannelEvent unSubscribeChannelEvent) {
-        ParsePush.unsubscribeInBackground(unSubscribeChannelEvent.getChannel(), new SaveCallback() {
-            @Override
-            public void done(ParseException e) {
-                if (e != null) {
-                    Ln.e("com.parse.push", "successfully unSubscribed.");
-                } else {
-                    Ln.e("com.parse.push", "failed to unSubscribe.");
-                }
-            }
-        });
+        ParsePush.unsubscribeInBackground(unSubscribeChannelEvent.getChannel());
+    }
+
+    @Subscribe
+    public void onPushNotificationEvent(PushNotificationEvent pushNotificationEvent) {
+        ParsePush push = new ParsePush();
+        push.setChannel(pushNotificationEvent.getChannel());
+        push.setMessage(pushNotificationEvent.getMessage());
+        push.sendInBackground();
     }
 }
