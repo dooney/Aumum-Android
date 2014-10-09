@@ -123,18 +123,6 @@ public final class Constants {
         "仅女孩",
         "仅男孩"
     };
-
-    public static final class MessageType {
-        public static final int DELETED = 0;
-        public static final int FOLLOW = 1;
-    }
-
-    public static final String MESSAGE_BODY_OPTIONS[] = {
-        "该消息已删除",
-        "关注了你"
-    };
-
-    public static final String NOTIFICATION_TEXT = "你有一条新的消息";
 }
 
 

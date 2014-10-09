@@ -52,7 +52,14 @@ public class PartyStore {
     }
 
     public boolean hasOfflineData() {
-        return diskCacheService.hasKey(diskCacheKey);
+        Object data = diskCacheService.get(diskCacheKey);
+        if (data != null) {
+            List<Party> partyList = (List<Party>) data;
+            if (partyList.size() > 0) {
+                return true;
+            }
+        }
+        return false;
     }
 
     public void saveOfflineData(Object data) {
@@ -64,8 +71,10 @@ public class PartyStore {
         Object data = diskCacheService.get(diskCacheKey);
         if (data != null) {
             partyList = (List<Party>) data;
-            String time = partyList.get(0).getCreatedAt();
-            lastUpdateTime = new DateTime(time, DateTimeZone.UTC);
+            if (partyList.size() > 0) {
+                String time = partyList.get(0).getCreatedAt();
+                lastUpdateTime = new DateTime(time, DateTimeZone.UTC);
+            }
         }
         return partyList;
     }

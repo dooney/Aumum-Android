@@ -15,7 +15,10 @@ import com.aumum.app.mobile.R;
  */
 public class BootstrapPagerAdapter extends FragmentPagerAdapter {
 
-    private final Resources resources;
+    private String pages[];
+
+    public static final int PAGE_PARTY = 0;
+    public static final int PAGE_MESSAGE = 1;
 
     /**
      * Create pager adapter
@@ -25,22 +28,22 @@ public class BootstrapPagerAdapter extends FragmentPagerAdapter {
      */
     public BootstrapPagerAdapter(final Resources resources, final FragmentManager fragmentManager) {
         super(fragmentManager);
-        this.resources = resources;
+        pages = resources.getStringArray(R.array.pages_array);
     }
 
     @Override
     public int getCount() {
-        return 2;
+        return pages.length;
     }
 
     @Override
     public Fragment getItem(final int position) {
         final Fragment result;
         switch (position) {
-            case 0:
+            case PAGE_PARTY:
                 result = new PartyListFragment();
                 break;
-            case 1:
+            case PAGE_MESSAGE:
                 result = new MessageListFragment();
                 break;
             default:
@@ -55,13 +58,6 @@ public class BootstrapPagerAdapter extends FragmentPagerAdapter {
 
     @Override
     public CharSequence getPageTitle(final int position) {
-        switch (position) {
-            case 0:
-                return resources.getString(R.string.page_party);
-            case 1:
-                return resources.getString(R.string.page_message);
-            default:
-                return null;
-        }
+        return pages[position];
     }
 }

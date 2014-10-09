@@ -8,6 +8,13 @@ public class Message extends AggregateRoot {
     private int type;
     private User fromUser;
 
+    public static final int DELETED = 0;
+    public static final int FOLLOW = 1;
+    private static final String MESSAGE_BODY_OPTIONS[] = {
+        "该消息已删除",
+        "关注了你"
+    };
+
     public String getFromUserId() {
         return fromUserId;
     }
@@ -29,6 +36,6 @@ public class Message extends AggregateRoot {
     }
 
     public String getBody() {
-        return Constants.MESSAGE_BODY_OPTIONS[type];
+        return MESSAGE_BODY_OPTIONS[type];
     }
 }

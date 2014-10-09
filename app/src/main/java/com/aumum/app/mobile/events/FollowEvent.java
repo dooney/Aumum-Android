@@ -1,6 +1,6 @@
 package com.aumum.app.mobile.events;
 
-import com.aumum.app.mobile.core.Constants;
+import com.aumum.app.mobile.core.Message;
 
 /**
  * Created by Administrator on 7/10/2014.
@@ -23,6 +23,6 @@ public class FollowEvent {
     }
 
     public int getMessageType() {
-        return Constants.MessageType.FOLLOW;
+        return Message.FOLLOW;
     }
 }

@@ -37,8 +37,7 @@ public class NotificationReceiver extends ParsePushBroadcastReceiver {
         } else {
             activityIntent = new Intent(context, MainActivity.class);
         }
-        activityIntent.putExtra()
-        activityIntent.putExtras(intent.getExtras());
+        activityIntent.putExtra(MainActivity.INTENT_NOTIFICATION, true);
         if (Build.VERSION.SDK_INT >= 16) {
             TaskStackBuilder stackBuilder = TaskStackBuilder.create(context);
             stackBuilder.addParentStack(cls);

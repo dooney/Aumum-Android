@@ -2,13 +2,16 @@
 <resources>
 
     <string name="app_name">澳妈圈</string>
+
+    <string-array name="pages_array">
+        <item>亲子活动</item>
+        <item>消息中心</item>
+    </string-array>
     <string name="new_action">新建</string>
     <string name="refresh_action">刷新</string>
     <string name="logout_action">注销</string>
-    <string name="page_party">亲子活动</string>
     <string name="no_parties">暂时没有活动</string>
     <string name="error_loading_parties">获取活动列表失败</string>
-    <string name="page_message">消息中心</string>
     <string name="no_messages">暂时没有消息</string>
     <string name="error_loading_messages">获取消息列表失败</string>
 

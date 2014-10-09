@@ -25,6 +25,8 @@ public class CarouselFragment extends Fragment {
     @InjectView(R.id.vp_pages)
     protected ViewPager pager;
 
+    private int landingPage;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         return inflater.inflate(R.layout.fragment_carousel, container, false);
@@ -38,10 +40,15 @@ public class CarouselFragment extends Fragment {
 
         pager.setAdapter(new BootstrapPagerAdapter(getResources(), getChildFragmentManager()));
         indicator.setViewPager(pager);
+        pager.setCurrentItem(landingPage);
     }
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+    }
+
+    public void setLandingPage(int page) {
+        landingPage = page;
     }
 }

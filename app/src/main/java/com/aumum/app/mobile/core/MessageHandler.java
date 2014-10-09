@@ -18,6 +18,8 @@ public class MessageHandler {
 
     private SafeAsyncTask<Boolean> task;
 
+    private final String NOTIFICATION_TEXT = "你有新的消息";
+
     public MessageHandler(Bus bus, BootstrapService bootstrapService) {
         this.bus = bus;
         this.bus.register(this);
@@ -38,7 +40,7 @@ public class MessageHandler {
                 message = service.newMessage(message);
                 service.addUserMessage(event.getFollowedUserId(), message.getObjectId());
 
-                bus.post(new PushNotificationEvent(event.getFollowedUserId(), Constants.NOTIFICATION_TEXT));
+                bus.post(new PushNotificationEvent(event.getFollowedUserId(), NOTIFICATION_TEXT));
 
                 return true;
             }

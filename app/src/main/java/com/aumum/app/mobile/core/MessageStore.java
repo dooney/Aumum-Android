@@ -36,7 +36,14 @@ public class MessageStore {
     }
 
     public boolean hasOfflineData() {
-        return diskCacheService.hasKey(diskCacheKey);
+        Object data = diskCacheService.get(diskCacheKey);
+        if (data != null) {
+            List<Message> messageList = (List<Message>) data;
+            if (messageList.size() > 0) {
+                return true;
+            }
+        }
+        return false;
     }
 
     public List<Message> getMessageList(List<String> idList) {
@@ -62,8 +69,10 @@ public class MessageStore {
         Object data = diskCacheService.get(diskCacheKey);
         if (data != null) {
             messageList = (List<Message>) data;
-            String time = messageList.get(0).getCreatedAt();
-            lastUpdateTime = new DateTime(time, DateTimeZone.UTC);
+            if (messageList.size() > 0) {
+                String time = messageList.get(0).getCreatedAt();
+                lastUpdateTime = new DateTime(time, DateTimeZone.UTC);
+            }
         }
         return messageList;
     }
