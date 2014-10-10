@@ -18,8 +18,7 @@ import retrofit.RetrofitError;
  * Created by Administrator on 4/10/2014.
  */
 public class FollowListener implements FollowTextView.OnFollowListener {
-    private SafeAsyncTask<Boolean> followTask;
-    private SafeAsyncTask<Boolean> unFollowTask;
+    private SafeAsyncTask<Boolean> task;
 
     private String followedUserId;
 
@@ -37,7 +36,7 @@ public class FollowListener implements FollowTextView.OnFollowListener {
 
     @Override
     public void onFollow(FollowTextView view) {
-        followTask = new SafeAsyncTask<Boolean>() {
+        task = new SafeAsyncTask<Boolean>() {
             public Boolean call() throws Exception {
                 User currentUser = userStore.getCurrentUser();
                 User followedUser = userStore.getUserById(followedUserId);
@@ -66,15 +65,15 @@ public class FollowListener implements FollowTextView.OnFollowListener {
 
             @Override
             protected void onFinally() throws RuntimeException {
-                followTask = null;
+                task = null;
             }
         };
-        followTask.execute();
+        task.execute();
     }
 
     @Override
     public void onUnFollow(FollowTextView view) {
-        unFollowTask = new SafeAsyncTask<Boolean>() {
+        task = new SafeAsyncTask<Boolean>() {
             public Boolean call() throws Exception {
                 User currentUser = userStore.getCurrentUser();
                 User followedUser = userStore.getUserById(followedUserId);
@@ -100,9 +99,9 @@ public class FollowListener implements FollowTextView.OnFollowListener {
 
             @Override
             protected void onFinally() throws RuntimeException {
-                unFollowTask = null;
+                task = null;
             }
         };
-        unFollowTask.execute();
+        task.execute();
     }
 }

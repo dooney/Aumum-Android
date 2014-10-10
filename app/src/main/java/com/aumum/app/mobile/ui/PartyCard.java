@@ -83,5 +83,6 @@ public class PartyCard extends Card {
         likeText.setCompoundDrawablesWithIntrinsicBounds(likeDrawableId, 0, 0, 0);
         int likes = party.getLikes();
         likeText.setText(likes > 0 ? String.valueOf(likes) : view.getResources().getString(R.string.label_like));
+        likeText.setLikeListener(new LikeListener(party));
     }
 }

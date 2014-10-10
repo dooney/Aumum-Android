@@ -12,11 +12,13 @@ public class Message extends AggregateRoot {
     public static final int FOLLOW = 1;
     public static final int JOIN = 2;
     public static final int UNJOIN = 3;
+    public static final int LIKE = 4;
     private static final String MESSAGE_BODY_OPTIONS[] = {
         "该消息已删除",
         "关注了你",
         "报名了亲子活动",
-        "取消了报名亲子活动"
+        "取消了报名亲子活动",
+        "支持了亲子活动",
     };
 
     public String getFromUserId() {

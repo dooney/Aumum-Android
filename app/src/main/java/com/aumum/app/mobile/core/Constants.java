@@ -95,6 +95,7 @@ public final class Constants {
 
         public static final class Party {
             public static final String PARAM_MEMBERS = "members";
+            public static final String PARAM_FANS = "fans";
         }
 
         public static final class User {

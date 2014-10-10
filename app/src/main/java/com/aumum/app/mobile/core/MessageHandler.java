@@ -2,6 +2,7 @@ package com.aumum.app.mobile.core;
 
 import com.aumum.app.mobile.events.FollowEvent;
 import com.aumum.app.mobile.events.JoinEvent;
+import com.aumum.app.mobile.events.LikeEvent;
 import com.aumum.app.mobile.events.MessageEvent;
 import com.aumum.app.mobile.events.PushNotificationEvent;
 import com.aumum.app.mobile.util.Ln;
@@ -20,6 +21,7 @@ public class MessageHandler {
 
     private SafeAsyncTask<Boolean> followTask;
     private SafeAsyncTask<Boolean> joinTask;
+    private SafeAsyncTask<Boolean> likeTask;
 
     private final String NOTIFICATION_TEXT = "你有新的消息";
 
@@ -99,5 +101,36 @@ public class MessageHandler {
             }
         };
         joinTask.execute();
+    }
+
+    @Subscribe
+    public void onLikeEvent(final LikeEvent event) {
+        if (likeTask != null) {
+            return;
+        }
+
+        likeTask = new SafeAsyncTask<Boolean>() {
+            public Boolean call() throws Exception {
+                process(event);
+                return true;
+            }
+
+            @Override
+            protected void onException(final Exception e) throws RuntimeException {
+                // Retrofit Errors are handled inside of the {
+                if(!(e instanceof RetrofitError)) {
+                    final Throwable cause = e.getCause() != null ? e.getCause() : e;
+                    if(cause != null) {
+                        Ln.e(e.getCause(), cause.getMessage());
+                    }
+                }
+            }
+
+            @Override
+            protected void onFinally() throws RuntimeException {
+                likeTask = null;
+            }
+        };
+        likeTask.execute();
     }
 }

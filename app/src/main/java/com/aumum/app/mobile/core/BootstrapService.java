@@ -231,4 +231,25 @@ public class BootstrapService {
         data.add(Constants.Http.User.PARAM_PARTIES, op);
         return getUserService().updateById(userId, data);
     }
+
+    public JsonObject addPartyFan(String partyId, String userId) {
+        final JsonObject op = new JsonObject();
+        op.addProperty("__op", "AddUnique");
+        return updatePartyFans(op, partyId, userId);
+    }
+
+    public JsonObject removePartyFan(String partyId, String userId) {
+        final JsonObject op = new JsonObject();
+        op.addProperty("__op", "Remove");
+        return updatePartyFans(op, partyId, userId);
+    }
+
+    private JsonObject updatePartyFans(JsonObject op, String partyId, String userId) {
+        final JsonObject data = new JsonObject();
+        final JsonArray partyFans = new JsonArray();
+        partyFans.add(new JsonPrimitive(userId));
+        op.add("objects", partyFans);
+        data.add(Constants.Http.Party.PARAM_FANS, op);
+        return getPartyService().updateById(partyId, data);
+    }
 }

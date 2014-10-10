@@ -18,6 +18,7 @@ public class Party extends AggregateRoot {
     protected String details;
     protected User user;
     protected List<String> members = new ArrayList<String>();
+    protected List<String> fans = new ArrayList<String>();
 
     public Party() {
         date = new Date();
@@ -108,6 +109,10 @@ public class Party extends AggregateRoot {
         return members;
     }
 
+    public List<String> getFans() {
+        return fans;
+    }
+
     public boolean validate() {
         return date != null && time != null && !title.isEmpty() && !location.isEmpty() && !details.isEmpty();
     }
@@ -131,10 +136,16 @@ public class Party extends AggregateRoot {
     }
 
     public boolean isLike(String userId) {
+        if (fans != null) {
+            return fans.contains(userId);
+        }
         return false;
     }
 
     public int getLikes() {
+        if (fans != null) {
+            return fans.size();
+        }
         return 0;
     }
 }

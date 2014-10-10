@@ -5,9 +5,8 @@ import com.aumum.app.mobile.core.BootstrapService;
 import com.aumum.app.mobile.core.Party;
 import com.aumum.app.mobile.core.User;
 import com.aumum.app.mobile.core.UserStore;
-import com.aumum.app.mobile.events.JoinEvent;
-import com.aumum.app.mobile.events.UnJoinEvent;
-import com.aumum.app.mobile.ui.view.JoinTextView;
+import com.aumum.app.mobile.events.LikeEvent;
+import com.aumum.app.mobile.ui.view.LikeTextView;
 import com.aumum.app.mobile.util.Ln;
 import com.aumum.app.mobile.util.SafeAsyncTask;
 import com.squareup.otto.Bus;
@@ -19,7 +18,7 @@ import retrofit.RetrofitError;
 /**
  * Created by Administrator on 10/10/2014.
  */
-public class JoinListener implements JoinTextView.OnJoinListener {
+public class LikeListener implements LikeTextView.OnLikeListener {
     private SafeAsyncTask<Boolean> task;
 
     private Party party;
@@ -29,7 +28,7 @@ public class JoinListener implements JoinTextView.OnJoinListener {
 
     private UserStore userStore;
 
-    public JoinListener(Party party) {
+    public LikeListener(Party party) {
         this.party = party;
         userStore = UserStore.getInstance(null);
         Injector.inject(this);
@@ -37,19 +36,13 @@ public class JoinListener implements JoinTextView.OnJoinListener {
     }
 
     @Override
-    public void onUnJoin(JoinTextView view) {
+    public void onUnLike(LikeTextView view) {
         task = new SafeAsyncTask<Boolean>() {
             public Boolean call() throws Exception {
                 User currentUser = userStore.getCurrentUser();
-                service.removePartyMember(party.getObjectId(), currentUser.getObjectId());
-                service.removeUserParty(currentUser.getObjectId(), party.getObjectId());
-                currentUser.getParties().remove(party.getObjectId());
-                party.getMembers().remove(currentUser.getObjectId());
+                service.removePartyFan(party.getObjectId(), currentUser.getObjectId());
+                party.getFans().remove(currentUser.getObjectId());
                 userStore.saveCurrentUser(currentUser);
-
-                if (party.getUserId() != currentUser.getObjectId()) {
-                    bus.post(new UnJoinEvent(party.getUserId(), currentUser.getObjectId()));
-                }
 
                 return true;
             }
@@ -74,18 +67,16 @@ public class JoinListener implements JoinTextView.OnJoinListener {
     }
 
     @Override
-    public void onJoin(JoinTextView view) {
+    public void onLike(LikeTextView view) {
         task = new SafeAsyncTask<Boolean>() {
             public Boolean call() throws Exception {
                 User currentUser = userStore.getCurrentUser();
-                service.addPartyMember(party.getObjectId(), currentUser.getObjectId());
-                service.addUserParty(currentUser.getObjectId(), party.getObjectId());
-                currentUser.getParties().add(party.getObjectId());
-                party.getMembers().add(currentUser.getObjectId());
+                service.addPartyFan(party.getObjectId(), currentUser.getObjectId());
+                party.getFans().add(currentUser.getObjectId());
                 userStore.saveCurrentUser(currentUser);
 
                 if (party.getUserId() != currentUser.getObjectId()) {
-                    bus.post(new JoinEvent(party.getUserId(), currentUser.getObjectId()));
+                    bus.post(new LikeEvent(party.getUserId(), currentUser.getObjectId()));
                 }
 
                 return true;
