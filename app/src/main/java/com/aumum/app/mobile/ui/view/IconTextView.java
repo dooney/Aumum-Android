@@ -8,7 +8,7 @@ import android.widget.TextView;
 /**
  * Created by Administrator on 3/10/2014.
  */
-public class IconTextView extends TextView {
+public abstract class IconTextView extends TextView {
     public IconTextView(Context context) {
         super(context);
     }
@@ -27,4 +27,6 @@ public class IconTextView extends TextView {
 
         return super.onTouchEvent(event);
     }
+
+    public abstract void update(boolean newValue);
 }

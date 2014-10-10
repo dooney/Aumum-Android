@@ -128,9 +128,12 @@ public class PartyListFragment extends CardListFragment {
 
     private List<Card> buildCards(List<Party> partyList) {
         List<Card> cards = new ArrayList<Card>();
-        for(Party party: partyList) {
-            Card card = new PartyCard(getActivity(), party);
-            cards.add(card);
+        if (partyList.size() > 0) {
+            User user = userStore.getCurrentUser();
+            for (Party party : partyList) {
+                Card card = new PartyCard(getActivity(), party, user.getObjectId());
+                cards.add(card);
+            }
         }
         return cards;
     }

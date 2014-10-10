@@ -107,17 +107,11 @@
             android:layout_height="wrap_content"
             android:gravity="center"
             android:layout_weight="1">
-            <ImageView
-                android:id="@+id/bt_join"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/ic_fa_users"/>
 
-            <TextView
+            <com.aumum.app.mobile.ui.view.JoinTextView
                 android:id="@+id/text_join"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/label_join"/>
+                style="@style/TextView.Join" />
+
         </LinearLayout>
 
         <LinearLayout
@@ -126,16 +120,11 @@
             android:layout_height="wrap_content"
             android:gravity="center"
             android:layout_weight="1">
-            <ImageView
-                android:id="@+id/bt_comment"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/ic_fa_comments_o"/>
-            <TextView
+
+            <com.aumum.app.mobile.ui.view.CommentTextView
                 android:id="@+id/text_comment"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/label_comment"/>
+                style="@style/TextView.Comment" />
+
         </LinearLayout>
 
         <LinearLayout
@@ -144,17 +133,11 @@
             android:layout_height="wrap_content"
             android:gravity="center"
             android:layout_weight="1">
-            <ImageView
-                android:id="@+id/bt_like"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/ic_fa_thumbs_o_up"/>
 
-            <TextView
+            <com.aumum.app.mobile.ui.view.LikeTextView
                 android:id="@+id/text_like"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/label_like"/>
+                style="@style/TextView.Like" />
+
             </LinearLayout>
 
     </LinearLayout>

@@ -6,11 +6,8 @@ import android.app.Activity;
 
 import com.aumum.app.mobile.authenticator.ApiKeyProvider;
 import com.aumum.app.mobile.core.BootstrapService;
-import com.aumum.app.mobile.core.UserAgentProvider;
 
 import java.io.IOException;
-
-import javax.inject.Inject;
 
 import retrofit.RestAdapter;
 

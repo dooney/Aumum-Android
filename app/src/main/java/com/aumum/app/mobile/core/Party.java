@@ -103,4 +103,24 @@ public class Party extends AggregateRoot {
     public boolean validate() {
         return date != null && time != null && !title.isEmpty() && !location.isEmpty() && !details.isEmpty();
     }
+
+    public boolean isJoin(String userId) {
+        return false;
+    }
+
+    public int getJoins() {
+        return 0;
+    }
+
+    public int getComments() {
+        return 0;
+    }
+
+    public boolean isLike(String userId) {
+        return false;
+    }
+
+    public int getLikes() {
+        return 0;
+    }
 }

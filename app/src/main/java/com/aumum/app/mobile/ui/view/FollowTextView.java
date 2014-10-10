@@ -19,10 +19,6 @@ public class FollowTextView extends IconTextView{
         this.isFollowing = isFollowing;
     }
 
-    public OnFollowListener getFollowListener() {
-        return followListener;
-    }
-
     public void setFollowListener(OnFollowListener followListener) {
         this.followListener = followListener;
     }
@@ -52,10 +48,12 @@ public class FollowTextView extends IconTextView{
         // animation
         boolean ret = super.onTouchEvent(event);
 
-        if (oldValue) {
-            getFollowListener().onUnFollow(FollowTextView.this);
-        } else {
-            getFollowListener().onFollow(FollowTextView.this);
+        if (followListener != null) {
+            if (oldValue) {
+                followListener.onUnFollow(FollowTextView.this);
+            } else {
+                followListener.onFollow(FollowTextView.this);
+            }
         }
 
         return ret;

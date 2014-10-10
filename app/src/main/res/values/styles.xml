@@ -126,6 +126,18 @@
         <item name="android:drawableLeft">@drawable/ic_fa_gender</item>
         <item name="android:text">@string/label_gender</item>
     </style>
+    <style name="TextView.Join" parent="ButtonTextView">
+        <item name="android:drawableLeft">@drawable/ic_fa_users</item>
+        <item name="android:text">@string/label_join</item>
+    </style>
+    <style name="TextView.Comment" parent="ButtonTextView">
+        <item name="android:drawableLeft">@drawable/ic_fa_comments_o</item>
+        <item name="android:text">@string/label_comment</item>
+    </style>
+    <style name="TextView.Like" parent="ButtonTextView">
+        <item name="android:drawableLeft">@drawable/ic_fa_thumbs_o_up</item>
+        <item name="android:text">@string/label_like</item>
+    </style>
 
     <style name="TextView.UserName" parent="TextView">
         <item name="android:layout_width">match_parent</item>
