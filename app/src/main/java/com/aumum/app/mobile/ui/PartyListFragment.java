@@ -99,6 +99,7 @@ public class PartyListFragment extends CardListFragment {
         List<Party> partyList;
         switch (mode) {
             case UPWARDS_REFRESH:
+                dataStore.refresh(dataSet);
                 partyList = dataStore.getUpwardsList();
                 Collections.reverse(partyList);
                 for(Party party: partyList) {

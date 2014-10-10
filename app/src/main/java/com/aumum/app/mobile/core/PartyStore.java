@@ -9,6 +9,7 @@ import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -77,5 +78,29 @@ public class PartyStore {
             }
         }
         return partyList;
+    }
+
+    public void refresh(List<Party> partyList) {
+        if (partyList != null && partyList.size() > 0) {
+            List<String> partyIds = new ArrayList<String>();
+            for (Party party : partyList) {
+                partyIds.add(party.getObjectId());
+            }
+            List<Party> resultList = bootstrapService.refreshParties(partyIds);
+            HashMap<String, Party> hashMap = new HashMap<String, Party>();
+            for (Party party : resultList) {
+                hashMap.put(party.getObjectId(),party);
+            }
+            for (Party party: partyList) {
+                Party result = hashMap.get(party.getObjectId());
+                if (result != null) {
+                    party.getMembers().clear();
+                    party.getMembers().addAll(result.getMembers());
+
+                    party.getFans().clear();
+                    party.getFans().addAll(result.getFans());
+                }
+            }
+        }
     }
 }

@@ -25,4 +25,8 @@ public interface PartyService {
 
     @PUT(Constants.Http.URL_PARTY_BY_ID_FRAG)
     JsonObject updateById(@Path("id") String id, @Body JsonObject data);
+
+    @GET(Constants.Http.URL_PARTIES_FRAG)
+    ListWrapper<Party> refresh(@Query("keys") String keys,
+                               @Query("where") String where);
 }

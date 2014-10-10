@@ -252,4 +252,19 @@ public class BootstrapService {
         data.add(Constants.Http.Party.PARAM_FANS, op);
         return getPartyService().updateById(partyId, data);
     }
+
+    public List<Party> refreshParties(List<String> idList) {
+        String keys = Constants.Http.Party.PARAM_MEMBERS + "," +
+                Constants.Http.Party.PARAM_FANS;
+        final JsonObject whereJson = new JsonObject();
+        final JsonArray idListJson = new JsonArray();
+        for (String id: idList) {
+            idListJson.add(new JsonPrimitive(id));
+        }
+        final JsonObject inJson = new JsonObject();
+        inJson.add("$in", idListJson);
+        whereJson.add("objectId", inJson);
+        String where = whereJson.toString();
+        return getPartyService().refresh(keys, where).getResults();
+    }
 }
