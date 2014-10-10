@@ -38,7 +38,7 @@ public interface UserService {
 
     @Headers(Constants.Http.HEADER_PARSE_MASTER_KEY + ": " + Constants.Http.PARSE_MASTER_KEY)
     @PUT(Constants.Http.URL_USER_BY_ID_FRAG)
-    JsonObject updateUserById(@Path("id") String id, @Body JsonObject data);
+    JsonObject updateById(@Path("id") String id, @Body JsonObject data);
 
     @GET(Constants.Http.URL_USER_BY_ID_FRAG)
     User getById(@Path("id") String id);

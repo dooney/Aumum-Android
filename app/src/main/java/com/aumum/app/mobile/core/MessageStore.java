@@ -32,7 +32,7 @@ public class MessageStore {
         Injector.inject(this);
         String userId = apiKeyProvider.getAuthUserId();
         diskCacheKey = "Message_" + userId;
-        diskCacheService = new DiskCacheService(context, diskCacheKey);
+        diskCacheService = DiskCacheService.getInstance(context, diskCacheKey);
     }
 
     public boolean hasOfflineData() {

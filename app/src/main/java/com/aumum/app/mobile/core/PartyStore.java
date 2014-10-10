@@ -32,7 +32,7 @@ public class PartyStore {
         Injector.inject(this);
         String userId = apiKeyProvider.getAuthUserId();
         diskCacheKey = "Party_" + userId;
-        diskCacheService = new DiskCacheService(context, diskCacheKey);
+        diskCacheService = DiskCacheService.getInstance(context, diskCacheKey);
     }
 
     public List<Party> getUpwardsList() {

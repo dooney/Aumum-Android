@@ -5,23 +5,13 @@ import com.aumum.app.mobile.core.Message;
 /**
  * Created by Administrator on 7/10/2014.
  */
-public class FollowEvent {
-    private String followedUserId;
-    private String followingUserId;
+public class FollowEvent extends MessageEvent {
 
     public FollowEvent(String followedUserId, String followingUserId) {
-        this.followedUserId = followedUserId;
-        this.followingUserId = followingUserId;
+        super(followedUserId, followingUserId);
     }
 
-    public String getFollowedUserId() {
-        return followedUserId;
-    }
-
-    public String getFollowingUserId() {
-        return followingUserId;
-    }
-
+    @Override
     public int getMessageType() {
         return Message.FOLLOW;
     }

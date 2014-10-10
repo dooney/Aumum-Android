@@ -10,9 +10,13 @@ public class Message extends AggregateRoot {
 
     public static final int DELETED = 0;
     public static final int FOLLOW = 1;
+    public static final int JOIN = 2;
+    public static final int UNJOIN = 3;
     private static final String MESSAGE_BODY_OPTIONS[] = {
         "该消息已删除",
-        "关注了你"
+        "关注了你",
+        "报名了亲子活动",
+        "取消了报名亲子活动"
     };
 
     public String getFromUserId() {

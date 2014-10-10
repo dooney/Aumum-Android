@@ -70,6 +70,7 @@ public class PartyCard extends Card {
         joinText.setCompoundDrawablesWithIntrinsicBounds(joinDrawableId, 0, 0, 0);
         int joins = party.getJoins();
         joinText.setText(joins > 0 ? String.valueOf(joins) : view.getResources().getString(R.string.label_join));
+        joinText.setJoinListener(new JoinListener(party));
 
         CommentTextView commentText = (CommentTextView) view.findViewById(R.id.text_comment);
         int comments = party.getComments();

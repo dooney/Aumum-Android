@@ -28,7 +28,7 @@ public class UserStore {
     }
 
     private UserStore(Context context) {
-        diskCacheService = new DiskCacheService(context, DISK_CACHE_KEY);
+        diskCacheService = DiskCacheService.getInstance(context, DISK_CACHE_KEY);
         Injector.inject(this);
     }
 

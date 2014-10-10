@@ -1,5 +1,6 @@
 package com.aumum.app.mobile.core;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class User extends AggregateRoot {
@@ -7,9 +8,10 @@ public class User extends AggregateRoot {
     protected String sessionToken;
     protected Boolean emailVerified;
     protected int area;
-    protected List<String> followers;
-    protected List<String> followings;
-    protected List<String> messages;
+    protected List<String> followers = new ArrayList<String>();
+    protected List<String> followings = new ArrayList<String>();
+    protected List<String> messages = new ArrayList<String>();
+    protected List<String> parties = new ArrayList<String>();
 
     public String getUsername() {
         return username;
@@ -37,5 +39,9 @@ public class User extends AggregateRoot {
 
     public List<String> getMessages() {
         return messages;
+    }
+
+    public List<String> getParties() {
+        return parties;
     }
 }

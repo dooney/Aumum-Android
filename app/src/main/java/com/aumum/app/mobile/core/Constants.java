@@ -49,22 +49,27 @@ public final class Constants {
         /**
          * List Users URL
          */
-        public static final String URL_USERS_FRAG =  "/1/users";
+        public static final String URL_USERS_FRAG = "/1/users";
 
         /**
          * User By Id URL
          */
-        public static final String URL_USER_BY_ID_FRAG =  "/1/users/{id}";
+        public static final String URL_USER_BY_ID_FRAG = "/1/users/{id}";
 
         /**
          * Current User URL
          */
-        public static final String URL_USERS_ME_FRAG =  "/1/users/me";
+        public static final String URL_USERS_ME_FRAG = "/1/users/me";
 
         /**
          * List Parties URL
          */
         public static final String URL_PARTIES_FRAG = "/1/classes/Parties";
+
+        /**
+         * Party By Id URL
+         */
+        public static final String URL_PARTY_BY_ID_FRAG = "/1/classes/Parties/{id}";
 
         /**
          * List Messages URL
@@ -88,10 +93,15 @@ public final class Constants {
         public static final String HEADER_PARSE_MASTER_KEY = "X-Parse-Master-Key";
         public static final String HEADER_PARSE_SESSION_TOKEN = "X-Parse-Session-Token";
 
+        public static final class Party {
+            public static final String PARAM_MEMBERS = "members";
+        }
+
         public static final class User {
             public static final String PARAM_FOLLOWERS = "followers";
             public static final String PARAM_FOLLOWINGS = "followings";
             public static final String PARAM_MESSAGES = "messages";
+            public static final String PARAM_PARTIES = "parties";
         }
     }
 

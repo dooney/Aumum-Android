@@ -106,11 +106,11 @@ public class BootstrapService {
 
     private JsonObject updateFollower(JsonObject op, String userId, String followerUserId) {
         final JsonObject data = new JsonObject();
-        final JsonArray newFollowers = new JsonArray();
-        newFollowers.add(new JsonPrimitive(followerUserId));
-        op.add("objects", newFollowers);
+        final JsonArray followers = new JsonArray();
+        followers.add(new JsonPrimitive(followerUserId));
+        op.add("objects", followers);
         data.add(Constants.Http.User.PARAM_FOLLOWERS, op);
-        return getUserService().updateUserById(userId, data);
+        return getUserService().updateById(userId, data);
     }
 
     public JsonObject addFollower(String userId, String followerUserId) {
@@ -127,11 +127,11 @@ public class BootstrapService {
 
     private JsonObject updateFollowing(JsonObject op, String userId, String followingUserId) {
         final JsonObject data = new JsonObject();
-        final JsonArray newFollowings = new JsonArray();
-        newFollowings.add(new JsonPrimitive(followingUserId));
-        op.add("objects", newFollowings);
+        final JsonArray followings = new JsonArray();
+        followings.add(new JsonPrimitive(followingUserId));
+        op.add("objects", followings);
         data.add(Constants.Http.User.PARAM_FOLLOWINGS, op);
-        return getUserService().updateUserById(userId, data);
+        return getUserService().updateById(userId, data);
     }
 
     public JsonObject addFollowing(String userId, String followingUserId) {
@@ -166,7 +166,7 @@ public class BootstrapService {
         messages.add(new JsonPrimitive(messageId));
         op.add("objects", messages);
         data.add(Constants.Http.User.PARAM_MESSAGES, op);
-        return getUserService().updateUserById(userId, data);
+        return getUserService().updateById(userId, data);
     }
 
     public List<Message> getMessagesBefore(List<String> idList, DateTime after, int limit) {
@@ -188,5 +188,47 @@ public class BootstrapService {
         }
         String where = whereJson.toString();
         return getMessageService().getMessages("-createdAt", where, limit).getResults();
+    }
+
+    public JsonObject addPartyMember(String partyId, String userId) {
+        final JsonObject op = new JsonObject();
+        op.addProperty("__op", "AddUnique");
+        return updatePartyMembers(op, partyId, userId);
+    }
+
+    public JsonObject removePartyMember(String partyId, String userId) {
+        final JsonObject op = new JsonObject();
+        op.addProperty("__op", "Remove");
+        return updatePartyMembers(op, partyId, userId);
+    }
+
+    private JsonObject updatePartyMembers(JsonObject op, String partyId, String userId) {
+        final JsonObject data = new JsonObject();
+        final JsonArray partyMembers = new JsonArray();
+        partyMembers.add(new JsonPrimitive(userId));
+        op.add("objects", partyMembers);
+        data.add(Constants.Http.Party.PARAM_MEMBERS, op);
+        return getPartyService().updateById(partyId, data);
+    }
+
+    public JsonObject addUserParty(String userId, String partyId) {
+        final JsonObject op = new JsonObject();
+        op.addProperty("__op", "AddUnique");
+        return updateUserParties(op, userId, partyId);
+    }
+
+    public JsonObject removeUserParty(String userId, String partyId) {
+        final JsonObject op = new JsonObject();
+        op.addProperty("__op", "Remove");
+        return updateUserParties(op, userId, partyId);
+    }
+
+    private JsonObject updateUserParties(JsonObject op, String userId, String partyId) {
+        final JsonObject data = new JsonObject();
+        final JsonArray userParties = new JsonArray();
+        userParties.add(new JsonPrimitive(partyId));
+        op.add("objects", userParties);
+        data.add(Constants.Http.User.PARAM_PARTIES, op);
+        return getUserService().updateById(userId, data);
     }
 }

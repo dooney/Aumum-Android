@@ -1,6 +1,8 @@
 package com.aumum.app.mobile.core;
 
 import com.aumum.app.mobile.events.FollowEvent;
+import com.aumum.app.mobile.events.JoinEvent;
+import com.aumum.app.mobile.events.MessageEvent;
 import com.aumum.app.mobile.events.PushNotificationEvent;
 import com.aumum.app.mobile.util.Ln;
 import com.aumum.app.mobile.util.SafeAsyncTask;
@@ -16,7 +18,8 @@ public class MessageHandler {
     private Bus bus;
     private BootstrapService service;
 
-    private SafeAsyncTask<Boolean> task;
+    private SafeAsyncTask<Boolean> followTask;
+    private SafeAsyncTask<Boolean> joinTask;
 
     private final String NOTIFICATION_TEXT = "你有新的消息";
 
@@ -26,22 +29,25 @@ public class MessageHandler {
         service = bootstrapService;
     }
 
+    private void process(final MessageEvent event) {
+        Message message = new Message();
+        message.setType(event.getMessageType());
+        message.setFromUserId(event.getFromUserId());
+        message = service.newMessage(message);
+        service.addUserMessage(event.getToUserId(), message.getObjectId());
+
+        bus.post(new PushNotificationEvent(event.getToUserId(), NOTIFICATION_TEXT));
+    }
+
     @Subscribe
     public void onFollowEvent(final FollowEvent event) {
-        if (task != null) {
+        if (followTask != null) {
             return;
         }
 
-        task = new SafeAsyncTask<Boolean>() {
+        followTask = new SafeAsyncTask<Boolean>() {
             public Boolean call() throws Exception {
-                Message message = new Message();
-                message.setType(event.getMessageType());
-                message.setFromUserId(event.getFollowingUserId());
-                message = service.newMessage(message);
-                service.addUserMessage(event.getFollowedUserId(), message.getObjectId());
-
-                bus.post(new PushNotificationEvent(event.getFollowedUserId(), NOTIFICATION_TEXT));
-
+                process(event);
                 return true;
             }
 
@@ -58,10 +64,40 @@ public class MessageHandler {
 
             @Override
             protected void onFinally() throws RuntimeException {
-                task = null;
+                followTask = null;
             }
         };
-        task.execute();
-        return;
+        followTask.execute();
+    }
+
+    @Subscribe
+    public void onJoinEvent(final JoinEvent event) {
+        if (joinTask != null) {
+            return;
+        }
+
+        joinTask = new SafeAsyncTask<Boolean>() {
+            public Boolean call() throws Exception {
+                process(event);
+                return true;
+            }
+
+            @Override
+            protected void onException(final Exception e) throws RuntimeException {
+                // Retrofit Errors are handled inside of the {
+                if(!(e instanceof RetrofitError)) {
+                    final Throwable cause = e.getCause() != null ? e.getCause() : e;
+                    if(cause != null) {
+                        Ln.e(e.getCause(), cause.getMessage());
+                    }
+                }
+            }
+
+            @Override
+            protected void onFinally() throws RuntimeException {
+                joinTask = null;
+            }
+        };
+        joinTask.execute();
     }
 }

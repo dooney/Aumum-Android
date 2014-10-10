@@ -20,12 +20,18 @@ import java.security.NoSuchAlgorithmException;
  * Created by Administrator on 1/10/2014.
  */
 public class DiskCacheService {
-    private Context context;
+    private static DiskCacheService instance;
 
     private DiskLruCache diskLruCache;
 
-    public DiskCacheService(Context context, String path) {
-        this.context = context;
+    public static DiskCacheService getInstance(Context context, String path) {
+        if (instance == null) {
+            instance = new DiskCacheService(context, path);
+        }
+        return instance;
+    }
+
+    private DiskCacheService(Context context, String path) {
         try {
             File cacheDir = getDiskCacheDir(context, path);
             if (!cacheDir.exists()) {

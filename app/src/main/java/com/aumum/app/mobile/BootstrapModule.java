@@ -19,6 +19,7 @@ import com.aumum.app.mobile.core.RestErrorHandler;
 import com.aumum.app.mobile.core.UserAgentProvider;
 import com.aumum.app.mobile.core.UserStore;
 import com.aumum.app.mobile.ui.FollowListener;
+import com.aumum.app.mobile.ui.JoinListener;
 import com.aumum.app.mobile.ui.MainActivity;
 import com.aumum.app.mobile.ui.MessageListFragment;
 import com.aumum.app.mobile.ui.NavigationDrawerFragment;
@@ -54,7 +55,8 @@ import retrofit.converter.GsonConverter;
                 UserStore.class,
                 MessageListFragment.class,
                 MessageStore.class,
-                ParseModule.class
+                ParseModule.class,
+                JoinListener.class
         }
 )
 public class BootstrapModule {

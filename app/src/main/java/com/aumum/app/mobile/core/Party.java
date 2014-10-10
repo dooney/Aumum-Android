@@ -1,5 +1,8 @@
 package com.aumum.app.mobile.core;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Created by Administrator on 25/09/2014.
  */
@@ -14,6 +17,7 @@ public class Party extends AggregateRoot {
     protected String location;
     protected String details;
     protected User user;
+    protected List<String> members = new ArrayList<String>();
 
     public Party() {
         date = new Date();
@@ -100,15 +104,25 @@ public class Party extends AggregateRoot {
         this.user = user;
     }
 
+    public List<String> getMembers() {
+        return members;
+    }
+
     public boolean validate() {
         return date != null && time != null && !title.isEmpty() && !location.isEmpty() && !details.isEmpty();
     }
 
     public boolean isJoin(String userId) {
+        if (members != null) {
+            return members.contains(userId);
+        }
         return false;
     }
 
     public int getJoins() {
+        if (members != null) {
+            return members.size();
+        }
         return 0;
     }
 
