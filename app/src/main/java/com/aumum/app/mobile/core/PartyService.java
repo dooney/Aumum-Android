@@ -29,4 +29,8 @@ public interface PartyService {
     @GET(Constants.Http.URL_PARTIES_FRAG)
     ListWrapper<Party> refresh(@Query("keys") String keys,
                                @Query("where") String where);
+
+    @GET(Constants.Http.URL_PARTY_BY_ID_FRAG)
+    Party getById(@Path("id") String id,
+                  @Query("keys") String keys);
 }

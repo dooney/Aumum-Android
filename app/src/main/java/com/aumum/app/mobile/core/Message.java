@@ -5,6 +5,7 @@ package com.aumum.app.mobile.core;
  */
 public class Message extends AggregateRoot {
     private String fromUserId;
+    private String toUserId;
     private int type;
     private User fromUser;
 
@@ -27,6 +28,10 @@ public class Message extends AggregateRoot {
 
     public void setFromUserId(String fromUserId) {
         this.fromUserId = fromUserId;
+    }
+
+    public void setToUserId(String toUserId) {
+        this.toUserId = toUserId;
     }
 
     public void setType(int type) {

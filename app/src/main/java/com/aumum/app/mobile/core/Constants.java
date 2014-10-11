@@ -77,6 +77,11 @@ public final class Constants {
         public static final String URL_MESSAGES_FRAG = "/1/classes/Messages";
 
         /**
+         * List Comments URL
+         */
+        public static final String URL_COMMENTS_FRAG = "/1/classes/PartyComments";
+
+        /**
          * PARAMS for auth
          */
         public static final String PARAM_USERNAME = "username";
@@ -96,6 +101,7 @@ public final class Constants {
         public static final class Party {
             public static final String PARAM_MEMBERS = "members";
             public static final String PARAM_FANS = "fans";
+            public static final String PARAM_COMMENTS = "comments";
         }
 
         public static final class User {

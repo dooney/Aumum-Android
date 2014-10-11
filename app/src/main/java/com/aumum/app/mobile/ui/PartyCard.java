@@ -73,8 +73,9 @@ public class PartyCard extends Card {
         joinText.setJoinListener(new JoinListener(party));
 
         CommentTextView commentText = (CommentTextView) view.findViewById(R.id.text_comment);
-        int comments = party.getComments();
+        int comments = party.getCommentCounts();
         commentText.setText(comments > 0 ? String.valueOf(comments) : view.getResources().getString(R.string.label_comment));
+        commentText.setCommentListener(new PartyCommentListener(getContext(), party.getObjectId()));
 
         LikeTextView likeText = (LikeTextView) view.findViewById(R.id.text_like);
         boolean isLike = party.isLike(currentUserId);

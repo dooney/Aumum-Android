@@ -7,6 +7,7 @@
         <item>亲子活动</item>
         <item>消息中心</item>
     </string-array>
+
     <string name="new_action">新建</string>
     <string name="refresh_action">刷新</string>
     <string name="logout_action">注销</string>
@@ -33,7 +34,6 @@
     <string name="message_auth_failed_new_account">请输入有效的用户名/密码</string>
     <string name="message_auth_failed_not_verified">未验证用户</string>
     <string name="message_auth_failed_reset_password">重置密码失败</string>
-
     <string name="home">Home</string>
     <string name="navigation_drawer_open">Drawer Open</string>
     <string name="navigation_drawer_close">Drawer Close</string>
@@ -49,6 +49,7 @@
     <string name="title_activity_reset_password_success">重置密码成功</string>
     <string name="title_activity_new_party_post">新亲子活动</string>
     <string name="title_activity_user">用户</string>
+    <string name="title_activity_party_comments">亲子活动评论</string>
 
     <string name="label_unlimited">不限</string>
     <string name="label_title">标题</string>
@@ -61,15 +62,15 @@
     <string name="message_post_failed_new_party">创建新活动失败</string>
     <string name="message_model_validation_failed">模型数据验证失败</string>
     <string name="message_posting">发布中…</string>
-
     <string name="label_join">报名</string>
     <string name="label_comment">评论</string>
     <string name="label_like">支持</string>
     <string name="label_follow">关注</string>
     <string name="label_unfollow">取消关注</string>
     <string name="label_createdAt">创建时间</string>
-
     <string name="error_loading_user">获取用户信息失败</string>
     <string name="invalid_user">该用户无效</string>
+    <string name="no_party_comments">暂时还没有评论，你是沙发哦！</string>
+    <string name="error_loading_party_comments">获取亲子活动评论失败</string>
 
 </resources>

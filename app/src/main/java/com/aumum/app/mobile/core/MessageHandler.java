@@ -35,6 +35,7 @@ public class MessageHandler {
         Message message = new Message();
         message.setType(event.getMessageType());
         message.setFromUserId(event.getFromUserId());
+        message.setToUserId(event.getToUserId());
         message = service.newMessage(message);
         service.addUserMessage(event.getToUserId(), message.getObjectId());
 

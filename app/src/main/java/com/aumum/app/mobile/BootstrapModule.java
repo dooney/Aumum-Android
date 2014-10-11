@@ -12,6 +12,7 @@ import com.aumum.app.mobile.core.BootstrapService;
 import com.aumum.app.mobile.core.Constants;
 import com.aumum.app.mobile.core.MessageHandler;
 import com.aumum.app.mobile.core.MessageStore;
+import com.aumum.app.mobile.core.PartyCommentStore;
 import com.aumum.app.mobile.core.PartyStore;
 import com.aumum.app.mobile.core.PostFromAnyThreadBus;
 import com.aumum.app.mobile.core.RestAdapterRequestInterceptor;
@@ -58,7 +59,8 @@ import retrofit.converter.GsonConverter;
                 MessageStore.class,
                 ParseModule.class,
                 JoinListener.class,
-                LikeListener.class
+                LikeListener.class,
+                PartyCommentStore.class
         }
 )
 public class BootstrapModule {

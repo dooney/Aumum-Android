@@ -42,6 +42,10 @@ public class BootstrapService {
         return getRestAdapter().create(PartyService.class);
     }
 
+    private PartyCommentService getPartyCommentService() {
+        return getRestAdapter().create(PartyCommentService.class);
+    }
+
     private MessageService getMessageService() {
         return getRestAdapter().create(MessageService.class);
     }
@@ -266,5 +270,23 @@ public class BootstrapService {
         whereJson.add("objectId", inJson);
         String where = whereJson.toString();
         return getPartyService().refresh(keys, where).getResults();
+    }
+
+    public List<PartyComment> getPartyComments(String partyId) {
+        String keys = Constants.Http.Party.PARAM_COMMENTS;
+        Party party = getPartyService().getById(partyId, keys);
+        if (party != null) {
+            final JsonObject whereJson = new JsonObject();
+            final JsonArray idListJson = new JsonArray();
+            for (String id: party.getComments()) {
+                idListJson.add(new JsonPrimitive(id));
+            }
+            final JsonObject inJson = new JsonObject();
+            inJson.add("$in", idListJson);
+            whereJson.add("objectId", inJson);
+            String where = whereJson.toString();
+            return getPartyCommentService().getPartyComments(where).getResults();
+        }
+        return null;
     }
 }
