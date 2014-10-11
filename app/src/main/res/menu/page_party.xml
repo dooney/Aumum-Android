@@ -5,7 +5,7 @@
 
     <item
         android:id="@+id/b_new_party"
-        android:icon="@drawable/ic_action_new"
+        android:icon="@drawable/ic_fa_plus"
         bootstrap:showAsAction="always"
         android:title="@string/new_action" >
     </item>

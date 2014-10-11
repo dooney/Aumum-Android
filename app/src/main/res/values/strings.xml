@@ -70,7 +70,10 @@
     <string name="label_createdAt">创建时间</string>
     <string name="error_loading_user">获取用户信息失败</string>
     <string name="invalid_user">该用户无效</string>
+
+    <!-- Party Comments -->
     <string name="no_party_comments">暂时还没有评论，你是沙发哦！</string>
     <string name="error_loading_party_comments">获取亲子活动评论失败</string>
+    <string name="party_hint_comment_on_post">写评论</string>
 
 </resources>

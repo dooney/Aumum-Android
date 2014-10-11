@@ -9,7 +9,11 @@ import android.animation.ValueAnimator;
 import android.content.Context;
 import android.view.View;
 import android.view.animation.AccelerateDecelerateInterpolator;
+import android.view.animation.AnimationUtils;
 import android.view.animation.LinearInterpolator;
+import android.view.animation.OvershootInterpolator;
+
+import com.aumum.app.mobile.R;
 
 /**
  * Created by Administrator on 3/10/2014.
@@ -167,5 +171,49 @@ public class Animation {
         set.setInterpolator(new AccelerateDecelerateInterpolator());
 
         set.start();
+    }
+
+    public static void flyIn(View target) {
+        Context context = target.getContext();
+        android.view.animation.Animation animation = AnimationUtils.loadAnimation(context, R.anim.flyin);
+        if (animation==null)
+            return;
+
+        // add small overshoot for bounce effect
+        animation.setInterpolator(new OvershootInterpolator(0.9f));
+        long duration = context.getResources().getInteger(android.R.integer.config_mediumAnimTime);
+        animation.setDuration((long)(duration * 1.5f));
+
+        target.startAnimation(animation);
+        target.setVisibility(View.VISIBLE);
+    }
+
+    public static void flyOut(final View target) {
+        android.view.animation.Animation.AnimationListener listener = new android.view.animation.Animation.AnimationListener() {
+            @Override
+            public void onAnimationStart(android.view.animation.Animation animation) { }
+            @Override
+            public void onAnimationEnd(android.view.animation.Animation animation) {
+                target.setVisibility(View.GONE);
+            }
+            @Override
+            public void onAnimationRepeat(android.view.animation.Animation animation) { }
+        };
+        startAnimation(target, R.anim.flyout, listener);
+    }
+
+    public static void startAnimation(View target, int aniResId) {
+        startAnimation(target, aniResId, null);
+    }
+    public static void startAnimation(View target, int aniResId, android.view.animation.Animation.AnimationListener listener) {
+        if (target==null)
+            return;
+        android.view.animation.Animation animation = AnimationUtils.loadAnimation(target.getContext(), aniResId);
+        if (animation==null)
+            return;
+        if (listener!=null)
+            animation.setAnimationListener(listener);
+
+        target.startAnimation(animation);
     }
 }

@@ -23,4 +23,46 @@
         style="@style/ListSpinner"
         android:layout_centerInParent="true" />
 
+    <RelativeLayout
+        android:id="@+id/layout_actions"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/layout_comment_box"
+        android:layout_alignWithParentIfMissing="true"
+        android:background="#eeffffff">
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/bootstrap_divider_grey" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="8dp"
+            android:orientation="horizontal">
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center" >
+
+                <com.aumum.app.mobile.ui.view.CommentTextView
+                    android:id="@+id/text_comment"
+                    style="@style/TextView.Comment" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </RelativeLayout>
+
+    <include
+        android:id="@+id/layout_comment_box"
+        layout="@layout/party_include_comment_box"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true" />
+
 </RelativeLayout>

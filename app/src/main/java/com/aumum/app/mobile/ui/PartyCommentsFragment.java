@@ -12,6 +12,8 @@ import android.widget.ArrayAdapter;
 import com.aumum.app.mobile.R;
 import com.aumum.app.mobile.core.PartyComment;
 import com.aumum.app.mobile.core.PartyCommentStore;
+import com.aumum.app.mobile.ui.view.Animation;
+import com.aumum.app.mobile.ui.view.CommentTextView;
 
 import java.util.List;
 
@@ -22,6 +24,10 @@ import java.util.List;
 public class PartyCommentsFragment extends ItemListFragment<PartyComment> {
     private String partyId;
     private PartyCommentStore partyCommentStore;
+
+    private ViewGroup layoutCommentBox;
+    private CommentTextView commentText;
+    private boolean isCommentBoxShow;
 
     @Override
     public void onCreate(final Bundle savedInstanceState) {
@@ -48,7 +54,19 @@ public class PartyCommentsFragment extends ItemListFragment<PartyComment> {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_party_comments, null);
+        View view = inflater.inflate(R.layout.fragment_party_comments, null);
+
+        layoutCommentBox = (ViewGroup) view.findViewById(R.id.layout_comment_box);
+
+        commentText = (CommentTextView) view.findViewById(R.id.text_comment);
+        commentText.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                toggleCommentBox();
+            }
+        });
+
+        return view;
     }
 
     @Override
@@ -70,5 +88,14 @@ public class PartyCommentsFragment extends ItemListFragment<PartyComment> {
     protected ArrayAdapter<PartyComment> createAdapter(List<PartyComment> items) {
         return new ArrayAdapter<PartyComment>(getActivity(),
                 R.layout.party_comments_listitem_inner, items);
+    }
+
+    private void toggleCommentBox() {
+        if (isCommentBoxShow) {
+            Animation.flyOut(layoutCommentBox);
+        } else {
+            Animation.flyIn(layoutCommentBox);
+        }
+        isCommentBoxShow = !isCommentBoxShow;
     }
 }
