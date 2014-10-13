@@ -24,7 +24,6 @@ import com.aumum.app.mobile.ui.JoinListener;
 import com.aumum.app.mobile.ui.LikeListener;
 import com.aumum.app.mobile.ui.MainActivity;
 import com.aumum.app.mobile.ui.MessageListFragment;
-import com.aumum.app.mobile.ui.NavigationDrawerFragment;
 import com.aumum.app.mobile.ui.NewPartyPostActivity;
 import com.aumum.app.mobile.ui.PartyCommentsFragment;
 import com.google.gson.Gson;
@@ -51,7 +50,6 @@ import retrofit.converter.GsonConverter;
                 RegisterActivity.class,
                 ResetPasswordActivity.class,
                 MainActivity.class,
-                NavigationDrawerFragment.class,
                 NewPartyPostActivity.class,
                 PartyStore.class,
                 FollowListener.class,

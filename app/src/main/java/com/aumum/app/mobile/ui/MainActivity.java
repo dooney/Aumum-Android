@@ -2,15 +2,11 @@ package com.aumum.app.mobile.ui;
 
 import android.accounts.OperationCanceledException;
 import android.content.Intent;
-import android.content.res.Configuration;
 import android.os.Bundle;
-import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.widget.DrawerLayout;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.view.View;
 import android.view.Window;
 
 import com.aumum.app.mobile.BootstrapServiceProvider;
@@ -18,12 +14,9 @@ import com.aumum.app.mobile.R;
 import com.aumum.app.mobile.authenticator.ApiKeyProvider;
 import com.aumum.app.mobile.authenticator.LogoutService;
 import com.aumum.app.mobile.core.BootstrapService;
-import com.aumum.app.mobile.events.NavItemSelectedEvent;
 import com.aumum.app.mobile.events.SubscribeChannelEvent;
 import com.aumum.app.mobile.events.UnSubscribeChannelEvent;
-import com.aumum.app.mobile.util.Ln;
 import com.aumum.app.mobile.util.SafeAsyncTask;
-import com.squareup.otto.Subscribe;
 
 import javax.inject.Inject;
 
@@ -44,12 +37,6 @@ public class MainActivity extends BootstrapFragmentActivity {
 
     private String userChannel;
 
-    private DrawerLayout drawerLayout;
-    private ActionBarDrawerToggle drawerToggle;
-    private CharSequence drawerTitle;
-    private CharSequence title;
-    private NavigationDrawerFragment navigationDrawerFragment;
-
     private CarouselFragment carouselFragment;
 
     public static final String INTENT_NOTIFICATION = "intentNotification";
@@ -65,44 +52,6 @@ public class MainActivity extends BootstrapFragmentActivity {
 
         // View injection with Butterknife
         Views.inject(this);
-
-        // Set up navigation drawer
-        title = drawerTitle = getTitle();
-
-        drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
-        drawerToggle = new ActionBarDrawerToggle(
-                this,                    /* Host activity */
-                drawerLayout,           /* DrawerLayout object */
-                R.drawable.ic_drawer,    /* nav drawer icon to replace 'Up' caret */
-                R.string.navigation_drawer_open,    /* "open drawer" description */
-                R.string.navigation_drawer_close) { /* "close drawer" description */
-
-            /** Called when a drawer has settled in a completely closed state. */
-            public void onDrawerClosed(View view) {
-                getSupportActionBar().setTitle(title);
-                supportInvalidateOptionsMenu(); // creates call to onPrepareOptionsMenu()
-            }
-
-            /** Called when a drawer has settled in a completely open state. */
-            public void onDrawerOpened(View drawerView) {
-                getSupportActionBar().setTitle(drawerTitle);
-                supportInvalidateOptionsMenu(); // creates call to onPrepareOptionsMenu()
-            }
-        };
-
-        // Set the drawer toggle as the DrawerListener
-        drawerLayout.setDrawerListener(drawerToggle);
-
-        navigationDrawerFragment = (NavigationDrawerFragment)
-                getSupportFragmentManager().findFragmentById(R.id.navigation_drawer);
-
-        // Set up the drawer.
-        navigationDrawerFragment.setUp(
-                R.id.navigation_drawer,
-                (DrawerLayout) findViewById(R.id.drawer_layout));
-
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setHomeButtonEnabled(true);
 
         checkAuth();
     }
@@ -123,9 +72,6 @@ public class MainActivity extends BootstrapFragmentActivity {
 
     @Override
     public boolean onOptionsItemSelected(final MenuItem item) {
-        if (drawerToggle.onOptionsItemSelected(item)) {
-            return true;
-        }
         switch (item.getItemId()) {
             case R.id.logout:
                 logout();
@@ -144,20 +90,6 @@ public class MainActivity extends BootstrapFragmentActivity {
             }
         });
     }
-
-    @Override
-    protected void onPostCreate(final Bundle savedInstanceState) {
-        super.onPostCreate(savedInstanceState);
-        drawerToggle.syncState();
-    }
-
-
-    @Override
-    public void onConfigurationChanged(final Configuration newConfig) {
-        super.onConfigurationChanged(newConfig);
-        drawerToggle.onConfigurationChanged(newConfig);
-    }
-
 
     private void initScreen() {
         final FragmentManager fragmentManager = getSupportFragmentManager();
@@ -198,11 +130,6 @@ public class MainActivity extends BootstrapFragmentActivity {
                 initScreen();
             }
         }.execute();
-    }
-
-    @Subscribe
-    public void onNavigationItemSelected(NavItemSelectedEvent event) {
-        Ln.d("Selected: %1$s", event.getItemPosition());
     }
 
     private void subscribeUserChannel() {
