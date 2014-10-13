@@ -20,7 +20,11 @@ import java.util.List;
  */
 public abstract class ItemListFragment<E> extends LoaderFragment<List<E>> {
 
-    protected ListView listView;
+    private ListView listView;
+
+    public ListView getListView() {
+        return listView;
+    }
 
     public ItemListFragment() {
         setData(new ArrayList<E>());
@@ -87,11 +91,8 @@ public abstract class ItemListFragment<E> extends LoaderFragment<List<E>> {
         return this;
     }
 
-    protected void scrollToLastItem() {
-        int position = getListAdapter().getCount() - 1;
-        if (position > -1) {
-            listView.setSelectionFromTop(position + listView.getHeaderViewsCount(), 0);
-        }
+    protected void scrollToTop() {
+        listView.setSelectionFromTop(listView.getHeaderViewsCount(), 0);
     }
 
     @Override

@@ -14,7 +14,9 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.aumum.app.mobile.Injector;
 import com.aumum.app.mobile.R;
+import com.aumum.app.mobile.core.BootstrapService;
 import com.aumum.app.mobile.core.Comment;
 import com.aumum.app.mobile.core.PartyCommentStore;
 import com.aumum.app.mobile.core.User;
@@ -22,9 +24,14 @@ import com.aumum.app.mobile.core.UserStore;
 import com.aumum.app.mobile.ui.view.Animation;
 import com.aumum.app.mobile.ui.view.CommentTextView;
 import com.aumum.app.mobile.util.EditTextUtils;
+import com.aumum.app.mobile.util.Ln;
 import com.aumum.app.mobile.util.SafeAsyncTask;
 
 import java.util.List;
+
+import javax.inject.Inject;
+
+import retrofit.RetrofitError;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -38,6 +45,8 @@ public class PartyCommentsFragment extends ItemListFragment<Comment> {
 
     private SafeAsyncTask<Boolean> task;
 
+    @Inject BootstrapService service;
+
     private ViewGroup layoutCommentBox;
     private CommentTextView commentText;
     private boolean isCommentBoxShow;
@@ -47,7 +56,7 @@ public class PartyCommentsFragment extends ItemListFragment<Comment> {
     @Override
     public void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        Injector.inject(this);
         partyCommentStore = new PartyCommentStore();
         userStore = UserStore.getInstance(null);
     }
@@ -116,6 +125,10 @@ public class PartyCommentsFragment extends ItemListFragment<Comment> {
 
     @Override
     protected void handleLoadResult(List<Comment> result) {
+        for (Comment comment: result) {
+            comment.setUser(userStore.getUserById(comment.getUserId()));
+        }
+        getData().addAll(result);
         getListAdapter().notifyDataSetChanged();
     }
 
@@ -144,20 +157,66 @@ public class PartyCommentsFragment extends ItemListFragment<Comment> {
         EditTextUtils.showSoftInput(editComment, true);
     }
 
+    private void enableSubmit() {
+        postCommentButton.setEnabled(true);
+    }
+
+    private void disableSubmit() {
+        postCommentButton.setEnabled(false);
+    }
+
     private void submitComment() {
         if (task != null) {
             return;
         }
 
-        final Comment partyComment = new Comment();
+        // update UI first
+        Comment partyComment = new Comment();
+        partyComment.setParentId(partyId);
         partyComment.setText(editComment.getText().toString());
+        partyComment.setUserId(currentUser.getObjectId());
         partyComment.setUser(currentUser);
-
-        hideCommentBox();
-
-        getData().add(partyComment);
+        getData().add(0, partyComment);
         getListAdapter().notifyDataSetChanged();
         show();
-        scrollToLastItem();
+        scrollToTop();
+        hideCommentBox();
+        disableSubmit();
+
+        // submit
+        task = new SafeAsyncTask<Boolean>() {
+            public Boolean call() throws Exception {
+                Comment comment = getData().get(0);
+                final Comment newComment = new Comment();
+                newComment.setParentId(comment.getParentId());
+                newComment.setText(comment.getText());
+                newComment.setUserId(comment.getUserId());
+                Comment response = service.newPartyComment(newComment);
+                service.addPartyComment(partyId, response.getObjectId());
+                comment.setObjectId(response.getObjectId());
+                comment.setCreatedAt(response.getCreatedAt());
+                return true;
+            }
+
+            @Override
+            protected void onException(final Exception e) throws RuntimeException {
+                // Retrofit Errors are handled inside of the {
+                if(!(e instanceof RetrofitError)) {
+                    final Throwable cause = e.getCause() != null ? e.getCause() : e;
+                    if(cause != null) {
+                        Ln.e(e.getCause(), cause.getMessage());
+                    }
+                }
+            }
+
+            @Override
+            protected void onFinally() throws RuntimeException {
+                task = null;
+                getListAdapter().notifyDataSetChanged();
+                show();
+                enableSubmit();
+            }
+        };
+        task.execute();
     }
 }

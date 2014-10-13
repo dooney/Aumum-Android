@@ -97,6 +97,9 @@ public class PartyStore {
                     party.getMembers().clear();
                     party.getMembers().addAll(result.getMembers());
 
+                    party.getComments().clear();
+                    party.getComments().addAll(result.getComments());
+
                     party.getFans().clear();
                     party.getFans().addAll(result.getFans());
                 }

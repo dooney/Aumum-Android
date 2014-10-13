@@ -259,6 +259,7 @@ public class BootstrapService {
 
     public List<Party> refreshParties(List<String> idList) {
         String keys = Constants.Http.Party.PARAM_MEMBERS + "," +
+                Constants.Http.Party.PARAM_COMMENTS + "," +
                 Constants.Http.Party.PARAM_FANS;
         final JsonObject whereJson = new JsonObject();
         final JsonArray idListJson = new JsonArray();
@@ -285,8 +286,27 @@ public class BootstrapService {
             inJson.add("$in", idListJson);
             whereJson.add("objectId", inJson);
             String where = whereJson.toString();
-            return getPartyCommentService().getPartyComments(where).getResults();
+            return getPartyCommentService().getPartyComments("-createdAt", where).getResults();
         }
         return null;
+    }
+
+    public Comment newPartyComment(Comment comment) {
+        return getPartyCommentService().newPartyComment(comment);
+    }
+
+    public JsonObject addPartyComment(String partyId, String commentId) {
+        final JsonObject op = new JsonObject();
+        op.addProperty("__op", "AddUnique");
+        return updatePartyComments(op, partyId, commentId);
+    }
+
+    private JsonObject updatePartyComments(JsonObject op, String partyId, String commentId) {
+        final JsonObject data = new JsonObject();
+        final JsonArray partyComments = new JsonArray();
+        partyComments.add(new JsonPrimitive(commentId));
+        op.add("objects", partyComments);
+        data.add(Constants.Http.Party.PARAM_COMMENTS, op);
+        return getPartyService().updateById(partyId, data);
     }
 }

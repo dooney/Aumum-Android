@@ -25,12 +25,14 @@ public class CommentCard {
         commentText.setText(comment.getText());
 
         TextView createdAtText = (TextView) view.findViewById(R.id.text_comment_createdAt);
+        ProgressBar progressBar = (ProgressBar) view.findViewById(R.id.progress_comment);
         if (comment.getObjectId() == null) {
             createdAtText.setVisibility(View.GONE);
-            ProgressBar progressBar = (ProgressBar) view.findViewById(R.id.progress_comment);
             progressBar.setVisibility(View.VISIBLE);
         } else {
+            progressBar.setVisibility(View.GONE);
             createdAtText.setText("1分钟前");
+            createdAtText.setVisibility(View.VISIBLE);
         }
     }
 }

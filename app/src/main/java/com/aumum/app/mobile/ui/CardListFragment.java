@@ -58,7 +58,7 @@ public abstract class CardListFragment extends ItemListFragment<Card> {
             }
         }).setup(pullToRefreshLayout);
 
-        listView.setOnScrollListener(
+        getListView().setOnScrollListener(
                 new SwipeOnScrollListener() {
                     @Override
                     public void onScrollStateChanged(AbsListView view, int scrollState) {
