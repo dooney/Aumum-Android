@@ -2,7 +2,7 @@ package com.aumum.app.mobile.ui.view;
 
 import android.content.Context;
 import android.util.AttributeSet;
-import android.view.MotionEvent;
+import android.view.View;
 
 import com.aumum.app.mobile.R;
 
@@ -41,12 +41,12 @@ public class FollowTextView extends IconTextView{
     }
 
     @Override
-    public boolean onTouchEvent(MotionEvent event) {
+    public void onClick(View view) {
         boolean oldValue = isFollowing;
         update(!isFollowing);
 
         // animation
-        boolean ret = super.onTouchEvent(event);
+        super.onClick(view);
 
         if (followListener != null) {
             if (oldValue) {
@@ -55,10 +55,9 @@ public class FollowTextView extends IconTextView{
                 followListener.onFollow(FollowTextView.this);
             }
         }
-
-        return ret;
     }
 
+    @Override
     public void update(boolean newValue) {
         isFollowing = newValue;
         int drawableId = (isFollowing ? R.drawable.ic_fa_check_circle : R.drawable.ic_fa_plus_circle);

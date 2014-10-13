@@ -16,7 +16,7 @@ public class PartyCommentStore {
         Injector.inject(this);
     }
 
-    public List<PartyComment> getPartyComments(String partyId) {
+    public List<Comment> getPartyComments(String partyId) {
         return bootstrapService.getPartyComments(partyId);
     }
 }

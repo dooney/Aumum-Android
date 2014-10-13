@@ -2,7 +2,7 @@ package com.aumum.app.mobile.ui.view;
 
 import android.content.Context;
 import android.util.AttributeSet;
-import android.view.MotionEvent;
+import android.view.View;
 
 /**
  * Created by Administrator on 10/10/2014.
@@ -31,11 +31,11 @@ public class CommentTextView extends IconTextView {
     }
 
     @Override
-    public boolean onTouchEvent(MotionEvent event) {
+    public void onClick(View view) {
         if (commentListener != null) {
             commentListener.onComment(CommentTextView.this);
         }
-        return super.onTouchEvent(event);
+        super.onClick(view);
     }
 
     @Override

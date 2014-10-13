@@ -22,7 +22,7 @@
 
         <TextView
             android:id="@+id/text_user_name"
-            style="@style/TextView.UserName"
+            style="@style/TextView.Party.UserName"
             android:layout_marginRight="@dimen/margin_large"
             android:layout_marginTop="@dimen/margin_large"
             android:layout_toRightOf="@+id/image_avatar" />

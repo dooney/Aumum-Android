@@ -18,10 +18,18 @@ import com.github.kevinsawicki.wishlist.ViewUtils;
  */
 public abstract class LoaderFragment<E> extends Fragment
         implements LoaderManager.LoaderCallbacks<E> {
-    protected E data;
-    protected TextView emptyView;
-    protected ProgressBar progressBar;
-    protected boolean isShown;
+    private E data;
+    private TextView emptyView;
+    private ProgressBar progressBar;
+    private boolean isShown;
+
+    protected E getData() {
+        return data;
+    }
+
+    protected void setData(E data) {
+        this.data = data;
+    }
 
     @Override
     public void onActivityCreated(final Bundle savedInstanceState) {
@@ -83,7 +91,7 @@ public abstract class LoaderFragment<E> extends Fragment
         Toaster.showLong(getActivity(), message);
     }
 
-    protected Exception getException(final Loader<E> loader) {
+    private Exception getException(final Loader<E> loader) {
         if (loader instanceof ThrowableLoader) {
             return ((ThrowableLoader<E>) loader).clearException();
         } else {
@@ -95,9 +103,9 @@ public abstract class LoaderFragment<E> extends Fragment
         setShown(true, isResumed());
     }
 
-    protected LoaderFragment<E> setShown(final boolean shown, final boolean animate) {
+    private void setShown(final boolean shown, final boolean animate) {
         if (!isUsable()) {
-            return this;
+            return;
         }
 
         View mainView = getMainView();
@@ -111,7 +119,7 @@ public abstract class LoaderFragment<E> extends Fragment
                     hide(emptyView).show(mainView);
                 }
             }
-            return this;
+            return;
         }
 
         isShown = shown;
@@ -128,7 +136,7 @@ public abstract class LoaderFragment<E> extends Fragment
             hide(mainView).hide(emptyView).fadeIn(progressBar, animate)
                     .show(progressBar);
         }
-        return this;
+        return;
     }
 
     protected boolean isUsable() {

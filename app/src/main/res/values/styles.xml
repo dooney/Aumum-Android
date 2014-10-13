@@ -85,6 +85,10 @@
         <item name="android:layout_width">@dimen/avatar_sz_medium</item>
         <item name="android:layout_height">@dimen/avatar_sz_medium</item>
     </style>
+    <style name="ImageView.Avatar.Small" parent="ImageView">
+        <item name="android:layout_width">@dimen/avatar_sz_small</item>
+        <item name="android:layout_height">@dimen/avatar_sz_small</item>
+    </style>
 
     <style name="TextView" parent="android:Widget.TextView"/>
     <style name="ButtonTextView" parent="TextView">
@@ -145,7 +149,7 @@
         <item name="android:text">@string/label_like</item>
     </style>
 
-    <style name="TextView.UserName" parent="TextView">
+    <style name="TextView.Party.UserName" parent="TextView">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:textColor">@color/grey_dark</item>
@@ -186,4 +190,22 @@
         <item name="android:maxLines">2</item>
         <item name="android:ellipsize">end</item>
     </style>
+
+    <style name="TextView.Comment.UserName" parent="TextView">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColor">@color/grey_dark</item>
+        <item name="android:maxLines">2</item>
+        <item name="android:textSize">@dimen/text_sz_medium</item>
+    </style>
+
+    <style name="TextView.Comment.Text" parent="TextView">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textSize">@dimen/text_sz_medium</item>
+        <item name="android:textColor">@color/grey_dark</item>
+        <item name="android:lineSpacingMultiplier">1.1</item>
+    </style>
+
+    <style name="ProgressBar" parent="@android:style/Widget.Holo.Light.ProgressBar" />
 </resources>

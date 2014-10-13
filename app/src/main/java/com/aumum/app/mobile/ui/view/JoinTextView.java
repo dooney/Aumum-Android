@@ -2,7 +2,7 @@ package com.aumum.app.mobile.ui.view;
 
 import android.content.Context;
 import android.util.AttributeSet;
-import android.view.MotionEvent;
+import android.view.View;
 
 import com.aumum.app.mobile.R;
 
@@ -40,12 +40,12 @@ public class JoinTextView extends IconTextView {
     }
 
     @Override
-    public boolean onTouchEvent(MotionEvent event) {
+    public void onClick(View view) {
         boolean oldValue = isJoin;
         update(!isJoin);
 
         // animation
-        boolean ret = super.onTouchEvent(event);
+        super.onClick(view);
 
         if (joinListener != null) {
             if (oldValue) {
@@ -54,8 +54,6 @@ public class JoinTextView extends IconTextView {
                 joinListener.onJoin(JoinTextView.this);
             }
         }
-
-        return ret;
     }
 
     @Override

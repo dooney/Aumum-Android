@@ -23,7 +23,7 @@ public abstract class ItemListFragment<E> extends LoaderFragment<List<E>> {
     protected ListView listView;
 
     public ItemListFragment() {
-        data = new ArrayList<E>();
+        setData(new ArrayList<E>());
     }
 
     @Override
@@ -39,7 +39,7 @@ public abstract class ItemListFragment<E> extends LoaderFragment<List<E>> {
 
         listView = (ListView) view.findViewById(android.R.id.list);
 
-        setListAdapter(createAdapter(data));
+        setListAdapter(createAdapter(getData()));
     }
 
     protected void refresh(final Bundle args) {
@@ -87,9 +87,16 @@ public abstract class ItemListFragment<E> extends LoaderFragment<List<E>> {
         return this;
     }
 
+    protected void scrollToLastItem() {
+        int position = getListAdapter().getCount() - 1;
+        if (position > -1) {
+            listView.setSelectionFromTop(position + listView.getHeaderViewsCount(), 0);
+        }
+    }
+
     @Override
     protected boolean readyToShow() {
-        return !data.isEmpty();
+        return !getData().isEmpty();
     }
 
     @Override

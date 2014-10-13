@@ -74,7 +74,7 @@ public class UserFragment extends LoaderFragment<User> {
     public void onDestroy() {
         super.onDestroy();
 
-        dataStore.saveUser(data);
+        dataStore.saveUser(getData());
     }
 
     @Override
@@ -84,7 +84,7 @@ public class UserFragment extends LoaderFragment<User> {
 
     @Override
     protected boolean readyToShow() {
-        return data != null;
+        return getData() != null;
     }
 
     @Override
@@ -111,7 +111,7 @@ public class UserFragment extends LoaderFragment<User> {
 
     @Override
     protected void handleLoadResult(User user) {
-        data = user;
+        setData(user);
         if (currentUser == user) {
             followText.setVisibility(View.INVISIBLE);
             return;

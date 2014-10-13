@@ -272,7 +272,7 @@ public class BootstrapService {
         return getPartyService().refresh(keys, where).getResults();
     }
 
-    public List<PartyComment> getPartyComments(String partyId) {
+    public List<Comment> getPartyComments(String partyId) {
         String keys = Constants.Http.Party.PARAM_COMMENTS;
         Party party = getPartyService().getById(partyId, keys);
         if (party != null) {

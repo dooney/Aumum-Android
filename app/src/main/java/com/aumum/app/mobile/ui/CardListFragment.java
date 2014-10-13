@@ -101,7 +101,7 @@ public abstract class CardListFragment extends ItemListFragment<Card> {
             isLoading = true;
             return loadCards(mode, time);
         } catch (final OperationCanceledException e) {
-            return data;
+            return getData();
         } finally {
             isLoading = false;
         }
@@ -118,12 +118,12 @@ public abstract class CardListFragment extends ItemListFragment<Card> {
         switch (currentRefreshMode) {
             case UPWARDS_REFRESH:
                 for(Card item: result) {
-                    data.add(0, item);
+                    getData().add(0, item);
                 }
                 break;
             case BACKWARDS_REFRESH:
             case STATIC_REFRESH:
-                data.addAll(result);
+                getData().addAll(result);
                 isMore = result.size() > 0;
                 break;
             default:

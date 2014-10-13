@@ -9,5 +9,5 @@ import retrofit.http.Query;
 public interface PartyCommentService {
 
     @GET(Constants.Http.URL_COMMENTS_FRAG)
-    ListWrapper<PartyComment> getPartyComments(@Query("where") String where);
+    ListWrapper<Comment> getPartyComments(@Query("where") String where);
 }
