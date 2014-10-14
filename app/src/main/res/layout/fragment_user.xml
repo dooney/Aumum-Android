@@ -5,20 +5,113 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent" >
 
-    <RelativeLayout
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/user_view"
+        android:gravity="center"
         android:visibility="gone" >
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            android:id="@+id/image_avatar"
+            style="@style/ImageView.Avatar.Large"
+            android:layout_marginTop="@dimen/margin_large"
+            android:src="@drawable/ic_avatar"
+            app:border_color="@color/transparent" />
+
+        <TextView
+            android:id="@+id/text_user_name"
+            style="@style/TextView.User.UserName"
+            android:gravity="center"
+            android:layout_marginTop="@dimen/margin_small"
+            android:text="Simpson Du"/>
 
         <com.aumum.app.mobile.ui.view.FollowTextView
             android:id="@+id/text_follow"
-            style="@style/TextView.Follow"
-            android:layout_below="@+id/text_user_name"
-            android:layout_marginTop="@dimen/margin_small"
-            android:layout_toRightOf="@+id/image_avatar" />
+            style="@style/TextView.User.Follow" />
 
-    </RelativeLayout>
+        <com.aumum.app.mobile.ui.view.EditProfileTextView
+            android:id="@+id/text_edit_profile"
+            style="@style/TextView.User.EditProfile"
+            android:visibility="gone"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/text_follow"
+            android:layout_marginLeft="@dimen/margin_large"
+            android:layout_marginRight="@dimen/margin_large"
+            android:padding="8dp"
+            android:orientation="horizontal">
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:layout_weight="1">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="250"
+                    android:textColor="@color/dark_grey"
+                    android:textSize="@dimen/text_sz_large"
+                    android:id="@+id/text_party_count" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="@dimen/text_sz_large"
+                    android:text="活动数" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:layout_weight="1">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="240"
+                    android:textColor="@color/dark_grey"
+                    android:textSize="@dimen/text_sz_large"
+                    android:id="@+id/text_following_count" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="@dimen/text_sz_large"
+                    android:text="关注数" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:layout_weight="1">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="240"
+                    android:textColor="@color/dark_grey"
+                    android:textSize="@dimen/text_sz_large"
+                    android:id="@+id/text_followed_count" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="@dimen/text_sz_large"
+                    android:text="粉丝数" />
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </LinearLayout>
 
     <TextView
         android:id="@android:id/empty"

@@ -19,6 +19,7 @@ public class BootstrapPagerAdapter extends FragmentPagerAdapter {
 
     public static final int PAGE_PARTY = 0;
     public static final int PAGE_MESSAGE = 1;
+    public static final int PAGE_PROFILE = 2;
 
     /**
      * Create pager adapter
@@ -45,6 +46,9 @@ public class BootstrapPagerAdapter extends FragmentPagerAdapter {
                 break;
             case PAGE_MESSAGE:
                 result = new MessageListFragment();
+                break;
+            case PAGE_PROFILE:
+                result = new UserFragment();
                 break;
             default:
                 result = null;

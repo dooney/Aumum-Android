@@ -6,6 +6,7 @@
     <string-array name="pages_array">
         <item>亲子活动</item>
         <item>消息中心</item>
+        <item>用户信息</item>
     </string-array>
 
     <string name="new_action">新建</string>
@@ -34,10 +35,6 @@
     <string name="message_auth_failed_new_account">请输入有效的用户名/密码</string>
     <string name="message_auth_failed_not_verified">未验证用户</string>
     <string name="message_auth_failed_reset_password">重置密码失败</string>
-    <string name="home">Home</string>
-    <string name="navigation_drawer_open">Drawer Open</string>
-    <string name="navigation_drawer_close">Drawer Close</string>
-    <string name="title_home">Home</string>
     <string name="title_activity_splash">SplashActivity</string>
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
@@ -67,6 +64,7 @@
     <string name="label_like">支持</string>
     <string name="label_follow">关注</string>
     <string name="label_unfollow">取消关注</string>
+    <string name="label_profile">个人资料</string>
     <string name="label_createdAt">创建时间</string>
     <string name="error_loading_user">获取用户信息失败</string>
     <string name="invalid_user">该用户无效</string>
