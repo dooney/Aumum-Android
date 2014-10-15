@@ -109,6 +109,7 @@ public final class Constants {
             public static final String PARAM_FOLLOWINGS = "followings";
             public static final String PARAM_MESSAGES = "messages";
             public static final String PARAM_PARTIES = "parties";
+            public static final String PARAM_PARTY_POSTS = "partyPosts";
         }
     }
 

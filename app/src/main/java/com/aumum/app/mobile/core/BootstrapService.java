@@ -309,4 +309,19 @@ public class BootstrapService {
         data.add(Constants.Http.Party.PARAM_COMMENTS, op);
         return getPartyService().updateById(partyId, data);
     }
+
+    public JsonObject addUserPartyPost(String userId, String partyId) {
+        final JsonObject op = new JsonObject();
+        op.addProperty("__op", "AddUnique");
+        return updateUserPartyPosts(op, userId, partyId);
+    }
+
+    private JsonObject updateUserPartyPosts(JsonObject op, String userId, String partyId) {
+        final JsonObject data = new JsonObject();
+        final JsonArray userPartyPosts = new JsonArray();
+        userPartyPosts.add(new JsonPrimitive(partyId));
+        op.add("objects", userPartyPosts);
+        data.add(Constants.Http.User.PARAM_PARTY_POSTS, op);
+        return getUserService().updateById(userId, data);
+    }
 }

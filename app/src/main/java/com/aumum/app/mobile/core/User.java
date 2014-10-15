@@ -12,6 +12,7 @@ public class User extends AggregateRoot {
     protected List<String> followings = new ArrayList<String>();
     protected List<String> messages = new ArrayList<String>();
     protected List<String> parties = new ArrayList<String>();
+    protected List<String> partyPosts = new ArrayList<String>();
 
     public String getUsername() {
         return username;
@@ -43,5 +44,9 @@ public class User extends AggregateRoot {
 
     public List<String> getParties() {
         return parties;
+    }
+
+    public List<String> getPartyPosts() {
+        return partyPosts;
     }
 }

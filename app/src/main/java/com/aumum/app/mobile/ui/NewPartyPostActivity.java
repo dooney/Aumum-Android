@@ -285,7 +285,10 @@ public class NewPartyPostActivity extends ActionBarActivity
                 User user = userStore.getCurrentUser();
                 party.setUserId(user.getObjectId());
                 party.setArea(user.getArea());
-                bootstrapService.newParty(party);
+                Party response = bootstrapService.newParty(party);
+                bootstrapService.addPartyMember(response.getObjectId(), user.getObjectId());
+                bootstrapService.addUserParty(user.getObjectId(), response.getObjectId());
+                bootstrapService.addUserPartyPost(user.getObjectId(), response.getObjectId());
                 return true;
             }
 

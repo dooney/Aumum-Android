@@ -64,7 +64,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textSize="@dimen/text_sz_large"
-                    android:text="活动数" />
+                    android:text="@string/label_party_count" />
             </LinearLayout>
 
             <LinearLayout
@@ -85,7 +85,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textSize="@dimen/text_sz_large"
-                    android:text="关注数" />
+                    android:text="@string/label_following_count" />
             </LinearLayout>
 
             <LinearLayout
@@ -106,7 +106,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textSize="@dimen/text_sz_large"
-                    android:text="粉丝数" />
+                    android:text="@string/label_followed_count" />
             </LinearLayout>
 
         </LinearLayout>
