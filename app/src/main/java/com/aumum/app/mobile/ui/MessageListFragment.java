@@ -67,7 +67,7 @@ public class MessageListFragment extends CardListFragment {
         List<Message> messageList = null;
         switch (mode) {
             case UPWARDS_REFRESH:
-                User currentUser = userStore.getCurrentUser();
+                User currentUser = userStore.getCurrentUser(false);
                 List<String> messageIdList = currentUser.getMessages();
                 if (messageIdList != null) {
                     messageList = dataStore.getMessageList(currentUser.getMessages());
@@ -85,7 +85,7 @@ public class MessageListFragment extends CardListFragment {
         }
         if (messageList != null) {
             for(Message message: messageList) {
-                User user = userStore.getUserById(message.getFromUserId());
+                User user = userStore.getUserById(message.getFromUserId(), false);
                 message.setFromUser(user);
             }
             return buildCards(messageList);

@@ -31,6 +31,9 @@ public interface PartyService {
                                @Query("where") String where);
 
     @GET(Constants.Http.URL_PARTY_BY_ID_FRAG)
-    Party getById(@Path("id") String id,
-                  @Query("keys") String keys);
+    Party getById(@Path("id") String id);
+
+    @GET(Constants.Http.URL_PARTY_BY_ID_FRAG)
+    Party getFieldsById(@Path("id") String id,
+                        @Query("keys") String keys);
 }

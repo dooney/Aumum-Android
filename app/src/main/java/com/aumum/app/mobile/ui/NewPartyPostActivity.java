@@ -282,7 +282,7 @@ public class NewPartyPostActivity extends ActionBarActivity
                 if (!party.validate()) {
                     throw new Exception(getString(R.string.message_model_validation_failed));
                 }
-                User user = userStore.getCurrentUser();
+                User user = userStore.getCurrentUser(false);
                 party.setUserId(user.getObjectId());
                 party.setArea(user.getArea());
                 Party response = bootstrapService.newParty(party);

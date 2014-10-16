@@ -40,7 +40,7 @@ public class JoinListener implements JoinTextView.OnJoinListener {
     public void onUnJoin(JoinTextView view) {
         task = new SafeAsyncTask<Boolean>() {
             public Boolean call() throws Exception {
-                User currentUser = userStore.getCurrentUser();
+                User currentUser = userStore.getCurrentUser(false);
                 service.removePartyMember(party.getObjectId(), currentUser.getObjectId());
                 service.removeUserParty(currentUser.getObjectId(), party.getObjectId());
                 currentUser.getParties().remove(party.getObjectId());
@@ -77,7 +77,7 @@ public class JoinListener implements JoinTextView.OnJoinListener {
     public void onJoin(JoinTextView view) {
         task = new SafeAsyncTask<Boolean>() {
             public Boolean call() throws Exception {
-                User currentUser = userStore.getCurrentUser();
+                User currentUser = userStore.getCurrentUser(false);
                 service.addPartyMember(party.getObjectId(), currentUser.getObjectId());
                 service.addUserParty(currentUser.getObjectId(), party.getObjectId());
                 currentUser.getParties().add(party.getObjectId());

@@ -106,4 +106,8 @@ public class PartyStore {
             }
         }
     }
+
+    public Party getPartyById(String partyId) {
+        return bootstrapService.getPartyById(partyId);
+    }
 }

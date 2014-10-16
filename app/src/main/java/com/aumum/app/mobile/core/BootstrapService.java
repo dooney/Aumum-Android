@@ -81,6 +81,10 @@ public class BootstrapService {
         return getUserService().getMe();
     }
 
+    public Party getPartyById(String id) {
+        return getPartyService().getById(id);
+    }
+
     public List<Party> getPartiesAfter(DateTime after, int limit) {
         String where = null;
         if (after != null) {
@@ -275,7 +279,7 @@ public class BootstrapService {
 
     public List<Comment> getPartyComments(String partyId) {
         String keys = Constants.Http.Party.PARAM_COMMENTS;
-        Party party = getPartyService().getById(partyId, keys);
+        Party party = getPartyService().getFieldsById(partyId, keys);
         if (party != null) {
             final JsonObject whereJson = new JsonObject();
             final JsonArray idListJson = new JsonArray();

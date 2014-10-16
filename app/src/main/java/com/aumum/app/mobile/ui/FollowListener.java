@@ -38,8 +38,8 @@ public class FollowListener implements FollowTextView.OnFollowListener {
     public void onFollow(FollowTextView view) {
         task = new SafeAsyncTask<Boolean>() {
             public Boolean call() throws Exception {
-                User currentUser = userStore.getCurrentUser();
-                User followedUser = userStore.getUserById(followedUserId);
+                User currentUser = userStore.getCurrentUser(false);
+                User followedUser = userStore.getUserById(followedUserId, false);
                 service.addFollower(followedUserId, currentUser.getObjectId());
                 service.addFollowing(currentUser.getObjectId(), followedUserId);
                 currentUser.getFollowings().add(followedUserId);
@@ -75,8 +75,8 @@ public class FollowListener implements FollowTextView.OnFollowListener {
     public void onUnFollow(FollowTextView view) {
         task = new SafeAsyncTask<Boolean>() {
             public Boolean call() throws Exception {
-                User currentUser = userStore.getCurrentUser();
-                User followedUser = userStore.getUserById(followedUserId);
+                User currentUser = userStore.getCurrentUser(false);
+                User followedUser = userStore.getUserById(followedUserId, false);
                 service.removeFollower(followedUserId, currentUser.getObjectId());
                 service.removeFollowing(currentUser.getObjectId(), followedUserId);
                 currentUser.getFollowings().remove(followedUserId);

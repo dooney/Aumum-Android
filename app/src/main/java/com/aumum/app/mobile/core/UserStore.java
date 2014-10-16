@@ -32,20 +32,36 @@ public class UserStore {
         Injector.inject(this);
     }
 
-    public User getCurrentUser() {
+    private User getCurrentUser() {
+        User user = bootstrapService.getCurrentUser();
+        saveCurrentUser(user);
+        return user;
+    }
+
+    public User getCurrentUser(boolean refresh) {
+        if (refresh) {
+            return getCurrentUser();
+        }
         User user = (User)diskCacheService.get(CURRENT_USER_KEY);
         if (user == null) {
-            user = bootstrapService.getCurrentUser();
-            saveCurrentUser(user);
+            return getCurrentUser();
         }
         return user;
     }
 
-    public User getUserById(String id) {
+    private User getUserById(String id) {
+        User user = bootstrapService.getUserById(id);
+        saveUser(user);
+        return user;
+    }
+
+    public User getUserById(String id, boolean refresh) {
+        if (refresh) {
+            return getUserById(id);
+        }
         User user = (User)diskCacheService.get(id);
         if (user == null) {
-            user = bootstrapService.getUserById(id);
-            saveUser(user);
+            return getUserById(id);
         }
         return user;
     }

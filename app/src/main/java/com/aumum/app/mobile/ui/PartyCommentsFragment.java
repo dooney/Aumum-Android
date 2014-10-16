@@ -1,6 +1,5 @@
 package com.aumum.app.mobile.ui;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.app.Fragment;
@@ -59,13 +58,7 @@ public class PartyCommentsFragment extends ItemListFragment<Comment> {
         Injector.inject(this);
         partyCommentStore = new PartyCommentStore();
         userStore = UserStore.getInstance(null);
-    }
-
-    @Override
-    public void onAttach(Activity activity) {
-        super.onAttach(activity);
-
-        final Intent intent = activity.getIntent();
+        final Intent intent = getActivity().getIntent();
         partyId = intent.getStringExtra(PartyCommentsActivity.INTENT_PARTY_ID);
     }
 
@@ -119,14 +112,14 @@ public class PartyCommentsFragment extends ItemListFragment<Comment> {
 
     @Override
     protected List<Comment> loadDataCore(Bundle bundle) throws Exception {
-        currentUser = userStore.getCurrentUser();
+        currentUser = userStore.getCurrentUser(false);
         return partyCommentStore.getPartyComments(partyId);
     }
 
     @Override
     protected void handleLoadResult(List<Comment> result) {
         for (Comment comment: result) {
-            comment.setUser(userStore.getUserById(comment.getUserId()));
+            comment.setUser(userStore.getUserById(comment.getUserId(), false));
         }
         getData().addAll(result);
         getListAdapter().notifyDataSetChanged();

@@ -27,15 +27,15 @@ public class UserFragment extends LoaderFragment<User> {
     private UserStore dataStore;
 
     private String userId;
-    private User currentUser;
+    private String currentUserId;
 
-    protected View userView;
-    protected TextView userNameText;
-    protected TextView partyCountText;
-    protected TextView followingCountText;
-    protected TextView followedCountText;
-    protected FollowTextView followText;
-    protected EditProfileTextView editProfileText;
+    private View mainView;
+    private TextView userNameText;
+    private TextView partyCountText;
+    private TextView followingCountText;
+    private TextView followedCountText;
+    private FollowTextView followText;
+    private EditProfileTextView editProfileText;
 
     @Override
     public void onCreate(final Bundle savedInstanceState) {
@@ -43,9 +43,10 @@ public class UserFragment extends LoaderFragment<User> {
         Injector.inject(this);
         dataStore = UserStore.getInstance(getActivity());
         final Intent intent = getActivity().getIntent();
+        currentUserId = apiKeyProvider.getAuthUserId();
         userId = intent.getStringExtra(UserActivity.INTENT_USER_ID);
         if (userId == null) {
-            userId = apiKeyProvider.getAuthUserId();
+            userId = currentUserId;
         }
     }
 
@@ -66,7 +67,7 @@ public class UserFragment extends LoaderFragment<User> {
     public void onViewCreated(final View view, final Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        userView = view.findViewById(R.id.user_view);
+        mainView = view.findViewById(R.id.main_view);
 
         userNameText = (TextView) view.findViewById(R.id.text_user_name);
 
@@ -82,16 +83,9 @@ public class UserFragment extends LoaderFragment<User> {
 
     @Override
     public void onDestroyView() {
-        userView = null;
+        mainView = null;
 
         super.onDestroyView();
-    }
-
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-
-        dataStore.saveUser(getData());
     }
 
     @Override
@@ -106,19 +100,15 @@ public class UserFragment extends LoaderFragment<User> {
 
     @Override
     protected View getMainView() {
-        return userView;
+        return mainView;
     }
 
     @Override
     protected User loadDataCore(Bundle bundle) throws Exception {
-        currentUser = dataStore.getCurrentUser();
-        if (currentUser == null) {
-            throw new Exception("Unauthorized user");
-        }
-        if (currentUser.getObjectId().equals(userId)) {
-            return currentUser;
+        if (userId.equals(currentUserId)) {
+            return dataStore.getCurrentUser(true);
         } else {
-            User user = dataStore.getUserById(userId);
+            User user = dataStore.getUserById(userId, true);
             if (user == null) {
                 throw new Exception(getString(R.string.invalid_user));
             }
@@ -130,14 +120,14 @@ public class UserFragment extends LoaderFragment<User> {
     protected void handleLoadResult(User user) {
         setData(user);
         userNameText.setText(user.getUsername());
-        if (currentUser == user) {
+        if (userId.equals(currentUserId)) {
             followText.setVisibility(View.GONE);
             editProfileText.setVisibility(View.VISIBLE);
         } else {
             editProfileText.setVisibility(View.GONE);
             followText.setVisibility(View.VISIBLE);
         }
-        if (currentUser.getFollowings().contains(user.getObjectId())) {
+        if (user.getFollowers().contains(currentUserId)) {
             followText.update(true);
         }
         partyCountText.setText(String.valueOf(user.getParties().size()));

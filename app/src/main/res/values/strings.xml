@@ -44,10 +44,9 @@
     <string name="title_activity_registration_success">注册成功</string>
     <string name="title_activity_reset_password">重置密码</string>
     <string name="title_activity_reset_password_success">重置密码成功</string>
-    <string name="title_activity_new_party_post">新亲子活动</string>
+    <string name="title_activity_new_party_post">新活动</string>
     <string name="title_activity_user">用户</string>
-    <string name="title_activity_party_comments">亲子活动评论</string>
-
+    <string name="title_activity_party_comments">活动评论</string>
     <string name="label_unlimited">不限</string>
     <string name="label_title">标题</string>
     <string name="label_location">地点</string>
@@ -76,7 +75,12 @@
 
     <!-- Party Comments -->
     <string name="no_party_comments">暂时还没有评论，你是沙发哦！</string>
-    <string name="error_loading_party_comments">获取亲子活动评论失败</string>
+    <string name="error_loading_party_comments">获取活动评论失败</string>
     <string name="party_hint_comment_on_post">写评论</string>
+
+    <!-- Party Details -->
+    <string name="title_activity_party_details">活动详情</string>
+    <string name="invalid_party">该活动无效</string>
+    <string name="error_loading_party">获取活动信息失败</string>
 
 </resources>

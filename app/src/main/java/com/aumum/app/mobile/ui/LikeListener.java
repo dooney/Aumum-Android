@@ -39,7 +39,7 @@ public class LikeListener implements LikeTextView.OnLikeListener {
     public void onUnLike(LikeTextView view) {
         task = new SafeAsyncTask<Boolean>() {
             public Boolean call() throws Exception {
-                User currentUser = userStore.getCurrentUser();
+                User currentUser = userStore.getCurrentUser(false);
                 service.removePartyFan(party.getObjectId(), currentUser.getObjectId());
                 party.getFans().remove(currentUser.getObjectId());
                 userStore.saveCurrentUser(currentUser);
@@ -70,7 +70,7 @@ public class LikeListener implements LikeTextView.OnLikeListener {
     public void onLike(LikeTextView view) {
         task = new SafeAsyncTask<Boolean>() {
             public Boolean call() throws Exception {
-                User currentUser = userStore.getCurrentUser();
+                User currentUser = userStore.getCurrentUser(false);
                 service.addPartyFan(party.getObjectId(), currentUser.getObjectId());
                 party.getFans().add(currentUser.getObjectId());
                 userStore.saveCurrentUser(currentUser);

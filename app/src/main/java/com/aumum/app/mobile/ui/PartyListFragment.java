@@ -119,7 +119,7 @@ public class PartyListFragment extends CardListFragment {
         }
         if (partyList != null) {
             for(Party party: partyList) {
-                User user = userStore.getUserById(party.getUserId());
+                User user = userStore.getUserById(party.getUserId(), false);
                 party.setUser(user);
             }
             return buildCards(partyList);
@@ -130,7 +130,7 @@ public class PartyListFragment extends CardListFragment {
     private List<Card> buildCards(List<Party> partyList) {
         List<Card> cards = new ArrayList<Card>();
         if (partyList.size() > 0) {
-            User user = userStore.getCurrentUser();
+            User user = userStore.getCurrentUser(false);
             for (Party party : partyList) {
                 Card card = new PartyCard(getActivity(), party, user.getObjectId());
                 cards.add(card);
