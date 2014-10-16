@@ -82,5 +82,8 @@
     <string name="title_activity_party_details">活动详情</string>
     <string name="invalid_party">该活动无效</string>
     <string name="error_loading_party">获取活动信息失败</string>
+    <string name="label_you_like_the_party">你点赞了该活动</string>
+    <string name="label_you_and_others_like_the_party">你和其他%,d人点赞了该活动</string>
+    <string name="label_others_like_the_party">%,d人点赞了该活动</string>
 
 </resources>

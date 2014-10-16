@@ -1,21 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/grey_extra_light"
-    android:paddingBottom="@dimen/margin_large"
-    android:paddingLeft="@dimen/margin_large"
-    android:paddingRight="@dimen/margin_large"
-    android:paddingTop="@dimen/margin_large">
-
-    <!-- spacer_comment_indent width and visibility set at run-time based on comment indent level -->
-    <View
-        android:id="@+id/spacer_comment_indent"
-        android:layout_width="@dimen/avatar_sz_small"
-        android:layout_height="wrap_content"
-        android:visibility="gone" />
+    android:padding="@dimen/margin_large">
 
     <de.hdodenhof.circleimageview.CircleImageView
         xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -23,7 +12,6 @@
         style="@style/ImageView.Avatar.Small"
         android:layout_marginLeft="@dimen/margin_medium"
         android:layout_marginRight="@dimen/margin_small"
-        android:layout_toRightOf="@+id/spacer_comment_indent"
         android:src="@drawable/ic_avatar"
         app:border_color="@color/transparent"/>
 
@@ -34,8 +22,7 @@
         android:layout_marginBottom="@dimen/margin_extra_small"
         android:layout_marginLeft="@dimen/margin_medium"
         android:layout_toLeftOf="@+id/text_comment_createdAt"
-        android:layout_toRightOf="@+id/image_comment_avatar"
-        tools:text="text_comment_author" />
+        android:layout_toRightOf="@+id/image_comment_avatar" />
 
     <TextView
         android:id="@+id/text_comment_createdAt"
@@ -45,8 +32,7 @@
         android:layout_alignParentRight="true"
         android:layout_alignTop="@+id/image_comment_avatar"
         android:layout_marginLeft="@dimen/margin_small"
-        android:layout_marginRight="@dimen/margin_small"
-        tools:text="date" />
+        android:layout_marginRight="@dimen/margin_small" />
 
     <TextView
         android:id="@+id/text_comment_text"
@@ -55,8 +41,7 @@
         android:layout_below="@+id/text_comment_user_name"
         android:layout_marginTop="@dimen/margin_small"
         android:focusable="false"
-        android:focusableInTouchMode="false"
-        tools:text="text_comment_text" />
+        android:focusableInTouchMode="false" />
 
     <ProgressBar
         android:id="@+id/progress_comment"

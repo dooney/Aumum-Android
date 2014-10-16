@@ -2,16 +2,18 @@
 
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:paddingLeft="@dimen/margin_large"
+    android:paddingRight="@dimen/margin_large">
 
-    <RelativeLayout
+    <LinearLayout
+        android:orientation="vertical"
         android:id="@+id/main_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:visibility="gone" >
 
         <RelativeLayout
-            android:id="@+id/layout_card_header"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:paddingBottom="@dimen/margin_large">
@@ -20,7 +22,6 @@
                 xmlns:app="http://schemas.android.com/apk/res-auto"
                 android:id="@+id/image_avatar"
                 style="@style/ImageView.Avatar"
-                android:layout_marginLeft="@dimen/margin_large"
                 android:layout_marginRight="@dimen/margin_medium"
                 android:layout_marginTop="@dimen/margin_large"
                 android:src="@drawable/ic_avatar"
@@ -29,7 +30,6 @@
             <TextView
                 android:id="@+id/text_user_name"
                 style="@style/TextView.Party.UserName"
-                android:layout_marginRight="@dimen/margin_large"
                 android:layout_marginTop="@dimen/margin_large"
                 android:layout_toRightOf="@+id/image_avatar" />
 
@@ -44,51 +44,62 @@
                 android:id="@+id/text_createdAt"
                 style="@style/TextView.CreatedAt"
                 android:layout_alignParentRight="true"
-                android:layout_centerVertical="true"
-                android:layout_marginRight="@dimen/margin_medium"/>
+                android:layout_centerVertical="true" />
 
         </RelativeLayout>
 
         <TextView
             android:id="@+id/text_title"
-            style="@style/TextView.Party.Title"
-            android:layout_below="@+id/layout_card_header"
-            android:layout_marginLeft="@dimen/margin_large"
-            android:layout_marginRight="@dimen/margin_large" />
+            style="@style/TextView.Party.Title" />
 
         <TextView
             android:id="@+id/text_time"
-            style="@style/TextView.Time"
-            android:layout_below="@+id/text_title"
-            android:layout_marginLeft="@dimen/margin_large"/>
+            style="@style/TextView.Time" />
 
         <TextView
             android:id="@+id/text_location"
-            style="@style/TextView.Location"
-            android:layout_below="@+id/text_time"
-            android:layout_marginLeft="@dimen/margin_large"/>
+            style="@style/TextView.Location" />
 
         <TextView
             android:id="@+id/text_age"
-            style="@style/TextView.Age"
-            android:layout_below="@+id/text_location"
-            android:layout_marginLeft="@dimen/margin_large"/>
+            style="@style/TextView.Age" />
 
         <TextView
             android:id="@+id/text_gender"
-            style="@style/TextView.Gender"
-            android:layout_below="@+id/text_age"
-            android:layout_marginLeft="@dimen/margin_large"/>
+            style="@style/TextView.Gender" />
 
         <TextView
             android:id="@+id/text_details"
             style="@style/TextView.Party.Details"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/text_gender"
-            android:layout_marginLeft="@dimen/margin_large"
-            android:layout_marginRight="@dimen/margin_large" />
+            android:layout_height="wrap_content" />
 
-    </RelativeLayout>
+        <RelativeLayout
+            android:id="@+id/layout_likes"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/margin_medium"
+            android:layout_marginTop="@dimen/margin_large"
+            android:visibility="gone" >
+
+            <TextView
+                android:id="@+id/text_like_count"
+                android:textSize="@dimen/text_sz_large"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <!-- liking avatars are inserted into this LinearLayout at runtime -->
+            <LinearLayout
+                android:id="@+id/layout_liking_avatars"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/avatar_sz_small"
+                android:layout_below="@+id/text_like_count"
+                android:layout_marginTop="@dimen/margin_medium"
+                android:gravity="center_vertical"
+                android:orientation="horizontal" />
+
+        </RelativeLayout>
+
+    </LinearLayout>
 
     <TextView
         android:id="@android:id/empty"

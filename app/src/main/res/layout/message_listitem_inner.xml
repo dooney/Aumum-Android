@@ -2,29 +2,25 @@
 
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:padding="@dimen/margin_large">
 
     <RelativeLayout
         android:id="@+id/layout_card_header"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:paddingBottom="@dimen/margin_large">
+        android:layout_height="wrap_content">
 
         <de.hdodenhof.circleimageview.CircleImageView
             xmlns:app="http://schemas.android.com/apk/res-auto"
             android:id="@+id/image_avatar"
             style="@style/ImageView.Avatar"
-            android:layout_marginLeft="@dimen/margin_large"
             android:layout_marginRight="@dimen/margin_medium"
-            android:layout_marginTop="@dimen/margin_large"
             android:src="@drawable/ic_avatar"
             app:border_color="@color/transparent"/>
 
         <TextView
             android:id="@+id/text_from_user"
             style="@style/TextView.Message.FromUser"
-            android:layout_marginRight="@dimen/margin_large"
-            android:layout_marginTop="@dimen/margin_large"
             android:layout_toRightOf="@+id/image_avatar" />
 
         <TextView
@@ -38,8 +34,7 @@
             android:id="@+id/text_createdAt"
             style="@style/TextView.CreatedAt"
             android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:layout_marginRight="@dimen/margin_medium"/>
+            android:layout_centerVertical="true" />
 
     </RelativeLayout>
 
