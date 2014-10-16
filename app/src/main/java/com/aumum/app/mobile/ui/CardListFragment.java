@@ -1,8 +1,6 @@
 package com.aumum.app.mobile.ui;
 
 import android.accounts.OperationCanceledException;
-import android.app.Activity;
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -107,37 +105,33 @@ public abstract class CardListFragment extends ItemListFragment<Card> {
         }
     }
 
-    private void doRefresh(int mode, String time) {
+    protected void doRefresh(int mode, String time) {
         final Bundle bundle = new Bundle();
         bundle.putInt(REFRESH_MODE, mode);
         bundle.putString(TIME_BEFORE, time);
         refresh(bundle);
     }
 
-    protected void handleLoadResult(final List<Card> result) {
-        switch (currentRefreshMode) {
-            case UPWARDS_REFRESH:
-                for(Card item: result) {
-                    getData().add(0, item);
-                }
-                break;
-            case BACKWARDS_REFRESH:
-            case STATIC_REFRESH:
-                getData().addAll(result);
-                isMore = result.size() > 0;
-                break;
-            default:
-                break;
-        }
-        getListAdapter().notifyDataSetChanged();
-        isLoading = false;
-    }
-
     @Override
-    public void onActivityResult (int requestCode, int resultCode, Intent data) {
-        if (resultCode == Activity.RESULT_OK) {
-            doRefresh(UPWARDS_REFRESH, null);
+    protected void handleLoadResult(final List<Card> result) throws Exception {
+        if (result != null) {
+            switch (currentRefreshMode) {
+                case UPWARDS_REFRESH:
+                    for (Card item : result) {
+                        getData().add(0, item);
+                    }
+                    break;
+                case BACKWARDS_REFRESH:
+                case STATIC_REFRESH:
+                    getData().addAll(result);
+                    isMore = result.size() > 0;
+                    break;
+                default:
+                    break;
+            }
+            getListAdapter().notifyDataSetChanged();
         }
+        isLoading = false;
     }
 
     protected abstract String getLastItemTime();

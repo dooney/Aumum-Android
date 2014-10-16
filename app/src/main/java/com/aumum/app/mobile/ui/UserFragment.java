@@ -117,22 +117,23 @@ public class UserFragment extends LoaderFragment<User> {
     }
 
     @Override
-    protected void handleLoadResult(User user) {
-        setData(user);
-        userNameText.setText(user.getUsername());
-        if (userId.equals(currentUserId)) {
-            followText.setVisibility(View.GONE);
-            editProfileText.setVisibility(View.VISIBLE);
-        } else {
-            editProfileText.setVisibility(View.GONE);
-            followText.setVisibility(View.VISIBLE);
+    protected void handleLoadResult(User user) throws Exception {
+        if (user != null) {
+            setData(user);
+            userNameText.setText(user.getUsername());
+            if (userId.equals(currentUserId)) {
+                followText.setVisibility(View.GONE);
+                editProfileText.setVisibility(View.VISIBLE);
+            } else {
+                editProfileText.setVisibility(View.GONE);
+                followText.setVisibility(View.VISIBLE);
+            }
+            if (user.getFollowers().contains(currentUserId)) {
+                followText.update(true);
+            }
+            partyCountText.setText(String.valueOf(user.getParties().size()));
+            followingCountText.setText(String.valueOf(user.getFollowings().size()));
+            followedCountText.setText(String.valueOf(user.getFollowers().size()));
         }
-        if (user.getFollowers().contains(currentUserId)) {
-            followText.update(true);
-        }
-        partyCountText.setText(String.valueOf(user.getParties().size()));
-        followingCountText.setText(String.valueOf(user.getFollowings().size()));
-        followedCountText.setText(String.valueOf(user.getFollowers().size()));
-        return;
     }
 }

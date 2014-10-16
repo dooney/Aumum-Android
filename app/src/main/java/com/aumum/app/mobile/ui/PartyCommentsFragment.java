@@ -117,12 +117,14 @@ public class PartyCommentsFragment extends ItemListFragment<Comment> {
     }
 
     @Override
-    protected void handleLoadResult(List<Comment> result) {
-        for (Comment comment: result) {
-            comment.setUser(userStore.getUserById(comment.getUserId(), false));
+    protected void handleLoadResult(List<Comment> result) throws Exception {
+        if (result != null) {
+            for (Comment comment : result) {
+                comment.setUser(userStore.getUserById(comment.getUserId(), false));
+            }
+            getData().addAll(result);
+            getListAdapter().notifyDataSetChanged();
         }
-        getData().addAll(result);
-        getListAdapter().notifyDataSetChanged();
     }
 
     @Override

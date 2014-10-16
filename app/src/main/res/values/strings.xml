@@ -71,7 +71,7 @@
     <string name="label_following_count">关注数</string>
     <string name="label_followed_count">粉丝数</string>
     <string name="error_loading_user">获取用户信息失败</string>
-    <string name="invalid_user">该用户无效</string>
+    <string name="invalid_user">无法获取该用户信息</string>
 
     <!-- Party Comments -->
     <string name="no_party_comments">暂时还没有评论，你是沙发哦！</string>
@@ -80,7 +80,7 @@
 
     <!-- Party Details -->
     <string name="title_activity_party_details">活动详情</string>
-    <string name="invalid_party">该活动无效</string>
+    <string name="invalid_party">无法该活动信息</string>
     <string name="error_loading_party">获取活动信息失败</string>
     <string name="label_you_join_the_party">你报名了该活动</string>
     <string name="label_you_and_others_join_the_party">你和其他%,d人报名了该活动</string>
