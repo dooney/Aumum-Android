@@ -44,6 +44,8 @@ public class PartyDetailsFragment extends LoaderFragment<Party> {
     private TextView ageText;
     private TextView genderText;
     private TextView detailsText;
+    private ViewGroup layoutMembers;
+    private TextView membersCountText;
     private ViewGroup layoutLikes;
     private TextView likesCountText;
 
@@ -87,8 +89,10 @@ public class PartyDetailsFragment extends LoaderFragment<Party> {
         genderText = (TextView) view.findViewById(R.id.text_gender);
         detailsText = (TextView) view.findViewById(R.id.text_details);
 
+        layoutMembers = (ViewGroup) view.findViewById(R.id.layout_members);
+        membersCountText = (TextView) view.findViewById(R.id.text_members_count);
         layoutLikes = (ViewGroup) view.findViewById(R.id.layout_likes);
-        likesCountText = (TextView) view.findViewById(R.id.text_like_count);
+        likesCountText = (TextView) view.findViewById(R.id.text_likes_count);
     }
 
     @Override
@@ -145,29 +149,56 @@ public class PartyDetailsFragment extends LoaderFragment<Party> {
         genderText.setText(Constants.GENDER_OPTIONS[party.getGender()]);
         detailsText.setText(party.getDetails());
 
-        updateLikesLayout(party);
+        updateMembersLayout(party.getMembers());
+        updateLikesLayout(party.getFans());
     }
 
-    private void updateLikesLayout(Party party) {
-        List<String> fans = party.getFans();
-        int fansCount = fans.size();
-        if (fansCount > 0) {
+    private void updateMembersLayout(List<String> members) {
+        int count = members.size();
+        if (count > 0) {
+            ViewGroup layoutMembersAvatars = (ViewGroup) layoutMembers.findViewById(R.id.layout_members_avatars);
+            LayoutInflater inflater = getActivity().getLayoutInflater();
+
+            for(String userId: members) {
+                ImageView imgAvatar = (ImageView) inflater.inflate(R.layout.small_avatar, layoutMembersAvatars, false);
+                layoutMembersAvatars.addView(imgAvatar);
+            }
+
+            if (members.contains(currentUserId)) {
+                if (count == 1) {
+                    membersCountText.setText(getString(R.string.label_you_join_the_party));
+                } else {
+                    membersCountText.setText(getString(R.string.label_you_and_others_join_the_party, count - 1));
+                }
+            } else {
+                membersCountText.setText(getString(R.string.label_others_join_the_party, count));
+            }
+
+            if (layoutMembers.getVisibility() != View.VISIBLE) {
+                Animation.fadeIn(layoutMembers, Animation.Duration.SHORT);
+            }
+        }
+    }
+
+    private void updateLikesLayout(List<String> likes) {
+        int count = likes.size();
+        if (count > 0) {
             ViewGroup layoutLikingAvatars = (ViewGroup) layoutLikes.findViewById(R.id.layout_liking_avatars);
             LayoutInflater inflater = getActivity().getLayoutInflater();
 
-            for(String userId: fans) {
-                ImageView imgAvatar = (ImageView) inflater.inflate(R.layout.like_avatar, layoutLikingAvatars, false);
+            for(String userId: likes) {
+                ImageView imgAvatar = (ImageView) inflater.inflate(R.layout.small_avatar, layoutLikingAvatars, false);
                 layoutLikingAvatars.addView(imgAvatar);
             }
 
-            if (fans.contains(currentUserId)) {
-                if (fansCount == 1) {
+            if (likes.contains(currentUserId)) {
+                if (count == 1) {
                     likesCountText.setText(getString(R.string.label_you_like_the_party));
                 } else {
-                    likesCountText.setText(getString(R.string.label_you_and_others_like_the_party, fansCount - 1));
+                    likesCountText.setText(getString(R.string.label_you_and_others_like_the_party, count - 1));
                 }
             } else {
-                likesCountText.setText(getString(R.string.label_others_like_the_party, fansCount));
+                likesCountText.setText(getString(R.string.label_others_like_the_party, count));
             }
 
             if (layoutLikes.getVisibility() != View.VISIBLE) {
