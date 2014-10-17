@@ -8,7 +8,7 @@ import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.AsyncTask;
 
-import com.aumum.app.mobile.util.Ln;
+import com.aumum.app.mobile.utils.Ln;
 
 import java.io.File;
 import java.io.IOException;

@@ -1,8 +1,6 @@
 package com.aumum.app.mobile.core;
 
 
-import com.aumum.app.mobile.authenticator.ApiKeyProvider;
-
 import static com.aumum.app.mobile.core.Constants.Http.HEADER_PARSE_APP_ID;
 import static com.aumum.app.mobile.core.Constants.Http.HEADER_PARSE_REST_API_KEY;
 import static com.aumum.app.mobile.core.Constants.Http.HEADER_PARSE_SESSION_TOKEN;

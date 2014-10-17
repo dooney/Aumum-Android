@@ -5,8 +5,8 @@ import android.content.pm.PackageInfo;
 import android.os.Build;
 import android.telephony.TelephonyManager;
 
-import com.aumum.app.mobile.util.Ln;
-import com.aumum.app.mobile.util.Strings;
+import com.aumum.app.mobile.utils.Ln;
+import com.aumum.app.mobile.utils.Strings;
 
 import java.lang.reflect.Method;
 import java.util.ArrayList;

@@ -2,9 +2,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.aumum.app.mobile.ui.UserActivity">
+    tools:context="com.aumum.app.mobile.ui.user.UserActivity">
 
-    <fragment android:name="com.aumum.app.mobile.ui.UserFragment"
+    <fragment android:name="com.aumum.app.mobile.ui.user.UserFragment"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent" />
 

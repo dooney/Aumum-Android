@@ -5,8 +5,8 @@ import com.aumum.app.mobile.events.JoinEvent;
 import com.aumum.app.mobile.events.LikeEvent;
 import com.aumum.app.mobile.events.MessageEvent;
 import com.aumum.app.mobile.events.PushNotificationEvent;
-import com.aumum.app.mobile.util.Ln;
-import com.aumum.app.mobile.util.SafeAsyncTask;
+import com.aumum.app.mobile.utils.Ln;
+import com.aumum.app.mobile.utils.SafeAsyncTask;
 import com.squareup.otto.Bus;
 import com.squareup.otto.Subscribe;
 
@@ -17,7 +17,7 @@ import retrofit.RetrofitError;
  */
 public class MessageHandler {
     private Bus bus;
-    private BootstrapService service;
+    private RestService service;
 
     private SafeAsyncTask<Boolean> followTask;
     private SafeAsyncTask<Boolean> joinTask;
@@ -25,10 +25,10 @@ public class MessageHandler {
 
     private final String NOTIFICATION_TEXT = "你有新的消息";
 
-    public MessageHandler(Bus bus, BootstrapService bootstrapService) {
+    public MessageHandler(Bus bus, RestService restService) {
         this.bus = bus;
         this.bus.register(this);
-        service = bootstrapService;
+        service = restService;
     }
 
     private void process(final MessageEvent event) {

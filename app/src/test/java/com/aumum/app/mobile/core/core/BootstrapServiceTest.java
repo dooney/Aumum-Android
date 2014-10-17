@@ -6,7 +6,7 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.doReturn;
 
-import com.aumum.app.mobile.core.BootstrapService;
+import com.aumum.app.mobile.core.RestService;
 import com.aumum.app.mobile.core.User;
 import com.aumum.app.mobile.core.UserAgentProvider;
 import com.github.kevinsawicki.http.HttpRequest;
@@ -24,7 +24,7 @@ import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
 /**
- * Unit tests of {@link com.aumum.app.mobile.core.BootstrapService}
+ * Unit tests of {@link com.aumum.app.mobile.core.RestService}
  */
 @RunWith(MockitoJUnitRunner.class)
 public class BootstrapServiceTest {
@@ -44,7 +44,7 @@ public class BootstrapServiceTest {
     @Mock
     private HttpRequest request;
 
-    private BootstrapService service;
+    private RestService service;
 
     /**
      * Set up default mocks
@@ -53,7 +53,7 @@ public class BootstrapServiceTest {
      */
     @Before
     public void before() throws IOException {
-        service = new BootstrapService("foo", new UserAgentProvider()) {
+        service = new RestService("foo", new UserAgentProvider()) {
             protected HttpRequest execute(HttpRequest request) throws IOException {
                 return BootstrapServiceTest.this.request;
             }

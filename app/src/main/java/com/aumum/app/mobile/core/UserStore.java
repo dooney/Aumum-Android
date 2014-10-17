@@ -12,7 +12,8 @@ import javax.inject.Inject;
 public class UserStore {
     private static UserStore instance;
 
-    @Inject BootstrapService bootstrapService;
+    @Inject
+    RestService restService;
 
     private DiskCacheService diskCacheService;
 
@@ -33,7 +34,7 @@ public class UserStore {
     }
 
     private User getCurrentUser() {
-        User user = bootstrapService.getCurrentUser();
+        User user = restService.getCurrentUser();
         saveCurrentUser(user);
         return user;
     }
@@ -50,7 +51,7 @@ public class UserStore {
     }
 
     private User getUserById(String id) {
-        User user = bootstrapService.getUserById(id);
+        User user = restService.getUserById(id);
         saveUser(user);
         return user;
     }

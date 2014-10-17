@@ -3,7 +3,7 @@ package com.aumum.app.mobile.core;
 import android.os.Handler;
 import android.os.Looper;
 
-import com.aumum.app.mobile.util.Ln;
+import com.aumum.app.mobile.utils.Ln;
 import com.squareup.otto.Bus;
 import com.squareup.otto.ThreadEnforcer;
 

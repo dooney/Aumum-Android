@@ -3,7 +3,6 @@ package com.aumum.app.mobile.core;
 import android.content.Context;
 
 import com.aumum.app.mobile.Injector;
-import com.aumum.app.mobile.authenticator.ApiKeyProvider;
 
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
@@ -18,7 +17,8 @@ import javax.inject.Inject;
  * Created by Administrator on 30/09/2014.
  */
 public class PartyStore {
-    @Inject BootstrapService bootstrapService;
+    @Inject
+    RestService restService;
     @Inject ApiKeyProvider apiKeyProvider;
 
     private DiskCacheService diskCacheService;
@@ -39,9 +39,9 @@ public class PartyStore {
     public List<Party> getUpwardsList() {
         List<Party> partyList;
         if (lastUpdateTime != null) {
-            partyList = bootstrapService.getPartiesAfter(lastUpdateTime, Integer.MAX_VALUE);
+            partyList = restService.getPartiesAfter(lastUpdateTime, Integer.MAX_VALUE);
         } else {
-            partyList = bootstrapService.getPartiesAfter(null, limitPerLoad);
+            partyList = restService.getPartiesAfter(null, limitPerLoad);
         }
         lastUpdateTime = DateTime.now(DateTimeZone.UTC);
         return partyList;
@@ -49,7 +49,7 @@ public class PartyStore {
 
     public List<Party> getBackwardsList(String time) {
         DateTime before = new DateTime(time, DateTimeZone.UTC);
-        return bootstrapService.getPartiesBefore(before, limitPerLoad);
+        return restService.getPartiesBefore(before, limitPerLoad);
     }
 
     public boolean hasOfflineData() {
@@ -86,7 +86,7 @@ public class PartyStore {
             for (Party party : partyList) {
                 partyIds.add(party.getObjectId());
             }
-            List<Party> resultList = bootstrapService.refreshParties(partyIds);
+            List<Party> resultList = restService.refreshParties(partyIds);
             HashMap<String, Party> hashMap = new HashMap<String, Party>();
             for (Party party : resultList) {
                 hashMap.put(party.getObjectId(),party);
@@ -108,6 +108,6 @@ public class PartyStore {
     }
 
     public Party getPartyById(String partyId) {
-        return bootstrapService.getPartyById(partyId);
+        return restService.getPartyById(partyId);
     }
 }

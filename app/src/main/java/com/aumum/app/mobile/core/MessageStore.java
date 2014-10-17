@@ -3,7 +3,6 @@ package com.aumum.app.mobile.core;
 import android.content.Context;
 
 import com.aumum.app.mobile.Injector;
-import com.aumum.app.mobile.authenticator.ApiKeyProvider;
 
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
@@ -17,7 +16,8 @@ import javax.inject.Inject;
  * Created by Administrator on 7/10/2014.
  */
 public class MessageStore {
-    @Inject BootstrapService bootstrapService;
+    @Inject
+    RestService restService;
     @Inject ApiKeyProvider apiKeyProvider;
 
     private DiskCacheService diskCacheService;
@@ -49,9 +49,9 @@ public class MessageStore {
     public List<Message> getMessageList(List<String> idList) {
         List<Message> messageList;
         if (lastUpdateTime != null) {
-            messageList = bootstrapService.getMessagesBefore(idList, lastUpdateTime, Integer.MAX_VALUE);
+            messageList = restService.getMessagesBefore(idList, lastUpdateTime, Integer.MAX_VALUE);
         } else {
-            messageList = bootstrapService.getMessagesBefore(idList, null, limitPerLoad);
+            messageList = restService.getMessagesBefore(idList, null, limitPerLoad);
         }
         if (messageList.size() > 0) {
             String time = messageList.get(messageList.size() - 1).getCreatedAt();

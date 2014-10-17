@@ -26,7 +26,7 @@ import android.view.Display;
 import android.webkit.MimeTypeMap;
 
 import com.aumum.app.mobile.R;
-import com.aumum.app.mobile.util.Ln;
+import com.aumum.app.mobile.utils.Ln;
 import com.github.kevinsawicki.wishlist.Toaster;
 import com.nostra13.universalimageloader.cache.disc.naming.HashCodeFileNameGenerator;
 import com.nostra13.universalimageloader.cache.memory.impl.UsingFreqLimitedMemoryCache;

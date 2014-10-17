@@ -3,12 +3,13 @@ package com.aumum.app.mobile;
 import android.accounts.AccountManager;
 import android.content.Context;
 
-import com.aumum.app.mobile.authenticator.ApiKeyProvider;
-import com.aumum.app.mobile.authenticator.ResetPasswordActivity;
-import com.aumum.app.mobile.authenticator.LoginActivity;
-import com.aumum.app.mobile.authenticator.LogoutService;
-import com.aumum.app.mobile.authenticator.RegisterActivity;
-import com.aumum.app.mobile.core.BootstrapService;
+import com.aumum.app.mobile.core.ApiKeyProvider;
+import com.aumum.app.mobile.core.RestService;
+import com.aumum.app.mobile.ui.party.PartyPostActivity;
+import com.aumum.app.mobile.ui.account.ResetPasswordActivity;
+import com.aumum.app.mobile.ui.login.LoginActivity;
+import com.aumum.app.mobile.core.LogoutService;
+import com.aumum.app.mobile.ui.register.RegisterActivity;
 import com.aumum.app.mobile.core.Constants;
 import com.aumum.app.mobile.core.MessageHandler;
 import com.aumum.app.mobile.core.MessageStore;
@@ -19,15 +20,14 @@ import com.aumum.app.mobile.core.RestAdapterRequestInterceptor;
 import com.aumum.app.mobile.core.RestErrorHandler;
 import com.aumum.app.mobile.core.UserAgentProvider;
 import com.aumum.app.mobile.core.UserStore;
-import com.aumum.app.mobile.ui.FollowListener;
-import com.aumum.app.mobile.ui.JoinListener;
-import com.aumum.app.mobile.ui.LikeListener;
-import com.aumum.app.mobile.ui.MainActivity;
-import com.aumum.app.mobile.ui.MessageListFragment;
-import com.aumum.app.mobile.ui.NewPartyPostActivity;
-import com.aumum.app.mobile.ui.PartyCommentsFragment;
-import com.aumum.app.mobile.ui.PartyDetailsFragment;
-import com.aumum.app.mobile.ui.UserFragment;
+import com.aumum.app.mobile.ui.user.FollowListener;
+import com.aumum.app.mobile.ui.party.JoinListener;
+import com.aumum.app.mobile.ui.party.LikeListener;
+import com.aumum.app.mobile.ui.main.MainActivity;
+import com.aumum.app.mobile.ui.message.MessageListFragment;
+import com.aumum.app.mobile.ui.party.PartyCommentsFragment;
+import com.aumum.app.mobile.ui.party.PartyDetailsFragment;
+import com.aumum.app.mobile.ui.user.UserFragment;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.squareup.otto.Bus;
@@ -52,7 +52,7 @@ import retrofit.converter.GsonConverter;
                 RegisterActivity.class,
                 ResetPasswordActivity.class,
                 MainActivity.class,
-                NewPartyPostActivity.class,
+                PartyPostActivity.class,
                 PartyStore.class,
                 FollowListener.class,
                 UserStore.class,
@@ -77,8 +77,8 @@ public class BootstrapModule {
 
     @Singleton
     @Provides
-    MessageHandler provideMessageHandler(Bus bus, BootstrapService bootstrapService) {
-        return new MessageHandler(bus, bootstrapService);
+    MessageHandler provideMessageHandler(Bus bus, RestService restService) {
+        return new MessageHandler(bus, restService);
     }
 
     @Provides
@@ -88,13 +88,13 @@ public class BootstrapModule {
     }
 
     @Provides
-    BootstrapService provideBootstrapService(RestAdapter restAdapter) {
-        return new BootstrapService(restAdapter);
+    RestService provideRestService(RestAdapter restAdapter) {
+        return new RestService(restAdapter);
     }
 
     @Provides
-    BootstrapServiceProvider provideBootstrapServiceProvider(RestAdapter restAdapter, ApiKeyProvider apiKeyProvider) {
-        return new BootstrapServiceProvider(restAdapter, apiKeyProvider);
+    ServiceProvider provideServiceProvider(RestAdapter restAdapter, ApiKeyProvider apiKeyProvider) {
+        return new ServiceProvider(restAdapter, apiKeyProvider);
     }
 
     @Provides

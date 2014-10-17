@@ -10,7 +10,7 @@ import android.util.Log;
 import static com.aumum.app.mobile.core.Constants.Auth.*;
 
 import com.aumum.app.mobile.tests.R;
-import com.aumum.app.mobile.util.Ln;
+import com.aumum.app.mobile.utils.Ln;
 
 
 /**

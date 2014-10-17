@@ -7,8 +7,6 @@ import android.util.AttributeSet;
 import android.util.Log;
 import android.widget.Button;
 
-import com.aumum.app.mobile.util.Strings;
-import android.util.Log;
 import java.util.Hashtable;
 import java.util.Locale;
 

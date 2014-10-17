@@ -5,7 +5,7 @@ package com.aumum.app.mobile.core.core;
 import static org.hamcrest.Matchers.notNullValue;
 import static org.junit.Assert.assertThat;
 
-import com.aumum.app.mobile.core.BootstrapService;
+import com.aumum.app.mobile.core.RestService;
 import com.aumum.app.mobile.core.User;
 
 import java.util.List;
@@ -21,7 +21,7 @@ public class BootstrapApiClientUtilTest {
     @Test
     @Ignore("Requires the API to use basic authentication. Parse.com api does not. See BootstrapService for more info.")
     public void shouldCreateClient() throws Exception {
-        List<User> users = new BootstrapService("demo@androidbootstrap.com", "foobar").getUsers();
+        List<User> users = new RestService("demo@androidbootstrap.com", "foobar").getUsers();
 
         assertThat(users.get(0).getUsername(), notNullValue());
     }
