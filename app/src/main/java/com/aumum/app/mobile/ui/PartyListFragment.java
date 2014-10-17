@@ -78,7 +78,7 @@ public class PartyListFragment extends CardListFragment {
 
     @Override
     public void onActivityResult (int requestCode, int resultCode, Intent data) {
-        if (resultCode == Activity.RESULT_OK) {
+        if (requestCode == NEW_PARTY_POST_REQ_CODE && resultCode == Activity.RESULT_OK) {
             doRefresh(UPWARDS_REFRESH, null);
         }
     }

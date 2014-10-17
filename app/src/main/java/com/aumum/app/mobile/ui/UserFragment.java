@@ -1,20 +1,28 @@
 package com.aumum.app.mobile.ui;
 
+import android.app.Activity;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.aumum.app.mobile.Injector;
 import com.aumum.app.mobile.R;
 import com.aumum.app.mobile.authenticator.ApiKeyProvider;
+import com.aumum.app.mobile.core.ImageUtils;
+import com.aumum.app.mobile.core.ReceiveUriScaledBitmapTask;
 import com.aumum.app.mobile.core.User;
 import com.aumum.app.mobile.core.UserStore;
 import com.aumum.app.mobile.ui.view.EditProfileTextView;
 import com.aumum.app.mobile.ui.view.FollowTextView;
+import com.soundcloud.android.crop.Crop;
+
+import java.io.File;
 
 import javax.inject.Inject;
 
@@ -22,14 +30,17 @@ import javax.inject.Inject;
  * A simple {@link Fragment} subclass.
  *
  */
-public class UserFragment extends LoaderFragment<User> {
+public class UserFragment extends LoaderFragment<User>
+        implements ReceiveUriScaledBitmapTask.ReceiveUriScaledBitmapListener {
     @Inject ApiKeyProvider apiKeyProvider;
     private UserStore dataStore;
+    private Uri outputUri;
 
     private String userId;
     private String currentUserId;
 
     private View mainView;
+    private ImageView avatarImage;
     private TextView userNameText;
     private TextView partyCountText;
     private TextView followingCountText;
@@ -69,6 +80,8 @@ public class UserFragment extends LoaderFragment<User> {
 
         mainView = view.findViewById(R.id.main_view);
 
+        avatarImage = (ImageView) view.findViewById(R.id.image_avatar);
+
         userNameText = (TextView) view.findViewById(R.id.text_user_name);
 
         followText = (FollowTextView) view.findViewById(R.id.text_follow);
@@ -86,6 +99,19 @@ public class UserFragment extends LoaderFragment<User> {
         mainView = null;
 
         super.onDestroyView();
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == Crop.REQUEST_CROP) {
+            //handleCrop(resultCode, data);
+        } else if (requestCode == ImageUtils.GALLERY_INTENT_CALLED && resultCode == Activity.RESULT_OK) {
+            Uri originalUri = data.getData();
+            if (originalUri != null) {
+                new ReceiveUriScaledBitmapTask(getActivity(), this).execute(originalUri);
+            }
+        }
+        super.onActivityResult(requestCode, resultCode, data);
     }
 
     @Override
@@ -122,6 +148,12 @@ public class UserFragment extends LoaderFragment<User> {
             setData(user);
             userNameText.setText(user.getUsername());
             if (userId.equals(currentUserId)) {
+                avatarImage.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        startImageSelector();
+                    }
+                });
                 followText.setVisibility(View.GONE);
                 editProfileText.setVisibility(View.VISIBLE);
             } else {
@@ -135,5 +167,19 @@ public class UserFragment extends LoaderFragment<User> {
             followingCountText.setText(String.valueOf(user.getFollowings().size()));
             followedCountText.setText(String.valueOf(user.getFollowers().size()));
         }
+    }
+
+    private void startImageSelector() {
+        ImageUtils.getImageFromFragment(this);
+    }
+
+    @Override
+    public void onUriScaledBitmapReceived(Uri uri) {
+        startCropActivity(uri);
+    }
+
+    private void startCropActivity(Uri originalUri) {
+        outputUri = Uri.fromFile(new File(getActivity().getCacheDir(), Crop.class.getName()));
+        new Crop(originalUri).output(outputUri).asSquare().start(getActivity());
     }
 }

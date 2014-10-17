@@ -80,7 +80,7 @@
 
     <!-- Party Details -->
     <string name="title_activity_party_details">活动详情</string>
-    <string name="invalid_party">无法该活动信息</string>
+    <string name="invalid_party">无法获取该活动信息</string>
     <string name="error_loading_party">获取活动信息失败</string>
     <string name="label_you_join_the_party">你报名了该活动</string>
     <string name="label_you_and_others_join_the_party">你和其他%,d人报名了该活动</string>
@@ -88,5 +88,7 @@
     <string name="label_you_like_the_party">你点赞了该活动</string>
     <string name="label_you_and_others_like_the_party">你和其他%,d人点赞了该活动</string>
     <string name="label_others_like_the_party">%,d人点赞了该活动</string>
+
+    <string name="invalid_image">无法获取该图片</string>
 
 </resources>
