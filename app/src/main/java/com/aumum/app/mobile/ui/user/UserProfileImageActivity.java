@@ -25,8 +25,8 @@ import java.io.File;
 
 import javax.inject.Inject;
 
+import butterknife.ButterKnife;
 import butterknife.InjectView;
-import butterknife.Views;
 import retrofit.RetrofitError;
 
 public class UserProfileImageActivity extends Activity
@@ -54,7 +54,7 @@ public class UserProfileImageActivity extends Activity
         super.onCreate(savedInstanceState);
         Injector.inject(this);
         setContentView(R.layout.activity_user_profile_image);
-        Views.inject(this);
+        ButterKnife.inject(this);
 
         final Intent intent = getIntent();
         userId = intent.getStringExtra(INTENT_USER_ID);

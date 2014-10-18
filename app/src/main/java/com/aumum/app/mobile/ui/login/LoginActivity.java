@@ -43,8 +43,8 @@ import com.squareup.otto.Subscribe;
 
 import javax.inject.Inject;
 
+import butterknife.ButterKnife;
 import butterknife.InjectView;
-import butterknife.Views;
 import retrofit.RetrofitError;
 
 /**
@@ -98,7 +98,7 @@ public class LoginActivity extends ActionBarActivity {
 
         setContentView(layout.login_activity);
 
-        Views.inject(this);
+        ButterKnife.inject(this);
 
         passwordText.setOnKeyListener(new OnKeyListener() {
 

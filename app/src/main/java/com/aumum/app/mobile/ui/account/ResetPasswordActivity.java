@@ -28,8 +28,8 @@ import java.util.List;
 
 import javax.inject.Inject;
 
+import butterknife.ButterKnife;
 import butterknife.InjectView;
-import butterknife.Views;
 import retrofit.RetrofitError;
 
 import static android.R.layout.simple_dropdown_item_1line;
@@ -64,7 +64,7 @@ public class ResetPasswordActivity extends ActionBarActivity {
 
         setContentView(R.layout.activity_reset_password);
 
-        Views.inject(this);
+        ButterKnife.inject(this);
 
         emailText.setAdapter(new ArrayAdapter<String>(this,
                 simple_dropdown_item_1line, userEmailAccounts()));

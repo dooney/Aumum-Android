@@ -23,7 +23,7 @@ import com.squareup.otto.Bus;
 
 import javax.inject.Inject;
 
-import butterknife.Views;
+import butterknife.ButterKnife;
 
 /**
  * Initial activity for the application.
@@ -51,7 +51,7 @@ public class MainActivity extends BaseFragmentActivity {
         Injector.inject(this);
 
         setContentView(R.layout.main_activity);
-        Views.inject(this);
+        ButterKnife.inject(this);
 
         checkAuth();
     }

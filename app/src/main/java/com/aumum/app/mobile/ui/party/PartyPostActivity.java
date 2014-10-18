@@ -35,8 +35,8 @@ import org.joda.time.DateTime;
 
 import javax.inject.Inject;
 
+import butterknife.ButterKnife;
 import butterknife.InjectView;
-import butterknife.Views;
 import retrofit.RetrofitError;
 
 public class PartyPostActivity extends ActionBarActivity
@@ -81,7 +81,7 @@ public class PartyPostActivity extends ActionBarActivity
 
         setContentView(R.layout.activity_new_party_post);
 
-        Views.inject(this);
+        ButterKnife.inject(this);
 
         dateButton.setOnClickListener(new View.OnClickListener() {
             @Override
