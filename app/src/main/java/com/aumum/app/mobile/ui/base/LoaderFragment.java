@@ -74,6 +74,8 @@ public abstract class LoaderFragment<E> extends Fragment
 
     @Override
     public void onLoadFinished(Loader<E> loader, E data) {
+        getActionBarActivity().setSupportProgressBarIndeterminateVisibility(false);
+
         final Exception exception = getException(loader);
         if (exception != null) {
             showError(getErrorMessage(exception));
@@ -102,7 +104,7 @@ public abstract class LoaderFragment<E> extends Fragment
         getLoaderManager().restartLoader(0, args, this);
     }
 
-    protected ActionBarActivity getActionBarActivity() {
+    private ActionBarActivity getActionBarActivity() {
         return ((ActionBarActivity) getActivity());
     }
 

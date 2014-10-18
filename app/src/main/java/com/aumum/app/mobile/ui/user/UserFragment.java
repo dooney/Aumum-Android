@@ -7,7 +7,6 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.aumum.app.mobile.Injector;
@@ -16,6 +15,7 @@ import com.aumum.app.mobile.core.ApiKeyProvider;
 import com.aumum.app.mobile.core.User;
 import com.aumum.app.mobile.core.UserStore;
 import com.aumum.app.mobile.ui.base.LoaderFragment;
+import com.aumum.app.mobile.ui.view.AvatarImageView;
 import com.aumum.app.mobile.ui.view.EditProfileTextView;
 import com.aumum.app.mobile.ui.view.FollowTextView;
 
@@ -33,7 +33,7 @@ public class UserFragment extends LoaderFragment<User> {
     private String currentUserId;
 
     private View mainView;
-    private ImageView avatarImage;
+    private AvatarImageView avatarImage;
     private TextView userNameText;
     private TextView partyCountText;
     private TextView followingCountText;
@@ -75,7 +75,7 @@ public class UserFragment extends LoaderFragment<User> {
 
         mainView = view.findViewById(R.id.main_view);
 
-        avatarImage = (ImageView) view.findViewById(R.id.image_avatar);
+        avatarImage = (AvatarImageView) view.findViewById(R.id.image_avatar);
 
         userNameText = (TextView) view.findViewById(R.id.text_user_name);
 
@@ -125,15 +125,17 @@ public class UserFragment extends LoaderFragment<User> {
     }
 
     @Override
-    protected void handleLoadResult(User user) throws Exception {
+    protected void handleLoadResult(final User user) throws Exception {
         if (user != null) {
             setData(user);
+
+            avatarImage.getFromUrl(user.getAvatarUrl());
             userNameText.setText(user.getUsername());
             if (userId.equals(currentUserId)) {
                 avatarImage.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        startProfileImageActivity();
+                        startProfileImageActivity(userId, user.getAvatarUrl());
                     }
                 });
                 followText.setVisibility(View.GONE);
@@ -151,9 +153,10 @@ public class UserFragment extends LoaderFragment<User> {
         }
     }
 
-    private void startProfileImageActivity() {
+    private void startProfileImageActivity(String userId, String avatarUrl) {
         final Intent intent = new Intent(getActivity(), UserProfileImageActivity.class);
         intent.putExtra(UserProfileImageActivity.INTENT_USER_ID, userId);
+        intent.putExtra(UserProfileImageActivity.INTENT_AVATAR_URL, avatarUrl);
         startActivityForResult(intent, PROFILE_IMAGE_REQ_CODE);
     }
 

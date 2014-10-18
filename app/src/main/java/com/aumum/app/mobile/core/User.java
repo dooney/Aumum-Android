@@ -8,6 +8,7 @@ public class User extends AggregateRoot {
     protected String sessionToken;
     protected Boolean emailVerified;
     protected int area;
+    protected String avatarUrl;
     protected List<String> followers = new ArrayList<String>();
     protected List<String> followings = new ArrayList<String>();
     protected List<String> messages = new ArrayList<String>();
@@ -28,6 +29,10 @@ public class User extends AggregateRoot {
 
     public int getArea() {
         return area;
+    }
+
+    public String getAvatarUrl() {
+        return avatarUrl;
     }
 
     public List<String> getFollowers() {

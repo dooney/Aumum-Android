@@ -6,9 +6,9 @@
     android:background="@color/grey_extra_light"
     android:padding="@dimen/margin_large">
 
-    <de.hdodenhof.circleimageview.CircleImageView
+    <com.aumum.app.mobile.ui.view.AvatarImageView
         xmlns:app="http://schemas.android.com/apk/res-auto"
-        android:id="@+id/image_comment_avatar"
+        android:id="@+id/image_avatar"
         style="@style/ImageView.Avatar.Small"
         android:layout_marginLeft="@dimen/margin_medium"
         android:layout_marginRight="@dimen/margin_small"
@@ -16,29 +16,29 @@
         app:border_color="@color/transparent"/>
 
     <TextView
-        android:id="@+id/text_comment_user_name"
+        android:id="@+id/text_user_name"
         style="@style/TextView.Comment.UserName"
-        android:layout_alignTop="@+id/image_comment_avatar"
+        android:layout_alignTop="@+id/image_avatar"
         android:layout_marginBottom="@dimen/margin_extra_small"
         android:layout_marginLeft="@dimen/margin_medium"
-        android:layout_toLeftOf="@+id/text_comment_createdAt"
-        android:layout_toRightOf="@+id/image_comment_avatar" />
+        android:layout_toLeftOf="@+id/text_createdAt"
+        android:layout_toRightOf="@+id/image_avatar" />
 
     <TextView
-        android:id="@+id/text_comment_createdAt"
+        android:id="@+id/text_createdAt"
         style="@style/TextView.CreatedAt"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
-        android:layout_alignTop="@+id/image_comment_avatar"
+        android:layout_alignTop="@+id/image_avatar"
         android:layout_marginLeft="@dimen/margin_small"
         android:layout_marginRight="@dimen/margin_small" />
 
     <TextView
-        android:id="@+id/text_comment_text"
+        android:id="@+id/text_content"
         style="@style/TextView.Comment.Text"
-        android:layout_alignLeft="@+id/text_comment_user_name"
-        android:layout_below="@+id/text_comment_user_name"
+        android:layout_alignLeft="@+id/text_user_name"
+        android:layout_below="@+id/text_user_name"
         android:layout_marginTop="@dimen/margin_small"
         android:focusable="false"
         android:focusableInTouchMode="false" />

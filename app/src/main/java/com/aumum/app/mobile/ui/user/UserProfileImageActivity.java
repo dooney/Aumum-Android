@@ -7,7 +7,6 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
-import android.widget.ImageView;
 
 import com.aumum.app.mobile.Injector;
 import com.aumum.app.mobile.R;
@@ -15,6 +14,7 @@ import com.aumum.app.mobile.core.FileUploadService;
 import com.aumum.app.mobile.core.ImageUtils;
 import com.aumum.app.mobile.core.ReceiveUriScaledBitmapTask;
 import com.aumum.app.mobile.core.RestService;
+import com.aumum.app.mobile.ui.view.NetworkImageView;
 import com.aumum.app.mobile.ui.view.ProgressDialog;
 import com.aumum.app.mobile.utils.Ln;
 import com.aumum.app.mobile.utils.SafeAsyncTask;
@@ -33,8 +33,10 @@ public class UserProfileImageActivity extends Activity
         implements ReceiveUriScaledBitmapTask.ReceiveUriScaledBitmapListener,
                    FileUploadService.OnFileUploadListener {
     public static String INTENT_USER_ID = "intentUserId";
+    public static String INTENT_AVATAR_URL = "intentAvatarUrl";
 
     private String userId;
+    private String avatarUrl;
     private Bitmap avatarBitmapCurrent;
 
     private SafeAsyncTask<Boolean> task;
@@ -42,7 +44,7 @@ public class UserProfileImageActivity extends Activity
 
     @Inject RestService restService;
 
-    @InjectView(R.id.image_avatar) protected ImageView avatarImage;
+    @InjectView(R.id.image_avatar) protected NetworkImageView avatarImage;
     @InjectView(R.id.b_change_avatar) protected Button changeAvatarButton;
     @InjectView(R.id.b_save_avatar) protected Button saveAvatarButton;
 
@@ -58,6 +60,9 @@ public class UserProfileImageActivity extends Activity
 
         final Intent intent = getIntent();
         userId = intent.getStringExtra(INTENT_USER_ID);
+        avatarUrl = intent.getStringExtra(INTENT_AVATAR_URL);
+
+        avatarImage.getFromUrl(avatarUrl, R.drawable.ic_avatar);
 
         changeAvatarButton.setOnClickListener(new View.OnClickListener() {
             @Override

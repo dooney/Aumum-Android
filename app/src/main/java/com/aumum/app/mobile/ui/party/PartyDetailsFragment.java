@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.aumum.app.mobile.Injector;
@@ -19,6 +18,7 @@ import com.aumum.app.mobile.core.UserStore;
 import com.aumum.app.mobile.ui.base.LoaderFragment;
 import com.aumum.app.mobile.ui.user.UserListener;
 import com.aumum.app.mobile.ui.view.Animation;
+import com.aumum.app.mobile.ui.view.AvatarImageView;
 
 import java.util.List;
 
@@ -36,7 +36,7 @@ public class PartyDetailsFragment extends LoaderFragment<Party> {
     private UserStore userStore;
 
     private View mainView;
-    private ImageView avatarImage;
+    private AvatarImageView avatarImage;
     private TextView areaText;
     private TextView userNameText;
     private TextView titleText;
@@ -80,7 +80,7 @@ public class PartyDetailsFragment extends LoaderFragment<Party> {
         super.onViewCreated(view, savedInstanceState);
 
         mainView = view.findViewById(R.id.main_view);
-        avatarImage = (ImageView) view.findViewById(R.id.image_avatar);
+        avatarImage = (AvatarImageView) view.findViewById(R.id.image_avatar);
         areaText = (TextView) view.findViewById(R.id.text_area);
         userNameText = (TextView) view.findViewById(R.id.text_user_name);
         titleText = (TextView) view.findViewById(R.id.text_title);
@@ -140,7 +140,9 @@ public class PartyDetailsFragment extends LoaderFragment<Party> {
         if (party != null) {
             setData(party);
 
+            avatarImage.getFromUrl(party.getUser().getAvatarUrl());
             avatarImage.setOnClickListener(new UserListener(avatarImage.getContext(), party.getUserId()));
+
             areaText.setText(Constants.AREA_OPTIONS[party.getArea()]);
             userNameText.setText(party.getUser().getUsername());
             userNameText.setOnClickListener(new UserListener(userNameText.getContext(), party.getUserId()));
@@ -165,7 +167,9 @@ public class PartyDetailsFragment extends LoaderFragment<Party> {
 
             for(String userId: members) {
                 if (!userId.equals(currentUserId)) {
-                    ImageView imgAvatar = (ImageView) inflater.inflate(R.layout.small_avatar, layoutMembersAvatars, false);
+                    AvatarImageView imgAvatar = (AvatarImageView) inflater.inflate(R.layout.small_avatar, layoutMembersAvatars, false);
+                    User user = userStore.getUserById(userId, false);
+                    imgAvatar.getFromUrl(user.getAvatarUrl());
                     layoutMembersAvatars.addView(imgAvatar);
                 }
             }
@@ -194,7 +198,9 @@ public class PartyDetailsFragment extends LoaderFragment<Party> {
 
             for(String userId: likes) {
                 if (!userId.equals(currentUserId)) {
-                    ImageView imgAvatar = (ImageView) inflater.inflate(R.layout.small_avatar, layoutLikingAvatars, false);
+                    AvatarImageView imgAvatar = (AvatarImageView) inflater.inflate(R.layout.small_avatar, layoutLikingAvatars, false);
+                    User user = userStore.getUserById(userId, false);
+                    imgAvatar.getFromUrl(user.getAvatarUrl());
                     layoutLikingAvatars.addView(imgAvatar);
                 }
             }

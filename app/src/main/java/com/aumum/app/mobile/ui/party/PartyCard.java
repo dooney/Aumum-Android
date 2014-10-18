@@ -4,13 +4,13 @@ import android.content.Context;
 import android.content.Intent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.aumum.app.mobile.R;
 import com.aumum.app.mobile.core.Constants;
 import com.aumum.app.mobile.core.Party;
 import com.aumum.app.mobile.ui.user.UserListener;
+import com.aumum.app.mobile.ui.view.AvatarImageView;
 import com.aumum.app.mobile.ui.view.CommentTextView;
 import com.aumum.app.mobile.ui.view.JoinTextView;
 import com.aumum.app.mobile.ui.view.LikeTextView;
@@ -42,7 +42,8 @@ public class PartyCard extends Card {
     public void setupInnerViewElements(ViewGroup parent, View view) {
         super.setupInnerViewElements(parent, view);
 
-        ImageView avatarImage = (ImageView) view.findViewById(R.id.image_avatar);
+        AvatarImageView avatarImage = (AvatarImageView) view.findViewById(R.id.image_avatar);
+        avatarImage.getFromUrl(party.getUser().getAvatarUrl());
         avatarImage.setOnClickListener(new UserListener(avatarImage.getContext(), party.getUserId()));
 
         TextView areaText = (TextView) view.findViewById(R.id.text_area);
