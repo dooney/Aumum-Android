@@ -110,7 +110,7 @@ public class PartyCommentsFragment extends ItemListFragment<Comment> {
 
     @Override
     protected int getErrorMessage(Exception exception) {
-        return R.string.error_loading_party_comments;
+        return R.string.error_load_party_comments;
     }
 
     @Override
@@ -198,7 +198,6 @@ public class PartyCommentsFragment extends ItemListFragment<Comment> {
 
             @Override
             protected void onException(final Exception e) throws RuntimeException {
-                // Retrofit Errors are handled inside of the {
                 if(!(e instanceof RetrofitError)) {
                     final Throwable cause = e.getCause() != null ? e.getCause() : e;
                     if(cause != null) {

@@ -3,7 +3,6 @@ package com.aumum.app.mobile.ui.base;
 
 import android.os.Bundle;
 import android.support.v4.content.Loader;
-import android.support.v7.app.ActionBarActivity;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ListAdapter;
@@ -44,20 +43,6 @@ public abstract class ItemListFragment<E> extends LoaderFragment<List<E>> {
         listView = (ListView) view.findViewById(android.R.id.list);
 
         setListAdapter(createAdapter(getData()));
-    }
-
-    protected void refresh(final Bundle args) {
-        if (!isUsable()) {
-            return;
-        }
-
-        getActionBarActivity().setSupportProgressBarIndeterminateVisibility(true);
-
-        getLoaderManager().restartLoader(0, args, this);
-    }
-
-    private ActionBarActivity getActionBarActivity() {
-        return ((ActionBarActivity) getActivity());
     }
 
     public void onLoadFinished(final Loader<List<E>> loader, final List<E> items) {

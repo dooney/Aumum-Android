@@ -2,7 +2,6 @@ package com.aumum.app.mobile.ui.user;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -14,17 +13,11 @@ import android.widget.TextView;
 import com.aumum.app.mobile.Injector;
 import com.aumum.app.mobile.R;
 import com.aumum.app.mobile.core.ApiKeyProvider;
-import com.aumum.app.mobile.core.ImageUtils;
-import com.aumum.app.mobile.core.ReceiveUriScaledBitmapTask;
 import com.aumum.app.mobile.core.User;
 import com.aumum.app.mobile.core.UserStore;
 import com.aumum.app.mobile.ui.base.LoaderFragment;
 import com.aumum.app.mobile.ui.view.EditProfileTextView;
 import com.aumum.app.mobile.ui.view.FollowTextView;
-import com.aumum.app.mobile.ui.view.ProgressDialog;
-import com.soundcloud.android.crop.Crop;
-
-import java.io.File;
 
 import javax.inject.Inject;
 
@@ -32,16 +25,12 @@ import javax.inject.Inject;
  * A simple {@link Fragment} subclass.
  *
  */
-public class UserFragment extends LoaderFragment<User>
-        implements ReceiveUriScaledBitmapTask.ReceiveUriScaledBitmapListener {
+public class UserFragment extends LoaderFragment<User> {
     @Inject ApiKeyProvider apiKeyProvider;
     private UserStore dataStore;
-    private Uri outputUri;
 
     private String userId;
     private String currentUserId;
-
-    private final ProgressDialog progress = ProgressDialog.newInstance(R.string.message_loading);
 
     private View mainView;
     private ImageView avatarImage;
@@ -51,6 +40,8 @@ public class UserFragment extends LoaderFragment<User>
     private TextView followedCountText;
     private FollowTextView followText;
     private EditProfileTextView editProfileText;
+
+    private final int PROFILE_IMAGE_REQ_CODE = 32;
 
     @Override
     public void onCreate(final Bundle savedInstanceState) {
@@ -106,22 +97,8 @@ public class UserFragment extends LoaderFragment<User>
     }
 
     @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == Crop.REQUEST_CROP) {
-            //handleCrop(resultCode, data);
-        } else if (requestCode == ImageUtils.GALLERY_INTENT_CALLED && resultCode == Activity.RESULT_OK) {
-            Uri originalUri = data.getData();
-            if (originalUri != null) {
-                showProgress();
-                new ReceiveUriScaledBitmapTask(getActivity(), this).execute(originalUri);
-            }
-        }
-        super.onActivityResult(requestCode, resultCode, data);
-    }
-
-    @Override
     protected int getErrorMessage(Exception exception) {
-        return R.string.error_loading_user;
+        return R.string.error_load_user;
     }
 
     @Override
@@ -156,7 +133,7 @@ public class UserFragment extends LoaderFragment<User>
                 avatarImage.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        startImageSelector();
+                        startProfileImageActivity();
                     }
                 });
                 followText.setVisibility(View.GONE);
@@ -174,30 +151,16 @@ public class UserFragment extends LoaderFragment<User>
         }
     }
 
-    private void startImageSelector() {
-        ImageUtils.getImageFromFragment(this);
+    private void startProfileImageActivity() {
+        final Intent intent = new Intent(getActivity(), UserProfileImageActivity.class);
+        intent.putExtra(UserProfileImageActivity.INTENT_USER_ID, userId);
+        startActivityForResult(intent, PROFILE_IMAGE_REQ_CODE);
     }
 
     @Override
-    public void onUriScaledBitmapReceived(Uri uri) {
-        hideProgress();
-        startCropActivity(uri);
-    }
-
-    private void startCropActivity(Uri originalUri) {
-        outputUri = Uri.fromFile(new File(getActivity().getCacheDir(), Crop.class.getName()));
-        new Crop(originalUri).output(outputUri).asSquare().start(getActivity());
-    }
-
-    private synchronized void showProgress() {
-        if (!progress.isAdded()) {
-            progress.show(getActivity().getFragmentManager(), null);
-        }
-    }
-
-    private synchronized void hideProgress() {
-        if (progress != null && progress.getActivity() != null) {
-            progress.dismissAllowingStateLoss();
+    public void onActivityResult (int requestCode, int resultCode, Intent data) {
+        if (requestCode == PROFILE_IMAGE_REQ_CODE && resultCode == Activity.RESULT_OK) {
+            refresh(null);
         }
     }
 }

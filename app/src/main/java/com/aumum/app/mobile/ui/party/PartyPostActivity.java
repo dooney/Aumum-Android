@@ -59,7 +59,7 @@ public class PartyPostActivity extends ActionBarActivity
     protected MenuItem sendButton;
 
     private final TextWatcher watcher = validationTextWatcher();
-    private final ProgressDialog progress = ProgressDialog.newInstance(R.string.message_posting);
+    private final ProgressDialog progress = ProgressDialog.newInstance(R.string.message_posting_party);
 
     private SafeAsyncTask<Boolean> newPartyPostTask;
 
@@ -262,7 +262,7 @@ public class PartyPostActivity extends ActionBarActivity
         newPartyPostTask = new SafeAsyncTask<Boolean>() {
             public Boolean call() throws Exception {
                 if (!party.validate()) {
-                    throw new Exception(getString(R.string.message_model_validation_failed));
+                    throw new Exception(getString(R.string.error_validate_party));
                 }
                 User user = userStore.getCurrentUser(false);
                 party.setUserId(user.getObjectId());
@@ -276,7 +276,6 @@ public class PartyPostActivity extends ActionBarActivity
 
             @Override
             protected void onException(final Exception e) throws RuntimeException {
-                // Retrofit Errors are handled inside of the {
                 if(!(e instanceof RetrofitError)) {
                     final Throwable cause = e.getCause() != null ? e.getCause() : e;
                     if(cause != null) {
@@ -304,7 +303,7 @@ public class PartyPostActivity extends ActionBarActivity
             finishNewPartyPost();
         } else {
             Toaster.showLong(PartyPostActivity.this,
-                    R.string.message_post_failed_new_party);
+                    R.string.error_post_new_party);
         }
     }
 }

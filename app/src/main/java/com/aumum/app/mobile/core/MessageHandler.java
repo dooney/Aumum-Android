@@ -56,7 +56,6 @@ public class MessageHandler {
 
             @Override
             protected void onException(final Exception e) throws RuntimeException {
-                // Retrofit Errors are handled inside of the {
                 if(!(e instanceof RetrofitError)) {
                     final Throwable cause = e.getCause() != null ? e.getCause() : e;
                     if(cause != null) {
@@ -87,7 +86,6 @@ public class MessageHandler {
 
             @Override
             protected void onException(final Exception e) throws RuntimeException {
-                // Retrofit Errors are handled inside of the {
                 if(!(e instanceof RetrofitError)) {
                     final Throwable cause = e.getCause() != null ? e.getCause() : e;
                     if(cause != null) {
@@ -118,7 +116,6 @@ public class MessageHandler {
 
             @Override
             protected void onException(final Exception e) throws RuntimeException {
-                // Retrofit Errors are handled inside of the {
                 if(!(e instanceof RetrofitError)) {
                     final Throwable cause = e.getCause() != null ? e.getCause() : e;
                     if(cause != null) {

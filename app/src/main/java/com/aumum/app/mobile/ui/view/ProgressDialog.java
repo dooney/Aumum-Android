@@ -13,8 +13,20 @@ public class ProgressDialog extends DialogFragment {
 
     private int messageId;
 
+    public void setMessageId(int messageId) {
+        this.messageId = messageId;
+    }
+
+    public static ProgressDialog newInstance() {
+        return new ProgressDialog();
+    }
+
     public static ProgressDialog newInstance(int messageId) {
         return new ProgressDialog(messageId);
+    }
+
+    private ProgressDialog() {
+
     }
 
     private ProgressDialog(int messageId) {

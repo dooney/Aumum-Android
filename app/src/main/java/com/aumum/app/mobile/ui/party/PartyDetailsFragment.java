@@ -106,7 +106,7 @@ public class PartyDetailsFragment extends LoaderFragment<Party> {
 
     @Override
     protected int getErrorMessage(Exception exception) {
-        return R.string.error_loading_party;
+        return R.string.error_load_party;
     }
 
     @Override

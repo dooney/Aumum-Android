@@ -18,7 +18,6 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.ParcelFileDescriptor;
 import android.provider.MediaStore;
-import android.support.v4.app.Fragment;
 import android.text.TextUtils;
 import android.util.DisplayMetrics;
 import android.util.TypedValue;
@@ -48,7 +47,7 @@ import java.lang.ref.WeakReference;
 
 public class ImageUtils {
 
-    public static final int GALLERY_INTENT_CALLED = 32;
+    public static final int GALLERY_INTENT_CALLED = 1017;
 
     private static final String TEMP_FILE_NAME = "temp.png";
 
@@ -92,7 +91,7 @@ public class ImageUtils {
                         new UsingFreqLimitedMemoryCache(MEMORY_CACHE_LIMIT)).writeDebugLogs()
                 .defaultDisplayImageOptions(UIL_DEFAULT_DISPLAY_OPTIONS).imageDecoder(
                         new SmartUriDecoder(context, new BaseImageDecoder(false)))
-                .denyCacheImageMultipleSizesInMemory().discCacheFileNameGenerator(
+                .denyCacheImageMultipleSizesInMemory().diskCacheFileNameGenerator(
                         new HashCodeFileNameGeneratorWithoutToken()).build();
         return imageLoaderConfiguration;
     }
@@ -171,17 +170,17 @@ public class ImageUtils {
         }
     }
 
-    public static void getImageFromFragment(Fragment fragment) {
+    public static void getImage(Activity activity) {
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.KITKAT) {
             Intent intent = new Intent();
             intent.setType("image/*");
             intent.setAction(Intent.ACTION_GET_CONTENT);
-            fragment.startActivityForResult(intent, GALLERY_INTENT_CALLED);
+            activity.startActivityForResult(intent, GALLERY_INTENT_CALLED);
         } else {
             Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
             intent.addCategory(Intent.CATEGORY_OPENABLE);
             intent.setType("image/*");
-            fragment.startActivityForResult(intent, GALLERY_INTENT_CALLED);
+            activity.startActivityForResult(intent, GALLERY_INTENT_CALLED);
         }
     }
 

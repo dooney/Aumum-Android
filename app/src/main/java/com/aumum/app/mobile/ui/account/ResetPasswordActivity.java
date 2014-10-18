@@ -48,7 +48,7 @@ public class ResetPasswordActivity extends ActionBarActivity {
     @InjectView(R.id.b_reset_password) protected Button submitButton;
 
     private final TextWatcher watcher = validationTextWatcher();
-    private final ProgressDialog progress = ProgressDialog.newInstance(R.string.message_submitting);
+    private final ProgressDialog progress = ProgressDialog.newInstance(R.string.message_submitting_password_reset);
 
     private SafeAsyncTask<Boolean> resetPasswordTask;
 
@@ -158,7 +158,6 @@ public class ResetPasswordActivity extends ActionBarActivity {
 
             @Override
             protected void onException(final Exception e) throws RuntimeException {
-                // Retrofit Errors are handled inside of the {
                 if(!(e instanceof RetrofitError)) {
                     final Throwable cause = e.getCause() != null ? e.getCause() : e;
                     if(cause != null) {
@@ -193,7 +192,7 @@ public class ResetPasswordActivity extends ActionBarActivity {
             finishSubmit();
         } else {
             Toaster.showLong(ResetPasswordActivity.this,
-                    R.string.message_auth_failed_reset_password);
+                    R.string.error_reset_password);
         }
     }
 }

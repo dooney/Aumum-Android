@@ -105,6 +105,6 @@ public class MessageListFragment extends CardListFragment {
 
     @Override
     protected int getErrorMessage(Exception exception) {
-        return R.string.error_loading_messages;
+        return R.string.error_load_messages;
     }
 }

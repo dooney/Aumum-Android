@@ -56,7 +56,7 @@ public class RegisterActivity extends ActionBarActivity {
     @InjectView(R.id.t_prompt_sign_in) protected TextView promptSignInText;
 
     private final TextWatcher watcher = validationTextWatcher();
-    private final ProgressDialog progress = ProgressDialog.newInstance(R.string.message_processing);
+    private final ProgressDialog progress = ProgressDialog.newInstance(R.string.message_processing_registration);
 
     private SafeAsyncTask<Boolean> registerTask;
 
@@ -200,7 +200,6 @@ public class RegisterActivity extends ActionBarActivity {
 
             @Override
             protected void onException(final Exception e) throws RuntimeException {
-                // Retrofit Errors are handled inside of the {
                 if(!(e instanceof RetrofitError)) {
                     final Throwable cause = e.getCause() != null ? e.getCause() : e;
                     if(cause != null) {
@@ -235,7 +234,7 @@ public class RegisterActivity extends ActionBarActivity {
             finishRegistration();
         } else {
             Toaster.showLong(RegisterActivity.this,
-                    R.string.message_auth_failed_new_account);
+                    R.string.error_authentication);
         }
     }
 }

@@ -66,7 +66,7 @@ public class LoginActivity extends ActionBarActivity {
     @InjectView(id.t_join_now) protected TextView joinNowText;
 
     private final TextWatcher watcher = validationTextWatcher();
-    private final ProgressDialog progress = ProgressDialog.newInstance(R.string.message_signing_in);
+    private final ProgressDialog progress = ProgressDialog.newInstance(R.string.message_authenticating);
 
     private SafeAsyncTask<Boolean> authenticationTask;
     private String authToken;
@@ -182,7 +182,7 @@ public class LoginActivity extends ActionBarActivity {
     @Subscribe
     public void onUnAuthorizedErrorEvent(UnAuthorizedErrorEvent unAuthorizedErrorEvent) {
         // Could not authorize for some reason.
-        Toaster.showLong(LoginActivity.this, R.string.message_auth_failed_bad_credentials);
+        Toaster.showLong(LoginActivity.this, R.string.error_bad_credentials);
     }
 
     private synchronized void showProgress() {
@@ -218,7 +218,7 @@ public class LoginActivity extends ActionBarActivity {
             public Boolean call() throws Exception {
                 User response = restService.authenticate(username, password);
                 if (!response.getEmailVerified()) {
-                    throw new Exception(getString(R.string.message_auth_failed_not_verified));
+                    throw new Exception(getString(R.string.error_authentication_email_not_verified));
                 }
                 userStore.saveCurrentUser(response);
                 token = response.getSessionToken();
@@ -229,7 +229,6 @@ public class LoginActivity extends ActionBarActivity {
 
             @Override
             protected void onException(final Exception e) throws RuntimeException {
-                // Retrofit Errors are handled inside of the {
                 if(!(e instanceof RetrofitError)) {
                     final Throwable cause = e.getCause() != null ? e.getCause() : e;
                     if(cause != null) {
@@ -288,7 +287,7 @@ public class LoginActivity extends ActionBarActivity {
             finishLogin();
         } else {
             Toaster.showLong(LoginActivity.this,
-                    R.string.message_auth_failed_new_account);
+                    R.string.error_authentication);
         }
     }
 }

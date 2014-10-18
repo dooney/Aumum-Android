@@ -28,6 +28,7 @@ import com.aumum.app.mobile.ui.message.MessageListFragment;
 import com.aumum.app.mobile.ui.party.PartyCommentsFragment;
 import com.aumum.app.mobile.ui.party.PartyDetailsFragment;
 import com.aumum.app.mobile.ui.user.UserFragment;
+import com.aumum.app.mobile.ui.user.UserProfileImageActivity;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.squareup.otto.Bus;
@@ -64,7 +65,8 @@ import retrofit.converter.GsonConverter;
                 PartyCommentStore.class,
                 PartyCommentsFragment.class,
                 UserFragment.class,
-                PartyDetailsFragment.class
+                PartyDetailsFragment.class,
+                UserProfileImageActivity.class
         }
 )
 public class BootstrapModule {

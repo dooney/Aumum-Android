@@ -328,4 +328,10 @@ public class RestService {
         data.add(Constants.Http.User.PARAM_PARTY_POSTS, op);
         return getUserService().updateById(userId, data);
     }
+
+    public JsonObject updateUserAvatar(String userId, String avatarUrl) {
+        final JsonObject data = new JsonObject();
+        data.addProperty(Constants.Http.User.PARAM_AVATAR_URL, avatarUrl);
+        return getUserService().updateById(userId, data);
+    }
 }
