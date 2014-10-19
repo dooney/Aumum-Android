@@ -7,7 +7,7 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 
 import com.aumum.app.mobile.R;
-import com.aumum.app.mobile.core.Comment;
+import com.aumum.app.mobile.core.model.Comment;
 
 import java.util.List;
 

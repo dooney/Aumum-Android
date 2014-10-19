@@ -6,9 +6,9 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.doReturn;
 
-import com.aumum.app.mobile.core.RestService;
-import com.aumum.app.mobile.core.User;
-import com.aumum.app.mobile.core.UserAgentProvider;
+import com.aumum.app.mobile.core.service.RestService;
+import com.aumum.app.mobile.core.model.User;
+import com.aumum.app.mobile.core.api.UserAgentProvider;
 import com.github.kevinsawicki.http.HttpRequest;
 
 import java.io.BufferedReader;
@@ -24,7 +24,7 @@ import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
 /**
- * Unit tests of {@link com.aumum.app.mobile.core.RestService}
+ * Unit tests of {@link com.aumum.app.mobile.core.service.RestService}
  */
 @RunWith(MockitoJUnitRunner.class)
 public class BootstrapServiceTest {

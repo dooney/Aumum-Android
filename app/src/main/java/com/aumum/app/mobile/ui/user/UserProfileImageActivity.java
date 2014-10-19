@@ -10,10 +10,10 @@ import android.widget.Button;
 
 import com.aumum.app.mobile.Injector;
 import com.aumum.app.mobile.R;
-import com.aumum.app.mobile.core.FileUploadService;
-import com.aumum.app.mobile.core.ImageUtils;
-import com.aumum.app.mobile.core.ReceiveUriScaledBitmapTask;
-import com.aumum.app.mobile.core.RestService;
+import com.aumum.app.mobile.core.service.FileUploadService;
+import com.aumum.app.mobile.utils.ImageUtils;
+import com.aumum.app.mobile.utils.ReceiveUriScaledBitmapTask;
+import com.aumum.app.mobile.core.service.RestService;
 import com.aumum.app.mobile.ui.view.NetworkImageView;
 import com.aumum.app.mobile.ui.view.ProgressDialog;
 import com.aumum.app.mobile.utils.Ln;

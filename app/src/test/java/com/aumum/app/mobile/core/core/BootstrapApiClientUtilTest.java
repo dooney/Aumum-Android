@@ -5,8 +5,8 @@ package com.aumum.app.mobile.core.core;
 import static org.hamcrest.Matchers.notNullValue;
 import static org.junit.Assert.assertThat;
 
-import com.aumum.app.mobile.core.RestService;
-import com.aumum.app.mobile.core.User;
+import com.aumum.app.mobile.core.service.RestService;
+import com.aumum.app.mobile.core.model.User;
 
 import java.util.List;
 

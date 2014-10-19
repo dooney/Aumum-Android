@@ -1,10 +1,10 @@
 package com.aumum.app.mobile.ui.party;
 
 import com.aumum.app.mobile.Injector;
-import com.aumum.app.mobile.core.RestService;
-import com.aumum.app.mobile.core.Party;
-import com.aumum.app.mobile.core.User;
-import com.aumum.app.mobile.core.UserStore;
+import com.aumum.app.mobile.core.service.RestService;
+import com.aumum.app.mobile.core.model.Party;
+import com.aumum.app.mobile.core.model.User;
+import com.aumum.app.mobile.core.dao.UserStore;
 import com.aumum.app.mobile.events.JoinEvent;
 import com.aumum.app.mobile.events.UnJoinEvent;
 import com.aumum.app.mobile.ui.view.JoinTextView;

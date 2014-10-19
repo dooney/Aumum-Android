@@ -6,7 +6,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.aumum.app.mobile.R;
-import com.aumum.app.mobile.core.Message;
+import com.aumum.app.mobile.core.model.Message;
 import com.aumum.app.mobile.ui.user.UserListener;
 import com.aumum.app.mobile.ui.view.AvatarImageView;
 

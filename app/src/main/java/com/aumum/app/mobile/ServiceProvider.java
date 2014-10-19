@@ -4,15 +4,15 @@ package com.aumum.app.mobile;
 import android.accounts.AccountsException;
 import android.app.Activity;
 
-import com.aumum.app.mobile.core.ApiKeyProvider;
-import com.aumum.app.mobile.core.RestService;
+import com.aumum.app.mobile.core.infra.security.ApiKeyProvider;
+import com.aumum.app.mobile.core.service.RestService;
 
 import java.io.IOException;
 
 import retrofit.RestAdapter;
 
 /**
- * Provider for a {@link com.aumum.app.mobile.core.RestService} instance
+ * Provider for a {@link com.aumum.app.mobile.core.service.RestService} instance
  */
 public class ServiceProvider {
 

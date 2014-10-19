@@ -17,7 +17,7 @@ import android.widget.TextView;
 
 import com.aumum.app.mobile.Injector;
 import com.aumum.app.mobile.R;
-import com.aumum.app.mobile.core.RestService;
+import com.aumum.app.mobile.core.service.RestService;
 import com.aumum.app.mobile.ui.helper.TextWatcherAdapter;
 import com.aumum.app.mobile.ui.view.ProgressDialog;
 import com.aumum.app.mobile.utils.SafeAsyncTask;

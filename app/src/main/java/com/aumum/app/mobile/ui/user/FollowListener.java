@@ -1,9 +1,9 @@
 package com.aumum.app.mobile.ui.user;
 
 import com.aumum.app.mobile.Injector;
-import com.aumum.app.mobile.core.RestService;
-import com.aumum.app.mobile.core.User;
-import com.aumum.app.mobile.core.UserStore;
+import com.aumum.app.mobile.core.service.RestService;
+import com.aumum.app.mobile.core.model.User;
+import com.aumum.app.mobile.core.dao.UserStore;
 import com.aumum.app.mobile.events.FollowEvent;
 import com.aumum.app.mobile.ui.view.FollowTextView;
 import com.aumum.app.mobile.utils.Ln;

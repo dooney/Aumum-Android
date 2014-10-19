@@ -15,11 +15,11 @@ import android.widget.TextView;
 
 import com.aumum.app.mobile.Injector;
 import com.aumum.app.mobile.R;
-import com.aumum.app.mobile.core.RestService;
-import com.aumum.app.mobile.core.Comment;
-import com.aumum.app.mobile.core.PartyCommentStore;
-import com.aumum.app.mobile.core.User;
-import com.aumum.app.mobile.core.UserStore;
+import com.aumum.app.mobile.core.service.RestService;
+import com.aumum.app.mobile.core.model.Comment;
+import com.aumum.app.mobile.core.dao.PartyCommentStore;
+import com.aumum.app.mobile.core.model.User;
+import com.aumum.app.mobile.core.dao.UserStore;
 import com.aumum.app.mobile.ui.comment.CommentsAdapter;
 import com.aumum.app.mobile.ui.base.ItemListFragment;
 import com.aumum.app.mobile.ui.view.Animation;

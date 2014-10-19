@@ -46,7 +46,7 @@
         </activity>
 
         <service
-            android:name="com.aumum.app.mobile.core.AccountAuthenticatorService"
+            android:name=".core.infra.security.AccountAuthenticatorService"
             android:process=":auth" >
             <intent-filter>
                 <action android:name="android.accounts.AccountAuthenticator" />

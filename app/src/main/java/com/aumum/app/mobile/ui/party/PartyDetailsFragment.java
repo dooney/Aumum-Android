@@ -9,12 +9,12 @@ import android.widget.TextView;
 
 import com.aumum.app.mobile.Injector;
 import com.aumum.app.mobile.R;
-import com.aumum.app.mobile.core.ApiKeyProvider;
+import com.aumum.app.mobile.core.infra.security.ApiKeyProvider;
 import com.aumum.app.mobile.core.Constants;
-import com.aumum.app.mobile.core.Party;
-import com.aumum.app.mobile.core.PartyStore;
-import com.aumum.app.mobile.core.User;
-import com.aumum.app.mobile.core.UserStore;
+import com.aumum.app.mobile.core.model.Party;
+import com.aumum.app.mobile.core.dao.PartyStore;
+import com.aumum.app.mobile.core.model.User;
+import com.aumum.app.mobile.core.dao.UserStore;
 import com.aumum.app.mobile.ui.base.LoaderFragment;
 import com.aumum.app.mobile.ui.user.UserListener;
 import com.aumum.app.mobile.ui.view.Animation;

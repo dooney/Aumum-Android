@@ -11,7 +11,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.aumum.app.mobile.R;
-import com.aumum.app.mobile.core.ThrowableLoader;
+import com.aumum.app.mobile.core.infra.async.ThrowableLoader;
 import com.aumum.app.mobile.utils.Ln;
 import com.github.kevinsawicki.wishlist.Toaster;
 import com.github.kevinsawicki.wishlist.ViewUtils;

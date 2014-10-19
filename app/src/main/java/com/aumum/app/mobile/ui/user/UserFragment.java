@@ -11,9 +11,9 @@ import android.widget.TextView;
 
 import com.aumum.app.mobile.Injector;
 import com.aumum.app.mobile.R;
-import com.aumum.app.mobile.core.ApiKeyProvider;
-import com.aumum.app.mobile.core.User;
-import com.aumum.app.mobile.core.UserStore;
+import com.aumum.app.mobile.core.infra.security.ApiKeyProvider;
+import com.aumum.app.mobile.core.model.User;
+import com.aumum.app.mobile.core.dao.UserStore;
 import com.aumum.app.mobile.ui.base.LoaderFragment;
 import com.aumum.app.mobile.ui.view.AvatarImageView;
 import com.aumum.app.mobile.ui.view.EditProfileTextView;

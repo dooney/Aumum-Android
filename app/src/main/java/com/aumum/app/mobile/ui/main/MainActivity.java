@@ -12,9 +12,9 @@ import android.view.Window;
 import com.aumum.app.mobile.Injector;
 import com.aumum.app.mobile.ServiceProvider;
 import com.aumum.app.mobile.R;
-import com.aumum.app.mobile.core.ApiKeyProvider;
-import com.aumum.app.mobile.core.LogoutService;
-import com.aumum.app.mobile.core.RestService;
+import com.aumum.app.mobile.core.infra.security.ApiKeyProvider;
+import com.aumum.app.mobile.core.service.LogoutService;
+import com.aumum.app.mobile.core.service.RestService;
 import com.aumum.app.mobile.events.SubscribeChannelEvent;
 import com.aumum.app.mobile.events.UnSubscribeChannelEvent;
 import com.aumum.app.mobile.ui.base.BaseFragmentActivity;
@@ -29,7 +29,7 @@ import butterknife.ButterKnife;
  * Initial activity for the application.
  *
  * If you need to remove the authentication from the application please see
- * {@link com.aumum.app.mobile.core.ApiKeyProvider#getAuthKey(android.app.Activity)}
+ * {@link com.aumum.app.mobile.core.infra.security.ApiKeyProvider#getAuthKey(android.app.Activity)}
  */
 public class MainActivity extends BaseFragmentActivity {
     @Inject protected Bus bus;
