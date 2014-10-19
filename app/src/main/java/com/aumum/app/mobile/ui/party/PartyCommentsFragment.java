@@ -153,6 +153,7 @@ public class PartyCommentsFragment extends ItemListFragment<Comment> {
     private void toggleCommentBox() {
         if (isCommentBoxShow) {
             hideCommentBox();
+            editComment.setHint(R.string.new_comment_hint);
         } else {
             showCommentBox();
         }
