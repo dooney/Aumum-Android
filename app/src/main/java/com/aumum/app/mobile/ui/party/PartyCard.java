@@ -57,7 +57,7 @@ public class PartyCard extends Card {
         titleText.setText(party.getTitle());
 
         TextView createdAtText = (TextView) view.findViewById(R.id.text_createdAt);
-        createdAtText.setText("5分钟前");
+        createdAtText.setText(party.getCreatedAtFormatted());
 
         TextView timeText = (TextView) view.findViewById(R.id.text_time);
         timeText.setText("2014年10月1号 上午11点半");

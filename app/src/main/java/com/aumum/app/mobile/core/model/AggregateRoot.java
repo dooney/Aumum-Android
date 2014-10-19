@@ -1,5 +1,10 @@
 package com.aumum.app.mobile.core.model;
 
+import com.aumum.app.mobile.utils.TimeUtils;
+
+import org.joda.time.DateTime;
+import org.joda.time.DateTimeZone;
+
 import java.io.Serializable;
 
 /**
@@ -23,5 +28,10 @@ public abstract class AggregateRoot implements Serializable {
 
     public void setCreatedAt(String createdAt) {
         this.createdAt = createdAt;
+    }
+
+    public String getCreatedAtFormatted() {
+        DateTime time = new DateTime(createdAt, DateTimeZone.UTC);
+        return TimeUtils.getFormattedTimeString(time);
     }
 }

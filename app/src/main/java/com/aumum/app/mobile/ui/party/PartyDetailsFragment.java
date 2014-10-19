@@ -147,7 +147,7 @@ public class PartyDetailsFragment extends LoaderFragment<Party> {
             userNameText.setText(party.getUser().getUsername());
             userNameText.setOnClickListener(new UserListener(userNameText.getContext(), party.getUserId()));
             titleText.setText(party.getTitle());
-            createdAtText.setText("5分钟前");
+            createdAtText.setText(party.getCreatedAtFormatted());
             timeText.setText("2014年10月1号 上午11点半");
             locationText.setText(party.getLocation());
             ageText.setText(Constants.AGE_OPTIONS[party.getAge()]);

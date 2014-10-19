@@ -38,6 +38,6 @@ public class MessageCard extends Card {
         body.setText(message.getBody());
 
         TextView createdAt = (TextView)view.findViewById(R.id.text_createdAt);
-        createdAt.setText("5分钟前");
+        createdAt.setText(message.getCreatedAtFormatted());
     }
 }

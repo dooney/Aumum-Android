@@ -37,7 +37,7 @@ public class CommentCard {
             progressBar.setVisibility(View.VISIBLE);
         } else {
             progressBar.setVisibility(View.GONE);
-            createdAtText.setText("1分钟前");
+            createdAtText.setText(comment.getCreatedAtFormatted());
             createdAtText.setVisibility(View.VISIBLE);
         }
     }
