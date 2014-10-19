@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -69,7 +70,7 @@ public class PartyCommentsFragment extends ItemListFragment<Comment> {
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        setEmptyText(R.string.no_party_comments);
+        setEmptyText(R.string.no_comments);
     }
 
     @Override
@@ -106,6 +107,20 @@ public class PartyCommentsFragment extends ItemListFragment<Comment> {
         });
 
         return view;
+    }
+
+    @Override
+    public void onViewCreated(final View view, final Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
+        getListView().setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                showCommentBox();
+                Comment comment = getData().get(i);
+                editComment.setHint(getString(R.string.reply_comment_hint, comment.getUser().getUsername(), comment.getText()));
+            }
+        });
     }
 
     @Override

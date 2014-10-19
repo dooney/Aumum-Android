@@ -168,6 +168,7 @@ public class PartyDetailsFragment extends LoaderFragment<Party> {
             for(String userId: members) {
                 if (!userId.equals(currentUserId)) {
                     AvatarImageView imgAvatar = (AvatarImageView) inflater.inflate(R.layout.small_avatar, layoutMembersAvatars, false);
+                    imgAvatar.setOnClickListener(new UserListener(getActivity(), userId));
                     User user = userStore.getUserById(userId, false);
                     imgAvatar.getFromUrl(user.getAvatarUrl());
                     layoutMembersAvatars.addView(imgAvatar);
@@ -199,6 +200,7 @@ public class PartyDetailsFragment extends LoaderFragment<Party> {
             for(String userId: likes) {
                 if (!userId.equals(currentUserId)) {
                     AvatarImageView imgAvatar = (AvatarImageView) inflater.inflate(R.layout.small_avatar, layoutLikingAvatars, false);
+                    imgAvatar.setOnClickListener(new UserListener(getActivity(), userId));
                     User user = userStore.getUserById(userId, false);
                     imgAvatar.getFromUrl(user.getAvatarUrl());
                     layoutLikingAvatars.addView(imgAvatar);

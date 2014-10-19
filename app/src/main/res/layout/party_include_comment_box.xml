@@ -19,7 +19,7 @@
         android:layout_toLeftOf="@+id/image_post_comment"
         android:background="@color/transparent"
         android:gravity="center_vertical"
-        android:hint="@string/party_hint_comment_on_post"
+        android:hint="@string/new_comment_hint"
         android:imeOptions="actionSend"
         android:inputType="text|textCapSentences|textMultiLine"
         android:maxLines="4"

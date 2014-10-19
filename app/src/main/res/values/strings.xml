@@ -84,9 +84,10 @@
     <string name="invalid_user">无法获取该用户信息</string>
     <string name="invalid_image">无法获取该图片</string>
 
-    <!-- Party Comments -->
-    <string name="no_party_comments">暂时还没有评论，你是沙发哦！</string>
-    <string name="party_hint_comment_on_post">写评论</string>
+    <!-- Comments -->
+    <string name="no_comments">暂时还没有评论，你是沙发哦！</string>
+    <string name="new_comment_hint">写评论</string>
+    <string name="reply_comment_hint">回复@%1$s：%2$s</string>
 
     <!-- Party Details -->
     <string name="title_activity_party_details">活动详情</string>
