@@ -12,14 +12,12 @@ import javax.inject.Inject;
 public class UserStore {
     private static UserStore instance;
 
-    @Inject
-    RestService restService;
+    @Inject RestService restService;
+    @Inject ApiKeyProvider apiKeyProvider;
 
     private DiskCacheService diskCacheService;
 
     private String DISK_CACHE_KEY = "User";
-
-    private String CURRENT_USER_KEY = "IAmTheCurrentUser";
 
     public static UserStore getInstance(Context context) {
         if (instance == null) {
@@ -33,21 +31,9 @@ public class UserStore {
         Injector.inject(this);
     }
 
-    private User getCurrentUser() {
-        User user = restService.getCurrentUser();
-        saveCurrentUser(user);
-        return user;
-    }
-
     public User getCurrentUser(boolean refresh) {
-        if (refresh) {
-            return getCurrentUser();
-        }
-        User user = (User)diskCacheService.get(CURRENT_USER_KEY);
-        if (user == null) {
-            return getCurrentUser();
-        }
-        return user;
+        String currentUserId = apiKeyProvider.getAuthUserId();
+        return getUserById(currentUserId, refresh);
     }
 
     private User getUserById(String id) {
@@ -65,10 +51,6 @@ public class UserStore {
             return getUserById(id);
         }
         return user;
-    }
-
-    public void saveCurrentUser(User user) {
-        diskCacheService.save(CURRENT_USER_KEY, user);
     }
 
     public void saveUser(User user) {

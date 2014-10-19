@@ -45,7 +45,7 @@ public class FollowListener implements FollowTextView.OnFollowListener {
                 service.addFollowing(currentUser.getObjectId(), followedUserId);
                 currentUser.getFollowings().add(followedUserId);
                 followedUser.getFollowers().add(currentUser.getObjectId());
-                userStore.saveCurrentUser(currentUser);
+                userStore.saveUser(currentUser);
                 userStore.saveUser(followedUser);
 
                 bus.post(new FollowEvent(followedUserId, currentUser.getObjectId()));
@@ -81,7 +81,7 @@ public class FollowListener implements FollowTextView.OnFollowListener {
                 service.removeFollowing(currentUser.getObjectId(), followedUserId);
                 currentUser.getFollowings().remove(followedUserId);
                 followedUser.getFollowers().remove(currentUser.getObjectId());
-                userStore.saveCurrentUser(currentUser);
+                userStore.saveUser(currentUser);
                 userStore.saveUser(followedUser);
                 return true;
             }

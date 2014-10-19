@@ -77,10 +77,6 @@ public class RestService {
         return getPartyService().newParty(party);
     }
 
-    public User getCurrentUser() {
-        return getUserService().getMe();
-    }
-
     public Party getPartyById(String id) {
         return getPartyService().getById(id);
     }

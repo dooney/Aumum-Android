@@ -33,9 +33,6 @@ public interface UserService {
     @POST(Constants.Http.URL_RESET_PASSWORD_FRAG)
     JsonObject resetPassword(@Body JsonObject data);
 
-    @GET(Constants.Http.URL_USERS_ME_FRAG)
-    User getMe();
-
     @Headers(Constants.Http.HEADER_PARSE_MASTER_KEY + ": " + Constants.Http.PARSE_MASTER_KEY)
     @PUT(Constants.Http.URL_USER_BY_ID_FRAG)
     JsonObject updateById(@Path("id") String id, @Body JsonObject data);

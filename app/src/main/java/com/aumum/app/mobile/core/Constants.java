@@ -57,11 +57,6 @@ public final class Constants {
         public static final String URL_USER_BY_ID_FRAG = "/1/users/{id}";
 
         /**
-         * Current User URL
-         */
-        public static final String URL_USERS_ME_FRAG = "/1/users/me";
-
-        /**
          * List Parties URL
          */
         public static final String URL_PARTIES_FRAG = "/1/classes/Parties";

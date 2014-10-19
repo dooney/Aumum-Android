@@ -220,7 +220,7 @@ public class LoginActivity extends ActionBarActivity {
                 if (!response.getEmailVerified()) {
                     throw new Exception(getString(R.string.error_authentication_email_not_verified));
                 }
-                userStore.saveCurrentUser(response);
+                userStore.saveUser(response);
                 token = response.getSessionToken();
                 userId = response.getObjectId();
 

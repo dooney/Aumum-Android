@@ -43,7 +43,7 @@ public class LikeListener implements LikeTextView.OnLikeListener {
                 User currentUser = userStore.getCurrentUser(false);
                 service.removePartyFan(party.getObjectId(), currentUser.getObjectId());
                 party.getFans().remove(currentUser.getObjectId());
-                userStore.saveCurrentUser(currentUser);
+                userStore.saveUser(currentUser);
 
                 return true;
             }
@@ -73,7 +73,7 @@ public class LikeListener implements LikeTextView.OnLikeListener {
                 User currentUser = userStore.getCurrentUser(false);
                 service.addPartyFan(party.getObjectId(), currentUser.getObjectId());
                 party.getFans().add(currentUser.getObjectId());
-                userStore.saveCurrentUser(currentUser);
+                userStore.saveUser(currentUser);
 
                 if (party.getUserId() != currentUser.getObjectId()) {
                     bus.post(new LikeEvent(party.getUserId(), currentUser.getObjectId()));

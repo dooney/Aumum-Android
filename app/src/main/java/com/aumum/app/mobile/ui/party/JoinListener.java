@@ -46,7 +46,7 @@ public class JoinListener implements JoinTextView.OnJoinListener {
                 service.removeUserParty(currentUser.getObjectId(), party.getObjectId());
                 currentUser.getParties().remove(party.getObjectId());
                 party.getMembers().remove(currentUser.getObjectId());
-                userStore.saveCurrentUser(currentUser);
+                userStore.saveUser(currentUser);
 
                 if (party.getUserId() != currentUser.getObjectId()) {
                     bus.post(new UnJoinEvent(party.getUserId(), currentUser.getObjectId()));
@@ -82,7 +82,7 @@ public class JoinListener implements JoinTextView.OnJoinListener {
                 service.addUserParty(currentUser.getObjectId(), party.getObjectId());
                 currentUser.getParties().add(party.getObjectId());
                 party.getMembers().add(currentUser.getObjectId());
-                userStore.saveCurrentUser(currentUser);
+                userStore.saveUser(currentUser);
 
                 if (party.getUserId() != currentUser.getObjectId()) {
                     bus.post(new JoinEvent(party.getUserId(), currentUser.getObjectId()));
