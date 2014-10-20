@@ -12,6 +12,7 @@ import com.aumum.app.mobile.core.dao.UserStore;
 import com.aumum.app.mobile.ui.base.CardListFragment;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -29,14 +30,14 @@ public class MessageListFragment extends CardListFragment {
 
     private UserStore userStore;
 
-    private MessageStore dataStore;
+    private MessageStore messageStore;
 
     @Override
     public void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Injector.inject(this);
         userStore = UserStore.getInstance(getActivity());
-        dataStore = new MessageStore(getActivity());
+        messageStore = new MessageStore(getActivity());
     }
 
     @Override
@@ -50,35 +51,39 @@ public class MessageListFragment extends CardListFragment {
     public void onDestroy() {
         super.onDestroy();
 
-        dataStore.saveOfflineData(dataSet);
+        messageStore.saveOfflineData(dataSet);
     }
 
     @Override
     protected String getLastItemTime() {
+        if (dataSet.size() > 0) {
+            Message last = dataSet.get(dataSet.size() - 1);
+            return last.getCreatedAt();
+        }
         return null;
-    }
-
-    @Override
-    protected boolean hasOfflineData() {
-        return dataStore.hasOfflineData();
     }
 
     @Override
     protected List<Card> loadCards(int mode, String time) throws Exception {
         List<Message> messageList = null;
+        User currentUser = userStore.getCurrentUser(false);
         switch (mode) {
             case UPWARDS_REFRESH:
-                User currentUser = userStore.getCurrentUser(false);
                 List<String> messageIdList = currentUser.getMessages();
                 if (messageIdList != null) {
-                    messageList = dataStore.getMessageList(currentUser.getMessages());
+                    messageList = messageStore.getUpwardsList(currentUser.getMessages());
+                    Collections.reverse(messageList);
                     for (Message message : messageList) {
                         dataSet.add(0, message);
                     }
                 }
                 break;
+            case BACKWARDS_REFRESH:
+                messageList = messageStore.getBackwardsList(currentUser.getMessages(), time);
+                dataSet.addAll(messageList);
+                break;
             case STATIC_REFRESH:
-                messageList = dataStore.getOfflineList();
+                messageList = messageStore.getOfflineList();
                 dataSet.addAll(messageList);
                 break;
             default:

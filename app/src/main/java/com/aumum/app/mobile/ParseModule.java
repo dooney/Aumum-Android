@@ -6,6 +6,7 @@ import com.aumum.app.mobile.core.Constants;
 import com.aumum.app.mobile.events.PushNotificationEvent;
 import com.aumum.app.mobile.events.SubscribeChannelEvent;
 import com.aumum.app.mobile.events.UnSubscribeChannelEvent;
+import com.aumum.app.mobile.utils.Ln;
 import com.parse.Parse;
 import com.parse.ParseInstallation;
 import com.parse.ParsePush;
@@ -41,12 +42,20 @@ public class ParseModule {
 
     @Subscribe
     public void onSubscribeChannelEvent(SubscribeChannelEvent subscribeChannelEvent) {
-        ParsePush.subscribeInBackground(subscribeChannelEvent.getChannel());
+        try {
+            ParsePush.subscribeInBackground(subscribeChannelEvent.getChannel());
+        } catch (Exception e) {
+            Ln.d(e);
+        }
     }
 
     @Subscribe
     public void onUnSubscribeChannelEvent(UnSubscribeChannelEvent unSubscribeChannelEvent) {
-        ParsePush.unsubscribeInBackground(unSubscribeChannelEvent.getChannel());
+        try {
+            ParsePush.unsubscribeInBackground(unSubscribeChannelEvent.getChannel());
+        } catch (Exception e) {
+            Ln.d(e);
+        }
     }
 
     @Subscribe

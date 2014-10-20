@@ -57,17 +57,6 @@ public class PartyStore {
         return restService.getPartiesBefore(before, limitPerLoad);
     }
 
-    public boolean hasOfflineData() {
-        Object data = diskCacheService.get(diskCacheKey);
-        if (data != null) {
-            List<Party> partyList = (List<Party>) data;
-            if (partyList.size() > 0) {
-                return true;
-            }
-        }
-        return false;
-    }
-
     public void saveOfflineData(Object data) {
         diskCacheService.save(diskCacheKey, data);
     }

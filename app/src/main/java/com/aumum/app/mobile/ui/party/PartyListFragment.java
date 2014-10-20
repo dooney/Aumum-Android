@@ -99,11 +99,6 @@ public class PartyListFragment extends CardListFragment {
     }
 
     @Override
-    protected boolean hasOfflineData() {
-        return dataStore.hasOfflineData();
-    }
-
-    @Override
     protected List<Card> loadCards(int mode, String time) throws Exception {
         List<Party> partyList;
         switch (mode) {

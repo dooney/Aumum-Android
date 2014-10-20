@@ -178,7 +178,7 @@ public class RestService {
         return getUserService().updateById(userId, data);
     }
 
-    public List<Message> getMessagesBefore(List<String> idList, DateTime after, int limit) {
+    public List<Message> getMessagesAfter(List<String> idList, DateTime after, int limit) {
         final JsonObject whereJson = new JsonObject();
         final JsonArray idListJson = new JsonArray();
         for (String id: idList) {
@@ -192,9 +192,28 @@ public class RestService {
             timeJson.addProperty("__type", "Date");
             timeJson.addProperty("iso", after.toString("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'"));
             final JsonObject gtJson = new JsonObject();
-            gtJson.add("$lt", timeJson);
+            gtJson.add("$gt", timeJson);
             whereJson.add("createdAt", gtJson);
         }
+        String where = whereJson.toString();
+        return getMessageService().getMessages("-createdAt", where, limit).getResults();
+    }
+
+    public List<Message> getMessagesBefore(List<String> idList, DateTime before, int limit) {
+        final JsonObject whereJson = new JsonObject();
+        final JsonArray idListJson = new JsonArray();
+        for (String id: idList) {
+            idListJson.add(new JsonPrimitive(id));
+        }
+        final JsonObject inJson = new JsonObject();
+        inJson.add("$in", idListJson);
+        whereJson.add("objectId", inJson);
+        final JsonObject timeJson = new JsonObject();
+        timeJson.addProperty("__type", "Date");
+        timeJson.addProperty("iso", before.toString("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'"));
+        final JsonObject gtJson = new JsonObject();
+        gtJson.add("$lt", timeJson);
+        whereJson.add("createdAt", gtJson);
         String where = whereJson.toString();
         return getMessageService().getMessages("-createdAt", where, limit).getResults();
     }

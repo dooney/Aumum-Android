@@ -9,6 +9,8 @@ import android.widget.AbsListView;
 import android.widget.ArrayAdapter;
 
 import com.aumum.app.mobile.R;
+import com.aumum.app.mobile.utils.NetworkUtils;
+import com.github.kevinsawicki.wishlist.Toaster;
 
 import java.util.List;
 
@@ -86,14 +88,16 @@ public abstract class CardListFragment extends ItemListFragment<Card> {
     @Override
     protected List<Card> loadDataCore(final Bundle bundle) throws Exception {
         try {
-            int mode = STATIC_REFRESH;
             String time = null;
-            if (bundle != null) {
-                mode = bundle.getInt(REFRESH_MODE);
-                time = bundle.getString(TIME_BEFORE);
-            }
-            if (mode == STATIC_REFRESH && !hasOfflineData()) {
-                mode = UPWARDS_REFRESH;
+            int mode = UPWARDS_REFRESH;
+            if (!NetworkUtils.isNetworkAvailable(getActivity())) {
+                Toaster.showLong(getActivity(), R.string.message_loading_offline_data);
+                mode = STATIC_REFRESH;
+            } else {
+                if (bundle != null) {
+                    mode = bundle.getInt(REFRESH_MODE);
+                    time = bundle.getString(TIME_BEFORE);
+                }
             }
             currentRefreshMode = mode;
             isLoading = true;
@@ -135,8 +139,6 @@ public abstract class CardListFragment extends ItemListFragment<Card> {
     }
 
     protected abstract String getLastItemTime();
-
-    protected abstract boolean hasOfflineData();
 
     protected abstract List<Card> loadCards(int mode, String time) throws Exception;
 }

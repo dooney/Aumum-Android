@@ -15,13 +15,14 @@
     <string name="no_parties">暂时没有活动</string>
     <string name="no_messages">暂时没有消息</string>
 
-    <!-- Progress Dialog -->
+    <!-- Info Message -->
     <string name="message_authenticating">正在验证您的账号信息，请稍候…</string>
     <string name="message_processing_registration">正在处理您的注册信息，请稍候…</string>
     <string name="message_submitting_password_reset">正在提交您的重置密码请求，请稍候…</string>
     <string name="message_posting_party">正在发布您的活动，请稍候…</string>
     <string name="message_loading_image">正在加载图片，请稍候…</string>
     <string name="message_uploading_profile_image">正在上传头像图片，请稍候…</string>
+    <string name="message_loading_offline_data">网络不可用，正在为您加载离线数据</string>
 
     <!-- Error Message -->
     <string name="error_load_parties">获取活动列表失败</string>

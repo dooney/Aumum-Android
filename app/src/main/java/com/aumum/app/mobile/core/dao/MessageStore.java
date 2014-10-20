@@ -40,29 +40,20 @@ public class MessageStore {
         diskCacheService = DiskCacheService.getInstance(context, diskCacheKey);
     }
 
-    public boolean hasOfflineData() {
-        Object data = diskCacheService.get(diskCacheKey);
-        if (data != null) {
-            List<Message> messageList = (List<Message>) data;
-            if (messageList.size() > 0) {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    public List<Message> getMessageList(List<String> idList) {
+    public List<Message> getUpwardsList(List<String> idList) {
         List<Message> messageList;
         if (lastUpdateTime != null) {
-            messageList = restService.getMessagesBefore(idList, lastUpdateTime, Integer.MAX_VALUE);
+            messageList = restService.getMessagesAfter(idList, lastUpdateTime, Integer.MAX_VALUE);
         } else {
-            messageList = restService.getMessagesBefore(idList, null, limitPerLoad);
+            messageList = restService.getMessagesAfter(idList, null, limitPerLoad);
         }
-        if (messageList.size() > 0) {
-            String time = messageList.get(messageList.size() - 1).getCreatedAt();
-            lastUpdateTime = new DateTime(time, DateTimeZone.UTC);
-        }
+        lastUpdateTime = DateTime.now(DateTimeZone.UTC);
         return messageList;
+    }
+
+    public List<Message> getBackwardsList(List<String> idList, String time) {
+        DateTime before = new DateTime(time, DateTimeZone.UTC);
+        return restService.getMessagesBefore(idList, before, limitPerLoad);
     }
 
     public void saveOfflineData(Object data) {
