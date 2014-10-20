@@ -93,12 +93,17 @@
         <item name="android:layout_width">@dimen/avatar_sz_large</item>
         <item name="android:layout_height">@dimen/avatar_sz_large</item>
     </style>
+    <style name="ImageView.Dropdown" parent="ImageView">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:src">@drawable/ic_fa_chevron_down</item>
+    </style>
 
     <style name="TextView" parent="android:Widget.TextView"/>
     <style name="ButtonTextView" parent="TextView">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
-        <item name="android:textSize">@dimen/text_sz_large</item>
+        <item name="android:textSize">@dimen/text_sz_medium</item>
         <item name="android:minWidth">40dp</item>
         <item name="android:gravity">center</item>
         <item name="android:paddingTop">@dimen/margin_small</item>
@@ -109,32 +114,26 @@
     <style name="TextView.Area" parent="ButtonTextView">
         <item name="android:drawableLeft">@drawable/ic_fa_home</item>
         <item name="android:text">@string/label_area</item>
-        <item name="android:textSize">@dimen/text_sz_medium</item>
     </style>
     <style name="TextView.CreatedAt" parent="ButtonTextView">
         <item name="android:drawableLeft">@drawable/ic_fa_clock_o</item>
         <item name="android:text">@string/label_createdAt</item>
-        <item name="android:textSize">@dimen/text_sz_medium</item>
     </style>
     <style name="TextView.Time" parent="ButtonTextView">
         <item name="android:drawableLeft">@drawable/ic_fa_calendar</item>
         <item name="android:text">@string/label_time</item>
-        <item name="android:textSize">@dimen/text_sz_medium</item>
     </style>
     <style name="TextView.Location" parent="ButtonTextView">
         <item name="android:drawableLeft">@drawable/ic_fa_map_marker</item>
         <item name="android:text">@string/label_location</item>
-        <item name="android:textSize">@dimen/text_sz_medium</item>
     </style>
     <style name="TextView.Age" parent="ButtonTextView">
         <item name="android:drawableLeft">@drawable/ic_fa_child</item>
         <item name="android:text">@string/label_age</item>
-        <item name="android:textSize">@dimen/text_sz_medium</item>
     </style>
     <style name="TextView.Gender" parent="ButtonTextView">
         <item name="android:drawableLeft">@drawable/ic_fa_gender</item>
         <item name="android:text">@string/label_gender</item>
-        <item name="android:textSize">@dimen/text_sz_medium</item>
     </style>
     <style name="TextView.Join" parent="ButtonTextView">
         <item name="android:drawableLeft">@drawable/ic_fa_users</item>
@@ -152,7 +151,11 @@
     <style name="TextView.Party.UserName" parent="TextView">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
+        <item name="android:textSize">@dimen/text_sz_extra_large</item>
         <item name="android:textColor">@color/grey_dark</item>
+        <item name="android:paddingTop">@dimen/margin_small</item>
+        <item name="android:paddingLeft">@dimen/margin_small</item>
+        <item name="android:paddingBottom">@dimen/margin_small</item>
         <item name="android:maxLines">1</item>
         <item name="android:ellipsize">end</item>
     </style>

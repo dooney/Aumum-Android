@@ -30,7 +30,7 @@ public class PartyStore {
 
     private DateTime lastUpdateTime;
 
-    private int limitPerLoad = 25;
+    private int limitPerLoad = 15;
 
     private String diskCacheKey;
 
