@@ -86,8 +86,8 @@
 
     <!-- Comments -->
     <string name="no_comments">暂时还没有评论，你是沙发哦！</string>
-    <string name="new_comment_hint">写评论</string>
-    <string name="reply_comment_hint">回复@%1$s：%2$s</string>
+    <string name="hint_new_comment">写评论</string>
+    <string name="hint_reply_comment">回复@%1$s：%2$s</string>
 
     <!-- Party Details -->
     <string name="title_activity_party_details">活动详情</string>

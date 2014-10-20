@@ -1,10 +1,11 @@
 package com.aumum.app.mobile.ui.user;
 
 import com.aumum.app.mobile.Injector;
+import com.aumum.app.mobile.core.model.Message;
 import com.aumum.app.mobile.core.service.RestService;
 import com.aumum.app.mobile.core.model.User;
 import com.aumum.app.mobile.core.dao.UserStore;
-import com.aumum.app.mobile.events.FollowEvent;
+import com.aumum.app.mobile.events.MessageEvent;
 import com.aumum.app.mobile.ui.view.FollowTextView;
 import com.aumum.app.mobile.utils.Ln;
 import com.aumum.app.mobile.utils.SafeAsyncTask;
@@ -48,7 +49,7 @@ public class FollowListener implements FollowTextView.OnFollowListener {
                 userStore.saveUser(currentUser);
                 userStore.saveUser(followedUser);
 
-                bus.post(new FollowEvent(followedUserId, currentUser.getObjectId()));
+                bus.post(new MessageEvent(Message.FOLLOW, followedUserId, currentUser.getObjectId()));
 
                 return true;
             }

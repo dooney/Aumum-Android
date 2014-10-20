@@ -1,12 +1,12 @@
 package com.aumum.app.mobile.ui.party;
 
 import com.aumum.app.mobile.Injector;
+import com.aumum.app.mobile.core.model.Message;
 import com.aumum.app.mobile.core.service.RestService;
 import com.aumum.app.mobile.core.model.Party;
 import com.aumum.app.mobile.core.model.User;
 import com.aumum.app.mobile.core.dao.UserStore;
-import com.aumum.app.mobile.events.JoinEvent;
-import com.aumum.app.mobile.events.UnJoinEvent;
+import com.aumum.app.mobile.events.MessageEvent;
 import com.aumum.app.mobile.ui.view.JoinTextView;
 import com.aumum.app.mobile.utils.Ln;
 import com.aumum.app.mobile.utils.SafeAsyncTask;
@@ -48,9 +48,7 @@ public class JoinListener implements JoinTextView.OnJoinListener {
                 party.getMembers().remove(currentUser.getObjectId());
                 userStore.saveUser(currentUser);
 
-                if (party.getUserId() != currentUser.getObjectId()) {
-                    bus.post(new UnJoinEvent(party.getUserId(), currentUser.getObjectId()));
-                }
+                bus.post(new MessageEvent(Message.UNJOIN, party.getUserId(), currentUser.getObjectId()));
 
                 return true;
             }
@@ -84,9 +82,7 @@ public class JoinListener implements JoinTextView.OnJoinListener {
                 party.getMembers().add(currentUser.getObjectId());
                 userStore.saveUser(currentUser);
 
-                if (party.getUserId() != currentUser.getObjectId()) {
-                    bus.post(new JoinEvent(party.getUserId(), currentUser.getObjectId()));
-                }
+                bus.post(new MessageEvent(Message.JOIN, party.getUserId(), currentUser.getObjectId()));
 
                 return true;
             }

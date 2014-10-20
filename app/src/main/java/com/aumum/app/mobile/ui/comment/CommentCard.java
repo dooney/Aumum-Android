@@ -28,7 +28,7 @@ public class CommentCard {
         userNameText.setText(comment.getUser().getUsername());
 
         TextView commentText = (TextView) view.findViewById(R.id.text_content);
-        commentText.setText(comment.getText());
+        commentText.setText(comment.getContent());
 
         TextView createdAtText = (TextView) view.findViewById(R.id.text_createdAt);
         ProgressBar progressBar = (ProgressBar) view.findViewById(R.id.progress_comment);

@@ -16,11 +16,15 @@ import android.widget.TextView;
 
 import com.aumum.app.mobile.Injector;
 import com.aumum.app.mobile.R;
+import com.aumum.app.mobile.core.dao.PartyStore;
+import com.aumum.app.mobile.core.model.Message;
+import com.aumum.app.mobile.core.model.Party;
 import com.aumum.app.mobile.core.service.RestService;
 import com.aumum.app.mobile.core.model.Comment;
 import com.aumum.app.mobile.core.dao.PartyCommentStore;
 import com.aumum.app.mobile.core.model.User;
 import com.aumum.app.mobile.core.dao.UserStore;
+import com.aumum.app.mobile.events.MessageEvent;
 import com.aumum.app.mobile.ui.comment.CommentsAdapter;
 import com.aumum.app.mobile.ui.base.ItemListFragment;
 import com.aumum.app.mobile.ui.view.Animation;
@@ -28,6 +32,7 @@ import com.aumum.app.mobile.ui.view.CommentTextView;
 import com.aumum.app.mobile.utils.EditTextUtils;
 import com.aumum.app.mobile.utils.Ln;
 import com.aumum.app.mobile.utils.SafeAsyncTask;
+import com.squareup.otto.Bus;
 
 import java.util.List;
 
@@ -42,13 +47,16 @@ import retrofit.RetrofitError;
 public class PartyCommentsFragment extends ItemListFragment<Comment> {
     private String partyId;
     private User currentUser;
+    private Party party;
     private PartyCommentStore partyCommentStore;
     private UserStore userStore;
+    private PartyStore partyStore;
 
     private SafeAsyncTask<Boolean> task;
+    private Comment repliedComment;
 
-    @Inject
-    RestService service;
+    @Inject RestService service;
+    @Inject Bus bus;
 
     private ViewGroup layoutCommentBox;
     private CommentTextView commentText;
@@ -85,6 +93,7 @@ public class PartyCommentsFragment extends ItemListFragment<Comment> {
             @Override
             public void onClick(View view) {
                 toggleCommentBox();
+                repliedComment = null;
             }
         });
 
@@ -117,8 +126,9 @@ public class PartyCommentsFragment extends ItemListFragment<Comment> {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 showCommentBox();
-                Comment comment = getData().get(i);
-                editComment.setHint(getString(R.string.reply_comment_hint, comment.getUser().getUsername(), comment.getText()));
+                repliedComment = getData().get(i);
+                editComment.setHint(getString(R.string.hint_reply_comment,
+                        repliedComment.getUser().getUsername(), repliedComment.getContent()));
             }
         });
     }
@@ -131,6 +141,7 @@ public class PartyCommentsFragment extends ItemListFragment<Comment> {
     @Override
     protected List<Comment> loadDataCore(Bundle bundle) throws Exception {
         currentUser = userStore.getCurrentUser(false);
+        party = partyStore.getPartyById(partyId);
         return partyCommentStore.getPartyComments(partyId);
     }
 
@@ -153,8 +164,8 @@ public class PartyCommentsFragment extends ItemListFragment<Comment> {
     private void toggleCommentBox() {
         if (isCommentBoxShow) {
             hideCommentBox();
-            editComment.setHint(R.string.new_comment_hint);
         } else {
+            editComment.setHint(R.string.hint_new_comment);
             showCommentBox();
         }
         isCommentBoxShow = !isCommentBoxShow;
@@ -185,12 +196,19 @@ public class PartyCommentsFragment extends ItemListFragment<Comment> {
         }
 
         // update UI first
-        Comment partyComment = new Comment();
-        partyComment.setParentId(partyId);
-        partyComment.setText(editComment.getText().toString());
-        partyComment.setUserId(currentUser.getObjectId());
-        partyComment.setUser(currentUser);
-        getData().add(0, partyComment);
+        Comment comment = new Comment();
+        comment.setParentId(partyId);
+        String content = editComment.getText().toString();
+        if (repliedComment != null) {
+            comment.setRepliedId(repliedComment.getObjectId());
+            comment.setContent(getString(R.string.hint_reply_comment,
+                    repliedComment.getUser().getUsername(), content));
+        } else {
+            comment.setContent(content);
+        }
+        comment.setUserId(currentUser.getObjectId());
+        comment.setUser(currentUser);
+        getData().add(0, comment);
         getListAdapter().notifyDataSetChanged();
         show();
         scrollToTop();
@@ -203,12 +221,18 @@ public class PartyCommentsFragment extends ItemListFragment<Comment> {
                 Comment comment = getData().get(0);
                 final Comment newComment = new Comment();
                 newComment.setParentId(comment.getParentId());
-                newComment.setText(comment.getText());
+                newComment.setContent(comment.getContent());
                 newComment.setUserId(comment.getUserId());
+                newComment.setRepliedId(comment.getRepliedId());
                 Comment response = service.newPartyComment(newComment);
                 service.addPartyComment(partyId, response.getObjectId());
                 comment.setObjectId(response.getObjectId());
                 comment.setCreatedAt(response.getCreatedAt());
+
+                bus.post(new MessageEvent(Message.COMMENT, party.getUserId(), currentUser.getObjectId()));
+                if (repliedComment != null) {
+                    bus.post(new MessageEvent(Message.REPLY_COMMENT, repliedComment.getUserId(), currentUser.getObjectId()));
+                }
                 return true;
             }
 

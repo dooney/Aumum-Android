@@ -5,7 +5,8 @@ package com.aumum.app.mobile.core.model;
  */
 public class Comment extends AggregateRoot {
     private String parentId;
-    private String text;
+    private String repliedId;
+    private String content;
     private String userId;
     private User user;
 
@@ -17,12 +18,20 @@ public class Comment extends AggregateRoot {
         return parentId;
     }
 
-    public void setText(String text) {
-        this.text = text;
+    public void setRepliedId(String repliedId) {
+        this.repliedId = repliedId;
     }
 
-    public String getText() {
-        return text;
+    public String getRepliedId() {
+        return repliedId;
+    }
+
+    public void setContent(String content) {
+        this.content = content;
+    }
+
+    public String getContent() {
+        return content;
     }
 
     public void setUserId(String userId) {
