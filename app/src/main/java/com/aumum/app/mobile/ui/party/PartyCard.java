@@ -1,7 +1,6 @@
 package com.aumum.app.mobile.ui.party;
 
 import android.content.Context;
-import android.content.Intent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
@@ -33,7 +32,9 @@ public class PartyCard extends Card {
         return party;
     }
 
-    public PartyCard(final Context context, final Party party, String currentUserId, PartyActionListener.OnActionListener onActionListener) {
+    public PartyCard(final Context context, final Party party, String currentUserId,
+                     PartyActionListener.OnActionListener onActionListener,
+                     OnCardClickListener onCardClickListener) {
         super(context, R.layout.party_listitem_inner);
         this.party = party;
         this.currentUserId = currentUserId;
@@ -43,14 +44,7 @@ public class PartyCard extends Card {
         this.partyOwnerActionListener.setOnActionListener(onActionListener);
         this.partyUserActionListener = new PartyUserActionListener(party);
         this.partyUserActionListener.setOnActionListener(onActionListener);
-        setOnClickListener(new OnCardClickListener() {
-            @Override
-            public void onClick(Card card, View view) {
-                final Intent intent = new Intent(context, PartyDetailsActivity.class);
-                intent.putExtra(PartyDetailsActivity.INTENT_PARTY_ID, party.getObjectId());
-                context.startActivity(intent);
-            }
-        });
+        setOnClickListener(onCardClickListener);
     }
 
     @Override

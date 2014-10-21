@@ -7,6 +7,7 @@ import android.support.v4.app.Fragment;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
 
 import com.aumum.app.mobile.R;
 import com.aumum.app.mobile.core.dao.PartyStore;
@@ -28,7 +29,8 @@ import it.gmariotti.cardslib.library.internal.Card;
  *
  */
 public class PartyListFragment extends CardListFragment
-        implements PartyActionListener.OnActionListener {
+        implements Card.OnCardClickListener,
+                   PartyActionListener.OnActionListener {
 
     private List<Party> dataSet = new ArrayList<Party>();
 
@@ -36,7 +38,8 @@ public class PartyListFragment extends CardListFragment
 
     private UserStore userStore;
 
-    private final int NEW_PARTY_POST_REQ_CODE = 31;
+    private final int NEW_PARTY_POST_REQ_CODE = 30;
+    private final int GET_PARTY_DETAILS_REQ_CODE = 31;
 
     @Override
     public void onCreate(final Bundle savedInstanceState) {
@@ -84,6 +87,13 @@ public class PartyListFragment extends CardListFragment
     public void onActivityResult (int requestCode, int resultCode, Intent data) {
         if (requestCode == NEW_PARTY_POST_REQ_CODE && resultCode == Activity.RESULT_OK) {
             doRefresh(UPWARDS_REFRESH, null);
+        } else if (requestCode == GET_PARTY_DETAILS_REQ_CODE && resultCode == Activity.RESULT_OK) {
+            if (data != null && data.getBooleanExtra(PartyDetailsActivity.INTENT_PARTY_DELETED, false)) {
+                String partyId = data.getStringExtra(PartyDetailsActivity.INTENT_PARTY_ID);
+                if (partyId != null) {
+                    onPartyDeletedSuccess(partyId);
+                }
+            }
         }
     }
 
@@ -139,7 +149,7 @@ public class PartyListFragment extends CardListFragment
         if (partyList.size() > 0) {
             User user = userStore.getCurrentUser(false);
             for (Party party : partyList) {
-                Card card = new PartyCard(getActivity(), party, user.getObjectId(), this);
+                Card card = new PartyCard(getActivity(), party, user.getObjectId(), this, this);
                 cards.add(card);
             }
         }
@@ -174,5 +184,13 @@ public class PartyListFragment extends CardListFragment
     @Override
     public void onPartySharedSuccess() {
 
+    }
+
+    @Override
+    public void onClick(Card card, View view) {
+        PartyCard partyCard = (PartyCard) card;
+        final Intent intent = new Intent(getActivity(), PartyDetailsActivity.class);
+        intent.putExtra(PartyDetailsActivity.INTENT_PARTY_ID, partyCard.getParty().getObjectId());
+        startActivityForResult(intent, GET_PARTY_DETAILS_REQ_CODE);
     }
 }

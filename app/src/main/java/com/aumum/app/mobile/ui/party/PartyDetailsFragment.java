@@ -1,5 +1,6 @@
 package com.aumum.app.mobile.ui.party;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -19,6 +20,7 @@ import com.aumum.app.mobile.ui.base.LoaderFragment;
 import com.aumum.app.mobile.ui.user.UserListener;
 import com.aumum.app.mobile.ui.view.Animation;
 import com.aumum.app.mobile.ui.view.AvatarImageView;
+import com.aumum.app.mobile.ui.view.DropdownImageView;
 
 import java.util.List;
 
@@ -27,8 +29,10 @@ import javax.inject.Inject;
 /**
  * Created by Administrator on 16/10/2014.
  */
-public class PartyDetailsFragment extends LoaderFragment<Party> {
+public class PartyDetailsFragment extends LoaderFragment<Party>
+        implements PartyActionListener.OnActionListener{
     @Inject ApiKeyProvider apiKeyProvider;
+
     private String partyId;
     private String currentUserId;
 
@@ -36,6 +40,7 @@ public class PartyDetailsFragment extends LoaderFragment<Party> {
     private UserStore userStore;
 
     private View mainView;
+    private DropdownImageView dropdownImage;
     private AvatarImageView avatarImage;
     private TextView areaText;
     private TextView userNameText;
@@ -80,6 +85,7 @@ public class PartyDetailsFragment extends LoaderFragment<Party> {
         super.onViewCreated(view, savedInstanceState);
 
         mainView = view.findViewById(R.id.main_view);
+        dropdownImage = (DropdownImageView) view.findViewById(R.id.image_dropdown);
         avatarImage = (AvatarImageView) view.findViewById(R.id.image_avatar);
         areaText = (TextView) view.findViewById(R.id.text_area);
         userNameText = (TextView) view.findViewById(R.id.text_user_name);
@@ -142,6 +148,16 @@ public class PartyDetailsFragment extends LoaderFragment<Party> {
 
             avatarImage.getFromUrl(party.getUser().getAvatarUrl());
             avatarImage.setOnClickListener(new UserListener(avatarImage.getContext(), party.getUserId()));
+
+            if (party.isOwner(currentUserId)) {
+                PartyOwnerActionListener listener = new PartyOwnerActionListener(party);
+                listener.setOnActionListener(this);
+                dropdownImage.init(listener);
+            } else {
+                PartyUserActionListener listener = new PartyUserActionListener(party);
+                listener.setOnActionListener(this);
+                dropdownImage.init(listener);
+            }
 
             areaText.setText(Constants.AREA_OPTIONS[party.getArea()]);
             userNameText.setText(party.getUser().getUsername());
@@ -221,5 +237,19 @@ public class PartyDetailsFragment extends LoaderFragment<Party> {
                 Animation.fadeIn(layoutLikes, Animation.Duration.SHORT);
             }
         }
+    }
+
+    @Override
+    public void onPartyDeletedSuccess(String partyId) {
+        final Intent intent = new Intent();
+        intent.putExtra(PartyDetailsActivity.INTENT_PARTY_DELETED, true);
+        intent.putExtra(PartyDetailsActivity.INTENT_PARTY_ID, partyId);
+        getActivity().setResult(Activity.RESULT_OK, intent);
+        getActivity().finish();
+    }
+
+    @Override
+    public void onPartySharedSuccess() {
+
     }
 }
