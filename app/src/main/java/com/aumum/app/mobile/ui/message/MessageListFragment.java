@@ -2,7 +2,6 @@ package com.aumum.app.mobile.ui.message;
 
 import android.os.Bundle;
 
-import com.aumum.app.mobile.Injector;
 import com.aumum.app.mobile.R;
 import com.aumum.app.mobile.core.model.Message;
 import com.aumum.app.mobile.core.dao.MessageStore;
@@ -30,7 +29,6 @@ public class MessageListFragment extends CardListFragment {
     @Override
     public void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Injector.inject(this);
         userStore = UserStore.getInstance(getActivity());
         messageStore = new MessageStore(getActivity());
     }

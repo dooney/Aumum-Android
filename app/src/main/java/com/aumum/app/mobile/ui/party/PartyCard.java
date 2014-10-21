@@ -26,17 +26,23 @@ public class PartyCard extends Card {
     private String currentUserId;
     private JoinListener joinListener;
     private LikeListener likeListener;
+    private PartyOwnerActionListener partyOwnerActionListener;
+    private PartyUserActionListener partyUserActionListener;
 
     public Party getParty() {
         return party;
     }
 
-    public PartyCard(final Context context, final Party party, String currentUserId) {
+    public PartyCard(final Context context, final Party party, String currentUserId, PartyActionListener.OnActionListener onActionListener) {
         super(context, R.layout.party_listitem_inner);
         this.party = party;
         this.currentUserId = currentUserId;
         this.joinListener = new JoinListener(party);
         this.likeListener = new LikeListener(party);
+        this.partyOwnerActionListener = new PartyOwnerActionListener(party);
+        this.partyOwnerActionListener.setOnActionListener(onActionListener);
+        this.partyUserActionListener = new PartyUserActionListener(party);
+        this.partyUserActionListener.setOnActionListener(onActionListener);
         setOnClickListener(new OnCardClickListener() {
             @Override
             public void onClick(Card card, View view) {
@@ -57,9 +63,9 @@ public class PartyCard extends Card {
 
         DropdownImageView dropdownImage = (DropdownImageView) view.findViewById(R.id.image_dropdown);
         if (party.isOwner(currentUserId)) {
-            dropdownImage.init(new PartyOwnerActionListener(party));
+            dropdownImage.init(partyOwnerActionListener);
         } else {
-            dropdownImage.init(new PartyUserActionListener());
+            dropdownImage.init(partyUserActionListener);
         }
 
         TextView areaText = (TextView) view.findViewById(R.id.text_area);

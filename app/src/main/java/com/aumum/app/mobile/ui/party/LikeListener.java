@@ -2,6 +2,7 @@ package com.aumum.app.mobile.ui.party;
 
 import com.aumum.app.mobile.Injector;
 import com.aumum.app.mobile.core.model.Message;
+import com.aumum.app.mobile.core.service.MessageListener;
 import com.aumum.app.mobile.core.service.RestService;
 import com.aumum.app.mobile.core.model.Party;
 import com.aumum.app.mobile.core.model.User;
@@ -10,7 +11,6 @@ import com.aumum.app.mobile.events.MessageEvent;
 import com.aumum.app.mobile.ui.view.LikeTextView;
 import com.aumum.app.mobile.utils.Ln;
 import com.aumum.app.mobile.utils.SafeAsyncTask;
-import com.squareup.otto.Bus;
 
 import javax.inject.Inject;
 
@@ -24,9 +24,8 @@ public class LikeListener implements LikeTextView.OnLikeListener {
 
     private Party party;
 
-    @Inject
-    RestService service;
-    @Inject Bus bus;
+    @Inject RestService service;
+    @Inject MessageListener messageListener;
 
     private UserStore userStore;
 
@@ -34,7 +33,6 @@ public class LikeListener implements LikeTextView.OnLikeListener {
         this.party = party;
         userStore = UserStore.getInstance(null);
         Injector.inject(this);
-        bus.register(this);
     }
 
     @Override
@@ -76,7 +74,8 @@ public class LikeListener implements LikeTextView.OnLikeListener {
                 party.getFans().add(currentUser.getObjectId());
                 userStore.saveUser(currentUser);
 
-                bus.post(new MessageEvent(Message.LIKE, party.getUserId(), currentUser.getObjectId()));
+                messageListener.onMessageEvent(new MessageEvent(
+                        Message.LIKE, party.getUserId(), currentUser.getObjectId()));
 
                 return true;
             }

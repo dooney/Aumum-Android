@@ -4,8 +4,6 @@ import com.aumum.app.mobile.core.model.Message;
 import com.aumum.app.mobile.events.MessageEvent;
 import com.aumum.app.mobile.utils.Ln;
 import com.aumum.app.mobile.utils.SafeAsyncTask;
-import com.squareup.otto.Bus;
-import com.squareup.otto.Subscribe;
 
 import retrofit.RetrofitError;
 
@@ -13,15 +11,12 @@ import retrofit.RetrofitError;
  * Created by Administrator on 7/10/2014.
  */
 public class MessageListener {
-    private Bus bus;
     private RestService service;
     private NotificationListener notificationListener;
 
     private SafeAsyncTask<Boolean> task;
 
-    public MessageListener(Bus bus, RestService restService, NotificationListener notificationListener) {
-        this.bus = bus;
-        this.bus.register(this);
+    public MessageListener(RestService restService, NotificationListener notificationListener) {
         service = restService;
         this.notificationListener = notificationListener;
     }
@@ -37,7 +32,6 @@ public class MessageListener {
         notificationListener.pushNotification(event.getToUserId());
     }
 
-    @Subscribe
     public void onMessageEvent(final MessageEvent event) {
         if (task != null) {
             return;

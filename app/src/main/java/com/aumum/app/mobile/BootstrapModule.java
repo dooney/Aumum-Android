@@ -7,12 +7,13 @@ import com.aumum.app.mobile.core.infra.security.ApiKeyProvider;
 import com.aumum.app.mobile.core.service.MessageListener;
 import com.aumum.app.mobile.core.service.NotificationListener;
 import com.aumum.app.mobile.core.service.RestService;
-import com.aumum.app.mobile.ui.party.PartyListFragment;
+import com.aumum.app.mobile.ui.party.PartyActionListener;
 import com.aumum.app.mobile.ui.party.PartyOwnerActionListener;
 import com.aumum.app.mobile.ui.party.PartyPostActivity;
 import com.aumum.app.mobile.ui.account.ResetPasswordActivity;
 import com.aumum.app.mobile.ui.login.LoginActivity;
 import com.aumum.app.mobile.core.service.LogoutService;
+import com.aumum.app.mobile.ui.party.PartyUserActionListener;
 import com.aumum.app.mobile.ui.register.RegisterActivity;
 import com.aumum.app.mobile.core.Constants;
 import com.aumum.app.mobile.core.dao.MessageStore;
@@ -27,7 +28,6 @@ import com.aumum.app.mobile.ui.user.FollowListener;
 import com.aumum.app.mobile.ui.party.JoinListener;
 import com.aumum.app.mobile.ui.party.LikeListener;
 import com.aumum.app.mobile.ui.main.MainActivity;
-import com.aumum.app.mobile.ui.message.MessageListFragment;
 import com.aumum.app.mobile.ui.party.PartyCommentsFragment;
 import com.aumum.app.mobile.ui.party.PartyDetailsFragment;
 import com.aumum.app.mobile.ui.user.UserFragment;
@@ -60,7 +60,6 @@ import retrofit.converter.GsonConverter;
                 PartyStore.class,
                 FollowListener.class,
                 UserStore.class,
-                MessageListFragment.class,
                 MessageStore.class,
                 JoinListener.class,
                 LikeListener.class,
@@ -69,8 +68,9 @@ import retrofit.converter.GsonConverter;
                 UserFragment.class,
                 PartyDetailsFragment.class,
                 UserProfileImageActivity.class,
+                PartyActionListener.class,
                 PartyOwnerActionListener.class,
-                PartyListFragment.class
+                PartyUserActionListener.class
         }
 )
 public class BootstrapModule {
@@ -87,9 +87,10 @@ public class BootstrapModule {
         return new NotificationListener(context);
     }
 
+    @Singleton
     @Provides
-    MessageListener provideMessageListener(Bus bus, RestService restService, NotificationListener notificationListener) {
-        return new MessageListener(bus, restService, notificationListener);
+    MessageListener provideMessageListener(RestService restService, NotificationListener notificationListener) {
+        return new MessageListener(restService, notificationListener);
     }
 
     @Provides

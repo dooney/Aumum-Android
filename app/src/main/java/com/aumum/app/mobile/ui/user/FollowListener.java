@@ -2,6 +2,7 @@ package com.aumum.app.mobile.ui.user;
 
 import com.aumum.app.mobile.Injector;
 import com.aumum.app.mobile.core.model.Message;
+import com.aumum.app.mobile.core.service.MessageListener;
 import com.aumum.app.mobile.core.service.RestService;
 import com.aumum.app.mobile.core.model.User;
 import com.aumum.app.mobile.core.dao.UserStore;
@@ -9,7 +10,6 @@ import com.aumum.app.mobile.events.MessageEvent;
 import com.aumum.app.mobile.ui.view.FollowTextView;
 import com.aumum.app.mobile.utils.Ln;
 import com.aumum.app.mobile.utils.SafeAsyncTask;
-import com.squareup.otto.Bus;
 
 import javax.inject.Inject;
 
@@ -23,9 +23,8 @@ public class FollowListener implements FollowTextView.OnFollowListener {
 
     private String followedUserId;
 
-    @Inject
-    RestService service;
-    @Inject Bus bus;
+    @Inject RestService service;
+    @Inject MessageListener messageListener;
 
     private UserStore userStore;
 
@@ -33,7 +32,6 @@ public class FollowListener implements FollowTextView.OnFollowListener {
         this.followedUserId = userId;
         userStore = UserStore.getInstance(null);
         Injector.inject(this);
-        bus.register(this);
     }
 
     @Override
@@ -49,7 +47,8 @@ public class FollowListener implements FollowTextView.OnFollowListener {
                 userStore.saveUser(currentUser);
                 userStore.saveUser(followedUser);
 
-                bus.post(new MessageEvent(Message.FOLLOW, followedUserId, currentUser.getObjectId()));
+                messageListener.onMessageEvent(new MessageEvent(
+                        Message.FOLLOW, followedUserId, currentUser.getObjectId()));
 
                 return true;
             }

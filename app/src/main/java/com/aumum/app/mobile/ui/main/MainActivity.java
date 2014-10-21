@@ -14,7 +14,6 @@ import com.aumum.app.mobile.ServiceProvider;
 import com.aumum.app.mobile.R;
 import com.aumum.app.mobile.core.infra.security.ApiKeyProvider;
 import com.aumum.app.mobile.core.service.LogoutService;
-import com.aumum.app.mobile.core.service.MessageListener;
 import com.aumum.app.mobile.core.service.NotificationListener;
 import com.aumum.app.mobile.core.service.RestService;
 import com.aumum.app.mobile.ui.base.BaseFragmentActivity;
@@ -35,7 +34,6 @@ public class MainActivity extends BaseFragmentActivity {
     @Inject protected LogoutService logoutService;
     @Inject protected ApiKeyProvider apiKeyProvider;
     @Inject protected NotificationListener notificationListener;
-    @Inject protected MessageListener messageListener;
 
     private String userChannel;
 

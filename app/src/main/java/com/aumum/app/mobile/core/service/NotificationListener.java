@@ -3,6 +3,7 @@ package com.aumum.app.mobile.core.service;
 import android.content.Context;
 
 import com.aumum.app.mobile.core.Constants;
+import com.aumum.app.mobile.utils.Ln;
 import com.parse.Parse;
 import com.parse.ParseInstallation;
 import com.parse.ParsePush;
@@ -21,22 +22,34 @@ public class NotificationListener {
 
     public void subscribe(String channel) {
         if (channel != null) {
-            ParsePush.subscribeInBackground(channel);
+            try {
+                ParsePush.subscribeInBackground(channel);
+            } catch (Exception e) {
+                Ln.d(e);
+            }
         }
     }
 
     public void unSubscribe(String channel) {
         if (channel != null) {
-            ParsePush.unsubscribeInBackground(channel);
+            try {
+                ParsePush.unsubscribeInBackground(channel);
+            } catch (Exception e) {
+                Ln.d(e);
+            }
         }
     }
 
     public void pushNotification(String channel) {
         if (channel != null) {
-            ParsePush push = new ParsePush();
-            push.setChannel(channel);
-            push.setMessage(NOTIFICATION_TEXT);
-            push.sendInBackground();
+            try {
+                ParsePush push = new ParsePush();
+                push.setChannel(channel);
+                push.setMessage(NOTIFICATION_TEXT);
+                push.sendInBackground();
+            } catch (Exception e) {
+                Ln.d(e);
+            }
         }
     }
 }

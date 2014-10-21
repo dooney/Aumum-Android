@@ -19,6 +19,7 @@ import com.aumum.app.mobile.R;
 import com.aumum.app.mobile.core.dao.PartyStore;
 import com.aumum.app.mobile.core.model.Message;
 import com.aumum.app.mobile.core.model.Party;
+import com.aumum.app.mobile.core.service.MessageListener;
 import com.aumum.app.mobile.core.service.RestService;
 import com.aumum.app.mobile.core.model.Comment;
 import com.aumum.app.mobile.core.dao.PartyCommentStore;
@@ -32,7 +33,6 @@ import com.aumum.app.mobile.ui.view.CommentTextView;
 import com.aumum.app.mobile.utils.EditTextUtils;
 import com.aumum.app.mobile.utils.Ln;
 import com.aumum.app.mobile.utils.SafeAsyncTask;
-import com.squareup.otto.Bus;
 
 import java.util.List;
 
@@ -56,7 +56,7 @@ public class PartyCommentsFragment extends ItemListFragment<Comment> {
     private Comment repliedComment;
 
     @Inject RestService service;
-    @Inject Bus bus;
+    @Inject MessageListener messageListener;
 
     private ViewGroup layoutCommentBox;
     private CommentTextView commentText;
@@ -230,9 +230,11 @@ public class PartyCommentsFragment extends ItemListFragment<Comment> {
                 comment.setObjectId(response.getObjectId());
                 comment.setCreatedAt(response.getCreatedAt());
 
-                bus.post(new MessageEvent(Message.COMMENT, party.getUserId(), currentUser.getObjectId()));
+                messageListener.onMessageEvent(new MessageEvent(
+                        Message.COMMENT, party.getUserId(), currentUser.getObjectId()));
                 if (repliedComment != null) {
-                    bus.post(new MessageEvent(Message.REPLY_COMMENT, repliedComment.getUserId(), currentUser.getObjectId()));
+                    messageListener.onMessageEvent(new MessageEvent(
+                            Message.REPLY_COMMENT, repliedComment.getUserId(), currentUser.getObjectId()));
                 }
                 return true;
             }
