@@ -32,7 +32,7 @@
                 style="@style/TextView.Party.UserName"
                 android:layout_toRightOf="@+id/image_avatar" />
 
-            <ImageView
+            <com.aumum.app.mobile.ui.view.DropdownImageView
                 android:id="@+id/image_dropdown"
                 style="@style/ImageView.Dropdown"
                 android:layout_alignParentRight="true" />

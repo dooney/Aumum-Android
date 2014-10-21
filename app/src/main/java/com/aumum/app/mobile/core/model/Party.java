@@ -120,6 +120,10 @@ public class Party extends AggregateRoot {
         return date != null && time != null && !title.isEmpty() && !location.isEmpty() && !details.isEmpty();
     }
 
+    public boolean isOwner(String userId) {
+        return userId.equals(this.userId);
+    }
+
     public boolean isJoin(String userId) {
         if (members != null) {
             return members.contains(userId);

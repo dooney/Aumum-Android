@@ -12,6 +12,7 @@ import com.aumum.app.mobile.core.model.Party;
 import com.aumum.app.mobile.ui.user.UserListener;
 import com.aumum.app.mobile.ui.view.AvatarImageView;
 import com.aumum.app.mobile.ui.view.CommentTextView;
+import com.aumum.app.mobile.ui.view.DropdownImageView;
 import com.aumum.app.mobile.ui.view.JoinTextView;
 import com.aumum.app.mobile.ui.view.LikeTextView;
 
@@ -45,6 +46,13 @@ public class PartyCard extends Card {
         AvatarImageView avatarImage = (AvatarImageView) view.findViewById(R.id.image_avatar);
         avatarImage.getFromUrl(party.getUser().getAvatarUrl());
         avatarImage.setOnClickListener(new UserListener(avatarImage.getContext(), party.getUserId()));
+
+        DropdownImageView dropdownImage = (DropdownImageView) view.findViewById(R.id.image_dropdown);
+        if (party.isOwner(currentUserId)) {
+            dropdownImage.init(new PartyOwnerActionListener());
+        } else {
+            dropdownImage.init(new PartyUserActionListener());
+        }
 
         TextView areaText = (TextView) view.findViewById(R.id.text_area);
         areaText.setText(Constants.AREA_OPTIONS[party.getArea()]);

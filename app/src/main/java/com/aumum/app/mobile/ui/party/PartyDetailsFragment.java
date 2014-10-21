@@ -126,7 +126,7 @@ public class PartyDetailsFragment extends LoaderFragment<Party> {
             throw new Exception(getString(R.string.invalid_party));
         }
         User user;
-        if (currentUserId.equals(party.getUserId())) {
+        if (party.isOwner(currentUserId)) {
             user = userStore.getCurrentUser(false);
         } else {
             user = userStore.getUserById(party.getUserId(), false);
