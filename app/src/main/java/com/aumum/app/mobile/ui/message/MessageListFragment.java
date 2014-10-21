@@ -5,7 +5,6 @@ import android.os.Bundle;
 import com.aumum.app.mobile.Injector;
 import com.aumum.app.mobile.R;
 import com.aumum.app.mobile.core.model.Message;
-import com.aumum.app.mobile.core.service.MessageHandler;
 import com.aumum.app.mobile.core.dao.MessageStore;
 import com.aumum.app.mobile.core.model.User;
 import com.aumum.app.mobile.core.dao.UserStore;
@@ -25,8 +24,6 @@ import it.gmariotti.cardslib.library.internal.Card;
 public class MessageListFragment extends CardListFragment {
 
     private List<Message> dataSet = new ArrayList<Message>();
-
-    @Inject MessageHandler messageHandler;
 
     private UserStore userStore;
 

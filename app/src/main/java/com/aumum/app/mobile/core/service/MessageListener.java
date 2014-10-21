@@ -13,7 +13,7 @@ import retrofit.RetrofitError;
 /**
  * Created by Administrator on 7/10/2014.
  */
-public class MessageHandler {
+public class MessageListener {
     private Bus bus;
     private RestService service;
 
@@ -21,7 +21,7 @@ public class MessageHandler {
 
     private final String NOTIFICATION_TEXT = "您有新的消息";
 
-    public MessageHandler(Bus bus, RestService restService) {
+    public MessageListener(Bus bus, RestService restService) {
         this.bus = bus;
         this.bus.register(this);
         service = restService;

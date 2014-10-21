@@ -25,6 +25,10 @@ public class PartyCard extends Card {
     private Party party;
     private String currentUserId;
 
+    public Party getParty() {
+        return party;
+    }
+
     public PartyCard(final Context context, final Party party, String currentUserId) {
         super(context, R.layout.party_listitem_inner);
         this.party = party;
@@ -49,7 +53,7 @@ public class PartyCard extends Card {
 
         DropdownImageView dropdownImage = (DropdownImageView) view.findViewById(R.id.image_dropdown);
         if (party.isOwner(currentUserId)) {
-            dropdownImage.init(new PartyOwnerActionListener());
+            dropdownImage.init(new PartyOwnerActionListener(party));
         } else {
             dropdownImage.init(new PartyUserActionListener());
         }

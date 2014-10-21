@@ -3,8 +3,8 @@ package com.aumum.app.mobile.core.dao;
 import android.content.Context;
 
 import com.aumum.app.mobile.Injector;
+import com.aumum.app.mobile.core.infra.cache.DiskCache;
 import com.aumum.app.mobile.core.infra.security.ApiKeyProvider;
-import com.aumum.app.mobile.core.infra.cache.DiskCacheService;
 import com.aumum.app.mobile.core.model.User;
 import com.aumum.app.mobile.core.service.RestService;
 
@@ -21,7 +21,7 @@ public class UserStore {
     @Inject
     ApiKeyProvider apiKeyProvider;
 
-    private DiskCacheService diskCacheService;
+    private DiskCache diskCacheService;
 
     private String DISK_CACHE_KEY = "User";
 
@@ -33,7 +33,7 @@ public class UserStore {
     }
 
     private UserStore(Context context) {
-        diskCacheService = DiskCacheService.getInstance(context, DISK_CACHE_KEY);
+        diskCacheService = DiskCache.getInstance(context, DISK_CACHE_KEY);
         Injector.inject(this);
     }
 

@@ -3,8 +3,8 @@ package com.aumum.app.mobile.core.dao;
 import android.content.Context;
 
 import com.aumum.app.mobile.Injector;
+import com.aumum.app.mobile.core.infra.cache.DiskCache;
 import com.aumum.app.mobile.core.infra.security.ApiKeyProvider;
-import com.aumum.app.mobile.core.infra.cache.DiskCacheService;
 import com.aumum.app.mobile.core.model.Party;
 import com.aumum.app.mobile.core.service.RestService;
 
@@ -26,7 +26,7 @@ public class PartyStore {
     @Inject
     ApiKeyProvider apiKeyProvider;
 
-    private DiskCacheService diskCacheService;
+    private DiskCache diskCacheService;
 
     private DateTime lastUpdateTime;
 
@@ -38,7 +38,7 @@ public class PartyStore {
         Injector.inject(this);
         String userId = apiKeyProvider.getAuthUserId();
         diskCacheKey = "Party_" + userId;
-        diskCacheService = DiskCacheService.getInstance(context, diskCacheKey);
+        diskCacheService = DiskCache.getInstance(context, diskCacheKey);
     }
 
     public List<Party> getUpwardsList() {
@@ -83,7 +83,7 @@ public class PartyStore {
             List<Party> resultList = restService.refreshParties(partyIds);
             HashMap<String, Party> hashMap = new HashMap<String, Party>();
             for (Party party : resultList) {
-                hashMap.put(party.getObjectId(),party);
+                hashMap.put(party.getObjectId(), party);
             }
             for (Party party: partyList) {
                 Party result = hashMap.get(party.getObjectId());

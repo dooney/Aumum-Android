@@ -12,10 +12,10 @@ import com.aumum.app.mobile.utils.DialogUtils;
  * Created by Administrator on 21/10/2014.
  */
 public class DropdownImageView extends ImageView {
-    private OnDropdownItemClickListener onDropdownItemClickListener;
+    private OnItemClickListener onItemClickListener;
 
-    public static interface OnDropdownItemClickListener {
-        public void onDropdownItemClick(int item);
+    public static interface OnItemClickListener {
+        public void onItemClick(int item);
         public String[] getItems();
     }
 
@@ -31,16 +31,16 @@ public class DropdownImageView extends ImageView {
         super(context, attrs);
     }
 
-    public void init(OnDropdownItemClickListener listener) {
-        onDropdownItemClickListener = listener;
+    public void init(OnItemClickListener listener) {
+        onItemClickListener = listener;
         setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
-                DialogUtils.showDialog(getContext(), onDropdownItemClickListener.getItems(), new DialogInterface.OnClickListener() {
+                DialogUtils.showDialog(getContext(), onItemClickListener.getItems(), new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
-                        if (onDropdownItemClickListener != null) {
-                            onDropdownItemClickListener.onDropdownItemClick(i);
+                        if (onItemClickListener != null) {
+                            onItemClickListener.onItemClick(i);
                         }
                     }
                 });

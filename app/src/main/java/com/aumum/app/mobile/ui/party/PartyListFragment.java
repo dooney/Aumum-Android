@@ -8,16 +8,24 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 
+import com.aumum.app.mobile.Injector;
 import com.aumum.app.mobile.R;
 import com.aumum.app.mobile.core.dao.PartyStore;
 import com.aumum.app.mobile.core.model.Party;
 import com.aumum.app.mobile.core.model.User;
 import com.aumum.app.mobile.core.dao.UserStore;
+import com.aumum.app.mobile.events.DeletePartyEvent;
 import com.aumum.app.mobile.ui.base.CardListFragment;
+import com.aumum.app.mobile.utils.Ln;
+import com.github.kevinsawicki.wishlist.Toaster;
+import com.squareup.otto.Bus;
+import com.squareup.otto.Subscribe;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+
+import javax.inject.Inject;
 
 import it.gmariotti.cardslib.library.internal.Card;
 
@@ -35,10 +43,13 @@ public class PartyListFragment extends CardListFragment {
 
     private final int NEW_PARTY_POST_REQ_CODE = 31;
 
+    @Inject Bus bus;
+
     @Override
     public void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
+        Injector.inject(this);
         userStore = UserStore.getInstance(getActivity());
         dataStore = new PartyStore(getActivity());
     }
@@ -68,6 +79,18 @@ public class PartyListFragment extends CardListFragment {
             default:
                 return super.onOptionsItemSelected(item);
         }
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        bus.register(this);
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        bus.unregister(this);
     }
 
     @Override
@@ -141,5 +164,30 @@ public class PartyListFragment extends CardListFragment {
             }
         }
         return cards;
+    }
+
+    @Subscribe
+    public void onDeletePartyEvent(final DeletePartyEvent event) {
+        try {
+            List<Card> cardList = getData();
+            for (Card card : cardList) {
+                Party party = ((PartyCard) card).getParty();
+                if (party.getObjectId().equals(event.getPartyId())) {
+                    dataSet.remove(party);
+                    cardList.remove(card);
+                    getActivity().runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            getListAdapter().notifyDataSetChanged();
+                        }
+                    });
+                    Toaster.showLong(getActivity(), R.string.message_party_deleted);
+                    return;
+                }
+            }
+        } catch (Exception e) {
+            Ln.d(e);
+        }
+        Toaster.showLong(getActivity(), R.string.error_delete_party);
     }
 }

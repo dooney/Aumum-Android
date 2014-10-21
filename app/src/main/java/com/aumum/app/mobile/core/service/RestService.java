@@ -11,6 +11,7 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonPrimitive;
 
 import org.joda.time.DateTime;
+import org.joda.time.DateTimeZone;
 
 import java.util.List;
 
@@ -87,17 +88,19 @@ public class RestService {
     }
 
     public List<Party> getPartiesAfter(DateTime after, int limit) {
-        String where = null;
+        final JsonObject whereJson = new JsonObject();
         if (after != null) {
             final JsonObject timeJson = new JsonObject();
             timeJson.addProperty("__type", "Date");
             timeJson.addProperty("iso", after.toString("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'"));
             final JsonObject gtJson = new JsonObject();
             gtJson.add("$gt", timeJson);
-            final JsonObject whereJson = new JsonObject();
             whereJson.add("createdAt", gtJson);
-            where = whereJson.toString();
         }
+        final JsonObject liveJson = new JsonObject();
+        liveJson.addProperty("$exists", false);
+        whereJson.add("deletedAt" ,liveJson);
+        String where = whereJson.toString();
         return getPartyService().getAll("-createdAt", where, limit).getResults();
     }
 
@@ -109,6 +112,9 @@ public class RestService {
         gtJson.add("$lt", timeJson);
         final JsonObject whereJson = new JsonObject();
         whereJson.add("createdAt", gtJson);
+        final JsonObject liveJson = new JsonObject();
+        liveJson.addProperty("$exists", false);
+        whereJson.add("deletedAt" ,liveJson);
         String where = whereJson.toString();
         return getPartyService().getAll("-createdAt", where, limit).getResults();
     }
@@ -340,6 +346,12 @@ public class RestService {
         return updateUserPartyPosts(op, userId, partyId);
     }
 
+    public JsonObject removeUserPartyPost(String userId, String partyId) {
+        final JsonObject op = new JsonObject();
+        op.addProperty("__op", "Remove");
+        return updateUserPartyPosts(op, userId, partyId);
+    }
+
     private JsonObject updateUserPartyPosts(JsonObject op, String userId, String partyId) {
         final JsonObject data = new JsonObject();
         final JsonArray userPartyPosts = new JsonArray();
@@ -353,5 +365,12 @@ public class RestService {
         final JsonObject data = new JsonObject();
         data.addProperty(Constants.Http.User.PARAM_AVATAR_URL, avatarUrl);
         return getUserService().updateById(userId, data);
+    }
+
+    public JsonObject deleteParty(String partyId) {
+        final JsonObject data = new JsonObject();
+        DateTime now = DateTime.now(DateTimeZone.UTC);
+        data.addProperty("deletedAt", now.toString("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'"));
+        return getPartyService().updateById(partyId, data);
     }
 }

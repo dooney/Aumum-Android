@@ -23,6 +23,7 @@
     <string name="message_loading_image">正在加载图片，请稍候…</string>
     <string name="message_uploading_profile_image">正在上传头像图片，请稍候…</string>
     <string name="message_loading_offline_data">网络不可用，正在为您加载离线数据</string>
+    <string name="message_party_deleted">该活动已成功删除</string>
 
     <!-- Error Message -->
     <string name="error_load_parties">获取活动列表失败</string>
@@ -36,7 +37,8 @@
     <string name="error_authentication_email_not_verified">您的邮箱地址还未验证，请验证后重新登录</string>
     <string name="error_reset_password">您的密码重置失败</string>
     <string name="error_post_new_party">发布新活动失败</string>
-    <string name="error_validate_party">活动信息验证失败，请重新填写</string>
+    <string name="error_validate_party">验证活动信息失败，请重新填写</string>
+    <string name="error_delete_party">删除活动失败</string>
 
     <!-- Register -->
     <string name="label_username">用户名</string>

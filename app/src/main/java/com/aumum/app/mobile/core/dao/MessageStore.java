@@ -3,8 +3,8 @@ package com.aumum.app.mobile.core.dao;
 import android.content.Context;
 
 import com.aumum.app.mobile.Injector;
+import com.aumum.app.mobile.core.infra.cache.DiskCache;
 import com.aumum.app.mobile.core.infra.security.ApiKeyProvider;
-import com.aumum.app.mobile.core.infra.cache.DiskCacheService;
 import com.aumum.app.mobile.core.model.Message;
 import com.aumum.app.mobile.core.service.RestService;
 
@@ -25,7 +25,7 @@ public class MessageStore {
     @Inject
     ApiKeyProvider apiKeyProvider;
 
-    private DiskCacheService diskCacheService;
+    private DiskCache diskCacheService;
 
     private DateTime lastUpdateTime;
 
@@ -37,7 +37,7 @@ public class MessageStore {
         Injector.inject(this);
         String userId = apiKeyProvider.getAuthUserId();
         diskCacheKey = "Message_" + userId;
-        diskCacheService = DiskCacheService.getInstance(context, diskCacheKey);
+        diskCacheService = DiskCache.getInstance(context, diskCacheKey);
     }
 
     public List<Message> getUpwardsList(List<String> idList) {
