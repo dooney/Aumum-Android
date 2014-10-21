@@ -27,7 +27,6 @@ import uk.co.senab.actionbarpulltorefresh.library.listeners.OnRefreshListener;
 public abstract class CardListFragment extends ItemListFragment<Card> {
 
     private final String REFRESH_MODE = "refreshMode";
-    private final String TIME_BEFORE = "timeBefore";
     protected final int UPWARDS_REFRESH = 1;
     protected final int BACKWARDS_REFRESH = 2;
     protected final int STATIC_REFRESH = 3;
@@ -52,7 +51,7 @@ public abstract class CardListFragment extends ItemListFragment<Card> {
             @Override
             public void onRefreshStarted(View view) {
                 if (!isLoading) {
-                    doRefresh(UPWARDS_REFRESH, null);
+                    doRefresh(UPWARDS_REFRESH);
                     pullToRefreshLayout.setRefreshComplete();
                 }
             }
@@ -70,10 +69,7 @@ public abstract class CardListFragment extends ItemListFragment<Card> {
                         int lastInScreen = firstVisibleItem + visibleItemCount;
                         if (visibleItemCount > 0 && lastInScreen == totalItemCount) {
                             if (!isLoading && isMore) {
-                                String time = getLastItemTime();
-                                if (time != null) {
-                                    doRefresh(BACKWARDS_REFRESH, time);
-                                }
+                                doRefresh(BACKWARDS_REFRESH);
                             }
                         }
                     }
@@ -88,20 +84,16 @@ public abstract class CardListFragment extends ItemListFragment<Card> {
     @Override
     protected List<Card> loadDataCore(final Bundle bundle) throws Exception {
         try {
-            String time = null;
             int mode = UPWARDS_REFRESH;
             if (!NetworkUtils.isNetworkAvailable(getActivity())) {
                 Toaster.showLong(getActivity(), R.string.message_loading_offline_data);
                 mode = STATIC_REFRESH;
-            } else {
-                if (bundle != null) {
-                    mode = bundle.getInt(REFRESH_MODE);
-                    time = bundle.getString(TIME_BEFORE);
-                }
+            } else if (bundle != null) {
+                mode = bundle.getInt(REFRESH_MODE);
             }
             currentRefreshMode = mode;
             isLoading = true;
-            return loadCards(mode, time);
+            return loadCards(mode);
         } catch (final OperationCanceledException e) {
             return getData();
         } finally {
@@ -109,10 +101,9 @@ public abstract class CardListFragment extends ItemListFragment<Card> {
         }
     }
 
-    protected void doRefresh(int mode, String time) {
+    protected void doRefresh(int mode) {
         final Bundle bundle = new Bundle();
         bundle.putInt(REFRESH_MODE, mode);
-        bundle.putString(TIME_BEFORE, time);
         refresh(bundle);
     }
 
@@ -138,7 +129,5 @@ public abstract class CardListFragment extends ItemListFragment<Card> {
         isLoading = false;
     }
 
-    protected abstract String getLastItemTime();
-
-    protected abstract List<Card> loadCards(int mode, String time) throws Exception;
+    protected abstract List<Card> loadCards(int mode) throws Exception;
 }

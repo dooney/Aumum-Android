@@ -86,7 +86,7 @@ public class PartyListFragment extends CardListFragment
     @Override
     public void onActivityResult (int requestCode, int resultCode, Intent data) {
         if (requestCode == NEW_PARTY_POST_REQ_CODE && resultCode == Activity.RESULT_OK) {
-            doRefresh(UPWARDS_REFRESH, null);
+            doRefresh(UPWARDS_REFRESH);
         } else if (requestCode == GET_PARTY_DETAILS_REQ_CODE && resultCode == Activity.RESULT_OK) {
             if (data != null && data.getBooleanExtra(PartyDetailsActivity.INTENT_PARTY_DELETED, false)) {
                 String partyId = data.getStringExtra(PartyDetailsActivity.INTENT_PARTY_ID);
@@ -103,57 +103,71 @@ public class PartyListFragment extends CardListFragment
     }
 
     @Override
-    protected String getLastItemTime() {
-        if (dataSet.size() > 0) {
-            Party last = dataSet.get(dataSet.size() - 1);
-            return last.getCreatedAt();
-        }
-        return null;
-    }
-
-    @Override
-    protected List<Card> loadCards(int mode, String time) throws Exception {
+    protected List<Card> loadCards(int mode) throws Exception {
         List<Party> partyList;
         switch (mode) {
             case UPWARDS_REFRESH:
-                dataStore.refresh(dataSet);
-                partyList = dataStore.getUpwardsList();
-                Collections.reverse(partyList);
-                for(Party party: partyList) {
-                    dataSet.add(0, party);
-                }
+                partyList = getUpwardsList();
                 break;
             case BACKWARDS_REFRESH:
-                partyList = dataStore.getBackwardsList(time);
-                dataSet.addAll(partyList);
+                partyList = getBackwardsList();
                 break;
             case STATIC_REFRESH:
-                partyList = dataStore.getOfflineList();
-                dataSet.addAll(partyList);
+                partyList = getStaticList();
                 break;
             default:
                 throw new Exception("Invalid refresh mode: " + mode);
         }
+        return buildCards(partyList);
+    }
+
+    private List<Party> getUpwardsList() {
+        dataStore.refresh(dataSet);
+        String after = null;
+        if (dataSet.size() > 0) {
+            after = dataSet.get(0).getCreatedAt();
+        }
+        List<Party> partyList = dataStore.getUpwardsList(after);
+        Collections.reverse(partyList);
+        for(Party party: partyList) {
+            dataSet.add(0, party);
+        }
+        return partyList;
+    }
+
+    private List<Party> getBackwardsList() {
+        if (dataSet.size() > 0) {
+            Party last = dataSet.get(dataSet.size() - 1);
+            List<Party> partyList = dataStore.getBackwardsList(last.getCreatedAt());
+            dataSet.addAll(partyList);
+            return partyList;
+        }
+        return null;
+    }
+
+    private List<Party> getStaticList() {
+        List<Party> partyList = dataStore.getOfflineList();
+        dataSet.addAll(partyList);
+        return partyList;
+    }
+
+    private List<Card> buildCards(List<Party> partyList) {
         if (partyList != null) {
             for(Party party: partyList) {
                 User user = userStore.getUserById(party.getUserId(), false);
                 party.setUser(user);
             }
-            return buildCards(partyList);
+            List<Card> cards = new ArrayList<Card>();
+            if (partyList.size() > 0) {
+                User user = userStore.getCurrentUser(false);
+                for (Party party : partyList) {
+                    Card card = new PartyCard(getActivity(), party, user.getObjectId(), this, this);
+                    cards.add(card);
+                }
+            }
+            return cards;
         }
         return new ArrayList<Card>();
-    }
-
-    private List<Card> buildCards(List<Party> partyList) {
-        List<Card> cards = new ArrayList<Card>();
-        if (partyList.size() > 0) {
-            User user = userStore.getCurrentUser(false);
-            for (Party party : partyList) {
-                Card card = new PartyCard(getActivity(), party, user.getObjectId(), this, this);
-                cards.add(card);
-            }
-        }
-        return cards;
     }
 
     @Override

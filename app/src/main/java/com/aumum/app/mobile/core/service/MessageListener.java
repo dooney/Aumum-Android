@@ -3,6 +3,7 @@ package com.aumum.app.mobile.core.service;
 import com.aumum.app.mobile.core.model.Message;
 import com.aumum.app.mobile.events.MessageEvent;
 import com.aumum.app.mobile.utils.Ln;
+import com.aumum.app.mobile.utils.NotificationUtils;
 import com.aumum.app.mobile.utils.SafeAsyncTask;
 
 import retrofit.RetrofitError;
@@ -12,13 +13,11 @@ import retrofit.RetrofitError;
  */
 public class MessageListener {
     private RestService service;
-    private NotificationListener notificationListener;
 
     private SafeAsyncTask<Boolean> task;
 
-    public MessageListener(RestService restService, NotificationListener notificationListener) {
+    public MessageListener(RestService restService) {
         service = restService;
-        this.notificationListener = notificationListener;
     }
 
     private void process(final MessageEvent event) {
@@ -29,7 +28,7 @@ public class MessageListener {
         message = service.newMessage(message);
         service.addUserMessage(event.getToUserId(), message.getObjectId());
 
-        notificationListener.pushNotification(event.getToUserId());
+        NotificationUtils.pushNotification(event.getToUserId());
     }
 
     public void onMessageEvent(final MessageEvent event) {

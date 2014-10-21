@@ -5,7 +5,6 @@ import android.content.Context;
 
 import com.aumum.app.mobile.core.infra.security.ApiKeyProvider;
 import com.aumum.app.mobile.core.service.MessageListener;
-import com.aumum.app.mobile.core.service.NotificationListener;
 import com.aumum.app.mobile.core.service.RestService;
 import com.aumum.app.mobile.ui.party.PartyActionListener;
 import com.aumum.app.mobile.ui.party.PartyOwnerActionListener;
@@ -83,14 +82,8 @@ public class BootstrapModule {
 
     @Singleton
     @Provides
-    NotificationListener provideNotificationListener(final Context context) {
-        return new NotificationListener(context);
-    }
-
-    @Singleton
-    @Provides
-    MessageListener provideMessageListener(RestService restService, NotificationListener notificationListener) {
-        return new MessageListener(restService, notificationListener);
+    MessageListener provideMessageListener(RestService restService) {
+        return new MessageListener(restService);
     }
 
     @Provides

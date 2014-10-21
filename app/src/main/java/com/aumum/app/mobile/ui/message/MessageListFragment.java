@@ -48,57 +48,72 @@ public class MessageListFragment extends CardListFragment {
     }
 
     @Override
-    protected String getLastItemTime() {
-        if (dataSet.size() > 0) {
-            Message last = dataSet.get(dataSet.size() - 1);
-            return last.getCreatedAt();
-        }
-        return null;
-    }
-
-    @Override
-    protected List<Card> loadCards(int mode, String time) throws Exception {
-        List<Message> messageList = null;
+    protected List<Card> loadCards(int mode) throws Exception {
+        List<Message> messageList;
         User currentUser = userStore.getCurrentUser(false);
         switch (mode) {
             case UPWARDS_REFRESH:
-                List<String> messageIdList = currentUser.getMessages();
-                if (messageIdList != null) {
-                    messageList = messageStore.getUpwardsList(currentUser.getMessages());
-                    Collections.reverse(messageList);
-                    for (Message message : messageList) {
-                        dataSet.add(0, message);
-                    }
-                }
+                messageList = getUpwardsList(currentUser);
                 break;
             case BACKWARDS_REFRESH:
-                messageList = messageStore.getBackwardsList(currentUser.getMessages(), time);
-                dataSet.addAll(messageList);
+                messageList = getBackwardsList(currentUser);
                 break;
             case STATIC_REFRESH:
-                messageList = messageStore.getOfflineList();
-                dataSet.addAll(messageList);
+                messageList = getStaticList();
                 break;
             default:
                 throw new Exception("Invalid refresh mode: " + mode);
         }
+        return buildCards(messageList);
+    }
+
+    private List<Message> getUpwardsList(User currentUser) {
+        List<String> messageIdList = currentUser.getMessages();
+        if (messageIdList != null) {
+            String after = null;
+            if (dataSet.size() > 0) {
+                after = dataSet.get(0).getCreatedAt();
+            }
+            List<Message> messageList = messageStore.getUpwardsList(currentUser.getMessages(), after);
+            Collections.reverse(messageList);
+            for (Message message : messageList) {
+                dataSet.add(0, message);
+            }
+            return messageList;
+        }
+        return null;
+    }
+
+    private List<Message> getBackwardsList(User currentUser) {
+        if (dataSet.size() > 0) {
+            Message last = dataSet.get(dataSet.size() - 1);
+            List<Message> messageList = messageStore.getBackwardsList(currentUser.getMessages(), last.getCreatedAt());
+            dataSet.addAll(messageList);
+            return messageList;
+        }
+        return null;
+    }
+
+    private List<Message> getStaticList() {
+        List<Message> messageList = messageStore.getOfflineList();
+        dataSet.addAll(messageList);
+        return messageList;
+    }
+
+    private List<Card> buildCards(List<Message> messageList) {
         if (messageList != null) {
             for(Message message: messageList) {
                 User user = userStore.getUserById(message.getFromUserId(), false);
                 message.setFromUser(user);
             }
-            return buildCards(messageList);
+            List<Card> cards = new ArrayList<Card>();
+            for(Message message: messageList) {
+                Card card = new MessageCard(getActivity(), message);
+                cards.add(card);
+            }
+            return cards;
         }
         return new ArrayList<Card>();
-    }
-
-    private List<Card> buildCards(List<Message> messageList) {
-        List<Card> cards = new ArrayList<Card>();
-        for(Message message: messageList) {
-            Card card = new MessageCard(getActivity(), message);
-            cards.add(card);
-        }
-        return cards;
     }
 
     @Override

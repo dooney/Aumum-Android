@@ -6,6 +6,8 @@ import android.app.Application;
 import android.app.Instrumentation;
 import android.content.Context;
 
+import com.aumum.app.mobile.utils.NotificationUtils;
+
 /**
  * Aumum application
  */
@@ -37,6 +39,8 @@ public class BootstrapApplication extends Application {
 
         // Perform injection
         Injector.init(getRootModule(), this);
+
+        NotificationUtils.init(this);
     }
 
     private Object getRootModule() {

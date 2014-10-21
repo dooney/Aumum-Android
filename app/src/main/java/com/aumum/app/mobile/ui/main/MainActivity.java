@@ -14,7 +14,7 @@ import com.aumum.app.mobile.ServiceProvider;
 import com.aumum.app.mobile.R;
 import com.aumum.app.mobile.core.infra.security.ApiKeyProvider;
 import com.aumum.app.mobile.core.service.LogoutService;
-import com.aumum.app.mobile.core.service.NotificationListener;
+import com.aumum.app.mobile.utils.NotificationUtils;
 import com.aumum.app.mobile.core.service.RestService;
 import com.aumum.app.mobile.ui.base.BaseFragmentActivity;
 import com.aumum.app.mobile.utils.SafeAsyncTask;
@@ -33,7 +33,6 @@ public class MainActivity extends BaseFragmentActivity {
     @Inject protected ServiceProvider serviceProvider;
     @Inject protected LogoutService logoutService;
     @Inject protected ApiKeyProvider apiKeyProvider;
-    @Inject protected NotificationListener notificationListener;
 
     private String userChannel;
 
@@ -132,10 +131,10 @@ public class MainActivity extends BaseFragmentActivity {
 
     private void subscribeUserChannel() {
         userChannel = apiKeyProvider.getAuthUserId();
-        notificationListener.subscribe(userChannel);
+        NotificationUtils.subscribe(userChannel);
     }
 
     private void unSubscribeUserChannel() {
-        notificationListener.unSubscribe(userChannel);
+        NotificationUtils.unSubscribe(userChannel);
     }
 }

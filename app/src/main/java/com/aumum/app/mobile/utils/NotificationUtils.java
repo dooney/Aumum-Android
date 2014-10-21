@@ -1,9 +1,8 @@
-package com.aumum.app.mobile.core.service;
+package com.aumum.app.mobile.utils;
 
 import android.content.Context;
 
 import com.aumum.app.mobile.core.Constants;
-import com.aumum.app.mobile.utils.Ln;
 import com.parse.Parse;
 import com.parse.ParseInstallation;
 import com.parse.ParsePush;
@@ -11,16 +10,16 @@ import com.parse.ParsePush;
 /**
  * Created by Administrator on 8/10/2014.
  */
-public class NotificationListener {
+public class NotificationUtils {
 
-    private final String NOTIFICATION_TEXT = "您有新的消息";
+    private static final String NOTIFICATION_TEXT = "您有新的消息";
 
-    public NotificationListener(Context context) {
+    public static void init(Context context) {
         Parse.initialize(context, Constants.Http.PARSE_APP_ID, Constants.Http.PARSE_CLIENT_KEY);
         ParseInstallation.getCurrentInstallation().saveInBackground();
     }
 
-    public void subscribe(String channel) {
+    public static void subscribe(String channel) {
         if (channel != null) {
             try {
                 ParsePush.subscribeInBackground(channel);
@@ -30,7 +29,7 @@ public class NotificationListener {
         }
     }
 
-    public void unSubscribe(String channel) {
+    public static void unSubscribe(String channel) {
         if (channel != null) {
             try {
                 ParsePush.unsubscribeInBackground(channel);
@@ -40,7 +39,7 @@ public class NotificationListener {
         }
     }
 
-    public void pushNotification(String channel) {
+    public static void pushNotification(String channel) {
         if (channel != null) {
             try {
                 ParsePush push = new ParsePush();

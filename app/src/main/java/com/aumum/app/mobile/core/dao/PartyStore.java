@@ -28,9 +28,7 @@ public class PartyStore {
 
     private DiskCache diskCacheService;
 
-    private DateTime lastUpdateTime;
-
-    private int limitPerLoad = 15;
+    private int LIMIT_PER_LOAD = 15;
 
     private String diskCacheKey;
 
@@ -41,20 +39,20 @@ public class PartyStore {
         diskCacheService = DiskCache.getInstance(context, diskCacheKey);
     }
 
-    public List<Party> getUpwardsList() {
+    public List<Party> getUpwardsList(String time) {
         List<Party> partyList;
-        if (lastUpdateTime != null) {
-            partyList = restService.getPartiesAfter(lastUpdateTime, Integer.MAX_VALUE);
+        if (time != null) {
+            DateTime after = new DateTime(time, DateTimeZone.UTC);
+            partyList = restService.getPartiesAfter(after, Integer.MAX_VALUE);
         } else {
-            partyList = restService.getPartiesAfter(null, limitPerLoad);
+            partyList = restService.getPartiesAfter(null, LIMIT_PER_LOAD);
         }
-        lastUpdateTime = DateTime.now(DateTimeZone.UTC);
         return partyList;
     }
 
     public List<Party> getBackwardsList(String time) {
         DateTime before = new DateTime(time, DateTimeZone.UTC);
-        return restService.getPartiesBefore(before, limitPerLoad);
+        return restService.getPartiesBefore(before, LIMIT_PER_LOAD);
     }
 
     public void saveOfflineData(Object data) {
@@ -66,10 +64,6 @@ public class PartyStore {
         Object data = diskCacheService.get(diskCacheKey);
         if (data != null) {
             partyList = (List<Party>) data;
-            if (partyList.size() > 0) {
-                String time = partyList.get(0).getCreatedAt();
-                lastUpdateTime = new DateTime(time, DateTimeZone.UTC);
-            }
         }
         return partyList;
     }

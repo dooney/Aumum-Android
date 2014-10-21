@@ -20,16 +20,12 @@ import javax.inject.Inject;
  * Created by Administrator on 7/10/2014.
  */
 public class MessageStore {
-    @Inject
-    RestService restService;
-    @Inject
-    ApiKeyProvider apiKeyProvider;
+    @Inject RestService restService;
+    @Inject ApiKeyProvider apiKeyProvider;
 
     private DiskCache diskCacheService;
 
-    private DateTime lastUpdateTime;
-
-    private int limitPerLoad = 10;
+    private final int LIMIT_PER_LOAD = 10;
 
     private String diskCacheKey;
 
@@ -40,20 +36,20 @@ public class MessageStore {
         diskCacheService = DiskCache.getInstance(context, diskCacheKey);
     }
 
-    public List<Message> getUpwardsList(List<String> idList) {
+    public List<Message> getUpwardsList(List<String> idList, String time) {
         List<Message> messageList;
-        if (lastUpdateTime != null) {
-            messageList = restService.getMessagesAfter(idList, lastUpdateTime, Integer.MAX_VALUE);
+        if (time != null) {
+            DateTime after = new DateTime(time, DateTimeZone.UTC);
+            messageList = restService.getMessagesAfter(idList, after, Integer.MAX_VALUE);
         } else {
-            messageList = restService.getMessagesAfter(idList, null, limitPerLoad);
+            messageList = restService.getMessagesAfter(idList, null, LIMIT_PER_LOAD);
         }
-        lastUpdateTime = DateTime.now(DateTimeZone.UTC);
         return messageList;
     }
 
     public List<Message> getBackwardsList(List<String> idList, String time) {
         DateTime before = new DateTime(time, DateTimeZone.UTC);
-        return restService.getMessagesBefore(idList, before, limitPerLoad);
+        return restService.getMessagesBefore(idList, before, LIMIT_PER_LOAD);
     }
 
     public void saveOfflineData(Object data) {
@@ -65,10 +61,6 @@ public class MessageStore {
         Object data = diskCacheService.get(diskCacheKey);
         if (data != null) {
             messageList = (List<Message>) data;
-            if (messageList.size() > 0) {
-                String time = messageList.get(0).getCreatedAt();
-                lastUpdateTime = new DateTime(time, DateTimeZone.UTC);
-            }
         }
         return messageList;
     }
