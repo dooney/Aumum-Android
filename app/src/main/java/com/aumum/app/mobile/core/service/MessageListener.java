@@ -2,7 +2,6 @@ package com.aumum.app.mobile.core.service;
 
 import com.aumum.app.mobile.core.model.Message;
 import com.aumum.app.mobile.events.MessageEvent;
-import com.aumum.app.mobile.events.PushNotificationEvent;
 import com.aumum.app.mobile.utils.Ln;
 import com.aumum.app.mobile.utils.SafeAsyncTask;
 import com.squareup.otto.Bus;
@@ -16,15 +15,15 @@ import retrofit.RetrofitError;
 public class MessageListener {
     private Bus bus;
     private RestService service;
+    private NotificationListener notificationListener;
 
     private SafeAsyncTask<Boolean> task;
 
-    private final String NOTIFICATION_TEXT = "您有新的消息";
-
-    public MessageListener(Bus bus, RestService restService) {
+    public MessageListener(Bus bus, RestService restService, NotificationListener notificationListener) {
         this.bus = bus;
         this.bus.register(this);
         service = restService;
+        this.notificationListener = notificationListener;
     }
 
     private void process(final MessageEvent event) {
@@ -35,7 +34,7 @@ public class MessageListener {
         message = service.newMessage(message);
         service.addUserMessage(event.getToUserId(), message.getObjectId());
 
-        bus.post(new PushNotificationEvent(event.getToUserId(), NOTIFICATION_TEXT));
+        notificationListener.pushNotification(event.getToUserId());
     }
 
     @Subscribe

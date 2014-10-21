@@ -24,6 +24,8 @@ import it.gmariotti.cardslib.library.internal.Card;
 public class PartyCard extends Card {
     private Party party;
     private String currentUserId;
+    private JoinListener joinListener;
+    private LikeListener likeListener;
 
     public Party getParty() {
         return party;
@@ -33,6 +35,8 @@ public class PartyCard extends Card {
         super(context, R.layout.party_listitem_inner);
         this.party = party;
         this.currentUserId = currentUserId;
+        this.joinListener = new JoinListener(party);
+        this.likeListener = new LikeListener(party);
         setOnClickListener(new OnCardClickListener() {
             @Override
             public void onClick(Card card, View view) {
@@ -93,7 +97,7 @@ public class PartyCard extends Card {
         joinText.setCompoundDrawablesWithIntrinsicBounds(joinDrawableId, 0, 0, 0);
         int joins = party.getJoins();
         joinText.setText(joins > 0 ? String.valueOf(joins) : view.getResources().getString(R.string.label_join));
-        joinText.setJoinListener(new JoinListener(party));
+        joinText.setJoinListener(joinListener);
 
         CommentTextView commentText = (CommentTextView) view.findViewById(R.id.text_comment);
         int comments = party.getCommentCounts();
@@ -107,6 +111,6 @@ public class PartyCard extends Card {
         likeText.setCompoundDrawablesWithIntrinsicBounds(likeDrawableId, 0, 0, 0);
         int likes = party.getLikes();
         likeText.setText(likes > 0 ? String.valueOf(likes) : view.getResources().getString(R.string.label_like));
-        likeText.setLikeListener(new LikeListener(party));
+        likeText.setLikeListener(likeListener);
     }
 }

@@ -37,14 +37,11 @@ public class BootstrapApplication extends Application {
 
         // Perform injection
         Injector.init(getRootModule(), this);
-
-        ParseModule.getInstance().init(this);
     }
 
     private Object getRootModule() {
         return new RootModule();
     }
-
 
     /**
      * Create main application

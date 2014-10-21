@@ -5,6 +5,7 @@ import android.content.Context;
 
 import com.aumum.app.mobile.core.infra.security.ApiKeyProvider;
 import com.aumum.app.mobile.core.service.MessageListener;
+import com.aumum.app.mobile.core.service.NotificationListener;
 import com.aumum.app.mobile.core.service.RestService;
 import com.aumum.app.mobile.ui.party.PartyListFragment;
 import com.aumum.app.mobile.ui.party.PartyOwnerActionListener;
@@ -61,7 +62,6 @@ import retrofit.converter.GsonConverter;
                 UserStore.class,
                 MessageListFragment.class,
                 MessageStore.class,
-                ParseModule.class,
                 JoinListener.class,
                 LikeListener.class,
                 PartyCommentStore.class,
@@ -83,8 +83,13 @@ public class BootstrapModule {
 
     @Singleton
     @Provides
-    MessageListener provideMessageHandler(Bus bus, RestService restService) {
-        return new MessageListener(bus, restService);
+    NotificationListener provideNotificationListener(final Context context) {
+        return new NotificationListener(context);
+    }
+
+    @Provides
+    MessageListener provideMessageListener(Bus bus, RestService restService, NotificationListener notificationListener) {
+        return new MessageListener(bus, restService, notificationListener);
     }
 
     @Provides

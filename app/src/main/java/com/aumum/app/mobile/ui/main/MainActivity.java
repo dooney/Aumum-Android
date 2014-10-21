@@ -15,12 +15,10 @@ import com.aumum.app.mobile.R;
 import com.aumum.app.mobile.core.infra.security.ApiKeyProvider;
 import com.aumum.app.mobile.core.service.LogoutService;
 import com.aumum.app.mobile.core.service.MessageListener;
+import com.aumum.app.mobile.core.service.NotificationListener;
 import com.aumum.app.mobile.core.service.RestService;
-import com.aumum.app.mobile.events.SubscribeChannelEvent;
-import com.aumum.app.mobile.events.UnSubscribeChannelEvent;
 import com.aumum.app.mobile.ui.base.BaseFragmentActivity;
 import com.aumum.app.mobile.utils.SafeAsyncTask;
-import com.squareup.otto.Bus;
 
 import javax.inject.Inject;
 
@@ -33,10 +31,10 @@ import butterknife.ButterKnife;
  * {@link com.aumum.app.mobile.core.infra.security.ApiKeyProvider#getAuthKey(android.app.Activity)}
  */
 public class MainActivity extends BaseFragmentActivity {
-    @Inject protected Bus bus;
     @Inject protected ServiceProvider serviceProvider;
     @Inject protected LogoutService logoutService;
     @Inject protected ApiKeyProvider apiKeyProvider;
+    @Inject protected NotificationListener notificationListener;
     @Inject protected MessageListener messageListener;
 
     private String userChannel;
@@ -56,18 +54,6 @@ public class MainActivity extends BaseFragmentActivity {
         ButterKnife.inject(this);
 
         checkAuth();
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        bus.register(this);
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-        bus.unregister(this);
     }
 
     @Override
@@ -148,14 +134,10 @@ public class MainActivity extends BaseFragmentActivity {
 
     private void subscribeUserChannel() {
         userChannel = apiKeyProvider.getAuthUserId();
-        if (userChannel != null) {
-            bus.post(new SubscribeChannelEvent(userChannel));
-        }
+        notificationListener.subscribe(userChannel);
     }
 
     private void unSubscribeUserChannel() {
-        if (userChannel != null) {
-            bus.post(new UnSubscribeChannelEvent(userChannel));
-        }
+        notificationListener.unSubscribe(userChannel);
     }
 }
