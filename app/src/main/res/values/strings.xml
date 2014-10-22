@@ -24,6 +24,7 @@
     <string name="message_uploading_profile_image">正在上传头像图片，请稍候…</string>
     <string name="message_loading_offline_data">网络不可用，正在为您加载离线数据</string>
     <string name="message_party_deleted">该活动已成功删除</string>
+    <string name="message_comment_deleted">该评论已成功删除</string>
     <string name="message_click_back_again">再按一次返回桌面</string>
 
     <!-- Error Message -->

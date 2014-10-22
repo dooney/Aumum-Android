@@ -239,6 +239,7 @@ public class PartyCommentsFragment extends ItemListFragment<Comment>
                 service.addPartyComment(partyId, response.getObjectId());
                 comment.setObjectId(response.getObjectId());
                 comment.setCreatedAt(response.getCreatedAt());
+                service.addUserComment(currentUser.getObjectId(), comment.getObjectId());
 
                 messageListener.onMessageEvent(new MessageEvent(
                         Message.COMMENT, party.getUserId(), currentUser.getObjectId()));
@@ -283,6 +284,7 @@ public class PartyCommentsFragment extends ItemListFragment<Comment>
                             getListAdapter().notifyDataSetChanged();
                         }
                     });
+                    Toaster.showShort(getActivity(), R.string.message_comment_deleted);
                     return;
                 }
             }

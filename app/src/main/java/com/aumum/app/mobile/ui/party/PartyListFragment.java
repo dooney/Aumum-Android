@@ -118,7 +118,13 @@ public class PartyListFragment extends CardListFragment
             default:
                 throw new Exception("Invalid refresh mode: " + mode);
         }
-        return buildCards(partyList);
+        if (partyList != null) {
+            for (Party party : partyList) {
+                User user = userStore.getUserById(party.getUserId(), false);
+                party.setUser(user);
+            }
+        }
+        return buildCards();
     }
 
     private List<Party> getUpwardsList() {
@@ -151,23 +157,16 @@ public class PartyListFragment extends CardListFragment
         return partyList;
     }
 
-    private List<Card> buildCards(List<Party> partyList) {
-        if (partyList != null) {
-            for(Party party: partyList) {
-                User user = userStore.getUserById(party.getUserId(), false);
-                party.setUser(user);
+    private List<Card> buildCards() {
+        List<Card> cards = new ArrayList<Card>();
+        if (dataSet.size() > 0) {
+            User user = userStore.getCurrentUser(false);
+            for (Party party : dataSet) {
+                Card card = new PartyCard(getActivity(), party, user.getObjectId(), this, this);
+                cards.add(card);
             }
-            List<Card> cards = new ArrayList<Card>();
-            if (partyList.size() > 0) {
-                User user = userStore.getCurrentUser(false);
-                for (Party party : partyList) {
-                    Card card = new PartyCard(getActivity(), party, user.getObjectId(), this, this);
-                    cards.add(card);
-                }
-            }
-            return cards;
         }
-        return new ArrayList<Card>();
+        return cards;
     }
 
     @Override
@@ -185,7 +184,7 @@ public class PartyListFragment extends CardListFragment
                             getListAdapter().notifyDataSetChanged();
                         }
                     });
-                    Toaster.showLong(getActivity(), R.string.message_party_deleted);
+                    Toaster.showShort(getActivity(), R.string.message_party_deleted);
                     return;
                 }
             }

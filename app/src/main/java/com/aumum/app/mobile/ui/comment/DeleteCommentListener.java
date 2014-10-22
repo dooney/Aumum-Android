@@ -17,6 +17,7 @@ import retrofit.RetrofitError;
  */
 public class DeleteCommentListener implements View.OnClickListener {
     private Comment comment;
+    private String currentUserId;
 
     private SafeAsyncTask<Boolean> task;
 
@@ -32,8 +33,9 @@ public class DeleteCommentListener implements View.OnClickListener {
         public void onCommentDeletedSuccess(String commentId);
     }
 
-    public DeleteCommentListener(Comment comment) {
+    public DeleteCommentListener(Comment comment, String currentUserId) {
         this.comment = comment;
+        this.currentUserId = currentUserId;
         Injector.inject(this);
     }
 
@@ -46,6 +48,7 @@ public class DeleteCommentListener implements View.OnClickListener {
         task = new SafeAsyncTask<Boolean>() {
             public Boolean call() throws Exception {
                 service.removePartyComment(comment.getParentId(), comment.getObjectId());
+                service.removeUserComment(currentUserId, comment.getObjectId());
                 return true;
             }
 

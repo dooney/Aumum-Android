@@ -64,7 +64,13 @@ public class MessageListFragment extends CardListFragment {
             default:
                 throw new Exception("Invalid refresh mode: " + mode);
         }
-        return buildCards(messageList);
+        if (messageList != null) {
+            for (Message message : messageList) {
+                User user = userStore.getUserById(message.getFromUserId(), false);
+                message.setFromUser(user);
+            }
+        }
+        return buildCards();
     }
 
     private List<Message> getUpwardsList(User currentUser) {
@@ -100,20 +106,15 @@ public class MessageListFragment extends CardListFragment {
         return messageList;
     }
 
-    private List<Card> buildCards(List<Message> messageList) {
-        if (messageList != null) {
-            for(Message message: messageList) {
-                User user = userStore.getUserById(message.getFromUserId(), false);
-                message.setFromUser(user);
-            }
-            List<Card> cards = new ArrayList<Card>();
-            for(Message message: messageList) {
+    private List<Card> buildCards() {
+        List<Card> cards = new ArrayList<Card>();
+        if (dataSet.size() > 0) {
+            for (Message message : dataSet) {
                 Card card = new MessageCard(getActivity(), message);
                 cards.add(card);
             }
-            return cards;
         }
-        return new ArrayList<Card>();
+        return cards;
     }
 
     @Override

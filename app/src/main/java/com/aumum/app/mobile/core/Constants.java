@@ -106,6 +106,7 @@ public final class Constants {
             public static final String PARAM_PARTIES = "parties";
             public static final String PARAM_PARTY_POSTS = "partyPosts";
             public static final String PARAM_AVATAR_URL = "avatarUrl";
+            public static final String PARAM_COMMENTS = "comments";
         }
     }
 

@@ -379,4 +379,25 @@ public class RestService {
         data.addProperty("deletedAt", now.toString("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'"));
         return getPartyService().updateById(partyId, data);
     }
+
+    public JsonObject addUserComment(String userId, String commentId) {
+        final JsonObject op = new JsonObject();
+        op.addProperty("__op", "AddUnique");
+        return updateUserComments(op, userId, commentId);
+    }
+
+    public JsonObject removeUserComment(String userId, String commentId) {
+        final JsonObject op = new JsonObject();
+        op.addProperty("__op", "Remove");
+        return updateUserComments(op, userId, commentId);
+    }
+
+    private JsonObject updateUserComments(JsonObject op, String userId, String commentId) {
+        final JsonObject data = new JsonObject();
+        final JsonArray userComments = new JsonArray();
+        userComments.add(new JsonPrimitive(commentId));
+        op.add("objects", userComments);
+        data.add(Constants.Http.User.PARAM_COMMENTS, op);
+        return getUserService().updateById(userId, data);
+    }
 }

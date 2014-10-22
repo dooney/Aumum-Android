@@ -13,6 +13,7 @@ import com.aumum.app.mobile.utils.Ln;
 import com.aumum.app.mobile.utils.NetworkUtils;
 import com.github.kevinsawicki.wishlist.Toaster;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import it.gmariotti.cardslib.library.internal.Card;
@@ -31,7 +32,6 @@ public abstract class CardListFragment extends ItemListFragment<Card> {
     protected final int UPWARDS_REFRESH = 1;
     protected final int BACKWARDS_REFRESH = 2;
     protected final int STATIC_REFRESH = 3;
-    private int currentRefreshMode;
     private boolean isLoading = false;
     private boolean isMore = true;
 
@@ -92,7 +92,6 @@ public abstract class CardListFragment extends ItemListFragment<Card> {
             } else if (bundle != null) {
                 mode = bundle.getInt(REFRESH_MODE);
             }
-            currentRefreshMode = mode;
             isLoading = true;
             return loadCards(mode);
         } catch (final OperationCanceledException e) {
@@ -112,22 +111,9 @@ public abstract class CardListFragment extends ItemListFragment<Card> {
     protected void handleLoadResult(final List<Card> result) {
         try {
             if (result != null) {
-                switch (currentRefreshMode) {
-                    case UPWARDS_REFRESH:
-                        for (Card item : result) {
-                            if (!getData().contains(item)) {
-                                getData().add(0, item);
-                            }
-                        }
-                        break;
-                    case BACKWARDS_REFRESH:
-                    case STATIC_REFRESH:
-                        getData().addAll(result);
-                        isMore = result.size() > 0;
-                        break;
-                    default:
-                        break;
-                }
+                ArrayList<Card> newData = new ArrayList<Card>();
+                newData.addAll(result);
+                setData(newData);
                 getListAdapter().notifyDataSetChanged();
             }
             isLoading = false;

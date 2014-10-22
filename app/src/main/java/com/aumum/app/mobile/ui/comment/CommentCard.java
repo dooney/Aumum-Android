@@ -50,7 +50,7 @@ public class CommentCard {
             createdAtText.setVisibility(View.VISIBLE);
             if (comment.isOwner(currentUserId)) {
                 deleteImage.setVisibility(View.VISIBLE);
-                DeleteCommentListener listener = new DeleteCommentListener(comment);
+                DeleteCommentListener listener = new DeleteCommentListener(comment, currentUserId);
                 listener.setOnActionListener(onActionListener);
                 deleteImage.setOnClickListener(listener);
             } else {
