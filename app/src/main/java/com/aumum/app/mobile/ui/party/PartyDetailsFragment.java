@@ -21,6 +21,7 @@ import com.aumum.app.mobile.ui.user.UserListener;
 import com.aumum.app.mobile.ui.view.Animation;
 import com.aumum.app.mobile.ui.view.AvatarImageView;
 import com.aumum.app.mobile.ui.view.DropdownImageView;
+import com.aumum.app.mobile.utils.Ln;
 
 import java.util.List;
 
@@ -142,36 +143,40 @@ public class PartyDetailsFragment extends LoaderFragment<Party>
     }
 
     @Override
-    protected void handleLoadResult(Party party) throws Exception {
-        if (party != null) {
-            setData(party);
+    protected void handleLoadResult(Party party) {
+        try {
+            if (party != null) {
+                setData(party);
 
-            avatarImage.getFromUrl(party.getUser().getAvatarUrl());
-            avatarImage.setOnClickListener(new UserListener(avatarImage.getContext(), party.getUserId()));
+                avatarImage.getFromUrl(party.getUser().getAvatarUrl());
+                avatarImage.setOnClickListener(new UserListener(avatarImage.getContext(), party.getUserId()));
 
-            if (party.isOwner(currentUserId)) {
-                PartyOwnerActionListener listener = new PartyOwnerActionListener(party);
-                listener.setOnActionListener(this);
-                dropdownImage.init(listener);
-            } else {
-                PartyUserActionListener listener = new PartyUserActionListener(party);
-                listener.setOnActionListener(this);
-                dropdownImage.init(listener);
+                if (party.isOwner(currentUserId)) {
+                    PartyOwnerActionListener listener = new PartyOwnerActionListener(party);
+                    listener.setOnActionListener(this);
+                    dropdownImage.init(listener);
+                } else {
+                    PartyUserActionListener listener = new PartyUserActionListener(party);
+                    listener.setOnActionListener(this);
+                    dropdownImage.init(listener);
+                }
+
+                areaText.setText(Constants.AREA_OPTIONS[party.getArea()]);
+                userNameText.setText(party.getUser().getUsername());
+                userNameText.setOnClickListener(new UserListener(userNameText.getContext(), party.getUserId()));
+                titleText.setText(party.getTitle());
+                createdAtText.setText(party.getCreatedAtFormatted());
+                timeText.setText("2014年10月1号 上午11点半");
+                locationText.setText(party.getLocation());
+                ageText.setText(Constants.AGE_OPTIONS[party.getAge()]);
+                genderText.setText(Constants.GENDER_OPTIONS[party.getGender()]);
+                detailsText.setText(party.getDetails());
+
+                updateMembersLayout(party.getMembers());
+                updateLikesLayout(party.getFans());
             }
-
-            areaText.setText(Constants.AREA_OPTIONS[party.getArea()]);
-            userNameText.setText(party.getUser().getUsername());
-            userNameText.setOnClickListener(new UserListener(userNameText.getContext(), party.getUserId()));
-            titleText.setText(party.getTitle());
-            createdAtText.setText(party.getCreatedAtFormatted());
-            timeText.setText("2014年10月1号 上午11点半");
-            locationText.setText(party.getLocation());
-            ageText.setText(Constants.AGE_OPTIONS[party.getAge()]);
-            genderText.setText(Constants.GENDER_OPTIONS[party.getGender()]);
-            detailsText.setText(party.getDetails());
-
-            updateMembersLayout(party.getMembers());
-            updateLikesLayout(party.getFans());
+        } catch (Exception e) {
+            Ln.d(e);
         }
     }
 

@@ -9,6 +9,7 @@ import android.widget.AbsListView;
 import android.widget.ArrayAdapter;
 
 import com.aumum.app.mobile.R;
+import com.aumum.app.mobile.utils.Ln;
 import com.aumum.app.mobile.utils.NetworkUtils;
 import com.github.kevinsawicki.wishlist.Toaster;
 
@@ -108,25 +109,31 @@ public abstract class CardListFragment extends ItemListFragment<Card> {
     }
 
     @Override
-    protected void handleLoadResult(final List<Card> result) throws Exception {
-        if (result != null) {
-            switch (currentRefreshMode) {
-                case UPWARDS_REFRESH:
-                    for (Card item : result) {
-                        getData().add(0, item);
-                    }
-                    break;
-                case BACKWARDS_REFRESH:
-                case STATIC_REFRESH:
-                    getData().addAll(result);
-                    isMore = result.size() > 0;
-                    break;
-                default:
-                    break;
+    protected void handleLoadResult(final List<Card> result) {
+        try {
+            if (result != null) {
+                switch (currentRefreshMode) {
+                    case UPWARDS_REFRESH:
+                        for (Card item : result) {
+                            if (!getData().contains(item)) {
+                                getData().add(0, item);
+                            }
+                        }
+                        break;
+                    case BACKWARDS_REFRESH:
+                    case STATIC_REFRESH:
+                        getData().addAll(result);
+                        isMore = result.size() > 0;
+                        break;
+                    default:
+                        break;
+                }
+                getListAdapter().notifyDataSetChanged();
             }
-            getListAdapter().notifyDataSetChanged();
+            isLoading = false;
+        } catch (Exception e) {
+            Ln.d(e);
         }
-        isLoading = false;
     }
 
     protected abstract List<Card> loadCards(int mode) throws Exception;

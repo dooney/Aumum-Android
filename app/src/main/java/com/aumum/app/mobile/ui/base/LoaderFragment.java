@@ -12,7 +12,6 @@ import android.widget.TextView;
 
 import com.aumum.app.mobile.R;
 import com.aumum.app.mobile.core.infra.async.ThrowableLoader;
-import com.aumum.app.mobile.utils.Ln;
 import com.github.kevinsawicki.wishlist.Toaster;
 import com.github.kevinsawicki.wishlist.ViewUtils;
 
@@ -83,11 +82,7 @@ public abstract class LoaderFragment<E> extends Fragment
             return;
         }
 
-        try {
-            handleLoadResult(data);
-        } catch (Exception e) {
-            Ln.d(e);
-        }
+        handleLoadResult(data);
         show();
     }
 
@@ -201,5 +196,5 @@ public abstract class LoaderFragment<E> extends Fragment
 
     protected abstract E loadDataCore(final Bundle bundle) throws Exception;
 
-    protected abstract void handleLoadResult(E result) throws Exception;
+    protected abstract void handleLoadResult(E result);
 }

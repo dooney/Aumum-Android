@@ -18,6 +18,7 @@ import com.aumum.app.mobile.ui.base.LoaderFragment;
 import com.aumum.app.mobile.ui.view.AvatarImageView;
 import com.aumum.app.mobile.ui.view.EditProfileTextView;
 import com.aumum.app.mobile.ui.view.FollowTextView;
+import com.aumum.app.mobile.utils.Ln;
 
 import javax.inject.Inject;
 
@@ -125,31 +126,35 @@ public class UserFragment extends LoaderFragment<User> {
     }
 
     @Override
-    protected void handleLoadResult(final User user) throws Exception {
-        if (user != null) {
-            setData(user);
+    protected void handleLoadResult(final User user) {
+        try {
+            if (user != null) {
+                setData(user);
 
-            avatarImage.getFromUrl(user.getAvatarUrl());
-            userNameText.setText(user.getUsername());
-            if (userId.equals(currentUserId)) {
-                avatarImage.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        startProfileImageActivity(userId, user.getAvatarUrl());
-                    }
-                });
-                followText.setVisibility(View.GONE);
-                editProfileText.setVisibility(View.VISIBLE);
-            } else {
-                editProfileText.setVisibility(View.GONE);
-                followText.setVisibility(View.VISIBLE);
+                avatarImage.getFromUrl(user.getAvatarUrl());
+                userNameText.setText(user.getUsername());
+                if (userId.equals(currentUserId)) {
+                    avatarImage.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            startProfileImageActivity(userId, user.getAvatarUrl());
+                        }
+                    });
+                    followText.setVisibility(View.GONE);
+                    editProfileText.setVisibility(View.VISIBLE);
+                } else {
+                    editProfileText.setVisibility(View.GONE);
+                    followText.setVisibility(View.VISIBLE);
+                }
+                if (user.getFollowers().contains(currentUserId)) {
+                    followText.update(true);
+                }
+                partyCountText.setText(String.valueOf(user.getParties().size()));
+                followingCountText.setText(String.valueOf(user.getFollowings().size()));
+                followedCountText.setText(String.valueOf(user.getFollowers().size()));
             }
-            if (user.getFollowers().contains(currentUserId)) {
-                followText.update(true);
-            }
-            partyCountText.setText(String.valueOf(user.getParties().size()));
-            followingCountText.setText(String.valueOf(user.getFollowings().size()));
-            followedCountText.setText(String.valueOf(user.getFollowers().size()));
+        } catch (Exception e) {
+            Ln.d(e);
         }
     }
 
