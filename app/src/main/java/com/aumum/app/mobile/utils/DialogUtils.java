@@ -15,6 +15,7 @@ public class DialogUtils {
         Dialog dlg = new AlertDialog.Builder(context)
                 .setItems(items, itemsClickListener)
                 .create();
+        dlg.setCanceledOnTouchOutside(true);
         dlg.show();
     }
 
@@ -25,6 +26,7 @@ public class DialogUtils {
                 .setTitle(titleId)
                 .setItems(items, itemsClickListener)
                 .create();
+        dlg.setCanceledOnTouchOutside(true);
         dlg.show();
     }
 }

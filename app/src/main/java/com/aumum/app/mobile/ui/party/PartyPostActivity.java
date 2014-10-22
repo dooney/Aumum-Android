@@ -110,7 +110,7 @@ public class PartyPostActivity extends ActionBarActivity
         ageButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                DialogUtils.showDialog(PartyPostActivity.this, R.string.label_age, Constants.AGE_OPTIONS, new DialogInterface.OnClickListener() {
+                DialogUtils.showDialog(PartyPostActivity.this, Constants.AGE_OPTIONS, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
                         age = i;
@@ -124,7 +124,7 @@ public class PartyPostActivity extends ActionBarActivity
         genderButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                DialogUtils.showDialog(PartyPostActivity.this, R.string.label_gender, Constants.GENDER_OPTIONS, new DialogInterface.OnClickListener() {
+                DialogUtils.showDialog(PartyPostActivity.this, Constants.GENDER_OPTIONS, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
                         gender = i;
