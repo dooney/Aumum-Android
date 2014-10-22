@@ -8,6 +8,7 @@ import com.aumum.app.mobile.core.dao.MessageStore;
 import com.aumum.app.mobile.core.model.User;
 import com.aumum.app.mobile.core.dao.UserStore;
 import com.aumum.app.mobile.ui.base.CardListFragment;
+import com.github.kevinsawicki.wishlist.Toaster;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -95,6 +96,12 @@ public class MessageListFragment extends CardListFragment {
             Message last = dataSet.get(dataSet.size() - 1);
             List<Message> messageList = messageStore.getBackwardsList(currentUser.getMessages(), last.getCreatedAt());
             dataSet.addAll(messageList);
+            if (messageList.size() > 0) {
+                setLoadMore(true);
+            } else {
+                setLoadMore(false);
+                Toaster.showShort(getActivity(), R.string.message_all_loaded);
+            }
             return messageList;
         }
         return null;

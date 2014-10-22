@@ -146,6 +146,12 @@ public class PartyListFragment extends CardListFragment
             Party last = dataSet.get(dataSet.size() - 1);
             List<Party> partyList = dataStore.getBackwardsList(last.getCreatedAt());
             dataSet.addAll(partyList);
+            if (partyList.size() > 0) {
+                setLoadMore(true);
+            } else {
+                setLoadMore(false);
+                Toaster.showShort(getActivity(), R.string.message_all_loaded);
+            }
             return partyList;
         }
         return null;

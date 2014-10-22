@@ -26,6 +26,7 @@
     <string name="message_party_deleted">该活动已成功删除</string>
     <string name="message_comment_deleted">该评论已成功删除</string>
     <string name="message_click_back_again">再按一次返回桌面</string>
+    <string name="message_all_loaded">已达最后一项</string>
 
     <!-- Error Message -->
     <string name="error_load_parties">获取活动列表失败</string>

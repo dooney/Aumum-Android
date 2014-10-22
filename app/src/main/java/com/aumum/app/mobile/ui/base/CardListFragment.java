@@ -33,9 +33,13 @@ public abstract class CardListFragment extends ItemListFragment<Card> {
     protected final int BACKWARDS_REFRESH = 2;
     protected final int STATIC_REFRESH = 3;
     private boolean isLoading = false;
-    private boolean isMore = true;
+    private boolean loadMore = true;
 
     private PullToRefreshLayout pullToRefreshLayout;
+
+    protected void setLoadMore(boolean loadMore) {
+        this.loadMore = loadMore;
+    }
 
     @Override
     public View onCreateView(final LayoutInflater inflater, final ViewGroup container,
@@ -69,7 +73,7 @@ public abstract class CardListFragment extends ItemListFragment<Card> {
                     public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
                         int lastInScreen = firstVisibleItem + visibleItemCount;
                         if (visibleItemCount > 0 && lastInScreen == totalItemCount) {
-                            if (!isLoading && isMore) {
+                            if (!isLoading && loadMore) {
                                 doRefresh(BACKWARDS_REFRESH);
                             }
                         }
@@ -111,9 +115,8 @@ public abstract class CardListFragment extends ItemListFragment<Card> {
     protected void handleLoadResult(final List<Card> result) {
         try {
             if (result != null) {
-                ArrayList<Card> newData = new ArrayList<Card>();
-                newData.addAll(result);
-                setData(newData);
+                getData().clear();
+                getData().addAll(result);
                 getListAdapter().notifyDataSetChanged();
             }
             isLoading = false;
