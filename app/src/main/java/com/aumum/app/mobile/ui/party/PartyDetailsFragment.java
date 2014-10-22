@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.aumum.app.mobile.Injector;
@@ -31,7 +32,8 @@ import javax.inject.Inject;
  * Created by Administrator on 16/10/2014.
  */
 public class PartyDetailsFragment extends LoaderFragment<Party>
-        implements PartyActionListener.OnActionListener{
+        implements PartyActionListener.OnActionListener,
+                   PartyActionListener.OnProgressListener{
     @Inject ApiKeyProvider apiKeyProvider;
 
     private String partyId;
@@ -42,6 +44,7 @@ public class PartyDetailsFragment extends LoaderFragment<Party>
 
     private View mainView;
     private DropdownImageView dropdownImage;
+    private ProgressBar progressBar;
     private AvatarImageView avatarImage;
     private TextView areaText;
     private TextView userNameText;
@@ -87,6 +90,7 @@ public class PartyDetailsFragment extends LoaderFragment<Party>
 
         mainView = view.findViewById(R.id.main_view);
         dropdownImage = (DropdownImageView) view.findViewById(R.id.image_dropdown);
+        progressBar = (ProgressBar) view.findViewById(R.id.progress_party);
         avatarImage = (AvatarImageView) view.findViewById(R.id.image_avatar);
         areaText = (TextView) view.findViewById(R.id.text_area);
         userNameText = (TextView) view.findViewById(R.id.text_user_name);
@@ -154,10 +158,12 @@ public class PartyDetailsFragment extends LoaderFragment<Party>
                 if (party.isOwner(currentUserId)) {
                     PartyOwnerActionListener listener = new PartyOwnerActionListener(party);
                     listener.setOnActionListener(this);
+                    listener.setOnProgressListener(this);
                     dropdownImage.init(listener);
                 } else {
                     PartyUserActionListener listener = new PartyUserActionListener(party);
                     listener.setOnActionListener(this);
+                    listener.setOnProgressListener(this);
                     dropdownImage.init(listener);
                 }
 
@@ -256,5 +262,17 @@ public class PartyDetailsFragment extends LoaderFragment<Party>
     @Override
     public void onPartySharedSuccess() {
 
+    }
+
+    @Override
+    public void onPartyActionStart() {
+        dropdownImage.setVisibility(View.GONE);
+        progressBar.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void onPartyActionFinish() {
+        progressBar.setVisibility(View.GONE);
+        dropdownImage.setVisibility(View.VISIBLE);
     }
 }

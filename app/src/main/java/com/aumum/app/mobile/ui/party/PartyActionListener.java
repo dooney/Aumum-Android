@@ -42,8 +42,8 @@ public class PartyActionListener {
     }
 
     public static interface OnProgressListener {
-        public void onStart();
-        public void onFinish();
+        public void onPartyActionStart();
+        public void onPartyActionFinish();
     }
 
     public PartyActionListener(Party party) {
@@ -53,7 +53,7 @@ public class PartyActionListener {
 
     protected void deleteParty() {
         if (onProgressListener != null) {
-            onProgressListener.onStart();
+            onProgressListener.onPartyActionStart();
         }
         task = new SafeAsyncTask<Boolean>() {
             public Boolean call() throws Exception {
@@ -88,7 +88,7 @@ public class PartyActionListener {
             @Override
             protected void onFinally() throws RuntimeException {
                 if (onProgressListener != null) {
-                    onProgressListener.onFinish();
+                    onProgressListener.onPartyActionFinish();
                 }
                 task = null;
             }

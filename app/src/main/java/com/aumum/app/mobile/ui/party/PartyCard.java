@@ -122,13 +122,13 @@ public class PartyCard extends Card implements PartyActionListener.OnProgressLis
     }
 
     @Override
-    public void onStart() {
+    public void onPartyActionStart() {
         dropdownImage.setVisibility(View.GONE);
         progressBar.setVisibility(View.VISIBLE);
     }
 
     @Override
-    public void onFinish() {
+    public void onPartyActionFinish() {
         progressBar.setVisibility(View.GONE);
         dropdownImage.setVisibility(View.VISIBLE);
     }

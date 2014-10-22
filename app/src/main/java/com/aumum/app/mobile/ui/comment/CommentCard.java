@@ -61,13 +61,13 @@ public class CommentCard implements DeleteCommentListener.OnProgressListener {
     }
 
     @Override
-    public void onStart() {
+    public void onDeleteCommentStart() {
         deleteImage.setVisibility(View.GONE);
         progressBar.setVisibility(View.VISIBLE);
     }
 
     @Override
-    public void onFinish() {
+    public void onDeleteCommentFinish() {
         progressBar.setVisibility(View.GONE);
         deleteImage.setVisibility(View.VISIBLE);
     }
