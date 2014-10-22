@@ -74,7 +74,7 @@ public class UserProfileImageActivity extends Activity
         saveAvatarButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                progress.setMessageId(R.string.message_uploading_profile_image);
+                progress.setMessageId(R.string.info_uploading_profile_image);
                 showProgress();
                 saveUserAvatar();
             }
@@ -91,7 +91,7 @@ public class UserProfileImageActivity extends Activity
         } else if (requestCode == ImageUtils.GALLERY_INTENT_CALLED && resultCode == Activity.RESULT_OK) {
             Uri originalUri = data.getData();
             if (originalUri != null) {
-                progress.setMessageId(R.string.message_loading_image);
+                progress.setMessageId(R.string.info_loading_image);
                 showProgress();
                 new ReceiveUriScaledBitmapTask(this, this).execute(originalUri);
             }

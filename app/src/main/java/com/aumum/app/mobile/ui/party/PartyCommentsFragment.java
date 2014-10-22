@@ -284,7 +284,7 @@ public class PartyCommentsFragment extends ItemListFragment<Comment>
                             getListAdapter().notifyDataSetChanged();
                         }
                     });
-                    Toaster.showShort(getActivity(), R.string.message_comment_deleted);
+                    Toaster.showShort(getActivity(), R.string.info_comment_deleted);
                     return;
                 }
             }

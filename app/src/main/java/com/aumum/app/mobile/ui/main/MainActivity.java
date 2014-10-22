@@ -150,7 +150,7 @@ public class MainActivity extends BaseFragmentActivity {
             return;
         }
         doubleBackToExitPressedOnce = true;
-        Toaster.showShort(this, R.string.message_click_back_again);
+        Toaster.showShort(this, R.string.info_click_back_again);
         new Handler().postDelayed(new Runnable() {
 
             @Override

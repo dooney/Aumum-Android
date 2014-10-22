@@ -7,6 +7,7 @@ import com.aumum.app.mobile.core.infra.security.ApiKeyProvider;
 import com.aumum.app.mobile.core.service.MessageListener;
 import com.aumum.app.mobile.core.service.RestService;
 import com.aumum.app.mobile.ui.comment.DeleteCommentListener;
+import com.aumum.app.mobile.ui.message.DeleteMessageListener;
 import com.aumum.app.mobile.ui.party.PartyActionListener;
 import com.aumum.app.mobile.ui.party.PartyOwnerActionListener;
 import com.aumum.app.mobile.ui.party.PartyPostActivity;
@@ -71,7 +72,8 @@ import retrofit.converter.GsonConverter;
                 PartyActionListener.class,
                 PartyOwnerActionListener.class,
                 PartyUserActionListener.class,
-                DeleteCommentListener.class
+                DeleteCommentListener.class,
+                DeleteMessageListener.class
         }
 )
 public class BootstrapModule {

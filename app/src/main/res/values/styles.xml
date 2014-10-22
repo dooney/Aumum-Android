@@ -154,7 +154,7 @@
     </style>
 
     <style name="TextView.Party.UserName" parent="TextView">
-        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:textSize">@dimen/text_sz_extra_large</item>
         <item name="android:textColor">@color/grey_dark</item>
@@ -184,8 +184,10 @@
     </style>
 
     <style name="TextView.Message.FromUser" parent="TextView">
-        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
+        <item name="android:textSize">@dimen/text_sz_large</item>
+        <item name="android:textColor">@color/grey_dark</item>
         <item name="android:maxLines">1</item>
         <item name="android:ellipsize">end</item>
     </style>
@@ -193,7 +195,7 @@
     <style name="TextView.Message.Body" parent="TextView">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
-        <item name="android:textSize">@dimen/text_sz_large</item>
+        <item name="android:textSize">@dimen/text_sz_medium</item>
         <item name="android:textColor">@color/grey_dark</item>
         <item name="android:maxLines">2</item>
         <item name="android:ellipsize">end</item>
@@ -204,7 +206,8 @@
         <item name="android:layout_height">wrap_content</item>
         <item name="android:textSize">@dimen/text_sz_large</item>
         <item name="android:textColor">@color/grey_dark</item>
-        <item name="android:maxLines">2</item>
+        <item name="android:maxLines">1</item>
+        <item name="android:ellipsize">end</item>
     </style>
     <style name="TextView.Comment.Text" parent="TextView">
         <item name="android:layout_width">match_parent</item>

@@ -150,7 +150,7 @@ public class PartyListFragment extends CardListFragment
                 setLoadMore(true);
             } else {
                 setLoadMore(false);
-                Toaster.showShort(getActivity(), R.string.message_all_loaded);
+                Toaster.showShort(getActivity(), R.string.info_all_loaded);
             }
             return partyList;
         }
@@ -190,7 +190,7 @@ public class PartyListFragment extends CardListFragment
                             getListAdapter().notifyDataSetChanged();
                         }
                     });
-                    Toaster.showShort(getActivity(), R.string.message_party_deleted);
+                    Toaster.showShort(getActivity(), R.string.info_party_deleted);
                     return;
                 }
             }

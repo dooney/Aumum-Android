@@ -35,7 +35,7 @@ public class CommentsAdapter extends ArrayAdapter<Comment> {
         LayoutInflater mInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
         if (convertView == null) {
-            convertView = mInflater.inflate(R.layout.comments_listitem_inner, parent, false);
+            convertView = mInflater.inflate(R.layout.comment_listitem_inner, parent, false);
             card = new CommentCard(convertView, currentUserId, onActionListener);
             convertView.setTag(card);
         } else {

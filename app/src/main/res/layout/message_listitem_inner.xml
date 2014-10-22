@@ -14,27 +14,44 @@
             xmlns:app="http://schemas.android.com/apk/res-auto"
             android:id="@+id/image_avatar"
             style="@style/ImageView.Avatar"
-            android:layout_marginRight="@dimen/margin_medium"
+            android:layout_marginRight="@dimen/margin_large"
             android:src="@drawable/ic_avatar"
             app:border_color="@color/transparent"/>
 
         <TextView
-            android:id="@+id/text_from_user"
+            android:id="@+id/text_user_name"
             style="@style/TextView.Message.FromUser"
             android:layout_toRightOf="@+id/image_avatar" />
 
         <TextView
-            android:id="@+id/text_body"
-            style="@style/TextView.Message.Body"
-            android:layout_below="@+id/text_from_user"
-            android:layout_marginTop="@dimen/margin_small"
-            android:layout_toRightOf="@+id/image_avatar" />
+            android:id="@+id/text_createdAt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/text_user_name"
+            android:layout_alignLeft="@+id/text_user_name"
+            android:textSize="@dimen/text_sz_small"/>
 
         <TextView
-            android:id="@+id/text_createdAt"
-            style="@style/TextView.CreatedAt"
+            android:id="@+id/text_body"
+            style="@style/TextView.Message.Body"
+            android:layout_below="@+id/text_createdAt"
+            android:layout_alignLeft="@+id/text_user_name"
+            android:layout_marginTop="@dimen/margin_small"
+            android:focusable="false"
+            android:focusableInTouchMode="false" />
+
+        <ImageView
+            android:id="@+id/image_delete"
+            style="@style/ImageView.Delete.ExtraSmall"
+            android:layout_alignParentRight="true" />
+
+        <ProgressBar
+            android:id="@+id/progress_message"
+            style="@style/ProgressBar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
-            android:layout_centerVertical="true" />
+            android:visibility="gone" />
 
     </RelativeLayout>
 

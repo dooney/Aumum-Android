@@ -66,7 +66,7 @@ public class LoginActivity extends ActionBarActivity {
     @InjectView(id.t_join_now) protected TextView joinNowText;
 
     private final TextWatcher watcher = validationTextWatcher();
-    private final ProgressDialog progress = ProgressDialog.newInstance(R.string.message_authenticating);
+    private final ProgressDialog progress = ProgressDialog.newInstance(R.string.info_authenticating);
 
     private SafeAsyncTask<Boolean> authenticationTask;
     private String authToken;

@@ -56,7 +56,7 @@ public class RegisterActivity extends ActionBarActivity {
     @InjectView(R.id.t_prompt_sign_in) protected TextView promptSignInText;
 
     private final TextWatcher watcher = validationTextWatcher();
-    private final ProgressDialog progress = ProgressDialog.newInstance(R.string.message_processing_registration);
+    private final ProgressDialog progress = ProgressDialog.newInstance(R.string.info_processing_registration);
 
     private SafeAsyncTask<Boolean> registerTask;
 

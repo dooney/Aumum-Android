@@ -48,7 +48,7 @@ public class ResetPasswordActivity extends ActionBarActivity {
     @InjectView(R.id.b_reset_password) protected Button submitButton;
 
     private final TextWatcher watcher = validationTextWatcher();
-    private final ProgressDialog progress = ProgressDialog.newInstance(R.string.message_submitting_password_reset);
+    private final ProgressDialog progress = ProgressDialog.newInstance(R.string.info_submitting_password_reset);
 
     private SafeAsyncTask<Boolean> resetPasswordTask;
 

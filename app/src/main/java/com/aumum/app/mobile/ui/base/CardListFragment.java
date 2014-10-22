@@ -13,7 +13,6 @@ import com.aumum.app.mobile.utils.Ln;
 import com.aumum.app.mobile.utils.NetworkUtils;
 import com.github.kevinsawicki.wishlist.Toaster;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import it.gmariotti.cardslib.library.internal.Card;
@@ -91,7 +90,7 @@ public abstract class CardListFragment extends ItemListFragment<Card> {
         try {
             int mode = UPWARDS_REFRESH;
             if (!NetworkUtils.isNetworkAvailable(getActivity())) {
-                Toaster.showLong(getActivity(), R.string.message_loading_offline_data);
+                Toaster.showLong(getActivity(), R.string.info_loading_offline_data);
                 mode = STATIC_REFRESH;
             } else if (bundle != null) {
                 mode = bundle.getInt(REFRESH_MODE);

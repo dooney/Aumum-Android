@@ -1,9 +1,9 @@
-package com.aumum.app.mobile.ui.comment;
+package com.aumum.app.mobile.ui.message;
 
 import android.view.View;
 
 import com.aumum.app.mobile.Injector;
-import com.aumum.app.mobile.core.model.Comment;
+import com.aumum.app.mobile.core.model.Message;
 import com.aumum.app.mobile.core.service.RestService;
 import com.aumum.app.mobile.utils.Ln;
 import com.aumum.app.mobile.utils.SafeAsyncTask;
@@ -13,10 +13,10 @@ import javax.inject.Inject;
 import retrofit.RetrofitError;
 
 /**
- * Created by Administrator on 22/10/2014.
+ * Created by Administrator on 23/10/2014.
  */
-public class DeleteCommentListener implements View.OnClickListener {
-    private Comment comment;
+public class DeleteMessageListener implements View.OnClickListener {
+    private Message message;
     private String currentUserId;
 
     private SafeAsyncTask<Boolean> task;
@@ -36,34 +36,33 @@ public class DeleteCommentListener implements View.OnClickListener {
     }
 
     public static interface OnActionListener {
-        public void onCommentDeletedSuccess(String commentId);
+        public void onMessageDeletedSuccess(String messageId);
     }
 
     public static interface OnProgressListener {
-        public void onDeleteCommentStart();
-        public void onDeleteCommentFinish();
+        public void onDeleteMessageStart();
+        public void onDeleteMessageFinish();
     }
 
-    public DeleteCommentListener(Comment comment, String currentUserId) {
-        this.comment = comment;
+    public DeleteMessageListener(Message message, String currentUserId) {
+        this.message = message;
         this.currentUserId = currentUserId;
         Injector.inject(this);
     }
 
     @Override
     public void onClick(View view) {
-        deleteComment();
+        deleteMessage();
     }
 
-    private void deleteComment() {
+    private void deleteMessage() {
         if (onProgressListener != null) {
-            onProgressListener.onDeleteCommentStart();
+            onProgressListener.onDeleteMessageStart();
         }
         task = new SafeAsyncTask<Boolean>() {
             public Boolean call() throws Exception {
-                service.deletePartyComment(comment.getObjectId());
-                service.removePartyComment(comment.getParentId(), comment.getObjectId());
-                service.removeUserComment(currentUserId, comment.getObjectId());
+                service.deleteMessage(message.getObjectId());
+                service.removeUserMessage(currentUserId, message.getObjectId());
                 return true;
             }
 
@@ -80,14 +79,14 @@ public class DeleteCommentListener implements View.OnClickListener {
             @Override
             public void onSuccess(final Boolean success) {
                 if (onActionListener != null) {
-                    onActionListener.onCommentDeletedSuccess(comment.getObjectId());
+                    onActionListener.onMessageDeletedSuccess(message.getObjectId());
                 }
             }
 
             @Override
             protected void onFinally() throws RuntimeException {
                 if (onProgressListener != null) {
-                    onProgressListener.onDeleteCommentFinish();
+                    onProgressListener.onDeleteMessageFinish();
                 }
                 task = null;
             }

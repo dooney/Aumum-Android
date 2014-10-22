@@ -8,6 +8,7 @@ import com.aumum.app.mobile.core.dao.MessageStore;
 import com.aumum.app.mobile.core.model.User;
 import com.aumum.app.mobile.core.dao.UserStore;
 import com.aumum.app.mobile.ui.base.CardListFragment;
+import com.aumum.app.mobile.utils.Ln;
 import com.github.kevinsawicki.wishlist.Toaster;
 
 import java.util.ArrayList;
@@ -19,9 +20,12 @@ import it.gmariotti.cardslib.library.internal.Card;
 /**
  * Created by Administrator on 3/10/2014.
  */
-public class MessageListFragment extends CardListFragment {
+public class MessageListFragment extends CardListFragment
+        implements DeleteMessageListener.OnActionListener{
 
     private List<Message> dataSet = new ArrayList<Message>();
+
+    private User currentUser;
 
     private UserStore userStore;
 
@@ -51,7 +55,7 @@ public class MessageListFragment extends CardListFragment {
     @Override
     protected List<Card> loadCards(int mode) throws Exception {
         List<Message> messageList;
-        User currentUser = userStore.getCurrentUser(false);
+        currentUser = userStore.getCurrentUser(false);
         switch (mode) {
             case UPWARDS_REFRESH:
                 messageList = getUpwardsList(currentUser);
@@ -100,7 +104,7 @@ public class MessageListFragment extends CardListFragment {
                 setLoadMore(true);
             } else {
                 setLoadMore(false);
-                Toaster.showShort(getActivity(), R.string.message_all_loaded);
+                Toaster.showShort(getActivity(), R.string.info_all_loaded);
             }
             return messageList;
         }
@@ -117,7 +121,7 @@ public class MessageListFragment extends CardListFragment {
         List<Card> cards = new ArrayList<Card>();
         if (dataSet.size() > 0) {
             for (Message message : dataSet) {
-                Card card = new MessageCard(getActivity(), message);
+                Card card = new MessageCard(getActivity(), message, currentUser.getObjectId(), this);
                 cards.add(card);
             }
         }
@@ -127,5 +131,30 @@ public class MessageListFragment extends CardListFragment {
     @Override
     protected int getErrorMessage(Exception exception) {
         return R.string.error_load_messages;
+    }
+
+    @Override
+    public void onMessageDeletedSuccess(String messageId) {
+        try {
+            List<Card> cardList = getData();
+            for (Card card : cardList) {
+                Message message = ((MessageCard) card).getMessage();
+                if (message.getObjectId().equals(messageId)) {
+                    dataSet.remove(message);
+                    cardList.remove(card);
+                    getActivity().runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            getListAdapter().notifyDataSetChanged();
+                        }
+                    });
+                    Toaster.showShort(getActivity(), R.string.info_message_deleted);
+                    return;
+                }
+            }
+        } catch (Exception e) {
+            Ln.d(e);
+        }
+        Toaster.showLong(getActivity(), R.string.error_delete_message);
     }
 }

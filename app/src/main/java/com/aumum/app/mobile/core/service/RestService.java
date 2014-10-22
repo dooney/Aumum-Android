@@ -175,6 +175,12 @@ public class RestService {
         return updateUserMessage(op, userId, messageId);
     }
 
+    public JsonObject removeUserMessage(String userId, String messageId) {
+        final JsonObject op = new JsonObject();
+        op.addProperty("__op", "Remove");
+        return updateUserMessage(op, userId, messageId);
+    }
+
     private JsonObject updateUserMessage(JsonObject op, String userId, String messageId) {
         final JsonObject data = new JsonObject();
         final JsonArray messages = new JsonArray();
@@ -401,10 +407,17 @@ public class RestService {
         return getUserService().updateById(userId, data);
     }
 
-    public JsonObject deleteComment(String commentId) {
+    public JsonObject deletePartyComment(String commentId) {
         final JsonObject data = new JsonObject();
         DateTime now = DateTime.now(DateTimeZone.UTC);
         data.addProperty("deletedAt", now.toString("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'"));
         return getPartyCommentService().updateById(commentId, data);
+    }
+
+    public JsonObject deleteMessage(String messageId) {
+        final JsonObject data = new JsonObject();
+        DateTime now = DateTime.now(DateTimeZone.UTC);
+        data.addProperty("deletedAt", now.toString("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'"));
+        return getMessageService().updateById(messageId, data);
     }
 }

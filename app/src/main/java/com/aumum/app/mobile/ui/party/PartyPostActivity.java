@@ -59,7 +59,7 @@ public class PartyPostActivity extends ActionBarActivity
     protected MenuItem sendButton;
 
     private final TextWatcher watcher = validationTextWatcher();
-    private final ProgressDialog progress = ProgressDialog.newInstance(R.string.message_posting_party);
+    private final ProgressDialog progress = ProgressDialog.newInstance(R.string.info_posting_party);
 
     private SafeAsyncTask<Boolean> newPartyPostTask;
 
