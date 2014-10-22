@@ -331,6 +331,12 @@ public class RestService {
         return updatePartyComments(op, partyId, commentId);
     }
 
+    public JsonObject removePartyComment(String partyId, String commentId) {
+        final JsonObject op = new JsonObject();
+        op.addProperty("__op", "Remove");
+        return updatePartyComments(op, partyId, commentId);
+    }
+
     private JsonObject updatePartyComments(JsonObject op, String partyId, String commentId) {
         final JsonObject data = new JsonObject();
         final JsonArray partyComments = new JsonArray();

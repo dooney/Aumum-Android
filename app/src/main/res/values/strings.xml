@@ -40,6 +40,7 @@
     <string name="error_post_new_party">发布新活动失败</string>
     <string name="error_validate_party">验证活动信息失败，请重新填写</string>
     <string name="error_delete_party">删除活动失败</string>
+    <string name="error_delete_comment">删除评论失败</string>
 
     <!-- Register -->
     <string name="label_username">用户名</string>

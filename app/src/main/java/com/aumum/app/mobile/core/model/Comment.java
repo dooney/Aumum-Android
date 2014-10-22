@@ -49,4 +49,8 @@ public class Comment extends AggregateRoot {
     public void setUser(User user) {
         this.user = user;
     }
+
+    public boolean isOwner(String userId) {
+        return userId.equals(this.userId);
+    }
 }

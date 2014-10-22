@@ -98,6 +98,11 @@
         <item name="android:layout_height">wrap_content</item>
         <item name="android:src">@drawable/ic_fa_chevron_down</item>
     </style>
+    <style name="ImageView.Delete.ExtraSmall" parent="ImageView">
+        <item name="android:layout_width">@dimen/image_sz_extra_small</item>
+        <item name="android:layout_height">@dimen/image_sz_extra_small</item>
+        <item name="android:src">@drawable/ic_fa_trash_o</item>
+    </style>
 
     <style name="TextView" parent="android:Widget.TextView"/>
     <style name="ButtonTextView" parent="TextView">
@@ -197,9 +202,9 @@
     <style name="TextView.Comment.UserName" parent="TextView">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
+        <item name="android:textSize">@dimen/text_sz_large</item>
         <item name="android:textColor">@color/grey_dark</item>
         <item name="android:maxLines">2</item>
-        <item name="android:textSize">@dimen/text_sz_medium</item>
     </style>
     <style name="TextView.Comment.Text" parent="TextView">
         <item name="android:layout_width">match_parent</item>

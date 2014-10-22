@@ -17,11 +17,16 @@ import java.util.List;
 public class CommentsAdapter extends ArrayAdapter<Comment> {
     private Context context;
     private List<Comment> dataSet;
+    private String currentUserId;
+    private DeleteCommentListener.OnActionListener onActionListener;
 
-    public CommentsAdapter(Context context, List<Comment> objects) {
+    public CommentsAdapter(Context context, List<Comment> objects, String currentUserId,
+                           DeleteCommentListener.OnActionListener onActionListener) {
         super(context, 0, objects);
         this.context = context;
         dataSet = objects;
+        this.currentUserId = currentUserId;
+        this.onActionListener = onActionListener;
     }
 
     @Override
@@ -31,14 +36,14 @@ public class CommentsAdapter extends ArrayAdapter<Comment> {
 
         if (convertView == null) {
             convertView = mInflater.inflate(R.layout.comments_listitem_inner, parent, false);
-            card = new CommentCard(convertView);
+            card = new CommentCard(convertView, currentUserId, onActionListener);
             convertView.setTag(card);
         } else {
             card = (CommentCard) convertView.getTag();
         }
 
-        final Comment comment = dataSet.get(position);
-        card.updateView(comment);
+        Comment comment = dataSet.get(position);
+        card.refresh(comment);
 
         return convertView;
     }

@@ -17,6 +17,7 @@ import android.widget.TextView;
 import com.aumum.app.mobile.Injector;
 import com.aumum.app.mobile.R;
 import com.aumum.app.mobile.core.dao.PartyStore;
+import com.aumum.app.mobile.core.infra.security.ApiKeyProvider;
 import com.aumum.app.mobile.core.model.Message;
 import com.aumum.app.mobile.core.model.Party;
 import com.aumum.app.mobile.core.service.MessageListener;
@@ -28,11 +29,13 @@ import com.aumum.app.mobile.core.dao.UserStore;
 import com.aumum.app.mobile.events.MessageEvent;
 import com.aumum.app.mobile.ui.comment.CommentsAdapter;
 import com.aumum.app.mobile.ui.base.ItemListFragment;
+import com.aumum.app.mobile.ui.comment.DeleteCommentListener;
 import com.aumum.app.mobile.ui.view.Animation;
 import com.aumum.app.mobile.ui.view.CommentTextView;
 import com.aumum.app.mobile.utils.EditTextUtils;
 import com.aumum.app.mobile.utils.Ln;
 import com.aumum.app.mobile.utils.SafeAsyncTask;
+import com.github.kevinsawicki.wishlist.Toaster;
 
 import java.util.List;
 
@@ -44,7 +47,8 @@ import retrofit.RetrofitError;
  * A simple {@link Fragment} subclass.
  *
  */
-public class PartyCommentsFragment extends ItemListFragment<Comment> {
+public class PartyCommentsFragment extends ItemListFragment<Comment>
+        implements DeleteCommentListener.OnActionListener {
     private String partyId;
     private User currentUser;
     private Party party;
@@ -57,6 +61,7 @@ public class PartyCommentsFragment extends ItemListFragment<Comment> {
 
     @Inject RestService service;
     @Inject MessageListener messageListener;
+    @Inject ApiKeyProvider apiKeyProvider;
 
     private ViewGroup layoutCommentBox;
     private CommentTextView commentText;
@@ -163,7 +168,8 @@ public class PartyCommentsFragment extends ItemListFragment<Comment> {
 
     @Override
     protected ArrayAdapter<Comment> createAdapter(List<Comment> items) {
-        return new CommentsAdapter(getActivity(), items);
+        String currentUserId = apiKeyProvider.getAuthUserId();
+        return new CommentsAdapter(getActivity(), items, currentUserId, this);
     }
 
     private void toggleCommentBox() {
@@ -262,5 +268,27 @@ public class PartyCommentsFragment extends ItemListFragment<Comment> {
             }
         };
         task.execute();
+    }
+
+    @Override
+    public void onCommentDeletedSuccess(String commentId) {
+        try {
+            List<Comment> commentList = getData();
+            for (Comment comment : commentList) {
+                if (comment.getObjectId().equals(commentId)) {
+                    commentList.remove(comment);
+                    getActivity().runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            getListAdapter().notifyDataSetChanged();
+                        }
+                    });
+                    return;
+                }
+            }
+        } catch (Exception e) {
+            Ln.d(e);
+        }
+        Toaster.showLong(getActivity(), R.string.error_delete_comment);
     }
 }
