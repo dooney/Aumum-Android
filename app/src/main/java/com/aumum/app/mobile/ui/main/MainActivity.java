@@ -3,6 +3,7 @@ package com.aumum.app.mobile.ui.main;
 import android.accounts.OperationCanceledException;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v4.app.FragmentManager;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -18,6 +19,7 @@ import com.aumum.app.mobile.utils.NotificationUtils;
 import com.aumum.app.mobile.core.service.RestService;
 import com.aumum.app.mobile.ui.base.BaseFragmentActivity;
 import com.aumum.app.mobile.utils.SafeAsyncTask;
+import com.github.kevinsawicki.wishlist.Toaster;
 
 import javax.inject.Inject;
 
@@ -39,6 +41,9 @@ public class MainActivity extends BaseFragmentActivity {
     private CarouselFragment carouselFragment;
 
     public static final String INTENT_NOTIFICATION = "intentNotification";
+
+    private boolean doubleBackToExitPressedOnce;
+    private static final int DOUBLE_BACK_DELAY = 2000;
 
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
@@ -136,5 +141,22 @@ public class MainActivity extends BaseFragmentActivity {
 
     private void unSubscribeUserChannel() {
         NotificationUtils.unSubscribe(userChannel);
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (doubleBackToExitPressedOnce) {
+            super.onBackPressed();
+            return;
+        }
+        doubleBackToExitPressedOnce = true;
+        Toaster.showShort(this, R.string.message_click_back_again);
+        new Handler().postDelayed(new Runnable() {
+
+            @Override
+            public void run() {
+                doubleBackToExitPressedOnce = false;
+            }
+        }, DOUBLE_BACK_DELAY);
     }
 }
