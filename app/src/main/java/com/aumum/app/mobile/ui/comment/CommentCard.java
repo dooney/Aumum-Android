@@ -13,33 +13,33 @@ import com.aumum.app.mobile.ui.view.AvatarImageView;
 /**
  * Created by Administrator on 13/10/2014.
  */
-public class CommentCard {
-    private View view;
+public class CommentCard implements DeleteCommentListener.OnProgressListener {
+    private AvatarImageView avatarImage;
+    private ImageView deleteImage;
+    private TextView userNameText;
+    private TextView commentText;
+    private TextView createdAtText;
+    private ProgressBar progressBar;
     private String currentUserId;
     private DeleteCommentListener.OnActionListener onActionListener;
 
     public CommentCard(View view, String currentUserId,
                        DeleteCommentListener.OnActionListener onActionListener) {
-        this.view = view;
+        this.avatarImage = (AvatarImageView) view.findViewById(R.id.image_avatar);
+        this.deleteImage = (ImageView) view.findViewById(R.id.image_delete);
+        this.userNameText = (TextView) view.findViewById(R.id.text_user_name);
+        this.commentText = (TextView) view.findViewById(R.id.text_content);
+        this.createdAtText = (TextView) view.findViewById(R.id.text_createdAt);
+        this.progressBar = (ProgressBar) view.findViewById(R.id.progress_comment);
         this.currentUserId = currentUserId;
         this.onActionListener = onActionListener;
     }
 
     public void refresh(Comment comment) {
-        AvatarImageView avatarImage = (AvatarImageView) view.findViewById(R.id.image_avatar);
         avatarImage.getFromUrl(comment.getUser().getAvatarUrl());
         avatarImage.setOnClickListener(new UserListener(avatarImage.getContext(), comment.getUserId()));
-
-        ImageView deleteImage = (ImageView) view.findViewById(R.id.image_delete);
-
-        TextView userNameText = (TextView) view.findViewById(R.id.text_user_name);
         userNameText.setText(comment.getUser().getUsername());
-
-        TextView commentText = (TextView) view.findViewById(R.id.text_content);
         commentText.setText(comment.getContent());
-
-        TextView createdAtText = (TextView) view.findViewById(R.id.text_createdAt);
-        ProgressBar progressBar = (ProgressBar) view.findViewById(R.id.progress_comment);
         if (comment.getObjectId() == null) {
             createdAtText.setVisibility(View.GONE);
             deleteImage.setVisibility(View.GONE);
@@ -52,10 +52,23 @@ public class CommentCard {
                 deleteImage.setVisibility(View.VISIBLE);
                 DeleteCommentListener listener = new DeleteCommentListener(comment, currentUserId);
                 listener.setOnActionListener(onActionListener);
+                listener.setOnProgressListener(this);
                 deleteImage.setOnClickListener(listener);
             } else {
                 deleteImage.setVisibility(View.GONE);
             }
         }
+    }
+
+    @Override
+    public void onStart() {
+        deleteImage.setVisibility(View.GONE);
+        progressBar.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void onFinish() {
+        progressBar.setVisibility(View.GONE);
+        deleteImage.setVisibility(View.VISIBLE);
     }
 }

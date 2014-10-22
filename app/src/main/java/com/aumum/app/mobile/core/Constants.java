@@ -72,9 +72,14 @@ public final class Constants {
         public static final String URL_MESSAGES_FRAG = "/1/classes/Messages";
 
         /**
-         * List Comments URL
+         * List Party Comments URL
          */
         public static final String URL_COMMENTS_FRAG = "/1/classes/PartyComments";
+
+        /**
+         * Party Comment By Id URL
+         */
+        public static final String URL_PARTY_COMMENT_BY_ID_FRAG = "/1/classes/PartyComments/{id}";
 
         /**
          * PARAMS for auth

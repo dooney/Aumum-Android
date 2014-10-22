@@ -400,4 +400,11 @@ public class RestService {
         data.add(Constants.Http.User.PARAM_COMMENTS, op);
         return getUserService().updateById(userId, data);
     }
+
+    public JsonObject deleteComment(String commentId) {
+        final JsonObject data = new JsonObject();
+        DateTime now = DateTime.now(DateTimeZone.UTC);
+        data.addProperty("deletedAt", now.toString("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'"));
+        return getPartyCommentService().updateById(commentId, data);
+    }
 }

@@ -32,6 +32,14 @@
             style="@style/ImageView.Dropdown"
             android:layout_alignParentRight="true" />
 
+        <ProgressBar
+            android:id="@+id/progress_party"
+            style="@style/ProgressBar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:visibility="gone" />
+
         <TextView
             android:id="@+id/text_area"
             style="@style/TextView.Area"

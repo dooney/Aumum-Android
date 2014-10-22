@@ -25,12 +25,23 @@ public class DeleteCommentListener implements View.OnClickListener {
 
     protected OnActionListener onActionListener;
 
+    protected OnProgressListener onProgressListener;
+
     public void setOnActionListener(OnActionListener onActionListener) {
         this.onActionListener = onActionListener;
     }
 
+    public void setOnProgressListener(OnProgressListener onProgressListener) {
+        this.onProgressListener = onProgressListener;
+    }
+
     public static interface OnActionListener {
         public void onCommentDeletedSuccess(String commentId);
+    }
+
+    public static interface OnProgressListener {
+        public void onStart();
+        public void onFinish();
     }
 
     public DeleteCommentListener(Comment comment, String currentUserId) {
@@ -45,8 +56,12 @@ public class DeleteCommentListener implements View.OnClickListener {
     }
 
     private void deleteComment() {
+        if (onProgressListener != null) {
+            onProgressListener.onStart();
+        }
         task = new SafeAsyncTask<Boolean>() {
             public Boolean call() throws Exception {
+                service.deleteComment(comment.getObjectId());
                 service.removePartyComment(comment.getParentId(), comment.getObjectId());
                 service.removeUserComment(currentUserId, comment.getObjectId());
                 return true;
@@ -71,6 +86,9 @@ public class DeleteCommentListener implements View.OnClickListener {
 
             @Override
             protected void onFinally() throws RuntimeException {
+                if (onProgressListener != null) {
+                    onProgressListener.onFinish();
+                }
                 task = null;
             }
         };

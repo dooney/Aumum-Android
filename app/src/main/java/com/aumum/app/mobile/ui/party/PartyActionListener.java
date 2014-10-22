@@ -26,13 +26,24 @@ public class PartyActionListener {
 
     protected OnActionListener onActionListener;
 
+    protected OnProgressListener onProgressListener;
+
     public void setOnActionListener(OnActionListener onActionListener) {
         this.onActionListener = onActionListener;
+    }
+
+    public void setOnProgressListener(OnProgressListener onProgressListener) {
+        this.onProgressListener = onProgressListener;
     }
 
     public static interface OnActionListener {
         public void onPartyDeletedSuccess(String partyId);
         public void onPartySharedSuccess();
+    }
+
+    public static interface OnProgressListener {
+        public void onStart();
+        public void onFinish();
     }
 
     public PartyActionListener(Party party) {
@@ -41,6 +52,9 @@ public class PartyActionListener {
     }
 
     protected void deleteParty() {
+        if (onProgressListener != null) {
+            onProgressListener.onStart();
+        }
         task = new SafeAsyncTask<Boolean>() {
             public Boolean call() throws Exception {
                 service.deleteParty(party.getObjectId());
@@ -73,6 +87,9 @@ public class PartyActionListener {
 
             @Override
             protected void onFinally() throws RuntimeException {
+                if (onProgressListener != null) {
+                    onProgressListener.onFinish();
+                }
                 task = null;
             }
         };

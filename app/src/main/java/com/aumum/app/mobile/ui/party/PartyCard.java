@@ -3,6 +3,7 @@ package com.aumum.app.mobile.ui.party;
 import android.content.Context;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.aumum.app.mobile.R;
@@ -20,13 +21,15 @@ import it.gmariotti.cardslib.library.internal.Card;
 /**
  * Created by Administrator on 2/10/2014.
  */
-public class PartyCard extends Card {
+public class PartyCard extends Card implements PartyActionListener.OnProgressListener{
     private Party party;
     private String currentUserId;
     private JoinListener joinListener;
     private LikeListener likeListener;
     private PartyOwnerActionListener partyOwnerActionListener;
     private PartyUserActionListener partyUserActionListener;
+    private DropdownImageView dropdownImage;
+    private ProgressBar progressBar;
 
     public Party getParty() {
         return party;
@@ -42,8 +45,10 @@ public class PartyCard extends Card {
         this.likeListener = new LikeListener(party);
         this.partyOwnerActionListener = new PartyOwnerActionListener(party);
         this.partyOwnerActionListener.setOnActionListener(onActionListener);
+        this.partyOwnerActionListener.setOnProgressListener(this);
         this.partyUserActionListener = new PartyUserActionListener(party);
         this.partyUserActionListener.setOnActionListener(onActionListener);
+        this.partyUserActionListener.setOnProgressListener(this);
         setOnClickListener(onCardClickListener);
     }
 
@@ -55,12 +60,14 @@ public class PartyCard extends Card {
         avatarImage.getFromUrl(party.getUser().getAvatarUrl());
         avatarImage.setOnClickListener(new UserListener(avatarImage.getContext(), party.getUserId()));
 
-        DropdownImageView dropdownImage = (DropdownImageView) view.findViewById(R.id.image_dropdown);
+        dropdownImage = (DropdownImageView) view.findViewById(R.id.image_dropdown);
         if (party.isOwner(currentUserId)) {
             dropdownImage.init(partyOwnerActionListener);
         } else {
             dropdownImage.init(partyUserActionListener);
         }
+
+        progressBar = (ProgressBar) view.findViewById(R.id.progress_party);
 
         TextView areaText = (TextView) view.findViewById(R.id.text_area);
         areaText.setText(Constants.AREA_OPTIONS[party.getArea()]);
@@ -112,5 +119,17 @@ public class PartyCard extends Card {
         int likes = party.getLikes();
         likeText.setText(likes > 0 ? String.valueOf(likes) : view.getResources().getString(R.string.label_like));
         likeText.setLikeListener(likeListener);
+    }
+
+    @Override
+    public void onStart() {
+        dropdownImage.setVisibility(View.GONE);
+        progressBar.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void onFinish() {
+        progressBar.setVisibility(View.GONE);
+        dropdownImage.setVisibility(View.VISIBLE);
     }
 }
