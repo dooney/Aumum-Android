@@ -9,7 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.aumum.app.mobile.R;
-import com.viewpagerindicator.TitlePageIndicator;
+import com.viewpagerindicator.TabPageIndicator;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
@@ -19,8 +19,8 @@ import butterknife.InjectView;
  */
 public class CarouselFragment extends Fragment {
 
-    @InjectView(R.id.tpi_header)
-    protected TitlePageIndicator indicator;
+    @InjectView(R.id.tpi_footer)
+    protected TabPageIndicator indicator;
 
     @InjectView(R.id.vp_pages)
     protected ViewPager pager;
