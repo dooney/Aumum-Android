@@ -20,25 +20,20 @@
 
         <TextView
             android:id="@+id/text_user_name"
-            style="@style/TextView.Message.FromUser"
+            style="@style/TextView.Message.UserName"
             android:layout_toRightOf="@+id/image_avatar" />
 
         <TextView
             android:id="@+id/text_createdAt"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            style="@style/TextView.Message.CreatedAt"
             android:layout_below="@+id/text_user_name"
-            android:layout_alignLeft="@+id/text_user_name"
-            android:textSize="@dimen/text_sz_small"/>
+            android:layout_alignLeft="@+id/text_user_name" />
 
         <TextView
             android:id="@+id/text_body"
             style="@style/TextView.Message.Body"
             android:layout_below="@+id/text_createdAt"
-            android:layout_alignLeft="@+id/text_user_name"
-            android:layout_marginTop="@dimen/margin_small"
-            android:focusable="false"
-            android:focusableInTouchMode="false" />
+            android:layout_alignLeft="@+id/text_user_name" />
 
         <ImageView
             android:id="@+id/image_delete"

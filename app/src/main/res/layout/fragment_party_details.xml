@@ -17,20 +17,21 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingBottom="@dimen/margin_large">
+            android:paddingBottom="@dimen/margin_medium">
 
             <com.aumum.app.mobile.ui.view.AvatarImageView
                 xmlns:app="http://schemas.android.com/apk/res-auto"
                 android:id="@+id/image_avatar"
-                style="@style/ImageView.Avatar.Large"
-                android:layout_marginRight="@dimen/margin_medium"
+                style="@style/ImageView.Avatar"
+                android:layout_marginRight="@dimen/margin_large"
                 android:src="@drawable/ic_avatar"
                 app:border_color="@color/transparent"/>
 
             <TextView
                 android:id="@+id/text_user_name"
                 style="@style/TextView.Party.UserName"
-                android:layout_toRightOf="@+id/image_avatar" />
+                android:layout_toRightOf="@+id/image_avatar"
+                android:layout_marginBottom="@dimen/margin_small" />
 
             <com.aumum.app.mobile.ui.view.DropdownImageView
                 android:id="@+id/image_dropdown"
@@ -46,16 +47,17 @@
                 android:visibility="gone" />
 
             <TextView
-                android:id="@+id/text_area"
-                style="@style/TextView.Area"
+                style="@style/TextView.Subtitle"
+                android:id="@+id/text_createdAt"
                 android:layout_below="@+id/text_user_name"
-                android:layout_toRightOf="@+id/image_avatar" />
+                android:layout_alignLeft="@+id/text_user_name"
+                android:layout_marginRight="@dimen/margin_medium"/>
 
             <TextView
-                android:id="@+id/text_createdAt"
-                style="@style/TextView.CreatedAt"
+                style="@style/TextView.Subtitle"
+                android:id="@+id/text_area"
                 android:layout_below="@+id/text_user_name"
-                android:layout_toRightOf="@+id/text_area" />
+                android:layout_toRightOf="@+id/text_createdAt"/>
 
         </RelativeLayout>
 
@@ -71,13 +73,21 @@
             android:id="@+id/text_location"
             style="@style/TextView.Location" />
 
-        <TextView
-            android:id="@+id/text_age"
-            style="@style/TextView.Age" />
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingBottom="@dimen/margin_medium">
 
-        <TextView
-            android:id="@+id/text_gender"
-            style="@style/TextView.Gender" />
+            <TextView
+                android:id="@+id/text_age"
+                style="@style/TextView.Age" />
+
+            <TextView
+                android:id="@+id/text_gender"
+                style="@style/TextView.Gender"
+                android:layout_toRightOf="@+id/text_age"/>
+
+        </RelativeLayout>
 
         <TextView
             android:id="@+id/text_details"
@@ -137,7 +147,7 @@
 
     <TextView
         android:id="@android:id/empty"
-        style="@style/ListSubtitleText"
+        style="@style/TextView.Subtitle"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:gravity="center"

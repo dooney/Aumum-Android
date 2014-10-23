@@ -24,20 +24,15 @@
 
     <TextView
         android:id="@+id/text_createdAt"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        style="@style/TextView.Comment.CreatedAt"
         android:layout_below="@+id/text_user_name"
-        android:layout_alignLeft="@+id/text_user_name"
-        android:textSize="@dimen/text_sz_small"/>
+        android:layout_alignLeft="@+id/text_user_name" />
 
     <TextView
         android:id="@+id/text_content"
         style="@style/TextView.Comment.Text"
         android:layout_below="@+id/text_createdAt"
-        android:layout_alignLeft="@+id/text_user_name"
-        android:layout_marginTop="@dimen/margin_small"
-        android:focusable="false"
-        android:focusableInTouchMode="false" />
+        android:layout_alignLeft="@+id/text_user_name" />
 
     <ImageView
         android:id="@+id/image_delete"

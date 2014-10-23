@@ -12,7 +12,7 @@
 
     <TextView
         android:id="@android:id/empty"
-        style="@style/ListSubtitleText"
+        style="@style/TextView.Subtitle"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:gravity="center"
@@ -34,7 +34,7 @@
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:background="@color/bootstrap_divider_grey" />
+            android:background="@color/divider_grey" />
 
         <LinearLayout
             android:layout_width="match_parent"

@@ -22,13 +22,6 @@
         <item name="android:shadowRadius">1</item>
     </style>
 
-    <style name="ListSubtitleText">
-        <item name="android:textSize">14sp</item>
-        <item name="android:textColor">@color/table_text_light</item>
-        <item name="android:layout_height">wrap_content</item>
-        <item name="android:layout_width">wrap_content</item>
-    </style>
-
     <!-- Custom Spinner -->
     <style name="Spinner">
         <item name="android:indeterminate">true</item>
@@ -108,6 +101,7 @@
     <style name="ButtonTextView" parent="TextView">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColor">@color/text_light</item>
         <item name="android:textSize">@dimen/text_sz_medium</item>
         <item name="android:minWidth">40dp</item>
         <item name="android:gravity">center</item>
@@ -115,14 +109,6 @@
         <item name="android:paddingBottom">@dimen/margin_small</item>
         <item name="android:paddingRight">@dimen/margin_medium</item>
         <item name="android:drawablePadding">0dp</item>
-    </style>
-    <style name="TextView.Area" parent="ButtonTextView">
-        <item name="android:drawableLeft">@drawable/ic_fa_home</item>
-        <item name="android:text">@string/label_area</item>
-    </style>
-    <style name="TextView.CreatedAt" parent="ButtonTextView">
-        <item name="android:drawableLeft">@drawable/ic_fa_clock_o</item>
-        <item name="android:text">@string/label_createdAt</item>
     </style>
     <style name="TextView.Time" parent="ButtonTextView">
         <item name="android:drawableLeft">@drawable/ic_fa_calendar</item>
@@ -153,24 +139,24 @@
         <item name="android:text">@string/label_like</item>
     </style>
 
-    <style name="TextView.Party.UserName" parent="TextView">
+    <style name="TextView.UserName" parent="TextView">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
-        <item name="android:textSize">@dimen/text_sz_extra_large</item>
-        <item name="android:paddingTop">@dimen/margin_small</item>
-        <item name="android:paddingLeft">@dimen/margin_small</item>
-        <item name="android:paddingBottom">@dimen/margin_small</item>
+        <item name="android:textSize">@dimen/text_sz_large</item>
         <item name="android:maxLines">1</item>
         <item name="android:ellipsize">end</item>
     </style>
 
+    <!-- Party -->
+    <style name="TextView.Party.UserName" parent="TextView.UserName" />
+    <style name="TextView.Party.CreatedAt" parent="TextView.Subtitle" />
+    <style name="TextView.Party.Area" parent="TextView.Subtitle" />
     <style name="TextView.Party.Title" parent="TextView">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:textSize">@dimen/text_sz_extra_large</item>
         <item name="android:maxLines">3</item>
     </style>
-
     <style name="TextView.Party.Details" parent="TextView">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
@@ -180,43 +166,39 @@
         <item name="android:ellipsize">end</item>
     </style>
 
-    <style name="TextView.Message.FromUser" parent="TextView">
-        <item name="android:layout_width">wrap_content</item>
-        <item name="android:layout_height">wrap_content</item>
-        <item name="android:textSize">@dimen/text_sz_large</item>
-        <item name="android:maxLines">1</item>
-        <item name="android:ellipsize">end</item>
+    <!-- Message -->
+    <style name="TextView.Message.UserName" parent="TextView.UserName" />
+    <style name="TextView.Message.CreatedAt" parent="TextView.Subtitle" >
+        <item name="android:textSize">@dimen/text_sz_small</item>
     </style>
-
     <style name="TextView.Message.Body" parent="TextView">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:textSize">@dimen/text_sz_medium</item>
+        <item name="android:layout_marginTop">@dimen/margin_small</item>
+        <item name="android:focusable">false</item>
+        <item name="android:focusableInTouchMode">false</item>
         <item name="android:maxLines">2</item>
         <item name="android:ellipsize">end</item>
     </style>
 
-    <style name="TextView.Comment.UserName" parent="TextView">
-        <item name="android:layout_width">wrap_content</item>
-        <item name="android:layout_height">wrap_content</item>
-        <item name="android:textSize">@dimen/text_sz_large</item>
-        <item name="android:maxLines">1</item>
-        <item name="android:ellipsize">end</item>
+    <!-- Comment -->
+    <style name="TextView.Comment.UserName" parent="TextView.UserName" />
+    <style name="TextView.Comment.CreatedAt" parent="TextView.Subtitle" >
+        <item name="android:textSize">@dimen/text_sz_small</item>
     </style>
     <style name="TextView.Comment.Text" parent="TextView">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:textSize">@dimen/text_sz_medium</item>
         <item name="android:lineSpacingMultiplier">1.1</item>
+        <item name="android:layout_marginTop">@dimen/margin_small</item>
+        <item name="android:focusable">false</item>
+        <item name="android:focusableInTouchMode">false</item>
     </style>
 
-    <style name="TextView.User.UserName" parent="TextView">
-        <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_height">wrap_content</item>
-        <item name="android:textSize">@dimen/text_sz_large</item>
-        <item name="android:maxLines">1</item>
-        <item name="android:ellipsize">end</item>
-    </style>
+    <!-- User -->
+    <style name="TextView.User.UserName" parent="TextView.UserName" />
     <style name="TextView.User.Follow" parent="ButtonTextView">
         <item name="android:drawableLeft">@drawable/ic_fa_plus_circle</item>
         <item name="android:text">@string/label_follow</item>
@@ -234,6 +216,18 @@
         <item name="android:textSize">@dimen/text_sz_medium</item>
         <item name="android:paddingTop">0dp</item>
         <item name="android:textAppearance">@style/TabPageIndicator.Text</item>
+    </style>
+
+    <style name="TextView.Subtitle" parent="TextView">
+        <item name="android:textColor">@color/text_light</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_width">wrap_content</item>
+    </style>
+
+    <style name="Divider">
+        <item name="android:layout_height">1dp</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:background">@color/divider_grey</item>
     </style>
 
     <style name="ProgressBar" parent="@android:style/Widget.Holo.Light.ProgressBar" />

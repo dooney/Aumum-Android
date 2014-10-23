@@ -94,9 +94,6 @@ public class PartyCard extends Card implements PartyActionListener.OnProgressLis
         TextView genderText = (TextView) view.findViewById(R.id.text_gender);
         genderText.setText(Constants.GENDER_OPTIONS[party.getGender()]);
 
-        TextView detailsText = (TextView) view.findViewById(R.id.text_details);
-        detailsText.setText(party.getDetails());
-
         JoinTextView joinText = (JoinTextView) view.findViewById(R.id.text_join);
         boolean isJoin = party.isJoin(currentUserId);
         joinText.setJoin(isJoin);

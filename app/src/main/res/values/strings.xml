@@ -107,4 +107,9 @@
     <string name="label_you_and_others_like_the_party">你和其他%,d人点赞了该活动</string>
     <string name="label_others_like_the_party">%,d人点赞了该活动</string>
 
+    <!-- Widgets -->
+    <string name="pull_to_refresh_pull_label">下拉刷新…</string>
+    <string name="pull_to_refresh_release_label">放开以刷新…</string>
+    <string name="pull_to_refresh_refreshing_label">正在载入…</string>
+
 </resources>
