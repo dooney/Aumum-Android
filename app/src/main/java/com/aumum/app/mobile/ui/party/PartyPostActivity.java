@@ -145,25 +145,17 @@ public class PartyPostActivity extends ActionBarActivity
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.new_party_post, menu);
-        sendButton = menu.findItem(R.id.b_send_post);
+        menu.add(Menu.NONE, 0, Menu.NONE, "SEND")
+                .setIcon(R.drawable.ic_fa_send_o)
+                .setVisible(false)
+                .setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
+        sendButton = menu.findItem(0);
         return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.b_send_post) {
-            handleSend();
-            return true;
-        }
-
+        handleSend();
         return super.onOptionsItemSelected(item);
     }
 

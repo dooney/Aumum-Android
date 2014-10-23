@@ -15,9 +15,7 @@
         <item name="android:maxHeight">32dp</item>
     </style>
 
-    <style name="Widget.Styled.ActionBar" parent="@style/Widget.AppCompat.ActionBar.Solid">
-        <item name="background">@drawable/actionbar_background</item>
-        <item name="android:background">@drawable/actionbar_background</item>
+    <style name="Widget.Styled.ActionBar" parent="@style/Widget.AppCompat.ActionBar">
         <item name="android:indeterminateProgressStyle">@style/Widget.Styled.ProgressBar</item>
     </style>
 

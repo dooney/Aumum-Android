@@ -9,9 +9,7 @@
         <item>用户信息</item>
     </string-array>
 
-    <string name="new_action">新建</string>
-    <string name="refresh_action">刷新</string>
-    <string name="logout_action">注销</string>
+    <string name="menu_logout">注销</string>
     <string name="no_parties">暂时没有活动</string>
     <string name="no_messages">暂时没有消息</string>
 
@@ -98,7 +96,8 @@
     <string name="hint_new_comment">写评论</string>
     <string name="hint_reply_comment">回复@%1$s：%2$s</string>
 
-    <!-- Party Details -->
+    <!-- Party -->
+    <string name="hint_search_party">搜索活动</string>
     <string name="title_activity_party_details">活动详情</string>
     <string name="invalid_party">无法获取该活动信息</string>
     <string name="label_you_join_the_party">你报名了该活动</string>

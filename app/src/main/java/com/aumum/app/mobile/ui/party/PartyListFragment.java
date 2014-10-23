@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SearchViewCompat;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -58,7 +59,15 @@ public class PartyListFragment extends CardListFragment
 
     @Override
     public void onCreateOptionsMenu(final Menu optionsMenu, final MenuInflater inflater) {
-        inflater.inflate(R.menu.page_party, optionsMenu);
+        View searchView = SearchViewCompat.newSearchView(getActivity());
+        SearchViewCompat.setQueryHint(searchView, getString(R.string.hint_search_party));
+        optionsMenu.add(Menu.NONE, 0, Menu.NONE, "Search")
+                .setIcon(R.drawable.ic_fa_search)
+                .setActionView(searchView)
+                .setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM | MenuItem.SHOW_AS_ACTION_COLLAPSE_ACTION_VIEW);
+        optionsMenu.add(Menu.NONE, 1, Menu.NONE, "NEW")
+                .setIcon(R.drawable.ic_fa_plus)
+                .setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
     }
 
     @Override
@@ -66,14 +75,11 @@ public class PartyListFragment extends CardListFragment
         if (!isUsable()) {
             return false;
         }
-        switch (item.getItemId()) {
-            case R.id.b_new_party:
-                final Intent intent = new Intent(getActivity(), PartyPostActivity.class);
-                startActivityForResult(intent, NEW_PARTY_POST_REQ_CODE);
-                return true;
-            default:
-                return super.onOptionsItemSelected(item);
+        if (item.getItemId() == 1) {
+            final Intent intent = new Intent(getActivity(), PartyPostActivity.class);
+            startActivityForResult(intent, NEW_PARTY_POST_REQ_CODE);
         }
+        return super.onOptionsItemSelected(item);
     }
 
     @Override

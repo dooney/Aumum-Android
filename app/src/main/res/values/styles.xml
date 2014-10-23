@@ -157,7 +157,6 @@
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:textSize">@dimen/text_sz_extra_large</item>
-        <item name="android:textColor">@color/grey_dark</item>
         <item name="android:paddingTop">@dimen/margin_small</item>
         <item name="android:paddingLeft">@dimen/margin_small</item>
         <item name="android:paddingBottom">@dimen/margin_small</item>
@@ -169,7 +168,6 @@
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:textSize">@dimen/text_sz_extra_large</item>
-        <item name="android:textColor">@color/grey_dark</item>
         <item name="android:maxLines">3</item>
     </style>
 
@@ -177,7 +175,6 @@
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:textSize">@dimen/text_sz_large</item>
-        <item name="android:textColor">@color/grey_dark</item>
         <item name="android:lineSpacingMultiplier">1.1</item>
         <item name="android:maxLines">4</item>
         <item name="android:ellipsize">end</item>
@@ -187,7 +184,6 @@
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:textSize">@dimen/text_sz_large</item>
-        <item name="android:textColor">@color/grey_dark</item>
         <item name="android:maxLines">1</item>
         <item name="android:ellipsize">end</item>
     </style>
@@ -196,7 +192,6 @@
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:textSize">@dimen/text_sz_medium</item>
-        <item name="android:textColor">@color/grey_dark</item>
         <item name="android:maxLines">2</item>
         <item name="android:ellipsize">end</item>
     </style>
@@ -205,7 +200,6 @@
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:textSize">@dimen/text_sz_large</item>
-        <item name="android:textColor">@color/grey_dark</item>
         <item name="android:maxLines">1</item>
         <item name="android:ellipsize">end</item>
     </style>
@@ -213,14 +207,12 @@
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:textSize">@dimen/text_sz_medium</item>
-        <item name="android:textColor">@color/grey_dark</item>
         <item name="android:lineSpacingMultiplier">1.1</item>
     </style>
 
     <style name="TextView.User.UserName" parent="TextView">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
-        <item name="android:textColor">@color/grey_dark</item>
         <item name="android:textSize">@dimen/text_sz_large</item>
         <item name="android:maxLines">1</item>
         <item name="android:ellipsize">end</item>
