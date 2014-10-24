@@ -34,17 +34,8 @@ public class Date implements Serializable {
         this.day = day;
     }
 
-    private String getHeadingZeroString(int value) {
-        String ret = String.valueOf(value);
-        if (value < 10) {
-            return "0" + ret;
-        }
-        return ret;
-    }
-
-    public String getDateString() {
-        return getHeadingZeroString(year) + "-" +
-                getHeadingZeroString(month) + "-" +
-                getHeadingZeroString(day);
+    public String getDateText() {
+        return month + "月" +
+               day + "号";
     }
 }

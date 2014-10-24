@@ -94,7 +94,7 @@ public class PartyCard extends Card implements PartyActionListener.OnProgressLis
         createdAtText.setText(party.getCreatedAtFormatted());
 
         TextView timeText = (TextView) view.findViewById(R.id.text_time);
-        timeText.setText("2014年10月1号 上午11点半");
+        timeText.setText(party.getDateTimeText());
 
         TextView locationText = (TextView) view.findViewById(R.id.text_location);
         locationText.setText(party.getLocation());

@@ -34,7 +34,19 @@ public class Time implements Serializable {
     }
 
     public String getTimeString() {
-        return getHeadingZeroString(hour) + ":" +
-                getHeadingZeroString(minute);
+        String prefix = "";
+        int h = hour;
+        if (h < 5) {
+            prefix = "凌晨";
+        } else if (h < 12) {
+            prefix = "上午";
+        } else if (h < 19) {
+            h -= 12;
+            prefix = "下午";
+        } else {
+            h -= 12;
+            prefix = "晚上";
+        }
+        return prefix + h + "点" + getHeadingZeroString(minute) + "分";
     }
 }

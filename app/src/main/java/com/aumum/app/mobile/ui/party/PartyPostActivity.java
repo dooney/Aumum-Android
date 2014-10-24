@@ -164,7 +164,7 @@ public class PartyPostActivity extends ActionBarActivity
         date.setYear(year);
         date.setMonth(monthOfYear + 1);
         date.setDay(dayOfMonth);
-        dateButton.setText(date.getDateString());
+        dateButton.setText(date.getDateText());
     }
 
     @Override
