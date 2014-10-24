@@ -165,6 +165,15 @@
         <item name="android:maxLines">4</item>
         <item name="android:ellipsize">end</item>
     </style>
+    <style name="TextView.Party.Members" parent="TextView">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textSize">@dimen/text_sz_medium</item>
+        <item name="android:minWidth">40dp</item>
+        <item name="android:gravity">center</item>
+        <item name="android:drawablePadding">0dp</item>
+        <item name="android:drawableLeft">@drawable/ic_fa_users</item>
+    </style>
 
     <!-- Message -->
     <style name="TextView.Message.UserName" parent="TextView.UserName" />

@@ -93,8 +93,7 @@
 
         <TextView
             android:id="@+id/text_members_count"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            style="@style/TextView.Party.Members" />
 
         <LinearLayout
             android:id="@+id/layout_members_avatars"
