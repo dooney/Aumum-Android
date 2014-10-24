@@ -55,8 +55,6 @@ public class PartyDetailsFragment extends LoaderFragment<Party>
     private TextView ageText;
     private TextView genderText;
     private TextView detailsText;
-    private ViewGroup layoutMembers;
-    private TextView membersCountText;
     private ViewGroup layoutLikes;
     private TextView likesCountText;
 
@@ -102,8 +100,6 @@ public class PartyDetailsFragment extends LoaderFragment<Party>
         genderText = (TextView) view.findViewById(R.id.text_gender);
         detailsText = (TextView) view.findViewById(R.id.text_details);
 
-        layoutMembers = (ViewGroup) view.findViewById(R.id.layout_members);
-        membersCountText = (TextView) view.findViewById(R.id.text_members_count);
         layoutLikes = (ViewGroup) view.findViewById(R.id.layout_likes);
         likesCountText = (TextView) view.findViewById(R.id.text_likes_count);
     }
@@ -178,43 +174,10 @@ public class PartyDetailsFragment extends LoaderFragment<Party>
                 genderText.setText(Constants.GENDER_OPTIONS[party.getGender()]);
                 detailsText.setText(party.getDetails());
 
-                updateMembersLayout(party.getMembers());
                 updateLikesLayout(party.getFans());
             }
         } catch (Exception e) {
             Ln.d(e);
-        }
-    }
-
-    private void updateMembersLayout(List<String> members) {
-        int count = members.size();
-        if (count > 0) {
-            ViewGroup layoutMembersAvatars = (ViewGroup) layoutMembers.findViewById(R.id.layout_members_avatars);
-            LayoutInflater inflater = getActivity().getLayoutInflater();
-
-            for(String userId: members) {
-                if (!userId.equals(currentUserId)) {
-                    AvatarImageView imgAvatar = (AvatarImageView) inflater.inflate(R.layout.small_avatar, layoutMembersAvatars, false);
-                    imgAvatar.setOnClickListener(new UserListener(getActivity(), userId));
-                    User user = userStore.getUserById(userId, false);
-                    imgAvatar.getFromUrl(user.getAvatarUrl());
-                    layoutMembersAvatars.addView(imgAvatar);
-                }
-            }
-
-            if (members.contains(currentUserId)) {
-                if (count == 1) {
-                    membersCountText.setText(getString(R.string.label_you_join_the_party));
-                } else {
-                    membersCountText.setText(getString(R.string.label_you_and_others_join_the_party, count - 1));
-                }
-            } else {
-                membersCountText.setText(getString(R.string.label_others_join_the_party, count));
-            }
-
-            if (layoutMembers.getVisibility() != View.VISIBLE) {
-                Animation.fadeIn(layoutMembers, Animation.Duration.SHORT);
-            }
         }
     }
 

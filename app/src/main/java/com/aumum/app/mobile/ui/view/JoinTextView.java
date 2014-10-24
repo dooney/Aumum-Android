@@ -59,7 +59,7 @@ public class JoinTextView extends IconTextView {
     @Override
     public void update(boolean newValue) {
         isJoin = newValue;
-        int drawableId = (isJoin ? R.drawable.ic_fa_check : R.drawable.ic_fa_users);
+        int drawableId = (isJoin ? R.drawable.ic_fa_check : R.drawable.ic_fa_user);
         setCompoundDrawablesWithIntrinsicBounds(drawableId, 0, 0, 0);
         String currentText = getText().toString();
         try {

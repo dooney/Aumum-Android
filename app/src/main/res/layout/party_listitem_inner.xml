@@ -84,26 +84,36 @@
 
     </RelativeLayout>
 
+    <RelativeLayout
+        android:id="@+id/layout_members"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingBottom="@dimen/margin_medium"
+        android:visibility="gone" >
+
+        <TextView
+            android:id="@+id/text_members_count"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <LinearLayout
+            android:id="@+id/layout_members_avatars"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/avatar_sz_small"
+            android:layout_below="@+id/text_members_count"
+            android:layout_marginTop="@dimen/margin_small"
+            android:gravity="center_vertical"
+            android:orientation="horizontal" />
+
+    </RelativeLayout>
+
     <View style="@style/Divider" />
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="8dp"
+        android:padding="@dimen/margin_medium"
         android:orientation="horizontal">
-
-        <LinearLayout
-            android:orientation="horizontal"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:layout_weight="1">
-
-            <com.aumum.app.mobile.ui.view.JoinTextView
-                android:id="@+id/text_join"
-                style="@style/TextView.Join" />
-
-        </LinearLayout>
 
         <LinearLayout
             android:orientation="horizontal"

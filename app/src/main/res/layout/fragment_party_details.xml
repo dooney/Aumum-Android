@@ -94,31 +94,6 @@
             style="@style/TextView.Party.Details" />
 
         <RelativeLayout
-            android:id="@+id/layout_members"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/margin_medium"
-            android:layout_marginTop="@dimen/margin_large"
-            android:visibility="gone" >
-
-            <TextView
-                android:id="@+id/text_members_count"
-                android:textSize="@dimen/text_sz_medium"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-
-            <LinearLayout
-                android:id="@+id/layout_members_avatars"
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/avatar_sz_small"
-                android:layout_below="@+id/text_members_count"
-                android:layout_marginTop="@dimen/margin_medium"
-                android:gravity="center_vertical"
-                android:orientation="horizontal" />
-
-        </RelativeLayout>
-
-        <RelativeLayout
             android:id="@+id/layout_likes"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

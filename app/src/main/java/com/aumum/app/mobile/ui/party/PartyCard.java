@@ -1,6 +1,7 @@
 package com.aumum.app.mobile.ui.party;
 
-import android.content.Context;
+import android.app.Activity;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
@@ -8,13 +9,17 @@ import android.widget.TextView;
 
 import com.aumum.app.mobile.R;
 import com.aumum.app.mobile.core.Constants;
+import com.aumum.app.mobile.core.dao.UserStore;
 import com.aumum.app.mobile.core.model.Party;
+import com.aumum.app.mobile.core.model.User;
 import com.aumum.app.mobile.ui.user.UserListener;
+import com.aumum.app.mobile.ui.view.Animation;
 import com.aumum.app.mobile.ui.view.AvatarImageView;
 import com.aumum.app.mobile.ui.view.CommentTextView;
 import com.aumum.app.mobile.ui.view.DropdownImageView;
-import com.aumum.app.mobile.ui.view.JoinTextView;
 import com.aumum.app.mobile.ui.view.LikeTextView;
+
+import java.util.List;
 
 import it.gmariotti.cardslib.library.internal.Card;
 
@@ -22,26 +27,30 @@ import it.gmariotti.cardslib.library.internal.Card;
  * Created by Administrator on 2/10/2014.
  */
 public class PartyCard extends Card implements PartyActionListener.OnProgressListener{
+    private Activity activity;
     private Party party;
     private String currentUserId;
-    private JoinListener joinListener;
     private LikeListener likeListener;
     private PartyOwnerActionListener partyOwnerActionListener;
     private PartyUserActionListener partyUserActionListener;
     private DropdownImageView dropdownImage;
     private ProgressBar progressBar;
+    private ViewGroup layoutMembers;
+    private TextView membersCountText;
+
+    private UserStore userStore;
 
     public Party getParty() {
         return party;
     }
 
-    public PartyCard(final Context context, final Party party, String currentUserId,
+    public PartyCard(final Activity context, final Party party, String currentUserId,
                      PartyActionListener.OnActionListener onActionListener,
                      OnCardClickListener onCardClickListener) {
         super(context, R.layout.party_listitem_inner);
+        this.activity = context;
         this.party = party;
         this.currentUserId = currentUserId;
-        this.joinListener = new JoinListener(party);
         this.likeListener = new LikeListener(party);
         this.partyOwnerActionListener = new PartyOwnerActionListener(party);
         this.partyOwnerActionListener.setOnActionListener(onActionListener);
@@ -50,6 +59,8 @@ public class PartyCard extends Card implements PartyActionListener.OnProgressLis
         this.partyUserActionListener.setOnActionListener(onActionListener);
         this.partyUserActionListener.setOnProgressListener(this);
         setOnClickListener(onCardClickListener);
+
+        this.userStore = UserStore.getInstance(context);
     }
 
     @Override
@@ -94,15 +105,6 @@ public class PartyCard extends Card implements PartyActionListener.OnProgressLis
         TextView genderText = (TextView) view.findViewById(R.id.text_gender);
         genderText.setText(Constants.GENDER_OPTIONS[party.getGender()]);
 
-        JoinTextView joinText = (JoinTextView) view.findViewById(R.id.text_join);
-        boolean isJoin = party.isJoin(currentUserId);
-        joinText.setJoin(isJoin);
-        int joinDrawableId = (isJoin ? R.drawable.ic_fa_check : R.drawable.ic_fa_users);
-        joinText.setCompoundDrawablesWithIntrinsicBounds(joinDrawableId, 0, 0, 0);
-        int joins = party.getJoins();
-        joinText.setText(joins > 0 ? String.valueOf(joins) : view.getResources().getString(R.string.label_join));
-        joinText.setJoinListener(joinListener);
-
         CommentTextView commentText = (CommentTextView) view.findViewById(R.id.text_comment);
         int comments = party.getCommentCounts();
         commentText.setText(comments > 0 ? String.valueOf(comments) : view.getResources().getString(R.string.label_comment));
@@ -116,6 +118,10 @@ public class PartyCard extends Card implements PartyActionListener.OnProgressLis
         int likes = party.getLikes();
         likeText.setText(likes > 0 ? String.valueOf(likes) : view.getResources().getString(R.string.label_like));
         likeText.setLikeListener(likeListener);
+
+        layoutMembers = (ViewGroup) view.findViewById(R.id.layout_members);
+        membersCountText = (TextView) view.findViewById(R.id.text_members_count);
+        updateMembersLayout(party.getMembers());
     }
 
     @Override
@@ -128,5 +134,40 @@ public class PartyCard extends Card implements PartyActionListener.OnProgressLis
     public void onPartyActionFinish() {
         progressBar.setVisibility(View.GONE);
         dropdownImage.setVisibility(View.VISIBLE);
+    }
+
+    private void updateMembersLayout(List<String> members) {
+        int count = members.size();
+        if (count > 0) {
+            ViewGroup layoutMembersAvatars = (ViewGroup) layoutMembers.findViewById(R.id.layout_members_avatars);
+            layoutMembersAvatars.setVisibility(View.VISIBLE);
+            LayoutInflater inflater = activity.getLayoutInflater();
+
+            layoutMembersAvatars.removeAllViews();
+            for(String userId: members) {
+                if (!userId.equals(currentUserId)) {
+                    AvatarImageView imgAvatar = (AvatarImageView) inflater.inflate(R.layout.small_avatar, layoutMembersAvatars, false);
+                    imgAvatar.setOnClickListener(new UserListener(activity, userId));
+                    User user = userStore.getUserById(userId, false);
+                    imgAvatar.getFromUrl(user.getAvatarUrl());
+                    layoutMembersAvatars.addView(imgAvatar);
+                }
+            }
+
+            if (members.contains(currentUserId)) {
+                if (count == 1) {
+                    membersCountText.setText(activity.getString(R.string.label_you_join_the_party));
+                    layoutMembersAvatars.setVisibility(View.GONE);
+                } else {
+                    membersCountText.setText(activity.getString(R.string.label_you_and_others_join_the_party, count - 1));
+                }
+            } else {
+                membersCountText.setText(activity.getString(R.string.label_others_join_the_party, count));
+            }
+
+            if (layoutMembers.getVisibility() != View.VISIBLE) {
+                Animation.fadeIn(layoutMembers, Animation.Duration.SHORT);
+            }
+        }
     }
 }

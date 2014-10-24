@@ -103,9 +103,9 @@
     <string name="label_you_join_the_party">你报名了该活动</string>
     <string name="label_you_and_others_join_the_party">你和其他%,d人报名了该活动</string>
     <string name="label_others_join_the_party">%,d人报名了该活动</string>
-    <string name="label_you_like_the_party">你点赞了该活动</string>
-    <string name="label_you_and_others_like_the_party">你和其他%,d人点赞了该活动</string>
-    <string name="label_others_like_the_party">%,d人点赞了该活动</string>
+    <string name="label_you_like_the_party">你支持了该活动</string>
+    <string name="label_you_and_others_like_the_party">你和其他%,d人支持了该活动</string>
+    <string name="label_others_like_the_party">%,d人支持了该活动</string>
 
     <!-- Widgets -->
     <string name="pull_to_refresh_pull_label">下拉刷新…</string>
