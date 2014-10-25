@@ -1,12 +1,15 @@
 package com.aumum.app.mobile.ui.splash;
 
 import android.content.Intent;
-import android.support.v4.app.FragmentPagerAdapter;
+import android.content.res.TypedArray;
+import android.graphics.Bitmap;
+import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.Window;
-import android.view.WindowManager;
+import android.widget.ImageView;
 
 import com.aumum.app.mobile.R;
 import com.aumum.app.mobile.ui.base.AccountAuthenticatorActivity;
@@ -15,10 +18,14 @@ import com.aumum.app.mobile.ui.register.RegisterActivity;
 import com.aumum.app.mobile.ui.register.RegistrationSuccessActivity;
 import com.aumum.app.mobile.ui.account.ResetPasswordActivity;
 import com.aumum.app.mobile.ui.account.ResetPasswordSuccessActivity;
+import com.aumum.app.mobile.utils.ImageUtils;
 import com.viewpagerindicator.CirclePageIndicator;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class SplashActivity extends AccountAuthenticatorActivity {
-    private FragmentPagerAdapter mAdapter;
+    private PagerAdapter mAdapter;
     private ViewPager mPager;
     private CirclePageIndicator mIndicator;
 
@@ -52,7 +59,21 @@ public class SplashActivity extends AccountAuthenticatorActivity {
         final Intent intent = getIntent();
         authTokenType = intent.getStringExtra(PARAM_AUTHTOKEN_TYPE);
 
-        mAdapter = new SplashFragmentPagerAdapter(getSupportFragmentManager());
+        initSplashViews();
+    }
+
+    private void initSplashViews() {
+        LayoutInflater inflater = LayoutInflater.from(this);
+        List<View> views = new ArrayList<View>();
+        TypedArray images = getResources().obtainTypedArray(R.array.splash_images);
+        for (int i = 0; i < images.length(); i++) {
+            View splashView = inflater.inflate(R.layout.view_splash, null);
+            ImageView imageBackground = (ImageView) splashView.findViewById(R.id.image_background);
+            Bitmap bm = ImageUtils.readBitmap(this, images.getResourceId(i, -1));
+            imageBackground.setImageBitmap(bm);
+            views.add(splashView);
+        }
+        mAdapter = new SplashViewPagerAdapter(views);
 
         mPager = (ViewPager)findViewById(R.id.pager);
         mPager.setAdapter(mAdapter);
