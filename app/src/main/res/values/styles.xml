@@ -2,6 +2,8 @@
 
 <resources>
 
+    <style name="LinearLayout" />
+
     <style name="SingleLineEditText">
         <item name="android:textColor">@color/black</item>
         <item name="android:background">@drawable/edittext_background</item>
@@ -20,19 +22,6 @@
         <item name="android:shadowDx">1</item>
         <item name="android:shadowDy">1</item>
         <item name="android:shadowRadius">1</item>
-    </style>
-
-    <!-- Custom Spinner -->
-    <style name="Spinner">
-        <item name="android:indeterminate">true</item>
-        <item name="android:indeterminateDrawable">@drawable/spinner</item>
-        <item name="android:indeterminateDuration">2000</item>
-        <item name="android:indeterminateOnly">true</item>
-    </style>
-
-    <style name="ListSpinner" parent="Spinner">
-        <item name="android:layout_width">64dp</item>
-        <item name="android:layout_height">64dp</item>
     </style>
 
     <style name="NavMenuButton">
@@ -73,6 +62,14 @@
         <item name="android:paddingRight">10dp</item>
     </style>
 
+    <style name="EditText">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textSize">@dimen/text_sz_large</item>
+        <item name="android:singleLine">true</item>
+        <item name="android:padding">@dimen/margin_large</item>
+    </style>
+
     <style name="ImageView" />
     <style name="ImageView.Avatar" parent="ImageView">
         <item name="android:layout_width">@dimen/avatar_sz_medium</item>
@@ -98,6 +95,11 @@
     </style>
 
     <style name="TextView" parent="android:Widget.TextView"/>
+    <style name="TextView.Subtitle" parent="TextView">
+        <item name="android:textColor">@color/text_light</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_width">wrap_content</item>
+    </style>
     <style name="ButtonTextView" parent="TextView">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
@@ -110,8 +112,12 @@
         <item name="android:paddingRight">@dimen/margin_medium</item>
         <item name="android:drawablePadding">0dp</item>
     </style>
-    <style name="TextView.Time" parent="ButtonTextView">
+    <style name="TextView.Date" parent="ButtonTextView">
         <item name="android:drawableLeft">@drawable/ic_fa_calendar</item>
+        <item name="android:text">@string/label_date</item>
+    </style>
+    <style name="TextView.Time" parent="ButtonTextView">
+        <item name="android:drawableLeft">@drawable/ic_fa_clock_o</item>
         <item name="android:text">@string/label_time</item>
     </style>
     <style name="TextView.Location" parent="ButtonTextView">
@@ -165,14 +171,60 @@
         <item name="android:maxLines">4</item>
         <item name="android:ellipsize">end</item>
     </style>
-    <style name="TextView.Party.Members" parent="TextView">
-        <item name="android:layout_width">wrap_content</item>
-        <item name="android:layout_height">wrap_content</item>
-        <item name="android:textSize">@dimen/text_sz_medium</item>
+    <style name="TextView.Party.Members" parent="TextView.Subtitle">
         <item name="android:minWidth">40dp</item>
         <item name="android:gravity">center</item>
         <item name="android:drawablePadding">0dp</item>
-        <item name="android:drawableLeft">@drawable/ic_fa_users</item>
+        <item name="android:drawableLeft">@drawable/ic_fa_user</item>
+    </style>
+    <style name="TextView.Party.Likes" parent="TextView.Subtitle">
+        <item name="android:minWidth">40dp</item>
+        <item name="android:gravity">center</item>
+        <item name="android:drawablePadding">0dp</item>
+        <item name="android:drawableLeft">@drawable/ic_fa_thumbs_up</item>
+    </style>
+    <style name="LinearLayout.Party.UserAvatars" parent="LinearLayout">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">@dimen/avatar_sz_small</item>
+        <item name="android:layout_marginTop">@dimen/margin_small</item>
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:orientation">horizontal</item>
+    </style>
+    <style name="ButtonTextView.NewParty">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:textSize">@dimen/text_sz_large</item>
+        <item name="android:padding">@dimen/margin_large</item>
+    </style>
+    <style name="ButtonTextView.NewParty.Date" parent="ButtonTextView.NewParty">
+        <item name="android:drawableLeft">@drawable/ic_fa_calendar_l</item>
+        <item name="android:text">@string/label_date</item>
+    </style>
+    <style name="ButtonTextView.NewParty.Time" parent="ButtonTextView.NewParty">
+        <item name="android:drawableLeft">@drawable/ic_fa_clock_o_l</item>
+        <item name="android:text">@string/label_time</item>
+    </style>
+    <style name="ButtonTextView.NewParty.Age" parent="ButtonTextView.NewParty">
+        <item name="android:drawableLeft">@drawable/ic_fa_child_l</item>
+        <item name="android:text">@string/label_age</item>
+    </style>
+    <style name="ButtonTextView.NewParty.Gender" parent="ButtonTextView.NewParty">
+        <item name="android:drawableLeft">@drawable/ic_fa_gender_l</item>
+        <item name="android:text">@string/label_gender</item>
+    </style>
+    <style name="EditText.NewParty.Location" parent="EditText">
+        <item name="android:drawableLeft">@drawable/ic_fa_map_marker_l</item>
+        <item name="android:hint">@string/label_location</item>
+    </style>
+    <style name="EditText.NewParty.Title" parent="EditText">
+        <item name="android:hint">@string/label_title</item>
+    </style>
+    <style name="EditText.NewParty.Details" parent="EditText">
+        <item name="android:background">@color/transparent</item>
+        <item name="android:imeOptions">actionSend</item>
+        <item name="android:inputType">text|textCapSentences|textMultiLine</item>
+        <item name="android:maxLines">4</item>
+        <item name="android:hint">@string/hint_party_details</item>
     </style>
 
     <!-- Message -->
@@ -217,6 +269,24 @@
         <item name="android:text">@string/label_profile</item>
     </style>
 
+    <!-- Widgets -->
+    <style name="Spinner">
+        <item name="android:indeterminate">true</item>
+        <item name="android:indeterminateDrawable">@drawable/spinner</item>
+        <item name="android:indeterminateDuration">2000</item>
+        <item name="android:indeterminateOnly">true</item>
+    </style>
+    <style name="ListSpinner" parent="Spinner">
+        <item name="android:layout_width">64dp</item>
+        <item name="android:layout_height">64dp</item>
+    </style>
+
+    <style name="Divider">
+        <item name="android:layout_height">1dp</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:background">@color/divider_grey</item>
+    </style>
+
     <style name="TabPageIndicator.Text">
         <item name="android:textStyle">normal</item>
         <item name="android:textColor">@color/grey_dark</item>
@@ -227,16 +297,8 @@
         <item name="android:textAppearance">@style/TabPageIndicator.Text</item>
     </style>
 
-    <style name="TextView.Subtitle" parent="TextView">
-        <item name="android:textColor">@color/text_light</item>
-        <item name="android:layout_height">wrap_content</item>
-        <item name="android:layout_width">wrap_content</item>
-    </style>
-
-    <style name="Divider">
-        <item name="android:layout_height">1dp</item>
-        <item name="android:layout_width">match_parent</item>
-        <item name="android:background">@color/divider_grey</item>
+    <style name="MenuItemTextAppearance">
+        <item name="android:textSize">@dimen/text_sz_large</item>
     </style>
 
     <style name="ProgressBar" parent="@android:style/Widget.Holo.Light.ProgressBar" />

@@ -60,9 +60,20 @@
         android:id="@+id/text_title"
         style="@style/TextView.Party.Title" />
 
-    <TextView
-        android:id="@+id/text_time"
-        style="@style/TextView.Time" />
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/text_date"
+            style="@style/TextView.Date" />
+
+        <TextView
+            android:id="@+id/text_time"
+            style="@style/TextView.Time"
+            android:layout_toRightOf="@+id/text_date"/>
+
+    </RelativeLayout>
 
     <TextView
         android:id="@+id/text_location"
@@ -71,7 +82,7 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingBottom="@dimen/margin_medium">
+        android:paddingBottom="@dimen/margin_small">
 
         <TextView
             android:id="@+id/text_age"
@@ -80,7 +91,7 @@
         <TextView
             android:id="@+id/text_gender"
             style="@style/TextView.Gender"
-            android:layout_toRightOf="@+id/text_age"/>
+            android:layout_toRightOf="@+id/text_age" />
 
     </RelativeLayout>
 
@@ -97,12 +108,8 @@
 
         <LinearLayout
             android:id="@+id/layout_members_avatars"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/avatar_sz_small"
-            android:layout_below="@+id/text_members_count"
-            android:layout_marginTop="@dimen/margin_small"
-            android:gravity="center_vertical"
-            android:orientation="horizontal" />
+            style="@style/LinearLayout.Party.UserAvatars"
+            android:layout_below="@+id/text_members_count" />
 
     </RelativeLayout>
 

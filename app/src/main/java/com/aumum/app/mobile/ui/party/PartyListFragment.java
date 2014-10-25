@@ -39,7 +39,7 @@ public class PartyListFragment extends CardListFragment
 
     private UserStore userStore;
 
-    private final int NEW_PARTY_POST_REQ_CODE = 30;
+    private final int NEW_PARTY_REQ_CODE = 30;
     private final int GET_PARTY_DETAILS_REQ_CODE = 31;
 
     @Override
@@ -76,8 +76,8 @@ public class PartyListFragment extends CardListFragment
             return false;
         }
         if (item.getItemId() == 1) {
-            final Intent intent = new Intent(getActivity(), PartyPostActivity.class);
-            startActivityForResult(intent, NEW_PARTY_POST_REQ_CODE);
+            final Intent intent = new Intent(getActivity(), NewPartyActivity.class);
+            startActivityForResult(intent, NEW_PARTY_REQ_CODE);
         }
         return super.onOptionsItemSelected(item);
     }
@@ -91,7 +91,7 @@ public class PartyListFragment extends CardListFragment
 
     @Override
     public void onActivityResult (int requestCode, int resultCode, Intent data) {
-        if (requestCode == NEW_PARTY_POST_REQ_CODE && resultCode == Activity.RESULT_OK) {
+        if (requestCode == NEW_PARTY_REQ_CODE && resultCode == Activity.RESULT_OK) {
             doRefresh(UPWARDS_REFRESH);
         } else if (requestCode == GET_PARTY_DETAILS_REQ_CODE && resultCode == Activity.RESULT_OK) {
             if (data != null && data.getBooleanExtra(PartyDetailsActivity.INTENT_PARTY_DELETED, false)) {

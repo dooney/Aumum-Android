@@ -6,6 +6,7 @@ import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
 import android.animation.PropertyValuesHolder;
 import android.animation.ValueAnimator;
+import android.app.Activity;
 import android.content.Context;
 import android.view.View;
 import android.view.animation.AccelerateDecelerateInterpolator;
@@ -175,7 +176,7 @@ public class Animation {
 
     public static void flyIn(View target) {
         Context context = target.getContext();
-        android.view.animation.Animation animation = AnimationUtils.loadAnimation(context, R.anim.flyin);
+        android.view.animation.Animation animation = AnimationUtils.loadAnimation(context, R.anim.fly_in);
         if (animation==null)
             return;
 
@@ -199,7 +200,7 @@ public class Animation {
             @Override
             public void onAnimationRepeat(android.view.animation.Animation animation) { }
         };
-        startAnimation(target, R.anim.flyout, listener);
+        startAnimation(target, R.anim.fly_out, listener);
     }
 
     public static void startAnimation(View target, int aniResId) {
@@ -215,5 +216,10 @@ public class Animation {
             animation.setAnimationListener(listener);
 
         target.startAnimation(animation);
+    }
+
+    public static void flyIn(Activity activity) {
+        View view = activity.findViewById(android.R.id.content);
+        flyIn(view);
     }
 }

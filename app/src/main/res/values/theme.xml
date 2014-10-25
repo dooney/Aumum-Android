@@ -7,6 +7,7 @@
         <item name="actionBarStyle">@style/Widget.Styled.ActionBar</item>
         <item name="android:actionBarStyle">@style/Widget.Styled.ActionBar</item>
         <item name="vpiTabPageIndicatorStyle">@style/TabPageIndicator</item>
+        <item name="android:actionMenuTextAppearance">@style/MenuItemTextAppearance</item>
     </style>
 
     <style name="Widget.Styled.ProgressBar" parent="@style/Widget.AppCompat.ProgressBar">

@@ -65,9 +65,20 @@
             android:id="@+id/text_title"
             style="@style/TextView.Party.Title" />
 
-        <TextView
-            android:id="@+id/text_time"
-            style="@style/TextView.Time" />
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/text_date"
+                style="@style/TextView.Date" />
+
+            <TextView
+                android:id="@+id/text_time"
+                style="@style/TextView.Time"
+                android:layout_toRightOf="@+id/text_date"/>
+
+        </RelativeLayout>
 
         <TextView
             android:id="@+id/text_location"
@@ -76,7 +87,7 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingBottom="@dimen/margin_medium">
+            android:paddingBottom="@dimen/margin_small">
 
             <TextView
                 android:id="@+id/text_age"
@@ -98,23 +109,16 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="@dimen/margin_medium"
-            android:layout_marginTop="@dimen/margin_large"
             android:visibility="gone" >
 
             <TextView
                 android:id="@+id/text_likes_count"
-                android:textSize="@dimen/text_sz_medium"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                style="@style/TextView.Party.Likes" />
 
             <LinearLayout
                 android:id="@+id/layout_liking_avatars"
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/avatar_sz_small"
-                android:layout_below="@+id/text_likes_count"
-                android:layout_marginTop="@dimen/margin_medium"
-                android:gravity="center_vertical"
-                android:orientation="horizontal" />
+                style="@style/LinearLayout.Party.UserAvatars"
+                android:layout_below="@+id/text_likes_count" />
 
         </RelativeLayout>
 

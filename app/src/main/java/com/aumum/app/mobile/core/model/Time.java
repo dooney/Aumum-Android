@@ -33,7 +33,7 @@ public class Time implements Serializable {
         return ret;
     }
 
-    public String getTimeString() {
+    public String getTimeText() {
         String prefix = "";
         int h = hour;
         if (h < 5) {

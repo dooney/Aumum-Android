@@ -8,9 +8,9 @@ import com.aumum.app.mobile.core.service.MessageListener;
 import com.aumum.app.mobile.core.service.RestService;
 import com.aumum.app.mobile.ui.comment.DeleteCommentListener;
 import com.aumum.app.mobile.ui.message.DeleteMessageListener;
+import com.aumum.app.mobile.ui.party.NewPartyActivity;
 import com.aumum.app.mobile.ui.party.PartyActionListener;
 import com.aumum.app.mobile.ui.party.PartyOwnerActionListener;
-import com.aumum.app.mobile.ui.party.PartyPostActivity;
 import com.aumum.app.mobile.ui.account.ResetPasswordActivity;
 import com.aumum.app.mobile.ui.login.LoginActivity;
 import com.aumum.app.mobile.core.service.LogoutService;
@@ -57,7 +57,7 @@ import retrofit.converter.GsonConverter;
                 RegisterActivity.class,
                 ResetPasswordActivity.class,
                 MainActivity.class,
-                PartyPostActivity.class,
+                NewPartyActivity.class,
                 PartyStore.class,
                 FollowListener.class,
                 UserStore.class,

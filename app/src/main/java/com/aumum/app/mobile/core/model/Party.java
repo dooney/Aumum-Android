@@ -158,8 +158,4 @@ public class Party extends AggregateRoot {
         }
         return 0;
     }
-
-    public String getDateTimeText() {
-        return date.getDateText() + " " + time.getTimeString();
-    }
 }

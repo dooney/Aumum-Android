@@ -65,17 +65,9 @@
     <string name="title_activity_registration_success">注册成功</string>
     <string name="title_activity_reset_password">重置密码</string>
     <string name="title_activity_reset_password_success">重置密码成功</string>
-    <string name="title_activity_new_party_post">新活动</string>
     <string name="title_activity_user">用户</string>
     <string name="title_activity_party_comments">活动评论</string>
-    <string name="label_unlimited">不限</string>
-    <string name="label_title">标题</string>
-    <string name="label_location">地点</string>
-    <string name="label_date">日期</string>
-    <string name="label_time">时间</string>
-    <string name="label_age">年龄</string>
-    <string name="label_gender">性别</string>
-    <string name="text_party_details">活动内容（不超过140字）</string>
+
     <string name="label_join">报名</string>
     <string name="label_comment">评论</string>
     <string name="label_like">支持</string>
@@ -106,6 +98,18 @@
     <string name="label_you_like_the_party">你支持了该活动</string>
     <string name="label_you_and_others_like_the_party">你和其他%,d人支持了该活动</string>
     <string name="label_others_like_the_party">%,d人支持了该活动</string>
+
+    <!-- New Party -->
+    <string name="title_activity_new_party">新亲子活动</string>
+    <string name="label_submit_new_party">发布</string>
+    <string name="label_unlimited">不限</string>
+    <string name="label_title">活动标题</string>
+    <string name="label_location">活动地点</string>
+    <string name="label_date">活动日期</string>
+    <string name="label_time">具体时间</string>
+    <string name="label_age">要求小孩年龄</string>
+    <string name="label_gender">要求小孩性别</string>
+    <string name="hint_party_details">活动内容（不超过140字）</string>
 
     <!-- Widgets -->
     <string name="pull_to_refresh_pull_label">下拉刷新…</string>

@@ -1,0 +1,65 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="@dimen/margin_large"
+    android:background="@color/pager_background"
+    tools:context="com.aumum.app.mobile.ui.party.NewPartyActivity">
+
+    <ScrollView
+        android:id="@+id/v_scroll"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:focusable="true"
+            android:focusableInTouchMode="true">
+
+            <EditText
+                android:id="@+id/et_title"
+                style="@style/EditText.NewParty.Title" />
+
+            <TextView
+                android:id="@+id/b_date"
+                style="@style/ButtonTextView.NewParty.Date" />
+            <View
+                style="@style/Divider"
+                android:background="@color/grey_light"/>
+
+            <TextView
+                android:id="@+id/b_time"
+                style="@style/ButtonTextView.NewParty.Time" />
+            <View
+                style="@style/Divider"
+                android:background="@color/grey_light"/>
+
+            <EditText
+                android:id="@+id/et_location"
+                style="@style/EditText.NewParty.Location" />
+
+            <TextView
+                android:id="@+id/b_age"
+                style="@style/ButtonTextView.NewParty.Age" />
+            <View
+                style="@style/Divider"
+                android:background="@color/grey_light"/>
+
+            <TextView
+                android:id="@+id/b_gender"
+                style="@style/ButtonTextView.NewParty.Gender" />
+            <View
+                style="@style/Divider"
+                android:background="@color/grey_light"/>
+
+            <EditText
+                android:id="@+id/et_details"
+                style="@style/EditText.NewParty.Details" />
+
+        </LinearLayout>
+
+    </ScrollView>
+
+</RelativeLayout>
