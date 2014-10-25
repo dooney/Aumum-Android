@@ -3,7 +3,7 @@ package com.aumum.app.mobile.ui.base;
 import android.accounts.AccountAuthenticatorResponse;
 import android.accounts.AccountManager;
 import android.os.Bundle;
-import android.support.v7.app.ActionBarActivity;
+import android.support.v4.app.FragmentActivity;
 
 
 /**
@@ -21,7 +21,7 @@ import android.support.v7.app.ActionBarActivity;
  * {@link android.accounts.AccountManager#ERROR_CODE_CANCELED}
  * will be called on the response.
  */
-public class ActionBarAccountAuthenticatorActivity extends ActionBarActivity {
+public class AccountAuthenticatorActivity extends FragmentActivity {
     private AccountAuthenticatorResponse accountAuthenticatorResponse = null;
     private Bundle resultBundle = null;
 

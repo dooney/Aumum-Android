@@ -5,9 +5,11 @@ import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.os.Bundle;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 
 import com.aumum.app.mobile.R;
-import com.aumum.app.mobile.ui.base.ActionBarAccountAuthenticatorActivity;
+import com.aumum.app.mobile.ui.base.AccountAuthenticatorActivity;
 import com.aumum.app.mobile.ui.login.LoginActivity;
 import com.aumum.app.mobile.ui.register.RegisterActivity;
 import com.aumum.app.mobile.ui.register.RegistrationSuccessActivity;
@@ -15,7 +17,7 @@ import com.aumum.app.mobile.ui.account.ResetPasswordActivity;
 import com.aumum.app.mobile.ui.account.ResetPasswordSuccessActivity;
 import com.viewpagerindicator.CirclePageIndicator;
 
-public class SplashActivity extends ActionBarAccountAuthenticatorActivity {
+public class SplashActivity extends AccountAuthenticatorActivity {
     private FragmentPagerAdapter mAdapter;
     private ViewPager mPager;
     private CirclePageIndicator mIndicator;
@@ -44,6 +46,7 @@ public class SplashActivity extends ActionBarAccountAuthenticatorActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_splash);
 
         final Intent intent = getIntent();
