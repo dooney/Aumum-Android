@@ -29,9 +29,26 @@
         android:id="@+id/b_area"
         style="@style/ButtonTextView.Account.Area" />
 
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/t_avatar"
+            style="@style/ButtonTextView.Account.Avatar" />
+
+        <com.aumum.app.mobile.ui.view.AvatarImageView
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            android:id="@+id/image_avatar"
+            style="@style/ImageView.Avatar.Large"
+            android:src="@drawable/ic_avatar"
+            app:border_color="@color/transparent"
+            android:layout_toRightOf="@+id/t_avatar" />
+
+    </RelativeLayout>
+
     <Button
         android:id="@+id/b_sign_up"
-        android:onClick="handleRegister"
         style="@style/Button.Account.SignUp" />
 
     <TextView

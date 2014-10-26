@@ -105,10 +105,13 @@ public class ImageUtils {
 
     public static byte[] getBytesBitmap(Bitmap imageBitmap) {
         ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-        imageBitmap.compress(Bitmap.CompressFormat.PNG, FULL_QUALITY, byteArrayOutputStream);
-        byte[] byteArray = byteArrayOutputStream.toByteArray();
-        closeOutputStream(byteArrayOutputStream);
-        return byteArray;
+        if (imageBitmap != null) {
+            imageBitmap.compress(Bitmap.CompressFormat.PNG, FULL_QUALITY, byteArrayOutputStream);
+            byte[] byteArray = byteArrayOutputStream.toByteArray();
+            closeOutputStream(byteArrayOutputStream);
+            return byteArray;
+        }
+        return null;
     }
 
     public static Bitmap createScaledBitmap(Activity activity, Bitmap unscaledBitmap) {
