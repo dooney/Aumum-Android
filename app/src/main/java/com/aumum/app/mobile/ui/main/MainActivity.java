@@ -23,14 +23,6 @@ import com.github.kevinsawicki.wishlist.Toaster;
 
 import javax.inject.Inject;
 
-import butterknife.ButterKnife;
-
-/**
- * Initial activity for the application.
- *
- * If you need to remove the authentication from the application please see
- * {@link com.aumum.app.mobile.core.infra.security.ApiKeyProvider#getAuthKey(android.app.Activity)}
- */
 public class MainActivity extends BaseFragmentActivity {
     @Inject protected ServiceProvider serviceProvider;
     @Inject protected LogoutService logoutService;
@@ -49,13 +41,9 @@ public class MainActivity extends BaseFragmentActivity {
     protected void onCreate(final Bundle savedInstanceState) {
         requestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
         super.onCreate(savedInstanceState);
-
         Injector.inject(this);
-
         setContentView(R.layout.main_activity);
-        ButterKnife.inject(this);
-
-        checkAuth();
+        initScreen();
     }
 
     @Override

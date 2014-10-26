@@ -6,6 +6,7 @@ import android.content.Context;
 import com.aumum.app.mobile.core.infra.security.ApiKeyProvider;
 import com.aumum.app.mobile.core.service.MessageListener;
 import com.aumum.app.mobile.core.service.RestService;
+import com.aumum.app.mobile.ui.LaunchActivity;
 import com.aumum.app.mobile.ui.comment.DeleteCommentListener;
 import com.aumum.app.mobile.ui.message.DeleteMessageListener;
 import com.aumum.app.mobile.ui.party.NewPartyActivity;
@@ -53,6 +54,7 @@ import retrofit.converter.GsonConverter;
 
         injects = {
                 BootstrapApplication.class,
+                LaunchActivity.class,
                 LoginActivity.class,
                 RegisterActivity.class,
                 ResetPasswordActivity.class,

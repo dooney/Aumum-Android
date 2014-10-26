@@ -10,6 +10,10 @@
         <item name="android:actionMenuTextAppearance">@style/MenuItemTextAppearance</item>
     </style>
 
+    <style name="Theme.Aumum.Light.NoTitle" parent="@style/Theme.Aumum.Light">
+        <item name="android:windowNoTitle">true</item>
+    </style>
+
     <style name="Widget.Styled.ProgressBar" parent="@style/Widget.AppCompat.ProgressBar">
         <item name="android:minWidth">32dp</item>
         <item name="android:maxWidth">32dp</item>
