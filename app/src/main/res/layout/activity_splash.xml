@@ -15,9 +15,9 @@
         android:id="@+id/indicator"
         android:layout_height="wrap_content"
         android:layout_width="fill_parent"
-        app:radius="4dp"
-        app:fillColor="@color/bbutton_danger"
-        app:strokeColor="@color/bbutton_danger"
+        app:radius="3dp"
+        app:fillColor="@color/white"
+        app:strokeColor="@color/white"
         app:strokeWidth="1dp"
         android:layout_above="@+id/action_layout"/>
 
@@ -30,13 +30,13 @@
         android:padding="@dimen/margin_large">
 
         <Button
-            style="@style/Button.Primary"
+            style="@style/Button.Splash.SignUp"
             android:text="@string/label_sign_up"
             android:layout_weight="1"
             android:onClick="showRegister"/>
 
         <Button
-            style="@style/Button.Primary"
+            style="@style/Button.Splash.SignIn"
             android:text="@string/label_sign_in"
             android:layout_weight="1"
             android:onClick="showLogin"/>

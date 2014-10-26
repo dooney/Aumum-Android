@@ -67,7 +67,7 @@
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:textColor">@color/text</item>
-        <item name="android:background">@drawable/bbuton_danger_rounded</item>
+        <item name="android:background">@drawable/bbuton_primary_rounded</item>
         <item name="android:layout_margin">@dimen/margin_large</item>
     </style>
 
@@ -285,6 +285,12 @@
         <item name="android:text">@string/label_profile</item>
     </style>
 
+    <!-- Splash -->
+    <style name="Button.Splash.SignUp" parent="Button.Primary">
+        <item name="android:background">@drawable/bbuton_danger_rounded</item>
+    </style>
+    <style name="Button.Splash.SignIn" parent="Button.Primary" />
+
     <!-- Account -->
     <style name="EditText.Email" parent="EditText">
         <item name="android:drawableLeft">@drawable/ic_fa_envelope</item>
@@ -316,6 +322,9 @@
     </style>
     <style name="Button.Account.SignIn" parent="Button.Primary">
         <item name="android:text">@string/label_sign_in</item>
+    </style>
+    <style name="Button.Account.ResetPassword" parent="Button.Primary">
+        <item name="android:text">@string/label_submit</item>
     </style>
 
     <!-- Widgets -->

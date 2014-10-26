@@ -1,7 +1,5 @@
 package com.aumum.app.mobile.ui.account;
 
-import android.accounts.Account;
-import android.accounts.AccountManager;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
@@ -9,8 +7,6 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.KeyEvent;
 import android.view.View;
-import android.widget.ArrayAdapter;
-import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -19,12 +15,10 @@ import com.aumum.app.mobile.Injector;
 import com.aumum.app.mobile.R;
 import com.aumum.app.mobile.core.service.RestService;
 import com.aumum.app.mobile.ui.helper.TextWatcherAdapter;
+import com.aumum.app.mobile.ui.view.Animation;
 import com.aumum.app.mobile.ui.view.ProgressDialog;
 import com.aumum.app.mobile.utils.SafeAsyncTask;
 import com.github.kevinsawicki.wishlist.Toaster;
-
-import java.util.ArrayList;
-import java.util.List;
 
 import javax.inject.Inject;
 
@@ -32,19 +26,17 @@ import butterknife.ButterKnife;
 import butterknife.InjectView;
 import retrofit.RetrofitError;
 
-import static android.R.layout.simple_dropdown_item_1line;
 import static android.view.KeyEvent.ACTION_DOWN;
 import static android.view.KeyEvent.KEYCODE_ENTER;
 import static android.view.inputmethod.EditorInfo.IME_ACTION_DONE;
 import static com.aumum.app.mobile.ui.splash.SplashActivity.KEY_ACCOUNT_EMAIL;
 
 public class ResetPasswordActivity extends ActionBarActivity {
-    private AccountManager accountManager;
 
     @Inject
     RestService restService;
 
-    @InjectView(R.id.et_email) protected AutoCompleteTextView emailText;
+    @InjectView(R.id.et_email) protected EditText emailText;
     @InjectView(R.id.b_reset_password) protected Button submitButton;
 
     private final TextWatcher watcher = validationTextWatcher();
@@ -60,14 +52,9 @@ public class ResetPasswordActivity extends ActionBarActivity {
 
         Injector.inject(this);
 
-        accountManager = AccountManager.get(this);
-
         setContentView(R.layout.activity_reset_password);
 
         ButterKnife.inject(this);
-
-        emailText.setAdapter(new ArrayAdapter<String>(this,
-                simple_dropdown_item_1line, userEmailAccounts()));
 
         emailText.setOnKeyListener(new View.OnKeyListener() {
 
@@ -94,15 +81,8 @@ public class ResetPasswordActivity extends ActionBarActivity {
         });
 
         emailText.addTextChangedListener(watcher);
-    }
 
-    private List<String> userEmailAccounts() {
-        final Account[] accounts = accountManager.getAccountsByType("com.google");
-        final List<String> emailAddresses = new ArrayList<String>(accounts.length);
-        for (final Account account : accounts) {
-            emailAddresses.add(account.name);
-        }
-        return emailAddresses;
+        Animation.flyIn(this);
     }
 
     private TextWatcher validationTextWatcher() {
