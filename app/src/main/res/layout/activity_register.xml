@@ -3,86 +3,41 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical" >
+    android:padding="@dimen/margin_large"
+    android:orientation="vertical"
+    android:focusable="true"
+    android:focusableInTouchMode="true" >
 
-    <ScrollView
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1" >
+    <EditText
+        android:id="@+id/et_email"
+        style="@style/EditText.Email"
+        android:imeOptions="actionNext"
+        android:nextFocusDown="@+id/et_password" />
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:paddingBottom="10dp"
-            android:paddingLeft="15dp"
-            android:paddingRight="15dp"
-            android:paddingTop="5dp" >
+    <EditText
+        android:id="@+id/et_password"
+        style="@style/EditText.Password"
+        android:imeOptions="actionNext"
+        android:nextFocusDown="@+id/et_screen_name" />
 
-            <EditText
-                android:hint="@string/label_username"
-                android:id="@+id/et_username"
-                style="@style/HintEditText"
-                android:imeOptions="actionNext"
-                android:inputType="textPersonName"
-                android:nextFocusDown="@+id/et_password" />
+    <EditText
+        android:id="@+id/et_screen_name"
+        style="@style/EditText.ScreenName"
+        android:imeOptions="actionDone" />
 
-            <EditText
-                android:hint="@string/label_password"
-                android:id="@+id/et_password"
-                style="@style/HintEditText"
-                android:imeOptions="actionNext"
-                android:inputType="textPassword"
-                android:password="true"
-                android:nextFocusDown="@+id/et_email" />
+    <TextView
+        android:id="@+id/b_area"
+        style="@style/ButtonTextView.Account.Area" />
 
-            <AutoCompleteTextView
-                android:hint="@string/label_email_address"
-                android:id="@+id/et_email"
-                style="@style/HintEditText"
-                android:completionThreshold="1"
-                android:imeOptions="actionDone"
-                android:inputType="textEmailAddress" />
+    <Button
+        android:id="@+id/b_sign_up"
+        android:onClick="handleRegister"
+        style="@style/Button.Account.SignUp" />
 
-            <Button
-                android:id="@+id/b_area"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:textColor="@color/black"
-                android:background="@drawable/bbuton_default"
-                android:hint="@string/label_area"
-                android:gravity="left|center_vertical"
-                android:padding="10dp" />
-
-            <Button
-                android:id="@+id/b_signup"
-                style="@style/ShadowText"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginTop="15dp"
-                android:background="@drawable/bbuton_primary"
-                android:gravity="center"
-                android:onClick="handleRegister"
-                android:padding="10dp"
-                android:text="@string/label_sign_up"
-                android:textColor="@color/text"
-                android:textSize="20sp"
-                android:textStyle="bold" />
-
-            <RelativeLayout
-                android:layout_width="fill_parent"
-                android:layout_height="fill_parent">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/label_prompt_sign_in"
-                    android:textColor="@color/text_link"
-                    android:id="@+id/t_prompt_sign_in"
-                    android:layout_centerInParent="true"
-                    android:layout_marginTop="10dp" />
-            </RelativeLayout>
-        </LinearLayout>
-    </ScrollView>
+    <TextView
+        android:id="@+id/t_prompt_sign_in"
+        style="@style/LinkTextView"
+        android:layout_gravity="center_horizontal"
+        android:text="@string/label_prompt_sign_in" />
 
 </LinearLayout>

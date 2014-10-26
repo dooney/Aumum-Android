@@ -42,7 +42,7 @@ public class MainActivity extends BaseFragmentActivity {
         requestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
         super.onCreate(savedInstanceState);
         Injector.inject(this);
-        setContentView(R.layout.main_activity);
+        setContentView(R.layout.activity_main);
         initScreen();
     }
 

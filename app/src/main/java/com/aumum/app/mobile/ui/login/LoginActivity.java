@@ -35,6 +35,7 @@ import com.aumum.app.mobile.core.model.User;
 import com.aumum.app.mobile.core.dao.UserStore;
 import com.aumum.app.mobile.events.UnAuthorizedErrorEvent;
 import com.aumum.app.mobile.ui.helper.TextWatcherAdapter;
+import com.aumum.app.mobile.ui.view.Animation;
 import com.aumum.app.mobile.ui.view.ProgressDialog;
 import com.aumum.app.mobile.utils.SafeAsyncTask;
 import com.github.kevinsawicki.wishlist.Toaster;
@@ -61,7 +62,7 @@ public class LoginActivity extends ActionBarActivity {
 
     @InjectView(id.et_username) protected EditText usernameText;
     @InjectView(id.et_password) protected EditText passwordText;
-    @InjectView(id.b_signin) protected Button signInButton;
+    @InjectView(id.b_sign_in) protected Button signInButton;
     @InjectView(id.t_forgot_password) protected TextView forgotPasswordText;
     @InjectView(id.t_join_now) protected TextView joinNowText;
 
@@ -96,7 +97,7 @@ public class LoginActivity extends ActionBarActivity {
         final Intent intent = getIntent();
         authTokenType = intent.getStringExtra(PARAM_AUTHTOKEN_TYPE);
 
-        setContentView(layout.login_activity);
+        setContentView(layout.activity_login);
 
         ButterKnife.inject(this);
 
@@ -146,6 +147,8 @@ public class LoginActivity extends ActionBarActivity {
                 finish();
             }
         });
+
+        Animation.flyIn(this);
     }
 
     private TextWatcher validationTextWatcher() {

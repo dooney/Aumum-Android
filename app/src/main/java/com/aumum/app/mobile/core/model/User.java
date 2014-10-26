@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class User extends AggregateRoot {
-    protected String username;
+    protected String screenName;
     protected String sessionToken;
     protected Boolean emailVerified;
     protected int area;
@@ -15,8 +15,8 @@ public class User extends AggregateRoot {
     protected List<String> parties = new ArrayList<String>();
     protected List<String> partyPosts = new ArrayList<String>();
 
-    public String getUsername() {
-        return username;
+    public String getScreenName() {
+        return screenName;
     }
 
     public String getSessionToken() {

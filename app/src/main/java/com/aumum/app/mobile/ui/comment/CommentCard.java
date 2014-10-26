@@ -38,7 +38,7 @@ public class CommentCard implements DeleteCommentListener.OnProgressListener {
     public void refresh(Comment comment) {
         avatarImage.getFromUrl(comment.getUser().getAvatarUrl());
         avatarImage.setOnClickListener(new UserListener(avatarImage.getContext(), comment.getUserId()));
-        userNameText.setText(comment.getUser().getUsername());
+        userNameText.setText(comment.getUser().getScreenName());
         commentText.setText(comment.getContent());
         if (comment.getObjectId() == null) {
             createdAtText.setVisibility(View.GONE);

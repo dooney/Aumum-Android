@@ -45,10 +45,10 @@
     <string name="error_delete_message">删除消息失败</string>
 
     <!-- Register -->
-    <string name="label_username">用户名</string>
-    <string name="label_email_address">邮箱</string>
-    <string name="label_password">密码</string>
-    <string name="label_area">所在城市</string>
+    <string name="hint_screen_name">用户名</string>
+    <string name="hint_email_address">邮箱</string>
+    <string name="hint_password">密码</string>
+    <string name="hint_area">所在城市</string>
     <string name="label_sign_in">登录</string>
     <string name="label_sign_up">注册</string>
     <string name="label_submit">提交</string>

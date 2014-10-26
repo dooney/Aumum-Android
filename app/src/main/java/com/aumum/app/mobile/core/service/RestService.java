@@ -64,11 +64,12 @@ public class RestService {
         return getUserService().authenticate(username, password);
     }
 
-    public User register(String username, String password, String email, int area) {
+    public User register(String email, String password, String screenName, int area) {
         final JsonObject data = new JsonObject();
-        data.addProperty(Constants.Http.PARAM_USERNAME, username);
+        data.addProperty(Constants.Http.PARAM_USERNAME, email);
         data.addProperty(Constants.Http.PARAM_PASSWORD, password);
         data.addProperty(Constants.Http.PARAM_EMAIL, email);
+        data.addProperty(Constants.Http.PARAM_SCREEN_NAME, screenName);
         data.addProperty(Constants.Http.PARAM_AREA, area);
         return getUserService().register(data);
     }

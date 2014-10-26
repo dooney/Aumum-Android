@@ -166,7 +166,7 @@ public class PartyDetailsFragment extends LoaderFragment<Party>
                 }
 
                 areaText.setText(Constants.AREA_OPTIONS[party.getArea()]);
-                userNameText.setText(party.getUser().getUsername());
+                userNameText.setText(party.getUser().getScreenName());
                 userNameText.setOnClickListener(new UserListener(userNameText.getContext(), party.getUserId()));
                 titleText.setText(party.getTitle());
                 createdAtText.setText(party.getCreatedAtFormatted());

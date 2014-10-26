@@ -1,17 +1,12 @@
 package com.aumum.app.mobile.ui.register;
 
-import android.accounts.Account;
-import android.accounts.AccountManager;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.view.KeyEvent;
 import android.view.View;
-import android.widget.ArrayAdapter;
-import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -21,13 +16,11 @@ import com.aumum.app.mobile.R;
 import com.aumum.app.mobile.core.service.RestService;
 import com.aumum.app.mobile.core.Constants;
 import com.aumum.app.mobile.ui.helper.TextWatcherAdapter;
+import com.aumum.app.mobile.ui.view.Animation;
 import com.aumum.app.mobile.ui.view.ProgressDialog;
 import com.aumum.app.mobile.utils.DialogUtils;
 import com.aumum.app.mobile.utils.SafeAsyncTask;
 import com.github.kevinsawicki.wishlist.Toaster;
-
-import java.util.ArrayList;
-import java.util.List;
 
 import javax.inject.Inject;
 
@@ -35,24 +28,18 @@ import butterknife.ButterKnife;
 import butterknife.InjectView;
 import retrofit.RetrofitError;
 
-import static android.R.layout.simple_dropdown_item_1line;
-import static android.view.KeyEvent.ACTION_DOWN;
-import static android.view.KeyEvent.KEYCODE_ENTER;
-import static android.view.inputmethod.EditorInfo.IME_ACTION_DONE;
 import static com.aumum.app.mobile.ui.splash.SplashActivity.KEY_ACCOUNT_EMAIL;
 import static com.aumum.app.mobile.ui.splash.SplashActivity.SHOW_SIGN_IN;
 
 public class RegisterActivity extends ActionBarActivity {
-    private AccountManager accountManager;
-
     @Inject
     RestService restService;
 
-    @InjectView(R.id.et_username) protected EditText usernameText;
+    @InjectView(R.id.et_email) protected EditText emailText;
     @InjectView(R.id.et_password) protected EditText passwordText;
-    @InjectView(R.id.et_email) protected AutoCompleteTextView emailText;
-    @InjectView(R.id.b_area) protected Button areaButton;
-    @InjectView(R.id.b_signup) protected Button signUpButton;
+    @InjectView(R.id.et_screen_name) protected EditText screenNameText;
+    @InjectView(R.id.b_area) protected TextView areaButton;
+    @InjectView(R.id.b_sign_up) protected Button signUpButton;
     @InjectView(R.id.t_prompt_sign_in) protected TextView promptSignInText;
 
     private final TextWatcher watcher = validationTextWatcher();
@@ -60,9 +47,9 @@ public class RegisterActivity extends ActionBarActivity {
 
     private SafeAsyncTask<Boolean> registerTask;
 
-    private String username;
-    private String password;
     private String email;
+    private String password;
+    private String screenName;
     private int area;
 
     @Override
@@ -71,48 +58,19 @@ public class RegisterActivity extends ActionBarActivity {
 
         Injector.inject(this);
 
-        accountManager = AccountManager.get(this);
-
         setContentView(R.layout.activity_register);
 
         ButterKnife.inject(this);
 
-        emailText.setAdapter(new ArrayAdapter<String>(this,
-                simple_dropdown_item_1line, userEmailAccounts()));
-
-        emailText.setOnKeyListener(new View.OnKeyListener() {
-
-            public boolean onKey(final View v, final int keyCode, final KeyEvent event) {
-                if (event != null && ACTION_DOWN == event.getAction()
-                        && keyCode == KEYCODE_ENTER && signUpButton.isEnabled()) {
-                    handleRegister(signUpButton);
-                    return true;
-                }
-                return false;
-            }
-        });
-
-        emailText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
-
-            public boolean onEditorAction(final TextView v, final int actionId,
-                                          final KeyEvent event) {
-                if (actionId == IME_ACTION_DONE && signUpButton.isEnabled()) {
-                    handleRegister(signUpButton);
-                    return true;
-                }
-                return false;
-            }
-        });
-
-        usernameText.addTextChangedListener(watcher);
-        passwordText.addTextChangedListener(watcher);
         emailText.addTextChangedListener(watcher);
+        passwordText.addTextChangedListener(watcher);
+        screenNameText.addTextChangedListener(watcher);
         areaButton.addTextChangedListener(watcher);
 
         areaButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                DialogUtils.showDialog(RegisterActivity.this, R.string.label_area, Constants.AREA_OPTIONS, new DialogInterface.OnClickListener() {
+                DialogUtils.showDialog(RegisterActivity.this, Constants.AREA_OPTIONS, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
                         area = i;
@@ -131,15 +89,8 @@ public class RegisterActivity extends ActionBarActivity {
                 finish();
             }
         });
-    }
 
-    private List<String> userEmailAccounts() {
-        final Account[] accounts = accountManager.getAccountsByType("com.google");
-        final List<String> emailAddresses = new ArrayList<String>(accounts.length);
-        for (final Account account : accounts) {
-            emailAddresses.add(account.name);
-        }
-        return emailAddresses;
+        Animation.flyIn(this);
     }
 
     private TextWatcher validationTextWatcher() {
@@ -158,9 +109,9 @@ public class RegisterActivity extends ActionBarActivity {
     }
 
     private void updateUIWithValidation() {
-        final boolean populated = populated(usernameText) &&
+        final boolean populated = populated(emailText) &&
                 populated(passwordText) &&
-                populated(emailText) &&
+                populated(screenNameText) &&
                 areaButton.getText().length() > 0;
         signUpButton.setEnabled(populated);
     }
@@ -186,14 +137,14 @@ public class RegisterActivity extends ActionBarActivity {
             return;
         }
 
-        username = usernameText.getText().toString();
         password = passwordText.getText().toString();
         email = emailText.getText().toString();
+        screenName = screenNameText.getText().toString();
         showProgress();
 
         registerTask = new SafeAsyncTask<Boolean>() {
             public Boolean call() throws Exception {
-                restService.register(username, password, email, area);
+                restService.register(email, password, screenName, area);
 
                 return true;
             }

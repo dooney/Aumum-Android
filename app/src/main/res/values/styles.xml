@@ -109,6 +109,13 @@
         <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_width">wrap_content</item>
     </style>
+    <style name="LinkTextView" parent="TextView">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColor">@color/text_link</item>
+        <item name="android:textSize">@dimen/text_sz_medium</item>
+        <item name="android:gravity">center</item>
+    </style>
     <style name="ButtonTextView" parent="TextView">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
@@ -278,6 +285,39 @@
         <item name="android:text">@string/label_profile</item>
     </style>
 
+    <!-- Account -->
+    <style name="EditText.Email" parent="EditText">
+        <item name="android:drawableLeft">@drawable/ic_fa_envelope</item>
+        <item name="android:hint">@string/hint_email_address</item>
+        <item name="android:inputType">textEmailAddress</item>
+    </style>
+    <style name="EditText.Password" parent="EditText">
+        <item name="android:drawableLeft">@drawable/ic_fa_lock</item>
+        <item name="android:hint">@string/hint_password</item>
+        <item name="android:inputType">textPassword</item>
+    </style>
+    <style name="EditText.ScreenName" parent="EditText">
+        <item name="android:drawableLeft">@drawable/ic_fa_user_l</item>
+        <item name="android:hint">@string/hint_screen_name</item>
+        <item name="android:inputType">textPersonName</item>
+    </style>
+    <style name="ButtonTextView.Account">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:textSize">@dimen/text_sz_large</item>
+        <item name="android:padding">@dimen/margin_large</item>
+    </style>
+    <style name="ButtonTextView.Account.Area" parent="ButtonTextView.Account">
+        <item name="android:drawableLeft">@drawable/ic_fa_home_l</item>
+        <item name="android:hint">@string/hint_area</item>
+    </style>
+    <style name="Button.Account.SignUp" parent="Button.Primary">
+        <item name="android:text">@string/label_sign_up</item>
+    </style>
+    <style name="Button.Account.SignIn" parent="Button.Primary">
+        <item name="android:text">@string/label_sign_in</item>
+    </style>
+
     <!-- Widgets -->
     <style name="Spinner">
         <item name="android:indeterminate">true</item>
@@ -307,6 +347,11 @@
     </style>
 
     <style name="MenuItemTextAppearance">
+        <item name="android:textSize">@dimen/text_sz_large</item>
+    </style>
+
+    <style name="ActionBarTitleTextStyle">
+        <item name="android:textColor">@color/text</item>
         <item name="android:textSize">@dimen/text_sz_large</item>
     </style>
 

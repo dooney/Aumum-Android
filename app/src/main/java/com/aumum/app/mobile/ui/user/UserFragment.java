@@ -132,7 +132,7 @@ public class UserFragment extends LoaderFragment<User> {
                 setData(user);
 
                 avatarImage.getFromUrl(user.getAvatarUrl());
-                userNameText.setText(user.getUsername());
+                userNameText.setText(user.getScreenName());
                 if (userId.equals(currentUserId)) {
                     avatarImage.setOnClickListener(new View.OnClickListener() {
                         @Override

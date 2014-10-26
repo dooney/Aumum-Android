@@ -62,7 +62,7 @@
 
         <activity
             android:name="com.aumum.app.mobile.ui.splash.SplashActivity"
-            android:label="@string/app_name" >
+            android:theme="@style/Theme.Aumum.Light.NoTitle" >
         </activity>
         <activity
             android:name="com.aumum.app.mobile.ui.login.LoginActivity"

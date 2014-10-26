@@ -23,6 +23,6 @@ public class BootstrapApiClientUtilTest {
     public void shouldCreateClient() throws Exception {
         List<User> users = new RestService("demo@androidbootstrap.com", "foobar").getUsers();
 
-        assertThat(users.get(0).getUsername(), notNullValue());
+        assertThat(users.get(0).getScreenName(), notNullValue());
     }
 }

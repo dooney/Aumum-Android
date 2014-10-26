@@ -134,7 +134,7 @@ public class PartyCommentsFragment extends ItemListFragment<Comment>
                 showCommentBox();
                 repliedComment = getData().get(i);
                 editComment.setHint(getString(R.string.hint_reply_comment,
-                        repliedComment.getUser().getUsername(), repliedComment.getContent()));
+                        repliedComment.getUser().getScreenName(), repliedComment.getContent()));
             }
         });
     }
@@ -213,7 +213,7 @@ public class PartyCommentsFragment extends ItemListFragment<Comment>
         if (repliedComment != null) {
             comment.setRepliedId(repliedComment.getObjectId());
             comment.setContent(getString(R.string.hint_reply_comment,
-                    repliedComment.getUser().getUsername(), content));
+                    repliedComment.getUser().getScreenName(), content));
         } else {
             comment.setContent(content);
         }

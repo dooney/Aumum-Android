@@ -50,7 +50,7 @@ public class MessageCard extends Card
         progressBar = (ProgressBar) view.findViewById(R.id.progress_message);
 
         TextView userName = (TextView)view.findViewById(R.id.text_user_name);
-        userName.setText(message.getFromUser().getUsername());
+        userName.setText(message.getFromUser().getScreenName());
 
         TextView body = (TextView)view.findViewById(R.id.text_body);
         body.setText(message.getBody());

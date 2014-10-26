@@ -92,6 +92,7 @@ public final class Constants {
         public static final String PARAM_USERNAME = "username";
         public static final String PARAM_PASSWORD = "password";
         public static final String PARAM_EMAIL = "email";
+        public static final String PARAM_SCREEN_NAME = "screenName";
         public static final String PARAM_AREA = "area";
 
         public static final String PARSE_APP_ID = "1CWTxIB11kQiHz7QAY1hZzA1PstlJ2TQuAmZ8Nc6";

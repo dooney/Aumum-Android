@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="@dimen/margin_large"
+    android:orientation="vertical"
+    android:focusable="true"
+    android:focusableInTouchMode="true">
+
+    <EditText
+        android:id="@+id/et_username"
+        style="@style/EditText.Email"
+        android:imeOptions="actionNext"
+        android:nextFocusDown="@+id/et_password" />
+
+    <EditText
+        android:id="@+id/et_password"
+        style="@style/EditText.Password"
+        android:imeOptions="actionDone" />
+
+    <Button
+        android:id="@+id/b_sign_in"
+        android:onClick="handleLogin"
+        style="@style/Button.Account.SignIn" />
+
+    <RelativeLayout
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent">
+
+        <TextView
+            android:id="@+id/t_forgot_password"
+            style="@style/LinkTextView"
+            android:text="@string/label_forgot_password"
+            android:layout_alignParentLeft="true"
+            android:layout_marginLeft="@dimen/margin_large"/>
+
+        <TextView
+            android:id="@+id/t_join_now"
+            style="@style/LinkTextView"
+            android:text="@string/label_join_now"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="@dimen/margin_large"/>
+    </RelativeLayout>
+
+</LinearLayout>
