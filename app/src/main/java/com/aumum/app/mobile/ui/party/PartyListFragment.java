@@ -11,6 +11,7 @@ import android.view.MenuItem;
 import android.view.View;
 
 import com.aumum.app.mobile.R;
+import com.aumum.app.mobile.core.Constants;
 import com.aumum.app.mobile.core.dao.PartyStore;
 import com.aumum.app.mobile.core.model.Party;
 import com.aumum.app.mobile.core.model.User;
@@ -38,9 +39,6 @@ public class PartyListFragment extends CardListFragment
     private PartyStore dataStore;
 
     private UserStore userStore;
-
-    private final int NEW_PARTY_REQ_CODE = 30;
-    private final int GET_PARTY_DETAILS_REQ_CODE = 31;
 
     @Override
     public void onCreate(final Bundle savedInstanceState) {
@@ -77,7 +75,7 @@ public class PartyListFragment extends CardListFragment
         }
         if (item.getItemId() == 1) {
             final Intent intent = new Intent(getActivity(), NewPartyActivity.class);
-            startActivityForResult(intent, NEW_PARTY_REQ_CODE);
+            startActivityForResult(intent, Constants.RequestCode.NEW_PARTY_REQ_CODE);
         }
         return super.onOptionsItemSelected(item);
     }
@@ -91,9 +89,9 @@ public class PartyListFragment extends CardListFragment
 
     @Override
     public void onActivityResult (int requestCode, int resultCode, Intent data) {
-        if (requestCode == NEW_PARTY_REQ_CODE && resultCode == Activity.RESULT_OK) {
+        if (requestCode == Constants.RequestCode.NEW_PARTY_REQ_CODE && resultCode == Activity.RESULT_OK) {
             doRefresh(UPWARDS_REFRESH);
-        } else if (requestCode == GET_PARTY_DETAILS_REQ_CODE && resultCode == Activity.RESULT_OK) {
+        } else if (requestCode == Constants.RequestCode.GET_PARTY_DETAILS_REQ_CODE && resultCode == Activity.RESULT_OK) {
             if (data != null && data.getBooleanExtra(PartyDetailsActivity.INTENT_PARTY_DELETED, false)) {
                 String partyId = data.getStringExtra(PartyDetailsActivity.INTENT_PARTY_ID);
                 if (partyId != null) {
@@ -216,6 +214,6 @@ public class PartyListFragment extends CardListFragment
         PartyCard partyCard = (PartyCard) card;
         final Intent intent = new Intent(getActivity(), PartyDetailsActivity.class);
         intent.putExtra(PartyDetailsActivity.INTENT_PARTY_ID, partyCard.getParty().getObjectId());
-        startActivityForResult(intent, GET_PARTY_DETAILS_REQ_CODE);
+        startActivityForResult(intent, Constants.RequestCode.GET_PARTY_DETAILS_REQ_CODE);
     }
 }

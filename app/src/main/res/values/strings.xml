@@ -70,11 +70,6 @@
     <string name="title_activity_user">用户</string>
     <string name="title_activity_party_comments">活动评论</string>
 
-    <string name="label_join">报名</string>
-    <string name="label_comment">评论</string>
-    <string name="label_like">支持</string>
-    <string name="label_createdAt">创建时间</string>
-
     <!-- User Profile -->
     <string name="label_profile">个人资料</string>
     <string name="label_follow">关注</string>
@@ -94,6 +89,7 @@
 
     <!-- Party -->
     <string name="hint_search_party">搜索活动</string>
+    <string name="hint_join_reason">一句话介绍自己的情况，或报名理由</string>
     <string name="title_activity_party_details">活动详情</string>
     <string name="invalid_party">无法获取该活动信息</string>
     <string name="label_you_join_the_party">你报名了该活动</string>
@@ -102,6 +98,10 @@
     <string name="label_you_like_the_party">你支持了该活动</string>
     <string name="label_you_and_others_like_the_party">你和其他%,d人支持了该活动</string>
     <string name="label_others_like_the_party">%,d人支持了该活动</string>
+    <string name="label_join">我要报名</string>
+    <string name="label_comment">评论</string>
+    <string name="label_like">支持</string>
+    <string name="label_createdAt">创建时间</string>
 
     <!-- New Party -->
     <string name="title_activity_new_party">新亲子活动</string>

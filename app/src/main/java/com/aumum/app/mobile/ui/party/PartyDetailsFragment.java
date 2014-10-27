@@ -165,7 +165,7 @@ public class PartyDetailsFragment extends LoaderFragment<Party>
                     dropdownImage.init(listener);
                 }
 
-                areaText.setText(Constants.AREA_OPTIONS[party.getArea()]);
+                areaText.setText(Constants.Options.AREA_OPTIONS[party.getArea()]);
                 userNameText.setText(party.getUser().getScreenName());
                 userNameText.setOnClickListener(new UserListener(userNameText.getContext(), party.getUserId()));
                 titleText.setText(party.getTitle());
@@ -173,8 +173,8 @@ public class PartyDetailsFragment extends LoaderFragment<Party>
                 dateText.setText(party.getDate().getDateText());
                 timeText.setText(party.getTime().getTimeText());
                 locationText.setText(party.getLocation());
-                ageText.setText(Constants.AGE_OPTIONS[party.getAge()]);
-                genderText.setText(Constants.GENDER_OPTIONS[party.getGender()]);
+                ageText.setText(Constants.Options.AGE_OPTIONS[party.getAge()]);
+                genderText.setText(Constants.Options.GENDER_OPTIONS[party.getGender()]);
                 detailsText.setText(party.getDetails());
 
                 updateLikesLayout(party.getFans());

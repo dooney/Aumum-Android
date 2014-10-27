@@ -17,11 +17,8 @@ import com.aumum.app.mobile.core.model.User;
 import com.aumum.app.mobile.core.dao.UserStore;
 import com.aumum.app.mobile.ui.base.LoaderFragment;
 import com.aumum.app.mobile.ui.view.AvatarImageView;
-import com.aumum.app.mobile.ui.view.EditProfileTextView;
 import com.aumum.app.mobile.ui.view.FollowTextView;
 import com.aumum.app.mobile.utils.Ln;
-
-import org.w3c.dom.Text;
 
 import javax.inject.Inject;
 
@@ -40,7 +37,7 @@ public class UserFragment extends LoaderFragment<User> {
     private AvatarImageView avatarImage;
     private TextView userNameText;
     private FollowTextView followText;
-    private EditProfileTextView editProfileText;
+    private TextView editProfileText;
     private TextView areaText;
     private TextView aboutText;
     private TextView followingsCountText;
@@ -48,8 +45,6 @@ public class UserFragment extends LoaderFragment<User> {
     private TextView commentsCountText;
     private TextView partyPostCountText;
     private TextView joinedPartyCountText;
-
-    private final int PROFILE_IMAGE_REQ_CODE = 32;
 
     @Override
     public void onCreate(final Bundle savedInstanceState) {
@@ -86,7 +81,7 @@ public class UserFragment extends LoaderFragment<User> {
         userNameText = (TextView) view.findViewById(R.id.text_user_name);
         followText = (FollowTextView) view.findViewById(R.id.text_follow);
         followText.setFollowListener(new FollowListener(userId));
-        editProfileText = (EditProfileTextView) view.findViewById(R.id.text_edit_profile);
+        editProfileText = (TextView) view.findViewById(R.id.text_edit_profile);
         areaText = (TextView) view.findViewById(R.id.text_area);
         aboutText = (TextView) view.findViewById(R.id.text_about);
         followingsCountText = (TextView) view.findViewById(R.id.text_followings_count);
@@ -155,7 +150,7 @@ public class UserFragment extends LoaderFragment<User> {
                 if (user.getFollowers().contains(currentUserId)) {
                     followText.update(true);
                 }
-                areaText.setText(Constants.AREA_OPTIONS[user.getArea()]);
+                areaText.setText(Constants.Options.AREA_OPTIONS[user.getArea()]);
                 aboutText.setText(user.getAbout());
                 followingsCountText.setText(String.valueOf(user.getFollowings().size()));
                 followersCountText.setText(String.valueOf(user.getFollowers().size()));
@@ -172,12 +167,12 @@ public class UserFragment extends LoaderFragment<User> {
         final Intent intent = new Intent(getActivity(), UserProfileImageActivity.class);
         intent.putExtra(UserProfileImageActivity.INTENT_USER_ID, userId);
         intent.putExtra(UserProfileImageActivity.INTENT_AVATAR_URL, avatarUrl);
-        startActivityForResult(intent, PROFILE_IMAGE_REQ_CODE);
+        startActivityForResult(intent, Constants.RequestCode.PROFILE_IMAGE_REQ_CODE);
     }
 
     @Override
     public void onActivityResult (int requestCode, int resultCode, Intent data) {
-        if (requestCode == PROFILE_IMAGE_REQ_CODE && resultCode == Activity.RESULT_OK) {
+        if (requestCode == Constants.RequestCode.PROFILE_IMAGE_REQ_CODE && resultCode == Activity.RESULT_OK) {
             refresh(null);
         }
     }

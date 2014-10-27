@@ -8,25 +8,25 @@ import android.widget.TextView;
 /**
  * Created by Administrator on 3/10/2014.
  */
-public abstract class IconTextView extends TextView implements View.OnClickListener {
-    public IconTextView(Context context) {
+public abstract class AnimateTextView extends TextView implements View.OnClickListener {
+    public AnimateTextView(Context context) {
         super(context);
         setOnClickListener(this);
     }
 
-    public IconTextView(Context context, AttributeSet attrs) {
+    public AnimateTextView(Context context, AttributeSet attrs) {
         super(context, attrs);
         setOnClickListener(this);
     }
 
-    public IconTextView(Context context, AttributeSet attrs, int defStyle) {
+    public AnimateTextView(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
         setOnClickListener(this);
     }
 
     @Override
     public void onClick(View view) {
-        Animation.animateIconTextView(this);
+        Animation.animateTextView(this);
     }
 
     public abstract void update(boolean newValue);

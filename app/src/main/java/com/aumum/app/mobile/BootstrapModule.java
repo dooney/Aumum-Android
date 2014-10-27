@@ -27,7 +27,6 @@ import com.aumum.app.mobile.core.api.RestErrorHandler;
 import com.aumum.app.mobile.core.api.UserAgentProvider;
 import com.aumum.app.mobile.core.dao.UserStore;
 import com.aumum.app.mobile.ui.user.FollowListener;
-import com.aumum.app.mobile.ui.party.JoinListener;
 import com.aumum.app.mobile.ui.party.LikeListener;
 import com.aumum.app.mobile.ui.main.MainActivity;
 import com.aumum.app.mobile.ui.party.PartyCommentsFragment;
@@ -64,7 +63,6 @@ import retrofit.converter.GsonConverter;
                 FollowListener.class,
                 UserStore.class,
                 MessageStore.class,
-                JoinListener.class,
                 LikeListener.class,
                 PartyCommentStore.class,
                 PartyCommentsFragment.class,

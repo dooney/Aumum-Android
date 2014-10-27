@@ -1,6 +1,7 @@
 package com.aumum.app.mobile.ui.party;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,7 +16,6 @@ import com.aumum.app.mobile.core.model.User;
 import com.aumum.app.mobile.ui.user.UserListener;
 import com.aumum.app.mobile.ui.view.Animation;
 import com.aumum.app.mobile.ui.view.AvatarImageView;
-import com.aumum.app.mobile.ui.view.CommentTextView;
 import com.aumum.app.mobile.ui.view.DropdownImageView;
 import com.aumum.app.mobile.ui.view.LikeTextView;
 
@@ -81,7 +81,7 @@ public class PartyCard extends Card implements PartyActionListener.OnProgressLis
         progressBar = (ProgressBar) view.findViewById(R.id.progress_party);
 
         TextView areaText = (TextView) view.findViewById(R.id.text_area);
-        areaText.setText(Constants.AREA_OPTIONS[party.getArea()]);
+        areaText.setText(Constants.Options.AREA_OPTIONS[party.getArea()]);
 
         TextView userNameText = (TextView) view.findViewById(R.id.text_user_name);
         userNameText.setText(party.getUser().getScreenName());
@@ -103,15 +103,34 @@ public class PartyCard extends Card implements PartyActionListener.OnProgressLis
         locationText.setText(party.getLocation());
 
         TextView ageText = (TextView) view.findViewById(R.id.text_age);
-        ageText.setText(Constants.AGE_OPTIONS[party.getAge()]);
+        ageText.setText(Constants.Options.AGE_OPTIONS[party.getAge()]);
 
         TextView genderText = (TextView) view.findViewById(R.id.text_gender);
-        genderText.setText(Constants.GENDER_OPTIONS[party.getGender()]);
+        genderText.setText(Constants.Options.GENDER_OPTIONS[party.getGender()]);
 
-        CommentTextView commentText = (CommentTextView) view.findViewById(R.id.text_comment);
+        TextView joinText = (TextView) view.findViewById(R.id.text_join);
+        joinText.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Animation.animateTextView(view);
+                final Intent intent = new Intent(activity, PartyDetailsActivity.class);
+                intent.putExtra(PartyDetailsActivity.INTENT_PARTY_ID, party.getObjectId());
+                activity.startActivityForResult(intent, Constants.RequestCode.GET_PARTY_DETAILS_REQ_CODE);
+            }
+        });
+
+        TextView commentText = (TextView) view.findViewById(R.id.text_comment);
         int comments = party.getCommentCounts();
         commentText.setText(comments > 0 ? String.valueOf(comments) : view.getResources().getString(R.string.label_comment));
-        commentText.setCommentListener(new PartyCommentListener(getContext(), party.getObjectId()));
+        commentText.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Animation.animateTextView(view);
+                final Intent intent = new Intent(activity, PartyCommentsActivity.class);
+                intent.putExtra(PartyCommentsActivity.INTENT_PARTY_ID, party.getObjectId());
+                activity.startActivity(intent);
+            }
+        });
 
         LikeTextView likeText = (LikeTextView) view.findViewById(R.id.text_like);
         boolean isLike = party.isLike(currentUserId);

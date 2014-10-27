@@ -11,13 +11,13 @@
         android:background="@color/grey_medium" />
 
     <EditText
-        android:id="@+id/edit_comment"
+        android:id="@+id/edit_join_reason"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_toLeftOf="@+id/image_post_comment"
+        android:layout_toLeftOf="@+id/image_post_join_reason"
         android:background="@color/transparent"
         android:gravity="center_vertical"
-        android:hint="@string/hint_new_comment"
+        android:hint="@string/hint_join_reason"
         android:imeOptions="actionSend"
         android:inputType="text|textCapSentences|textMultiLine"
         android:maxLines="4"
@@ -30,7 +30,7 @@
         android:paddingLeft="@dimen/margin_large" />
 
     <ImageView
-        android:id="@+id/image_post_comment"
+        android:id="@+id/image_post_join_reason"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
@@ -39,7 +39,7 @@
         android:src="@drawable/ic_fa_send_o" />
 
     <ProgressBar
-        android:id="@+id/progress_submit_comment"
+        android:id="@+id/progress_submit_join_reason"
         android:layout_width="32dp"
         android:layout_height="32dp"
         android:layout_alignParentRight="true"

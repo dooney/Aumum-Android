@@ -31,7 +31,6 @@ import com.aumum.app.mobile.ui.comment.CommentsAdapter;
 import com.aumum.app.mobile.ui.base.ItemListFragment;
 import com.aumum.app.mobile.ui.comment.DeleteCommentListener;
 import com.aumum.app.mobile.ui.view.Animation;
-import com.aumum.app.mobile.ui.view.CommentTextView;
 import com.aumum.app.mobile.utils.EditTextUtils;
 import com.aumum.app.mobile.utils.Ln;
 import com.aumum.app.mobile.utils.SafeAsyncTask;
@@ -64,7 +63,7 @@ public class PartyCommentsFragment extends ItemListFragment<Comment>
     @Inject ApiKeyProvider apiKeyProvider;
 
     private ViewGroup layoutCommentBox;
-    private CommentTextView commentText;
+    private TextView commentText;
     private boolean isCommentBoxShow;
     private EditText editComment;
     private ImageView postCommentButton;
@@ -94,7 +93,7 @@ public class PartyCommentsFragment extends ItemListFragment<Comment>
 
         layoutCommentBox = (ViewGroup) view.findViewById(R.id.layout_comment_box);
 
-        commentText = (CommentTextView) view.findViewById(R.id.text_comment);
+        commentText = (TextView) view.findViewById(R.id.text_comment);
         commentText.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

@@ -128,7 +128,20 @@
             android:gravity="center"
             android:layout_weight="1">
 
-            <com.aumum.app.mobile.ui.view.CommentTextView
+            <TextView
+                android:id="@+id/text_join"
+                style="@style/LinkTextView.Join" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:layout_weight="1">
+
+            <TextView
                 android:id="@+id/text_comment"
                 style="@style/TextView.Comment" />
 

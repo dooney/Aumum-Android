@@ -9,7 +9,7 @@ import com.aumum.app.mobile.R;
 /**
  * Created by Administrator on 3/10/2014.
  */
-public class FollowTextView extends IconTextView{
+public class FollowTextView extends AnimateTextView {
 
     private boolean isFollowing;
 

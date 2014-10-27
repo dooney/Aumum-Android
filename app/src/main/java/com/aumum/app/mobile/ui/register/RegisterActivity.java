@@ -88,11 +88,11 @@ public class RegisterActivity extends ActionBarActivity
         areaButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                DialogUtils.showDialog(RegisterActivity.this, Constants.AREA_OPTIONS, new DialogInterface.OnClickListener() {
+                DialogUtils.showDialog(RegisterActivity.this, Constants.Options.AREA_OPTIONS, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
                         area = i;
-                        areaButton.setText(Constants.AREA_OPTIONS[i]);
+                        areaButton.setText(Constants.Options.AREA_OPTIONS[i]);
                         areaButton.setTextColor(getResources().getColor(R.color.black));
                     }
                 });

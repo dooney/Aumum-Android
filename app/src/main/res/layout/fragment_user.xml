@@ -39,7 +39,7 @@
                 android:layout_toRightOf="@+id/text_user_name"
                 android:layout_alignBaseline="@+id/text_user_name" />
 
-            <com.aumum.app.mobile.ui.view.EditProfileTextView
+            <TextView
                 android:id="@+id/text_edit_profile"
                 style="@style/TextView.User.EditProfile"
                 android:layout_toRightOf="@+id/text_user_name"

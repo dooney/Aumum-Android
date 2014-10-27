@@ -122,34 +122,49 @@ public final class Constants {
         }
     }
 
-    public static final String AREA_OPTIONS[] = {
-        "悉尼",
-        "墨尔本",
-        "布里斯班",
-        "珀斯",
-        "阿德莱德",
-        "堪培拉",
-        "达尔文",
-        "霍巴特",
-        "奥克兰",
-        "惠灵顿"
-    };
+    public static final class Options {
+        private Options() {
+        }
 
-    public static final String AGE_OPTIONS[] = {
-        "不限",
-        "备孕",
-        "怀孕",
-        "0 - 1岁",
-        "1 - 3岁",
-        "3 - 6岁",
-        "6岁以上"
-    };
+        public static final String AREA_OPTIONS[] = {
+            "悉尼",
+            "墨尔本",
+            "布里斯班",
+            "珀斯",
+            "阿德莱德",
+            "堪培拉",
+            "达尔文",
+            "霍巴特",
+            "奥克兰",
+            "惠灵顿"
+        };
 
-    public static final String GENDER_OPTIONS[] = {
-        "不限",
-        "仅女孩",
-        "仅男孩"
-    };
+        public static final String AGE_OPTIONS[] = {
+            "不限",
+            "备孕",
+            "怀孕",
+            "0 - 1岁",
+            "1 - 3岁",
+            "3 - 6岁",
+            "6岁以上"
+        };
+
+        public static final String GENDER_OPTIONS[] = {
+            "不限",
+            "仅女孩",
+            "仅男孩"
+        };
+    }
+
+    public static final class RequestCode {
+        private RequestCode() {
+
+        }
+
+        public static final int NEW_PARTY_REQ_CODE = 30;
+        public static final int GET_PARTY_DETAILS_REQ_CODE = 31;
+        public static final int PROFILE_IMAGE_REQ_CODE = 32;
+    }
 }
 
 

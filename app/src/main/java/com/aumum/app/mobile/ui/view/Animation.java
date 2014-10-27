@@ -149,7 +149,7 @@ public class Animation {
         set.start();
     }
 
-    public static void animateIconTextView(final View target) {
+    public static void animateTextView(final View target) {
         if (target == null) {
             return;
         }

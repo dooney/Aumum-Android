@@ -9,7 +9,7 @@ import com.aumum.app.mobile.R;
 /**
  * Created by Administrator on 10/10/2014.
  */
-public class LikeTextView extends IconTextView {
+public class LikeTextView extends AnimateTextView {
 
     private boolean isLike;
 

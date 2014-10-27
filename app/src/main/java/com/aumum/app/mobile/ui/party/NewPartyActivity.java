@@ -104,11 +104,11 @@ public class NewPartyActivity extends ActionBarActivity
         ageButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                DialogUtils.showDialog(NewPartyActivity.this, Constants.AGE_OPTIONS, new DialogInterface.OnClickListener() {
+                DialogUtils.showDialog(NewPartyActivity.this, Constants.Options.AGE_OPTIONS, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
                         age = i;
-                        ageButton.setText(Constants.AGE_OPTIONS[i]);
+                        ageButton.setText(Constants.Options.AGE_OPTIONS[i]);
                         ageButton.setTextColor(getResources().getColor(R.color.black));
                     }
                 });
@@ -118,11 +118,11 @@ public class NewPartyActivity extends ActionBarActivity
         genderButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                DialogUtils.showDialog(NewPartyActivity.this, Constants.GENDER_OPTIONS, new DialogInterface.OnClickListener() {
+                DialogUtils.showDialog(NewPartyActivity.this, Constants.Options.GENDER_OPTIONS, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
                         gender = i;
-                        genderButton.setText(Constants.GENDER_OPTIONS[i]);
+                        genderButton.setText(Constants.Options.GENDER_OPTIONS[i]);
                         genderButton.setTextColor(getResources().getColor(R.color.black));
                     }
                 });
