@@ -11,6 +11,7 @@ import android.widget.TextView;
 
 import com.aumum.app.mobile.Injector;
 import com.aumum.app.mobile.R;
+import com.aumum.app.mobile.core.Constants;
 import com.aumum.app.mobile.core.infra.security.ApiKeyProvider;
 import com.aumum.app.mobile.core.model.User;
 import com.aumum.app.mobile.core.dao.UserStore;
@@ -19,6 +20,8 @@ import com.aumum.app.mobile.ui.view.AvatarImageView;
 import com.aumum.app.mobile.ui.view.EditProfileTextView;
 import com.aumum.app.mobile.ui.view.FollowTextView;
 import com.aumum.app.mobile.utils.Ln;
+
+import org.w3c.dom.Text;
 
 import javax.inject.Inject;
 
@@ -36,11 +39,15 @@ public class UserFragment extends LoaderFragment<User> {
     private View mainView;
     private AvatarImageView avatarImage;
     private TextView userNameText;
-    private TextView partyCountText;
-    private TextView followingCountText;
-    private TextView followedCountText;
     private FollowTextView followText;
     private EditProfileTextView editProfileText;
+    private TextView areaText;
+    private TextView aboutText;
+    private TextView followingsCountText;
+    private TextView followersCountText;
+    private TextView commentsCountText;
+    private TextView partyPostCountText;
+    private TextView joinedPartyCountText;
 
     private final int PROFILE_IMAGE_REQ_CODE = 32;
 
@@ -75,19 +82,18 @@ public class UserFragment extends LoaderFragment<User> {
         super.onViewCreated(view, savedInstanceState);
 
         mainView = view.findViewById(R.id.main_view);
-
         avatarImage = (AvatarImageView) view.findViewById(R.id.image_avatar);
-
         userNameText = (TextView) view.findViewById(R.id.text_user_name);
-
         followText = (FollowTextView) view.findViewById(R.id.text_follow);
         followText.setFollowListener(new FollowListener(userId));
-
         editProfileText = (EditProfileTextView) view.findViewById(R.id.text_edit_profile);
-
-        partyCountText = (TextView) view.findViewById(R.id.text_party_count);
-        followingCountText = (TextView) view.findViewById(R.id.text_following_count);
-        followedCountText = (TextView) view.findViewById(R.id.text_followed_count);
+        areaText = (TextView) view.findViewById(R.id.text_area);
+        aboutText = (TextView) view.findViewById(R.id.text_about);
+        followingsCountText = (TextView) view.findViewById(R.id.text_followings_count);
+        followersCountText = (TextView) view.findViewById(R.id.text_followers_count);
+        commentsCountText = (TextView) view.findViewById(R.id.text_comments_count);
+        partyPostCountText = (TextView) view.findViewById(R.id.text_party_post_count);
+        joinedPartyCountText = (TextView) view.findViewById(R.id.text_joined_party_count);
     }
 
     @Override
@@ -149,9 +155,13 @@ public class UserFragment extends LoaderFragment<User> {
                 if (user.getFollowers().contains(currentUserId)) {
                     followText.update(true);
                 }
-                partyCountText.setText(String.valueOf(user.getParties().size()));
-                followingCountText.setText(String.valueOf(user.getFollowings().size()));
-                followedCountText.setText(String.valueOf(user.getFollowers().size()));
+                areaText.setText(Constants.AREA_OPTIONS[user.getArea()]);
+                aboutText.setText(user.getAbout());
+                followingsCountText.setText(String.valueOf(user.getFollowings().size()));
+                followersCountText.setText(String.valueOf(user.getFollowers().size()));
+                commentsCountText.setText(String.valueOf(user.getComments().size()));
+                partyPostCountText.setText(String.valueOf(user.getPartyPosts().size()));
+                joinedPartyCountText.setText(String.valueOf(user.getParties().size()));
             }
         } catch (Exception e) {
             Ln.d(e);

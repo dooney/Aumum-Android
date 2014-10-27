@@ -4,64 +4,6 @@
 
     <style name="LinearLayout" />
 
-    <style name="SingleLineEditText">
-        <item name="android:textColor">@color/black</item>
-        <item name="android:background">@drawable/edittext_background</item>
-        <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_height">wrap_content</item>
-        <item name="android:singleLine">true</item>
-    </style>
-
-    <style name="HintEditText" parent="SingleLineEditText">
-        <item name="android:padding">10dp</item>
-        <item name="android:layout_marginBottom">10dp</item>
-    </style>
-
-    <style name="ShadowText">
-        <item name="android:shadowColor">@color/text_shadow</item>
-        <item name="android:shadowDx">1</item>
-        <item name="android:shadowDy">1</item>
-        <item name="android:shadowRadius">1</item>
-    </style>
-
-    <style name="NavMenuButton">
-        <item name="android:textColor">@color/nav_text_selector</item>
-        <item name="android:background">@drawable/nav_menu_button_background_selector</item>
-    </style>
-
-    <style name="InlineFrame">
-        <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_height">wrap_content</item>
-        <item name="android:layout_marginBottom">10dp</item>
-    </style>
-
-    <style name="InlineLabel">
-        <item name="android:textColor">@color/text_light</item>
-        <item name="android:layout_width">wrap_content</item>
-        <item name="android:layout_height">wrap_content</item>
-        <item name="android:layout_gravity">center_vertical</item>
-        <item name="android:paddingLeft">10dp</item>
-    </style>
-
-    <style name="InlineButton">
-        <item name="android:textColor">@color/black</item>
-        <item name="android:background">@drawable/bbuton_default</item>
-        <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_height">match_parent</item>
-        <item name="android:gravity">left|center_vertical</item>
-        <item name="android:paddingTop">10dp</item>
-        <item name="android:paddingLeft">50dp</item>
-        <item name="android:paddingBottom">10dp</item>
-        <item name="android:paddingRight">10dp</item>
-    </style>
-
-    <style name="InlineEditText" parent="SingleLineEditText">
-        <item name="android:paddingTop">10dp</item>
-        <item name="android:paddingLeft">50dp</item>
-        <item name="android:paddingBottom">10dp</item>
-        <item name="android:paddingRight">10dp</item>
-    </style>
-
     <style name="Button" />
     <style name="Button.Primary" parent="Button">
         <item name="android:layout_width">match_parent</item>
@@ -279,10 +221,39 @@
     <style name="TextView.User.Follow" parent="ButtonTextView">
         <item name="android:drawableLeft">@drawable/ic_fa_plus_circle</item>
         <item name="android:text">@string/label_follow</item>
+        <item name="android:textSize">@dimen/text_sz_large</item>
     </style>
     <style name="TextView.User.EditProfile" parent="ButtonTextView">
         <item name="android:drawableLeft">@drawable/ic_fa_edit</item>
         <item name="android:text">@string/label_profile</item>
+        <item name="android:textSize">@dimen/text_sz_large</item>
+    </style>
+    <style name="TextView.User.Area" parent="ButtonTextView">
+        <item name="android:gravity">center_vertical</item>
+    </style>
+    <style name="ButtonTextView.User">
+        <item name="android:layout_width">155sp</item>
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:textSize">@dimen/text_sz_large</item>
+        <item name="android:padding">@dimen/margin_large</item>
+    </style>
+    <style name="ButtonTextView.User.FollowingsCount" parent="ButtonTextView.User">
+        <item name="android:text">@string/label_followings_count</item>
+    </style>
+    <style name="ButtonTextView.User.FollowersCount" parent="ButtonTextView.User">
+        <item name="android:text">@string/label_followers_count</item>
+    </style>
+    <style name="ButtonTextView.User.CommentsCount" parent="ButtonTextView.User">
+        <item name="android:text">@string/label_comments_count</item>
+    </style>
+    <style name="ButtonTextView.User.PartyPostCount" parent="ButtonTextView.User">
+        <item name="android:text">@string/label_party_post_count</item>
+    </style>
+    <style name="ButtonTextView.User.JoinedPartyCount" parent="ButtonTextView.User">
+        <item name="android:text">@string/label_joined_party_count</item>
+    </style>
+    <style name="LinkTextView.User" parent="LinkTextView">
+        <item name="android:textSize">@dimen/text_sz_large</item>
     </style>
 
     <!-- Splash -->
