@@ -4,125 +4,154 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
-    <LinearLayout
-        android:orientation="vertical"
-        android:id="@+id/main_view"
+    <ScrollView
+        android:id="@+id/scroll_view"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:paddingTop="@dimen/margin_large"
-        android:paddingLeft="@dimen/margin_large"
-        android:paddingRight="@dimen/margin_large"
-        android:visibility="gone" >
+        android:layout_height="match_parent"
+        android:fillViewport="true">
 
-        <RelativeLayout
+        <LinearLayout
+            android:orientation="vertical"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:paddingBottom="@dimen/margin_medium">
-
-            <com.aumum.app.mobile.ui.view.AvatarImageView
-                xmlns:app="http://schemas.android.com/apk/res-auto"
-                android:id="@+id/image_avatar"
-                style="@style/ImageView.Avatar"
-                android:layout_marginRight="@dimen/margin_large"
-                android:src="@drawable/ic_avatar"
-                app:border_color="@color/transparent"/>
-
-            <TextView
-                android:id="@+id/text_user_name"
-                style="@style/TextView.Party.UserName"
-                android:layout_toRightOf="@+id/image_avatar"
-                android:layout_marginBottom="@dimen/margin_small" />
-
-            <com.aumum.app.mobile.ui.view.DropdownImageView
-                android:id="@+id/image_dropdown"
-                style="@style/ImageView.Dropdown"
-                android:layout_alignParentRight="true" />
-
-            <ProgressBar
-                android:id="@+id/progress_party"
-                style="@style/ProgressBar"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:visibility="gone" />
-
-            <TextView
-                style="@style/TextView.Subtitle"
-                android:id="@+id/text_createdAt"
-                android:layout_below="@+id/text_user_name"
-                android:layout_alignLeft="@+id/text_user_name"
-                android:layout_marginRight="@dimen/margin_medium"/>
-
-            <TextView
-                style="@style/TextView.Subtitle"
-                android:id="@+id/text_area"
-                android:layout_below="@+id/text_user_name"
-                android:layout_toRightOf="@+id/text_createdAt"/>
-
-        </RelativeLayout>
-
-        <TextView
-            android:id="@+id/text_title"
-            style="@style/TextView.Party.Title" />
-
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <TextView
-                android:id="@+id/text_date"
-                style="@style/TextView.Date" />
-
-            <TextView
-                android:id="@+id/text_time"
-                style="@style/TextView.Time"
-                android:layout_toRightOf="@+id/text_date"/>
-
-        </RelativeLayout>
-
-        <TextView
-            android:id="@+id/text_location"
-            style="@style/TextView.Location" />
-
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:paddingBottom="@dimen/margin_small">
-
-            <TextView
-                android:id="@+id/text_age"
-                style="@style/TextView.Age" />
-
-            <TextView
-                android:id="@+id/text_gender"
-                style="@style/TextView.Gender"
-                android:layout_toRightOf="@+id/text_age"/>
-
-        </RelativeLayout>
-
-        <TextView
-            android:id="@+id/text_details"
-            style="@style/TextView.Party.Details" />
-
-        <RelativeLayout
-            android:id="@+id/layout_likes"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/margin_medium"
-            android:visibility="gone" >
-
-            <TextView
-                android:id="@+id/text_likes_count"
-                style="@style/TextView.Party.Likes" />
+            android:layout_height="wrap_content" >
 
             <LinearLayout
-                android:id="@+id/layout_liking_avatars"
-                style="@style/LinearLayout.Party.UserAvatars"
-                android:layout_below="@+id/text_likes_count" />
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
 
-        </RelativeLayout>
+                <LinearLayout
+                    android:id="@+id/main_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:background="@color/card_background"
+                    android:padding="@dimen/margin_large"
+                    android:visibility="gone" >
 
-    </LinearLayout>
+                        <RelativeLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:paddingBottom="@dimen/margin_medium">
+
+                            <com.aumum.app.mobile.ui.view.AvatarImageView
+                                xmlns:app="http://schemas.android.com/apk/res-auto"
+                                android:id="@+id/image_avatar"
+                                style="@style/ImageView.Avatar"
+                                android:layout_marginRight="@dimen/margin_large"
+                                android:src="@drawable/ic_avatar"
+                                app:border_color="@color/transparent"/>
+
+                            <TextView
+                                android:id="@+id/text_user_name"
+                                style="@style/TextView.Party.UserName"
+                                android:layout_toRightOf="@+id/image_avatar"
+                                android:layout_marginBottom="@dimen/margin_small" />
+
+                            <com.aumum.app.mobile.ui.view.DropdownImageView
+                                android:id="@+id/image_dropdown"
+                                style="@style/ImageView.Dropdown"
+                                android:layout_alignParentRight="true" />
+
+                            <ProgressBar
+                                android:id="@+id/progress"
+                                style="@style/ProgressBar"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_alignParentRight="true"
+                                android:visibility="gone" />
+
+                            <TextView
+                                style="@style/TextView.Subtitle"
+                                android:id="@+id/text_createdAt"
+                                android:layout_below="@+id/text_user_name"
+                                android:layout_alignLeft="@+id/text_user_name"
+                                android:layout_marginRight="@dimen/margin_medium"/>
+
+                            <TextView
+                                style="@style/TextView.Subtitle"
+                                android:id="@+id/text_area"
+                                android:layout_below="@+id/text_user_name"
+                                android:layout_toRightOf="@+id/text_createdAt"/>
+
+                        </RelativeLayout>
+
+                        <TextView
+                            android:id="@+id/text_title"
+                            style="@style/TextView.Party.Title" />
+
+                        <RelativeLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
+
+                            <TextView
+                                android:id="@+id/text_date"
+                                style="@style/TextView.Date" />
+
+                            <TextView
+                                android:id="@+id/text_time"
+                                style="@style/TextView.Time"
+                                android:layout_toRightOf="@+id/text_date"/>
+
+                        </RelativeLayout>
+
+                        <TextView
+                            android:id="@+id/text_location"
+                            style="@style/TextView.Location" />
+
+                        <RelativeLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:paddingBottom="@dimen/margin_small">
+
+                            <TextView
+                                android:id="@+id/text_age"
+                                style="@style/TextView.Age" />
+
+                            <TextView
+                                android:id="@+id/text_gender"
+                                style="@style/TextView.Gender"
+                                android:layout_toRightOf="@+id/text_age"/>
+
+                        </RelativeLayout>
+
+                        <TextView
+                            android:id="@+id/text_details"
+                            style="@style/TextView.Party.Details" />
+
+                        <RelativeLayout
+                            android:id="@+id/layout_likes"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:visibility="gone" >
+
+                            <TextView
+                                android:id="@+id/text_likes_count"
+                                style="@style/TextView.Party.Likes" />
+
+                            <LinearLayout
+                                android:id="@+id/layout_liking_avatars"
+                                style="@style/LinearLayout.Party.UserAvatars"
+                                android:layout_below="@+id/text_likes_count" />
+
+                        </RelativeLayout>
+
+                </LinearLayout>
+
+                <View
+                    style="@style/Divider"
+                    android:background="@color/grey_light"/>
+
+            </LinearLayout>
+
+            <fragment android:name="com.aumum.app.mobile.ui.party.JoinPartyFragment"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="@dimen/margin_large" />
+
+        </LinearLayout>
+
+    </ScrollView>
 
     <TextView
         android:id="@android:id/empty"
@@ -143,7 +172,7 @@
         android:layout_height="wrap_content"
         android:layout_above="@+id/layout_join_box"
         android:layout_alignWithParentIfMissing="true"
-        android:background="#eeffffff">
+        android:background="@color/card_background">
 
         <View style="@style/Divider" />
 
@@ -155,7 +184,7 @@
 
             <LinearLayout
                 android:orientation="horizontal"
-                android:layout_width="fill_parent"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center" >
 

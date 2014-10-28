@@ -78,7 +78,7 @@ public class PartyCard extends Card implements PartyActionListener.OnProgressLis
             dropdownImage.init(partyUserActionListener);
         }
 
-        progressBar = (ProgressBar) view.findViewById(R.id.progress_party);
+        progressBar = (ProgressBar) view.findViewById(R.id.progress);
 
         TextView areaText = (TextView) view.findViewById(R.id.text_area);
         areaText.setText(Constants.Options.AREA_OPTIONS[party.getArea()]);

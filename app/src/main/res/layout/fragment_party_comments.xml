@@ -29,7 +29,7 @@
         android:layout_height="wrap_content"
         android:layout_above="@+id/layout_comment_box"
         android:layout_alignWithParentIfMissing="true"
-        android:background="#eeffffff">
+        android:background="@color/card_background" >
 
         <View style="@style/Divider" />
 
@@ -41,7 +41,7 @@
 
             <LinearLayout
                 android:orientation="horizontal"
-                android:layout_width="fill_parent"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center" >
 

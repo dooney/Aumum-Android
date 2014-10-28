@@ -43,6 +43,7 @@
     <string name="error_delete_party">删除活动失败</string>
     <string name="error_delete_comment">删除评论失败</string>
     <string name="error_delete_message">删除消息失败</string>
+    <string name="error_load_join_details">获取活动报名信息失败</string>
 
     <!-- Register -->
     <string name="hint_screen_name">用户名</string>

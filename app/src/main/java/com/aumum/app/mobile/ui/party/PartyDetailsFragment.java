@@ -6,7 +6,10 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
+import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.aumum.app.mobile.Injector;
@@ -17,12 +20,17 @@ import com.aumum.app.mobile.core.model.Party;
 import com.aumum.app.mobile.core.dao.PartyStore;
 import com.aumum.app.mobile.core.model.User;
 import com.aumum.app.mobile.core.dao.UserStore;
+import com.aumum.app.mobile.events.AddPartyJoinReasonEvent;
+import com.aumum.app.mobile.events.AddPartyJoinReasonFinishedEvent;
 import com.aumum.app.mobile.ui.base.LoaderFragment;
 import com.aumum.app.mobile.ui.user.UserListener;
 import com.aumum.app.mobile.ui.view.Animation;
 import com.aumum.app.mobile.ui.view.AvatarImageView;
 import com.aumum.app.mobile.ui.view.DropdownImageView;
+import com.aumum.app.mobile.utils.EditTextUtils;
 import com.aumum.app.mobile.utils.Ln;
+import com.squareup.otto.Bus;
+import com.squareup.otto.Subscribe;
 
 import java.util.List;
 
@@ -35,6 +43,7 @@ public class PartyDetailsFragment extends LoaderFragment<Party>
         implements PartyActionListener.OnActionListener,
                    PartyActionListener.OnProgressListener{
     @Inject ApiKeyProvider apiKeyProvider;
+    @Inject Bus bus;
 
     private String partyId;
     private String currentUserId;
@@ -42,6 +51,7 @@ public class PartyDetailsFragment extends LoaderFragment<Party>
     private PartyStore partyStore;
     private UserStore userStore;
 
+    private ScrollView scrollView;
     private View mainView;
     private DropdownImageView dropdownImage;
     private ProgressBar progressBar;
@@ -58,6 +68,12 @@ public class PartyDetailsFragment extends LoaderFragment<Party>
     private TextView detailsText;
     private ViewGroup layoutLikes;
     private TextView likesCountText;
+
+    private ViewGroup layoutJoinBox;
+    private TextView joinText;
+    private EditText editJoinReason;
+    private ImageView postJoinReasonButton;
+    private boolean isJoinBoxShow;
 
     @Override
     public void onCreate(final Bundle savedInstanceState) {
@@ -87,9 +103,13 @@ public class PartyDetailsFragment extends LoaderFragment<Party>
     public void onViewCreated(final View view, final Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        scrollView = (ScrollView) view.findViewById(R.id.scroll_view);
+        scrollView.setHorizontalScrollBarEnabled(false);
+        scrollView.setVerticalScrollBarEnabled(false);
+
         mainView = view.findViewById(R.id.main_view);
         dropdownImage = (DropdownImageView) view.findViewById(R.id.image_dropdown);
-        progressBar = (ProgressBar) view.findViewById(R.id.progress_party);
+        progressBar = (ProgressBar) view.findViewById(R.id.progress);
         avatarImage = (AvatarImageView) view.findViewById(R.id.image_avatar);
         areaText = (TextView) view.findViewById(R.id.text_area);
         userNameText = (TextView) view.findViewById(R.id.text_user_name);
@@ -104,6 +124,35 @@ public class PartyDetailsFragment extends LoaderFragment<Party>
 
         layoutLikes = (ViewGroup) view.findViewById(R.id.layout_likes);
         likesCountText = (TextView) view.findViewById(R.id.text_likes_count);
+
+        layoutJoinBox = (ViewGroup) view.findViewById(R.id.layout_join_box);
+        joinText = (TextView) view.findViewById(R.id.text_join);
+        joinText.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                toggleJoinBox();
+            }
+        });
+        editJoinReason = (EditText) view.findViewById(R.id.edit_join_reason);
+        postJoinReasonButton = (ImageView) view.findViewById(R.id.image_post_join_reason);
+        postJoinReasonButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                submitJoin();
+            }
+        });
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        bus.register(this);
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        bus.unregister(this);
     }
 
     @Override
@@ -240,5 +289,47 @@ public class PartyDetailsFragment extends LoaderFragment<Party>
     public void onPartyActionFinish() {
         progressBar.setVisibility(View.GONE);
         dropdownImage.setVisibility(View.VISIBLE);
+    }
+
+    private void hideJoinBox() {
+        EditTextUtils.hideSoftInput(editJoinReason);
+        editJoinReason.setText(null);
+        Animation.flyOut(layoutJoinBox);
+    }
+
+    private void showJoinBox() {
+        Animation.flyIn(layoutJoinBox);
+        EditTextUtils.showSoftInput(editJoinReason, true);
+    }
+
+    private void toggleJoinBox() {
+        if (isJoinBoxShow) {
+            hideJoinBox();
+        } else {
+            editJoinReason.setHint(R.string.hint_join_reason);
+            showJoinBox();
+        }
+        isJoinBoxShow = !isJoinBoxShow;
+    }
+
+    private void enableSubmit() {
+        postJoinReasonButton.setEnabled(true);
+    }
+
+    private void disableSubmit() {
+        postJoinReasonButton.setEnabled(false);
+    }
+
+    private void submitJoin() {
+        String reason = editJoinReason.getText().toString();
+        bus.post(new AddPartyJoinReasonEvent(reason));
+
+        hideJoinBox();
+        disableSubmit();
+    }
+
+    @Subscribe
+    public void onAddPartyJoinReasonFinishedEvent(AddPartyJoinReasonFinishedEvent event) {
+        enableSubmit();
     }
 }

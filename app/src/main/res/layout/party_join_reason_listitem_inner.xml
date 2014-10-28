@@ -3,7 +3,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/grey_extra_light"
+    android:background="@color/card_background"
     android:paddingTop="@dimen/margin_large"
     android:paddingBottom="@dimen/margin_large"
     android:paddingLeft="@dimen/margin_extra_large"
@@ -19,26 +19,20 @@
 
     <TextView
         android:id="@+id/text_user_name"
-        style="@style/TextView.Comment.UserName"
+        style="@style/TextView.JoinReason.UserName"
         android:layout_toRightOf="@+id/image_avatar" />
 
     <TextView
         android:id="@+id/text_createdAt"
-        style="@style/TextView.Comment.CreatedAt"
+        style="@style/TextView.JoinReason.CreatedAt"
         android:layout_below="@+id/text_user_name"
         android:layout_alignLeft="@+id/text_user_name" />
 
     <TextView
         android:id="@+id/text_content"
-        style="@style/TextView.Comment.Text"
+        style="@style/TextView.JoinReason.Text"
         android:layout_below="@+id/text_createdAt"
         android:layout_alignLeft="@+id/text_user_name" />
-
-    <ImageView
-        android:id="@+id/image_delete"
-        style="@style/ImageView.Delete.ExtraSmall"
-        android:layout_alignParentRight="true"
-        android:visibility="gone" />
 
     <ProgressBar
         android:id="@+id/progress"

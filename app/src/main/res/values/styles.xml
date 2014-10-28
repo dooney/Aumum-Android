@@ -187,6 +187,19 @@
         <item name="android:maxLines">4</item>
         <item name="android:hint">@string/hint_party_details</item>
     </style>
+    <style name="TextView.JoinReason.UserName" parent="TextView.UserName" />
+    <style name="TextView.JoinReason.CreatedAt" parent="TextView.Subtitle" >
+        <item name="android:textSize">@dimen/text_sz_small</item>
+    </style>
+    <style name="TextView.JoinReason.Text" parent="TextView">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textSize">@dimen/text_sz_medium</item>
+        <item name="android:lineSpacingMultiplier">1.1</item>
+        <item name="android:layout_marginTop">@dimen/margin_small</item>
+        <item name="android:focusable">false</item>
+        <item name="android:focusableInTouchMode">false</item>
+    </style>
 
     <!-- Message -->
     <style name="TextView.Message.UserName" parent="TextView.UserName" />

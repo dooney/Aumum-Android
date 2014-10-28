@@ -172,12 +172,16 @@ public abstract class LoaderFragment<E> extends Fragment
     }
 
     private LoaderFragment<E> show(final View view) {
-        ViewUtils.setGone(view, false);
+        if (view != null) {
+            ViewUtils.setGone(view, false);
+        }
         return this;
     }
 
     private LoaderFragment<E> hide(final View view) {
-        ViewUtils.setGone(view, true);
+        if (view != null) {
+            ViewUtils.setGone(view, true);
+        }
         return this;
     }
 

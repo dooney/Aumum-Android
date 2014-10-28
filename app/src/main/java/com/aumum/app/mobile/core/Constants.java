@@ -87,6 +87,11 @@ public final class Constants {
         public static final String URL_PARTY_COMMENT_BY_ID_FRAG = "/1/classes/PartyComments/{id}";
 
         /**
+         * List Party Join Reasons URL
+         */
+        public static final String URL_PARTY_JOIN_REASONS_FRAG = "/1/classes/PartyJoinReasons";
+
+        /**
          * PARAMS for auth
          */
         public static final String PARAM_USERNAME = "username";
@@ -109,6 +114,7 @@ public final class Constants {
             public static final String PARAM_MEMBERS = "members";
             public static final String PARAM_FANS = "fans";
             public static final String PARAM_COMMENTS = "comments";
+            public static final String PARAM_JOIN_REASONS = "joinReasons";
         }
 
         public static final class User {

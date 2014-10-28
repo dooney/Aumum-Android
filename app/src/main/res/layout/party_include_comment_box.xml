@@ -3,12 +3,12 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@color/white"
+    android:background="@color/card_background"
     android:visibility="gone">
 
     <View
         style="@style/Divider"
-        android:background="@color/grey_medium" />
+        android:background="@color/grey_light" />
 
     <EditText
         android:id="@+id/edit_comment"
@@ -26,7 +26,7 @@
         android:textColorHint="@color/grey_medium"
         android:textSize="@dimen/text_sz_large"
         android:paddingTop="@dimen/margin_extra_small"
-        android:paddingBottom="@dimen/margin_small"
+        android:paddingBottom="@dimen/margin_extra_small"
         android:paddingLeft="@dimen/margin_large" />
 
     <ImageView
@@ -37,14 +37,5 @@
         android:layout_centerVertical="true"
         android:paddingRight="@dimen/margin_medium"
         android:src="@drawable/ic_fa_send_o" />
-
-    <ProgressBar
-        android:id="@+id/progress_submit_comment"
-        android:layout_width="32dp"
-        android:layout_height="32dp"
-        android:layout_alignParentRight="true"
-        android:layout_marginRight="@dimen/margin_medium"
-        android:layout_centerVertical="true"
-        android:visibility="gone" />
 
 </RelativeLayout>

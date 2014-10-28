@@ -30,7 +30,7 @@ public class CommentCard implements DeleteCommentListener.OnProgressListener {
         this.userNameText = (TextView) view.findViewById(R.id.text_user_name);
         this.commentText = (TextView) view.findViewById(R.id.text_content);
         this.createdAtText = (TextView) view.findViewById(R.id.text_createdAt);
-        this.progressBar = (ProgressBar) view.findViewById(R.id.progress_comment);
+        this.progressBar = (ProgressBar) view.findViewById(R.id.progress);
         this.currentUserId = currentUserId;
         this.onActionListener = onActionListener;
     }

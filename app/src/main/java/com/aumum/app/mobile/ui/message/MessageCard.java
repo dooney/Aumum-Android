@@ -47,7 +47,7 @@ public class MessageCard extends Card
 
         deleteImage = (ImageView) view.findViewById(R.id.image_delete);
         deleteImage.setOnClickListener(deleteMessageListener);
-        progressBar = (ProgressBar) view.findViewById(R.id.progress_message);
+        progressBar = (ProgressBar) view.findViewById(R.id.progress);
 
         TextView userName = (TextView)view.findViewById(R.id.text_user_name);
         userName.setText(message.getFromUser().getScreenName());
