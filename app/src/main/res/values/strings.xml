@@ -105,6 +105,7 @@
     <string name="label_comment">评论</string>
     <string name="label_like">支持</string>
     <string name="label_createdAt">创建时间</string>
+    <string name="label_join_details">报名动态</string>
 
     <!-- New Party -->
     <string name="title_activity_new_party">新亲子活动</string>

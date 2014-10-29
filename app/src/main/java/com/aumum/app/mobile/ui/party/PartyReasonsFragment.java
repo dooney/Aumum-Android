@@ -53,6 +53,7 @@ public class PartyReasonsFragment extends ItemListFragment<PartyReason> {
     private PartyStore partyStore;
     private UserStore userStore;
 
+    private ViewGroup mainView;
 
     @Override
     public void onCreate(final Bundle savedInstanceState) {
@@ -69,6 +70,13 @@ public class PartyReasonsFragment extends ItemListFragment<PartyReason> {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         return inflater.inflate(R.layout.fragment_party_reasons, null);
+    }
+
+    @Override
+    public void onViewCreated(final View view, final Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
+        mainView = (ViewGroup) view.findViewById(R.id.main_view);
     }
 
     @Override
@@ -187,5 +195,10 @@ public class PartyReasonsFragment extends ItemListFragment<PartyReason> {
             }
         };
         task.execute();
+    }
+
+    @Override
+    protected View getMainView() {
+        return mainView;
     }
 }

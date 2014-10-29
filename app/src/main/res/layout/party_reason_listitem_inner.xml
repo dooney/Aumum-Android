@@ -32,7 +32,8 @@
         android:id="@+id/text_action"
         style="@style/TextView.PartyReason.Action"
         android:layout_below="@+id/text_user_name"
-        android:layout_toRightOf="@+id/text_createdAt" />
+        android:layout_toRightOf="@+id/text_createdAt"
+        android:paddingLeft="@dimen/margin_medium" />
 
     <TextView
         android:id="@+id/text_content"

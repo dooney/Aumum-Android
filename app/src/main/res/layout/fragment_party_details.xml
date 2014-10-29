@@ -180,19 +180,11 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:padding="@dimen/margin_medium"
-            android:orientation="horizontal">
+            android:gravity="center" >
 
-            <LinearLayout
-                android:orientation="horizontal"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center" >
-
-                <com.aumum.app.mobile.ui.view.JoinTextView
-                    android:id="@+id/text_join"
-                    style="@style/ButtonTextView" />
-
-            </LinearLayout>
+            <com.aumum.app.mobile.ui.view.JoinTextView
+                android:id="@+id/text_join"
+                style="@style/ButtonTextView" />
 
         </LinearLayout>
 
