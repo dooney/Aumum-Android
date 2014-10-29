@@ -119,10 +119,33 @@
                             android:id="@+id/text_details"
                             style="@style/TextView.Party.Details" />
 
+                        <View
+                            style="@style/Divider"
+                            android:layout_marginTop="@dimen/margin_medium"
+                            android:layout_marginBottom="@dimen/margin_medium" />
+
+                        <RelativeLayout
+                            android:id="@+id/layout_members"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:visibility="gone" >
+
+                            <TextView
+                                android:id="@+id/text_members_count"
+                                style="@style/TextView.Party.Members" />
+
+                            <LinearLayout
+                                android:id="@+id/layout_members_avatars"
+                                style="@style/LinearLayout.Party.UserAvatars"
+                                android:layout_below="@+id/text_members_count" />
+
+                        </RelativeLayout>
+
                         <RelativeLayout
                             android:id="@+id/layout_likes"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
+                            android:paddingTop="@dimen/margin_medium"
                             android:visibility="gone" >
 
                             <TextView
@@ -167,12 +190,13 @@
         android:layout_centerInParent="true" />
 
     <RelativeLayout
-        android:id="@+id/layout_actions"
+        android:id="@+id/layout_action"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_above="@+id/layout_join_box"
         android:layout_alignWithParentIfMissing="true"
-        android:background="@color/card_background">
+        android:background="@color/card_background"
+        android:visibility="gone">
 
         <View style="@style/Divider" />
 

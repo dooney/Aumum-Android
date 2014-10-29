@@ -65,7 +65,7 @@ public class PartyCommentsFragment extends ItemListFragment<Comment>
     @Inject ApiKeyProvider apiKeyProvider;
 
     private QuickReturnListView quickReturnListView;
-    private ViewGroup layoutActions;
+    private ViewGroup layoutAction;
     private ViewGroup layoutCommentBox;
     private TextView commentText;
     private boolean isCommentBoxShow;
@@ -95,7 +95,7 @@ public class PartyCommentsFragment extends ItemListFragment<Comment>
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_party_comments, null);
 
-        layoutActions = (ViewGroup) view.findViewById(R.id.layout_actions);
+        layoutAction = (ViewGroup) view.findViewById(R.id.layout_action);
         layoutCommentBox = (ViewGroup) view.findViewById(R.id.layout_comment_box);
 
         commentText = (TextView) view.findViewById(R.id.text_comment);
@@ -303,7 +303,7 @@ public class PartyCommentsFragment extends ItemListFragment<Comment>
     @Override
     public void onScrollUp() {
         if (!isCommentBoxShow) {
-            Animation.animateIconBar(layoutActions, true);
+            Animation.animateIconBar(layoutAction, true);
         }
     }
 
@@ -317,9 +317,9 @@ public class PartyCommentsFragment extends ItemListFragment<Comment>
         boolean canScrollDown = listView.canScrollDown();
         boolean canScrollUp = listView.canScrollUp();
         if (!canScrollDown) {
-            Animation.animateIconBar(layoutActions, true);
+            Animation.animateIconBar(layoutAction, true);
         } else if (canScrollDown && canScrollUp) {
-            Animation.animateIconBar(layoutActions, false);
+            Animation.animateIconBar(layoutAction, false);
         }
     }
 }

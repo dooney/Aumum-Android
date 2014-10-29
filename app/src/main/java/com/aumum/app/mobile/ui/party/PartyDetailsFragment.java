@@ -69,10 +69,13 @@ public class PartyDetailsFragment extends LoaderFragment<Party>
     private TextView ageText;
     private TextView genderText;
     private TextView detailsText;
+    private ViewGroup layoutMembers;
+    private TextView membersCountText;
     private ViewGroup layoutLikes;
     private TextView likesCountText;
 
-    private ViewGroup layoutActions;
+    private ViewGroup layoutAction;
+    private boolean showAction;
     private ViewGroup layoutJoinBox;
     private JoinTextView joinText;
     private EditText editReason;
@@ -127,10 +130,12 @@ public class PartyDetailsFragment extends LoaderFragment<Party>
         genderText = (TextView) view.findViewById(R.id.text_gender);
         detailsText = (TextView) view.findViewById(R.id.text_details);
 
+        layoutMembers = (ViewGroup) view.findViewById(R.id.layout_members);
+        membersCountText = (TextView) view.findViewById(R.id.text_members_count);
         layoutLikes = (ViewGroup) view.findViewById(R.id.layout_likes);
         likesCountText = (TextView) view.findViewById(R.id.text_likes_count);
 
-        layoutActions = (ViewGroup) view.findViewById(R.id.layout_actions);
+        layoutAction = (ViewGroup) view.findViewById(R.id.layout_action);
         layoutJoinBox = (ViewGroup) view.findViewById(R.id.layout_join_box);
         joinText = (JoinTextView) view.findViewById(R.id.text_join);
         joinText.setOnClickListener(new View.OnClickListener() {
@@ -231,12 +236,55 @@ public class PartyDetailsFragment extends LoaderFragment<Party>
                 ageText.setText(Constants.Options.AGE_OPTIONS[party.getAge()]);
                 genderText.setText(Constants.Options.GENDER_OPTIONS[party.getGender()]);
                 detailsText.setText(party.getDetails());
-                joinText.update(party.isMember(currentUserId));
+                if (party.isOwner(currentUserId)) {
+                    showAction = false;
+                    layoutAction.setVisibility(View.GONE);
+                } else {
+                    showAction = true;
+                    layoutAction.setVisibility(View.VISIBLE);
+                    joinText.update(party.isMember(currentUserId));
+                }
 
+                updateMembersLayout(party.getMembers());
                 updateLikesLayout(party.getFans());
             }
         } catch (Exception e) {
             Ln.d(e);
+        }
+    }
+
+    private void updateMembersLayout(List<String> members) {
+        int count = members.size();
+        if (count > 0) {
+            ViewGroup layoutMembersAvatars = (ViewGroup) layoutMembers.findViewById(R.id.layout_members_avatars);
+            layoutMembersAvatars.setVisibility(View.VISIBLE);
+            LayoutInflater inflater = getActivity().getLayoutInflater();
+
+            layoutMembersAvatars.removeAllViews();
+            for(String userId: members) {
+                if (!userId.equals(currentUserId)) {
+                    AvatarImageView imgAvatar = (AvatarImageView) inflater.inflate(R.layout.small_avatar, layoutMembersAvatars, false);
+                    imgAvatar.setOnClickListener(new UserListener(getActivity(), userId));
+                    User user = userStore.getUserById(userId, false);
+                    imgAvatar.getFromUrl(user.getAvatarUrl());
+                    layoutMembersAvatars.addView(imgAvatar);
+                }
+            }
+
+            if (members.contains(currentUserId)) {
+                if (count == 1) {
+                    membersCountText.setText(getString(R.string.label_you_join_the_party));
+                    layoutMembersAvatars.setVisibility(View.GONE);
+                } else {
+                    membersCountText.setText(getString(R.string.label_you_and_others_join_the_party, count - 1));
+                }
+            } else {
+                membersCountText.setText(getString(R.string.label_others_join_the_party, count));
+            }
+
+            if (layoutMembers.getVisibility() != View.VISIBLE) {
+                Animation.fadeIn(layoutMembers, Animation.Duration.SHORT);
+            }
         }
     }
 
@@ -356,23 +404,23 @@ public class PartyDetailsFragment extends LoaderFragment<Party>
 
     @Override
     public void onScrollUp() {
-        if (!isJoinBoxShow) {
-            Animation.animateIconBar(layoutActions, true);
+        if (!isJoinBoxShow && showAction) {
+            Animation.animateIconBar(layoutAction, true);
         }
     }
 
     @Override
     public void onScrollDown() {
-        if (isJoinBoxShow) {
+        if (isJoinBoxShow || !showAction) {
             return;
         }
 
         boolean canScrollDown = scrollView.canScrollDown();
         boolean canScrollUp = scrollView.canScrollUp();
         if (!canScrollDown) {
-            Animation.animateIconBar(layoutActions, true);
+            Animation.animateIconBar(layoutAction, true);
         } else if (canScrollDown && canScrollUp) {
-            Animation.animateIconBar(layoutActions, false);
+            Animation.animateIconBar(layoutAction, false);
         }
     }
 }

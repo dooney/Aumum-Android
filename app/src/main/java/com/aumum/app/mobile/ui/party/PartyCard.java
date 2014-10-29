@@ -109,17 +109,23 @@ public class PartyCard extends Card implements PartyActionListener.OnProgressLis
         TextView genderText = (TextView) view.findViewById(R.id.text_gender);
         genderText.setText(Constants.Options.GENDER_OPTIONS[party.getGender()]);
 
-        JoinTextView joinText = (JoinTextView) view.findViewById(R.id.text_join);
-        joinText.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Animation.animateTextView(view);
-                final Intent intent = new Intent(activity, PartyDetailsActivity.class);
-                intent.putExtra(PartyDetailsActivity.INTENT_PARTY_ID, party.getObjectId());
-                activity.startActivityForResult(intent, Constants.RequestCode.GET_PARTY_DETAILS_REQ_CODE);
-            }
-        });
-        joinText.update(party.isMember(currentUserId));
+        ViewGroup joinLayout = (ViewGroup) view.findViewById(R.id.layout_join);
+        if (party.isOwner(currentUserId)) {
+            joinLayout.setVisibility(View.GONE);
+        } else {
+            joinLayout.setVisibility(View.VISIBLE);
+            JoinTextView joinText = (JoinTextView) view.findViewById(R.id.text_join);
+            joinText.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Animation.animateTextView(view);
+                    final Intent intent = new Intent(activity, PartyDetailsActivity.class);
+                    intent.putExtra(PartyDetailsActivity.INTENT_PARTY_ID, party.getObjectId());
+                    activity.startActivityForResult(intent, Constants.RequestCode.GET_PARTY_DETAILS_REQ_CODE);
+                }
+            });
+            joinText.update(party.isMember(currentUserId));
+        }
 
         TextView commentText = (TextView) view.findViewById(R.id.text_comment);
         int comments = party.getCommentCounts();
