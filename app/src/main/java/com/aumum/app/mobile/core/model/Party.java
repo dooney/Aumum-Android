@@ -129,7 +129,7 @@ public class Party extends AggregateRoot {
         return userId.equals(this.userId);
     }
 
-    public boolean isJoin(String userId) {
+    public boolean isMember(String userId) {
         if (members != null) {
             return members.contains(userId);
         }

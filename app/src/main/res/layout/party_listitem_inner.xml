@@ -128,9 +128,10 @@
             android:gravity="center"
             android:layout_weight="1">
 
-            <TextView
+            <com.aumum.app.mobile.ui.view.JoinTextView
                 android:id="@+id/text_join"
-                style="@style/LinkTextView.Join" />
+                style="@style/ButtonTextView"
+                android:paddingTop="@dimen/margin_medium"/>
 
         </LinearLayout>
 

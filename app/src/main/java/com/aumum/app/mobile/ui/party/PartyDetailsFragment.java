@@ -26,6 +26,7 @@ import com.aumum.app.mobile.ui.user.UserListener;
 import com.aumum.app.mobile.ui.view.Animation;
 import com.aumum.app.mobile.ui.view.AvatarImageView;
 import com.aumum.app.mobile.ui.view.DropdownImageView;
+import com.aumum.app.mobile.ui.view.JoinTextView;
 import com.aumum.app.mobile.ui.view.QuickReturnScrollView;
 import com.aumum.app.mobile.utils.EditTextUtils;
 import com.aumum.app.mobile.utils.Ln;
@@ -72,7 +73,7 @@ public class PartyDetailsFragment extends LoaderFragment<Party>
 
     private ViewGroup layoutActions;
     private ViewGroup layoutJoinBox;
-    private TextView joinText;
+    private JoinTextView joinText;
     private EditText editJoinReason;
     private ImageView postJoinReasonButton;
     private boolean isJoinBoxShow;
@@ -130,7 +131,7 @@ public class PartyDetailsFragment extends LoaderFragment<Party>
 
         layoutActions = (ViewGroup) view.findViewById(R.id.layout_actions);
         layoutJoinBox = (ViewGroup) view.findViewById(R.id.layout_join_box);
-        joinText = (TextView) view.findViewById(R.id.text_join);
+        joinText = (JoinTextView) view.findViewById(R.id.text_join);
         joinText.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -229,6 +230,7 @@ public class PartyDetailsFragment extends LoaderFragment<Party>
                 ageText.setText(Constants.Options.AGE_OPTIONS[party.getAge()]);
                 genderText.setText(Constants.Options.GENDER_OPTIONS[party.getGender()]);
                 detailsText.setText(party.getDetails());
+                joinText.update(party.isMember(currentUserId));
 
                 updateLikesLayout(party.getFans());
             }

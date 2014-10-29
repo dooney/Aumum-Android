@@ -17,6 +17,7 @@ import com.aumum.app.mobile.ui.user.UserListener;
 import com.aumum.app.mobile.ui.view.Animation;
 import com.aumum.app.mobile.ui.view.AvatarImageView;
 import com.aumum.app.mobile.ui.view.DropdownImageView;
+import com.aumum.app.mobile.ui.view.JoinTextView;
 import com.aumum.app.mobile.ui.view.LikeTextView;
 
 import java.util.List;
@@ -108,7 +109,7 @@ public class PartyCard extends Card implements PartyActionListener.OnProgressLis
         TextView genderText = (TextView) view.findViewById(R.id.text_gender);
         genderText.setText(Constants.Options.GENDER_OPTIONS[party.getGender()]);
 
-        TextView joinText = (TextView) view.findViewById(R.id.text_join);
+        JoinTextView joinText = (JoinTextView) view.findViewById(R.id.text_join);
         joinText.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -118,6 +119,7 @@ public class PartyCard extends Card implements PartyActionListener.OnProgressLis
                 activity.startActivityForResult(intent, Constants.RequestCode.GET_PARTY_DETAILS_REQ_CODE);
             }
         });
+        joinText.update(party.isMember(currentUserId));
 
         TextView commentText = (TextView) view.findViewById(R.id.text_comment);
         int comments = party.getCommentCounts();

@@ -188,9 +188,9 @@
                 android:layout_height="wrap_content"
                 android:gravity="center" >
 
-                <TextView
+                <com.aumum.app.mobile.ui.view.JoinTextView
                     android:id="@+id/text_join"
-                    style="@style/TextView.Join" />
+                    style="@style/ButtonTextView" />
 
             </LinearLayout>
 
