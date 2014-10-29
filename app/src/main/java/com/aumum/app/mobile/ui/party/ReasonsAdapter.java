@@ -7,18 +7,18 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 
 import com.aumum.app.mobile.R;
-import com.aumum.app.mobile.core.model.PartyJoinReason;
+import com.aumum.app.mobile.core.model.PartyReason;
 
 import java.util.List;
 
 /**
  * Created by Administrator on 28/10/2014.
  */
-public class JoinReasonsAdapter extends ArrayAdapter<PartyJoinReason> {
+public class ReasonsAdapter extends ArrayAdapter<PartyReason> {
     private Context context;
-    private List<PartyJoinReason> dataSet;
+    private List<PartyReason> dataSet;
 
-    public JoinReasonsAdapter(Context context, List<PartyJoinReason> objects) {
+    public ReasonsAdapter(Context context, List<PartyReason> objects) {
         super(context, 0, objects);
         this.context = context;
         this.dataSet = objects;
@@ -26,18 +26,18 @@ public class JoinReasonsAdapter extends ArrayAdapter<PartyJoinReason> {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        final JoinReasonCard card;
+        final ReasonCard card;
         LayoutInflater mInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
         if (convertView == null) {
-            convertView = mInflater.inflate(R.layout.party_join_reason_listitem_inner, parent, false);
-            card = new JoinReasonCard(convertView);
+            convertView = mInflater.inflate(R.layout.party_reason_listitem_inner, parent, false);
+            card = new ReasonCard(convertView);
             convertView.setTag(card);
         } else {
-            card = (JoinReasonCard) convertView.getTag();
+            card = (ReasonCard) convertView.getTag();
         }
 
-        PartyJoinReason reason = dataSet.get(position);
+        PartyReason reason = dataSet.get(position);
         card.refresh(reason);
 
         return convertView;

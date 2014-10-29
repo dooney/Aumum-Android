@@ -17,10 +17,11 @@ import com.aumum.app.mobile.core.infra.security.ApiKeyProvider;
 import com.aumum.app.mobile.core.Constants;
 import com.aumum.app.mobile.core.model.Party;
 import com.aumum.app.mobile.core.dao.PartyStore;
+import com.aumum.app.mobile.core.model.PartyReason;
 import com.aumum.app.mobile.core.model.User;
 import com.aumum.app.mobile.core.dao.UserStore;
-import com.aumum.app.mobile.events.AddPartyJoinReasonEvent;
-import com.aumum.app.mobile.events.AddPartyJoinReasonFinishedEvent;
+import com.aumum.app.mobile.events.AddPartyReasonEvent;
+import com.aumum.app.mobile.events.AddPartyReasonFinishedEvent;
 import com.aumum.app.mobile.ui.base.LoaderFragment;
 import com.aumum.app.mobile.ui.user.UserListener;
 import com.aumum.app.mobile.ui.view.Animation;
@@ -74,8 +75,8 @@ public class PartyDetailsFragment extends LoaderFragment<Party>
     private ViewGroup layoutActions;
     private ViewGroup layoutJoinBox;
     private JoinTextView joinText;
-    private EditText editJoinReason;
-    private ImageView postJoinReasonButton;
+    private EditText editReason;
+    private ImageView postReasonButton;
     private boolean isJoinBoxShow;
 
     @Override
@@ -138,12 +139,12 @@ public class PartyDetailsFragment extends LoaderFragment<Party>
                 toggleJoinBox();
             }
         });
-        editJoinReason = (EditText) view.findViewById(R.id.edit_join_reason);
-        postJoinReasonButton = (ImageView) view.findViewById(R.id.image_post_join_reason);
-        postJoinReasonButton.setOnClickListener(new View.OnClickListener() {
+        editReason = (EditText) view.findViewById(R.id.edit_reason);
+        postReasonButton = (ImageView) view.findViewById(R.id.image_post_reason);
+        postReasonButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                submitJoin();
+                submit();
             }
         });
     }
@@ -298,44 +299,58 @@ public class PartyDetailsFragment extends LoaderFragment<Party>
     }
 
     private void hideJoinBox() {
-        EditTextUtils.hideSoftInput(editJoinReason);
-        editJoinReason.setText(null);
+        EditTextUtils.hideSoftInput(editReason);
+        editReason.setText(null);
         Animation.flyOut(layoutJoinBox);
     }
 
     private void showJoinBox() {
         Animation.flyIn(layoutJoinBox);
-        EditTextUtils.showSoftInput(editJoinReason, true);
+        EditTextUtils.showSoftInput(editReason, true);
     }
 
     private void toggleJoinBox() {
         if (isJoinBoxShow) {
             hideJoinBox();
         } else {
-            editJoinReason.setHint(R.string.hint_join_reason);
+            if (joinText.isMember()) {
+                editReason.setHint(R.string.hint_quit_reason);
+            } else {
+                editReason.setHint(R.string.hint_join_reason);
+            }
             showJoinBox();
         }
         isJoinBoxShow = !isJoinBoxShow;
     }
 
     private void enableSubmit() {
-        postJoinReasonButton.setEnabled(true);
+        postReasonButton.setEnabled(true);
     }
 
     private void disableSubmit() {
-        postJoinReasonButton.setEnabled(false);
+        postReasonButton.setEnabled(false);
     }
 
-    private void submitJoin() {
-        String reason = editJoinReason.getText().toString();
-        bus.post(new AddPartyJoinReasonEvent(reason));
+    private void submit() {
+        String reason = editReason.getText().toString();
+        if (joinText.isMember()) {
+            bus.post(new AddPartyReasonEvent(PartyReason.QUIT, reason));
+        } else {
+            bus.post(new AddPartyReasonEvent(PartyReason.JOIN, reason));
+        }
 
         hideJoinBox();
         disableSubmit();
     }
 
     @Subscribe
-    public void onAddPartyJoinReasonFinishedEvent(AddPartyJoinReasonFinishedEvent event) {
+    public void onAddPartyReasonFinishedEvent(AddPartyReasonFinishedEvent event) {
+        if (event.getType() == PartyReason.JOIN) {
+            joinText.update(true);
+        } else if (event.getType() == PartyReason.QUIT) {
+            joinText.update(false);
+        }
+        
         enableSubmit();
     }
 

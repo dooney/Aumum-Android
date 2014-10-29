@@ -91,6 +91,7 @@
     <!-- Party -->
     <string name="hint_search_party">搜索活动</string>
     <string name="hint_join_reason">一句话介绍自己的情况，或报名理由</string>
+    <string name="hint_quit_reason">顺便说下取消理由吧</string>
     <string name="title_activity_party_details">活动详情</string>
     <string name="invalid_party">无法获取该活动信息</string>
     <string name="label_you_join_the_party">你报名了该活动</string>

@@ -12,7 +12,7 @@ public class Message extends AggregateRoot {
     public static final int DELETED = 0;
     public static final int FOLLOW = 1;
     public static final int JOIN = 2;
-    public static final int UNJOIN = 3;
+    public static final int QUIT = 3;
     public static final int LIKE = 4;
     public static final int COMMENT = 5;
     public static final int REPLY_COMMENT = 6;

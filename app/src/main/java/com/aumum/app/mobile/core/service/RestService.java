@@ -5,7 +5,7 @@ import com.aumum.app.mobile.core.model.Comment;
 import com.aumum.app.mobile.core.Constants;
 import com.aumum.app.mobile.core.model.Message;
 import com.aumum.app.mobile.core.model.Party;
-import com.aumum.app.mobile.core.model.PartyJoinReason;
+import com.aumum.app.mobile.core.model.PartyReason;
 import com.aumum.app.mobile.core.model.User;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
@@ -57,8 +57,8 @@ public class RestService {
         return getRestAdapter().create(MessageService.class);
     }
 
-    private PartyJoinReasonService getPartyJoinReasonService() {
-        return getRestAdapter().create(PartyJoinReasonService.class);
+    private PartyReasonService getPartyReasonService() {
+        return getRestAdapter().create(PartyReasonService.class);
     }
 
     private RestAdapter getRestAdapter() {
@@ -428,39 +428,39 @@ public class RestService {
         return getMessageService().updateById(messageId, data);
     }
 
-    public PartyJoinReason newPartyJoinReason(PartyJoinReason reason) {
-        return getPartyJoinReasonService().newPartyJoinReason(reason);
+    public PartyReason newPartyReason(PartyReason reason) {
+        return getPartyReasonService().newPartyReason(reason);
     }
 
-    public JsonObject addPartyJoinReasons(String partyId, String reasonId) {
+    public JsonObject addPartyReasons(String partyId, String reasonId) {
         final JsonObject op = new JsonObject();
         op.addProperty("__op", "AddUnique");
-        return updatePartyJoinReasons(op, partyId, reasonId);
+        return updatePartyReasons(op, partyId, reasonId);
     }
 
-    private JsonObject updatePartyJoinReasons(JsonObject op, String partyId, String reasonId) {
+    private JsonObject updatePartyReasons(JsonObject op, String partyId, String reasonId) {
         final JsonObject data = new JsonObject();
-        final JsonArray partyJoinReasons = new JsonArray();
-        partyJoinReasons.add(new JsonPrimitive(reasonId));
-        op.add("objects", partyJoinReasons);
-        data.add(Constants.Http.Party.PARAM_JOIN_REASONS, op);
+        final JsonArray partyReasons = new JsonArray();
+        partyReasons.add(new JsonPrimitive(reasonId));
+        op.add("objects", partyReasons);
+        data.add(Constants.Http.Party.PARAM_REASONS, op);
         return getPartyService().updateById(partyId, data);
     }
 
-    public List<PartyJoinReason> getPartyJoinReasons(String partyId) {
-        String keys = Constants.Http.Party.PARAM_JOIN_REASONS;
+    public List<PartyReason> getPartyReasons(String partyId) {
+        String keys = Constants.Http.Party.PARAM_REASONS;
         Party party = getPartyService().getFieldsById(partyId, keys);
         if (party != null) {
             final JsonObject whereJson = new JsonObject();
             final JsonArray idListJson = new JsonArray();
-            for (String id: party.getJoinReasons()) {
+            for (String id: party.getReasons()) {
                 idListJson.add(new JsonPrimitive(id));
             }
             final JsonObject inJson = new JsonObject();
             inJson.add("$in", idListJson);
             whereJson.add("objectId", inJson);
             String where = whereJson.toString();
-            return getPartyJoinReasonService().getPartyJoinReasons("-createdAt", where).getResults();
+            return getPartyReasonService().getPartyReasons("-createdAt", where).getResults();
         }
         return null;
     }

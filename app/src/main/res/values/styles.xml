@@ -180,11 +180,14 @@
         <item name="android:maxLines">4</item>
         <item name="android:hint">@string/hint_party_details</item>
     </style>
-    <style name="TextView.JoinReason.UserName" parent="TextView.UserName" />
-    <style name="TextView.JoinReason.CreatedAt" parent="TextView.Subtitle" >
+    <style name="TextView.PartyReason.UserName" parent="TextView.UserName" />
+    <style name="TextView.PartyReason.CreatedAt" parent="TextView.Subtitle" >
         <item name="android:textSize">@dimen/text_sz_small</item>
     </style>
-    <style name="TextView.JoinReason.Text" parent="TextView">
+    <style name="TextView.PartyReason.Action" parent="TextView.Subtitle" >
+        <item name="android:textSize">@dimen/text_sz_small</item>
+    </style>
+    <style name="TextView.PartyReason.Text" parent="TextView">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:textSize">@dimen/text_sz_medium</item>

@@ -11,10 +11,10 @@
         android:background="@color/grey_light" />
 
     <EditText
-        android:id="@+id/edit_join_reason"
+        android:id="@+id/edit_reason"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_toLeftOf="@+id/image_post_join_reason"
+        android:layout_toLeftOf="@+id/image_post_reason"
         android:background="@color/transparent"
         android:gravity="center_vertical"
         android:hint="@string/hint_join_reason"
@@ -30,7 +30,7 @@
         android:paddingLeft="@dimen/margin_large" />
 
     <ImageView
-        android:id="@+id/image_post_join_reason"
+        android:id="@+id/image_post_reason"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"

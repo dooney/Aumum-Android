@@ -11,6 +11,11 @@ import com.aumum.app.mobile.R;
  */
 public class JoinTextView extends AnimateTextView {
     private Context context;
+    private boolean isMember;
+
+    public boolean isMember() {
+        return isMember;
+    }
 
     public JoinTextView(Context context) {
         super(context);
@@ -38,5 +43,6 @@ public class JoinTextView extends AnimateTextView {
             setTypeface(null, Typeface.BOLD);
             setTextColor(context.getResources().getColor(R.color.text_link));
         }
+        this.isMember = isMember;
     }
 }
