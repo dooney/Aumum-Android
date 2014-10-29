@@ -31,6 +31,7 @@ import com.aumum.app.mobile.ui.comment.CommentsAdapter;
 import com.aumum.app.mobile.ui.base.ItemListFragment;
 import com.aumum.app.mobile.ui.comment.DeleteCommentListener;
 import com.aumum.app.mobile.ui.view.Animation;
+import com.aumum.app.mobile.ui.view.QuickReturnListView;
 import com.aumum.app.mobile.utils.EditTextUtils;
 import com.aumum.app.mobile.utils.Ln;
 import com.aumum.app.mobile.utils.SafeAsyncTask;
@@ -47,7 +48,8 @@ import retrofit.RetrofitError;
  *
  */
 public class PartyCommentsFragment extends ItemListFragment<Comment>
-        implements DeleteCommentListener.OnActionListener {
+        implements DeleteCommentListener.OnActionListener,
+                   QuickReturnListView.OnScrollDirectionListener {
     private String partyId;
     private User currentUser;
     private Party party;
@@ -62,6 +64,8 @@ public class PartyCommentsFragment extends ItemListFragment<Comment>
     @Inject MessageListener messageListener;
     @Inject ApiKeyProvider apiKeyProvider;
 
+    private QuickReturnListView quickReturnListView;
+    private ViewGroup layoutActions;
     private ViewGroup layoutCommentBox;
     private TextView commentText;
     private boolean isCommentBoxShow;
@@ -91,6 +95,7 @@ public class PartyCommentsFragment extends ItemListFragment<Comment>
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_party_comments, null);
 
+        layoutActions = (ViewGroup) view.findViewById(R.id.layout_actions);
         layoutCommentBox = (ViewGroup) view.findViewById(R.id.layout_comment_box);
 
         commentText = (TextView) view.findViewById(R.id.text_comment);
@@ -127,7 +132,9 @@ public class PartyCommentsFragment extends ItemListFragment<Comment>
     public void onViewCreated(final View view, final Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        getListView().setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        quickReturnListView = (QuickReturnListView) getListView();
+        quickReturnListView.setOnScrollDirectionListener(this);
+        quickReturnListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 showCommentBox();
@@ -291,5 +298,28 @@ public class PartyCommentsFragment extends ItemListFragment<Comment>
             Ln.d(e);
         }
         Toaster.showLong(getActivity(), R.string.error_delete_comment);
+    }
+
+    @Override
+    public void onScrollUp() {
+        if (!isCommentBoxShow) {
+            Animation.animateIconBar(layoutActions, true);
+        }
+    }
+
+    @Override
+    public void onScrollDown() {
+        if (isCommentBoxShow) {
+            return;
+        }
+
+        QuickReturnListView listView = (QuickReturnListView) getListView();
+        boolean canScrollDown = listView.canScrollDown();
+        boolean canScrollUp = listView.canScrollUp();
+        if (!canScrollDown) {
+            Animation.animateIconBar(layoutActions, true);
+        } else if (canScrollDown && canScrollUp) {
+            Animation.animateIconBar(layoutActions, false);
+        }
     }
 }

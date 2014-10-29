@@ -9,7 +9,6 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
-import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.aumum.app.mobile.Injector;
@@ -27,6 +26,7 @@ import com.aumum.app.mobile.ui.user.UserListener;
 import com.aumum.app.mobile.ui.view.Animation;
 import com.aumum.app.mobile.ui.view.AvatarImageView;
 import com.aumum.app.mobile.ui.view.DropdownImageView;
+import com.aumum.app.mobile.ui.view.QuickReturnScrollView;
 import com.aumum.app.mobile.utils.EditTextUtils;
 import com.aumum.app.mobile.utils.Ln;
 import com.squareup.otto.Bus;
@@ -41,7 +41,8 @@ import javax.inject.Inject;
  */
 public class PartyDetailsFragment extends LoaderFragment<Party>
         implements PartyActionListener.OnActionListener,
-                   PartyActionListener.OnProgressListener{
+                   PartyActionListener.OnProgressListener,
+                   QuickReturnScrollView.OnScrollDirectionListener {
     @Inject ApiKeyProvider apiKeyProvider;
     @Inject Bus bus;
 
@@ -51,7 +52,7 @@ public class PartyDetailsFragment extends LoaderFragment<Party>
     private PartyStore partyStore;
     private UserStore userStore;
 
-    private ScrollView scrollView;
+    private QuickReturnScrollView scrollView;
     private View mainView;
     private DropdownImageView dropdownImage;
     private ProgressBar progressBar;
@@ -69,6 +70,7 @@ public class PartyDetailsFragment extends LoaderFragment<Party>
     private ViewGroup layoutLikes;
     private TextView likesCountText;
 
+    private ViewGroup layoutActions;
     private ViewGroup layoutJoinBox;
     private TextView joinText;
     private EditText editJoinReason;
@@ -103,9 +105,10 @@ public class PartyDetailsFragment extends LoaderFragment<Party>
     public void onViewCreated(final View view, final Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        scrollView = (ScrollView) view.findViewById(R.id.scroll_view);
+        scrollView = (QuickReturnScrollView) view.findViewById(R.id.scroll_view);
         scrollView.setHorizontalScrollBarEnabled(false);
         scrollView.setVerticalScrollBarEnabled(false);
+        scrollView.setOnScrollDirectionListener(this);
 
         mainView = view.findViewById(R.id.main_view);
         dropdownImage = (DropdownImageView) view.findViewById(R.id.image_dropdown);
@@ -125,6 +128,7 @@ public class PartyDetailsFragment extends LoaderFragment<Party>
         layoutLikes = (ViewGroup) view.findViewById(R.id.layout_likes);
         likesCountText = (TextView) view.findViewById(R.id.text_likes_count);
 
+        layoutActions = (ViewGroup) view.findViewById(R.id.layout_actions);
         layoutJoinBox = (ViewGroup) view.findViewById(R.id.layout_join_box);
         joinText = (TextView) view.findViewById(R.id.text_join);
         joinText.setOnClickListener(new View.OnClickListener() {
@@ -331,5 +335,27 @@ public class PartyDetailsFragment extends LoaderFragment<Party>
     @Subscribe
     public void onAddPartyJoinReasonFinishedEvent(AddPartyJoinReasonFinishedEvent event) {
         enableSubmit();
+    }
+
+    @Override
+    public void onScrollUp() {
+        if (!isJoinBoxShow) {
+            Animation.animateIconBar(layoutActions, true);
+        }
+    }
+
+    @Override
+    public void onScrollDown() {
+        if (isJoinBoxShow) {
+            return;
+        }
+
+        boolean canScrollDown = scrollView.canScrollDown();
+        boolean canScrollUp = scrollView.canScrollUp();
+        if (!canScrollDown) {
+            Animation.animateIconBar(layoutActions, true);
+        } else if (canScrollDown && canScrollUp) {
+            Animation.animateIconBar(layoutActions, false);
+        }
     }
 }

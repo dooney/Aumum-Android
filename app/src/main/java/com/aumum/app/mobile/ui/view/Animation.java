@@ -13,6 +13,7 @@ import android.view.animation.AccelerateDecelerateInterpolator;
 import android.view.animation.AnimationUtils;
 import android.view.animation.LinearInterpolator;
 import android.view.animation.OvershootInterpolator;
+import android.view.animation.TranslateAnimation;
 
 import com.aumum.app.mobile.R;
 
@@ -221,5 +222,31 @@ public class Animation {
     public static void flyIn(Activity activity) {
         View view = activity.findViewById(android.R.id.content);
         flyIn(view);
+    }
+
+    public static void animateIconBar(View view, boolean isAnimatingIn) {
+        if (isAnimatingIn && view.getVisibility() == View.VISIBLE) {
+            return;
+        }
+        if (!isAnimatingIn && view.getVisibility() != View.VISIBLE) {
+            return;
+        }
+
+        final android.view.animation.Animation animation;
+        if (isAnimatingIn) {
+            animation = new TranslateAnimation(android.view.animation.Animation.RELATIVE_TO_SELF, 0.0f,
+                    android.view.animation.Animation.RELATIVE_TO_SELF, 0.0f, android.view.animation.Animation.RELATIVE_TO_SELF,
+                    1.0f, android.view.animation.Animation.RELATIVE_TO_SELF, 0.0f);
+        } else {
+            animation = new TranslateAnimation(android.view.animation.Animation.RELATIVE_TO_SELF, 0.0f,
+                    android.view.animation.Animation.RELATIVE_TO_SELF, 0.0f, android.view.animation.Animation.RELATIVE_TO_SELF,
+                    0.0f, android.view.animation.Animation.RELATIVE_TO_SELF, 1.0f);
+        }
+
+        animation.setDuration(view.getContext().getResources().getInteger(android.R.integer.config_mediumAnimTime));
+
+        view.clearAnimation();
+        view.startAnimation(animation);
+        view.setVisibility(isAnimatingIn ? View.VISIBLE : View.GONE);
     }
 }
