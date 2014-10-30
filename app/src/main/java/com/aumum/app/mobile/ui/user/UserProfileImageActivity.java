@@ -32,8 +32,8 @@ import retrofit.RetrofitError;
 public class UserProfileImageActivity extends Activity
         implements ReceiveUriScaledBitmapTask.ReceiveUriScaledBitmapListener,
                    FileUploadService.OnFileUploadListener {
-    public static String INTENT_USER_ID = "intentUserId";
-    public static String INTENT_AVATAR_URL = "intentAvatarUrl";
+    public static String INTENT_USER_ID = "userId";
+    public static String INTENT_AVATAR_URL = "avatarUrl";
 
     private String userId;
     private String avatarUrl;

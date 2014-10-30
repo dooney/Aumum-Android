@@ -35,7 +35,7 @@
         android:theme="@style/Theme.Aumum.Light" >
         <activity
             android:name="com.aumum.app.mobile.ui.LaunchActivity"
-            android:theme="@style/Theme.Aumum.Light.NoTitle">
+            android:theme="@style/Theme.Aumum.Light.NoTitle" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -135,6 +135,10 @@
         <activity
             android:name="com.aumum.app.mobile.ui.party.NewPartyActivity"
             android:label="@string/title_activity_new_party" >
+        </activity>
+        <activity
+            android:name=".ui.message.MessageListActivity"
+            android:label="@string/title_activity_message" >
         </activity>
     </application>
 

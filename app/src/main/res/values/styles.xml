@@ -207,6 +207,25 @@
         <item name="android:maxLines">2</item>
         <item name="android:ellipsize">end</item>
     </style>
+    <style name="ButtonTextView.Message" parent="ButtonTextView">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:textColor">@color/text_link</item>
+        <item name="android:textSize">@dimen/text_sz_large</item>
+        <item name="android:padding">@dimen/margin_large</item>
+        <item name="android:gravity">center_vertical</item>
+    </style>
+    <style name="ButtonTextView.Message.PartyMembership" parent="ButtonTextView.Message">
+        <item name="android:drawableLeft">@drawable/ic_fa_user_l</item>
+        <item name="android:text">@string/label_party_join</item>
+    </style>
+    <style name="ButtonTextView.Message.PartyComments" parent="ButtonTextView.Message">
+        <item name="android:drawableLeft">@drawable/ic_fa_comments_o</item>
+        <item name="android:text">@string/label_party_comments</item>
+    </style>
+    <style name="ButtonTextView.Message.PartyLikes" parent="ButtonTextView.Message">
+        <item name="android:drawableLeft">@drawable/ic_fa_thumbs_o_up</item>
+        <item name="android:text">@string/label_party_likes</item>
+    </style>
 
     <!-- Comment -->
     <style name="TextView.Comment.UserName" parent="TextView.UserName" />
@@ -238,25 +257,26 @@
     <style name="TextView.User.Area" parent="ButtonTextView">
         <item name="android:gravity">center_vertical</item>
     </style>
-    <style name="ButtonTextView.User">
+    <style name="TextView.User">
         <item name="android:layout_width">155sp</item>
+        <item name="android:layout_height">wrap_content</item>
         <item name="android:gravity">center_vertical</item>
         <item name="android:textSize">@dimen/text_sz_large</item>
         <item name="android:padding">@dimen/margin_large</item>
     </style>
-    <style name="ButtonTextView.User.FollowingsCount" parent="ButtonTextView.User">
+    <style name="ButtonTextView.User.FollowingsCount" parent="TextView.User">
         <item name="android:text">@string/label_followings_count</item>
     </style>
-    <style name="ButtonTextView.User.FollowersCount" parent="ButtonTextView.User">
+    <style name="ButtonTextView.User.FollowersCount" parent="TextView.User">
         <item name="android:text">@string/label_followers_count</item>
     </style>
-    <style name="ButtonTextView.User.CommentsCount" parent="ButtonTextView.User">
+    <style name="ButtonTextView.User.CommentsCount" parent="TextView.User">
         <item name="android:text">@string/label_comments_count</item>
     </style>
-    <style name="ButtonTextView.User.PartyPostCount" parent="ButtonTextView.User">
+    <style name="ButtonTextView.User.PartyPostCount" parent="TextView.User">
         <item name="android:text">@string/label_party_post_count</item>
     </style>
-    <style name="ButtonTextView.User.JoinedPartyCount" parent="ButtonTextView.User">
+    <style name="ButtonTextView.User.JoinedPartyCount" parent="TextView.User">
         <item name="android:text">@string/label_joined_party_count</item>
     </style>
     <style name="LinkTextView.User" parent="LinkTextView">
@@ -330,7 +350,7 @@
 
     <style name="TabPageIndicator.Text">
         <item name="android:textStyle">normal</item>
-        <item name="android:textColor">@color/grey_dark</item>
+        <item name="android:textColor">@color/black</item>
     </style>
     <style name="TabPageIndicator" parent="Widget.TabPageIndicator">
         <item name="android:textSize">@dimen/text_sz_medium</item>

@@ -197,15 +197,22 @@ public class RestService {
         return getUserService().updateById(userId, data);
     }
 
-    public List<Message> getMessagesAfter(List<String> idList, DateTime after, int limit) {
+    public List<Message> getMessagesAfter(List<String> idList, int[] typeList, DateTime after, int limit) {
         final JsonObject whereJson = new JsonObject();
         final JsonArray idListJson = new JsonArray();
         for (String id: idList) {
             idListJson.add(new JsonPrimitive(id));
         }
-        final JsonObject inJson = new JsonObject();
-        inJson.add("$in", idListJson);
-        whereJson.add("objectId", inJson);
+        final JsonObject objectIdInJson = new JsonObject();
+        objectIdInJson.add("$in", idListJson);
+        whereJson.add("objectId", objectIdInJson);
+        final JsonArray typeListJson = new JsonArray();
+        for (int type: typeList) {
+            typeListJson.add(new JsonPrimitive(type));
+        }
+        final JsonObject typeInJson = new JsonObject();
+        typeInJson.add("$in", typeListJson);
+        whereJson.add("type", typeInJson);
         if (after != null) {
             final JsonObject timeJson = new JsonObject();
             timeJson.addProperty("__type", "Date");
@@ -218,7 +225,7 @@ public class RestService {
         return getMessageService().getMessages("-createdAt", where, limit).getResults();
     }
 
-    public List<Message> getMessagesBefore(List<String> idList, DateTime before, int limit) {
+    public List<Message> getMessagesBefore(List<String> idList, int[] typeList, DateTime before, int limit) {
         final JsonObject whereJson = new JsonObject();
         final JsonArray idListJson = new JsonArray();
         for (String id: idList) {
@@ -227,6 +234,13 @@ public class RestService {
         final JsonObject inJson = new JsonObject();
         inJson.add("$in", idListJson);
         whereJson.add("objectId", inJson);
+        final JsonArray typeListJson = new JsonArray();
+        for (int type: typeList) {
+            typeListJson.add(new JsonPrimitive(type));
+        }
+        final JsonObject typeInJson = new JsonObject();
+        typeInJson.add("$in", typeListJson);
+        whereJson.add("type", typeInJson);
         final JsonObject timeJson = new JsonObject();
         timeJson.addProperty("__type", "Date");
         timeJson.addProperty("iso", before.toString("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'"));

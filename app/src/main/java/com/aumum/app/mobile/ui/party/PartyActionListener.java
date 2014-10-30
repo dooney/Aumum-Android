@@ -63,7 +63,7 @@ public class PartyActionListener {
                     service.removeUserParty(userId, party.getObjectId());
 
                     messageListener.onMessageEvent(new MessageEvent(
-                            Message.DELETE_PARTY, userId, party.getUserId()));
+                            Message.Type.PARTY_DELETE, userId, party.getUserId()));
                 }
                 return true;
             }

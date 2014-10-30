@@ -9,23 +9,32 @@ public class Message extends AggregateRoot {
     private int type;
     private User fromUser;
 
-    public static final int DELETED = 0;
-    public static final int FOLLOW = 1;
-    public static final int JOIN = 2;
-    public static final int QUIT = 3;
-    public static final int LIKE = 4;
-    public static final int COMMENT = 5;
-    public static final int REPLY_COMMENT = 6;
-    public static final int DELETE_PARTY = 7;
+    public static class Type {
+        public static final int DELETED = 0;
+        public static final int USER_FOLLOW = 1;
+        public static final int PARTY_JOIN = 2;
+        public static final int PARTY_QUIT = 3;
+        public static final int PARTY_LIKE = 4;
+        public static final int PARTY_COMMENT = 5;
+        public static final int PARTY_REPLY = 6;
+        public static final int PARTY_DELETE = 7;
+    }
+
+    public static class Category {
+        public static final int PARTY_MEMBERSHIP = 101;
+        public static final int PARTY_COMMENTS = 102;
+        public static final int PARTY_LIKES = 103;
+    }
+
     private static final String MESSAGE_BODY_OPTIONS[] = {
         "该消息已删除",
         "关注了您",
-        "报名了亲子活动",
-        "取消了报名亲子活动",
-        "支持了亲子活动",
+        "报名了宝妈活动",
+        "取消了报名宝妈活动",
+        "支持了宝妈活动",
         "发表了评论",
         "回复了您的评论",
-        "删除了亲子活动"
+        "删除了宝妈活动"
     };
 
     public String getFromUserId() {
@@ -54,5 +63,17 @@ public class Message extends AggregateRoot {
 
     public String getBody() {
         return MESSAGE_BODY_OPTIONS[type];
+    }
+
+    public static int[] getTypesByCategory(int category) {
+        switch (category) {
+            case Category.PARTY_MEMBERSHIP:
+                return new int[]{ Type.PARTY_JOIN, Type.PARTY_QUIT };
+            case Category.PARTY_COMMENTS:
+                return new int[]{ Type.PARTY_COMMENT, Type.PARTY_REPLY };
+            case Category.PARTY_LIKES:
+                return new int[]{ Type.PARTY_LIKE };
+        }
+        return new int[]{};
     }
 }

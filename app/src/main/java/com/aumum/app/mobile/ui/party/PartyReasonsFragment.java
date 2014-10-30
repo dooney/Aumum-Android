@@ -163,14 +163,16 @@ public class PartyReasonsFragment extends ItemListFragment<PartyReason> {
                     currentUser.getParties().add(partyId);
                     party.getMembers().add(currentUser.getObjectId());
 
-                    messageListener.onMessageEvent(new MessageEvent(Message.JOIN, party.getUserId(), currentUser.getObjectId()));
+                    messageListener.onMessageEvent(new MessageEvent(Message.Type.PARTY_JOIN,
+                            party.getUserId(), currentUser.getObjectId()));
                 } else if (reason.getType() == PartyReason.QUIT) {
                     service.removePartyMember(partyId, currentUser.getObjectId());
                     service.removeUserParty(currentUser.getObjectId(), partyId);
                     currentUser.getParties().remove(partyId);
                     party.getMembers().remove(currentUser.getObjectId());
 
-                    messageListener.onMessageEvent(new MessageEvent(Message.QUIT, party.getUserId(), currentUser.getObjectId()));
+                    messageListener.onMessageEvent(new MessageEvent(Message.Type.PARTY_QUIT,
+                            party.getUserId(), currentUser.getObjectId()));
                 }
                 userStore.saveUser(currentUser);
                 return true;

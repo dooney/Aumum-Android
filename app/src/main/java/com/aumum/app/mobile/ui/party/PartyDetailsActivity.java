@@ -6,8 +6,8 @@ import com.aumum.app.mobile.R;
 
 public class PartyDetailsActivity extends ActionBarActivity {
 
-    public static final String INTENT_PARTY_ID = "intentPartyId";
-    public static final String INTENT_PARTY_DELETED = "intentPartyDeleted";
+    public static final String INTENT_PARTY_ID = "partyId";
+    public static final String INTENT_PARTY_DELETED = "partyDeleted";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

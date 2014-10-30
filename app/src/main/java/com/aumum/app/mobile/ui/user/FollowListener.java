@@ -48,7 +48,7 @@ public class FollowListener implements FollowTextView.OnFollowListener {
                 userStore.saveUser(followedUser);
 
                 messageListener.onMessageEvent(new MessageEvent(
-                        Message.FOLLOW, followedUserId, currentUser.getObjectId()));
+                        Message.Type.USER_FOLLOW, followedUserId, currentUser.getObjectId()));
 
                 return true;
             }

@@ -75,7 +75,7 @@ public class LikeListener implements LikeTextView.OnLikeListener {
                 userStore.saveUser(currentUser);
 
                 messageListener.onMessageEvent(new MessageEvent(
-                        Message.LIKE, party.getUserId(), currentUser.getObjectId()));
+                        Message.Type.PARTY_LIKE, party.getUserId(), currentUser.getObjectId()));
 
                 return true;
             }

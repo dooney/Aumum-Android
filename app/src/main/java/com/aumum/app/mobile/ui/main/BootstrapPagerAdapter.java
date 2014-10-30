@@ -9,7 +9,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
 import com.aumum.app.mobile.R;
-import com.aumum.app.mobile.ui.message.MessageListFragment;
+import com.aumum.app.mobile.ui.message.MessageFragment;
 import com.aumum.app.mobile.ui.party.PartyListFragment;
 import com.aumum.app.mobile.ui.user.UserFragment;
 
@@ -48,7 +48,7 @@ public class BootstrapPagerAdapter extends FragmentPagerAdapter {
                 result = new PartyListFragment();
                 break;
             case PAGE_MESSAGE:
-                result = new MessageListFragment();
+                result = new MessageFragment();
                 break;
             case PAGE_PROFILE:
                 result = new UserFragment();

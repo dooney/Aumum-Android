@@ -1,0 +1,28 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="@dimen/margin_large"
+    android:background="@color/card_background"
+    tools:context="com.aumum.app.mobile.ui.message.MessageFragment">
+
+    <TextView
+        android:id="@+id/text_party_membership"
+        style="@style/ButtonTextView.Message.PartyMembership" />
+
+    <View style="@style/Divider" />
+
+    <TextView
+        android:id="@+id/text_party_comments"
+        style="@style/ButtonTextView.Message.PartyComments" />
+
+    <View style="@style/Divider" />
+
+    <TextView
+        android:id="@+id/text_party_likes"
+        style="@style/ButtonTextView.Message.PartyLikes" />
+
+    <View style="@style/Divider" />
+
+</LinearLayout>

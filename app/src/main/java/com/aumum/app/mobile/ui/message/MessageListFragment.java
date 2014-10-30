@@ -1,5 +1,6 @@
 package com.aumum.app.mobile.ui.message;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import com.aumum.app.mobile.R;
@@ -31,11 +32,15 @@ public class MessageListFragment extends CardListFragment
 
     private MessageStore messageStore;
 
+    private int messageCategory;
+
     @Override
     public void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         userStore = UserStore.getInstance(getActivity());
-        messageStore = new MessageStore(getActivity());
+        messageStore = new MessageStore();
+        final Intent intent = getActivity().getIntent();
+        messageCategory = intent.getIntExtra(MessageListActivity.INTENT_MESSAGE_TYPE, 0);
     }
 
     @Override
@@ -46,25 +51,16 @@ public class MessageListFragment extends CardListFragment
     }
 
     @Override
-    public void onDestroy() {
-        super.onDestroy();
-
-        messageStore.saveOfflineData(dataSet);
-    }
-
-    @Override
     protected List<Card> loadCards(int mode) throws Exception {
         List<Message> messageList;
         currentUser = userStore.getCurrentUser(false);
         switch (mode) {
+            case STATIC_REFRESH:
             case UPWARDS_REFRESH:
                 messageList = getUpwardsList(currentUser);
                 break;
             case BACKWARDS_REFRESH:
                 messageList = getBackwardsList(currentUser);
-                break;
-            case STATIC_REFRESH:
-                messageList = getStaticList();
                 break;
             default:
                 throw new Exception("Invalid refresh mode: " + mode);
@@ -85,7 +81,8 @@ public class MessageListFragment extends CardListFragment
             if (dataSet.size() > 0) {
                 after = dataSet.get(0).getCreatedAt();
             }
-            List<Message> messageList = messageStore.getUpwardsList(currentUser.getMessages(), after);
+            List<Message> messageList = messageStore.getUpwardsList(currentUser.getMessages(),
+                    Message.getTypesByCategory(messageCategory), after);
             Collections.reverse(messageList);
             for (Message message : messageList) {
                 dataSet.add(0, message);
@@ -98,7 +95,8 @@ public class MessageListFragment extends CardListFragment
     private List<Message> getBackwardsList(User currentUser) {
         if (dataSet.size() > 0) {
             Message last = dataSet.get(dataSet.size() - 1);
-            List<Message> messageList = messageStore.getBackwardsList(currentUser.getMessages(), last.getCreatedAt());
+            List<Message> messageList = messageStore.getBackwardsList(currentUser.getMessages(),
+                    Message.getTypesByCategory(messageCategory), last.getCreatedAt());
             dataSet.addAll(messageList);
             if (messageList.size() > 0) {
                 setLoadMore(true);
@@ -109,12 +107,6 @@ public class MessageListFragment extends CardListFragment
             return messageList;
         }
         return null;
-    }
-
-    private List<Message> getStaticList() {
-        List<Message> messageList = messageStore.getOfflineList();
-        dataSet.addAll(messageList);
-        return messageList;
     }
 
     private List<Card> buildCards() {

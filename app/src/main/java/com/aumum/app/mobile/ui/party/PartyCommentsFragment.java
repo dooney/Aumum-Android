@@ -248,10 +248,10 @@ public class PartyCommentsFragment extends ItemListFragment<Comment>
                 service.addUserComment(currentUser.getObjectId(), comment.getObjectId());
 
                 messageListener.onMessageEvent(new MessageEvent(
-                        Message.COMMENT, party.getUserId(), currentUser.getObjectId()));
+                        Message.Type.PARTY_COMMENT, party.getUserId(), currentUser.getObjectId()));
                 if (repliedComment != null) {
                     messageListener.onMessageEvent(new MessageEvent(
-                            Message.REPLY_COMMENT, repliedComment.getUserId(), currentUser.getObjectId()));
+                            Message.Type.PARTY_REPLY, repliedComment.getUserId(), currentUser.getObjectId()));
                 }
                 return true;
             }

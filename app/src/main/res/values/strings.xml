@@ -4,7 +4,7 @@
     <string name="app_name">澳妈圈</string>
 
     <string-array name="pages_array">
-        <item>亲子活动</item>
+        <item>宝妈活动</item>
         <item>消息中心</item>
         <item>用户信息</item>
     </string-array>
@@ -20,7 +20,6 @@
     <string name="info_posting_party">正在发布您的活动，请稍候…</string>
     <string name="info_loading_image">正在加载图片，请稍候…</string>
     <string name="info_uploading_profile_image">正在上传头像图片，请稍候…</string>
-    <string name="info_loading_offline_data">网络不可用，正在为您加载离线数据</string>
     <string name="info_party_deleted">该活动已成功删除</string>
     <string name="info_comment_deleted">该评论已成功删除</string>
     <string name="info_message_deleted">该消息已成功删除</string>
@@ -108,7 +107,7 @@
     <string name="label_join_details">报名动态</string>
 
     <!-- New Party -->
-    <string name="title_activity_new_party">新亲子活动</string>
+    <string name="title_activity_new_party">新宝妈活动</string>
     <string name="label_submit_new_party">发布</string>
     <string name="label_unlimited">不限</string>
     <string name="label_title">活动标题</string>
@@ -119,9 +118,15 @@
     <string name="label_gender">要求小孩性别</string>
     <string name="hint_party_details">活动内容（不超过140字）</string>
 
+    <!-- User Messages -->
+    <string name="label_party_join">活动报名</string>
+    <string name="label_party_comments">活动评论</string>
+    <string name="label_party_likes">活动支持</string>
+
     <!-- Widgets -->
     <string name="pull_to_refresh_pull_label">下拉刷新…</string>
     <string name="pull_to_refresh_release_label">放开以刷新…</string>
     <string name="pull_to_refresh_refreshing_label">正在载入…</string>
+    <string name="title_activity_message">MessageActivity</string>
 
 </resources>
