@@ -60,7 +60,7 @@ public class PartyReasonsFragment extends ItemListFragment<PartyReason> {
     public void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Injector.inject(this);
-        partyStore = new PartyStore(getActivity());
+        partyStore = new PartyStore();
         userStore = UserStore.getInstance(getActivity());
         partyReasonStore = new PartyReasonStore();
         final Intent intent = getActivity().getIntent();
@@ -158,7 +158,6 @@ public class PartyReasonsFragment extends ItemListFragment<PartyReason> {
                 party.getReasons().add(response.getObjectId());
 
                 User currentUser = userStore.getCurrentUser(false);
-
                 if (reason.getType() == PartyReason.JOIN) {
                     service.addPartyMember(partyId, currentUser.getObjectId());
                     service.addUserParty(currentUser.getObjectId(), partyId);

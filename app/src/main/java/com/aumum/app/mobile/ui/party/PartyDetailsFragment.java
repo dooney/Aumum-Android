@@ -86,7 +86,7 @@ public class PartyDetailsFragment extends LoaderFragment<Party>
     public void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Injector.inject(this);
-        partyStore = new PartyStore(getActivity());
+        partyStore = new PartyStore();
         userStore = UserStore.getInstance(getActivity());
         final Intent intent = getActivity().getIntent();
         partyId = intent.getStringExtra(PartyDetailsActivity.INTENT_PARTY_ID);

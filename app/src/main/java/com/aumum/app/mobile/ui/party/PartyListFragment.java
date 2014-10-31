@@ -31,8 +31,7 @@ import it.gmariotti.cardslib.library.internal.Card;
  *
  */
 public class PartyListFragment extends CardListFragment
-        implements Card.OnCardClickListener,
-                   PartyActionListener.OnActionListener {
+        implements PartyActionListener.OnActionListener {
 
     private List<Party> dataSet = new ArrayList<Party>();
 
@@ -45,7 +44,7 @@ public class PartyListFragment extends CardListFragment
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
         userStore = UserStore.getInstance(getActivity());
-        dataStore = new PartyStore(getActivity());
+        dataStore = new PartyStore();
     }
 
     @Override
@@ -81,13 +80,6 @@ public class PartyListFragment extends CardListFragment
     }
 
     @Override
-    public void onDestroy() {
-        super.onDestroy();
-
-        dataStore.saveOfflineData(dataSet);
-    }
-
-    @Override
     public void onActivityResult (int requestCode, int resultCode, Intent data) {
         if (requestCode == Constants.RequestCode.NEW_PARTY_REQ_CODE && resultCode == Activity.RESULT_OK) {
             doRefresh(UPWARDS_REFRESH);
@@ -115,9 +107,6 @@ public class PartyListFragment extends CardListFragment
                 break;
             case BACKWARDS_REFRESH:
                 partyList = getBackwardsList();
-                break;
-            case STATIC_REFRESH:
-                partyList = getStaticList();
                 break;
             default:
                 throw new Exception("Invalid refresh mode: " + mode);
@@ -161,18 +150,12 @@ public class PartyListFragment extends CardListFragment
         return null;
     }
 
-    private List<Party> getStaticList() {
-        List<Party> partyList = dataStore.getOfflineList();
-        dataSet.addAll(partyList);
-        return partyList;
-    }
-
     private List<Card> buildCards() {
         List<Card> cards = new ArrayList<Card>();
         if (dataSet.size() > 0) {
             User user = userStore.getCurrentUser(false);
             for (Party party : dataSet) {
-                Card card = new PartyCard(getActivity(), party, user.getObjectId(), this, this);
+                Card card = new PartyCard(getActivity(), party, user.getObjectId(), this);
                 cards.add(card);
             }
         }
@@ -207,13 +190,5 @@ public class PartyListFragment extends CardListFragment
     @Override
     public void onPartySharedSuccess() {
 
-    }
-
-    @Override
-    public void onClick(Card card, View view) {
-        PartyCard partyCard = (PartyCard) card;
-        final Intent intent = new Intent(getActivity(), PartyDetailsActivity.class);
-        intent.putExtra(PartyDetailsActivity.INTENT_PARTY_ID, partyCard.getParty().getObjectId());
-        startActivityForResult(intent, Constants.RequestCode.GET_PARTY_DETAILS_REQ_CODE);
     }
 }

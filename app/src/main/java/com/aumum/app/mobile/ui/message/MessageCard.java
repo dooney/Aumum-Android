@@ -1,16 +1,18 @@
 package com.aumum.app.mobile.ui.message;
 
-import android.content.Context;
+import android.app.Activity;
+import android.content.Intent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.ViewStub;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.aumum.app.mobile.R;
+import com.aumum.app.mobile.core.Constants;
 import com.aumum.app.mobile.core.model.Message;
 import com.aumum.app.mobile.core.model.MessageParent;
+import com.aumum.app.mobile.ui.party.PartyDetailsActivity;
 import com.aumum.app.mobile.ui.user.UserListener;
 import com.aumum.app.mobile.ui.view.AvatarImageView;
 
@@ -21,6 +23,7 @@ import it.gmariotti.cardslib.library.internal.Card;
  */
 public class MessageCard extends Card
         implements DeleteMessageListener.OnProgressListener {
+    private Activity activity;
     private Message message;
     private DeleteMessageListener deleteMessageListener;
     private ImageView deleteImage;
@@ -30,9 +33,10 @@ public class MessageCard extends Card
         return message;
     }
 
-    public MessageCard(Context context, Message message, String currentUserId,
+    public MessageCard(Activity activity, Message message, String currentUserId,
                        DeleteMessageListener.OnActionListener onActionListener) {
-        super(context, R.layout.message_listitem_inner);
+        super(activity, R.layout.message_listitem_inner);
+        this.activity = activity;
         this.message = message;
         this.deleteMessageListener = new DeleteMessageListener(message, currentUserId);
         this.deleteMessageListener.setOnActionListener(onActionListener);
@@ -68,11 +72,12 @@ public class MessageCard extends Card
         TextView action = (TextView) view.findViewById(R.id.text_action);
         action.setText(message.getActionText());
 
+        ViewGroup layoutParentBox = (ViewGroup) view.findViewById(R.id.layout_parent_box);
         if (message.getParent() != null) {
-            ViewStub stub = (ViewStub) view.findViewById(R.id.layout_parent_box);
-            if (stub != null) {
-                updateMessageParent(stub);
-            }
+            updateMessageParent(view);
+            layoutParentBox.setVisibility(View.VISIBLE);
+        } else {
+            layoutParentBox.setVisibility(View.GONE);
         }
     }
 
@@ -88,14 +93,17 @@ public class MessageCard extends Card
         deleteImage.setVisibility(View.VISIBLE);
     }
 
-    private void updateMessageParent(ViewStub stub) {
-        MessageParent parent = message.getParent();
-        stub.setLayoutResource(R.layout.message_include_parent_box);
-        View view = stub.inflate();
-
-        TextView content = (TextView) view.findViewById(R.id.text_content);
+    private void updateMessageParent(View view) {
+        final MessageParent parent = message.getParent();
+        TextView content = (TextView) view.findViewById(R.id.text_parent_content);
         content.setText(parent.getContent());
-
-        view.setVisibility(View.VISIBLE);
+        content.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                final Intent intent = new Intent(activity, PartyDetailsActivity.class);
+                intent.putExtra(PartyDetailsActivity.INTENT_PARTY_ID, parent.getObjectId());
+                activity.startActivityForResult(intent, Constants.RequestCode.GET_PARTY_DETAILS_REQ_CODE);
+            }
+        });
     }
 }

@@ -54,13 +54,13 @@
             android:layout_alignParentRight="true"
             android:visibility="gone" />
 
-        <ViewStub
+        <include
             android:id="@+id/layout_parent_box"
+            layout="@layout/message_include_parent_box"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/margin_medium"
-            android:layout_below="@+id/text_content"
-            android:visibility="gone"/>
+            android:layout_below="@+id/text_content" />
 
     </RelativeLayout>
 

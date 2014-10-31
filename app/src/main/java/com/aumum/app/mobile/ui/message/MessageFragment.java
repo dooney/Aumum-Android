@@ -31,7 +31,7 @@ public class MessageFragment extends Fragment {
         partyMembershipText.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startMessageListActivity(Message.SubCategory.PARTY_MEMBERSHIP);
+                startMessageListActivity(Message.SubCategory.PARTY_MEMBERSHIP, R.string.label_party_join);
             }
         });
 
@@ -39,7 +39,7 @@ public class MessageFragment extends Fragment {
         partyCommentsText.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startMessageListActivity(Message.SubCategory.PARTY_COMMENTS);
+                startMessageListActivity(Message.SubCategory.PARTY_COMMENTS, R.string.label_party_comments);
             }
         });
 
@@ -47,13 +47,14 @@ public class MessageFragment extends Fragment {
         partyLikesText.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startMessageListActivity(Message.SubCategory.PARTY_LIKES);
+                startMessageListActivity(Message.SubCategory.PARTY_LIKES, R.string.label_party_likes);
             }
         });
     }
 
-    private void startMessageListActivity(int category) {
+    private void startMessageListActivity(int category, int title) {
         final Intent intent = new Intent(getActivity(), MessageListActivity.class);
+        intent.putExtra(MessageListActivity.INTENT_TITLE, title);
         intent.putExtra(MessageListActivity.INTENT_MESSAGE_TYPE, category);
         startActivity(intent);
     }

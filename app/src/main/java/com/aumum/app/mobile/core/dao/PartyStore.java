@@ -1,10 +1,6 @@
 package com.aumum.app.mobile.core.dao;
 
-import android.content.Context;
-
 import com.aumum.app.mobile.Injector;
-import com.aumum.app.mobile.core.infra.cache.DiskCache;
-import com.aumum.app.mobile.core.infra.security.ApiKeyProvider;
 import com.aumum.app.mobile.core.model.Party;
 import com.aumum.app.mobile.core.service.RestService;
 
@@ -23,20 +19,11 @@ import javax.inject.Inject;
 public class PartyStore {
     @Inject
     RestService restService;
-    @Inject
-    ApiKeyProvider apiKeyProvider;
-
-    private DiskCache diskCacheService;
 
     private int LIMIT_PER_LOAD = 15;
 
-    private String diskCacheKey;
-
-    public PartyStore(Context context) {
+    public PartyStore() {
         Injector.inject(this);
-        String userId = apiKeyProvider.getAuthUserId();
-        diskCacheKey = "Party_" + userId;
-        diskCacheService = DiskCache.getInstance(context, diskCacheKey);
     }
 
     public List<Party> getUpwardsList(String time) {
@@ -53,19 +40,6 @@ public class PartyStore {
     public List<Party> getBackwardsList(String time) {
         DateTime before = new DateTime(time, DateTimeZone.UTC);
         return restService.getPartiesBefore(before, LIMIT_PER_LOAD);
-    }
-
-    public void saveOfflineData(Object data) {
-        diskCacheService.save(diskCacheKey, data);
-    }
-
-    public List<Party> getOfflineList() {
-        List<Party> partyList = new ArrayList<Party>();
-        Object data = diskCacheService.get(diskCacheKey);
-        if (data != null) {
-            partyList = (List<Party>) data;
-        }
-        return partyList;
     }
 
     public void refresh(List<Party> partyList) {

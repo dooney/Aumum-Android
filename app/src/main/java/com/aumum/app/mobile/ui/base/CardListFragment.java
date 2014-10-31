@@ -28,7 +28,6 @@ public abstract class CardListFragment extends ItemListFragment<Card> {
     private final String REFRESH_MODE = "refreshMode";
     protected final int UPWARDS_REFRESH = 1;
     protected final int BACKWARDS_REFRESH = 2;
-    protected final int STATIC_REFRESH = 3;
     private boolean isLoading = false;
     private boolean loadMore = true;
 
@@ -86,15 +85,9 @@ public abstract class CardListFragment extends ItemListFragment<Card> {
     @Override
     protected List<Card> loadDataCore(final Bundle bundle) throws Exception {
         try {
-            int mode = STATIC_REFRESH;
+            int mode = UPWARDS_REFRESH;
             if (bundle != null) {
                 mode = bundle.getInt(REFRESH_MODE);
-            } else {
-                List<Card> data = loadCards(mode);
-                if (data.size() > 0) {
-                    return data;
-                }
-                mode = UPWARDS_REFRESH;
             }
             isLoading = true;
             return loadCards(mode);

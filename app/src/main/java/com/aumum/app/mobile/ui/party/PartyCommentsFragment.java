@@ -79,7 +79,7 @@ public class PartyCommentsFragment extends ItemListFragment<Comment>
         Injector.inject(this);
         partyCommentStore = new PartyCommentStore();
         userStore = UserStore.getInstance(null);
-        partyStore = new PartyStore(getActivity());
+        partyStore = new PartyStore();
         final Intent intent = getActivity().getIntent();
         partyId = intent.getStringExtra(PartyCommentsActivity.INTENT_PARTY_ID);
     }

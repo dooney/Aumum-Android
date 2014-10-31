@@ -55,7 +55,6 @@ public class MessageListFragment extends CardListFragment
         List<Message> messageList;
         currentUser = userStore.getCurrentUser(false);
         switch (mode) {
-            case STATIC_REFRESH:
             case UPWARDS_REFRESH:
                 messageList = getUpwardsList(currentUser);
                 break;

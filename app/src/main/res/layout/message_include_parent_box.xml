@@ -7,7 +7,7 @@
     android:background="@color/grey_light">
 
     <TextView
-        android:id="@+id/text_content"
+        android:id="@+id/text_parent_content"
         style="@style/TextView.MessageParent.Content" />
 
 </RelativeLayout>

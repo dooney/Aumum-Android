@@ -46,8 +46,7 @@ public class PartyCard extends Card implements PartyActionListener.OnProgressLis
     }
 
     public PartyCard(final Activity context, final Party party, String currentUserId,
-                     PartyActionListener.OnActionListener onActionListener,
-                     OnCardClickListener onCardClickListener) {
+                     PartyActionListener.OnActionListener onActionListener) {
         super(context, R.layout.party_listitem_inner);
         this.activity = context;
         this.party = party;
@@ -59,7 +58,12 @@ public class PartyCard extends Card implements PartyActionListener.OnProgressLis
         this.partyUserActionListener = new PartyUserActionListener(party);
         this.partyUserActionListener.setOnActionListener(onActionListener);
         this.partyUserActionListener.setOnProgressListener(this);
-        setOnClickListener(onCardClickListener);
+        setOnClickListener(new OnCardClickListener() {
+            @Override
+            public void onClick(Card card, View view) {
+                startPartyDetailsActivity();
+            }
+        });
 
         this.userStore = UserStore.getInstance(context);
     }
@@ -119,9 +123,7 @@ public class PartyCard extends Card implements PartyActionListener.OnProgressLis
                 @Override
                 public void onClick(View view) {
                     Animation.animateTextView(view);
-                    final Intent intent = new Intent(activity, PartyDetailsActivity.class);
-                    intent.putExtra(PartyDetailsActivity.INTENT_PARTY_ID, party.getObjectId());
-                    activity.startActivityForResult(intent, Constants.RequestCode.GET_PARTY_DETAILS_REQ_CODE);
+                    startPartyDetailsActivity();
                 }
             });
             joinText.update(party.isMember(currentUserId));
@@ -199,5 +201,11 @@ public class PartyCard extends Card implements PartyActionListener.OnProgressLis
                 Animation.fadeIn(layoutMembers, Animation.Duration.SHORT);
             }
         }
+    }
+
+    private void startPartyDetailsActivity() {
+        final Intent intent = new Intent(activity, PartyDetailsActivity.class);
+        intent.putExtra(PartyDetailsActivity.INTENT_PARTY_ID, party.getObjectId());
+        activity.startActivityForResult(intent, Constants.RequestCode.GET_PARTY_DETAILS_REQ_CODE);
     }
 }
