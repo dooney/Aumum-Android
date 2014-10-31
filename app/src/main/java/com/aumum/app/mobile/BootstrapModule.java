@@ -5,7 +5,7 @@ import android.content.Context;
 
 import com.aumum.app.mobile.core.dao.PartyReasonStore;
 import com.aumum.app.mobile.core.infra.security.ApiKeyProvider;
-import com.aumum.app.mobile.core.service.MessageListener;
+import com.aumum.app.mobile.core.service.MessageDeliveryService;
 import com.aumum.app.mobile.core.service.RestService;
 import com.aumum.app.mobile.ui.LaunchActivity;
 import com.aumum.app.mobile.ui.comment.DeleteCommentListener;
@@ -90,8 +90,8 @@ public class BootstrapModule {
 
     @Singleton
     @Provides
-    MessageListener provideMessageListener(RestService restService) {
-        return new MessageListener(restService);
+    MessageDeliveryService provideMessageListener(RestService restService) {
+        return new MessageDeliveryService(restService);
     }
 
     @Provides

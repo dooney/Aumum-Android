@@ -12,8 +12,6 @@ import com.parse.ParsePush;
  */
 public class NotificationUtils {
 
-    private static final String NOTIFICATION_TEXT = "您有新的消息";
-
     public static void init(Context context) {
         Parse.initialize(context, Constants.Http.PARSE_APP_ID, Constants.Http.PARSE_CLIENT_KEY);
         ParseInstallation.getCurrentInstallation().saveInBackground();
@@ -39,12 +37,12 @@ public class NotificationUtils {
         }
     }
 
-    public static void pushNotification(String channel) {
+    public static void pushNotification(String channel, String content) {
         if (channel != null) {
             try {
                 ParsePush push = new ParsePush();
                 push.setChannel(channel);
-                push.setMessage(NOTIFICATION_TEXT);
+                push.setMessage(content);
                 push.sendInBackground();
             } catch (Exception e) {
                 Ln.d(e);

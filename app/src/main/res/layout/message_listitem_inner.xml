@@ -13,7 +13,7 @@
         <com.aumum.app.mobile.ui.view.AvatarImageView
             xmlns:app="http://schemas.android.com/apk/res-auto"
             android:id="@+id/image_avatar"
-            style="@style/ImageView.Avatar"
+            style="@style/ImageView.Avatar.Small"
             android:layout_marginRight="@dimen/margin_large"
             android:src="@drawable/ic_avatar"
             app:border_color="@color/transparent"/>
@@ -30,10 +30,16 @@
             android:layout_alignLeft="@+id/text_user_name" />
 
         <TextView
-            android:id="@+id/text_body"
-            style="@style/TextView.Message.Body"
-            android:layout_below="@+id/text_createdAt"
-            android:layout_alignLeft="@+id/text_user_name" />
+            android:id="@+id/text_action"
+            style="@style/TextView.Message.Action"
+            android:layout_below="@+id/text_user_name"
+            android:layout_toRightOf="@+id/text_createdAt"
+            android:paddingLeft="@dimen/margin_medium" />
+
+        <TextView
+            android:id="@+id/text_content"
+            style="@style/TextView.Message.Content"
+            android:layout_below="@+id/image_avatar" />
 
         <ImageView
             android:id="@+id/image_delete"
@@ -47,6 +53,14 @@
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:visibility="gone" />
+
+        <ViewStub
+            android:id="@+id/layout_parent_box"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_medium"
+            android:layout_below="@+id/text_content"
+            android:visibility="gone"/>
 
     </RelativeLayout>
 

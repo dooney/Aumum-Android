@@ -31,7 +31,7 @@ public class MessageFragment extends Fragment {
         partyMembershipText.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startMessageListActivity(Message.Category.PARTY_MEMBERSHIP);
+                startMessageListActivity(Message.SubCategory.PARTY_MEMBERSHIP);
             }
         });
 
@@ -39,7 +39,7 @@ public class MessageFragment extends Fragment {
         partyCommentsText.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startMessageListActivity(Message.Category.PARTY_COMMENTS);
+                startMessageListActivity(Message.SubCategory.PARTY_COMMENTS);
             }
         });
 
@@ -47,7 +47,7 @@ public class MessageFragment extends Fragment {
         partyLikesText.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startMessageListActivity(Message.Category.PARTY_LIKES);
+                startMessageListActivity(Message.SubCategory.PARTY_LIKES);
             }
         });
     }

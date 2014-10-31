@@ -3,9 +3,9 @@ package com.aumum.app.mobile.ui.party;
 import com.aumum.app.mobile.Injector;
 import com.aumum.app.mobile.core.model.Message;
 import com.aumum.app.mobile.core.model.Party;
-import com.aumum.app.mobile.core.service.MessageListener;
+import com.aumum.app.mobile.core.model.helper.MessageBuilder;
+import com.aumum.app.mobile.core.service.MessageDeliveryService;
 import com.aumum.app.mobile.core.service.RestService;
-import com.aumum.app.mobile.events.MessageEvent;
 import com.aumum.app.mobile.utils.Ln;
 import com.aumum.app.mobile.utils.SafeAsyncTask;
 
@@ -22,7 +22,8 @@ public class PartyActionListener {
     private SafeAsyncTask<Boolean> task;
 
     @Inject RestService service;
-    @Inject MessageListener messageListener;
+    @Inject
+    MessageDeliveryService messageDeliveryService;
 
     protected OnActionListener onActionListener;
 
@@ -62,8 +63,9 @@ public class PartyActionListener {
                 for(String userId: party.getMembers()) {
                     service.removeUserParty(userId, party.getObjectId());
 
-                    messageListener.onMessageEvent(new MessageEvent(
-                            Message.Type.PARTY_DELETE, userId, party.getUserId()));
+                    Message message = MessageBuilder.buildPartyMessage(Message.Type.PARTY_DELETE,
+                            party.getUser(), userId, null, party);
+                    messageDeliveryService.send(message);
                 }
                 return true;
             }

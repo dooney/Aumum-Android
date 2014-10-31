@@ -20,13 +20,13 @@ import com.aumum.app.mobile.core.dao.PartyStore;
 import com.aumum.app.mobile.core.infra.security.ApiKeyProvider;
 import com.aumum.app.mobile.core.model.Message;
 import com.aumum.app.mobile.core.model.Party;
-import com.aumum.app.mobile.core.service.MessageListener;
+import com.aumum.app.mobile.core.model.helper.MessageBuilder;
+import com.aumum.app.mobile.core.service.MessageDeliveryService;
 import com.aumum.app.mobile.core.service.RestService;
 import com.aumum.app.mobile.core.model.Comment;
 import com.aumum.app.mobile.core.dao.PartyCommentStore;
 import com.aumum.app.mobile.core.model.User;
 import com.aumum.app.mobile.core.dao.UserStore;
-import com.aumum.app.mobile.events.MessageEvent;
 import com.aumum.app.mobile.ui.comment.CommentsAdapter;
 import com.aumum.app.mobile.ui.base.ItemListFragment;
 import com.aumum.app.mobile.ui.comment.DeleteCommentListener;
@@ -61,7 +61,8 @@ public class PartyCommentsFragment extends ItemListFragment<Comment>
     private Comment repliedComment;
 
     @Inject RestService service;
-    @Inject MessageListener messageListener;
+    @Inject
+    MessageDeliveryService messageDeliveryService;
     @Inject ApiKeyProvider apiKeyProvider;
 
     private QuickReturnListView quickReturnListView;
@@ -247,11 +248,13 @@ public class PartyCommentsFragment extends ItemListFragment<Comment>
                 comment.setCreatedAt(response.getCreatedAt());
                 service.addUserComment(currentUser.getObjectId(), comment.getObjectId());
 
-                messageListener.onMessageEvent(new MessageEvent(
-                        Message.Type.PARTY_COMMENT, party.getUserId(), currentUser.getObjectId()));
+                Message message = MessageBuilder.buildPartyMessage(Message.Type.PARTY_COMMENT,
+                        currentUser, party.getUserId(), comment.getContent(), party);
+                messageDeliveryService.send(message);
                 if (repliedComment != null) {
-                    messageListener.onMessageEvent(new MessageEvent(
-                            Message.Type.PARTY_REPLY, repliedComment.getUserId(), currentUser.getObjectId()));
+                    Message repliedMessage = MessageBuilder.buildPartyMessage(Message.Type.PARTY_REPLY,
+                            currentUser, repliedComment.getUserId(), repliedComment.getContent(), party);
+                    messageDeliveryService.send(repliedMessage);
                 }
                 return true;
             }

@@ -193,11 +193,16 @@
     </style>
 
     <!-- Message -->
-    <style name="TextView.Message.UserName" parent="TextView.UserName" />
+    <style name="TextView.Message.UserName" parent="TextView.UserName" >
+        <item name="android:textSize">@dimen/text_sz_medium</item>
+    </style>
     <style name="TextView.Message.CreatedAt" parent="TextView.Subtitle" >
         <item name="android:textSize">@dimen/text_sz_small</item>
     </style>
-    <style name="TextView.Message.Body" parent="TextView">
+    <style name="TextView.Message.Action" parent="TextView.Subtitle" >
+        <item name="android:textSize">@dimen/text_sz_small</item>
+    </style>
+    <style name="TextView.Message.Content" parent="TextView">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:textSize">@dimen/text_sz_medium</item>
@@ -206,6 +211,12 @@
         <item name="android:focusableInTouchMode">false</item>
         <item name="android:maxLines">2</item>
         <item name="android:ellipsize">end</item>
+    </style>
+    <style name="TextView.MessageParent.Content" parent="TextView">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColor">@color/text_link</item>
+        <item name="android:textSize">@dimen/text_sz_medium</item>
     </style>
     <style name="ButtonTextView.Message" parent="ButtonTextView">
         <item name="android:layout_width">match_parent</item>

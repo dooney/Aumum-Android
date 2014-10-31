@@ -17,11 +17,11 @@ import com.aumum.app.mobile.core.model.Message;
 import com.aumum.app.mobile.core.model.Party;
 import com.aumum.app.mobile.core.model.PartyReason;
 import com.aumum.app.mobile.core.model.User;
-import com.aumum.app.mobile.core.service.MessageListener;
+import com.aumum.app.mobile.core.model.helper.MessageBuilder;
+import com.aumum.app.mobile.core.service.MessageDeliveryService;
 import com.aumum.app.mobile.core.service.RestService;
 import com.aumum.app.mobile.events.AddPartyReasonEvent;
 import com.aumum.app.mobile.events.AddPartyReasonFinishedEvent;
-import com.aumum.app.mobile.events.MessageEvent;
 import com.aumum.app.mobile.ui.base.ItemListFragment;
 import com.aumum.app.mobile.utils.Ln;
 import com.aumum.app.mobile.utils.SafeAsyncTask;
@@ -41,7 +41,8 @@ import retrofit.RetrofitError;
 public class PartyReasonsFragment extends ItemListFragment<PartyReason> {
 
     @Inject RestService service;
-    @Inject MessageListener messageListener;
+    @Inject
+    MessageDeliveryService messageDeliveryService;
     @Inject Bus bus;
 
     private SafeAsyncTask<Boolean> task;
@@ -157,23 +158,27 @@ public class PartyReasonsFragment extends ItemListFragment<PartyReason> {
                 party.getReasons().add(response.getObjectId());
 
                 User currentUser = userStore.getCurrentUser(false);
+
                 if (reason.getType() == PartyReason.JOIN) {
                     service.addPartyMember(partyId, currentUser.getObjectId());
                     service.addUserParty(currentUser.getObjectId(), partyId);
                     currentUser.getParties().add(partyId);
                     party.getMembers().add(currentUser.getObjectId());
 
-                    messageListener.onMessageEvent(new MessageEvent(Message.Type.PARTY_JOIN,
-                            party.getUserId(), currentUser.getObjectId()));
+                    Message message = MessageBuilder.buildPartyMessage(Message.Type.PARTY_JOIN,
+                            currentUser, party.getUserId(), reason.getContent(), party);
+                    messageDeliveryService.send(message);
                 } else if (reason.getType() == PartyReason.QUIT) {
                     service.removePartyMember(partyId, currentUser.getObjectId());
                     service.removeUserParty(currentUser.getObjectId(), partyId);
                     currentUser.getParties().remove(partyId);
                     party.getMembers().remove(currentUser.getObjectId());
 
-                    messageListener.onMessageEvent(new MessageEvent(Message.Type.PARTY_QUIT,
-                            party.getUserId(), currentUser.getObjectId()));
+                    Message message = MessageBuilder.buildPartyMessage(Message.Type.PARTY_QUIT,
+                            currentUser, party.getUserId(), reason.getContent(), party);
+                    messageDeliveryService.send(message);
                 }
+
                 userStore.saveUser(currentUser);
                 return true;
             }

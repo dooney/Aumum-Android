@@ -32,7 +32,7 @@ public class MessageListFragment extends CardListFragment
 
     private MessageStore messageStore;
 
-    private int messageCategory;
+    private int subCategory;
 
     @Override
     public void onCreate(final Bundle savedInstanceState) {
@@ -40,7 +40,7 @@ public class MessageListFragment extends CardListFragment
         userStore = UserStore.getInstance(getActivity());
         messageStore = new MessageStore();
         final Intent intent = getActivity().getIntent();
-        messageCategory = intent.getIntExtra(MessageListActivity.INTENT_MESSAGE_TYPE, 0);
+        subCategory = intent.getIntExtra(MessageListActivity.INTENT_MESSAGE_TYPE, 0);
     }
 
     @Override
@@ -82,7 +82,7 @@ public class MessageListFragment extends CardListFragment
                 after = dataSet.get(0).getCreatedAt();
             }
             List<Message> messageList = messageStore.getUpwardsList(currentUser.getMessages(),
-                    Message.getTypesByCategory(messageCategory), after);
+                    Message.getSubCategoryTypes(subCategory), after);
             Collections.reverse(messageList);
             for (Message message : messageList) {
                 dataSet.add(0, message);
@@ -96,7 +96,7 @@ public class MessageListFragment extends CardListFragment
         if (dataSet.size() > 0) {
             Message last = dataSet.get(dataSet.size() - 1);
             List<Message> messageList = messageStore.getBackwardsList(currentUser.getMessages(),
-                    Message.getTypesByCategory(messageCategory), last.getCreatedAt());
+                    Message.getSubCategoryTypes(subCategory), last.getCreatedAt());
             dataSet.addAll(messageList);
             if (messageList.size() > 0) {
                 setLoadMore(true);

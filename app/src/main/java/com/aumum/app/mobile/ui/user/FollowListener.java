@@ -2,11 +2,11 @@ package com.aumum.app.mobile.ui.user;
 
 import com.aumum.app.mobile.Injector;
 import com.aumum.app.mobile.core.model.Message;
-import com.aumum.app.mobile.core.service.MessageListener;
+import com.aumum.app.mobile.core.model.helper.MessageBuilder;
+import com.aumum.app.mobile.core.service.MessageDeliveryService;
 import com.aumum.app.mobile.core.service.RestService;
 import com.aumum.app.mobile.core.model.User;
 import com.aumum.app.mobile.core.dao.UserStore;
-import com.aumum.app.mobile.events.MessageEvent;
 import com.aumum.app.mobile.ui.view.FollowTextView;
 import com.aumum.app.mobile.utils.Ln;
 import com.aumum.app.mobile.utils.SafeAsyncTask;
@@ -24,7 +24,8 @@ public class FollowListener implements FollowTextView.OnFollowListener {
     private String followedUserId;
 
     @Inject RestService service;
-    @Inject MessageListener messageListener;
+    @Inject
+    MessageDeliveryService messageDeliveryService;
 
     private UserStore userStore;
 
@@ -47,8 +48,9 @@ public class FollowListener implements FollowTextView.OnFollowListener {
                 userStore.saveUser(currentUser);
                 userStore.saveUser(followedUser);
 
-                messageListener.onMessageEvent(new MessageEvent(
-                        Message.Type.USER_FOLLOW, followedUserId, currentUser.getObjectId()));
+                Message message = MessageBuilder.buildUserMessage(Message.Type.USER_FOLLOW,
+                        currentUser, followedUserId);
+                messageDeliveryService.send(message);
 
                 return true;
             }

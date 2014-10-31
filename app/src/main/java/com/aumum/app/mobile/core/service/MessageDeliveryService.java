@@ -1,7 +1,6 @@
 package com.aumum.app.mobile.core.service;
 
 import com.aumum.app.mobile.core.model.Message;
-import com.aumum.app.mobile.events.MessageEvent;
 import com.aumum.app.mobile.utils.Ln;
 import com.aumum.app.mobile.utils.NotificationUtils;
 import com.aumum.app.mobile.utils.SafeAsyncTask;
@@ -11,35 +10,30 @@ import retrofit.RetrofitError;
 /**
  * Created by Administrator on 7/10/2014.
  */
-public class MessageListener {
+public class MessageDeliveryService {
     private RestService service;
 
     private SafeAsyncTask<Boolean> task;
 
-    public MessageListener(RestService restService) {
+    public MessageDeliveryService(RestService restService) {
         service = restService;
     }
 
-    private void process(final MessageEvent event) {
-        Message message = new Message();
-        message.setType(event.getType());
-        message.setFromUserId(event.getFromUserId());
-        message.setToUserId(event.getToUserId());
-        message = service.newMessage(message);
-        service.addUserMessage(event.getToUserId(), message.getObjectId());
-
-        NotificationUtils.pushNotification(event.getToUserId());
-    }
-
-    public void onMessageEvent(final MessageEvent event) {
+    public void send(final Message message) {
         if (task != null) {
             return;
         }
 
-        if (!event.getToUserId().equals(event.getFromUserId())) {
+        if (!message.getToUserId().equals(message.getFromUserId())) {
             task = new SafeAsyncTask<Boolean>() {
                 public Boolean call() throws Exception {
-                    process(event);
+                    String fromName = message.getFromUser().getScreenName();
+                    message.setFromUser(null);
+                    Message response = service.newMessage(message);
+                    service.addUserMessage(message.getToUserId(), response.getObjectId());
+
+                    String text = "您有一条来自 @" + fromName + " 的消息";
+                    NotificationUtils.pushNotification(message.getToUserId(), text);
                     return true;
                 }
 

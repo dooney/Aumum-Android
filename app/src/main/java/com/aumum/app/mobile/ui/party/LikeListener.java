@@ -2,12 +2,12 @@ package com.aumum.app.mobile.ui.party;
 
 import com.aumum.app.mobile.Injector;
 import com.aumum.app.mobile.core.model.Message;
-import com.aumum.app.mobile.core.service.MessageListener;
+import com.aumum.app.mobile.core.model.helper.MessageBuilder;
+import com.aumum.app.mobile.core.service.MessageDeliveryService;
 import com.aumum.app.mobile.core.service.RestService;
 import com.aumum.app.mobile.core.model.Party;
 import com.aumum.app.mobile.core.model.User;
 import com.aumum.app.mobile.core.dao.UserStore;
-import com.aumum.app.mobile.events.MessageEvent;
 import com.aumum.app.mobile.ui.view.LikeTextView;
 import com.aumum.app.mobile.utils.Ln;
 import com.aumum.app.mobile.utils.SafeAsyncTask;
@@ -25,7 +25,8 @@ public class LikeListener implements LikeTextView.OnLikeListener {
     private Party party;
 
     @Inject RestService service;
-    @Inject MessageListener messageListener;
+    @Inject
+    MessageDeliveryService messageDeliveryService;
 
     private UserStore userStore;
 
@@ -74,8 +75,9 @@ public class LikeListener implements LikeTextView.OnLikeListener {
                 party.getFans().add(currentUser.getObjectId());
                 userStore.saveUser(currentUser);
 
-                messageListener.onMessageEvent(new MessageEvent(
-                        Message.Type.PARTY_LIKE, party.getUserId(), currentUser.getObjectId()));
+                Message message = MessageBuilder.buildPartyMessage(Message.Type.PARTY_LIKE,
+                        currentUser, party.getUserId(), null, party);
+                messageDeliveryService.send(message);
 
                 return true;
             }

@@ -89,6 +89,12 @@ public abstract class CardListFragment extends ItemListFragment<Card> {
             int mode = STATIC_REFRESH;
             if (bundle != null) {
                 mode = bundle.getInt(REFRESH_MODE);
+            } else {
+                List<Card> data = loadCards(mode);
+                if (data.size() > 0) {
+                    return data;
+                }
+                mode = UPWARDS_REFRESH;
             }
             isLoading = true;
             return loadCards(mode);

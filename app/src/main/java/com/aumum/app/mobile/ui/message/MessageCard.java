@@ -3,12 +3,14 @@ package com.aumum.app.mobile.ui.message;
 import android.content.Context;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewStub;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.aumum.app.mobile.R;
 import com.aumum.app.mobile.core.model.Message;
+import com.aumum.app.mobile.core.model.MessageParent;
 import com.aumum.app.mobile.ui.user.UserListener;
 import com.aumum.app.mobile.ui.view.AvatarImageView;
 
@@ -52,11 +54,26 @@ public class MessageCard extends Card
         TextView userName = (TextView)view.findViewById(R.id.text_user_name);
         userName.setText(message.getFromUser().getScreenName());
 
-        TextView body = (TextView)view.findViewById(R.id.text_body);
-        body.setText(message.getBody());
+        TextView content = (TextView) view.findViewById(R.id.text_content);
+        if (message.getContent() != null) {
+            content.setText(message.getContent());
+            content.setVisibility(View.VISIBLE);
+        } else {
+            content.setVisibility(View.GONE);
+        }
 
         TextView createdAt = (TextView)view.findViewById(R.id.text_createdAt);
         createdAt.setText(message.getCreatedAtFormatted());
+
+        TextView action = (TextView) view.findViewById(R.id.text_action);
+        action.setText(message.getActionText());
+
+        if (message.getParent() != null) {
+            ViewStub stub = (ViewStub) view.findViewById(R.id.layout_parent_box);
+            if (stub != null) {
+                updateMessageParent(stub);
+            }
+        }
     }
 
     @Override
@@ -69,5 +86,16 @@ public class MessageCard extends Card
     public void onDeleteMessageFinish() {
         progressBar.setVisibility(View.GONE);
         deleteImage.setVisibility(View.VISIBLE);
+    }
+
+    private void updateMessageParent(ViewStub stub) {
+        MessageParent parent = message.getParent();
+        stub.setLayoutResource(R.layout.message_include_parent_box);
+        View view = stub.inflate();
+
+        TextView content = (TextView) view.findViewById(R.id.text_content);
+        content.setText(parent.getContent());
+
+        view.setVisibility(View.VISIBLE);
     }
 }
