@@ -1,7 +1,6 @@
 package com.aumum.app.mobile.ui.view;
 
 import android.content.Context;
-import android.graphics.Typeface;
 import android.util.AttributeSet;
 
 import com.aumum.app.mobile.R;
@@ -36,11 +35,9 @@ public class JoinTextView extends AnimateTextView {
     public void update(boolean isMember) {
         if (isMember) {
             setText(R.string.label_quit_party);
-            setTypeface(null, Typeface.NORMAL);
             setTextColor(context.getResources().getColor(R.color.text_warning));
         } else {
             setText(R.string.label_join);
-            setTypeface(null, Typeface.BOLD);
             setTextColor(context.getResources().getColor(R.color.text_link));
         }
         this.isMember = isMember;

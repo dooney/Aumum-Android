@@ -59,7 +59,6 @@ public class PartyDetailsFragment extends LoaderFragment<Party>
     private DropdownImageView dropdownImage;
     private ProgressBar progressBar;
     private AvatarImageView avatarImage;
-    private TextView areaText;
     private TextView userNameText;
     private TextView titleText;
     private TextView createdAtText;
@@ -119,7 +118,6 @@ public class PartyDetailsFragment extends LoaderFragment<Party>
         dropdownImage = (DropdownImageView) view.findViewById(R.id.image_dropdown);
         progressBar = (ProgressBar) view.findViewById(R.id.progress);
         avatarImage = (AvatarImageView) view.findViewById(R.id.image_avatar);
-        areaText = (TextView) view.findViewById(R.id.text_area);
         userNameText = (TextView) view.findViewById(R.id.text_user_name);
         titleText = (TextView) view.findViewById(R.id.text_title);
         createdAtText = (TextView) view.findViewById(R.id.text_createdAt);
@@ -225,7 +223,6 @@ public class PartyDetailsFragment extends LoaderFragment<Party>
                     dropdownImage.init(listener);
                 }
 
-                areaText.setText(Constants.Options.AREA_OPTIONS[party.getArea()]);
                 userNameText.setText(party.getUser().getScreenName());
                 userNameText.setOnClickListener(new UserListener(userNameText.getContext(), party.getUserId()));
                 titleText.setText(party.getTitle());

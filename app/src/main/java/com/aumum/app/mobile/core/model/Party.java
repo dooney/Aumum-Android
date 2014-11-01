@@ -13,7 +13,6 @@ public class Party extends AggregateRoot {
     protected int age;
     protected int gender;
     protected String title;
-    protected int area;
     protected String location;
     protected String details;
     protected User user;
@@ -73,14 +72,6 @@ public class Party extends AggregateRoot {
 
     public void setTitle(String title) {
         this.title = title;
-    }
-
-    public int getArea() {
-        return area;
-    }
-
-    public void setArea(int area) {
-        this.area = area;
     }
 
     public String getLocation() {

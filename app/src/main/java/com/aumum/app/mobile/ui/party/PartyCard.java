@@ -85,9 +85,6 @@ public class PartyCard extends Card implements PartyActionListener.OnProgressLis
 
         progressBar = (ProgressBar) view.findViewById(R.id.progress);
 
-        TextView areaText = (TextView) view.findViewById(R.id.text_area);
-        areaText.setText(Constants.Options.AREA_OPTIONS[party.getArea()]);
-
         TextView userNameText = (TextView) view.findViewById(R.id.text_user_name);
         userNameText.setText(party.getUser().getScreenName());
         userNameText.setOnClickListener(new UserListener(userNameText.getContext(), party.getUserId()));

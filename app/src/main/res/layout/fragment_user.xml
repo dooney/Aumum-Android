@@ -20,12 +20,10 @@
             android:paddingBottom="@dimen/margin_medium">
 
             <com.aumum.app.mobile.ui.view.AvatarImageView
-                xmlns:app="http://schemas.android.com/apk/res-auto"
                 android:id="@+id/image_avatar"
                 style="@style/ImageView.Avatar.Large"
                 android:layout_marginRight="@dimen/margin_large"
-                android:src="@drawable/ic_avatar"
-                app:border_color="@color/transparent" />
+                android:src="@drawable/ic_avatar" />
 
             <TextView
                 android:id="@+id/text_user_name"

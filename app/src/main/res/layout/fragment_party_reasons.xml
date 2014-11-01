@@ -14,7 +14,7 @@
         android:background="@color/card_background">
 
         <TextView
-            style="@style/ButtonTextView"
+            style="@style/TextView.Subtitle"
             android:padding="@dimen/margin_large"
             android:text="@string/label_join_details" />
 

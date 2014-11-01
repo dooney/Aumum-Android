@@ -11,30 +11,29 @@
         android:layout_height="wrap_content">
 
         <com.aumum.app.mobile.ui.view.AvatarImageView
-            xmlns:app="http://schemas.android.com/apk/res-auto"
             android:id="@+id/image_avatar"
-            style="@style/ImageView.Avatar.Small"
+            style="@style/ImageView.Avatar"
             android:layout_marginRight="@dimen/margin_large"
-            android:src="@drawable/ic_avatar"
-            app:border_color="@color/transparent"/>
+            android:src="@drawable/ic_avatar"/>
 
         <TextView
             android:id="@+id/text_user_name"
             style="@style/TextView.Message.UserName"
-            android:layout_toRightOf="@+id/image_avatar" />
+            android:layout_toRightOf="@+id/image_avatar"
+            android:layout_alignTop="@+id/image_avatar"/>
 
         <TextView
             android:id="@+id/text_createdAt"
             style="@style/TextView.Message.CreatedAt"
-            android:layout_below="@+id/text_user_name"
-            android:layout_alignLeft="@+id/text_user_name" />
+            android:layout_alignLeft="@+id/text_user_name"
+            android:layout_alignBottom="@+id/image_avatar"/>
 
         <TextView
             android:id="@+id/text_action"
             style="@style/TextView.Message.Action"
-            android:layout_below="@+id/text_user_name"
+            android:paddingLeft="@dimen/margin_medium"
             android:layout_toRightOf="@+id/text_createdAt"
-            android:paddingLeft="@dimen/margin_medium" />
+            android:layout_alignBottom="@+id/text_createdAt"/>
 
         <TextView
             android:id="@+id/text_content"

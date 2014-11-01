@@ -8,6 +8,7 @@ import android.text.format.DateFormat;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AutoCompleteTextView;
 import android.widget.EditText;
 import android.widget.ScrollView;
 import android.widget.TextView;
@@ -60,7 +61,7 @@ public class NewPartyActivity extends ActionBarActivity
     @InjectView(R.id.b_age) protected TextView ageButton;
     @InjectView(R.id.b_gender) protected TextView genderButton;
     @InjectView(R.id.et_title) protected EditText titleText;
-    @InjectView(R.id.et_location) protected EditText locationText;
+    @InjectView(R.id.et_location) protected AutoCompleteTextView locationText;
     @InjectView(R.id.et_details) protected EditText detailsText;
     protected MenuItem submitButton;
     private final ProgressDialog progress = ProgressDialog.newInstance(R.string.info_posting_party);
@@ -128,6 +129,8 @@ public class NewPartyActivity extends ActionBarActivity
                 });
             }
         });
+
+        locationText.setAdapter(new PlacesAutoCompleteAdapter(this, R.layout.place_autocomplete_listitem));
 
         Animation.flyIn(this);
     }
@@ -203,7 +206,6 @@ public class NewPartyActivity extends ActionBarActivity
                 }
                 User user = userStore.getCurrentUser(false);
                 party.setUserId(user.getObjectId());
-                party.setArea(user.getArea());
                 Party response = restService.newParty(party);
                 restService.addPartyMember(response.getObjectId(), user.getObjectId());
                 restService.addUserParty(user.getObjectId(), response.getObjectId());

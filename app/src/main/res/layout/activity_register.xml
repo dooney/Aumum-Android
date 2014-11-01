@@ -38,11 +38,9 @@
             style="@style/ButtonTextView.Account.Avatar" />
 
         <com.aumum.app.mobile.ui.view.AvatarImageView
-            xmlns:app="http://schemas.android.com/apk/res-auto"
             android:id="@+id/image_avatar"
             style="@style/ImageView.Avatar.Large"
             android:src="@drawable/ic_avatar"
-            app:border_color="@color/transparent"
             android:layout_toRightOf="@+id/t_avatar" />
 
     </RelativeLayout>

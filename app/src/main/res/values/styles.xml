@@ -56,16 +56,12 @@
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:textColor">@color/text_link</item>
-        <item name="android:textSize">@dimen/text_sz_medium</item>
         <item name="android:gravity">center</item>
     </style>
     <style name="ButtonTextView" parent="TextView">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
-        <item name="android:textColor">@color/text_light</item>
-        <item name="android:textSize">@dimen/text_sz_medium</item>
-        <item name="android:minWidth">40dp</item>
-        <item name="android:gravity">center</item>
+        <item name="android:gravity">center_vertical</item>
         <item name="android:paddingTop">@dimen/margin_small</item>
         <item name="android:paddingBottom">@dimen/margin_small</item>
         <item name="android:paddingRight">@dimen/margin_medium</item>
@@ -103,6 +99,7 @@
     <style name="TextView.UserName" parent="TextView">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColor">@color/text_link</item>
         <item name="android:textSize">@dimen/text_sz_large</item>
         <item name="android:maxLines">1</item>
         <item name="android:ellipsize">end</item>
@@ -111,17 +108,15 @@
     <!-- Party -->
     <style name="TextView.Party.UserName" parent="TextView.UserName" />
     <style name="TextView.Party.CreatedAt" parent="TextView.Subtitle" />
-    <style name="TextView.Party.Area" parent="TextView.Subtitle" />
     <style name="TextView.Party.Title" parent="TextView">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
-        <item name="android:textSize">@dimen/text_sz_extra_large</item>
+        <item name="android:textSize">@dimen/text_sz_large</item>
         <item name="android:maxLines">3</item>
     </style>
     <style name="TextView.Party.Details" parent="TextView">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
-        <item name="android:textSize">@dimen/text_sz_large</item>
         <item name="android:lineSpacingMultiplier">1.1</item>
         <item name="android:maxLines">4</item>
         <item name="android:ellipsize">end</item>
@@ -185,7 +180,6 @@
     <style name="TextView.PartyReason.Text" parent="TextView">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
-        <item name="android:textSize">@dimen/text_sz_medium</item>
         <item name="android:lineSpacingMultiplier">1.1</item>
         <item name="android:layout_marginTop">@dimen/margin_small</item>
         <item name="android:focusable">false</item>
@@ -193,19 +187,12 @@
     </style>
 
     <!-- Message -->
-    <style name="TextView.Message.UserName" parent="TextView.UserName" >
-        <item name="android:textSize">@dimen/text_sz_medium</item>
-    </style>
-    <style name="TextView.Message.CreatedAt" parent="TextView.Subtitle" >
-        <item name="android:textSize">@dimen/text_sz_small</item>
-    </style>
-    <style name="TextView.Message.Action" parent="TextView.Subtitle" >
-        <item name="android:textSize">@dimen/text_sz_small</item>
-    </style>
+    <style name="TextView.Message.UserName" parent="TextView.UserName" />
+    <style name="TextView.Message.CreatedAt" parent="TextView.Subtitle" />
+    <style name="TextView.Message.Action" parent="TextView.Subtitle" />
     <style name="TextView.Message.Content" parent="TextView">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
-        <item name="android:textSize">@dimen/text_sz_medium</item>
         <item name="android:layout_marginTop">@dimen/margin_small</item>
         <item name="android:focusable">false</item>
         <item name="android:focusableInTouchMode">false</item>
@@ -215,12 +202,10 @@
     <style name="TextView.MessageParent.Content" parent="TextView">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
-        <item name="android:textColor">@color/text_link</item>
-        <item name="android:textSize">@dimen/text_sz_medium</item>
+        <item name="android:textSize">@dimen/text_sz_large</item>
     </style>
     <style name="ButtonTextView.Message" parent="ButtonTextView">
         <item name="android:layout_width">match_parent</item>
-        <item name="android:textColor">@color/text_link</item>
         <item name="android:textSize">@dimen/text_sz_large</item>
         <item name="android:padding">@dimen/margin_large</item>
         <item name="android:gravity">center_vertical</item>
@@ -246,7 +231,6 @@
     <style name="TextView.Comment.Text" parent="TextView">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
-        <item name="android:textSize">@dimen/text_sz_medium</item>
         <item name="android:lineSpacingMultiplier">1.1</item>
         <item name="android:layout_marginTop">@dimen/margin_small</item>
         <item name="android:focusable">false</item>

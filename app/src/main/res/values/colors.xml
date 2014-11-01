@@ -53,6 +53,7 @@
     <color name="button_background_disabled_start">#7b7b7b</color>
     <color name="button_background_disabled_end">#646464</color>
     <color name="text_shadow">#000000</color>
+    <color name="box_background">#F4F4F4</color>
 
     <color name="background_selected">#1fb6ed</color>
     <color name="nav_button_text_light">#ffffff</color>
