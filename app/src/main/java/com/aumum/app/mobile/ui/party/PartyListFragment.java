@@ -2,13 +2,17 @@ package com.aumum.app.mobile.ui.party;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.widget.SearchViewCompat;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.SubMenu;
 import android.view.View;
+import android.view.WindowManager;
+import android.widget.PopupWindow;
 
 import com.aumum.app.mobile.R;
 import com.aumum.app.mobile.core.Constants;
@@ -62,14 +66,13 @@ public class PartyListFragment extends CardListFragment
     }
 
     @Override
-    public void onCreateOptionsMenu(final Menu optionsMenu, final MenuInflater inflater) {
-        View searchView = SearchViewCompat.newSearchView(getActivity());
-        SearchViewCompat.setQueryHint(searchView, getString(R.string.hint_search_party));
-        optionsMenu.add(Menu.NONE, 0, Menu.NONE, "Search")
-                .setIcon(R.drawable.ic_fa_search)
-                .setActionView(searchView)
-                .setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM | MenuItem.SHOW_AS_ACTION_COLLAPSE_ACTION_VIEW);
-        optionsMenu.add(Menu.NONE, 1, Menu.NONE, "NEW")
+    public void onCreateOptionsMenu(final Menu menu, final MenuInflater inflater) {
+        SubMenu search = menu.addSubMenu(Menu.NONE, 0, Menu.NONE, getString(R.string.hint_search_party));
+        MenuItem item = search.getItem();
+        item.setIcon(R.drawable.ic_fa_search);
+        item.setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
+
+        menu.add(Menu.NONE, 1, Menu.NONE, "NEW")
                 .setIcon(R.drawable.ic_fa_plus)
                 .setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
     }
@@ -79,9 +82,14 @@ public class PartyListFragment extends CardListFragment
         if (!isUsable()) {
             return false;
         }
-        if (item.getItemId() == 1) {
-            final Intent intent = new Intent(getActivity(), NewPartyActivity.class);
-            startActivityForResult(intent, Constants.RequestCode.NEW_PARTY_REQ_CODE);
+        switch (item.getItemId()) {
+            case 0:
+                showSearchPopupWindow(getActivity().findViewById(item.getItemId()));
+                break;
+            case 1:
+                final Intent intent = new Intent(getActivity(), NewPartyActivity.class);
+                startActivityForResult(intent, Constants.RequestCode.NEW_PARTY_REQ_CODE);
+                break;
         }
         return super.onOptionsItemSelected(item);
     }
@@ -168,6 +176,18 @@ public class PartyListFragment extends CardListFragment
             }
         }
         return cards;
+    }
+
+    private void showSearchPopupWindow(View menuItemView) {
+        PopupWindow popup = new PopupWindow(getActivity());
+        View layout = getActivity().getLayoutInflater().inflate(R.layout.popup_window_search_party, null);
+        popup.setContentView(layout);
+        popup.setHeight(WindowManager.LayoutParams.WRAP_CONTENT);
+        popup.setWidth(WindowManager.LayoutParams.WRAP_CONTENT);
+        popup.setOutsideTouchable(true);
+        popup.setFocusable(true);
+        popup.setBackgroundDrawable(new BitmapDrawable());
+        popup.showAsDropDown(menuItemView);
     }
 
     @Override

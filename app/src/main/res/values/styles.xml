@@ -361,5 +361,13 @@
         <item name="android:textSize">@dimen/text_sz_large</item>
     </style>
 
+    <style name="PopupWindow.Text" parent="TextView">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColor">@color/text</item>
+        <item name="android:textSize">@dimen/text_sz_large</item>
+        <item name="android:padding">@dimen/margin_large</item>
+    </style>
+
     <style name="ProgressBar" parent="@android:style/Widget.Holo.Light.ProgressBar" />
 </resources>
