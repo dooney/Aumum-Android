@@ -1,5 +1,6 @@
 package com.aumum.app.mobile.core.model;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -15,6 +16,7 @@ public class Party extends AggregateRoot {
     protected String title;
     protected String location;
     protected String details;
+    protected String distance;
     protected User user;
     protected List<String> members = new ArrayList<String>();
     protected List<String> fans = new ArrayList<String>();
@@ -96,6 +98,25 @@ public class Party extends AggregateRoot {
 
     public void setUser(User user) {
         this.user = user;
+    }
+
+    public String getDistance() {
+        return distance;
+    }
+
+    public void setDistance(double cLat, double cLong) {
+        double pLat = -37.810000;
+        double pLong = 144.950000;
+        double lat1 = (Math.PI/180)*cLat;
+        double lat2 = (Math.PI/180)*pLat;
+
+        double lon1 = (Math.PI/180)*cLong;
+        double lon2 = (Math.PI/180)*pLong;
+
+        double R = 6371;
+        double d =  Math.acos(Math.sin(lat1)*Math.sin(lat2)+Math.cos(lat1)*Math.cos(lat2)*Math.cos(lon2-lon1))*R;
+        DecimalFormat df = new DecimalFormat("#.#");
+        distance = String.valueOf(Double.parseDouble(df.format(d)));
     }
 
     public List<String> getMembers() {

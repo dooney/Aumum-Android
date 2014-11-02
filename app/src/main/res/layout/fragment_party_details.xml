@@ -29,47 +29,59 @@
                     android:padding="@dimen/margin_large"
                     android:visibility="gone" >
 
-                        <RelativeLayout
-                            android:layout_width="match_parent"
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:paddingBottom="@dimen/margin_medium">
+
+                        <com.aumum.app.mobile.ui.view.AvatarImageView
+                            android:id="@+id/image_avatar"
+                            style="@style/ImageView.Avatar"
+                            android:layout_marginRight="@dimen/margin_large"
+                            android:src="@drawable/ic_avatar"/>
+
+                        <TextView
+                            android:id="@+id/text_user_name"
+                            style="@style/TextView.Party.UserName"
+                            android:layout_toRightOf="@+id/image_avatar"
+                            android:layout_alignTop="@+id/image_avatar" />
+
+                        <com.aumum.app.mobile.ui.view.DropdownImageView
+                            android:id="@+id/image_dropdown"
+                            style="@style/ImageView.Dropdown"
+                            android:layout_alignParentRight="true" />
+
+                        <ProgressBar
+                            android:id="@+id/progress"
+                            style="@style/ProgressBar"
+                            android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:paddingBottom="@dimen/margin_medium">
+                            android:layout_alignParentRight="true"
+                            android:visibility="gone" />
 
-                            <com.aumum.app.mobile.ui.view.AvatarImageView
-                                android:id="@+id/image_avatar"
-                                style="@style/ImageView.Avatar"
-                                android:layout_marginRight="@dimen/margin_large"
-                                android:src="@drawable/ic_avatar"/>
+                        <TextView
+                            style="@style/TextView.Subtitle"
+                            android:id="@+id/text_createdAt"
+                            android:layout_alignLeft="@+id/text_user_name"
+                            android:layout_alignBottom="@+id/image_avatar"/>
 
-                            <TextView
-                                android:id="@+id/text_user_name"
-                                style="@style/TextView.Party.UserName"
-                                android:layout_toRightOf="@+id/image_avatar"
-                                android:layout_alignTop="@+id/image_avatar" />
+                    </RelativeLayout>
 
-                            <com.aumum.app.mobile.ui.view.DropdownImageView
-                                android:id="@+id/image_dropdown"
-                                style="@style/ImageView.Dropdown"
-                                android:layout_alignParentRight="true" />
-
-                            <ProgressBar
-                                android:id="@+id/progress"
-                                style="@style/ProgressBar"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_alignParentRight="true"
-                                android:visibility="gone" />
-
-                            <TextView
-                                style="@style/TextView.Subtitle"
-                                android:id="@+id/text_createdAt"
-                                android:layout_alignLeft="@+id/text_user_name"
-                                android:layout_alignBottom="@+id/image_avatar"/>
-
-                        </RelativeLayout>
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
 
                         <TextView
                             android:id="@+id/text_title"
                             style="@style/TextView.Party.Title" />
+
+                        <TextView
+                            android:id="@+id/text_distance"
+                            style="@style/TextView.Party.Distance"
+                            android:layout_toRightOf="@+id/text_title"
+                            android:layout_alignParentRight="true"/>
+
+                    </RelativeLayout>
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -80,86 +92,86 @@
                         android:layout_marginTop="@dimen/margin_medium"
                         android:layout_marginBottom="@dimen/margin_medium">
 
-                            <RelativeLayout
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content">
-
-                                <TextView
-                                    android:id="@+id/text_date"
-                                    style="@style/TextView.Date" />
-
-                                <TextView
-                                    android:id="@+id/text_time"
-                                    style="@style/TextView.Time"
-                                    android:layout_toRightOf="@+id/text_date"/>
-
-                            </RelativeLayout>
+                        <RelativeLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
 
                             <TextView
-                                android:id="@+id/text_location"
-                                style="@style/TextView.Location" />
+                                android:id="@+id/text_date"
+                                style="@style/TextView.Date" />
 
-                            <RelativeLayout
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:paddingBottom="@dimen/margin_small">
+                            <TextView
+                                android:id="@+id/text_time"
+                                style="@style/TextView.Time"
+                                android:layout_toRightOf="@+id/text_date"/>
 
-                                <TextView
-                                    android:id="@+id/text_age"
-                                    style="@style/TextView.Age" />
-
-                                <TextView
-                                    android:id="@+id/text_gender"
-                                    style="@style/TextView.Gender"
-                                    android:layout_toRightOf="@+id/text_age"/>
-
-                            </RelativeLayout>
-
-                        </LinearLayout>
+                        </RelativeLayout>
 
                         <TextView
-                            android:id="@+id/text_details"
-                            style="@style/TextView.Party.Details" />
-
-                        <View
-                            style="@style/Divider"
-                            android:layout_marginTop="@dimen/margin_medium"
-                            android:layout_marginBottom="@dimen/margin_medium" />
+                            android:id="@+id/text_location"
+                            style="@style/TextView.Location" />
 
                         <RelativeLayout
-                            android:id="@+id/layout_members"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:visibility="gone" >
+                            android:paddingBottom="@dimen/margin_small">
 
                             <TextView
-                                android:id="@+id/text_members_count"
-                                style="@style/TextView.Party.Members" />
+                                android:id="@+id/text_age"
+                                style="@style/TextView.Age" />
 
-                            <LinearLayout
-                                android:id="@+id/layout_members_avatars"
-                                style="@style/LinearLayout.Party.UserAvatars"
-                                android:layout_below="@+id/text_members_count" />
+                            <TextView
+                                android:id="@+id/text_gender"
+                                style="@style/TextView.Gender"
+                                android:layout_toRightOf="@+id/text_age"/>
 
                         </RelativeLayout>
 
-                        <RelativeLayout
-                            android:id="@+id/layout_likes"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:paddingTop="@dimen/margin_medium"
-                            android:visibility="gone" >
+                    </LinearLayout>
 
-                            <TextView
-                                android:id="@+id/text_likes_count"
-                                style="@style/TextView.Party.Likes" />
+                    <TextView
+                        android:id="@+id/text_details"
+                        style="@style/TextView.Party.Details" />
 
-                            <LinearLayout
-                                android:id="@+id/layout_liking_avatars"
-                                style="@style/LinearLayout.Party.UserAvatars"
-                                android:layout_below="@+id/text_likes_count" />
+                    <View
+                        style="@style/Divider"
+                        android:layout_marginTop="@dimen/margin_medium"
+                        android:layout_marginBottom="@dimen/margin_medium" />
 
-                        </RelativeLayout>
+                    <RelativeLayout
+                        android:id="@+id/layout_members"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:visibility="gone" >
+
+                        <TextView
+                            android:id="@+id/text_members_count"
+                            style="@style/TextView.Party.Members" />
+
+                        <LinearLayout
+                            android:id="@+id/layout_members_avatars"
+                            style="@style/LinearLayout.Party.UserAvatars"
+                            android:layout_below="@+id/text_members_count" />
+
+                    </RelativeLayout>
+
+                    <RelativeLayout
+                        android:id="@+id/layout_likes"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:paddingTop="@dimen/margin_medium"
+                        android:visibility="gone" >
+
+                        <TextView
+                            android:id="@+id/text_likes_count"
+                            style="@style/TextView.Party.Likes" />
+
+                        <LinearLayout
+                            android:id="@+id/layout_liking_avatars"
+                            style="@style/LinearLayout.Party.UserAvatars"
+                            android:layout_below="@+id/text_likes_count" />
+
+                    </RelativeLayout>
 
                 </LinearLayout>
 

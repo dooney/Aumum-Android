@@ -69,23 +69,18 @@
     </style>
     <style name="TextView.Date" parent="ButtonTextView">
         <item name="android:drawableLeft">@drawable/ic_fa_calendar</item>
-        <item name="android:text">@string/label_date</item>
     </style>
     <style name="TextView.Time" parent="ButtonTextView">
         <item name="android:drawableLeft">@drawable/ic_fa_clock_o</item>
-        <item name="android:text">@string/label_time</item>
     </style>
     <style name="TextView.Location" parent="ButtonTextView">
         <item name="android:drawableLeft">@drawable/ic_fa_map_marker</item>
-        <item name="android:text">@string/label_location</item>
     </style>
     <style name="TextView.Age" parent="ButtonTextView">
         <item name="android:drawableLeft">@drawable/ic_fa_child</item>
-        <item name="android:text">@string/label_age</item>
     </style>
     <style name="TextView.Gender" parent="ButtonTextView">
         <item name="android:drawableLeft">@drawable/ic_fa_gender</item>
-        <item name="android:text">@string/label_gender</item>
     </style>
     <style name="TextView.Comment" parent="ButtonTextView">
         <item name="android:drawableLeft">@drawable/ic_fa_comment_o</item>
@@ -114,6 +109,9 @@
         <item name="android:textSize">@dimen/text_sz_large</item>
         <item name="android:maxLines">3</item>
     </style>
+    <style name="TextView.Party.Distance" parent="TextView.Subtitle" >
+        <item name="android:gravity">right</item>
+    </style>
     <style name="TextView.Party.Details" parent="TextView">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
@@ -137,6 +135,7 @@
     <style name="ButtonTextView.NewParty">
         <item name="android:layout_width">match_parent</item>
         <item name="android:gravity">center_vertical</item>
+        <item name="android:textColor">@color/text_light</item>
         <item name="android:textSize">@dimen/text_sz_large</item>
         <item name="android:padding">@dimen/margin_large</item>
     </style>
@@ -158,10 +157,10 @@
     </style>
     <style name="EditText.NewParty.Location" parent="EditText">
         <item name="android:drawableLeft">@drawable/ic_fa_map_marker_l</item>
-        <item name="android:hint">@string/label_location</item>
+        <item name="android:hint">@string/hint_party_location</item>
     </style>
     <style name="EditText.NewParty.Title" parent="EditText">
-        <item name="android:hint">@string/label_title</item>
+        <item name="android:hint">@string/hint_party_title</item>
     </style>
     <style name="EditText.NewParty.Details" parent="EditText">
         <item name="android:background">@color/transparent</item>
@@ -239,12 +238,12 @@
 
     <!-- User -->
     <style name="TextView.User.UserName" parent="TextView.UserName" />
-    <style name="TextView.User.Follow" parent="ButtonTextView">
+    <style name="TextView.User.Follow" parent="Button.Primary">
         <item name="android:drawableLeft">@drawable/ic_fa_plus_circle</item>
         <item name="android:text">@string/label_follow</item>
         <item name="android:textSize">@dimen/text_sz_large</item>
     </style>
-    <style name="TextView.User.EditProfile" parent="ButtonTextView">
+    <style name="TextView.User.EditProfile" parent="Button.Primary">
         <item name="android:drawableLeft">@drawable/ic_fa_edit</item>
         <item name="android:text">@string/label_profile</item>
         <item name="android:textSize">@dimen/text_sz_large</item>

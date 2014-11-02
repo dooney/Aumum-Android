@@ -12,8 +12,8 @@ public class PartyReason extends AggregateRoot {
     public static final int JOIN = 0;
     public static final int QUIT = 1;
     public static final String ACTION_OPTIONS[] = {
-        "报名了该活动",
-        "退出了该活动"
+        "报名了该聚会",
+        "退出了该聚会"
     };
 
     public int getType() {

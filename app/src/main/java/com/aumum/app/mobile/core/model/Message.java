@@ -37,12 +37,12 @@ public class Message extends AggregateRoot {
     private static final String ACTION_OPTIONS[] = {
         "该消息已删除",
         "关注了您",
-        "报名了活动",
-        "退出了活动",
-        "支持了活动",
+        "报名了聚会",
+        "退出了聚会",
+        "支持了聚会",
         "发表了评论",
         "回复了评论",
-        "删除了活动"
+        "删除了聚会"
     };
 
     public String getFromUserId() {

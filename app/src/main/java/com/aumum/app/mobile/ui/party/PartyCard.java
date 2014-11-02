@@ -92,6 +92,9 @@ public class PartyCard extends Card implements PartyActionListener.OnProgressLis
         TextView titleText = (TextView) view.findViewById(R.id.text_title);
         titleText.setText(party.getTitle());
 
+        TextView distanceText = (TextView) view.findViewById(R.id.text_distance);
+        distanceText.setText(view.getResources().getString(R.string.label_distance, party.getDistance()));
+
         TextView createdAtText = (TextView) view.findViewById(R.id.text_createdAt);
         createdAtText.setText(party.getCreatedAtFormatted());
 

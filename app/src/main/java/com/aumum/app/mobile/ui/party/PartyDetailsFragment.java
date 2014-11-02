@@ -30,6 +30,7 @@ import com.aumum.app.mobile.ui.view.DropdownImageView;
 import com.aumum.app.mobile.ui.view.JoinTextView;
 import com.aumum.app.mobile.ui.view.QuickReturnScrollView;
 import com.aumum.app.mobile.utils.EditTextUtils;
+import com.aumum.app.mobile.utils.GPSTracker;
 import com.aumum.app.mobile.utils.Ln;
 import com.squareup.otto.Bus;
 import com.squareup.otto.Subscribe;
@@ -53,6 +54,7 @@ public class PartyDetailsFragment extends LoaderFragment<Party>
 
     private PartyStore partyStore;
     private UserStore userStore;
+    private GPSTracker gpsTracker;
 
     private QuickReturnScrollView scrollView;
     private View mainView;
@@ -61,6 +63,7 @@ public class PartyDetailsFragment extends LoaderFragment<Party>
     private AvatarImageView avatarImage;
     private TextView userNameText;
     private TextView titleText;
+    private TextView distanceText;
     private TextView createdAtText;
     private TextView dateText;
     private TextView timeText;
@@ -90,6 +93,10 @@ public class PartyDetailsFragment extends LoaderFragment<Party>
         final Intent intent = getActivity().getIntent();
         partyId = intent.getStringExtra(PartyDetailsActivity.INTENT_PARTY_ID);
         currentUserId = apiKeyProvider.getAuthUserId();
+        gpsTracker = new GPSTracker(getActivity());
+        if (!gpsTracker.canGetLocation()) {
+            gpsTracker.showSettingsAlert();
+        }
     }
 
     @Override
@@ -120,6 +127,7 @@ public class PartyDetailsFragment extends LoaderFragment<Party>
         avatarImage = (AvatarImageView) view.findViewById(R.id.image_avatar);
         userNameText = (TextView) view.findViewById(R.id.text_user_name);
         titleText = (TextView) view.findViewById(R.id.text_title);
+        distanceText = (TextView) view.findViewById(R.id.text_distance);
         createdAtText = (TextView) view.findViewById(R.id.text_createdAt);
         dateText = (TextView) view.findViewById(R.id.text_date);
         timeText = (TextView) view.findViewById(R.id.text_time);
@@ -199,6 +207,7 @@ public class PartyDetailsFragment extends LoaderFragment<Party>
             user = userStore.getUserById(party.getUserId(), false);
         }
         party.setUser(user);
+        party.setDistance(gpsTracker.getLatitude(), gpsTracker.getLongitude());
         return party;
     }
 
@@ -226,6 +235,7 @@ public class PartyDetailsFragment extends LoaderFragment<Party>
                 userNameText.setText(party.getUser().getScreenName());
                 userNameText.setOnClickListener(new UserListener(userNameText.getContext(), party.getUserId()));
                 titleText.setText(party.getTitle());
+                distanceText.setText(getString(R.string.label_distance, party.getDistance()));
                 createdAtText.setText(party.getCreatedAtFormatted());
                 dateText.setText(party.getDate().getDateText());
                 timeText.setText(party.getTime().getTimeText());

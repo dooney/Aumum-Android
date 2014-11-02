@@ -17,6 +17,7 @@ import com.aumum.app.mobile.core.model.Party;
 import com.aumum.app.mobile.core.model.User;
 import com.aumum.app.mobile.core.dao.UserStore;
 import com.aumum.app.mobile.ui.base.CardListFragment;
+import com.aumum.app.mobile.utils.GPSTracker;
 import com.aumum.app.mobile.utils.Ln;
 import com.github.kevinsawicki.wishlist.Toaster;
 
@@ -39,12 +40,18 @@ public class PartyListFragment extends CardListFragment
 
     private UserStore userStore;
 
+    private GPSTracker gpsTracker;
+
     @Override
     public void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
         userStore = UserStore.getInstance(getActivity());
         dataStore = new PartyStore();
+        gpsTracker = new GPSTracker(getActivity());
+        if (!gpsTracker.canGetLocation()) {
+            gpsTracker.showSettingsAlert();
+        }
     }
 
     @Override
@@ -115,6 +122,7 @@ public class PartyListFragment extends CardListFragment
             for (Party party : partyList) {
                 User user = userStore.getUserById(party.getUserId(), false);
                 party.setUser(user);
+                party.setDistance(gpsTracker.getLatitude(), gpsTracker.getLongitude());
             }
         }
         return buildCards();

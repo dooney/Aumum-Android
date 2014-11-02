@@ -4,45 +4,45 @@
     <string name="app_name">澳妈圈</string>
 
     <string-array name="pages_array">
-        <item>宝妈活动</item>
+        <item>宝妈聚会</item>
         <item>消息中心</item>
         <item>用户信息</item>
     </string-array>
 
     <string name="menu_logout">注销</string>
-    <string name="no_parties">暂时没有活动</string>
+    <string name="no_parties">暂时没有聚会</string>
     <string name="no_messages">暂时没有消息</string>
 
     <!-- Info Message -->
     <string name="info_authenticating">正在验证您的账号信息，请稍候…</string>
     <string name="info_processing_registration">正在处理您的注册信息，请稍候…</string>
     <string name="info_submitting_password_reset">正在提交您的重置密码请求，请稍候…</string>
-    <string name="info_posting_party">正在发布您的活动，请稍候…</string>
+    <string name="info_posting_party">正在发布您的聚会，请稍候…</string>
     <string name="info_loading_image">正在加载图片，请稍候…</string>
     <string name="info_uploading_profile_image">正在上传头像图片，请稍候…</string>
-    <string name="info_party_deleted">该活动已成功删除</string>
+    <string name="info_party_deleted">该聚会已成功删除</string>
     <string name="info_comment_deleted">该评论已成功删除</string>
     <string name="info_message_deleted">该消息已成功删除</string>
     <string name="info_click_back_again">再按一次返回桌面</string>
     <string name="info_all_loaded">已达最后一项</string>
 
     <!-- Error Message -->
-    <string name="error_load_parties">获取活动列表失败</string>
+    <string name="error_load_parties">获取聚会列表失败</string>
     <string name="error_load_messages">获取消息列表失败</string>
-    <string name="error_load_party_comments">获取活动评论失败</string>
+    <string name="error_load_party_comments">获取聚会评论失败</string>
     <string name="error_load_user">获取用户信息失败</string>
-    <string name="error_load_party">获取活动信息失败</string>
+    <string name="error_load_party">获取聚会信息失败</string>
     <string name="error_upload_profile_image">上传头像图片失败</string>
     <string name="error_bad_credentials">您的账号验证失败，请重新输入正确的用户名/密码</string>
     <string name="error_authentication">您的账号验证失败</string>
     <string name="error_authentication_email_not_verified">您的邮箱地址还未验证，请验证后重新登录</string>
     <string name="error_reset_password">您的密码重置失败</string>
-    <string name="error_post_new_party">发布新活动失败</string>
-    <string name="error_validate_party">验证活动信息失败，请重新填写</string>
-    <string name="error_delete_party">删除活动失败</string>
+    <string name="error_post_new_party">发布新聚会失败</string>
+    <string name="error_validate_party">验证聚会信息失败，请重新填写</string>
+    <string name="error_delete_party">删除聚会失败</string>
     <string name="error_delete_comment">删除评论失败</string>
     <string name="error_delete_message">删除消息失败</string>
-    <string name="error_load_join_details">获取活动报名信息失败</string>
+    <string name="error_load_join_details">获取聚会报名信息失败</string>
 
     <!-- Register -->
     <string name="hint_screen_name">用户名</string>
@@ -68,7 +68,7 @@
     <string name="title_activity_reset_password">重置密码</string>
     <string name="title_activity_reset_password_success">重置密码成功</string>
     <string name="title_activity_user">用户</string>
-    <string name="title_activity_party_comments">活动评论</string>
+    <string name="title_activity_party_comments">聚会评论</string>
 
     <!-- User Profile -->
     <string name="label_profile">个人资料</string>
@@ -88,44 +88,49 @@
     <string name="hint_reply_comment">回复@%1$s：%2$s</string>
 
     <!-- Party -->
-    <string name="hint_search_party">搜索活动</string>
+    <string name="hint_search_party">搜索聚会</string>
     <string name="hint_join_reason">一句话介绍自己的情况，或报名理由</string>
     <string name="hint_quit_reason">顺便说下取消理由吧</string>
-    <string name="title_activity_party_details">活动详情</string>
-    <string name="invalid_party">无法获取该活动信息</string>
-    <string name="label_you_join_the_party">你报名了该活动</string>
-    <string name="label_you_and_others_join_the_party">你和其他%,d人报名了该活动</string>
-    <string name="label_others_join_the_party">%,d人报名了该活动</string>
-    <string name="label_you_like_the_party">你支持了该活动</string>
-    <string name="label_you_and_others_like_the_party">你和其他%,d人支持了该活动</string>
-    <string name="label_others_like_the_party">%,d人支持了该活动</string>
+    <string name="title_activity_party_details">聚会详情</string>
+    <string name="invalid_party">无法获取该聚会信息</string>
+    <string name="label_you_join_the_party">你报名了该聚会</string>
+    <string name="label_you_and_others_join_the_party">你和其他%,d人报名了该聚会</string>
+    <string name="label_others_join_the_party">%,d人报名了该聚会</string>
+    <string name="label_you_like_the_party">你支持了该聚会</string>
+    <string name="label_you_and_others_like_the_party">你和其他%,d人支持了该聚会</string>
+    <string name="label_others_like_the_party">%,d人支持了该聚会</string>
     <string name="label_join">我要报名</string>
     <string name="label_quit_party">取消报名</string>
     <string name="label_comment">评论</string>
     <string name="label_like">支持</string>
     <string name="label_createdAt">创建时间</string>
     <string name="label_join_details">报名动态</string>
+    <string name="label_distance">%1$skm</string>
 
     <!-- New Party -->
-    <string name="title_activity_new_party">新宝妈活动</string>
+    <string name="title_activity_new_party">新宝妈聚会</string>
     <string name="label_submit_new_party">发布</string>
     <string name="label_unlimited">不限</string>
-    <string name="label_title">活动标题</string>
-    <string name="label_location">活动地点</string>
-    <string name="label_date">活动日期</string>
+    <string name="hint_party_title">给聚会起个标题吧</string>
+    <string name="hint_party_location">聚会地点具体地址</string>
+    <string name="label_date">聚会日期</string>
     <string name="label_time">具体时间</string>
     <string name="label_age">要求小孩年龄</string>
     <string name="label_gender">要求小孩性别</string>
-    <string name="hint_party_details">活动内容（不超过140字）</string>
+    <string name="hint_party_details">聚会内容（不超过140字）</string>
 
     <!-- User Messages -->
-    <string name="label_party_join">活动报名</string>
-    <string name="label_party_comments">活动评论</string>
-    <string name="label_party_likes">活动支持</string>
+    <string name="label_party_join">聚会报名</string>
+    <string name="label_party_comments">聚会评论</string>
+    <string name="label_party_likes">聚会支持</string>
 
     <!-- Widgets -->
     <string name="pull_to_refresh_pull_label">下拉刷新…</string>
     <string name="pull_to_refresh_release_label">放开以刷新…</string>
     <string name="pull_to_refresh_refreshing_label">正在载入…</string>
+    <string name="GPSAlertDialogTitle">GPS设置</string>
+    <string name="GPSAlertDialogMessage">GPS未开启，点击确定去设置菜单开启该功能。</string>
+    <string name="ok">确定</string>
+    <string name="cancel">取消</string>
 
 </resources>
