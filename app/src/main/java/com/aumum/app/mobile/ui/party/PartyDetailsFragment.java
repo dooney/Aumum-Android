@@ -239,7 +239,7 @@ public class PartyDetailsFragment extends LoaderFragment<Party>
                 createdAtText.setText(party.getCreatedAtFormatted());
                 dateText.setText(party.getDate().getDateText());
                 timeText.setText(party.getTime().getTimeText());
-                locationText.setText(party.getLocation());
+                locationText.setText(party.getPlace().getLocation());
                 ageText.setText(Constants.Options.AGE_OPTIONS[party.getAge()]);
                 genderText.setText(Constants.Options.GENDER_OPTIONS[party.getGender()]);
                 detailsText.setText(party.getDetails());

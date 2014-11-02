@@ -14,7 +14,7 @@ public class Party extends AggregateRoot {
     protected int age;
     protected int gender;
     protected String title;
-    protected String location;
+    protected Place place;
     protected String details;
     protected String distance;
     protected User user;
@@ -26,6 +26,7 @@ public class Party extends AggregateRoot {
     public Party() {
         date = new Date();
         time = new Time();
+        place = new Place();
     }
 
     public String getUserId() {
@@ -76,12 +77,12 @@ public class Party extends AggregateRoot {
         this.title = title;
     }
 
-    public String getLocation() {
-        return location;
+    public Place getPlace() {
+        return place;
     }
 
-    public void setLocation(String location) {
-        this.location = location;
+    public void setPlace(Place place) {
+        this.place = place;
     }
 
     public String getDetails() {
@@ -105,8 +106,8 @@ public class Party extends AggregateRoot {
     }
 
     public void setDistance(double cLat, double cLong) {
-        double pLat = -37.810000;
-        double pLong = 144.950000;
+        double pLat = place.getLatitude();
+        double pLong = place.getLongitude();
         double lat1 = (Math.PI/180)*cLat;
         double lat2 = (Math.PI/180)*pLat;
 
@@ -134,7 +135,7 @@ public class Party extends AggregateRoot {
     }
 
     public boolean validate() {
-        return date != null && time != null && !title.isEmpty() && !location.isEmpty() && !details.isEmpty();
+        return date != null && time != null && !title.isEmpty() && place != null && !details.isEmpty();
     }
 
     public boolean isOwner(String userId) {

@@ -105,7 +105,7 @@ public class PartyCard extends Card implements PartyActionListener.OnProgressLis
         timeText.setText(party.getTime().getTimeText());
 
         TextView locationText = (TextView) view.findViewById(R.id.text_location);
-        locationText.setText(party.getLocation());
+        locationText.setText(party.getPlace().getLocation());
 
         TextView ageText = (TextView) view.findViewById(R.id.text_age);
         ageText.setText(Constants.Options.AGE_OPTIONS[party.getAge()]);

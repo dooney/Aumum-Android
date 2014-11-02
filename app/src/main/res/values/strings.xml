@@ -39,6 +39,7 @@
     <string name="error_reset_password">您的密码重置失败</string>
     <string name="error_post_new_party">发布新聚会失败</string>
     <string name="error_validate_party">验证聚会信息失败，请重新填写</string>
+    <string name="error_validate_party_location">验证聚会地点失败：%1$s 不是一个有效的Google地图地址</string>
     <string name="error_delete_party">删除聚会失败</string>
     <string name="error_delete_comment">删除评论失败</string>
     <string name="error_delete_message">删除消息失败</string>

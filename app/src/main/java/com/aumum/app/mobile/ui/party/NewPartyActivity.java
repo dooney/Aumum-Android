@@ -19,12 +19,14 @@ import com.aumum.app.mobile.core.Constants;
 import com.aumum.app.mobile.core.dao.UserStore;
 import com.aumum.app.mobile.core.model.Date;
 import com.aumum.app.mobile.core.model.Party;
+import com.aumum.app.mobile.core.model.Place;
 import com.aumum.app.mobile.core.model.Time;
 import com.aumum.app.mobile.core.model.User;
 import com.aumum.app.mobile.core.service.RestService;
 import com.aumum.app.mobile.ui.view.Animation;
 import com.aumum.app.mobile.ui.view.ProgressDialog;
 import com.aumum.app.mobile.utils.DialogUtils;
+import com.aumum.app.mobile.utils.GooglePlaceUtils;
 import com.aumum.app.mobile.utils.SafeAsyncTask;
 import com.doomonafireball.betterpickers.calendardatepicker.CalendarDatePickerDialog;
 import com.doomonafireball.betterpickers.radialtimepicker.RadialPickerLayout;
@@ -194,8 +196,9 @@ public class NewPartyActivity extends ActionBarActivity
         party.setAge(age);
         party.setGender(gender);
         party.setTitle(titleText.getText().toString());
-        party.setLocation(locationText.getText().toString());
         party.setDetails(detailsText.getText().toString());
+        final Place place = new Place(locationText.getText().toString());
+        party.setPlace(place);
 
         showProgress();
 
@@ -203,6 +206,9 @@ public class NewPartyActivity extends ActionBarActivity
             public Boolean call() throws Exception {
                 if (!party.validate()) {
                     throw new Exception(getString(R.string.error_validate_party));
+                }
+                if (!GooglePlaceUtils.setPlaceLatLong(party.getPlace())) {
+                    throw new Exception(getString(R.string.error_validate_party_location, party.getPlace().getLocation()));
                 }
                 User user = userStore.getCurrentUser(false);
                 party.setUserId(user.getObjectId());
