@@ -29,6 +29,7 @@ import com.aumum.app.mobile.utils.Ln;
 import com.aumum.app.mobile.utils.ReceiveUriScaledBitmapTask;
 import com.aumum.app.mobile.utils.SafeAsyncTask;
 import com.github.kevinsawicki.wishlist.Toaster;
+import com.greenhalolabs.emailautocompletetextview.EmailAutoCompleteTextView;
 import com.soundcloud.android.crop.Crop;
 
 import java.io.File;
@@ -48,7 +49,7 @@ public class RegisterActivity extends ActionBarActivity
     @Inject
     RestService restService;
 
-    @InjectView(R.id.et_email) protected EditText emailText;
+    @InjectView(R.id.et_email) protected EmailAutoCompleteTextView emailText;
     @InjectView(R.id.et_password) protected EditText passwordText;
     @InjectView(R.id.et_screen_name) protected EditText screenNameText;
     @InjectView(R.id.b_area) protected TextView areaButton;

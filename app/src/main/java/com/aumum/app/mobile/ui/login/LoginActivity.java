@@ -39,6 +39,7 @@ import com.aumum.app.mobile.ui.view.Animation;
 import com.aumum.app.mobile.ui.view.ProgressDialog;
 import com.aumum.app.mobile.utils.SafeAsyncTask;
 import com.github.kevinsawicki.wishlist.Toaster;
+import com.greenhalolabs.emailautocompletetextview.EmailAutoCompleteTextView;
 import com.squareup.otto.Bus;
 import com.squareup.otto.Subscribe;
 
@@ -60,7 +61,7 @@ public class LoginActivity extends ActionBarActivity {
     RestService restService;
     @Inject Bus bus;
 
-    @InjectView(id.et_username) protected EditText usernameText;
+    @InjectView(id.et_username) protected EmailAutoCompleteTextView usernameText;
     @InjectView(id.et_password) protected EditText passwordText;
     @InjectView(id.b_sign_in) protected Button signInButton;
     @InjectView(id.t_forgot_password) protected TextView forgotPasswordText;
