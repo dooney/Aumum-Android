@@ -1,6 +1,9 @@
 package com.aumum.app.mobile.core.model;
 
+import com.aumum.app.mobile.core.Constants;
+
 import org.joda.time.DateTime;
+import org.joda.time.DateTimeZone;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
@@ -25,6 +28,8 @@ public class Party extends AggregateRoot {
     protected List<String> comments = new ArrayList<String>();
     protected List<String> reasons = new ArrayList<String>();
 
+    private static final double NEARBY_THRESHOLD = 10.0;
+
     public Party() {
         date = new Date();
         time = new Time();
@@ -43,16 +48,18 @@ public class Party extends AggregateRoot {
         return date;
     }
 
-    public void setDate(Date date) {
-        this.date = date;
-    }
-
     public Time getTime() {
         return time;
     }
 
-    public void setTime(Time time) {
+    public void setDateTime(Date date, Time time) {
+        this.date = date;
         this.time = time;
+    }
+
+    public String getDateTime() {
+        DateTime dt = new DateTime(date.getYear(), date.getMonth(), date.getDay(), time.getHour(), time.getMinute());
+        return dt.toDateTime(DateTimeZone.UTC).toString(Constants.DateTime.FORMAT);
     }
 
     public int getAge() {
@@ -119,7 +126,7 @@ public class Party extends AggregateRoot {
         double R = 6371;
         double d =  Math.acos(Math.sin(lat1)*Math.sin(lat2)+Math.cos(lat1)*Math.cos(lat2)*Math.cos(lon2-lon1))*R;
         DecimalFormat df = new DecimalFormat("#.#");
-        distance = String.valueOf(Double.parseDouble(df.format(d)));
+        distance = df.format(d);
     }
 
     public List<String> getMembers() {
@@ -176,6 +183,16 @@ public class Party extends AggregateRoot {
         DateTime dt = new DateTime(date.getYear(), date.getMonth(), date.getDay(), time.getHour(), time.getMinute());
         if (dt.isBeforeNow()) {
             return true;
+        }
+        return false;
+    }
+
+    public boolean isNearby() {
+        if (distance != null) {
+            double dt = Double.parseDouble(distance);
+            if (dt <= NEARBY_THRESHOLD) {
+                return true;
+            }
         }
         return false;
     }

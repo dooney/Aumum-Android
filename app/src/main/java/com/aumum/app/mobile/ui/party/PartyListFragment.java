@@ -36,7 +36,8 @@ import it.gmariotti.cardslib.library.internal.Card;
  *
  */
 public class PartyListFragment extends CardListFragment
-        implements PartyActionListener.OnActionListener {
+        implements PartyActionListener.OnActionListener,
+                   PartyDetailsListener {
 
     private List<Party> dataSet = new ArrayList<Party>();
 
@@ -99,11 +100,9 @@ public class PartyListFragment extends CardListFragment
         if (requestCode == Constants.RequestCode.NEW_PARTY_REQ_CODE && resultCode == Activity.RESULT_OK) {
             doRefresh(UPWARDS_REFRESH);
         } else if (requestCode == Constants.RequestCode.GET_PARTY_DETAILS_REQ_CODE && resultCode == Activity.RESULT_OK) {
-            if (data != null && data.getBooleanExtra(PartyDetailsActivity.INTENT_PARTY_DELETED, false)) {
-                String partyId = data.getStringExtra(PartyDetailsActivity.INTENT_PARTY_ID);
-                if (partyId != null) {
-                    onPartyDeletedSuccess(partyId);
-                }
+            String partyId = data.getStringExtra(PartyDetailsActivity.INTENT_PARTY_ID);
+            if (partyId != null) {
+                onPartyDeletedSuccess(partyId);
             }
         }
     }
@@ -174,7 +173,7 @@ public class PartyListFragment extends CardListFragment
         if (dataSet.size() > 0) {
             User user = userStore.getCurrentUser(false);
             for (Party party : dataSet) {
-                Card card = new PartyCard(getActivity(), party, user.getObjectId(), this);
+                Card card = new PartyCard(getActivity(), party, user.getObjectId(), this, this);
                 cards.add(card);
             }
         }
@@ -225,18 +224,23 @@ public class PartyListFragment extends CardListFragment
                             getListAdapter().notifyDataSetChanged();
                         }
                     });
-                    Toaster.showShort(getActivity(), R.string.info_party_deleted);
                     return;
                 }
             }
         } catch (Exception e) {
             Ln.d(e);
         }
-        Toaster.showLong(getActivity(), R.string.error_delete_party);
     }
 
     @Override
     public void onPartySharedSuccess() {
 
+    }
+
+    @Override
+    public void onPartyDetails(String partyId) {
+        final Intent intent = new Intent(getActivity(), PartyDetailsActivity.class);
+        intent.putExtra(PartyDetailsActivity.INTENT_PARTY_ID, partyId);
+        startActivityForResult(intent, Constants.RequestCode.GET_PARTY_DETAILS_REQ_CODE);
     }
 }

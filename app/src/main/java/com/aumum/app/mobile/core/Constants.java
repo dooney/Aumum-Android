@@ -128,6 +128,10 @@ public final class Constants {
         }
     }
 
+    public static final class DateTime {
+        public static final String FORMAT = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'";
+    }
+
     public static final class Options {
         private Options() {
         }

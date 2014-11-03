@@ -1,6 +1,9 @@
 package com.aumum.app.mobile.ui.party;
 
+import android.app.Activity;
+
 import com.aumum.app.mobile.Injector;
+import com.aumum.app.mobile.R;
 import com.aumum.app.mobile.core.model.Message;
 import com.aumum.app.mobile.core.model.Party;
 import com.aumum.app.mobile.core.model.helper.MessageBuilder;
@@ -8,6 +11,7 @@ import com.aumum.app.mobile.core.service.MessageDeliveryService;
 import com.aumum.app.mobile.core.service.RestService;
 import com.aumum.app.mobile.utils.Ln;
 import com.aumum.app.mobile.utils.SafeAsyncTask;
+import com.github.kevinsawicki.wishlist.Toaster;
 
 import javax.inject.Inject;
 
@@ -17,6 +21,7 @@ import retrofit.RetrofitError;
  * Created by Administrator on 21/10/2014.
  */
 public class PartyActionListener {
+    private Activity activity;
     private Party party;
 
     private SafeAsyncTask<Boolean> task;
@@ -47,7 +52,8 @@ public class PartyActionListener {
         public void onPartyActionFinish();
     }
 
-    public PartyActionListener(Party party) {
+    public PartyActionListener(Activity activity, Party party) {
+        this.activity = activity;
         this.party = party;
         Injector.inject(this);
     }
@@ -77,6 +83,7 @@ public class PartyActionListener {
                     if(cause != null) {
                         Ln.e(e.getCause(), cause.getMessage());
                     }
+                    Toaster.showShort(activity, R.string.error_delete_party);
                 }
             }
 
@@ -84,6 +91,7 @@ public class PartyActionListener {
             public void onSuccess(final Boolean success) {
                 if (onActionListener != null) {
                     onActionListener.onPartyDeletedSuccess(party.getObjectId());
+                    Toaster.showShort(activity, R.string.info_party_deleted);
                 }
             }
 

@@ -223,12 +223,12 @@ public class PartyDetailsFragment extends LoaderFragment<Party>
                 avatarImage.setOnClickListener(new UserListener(avatarImage.getContext(), party.getUserId()));
 
                 if (party.isOwner(currentUserId)) {
-                    PartyOwnerActionListener listener = new PartyOwnerActionListener(party);
+                    PartyOwnerActionListener listener = new PartyOwnerActionListener(getActivity(), party);
                     listener.setOnActionListener(this);
                     listener.setOnProgressListener(this);
                     dropdownImage.init(listener);
                 } else {
-                    PartyUserActionListener listener = new PartyUserActionListener(party);
+                    PartyUserActionListener listener = new PartyUserActionListener(getActivity(), party);
                     listener.setOnActionListener(this);
                     listener.setOnProgressListener(this);
                     dropdownImage.init(listener);
@@ -339,7 +339,6 @@ public class PartyDetailsFragment extends LoaderFragment<Party>
     @Override
     public void onPartyDeletedSuccess(String partyId) {
         final Intent intent = new Intent();
-        intent.putExtra(PartyDetailsActivity.INTENT_PARTY_DELETED, true);
         intent.putExtra(PartyDetailsActivity.INTENT_PARTY_ID, partyId);
         getActivity().setResult(Activity.RESULT_OK, intent);
         getActivity().finish();

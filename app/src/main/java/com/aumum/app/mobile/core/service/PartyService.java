@@ -23,7 +23,7 @@ public interface PartyService {
                               @Query("limit") int limit);
 
     @POST(Constants.Http.URL_PARTIES_FRAG)
-    Party newParty(@Body Party data);
+    Party newParty(@Body JsonObject data);
 
     @PUT(Constants.Http.URL_PARTY_BY_ID_FRAG)
     JsonObject updateById(@Path("id") String id, @Body JsonObject data);

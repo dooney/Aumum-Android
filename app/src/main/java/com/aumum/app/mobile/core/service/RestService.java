@@ -7,6 +7,7 @@ import com.aumum.app.mobile.core.model.Message;
 import com.aumum.app.mobile.core.model.Party;
 import com.aumum.app.mobile.core.model.PartyReason;
 import com.aumum.app.mobile.core.model.User;
+import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonPrimitive;
@@ -87,7 +88,13 @@ public class RestService {
     }
 
     public Party newParty(Party party) {
-        return getPartyService().newParty(party);
+        Gson gson = new Gson();
+        JsonObject data = gson.toJsonTree(party).getAsJsonObject();
+        final JsonObject dtJson = new JsonObject();
+        dtJson.addProperty("__type", "Date");
+        dtJson.addProperty("iso", party.getDateTime());
+        data.add("dateTime", dtJson);
+        return getPartyService().newParty(data);
     }
 
     public Party getPartyById(String id) {
@@ -99,7 +106,7 @@ public class RestService {
         if (after != null) {
             final JsonObject timeJson = new JsonObject();
             timeJson.addProperty("__type", "Date");
-            timeJson.addProperty("iso", after.toString("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'"));
+            timeJson.addProperty("iso", after.toString(Constants.DateTime.FORMAT));
             final JsonObject gtJson = new JsonObject();
             gtJson.add("$gt", timeJson);
             whereJson.add("createdAt", gtJson);
@@ -114,11 +121,11 @@ public class RestService {
     public List<Party> getPartiesBefore(DateTime before, int limit) {
         final JsonObject timeJson = new JsonObject();
         timeJson.addProperty("__type", "Date");
-        timeJson.addProperty("iso", before.toString("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'"));
-        final JsonObject gtJson = new JsonObject();
-        gtJson.add("$lt", timeJson);
+        timeJson.addProperty("iso", before.toString(Constants.DateTime.FORMAT));
+        final JsonObject ltJson = new JsonObject();
+        ltJson.add("$lt", timeJson);
         final JsonObject whereJson = new JsonObject();
-        whereJson.add("createdAt", gtJson);
+        whereJson.add("createdAt", ltJson);
         final JsonObject liveJson = new JsonObject();
         liveJson.addProperty("$exists", false);
         whereJson.add("deletedAt" ,liveJson);
@@ -216,7 +223,7 @@ public class RestService {
         if (after != null) {
             final JsonObject timeJson = new JsonObject();
             timeJson.addProperty("__type", "Date");
-            timeJson.addProperty("iso", after.toString("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'"));
+            timeJson.addProperty("iso", after.toString(Constants.DateTime.FORMAT));
             final JsonObject gtJson = new JsonObject();
             gtJson.add("$gt", timeJson);
             whereJson.add("createdAt", gtJson);
@@ -243,10 +250,10 @@ public class RestService {
         whereJson.add("type", typeInJson);
         final JsonObject timeJson = new JsonObject();
         timeJson.addProperty("__type", "Date");
-        timeJson.addProperty("iso", before.toString("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'"));
-        final JsonObject gtJson = new JsonObject();
-        gtJson.add("$lt", timeJson);
-        whereJson.add("createdAt", gtJson);
+        timeJson.addProperty("iso", before.toString(Constants.DateTime.FORMAT));
+        final JsonObject ltJson = new JsonObject();
+        ltJson.add("$lt", timeJson);
+        whereJson.add("createdAt", ltJson);
         String where = whereJson.toString();
         return getMessageService().getMessages("-createdAt", where, limit).getResults();
     }
@@ -403,7 +410,7 @@ public class RestService {
     public JsonObject deleteParty(String partyId) {
         final JsonObject data = new JsonObject();
         DateTime now = DateTime.now(DateTimeZone.UTC);
-        data.addProperty("deletedAt", now.toString("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'"));
+        data.addProperty("deletedAt", now.toString(Constants.DateTime.FORMAT));
         return getPartyService().updateById(partyId, data);
     }
 
@@ -431,14 +438,14 @@ public class RestService {
     public JsonObject deletePartyComment(String commentId) {
         final JsonObject data = new JsonObject();
         DateTime now = DateTime.now(DateTimeZone.UTC);
-        data.addProperty("deletedAt", now.toString("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'"));
+        data.addProperty("deletedAt", now.toString(Constants.DateTime.FORMAT));
         return getPartyCommentService().updateById(commentId, data);
     }
 
     public JsonObject deleteMessage(String messageId) {
         final JsonObject data = new JsonObject();
         DateTime now = DateTime.now(DateTimeZone.UTC);
-        data.addProperty("deletedAt", now.toString("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'"));
+        data.addProperty("deletedAt", now.toString(Constants.DateTime.FORMAT));
         return getMessageService().updateById(messageId, data);
     }
 
@@ -477,5 +484,21 @@ public class RestService {
             return getPartyReasonService().getPartyReasons("-createdAt", where).getResults();
         }
         return null;
+    }
+
+    public List<Party> getLiveParties() {
+        DateTime now = DateTime.now(DateTimeZone.UTC);
+        final JsonObject timeJson = new JsonObject();
+        timeJson.addProperty("__type", "Date");
+        timeJson.addProperty("iso", now.toString(Constants.DateTime.FORMAT));
+        final JsonObject gtJson = new JsonObject();
+        gtJson.add("$gt", timeJson);
+        final JsonObject whereJson = new JsonObject();
+        whereJson.add("dateTime", gtJson);
+        final JsonObject liveJson = new JsonObject();
+        liveJson.addProperty("$exists", false);
+        whereJson.add("deletedAt" ,liveJson);
+        String where = whereJson.toString();
+        return getPartyService().getAll("dateTime", where, Integer.MAX_VALUE).getResults();
     }
 }

@@ -9,7 +9,6 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.aumum.app.mobile.R;
-import com.aumum.app.mobile.core.Constants;
 import com.aumum.app.mobile.core.model.Message;
 import com.aumum.app.mobile.core.model.MessageParent;
 import com.aumum.app.mobile.ui.party.PartyDetailsActivity;
@@ -102,7 +101,7 @@ public class MessageCard extends Card
             public void onClick(View view) {
                 final Intent intent = new Intent(activity, PartyDetailsActivity.class);
                 intent.putExtra(PartyDetailsActivity.INTENT_PARTY_ID, parent.getObjectId());
-                activity.startActivityForResult(intent, Constants.RequestCode.GET_PARTY_DETAILS_REQ_CODE);
+                activity.startActivity(intent);
             }
         });
     }

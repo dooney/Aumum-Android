@@ -72,4 +72,8 @@ public class PartyStore {
     public Party getPartyById(String partyId) {
         return restService.getPartyById(partyId);
     }
+
+    public List<Party> getLiveList() {
+        return restService.getLiveParties();
+    }
 }

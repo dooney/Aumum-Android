@@ -191,8 +191,7 @@ public class NewPartyActivity extends ActionBarActivity
         }
 
         final Party party = new Party();
-        party.setDate(date);
-        party.setTime(time);
+        party.setDateTime(date, time);
         party.setAge(age);
         party.setGender(gender);
         party.setTitle(titleText.getText().toString());
