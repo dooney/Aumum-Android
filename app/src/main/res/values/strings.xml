@@ -100,6 +100,7 @@
     <string name="label_you_like_the_party">你支持了该聚会</string>
     <string name="label_you_and_others_like_the_party">你和其他%,d人支持了该聚会</string>
     <string name="label_others_like_the_party">%,d人支持了该聚会</string>
+    <string name="label_expired">已过期</string>
     <string name="label_join">我要报名</string>
     <string name="label_quit_party">取消报名</string>
     <string name="label_comment">评论</string>

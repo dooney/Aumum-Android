@@ -127,6 +127,11 @@
     <style name="TextView.Party.Likes" parent="TextView.Subtitle">
         <item name="android:drawableLeft">@drawable/ic_fa_thumbs_up_s</item>
     </style>
+    <style name="TextView.Party.Expired" parent="ButtonTextView">
+        <item name="android:paddingTop">@dimen/margin_medium</item>
+        <item name="android:text">@string/label_expired</item>
+        <item name="android:textColor">@color/bbutton_danger</item>
+    </style>
     <style name="PopupWindow.Party.SearchNearby" parent="PopupWindow.Text">
         <item name="android:drawableLeft">@drawable/ic_fa_map_marker_lw</item>
         <item name="android:text">@string/label_search_nearby</item>

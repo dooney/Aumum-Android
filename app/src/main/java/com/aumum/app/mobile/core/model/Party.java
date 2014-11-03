@@ -1,5 +1,7 @@
 package com.aumum.app.mobile.core.model;
 
+import org.joda.time.DateTime;
+
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
@@ -168,5 +170,13 @@ public class Party extends AggregateRoot {
             return fans.size();
         }
         return 0;
+    }
+
+    public boolean isExpired() {
+        DateTime dt = new DateTime(date.getYear(), date.getMonth(), date.getDay(), time.getHour(), time.getMinute());
+        if (dt.isBeforeNow()) {
+            return true;
+        }
+        return false;
     }
 }

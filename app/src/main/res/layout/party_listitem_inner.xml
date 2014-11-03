@@ -144,6 +144,11 @@
                 style="@style/ButtonTextView"
                 android:paddingTop="@dimen/margin_medium"/>
 
+            <TextView
+                android:id="@+id/text_expired"
+                style="@style/TextView.Party.Expired"
+                android:visibility="gone"/>
+
         </LinearLayout>
 
         <LinearLayout

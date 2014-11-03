@@ -38,7 +38,7 @@ public class Time implements Serializable {
         int h = hour;
         if (h < 5) {
             prefix = "凌晨";
-        } else if (h < 12) {
+        } else if (h <= 12) {
             prefix = "上午";
         } else if (h < 19) {
             h -= 12;

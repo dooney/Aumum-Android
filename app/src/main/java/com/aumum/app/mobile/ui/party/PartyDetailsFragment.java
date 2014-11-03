@@ -80,6 +80,7 @@ public class PartyDetailsFragment extends LoaderFragment<Party>
     private boolean showAction;
     private ViewGroup layoutJoinBox;
     private JoinTextView joinText;
+    private TextView expiredText;
     private EditText editReason;
     private ImageView postReasonButton;
     private boolean isJoinBoxShow;
@@ -150,6 +151,7 @@ public class PartyDetailsFragment extends LoaderFragment<Party>
                 toggleJoinBox();
             }
         });
+        expiredText = (TextView) view.findViewById(R.id.text_expired);
         editReason = (EditText) view.findViewById(R.id.edit_reason);
         postReasonButton = (ImageView) view.findViewById(R.id.image_post_reason);
         postReasonButton.setOnClickListener(new View.OnClickListener() {
@@ -249,7 +251,14 @@ public class PartyDetailsFragment extends LoaderFragment<Party>
                 } else {
                     showAction = true;
                     layoutAction.setVisibility(View.VISIBLE);
-                    joinText.update(party.isMember(currentUserId));
+                    if (party.isExpired()) {
+                        joinText.setVisibility(View.GONE);
+                        expiredText.setVisibility(View.VISIBLE);
+                    } else {
+                        expiredText.setVisibility(View.GONE);
+                        joinText.setVisibility(View.VISIBLE);
+                        joinText.update(party.isMember(currentUserId));
+                    }
                 }
 
                 updateMembersLayout(party.getMembers());

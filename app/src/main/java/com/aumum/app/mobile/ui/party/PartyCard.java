@@ -119,14 +119,22 @@ public class PartyCard extends Card implements PartyActionListener.OnProgressLis
         } else {
             joinLayout.setVisibility(View.VISIBLE);
             JoinTextView joinText = (JoinTextView) view.findViewById(R.id.text_join);
-            joinText.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    Animation.animateTextView(view);
-                    startPartyDetailsActivity();
-                }
-            });
-            joinText.update(party.isMember(currentUserId));
+            TextView expiredText = (TextView) view.findViewById(R.id.text_expired);
+            if (party.isExpired()) {
+                joinText.setVisibility(View.GONE);
+                expiredText.setVisibility(View.VISIBLE);
+            } else {
+                expiredText.setVisibility(View.GONE);
+                joinText.setVisibility(View.VISIBLE);
+                joinText.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        Animation.animateTextView(view);
+                        startPartyDetailsActivity();
+                    }
+                });
+                joinText.update(party.isMember(currentUserId));
+            }
         }
 
         TextView commentText = (TextView) view.findViewById(R.id.text_comment);

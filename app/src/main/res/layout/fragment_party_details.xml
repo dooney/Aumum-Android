@@ -223,6 +223,11 @@
                 android:id="@+id/text_join"
                 style="@style/ButtonTextView" />
 
+            <TextView
+                android:id="@+id/text_expired"
+                style="@style/TextView.Party.Expired"
+                android:visibility="gone"/>
+
         </LinearLayout>
 
     </RelativeLayout>
