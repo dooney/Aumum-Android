@@ -4,14 +4,16 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@color/bbutton_danger">
+    android:background="@drawable/popup_window_background">
 
     <TextView
-        style="@style/PopupWindow.Text"
-        android:text="@string/label_search_by_current_location" />
+        android:id="@+id/text_search_nearby"
+        style="@style/PopupWindow.Party.SearchNearby" />
+
+    <View style="@style/Divider" />
 
     <TextView
-        style="@style/PopupWindow.Text"
-        android:text="@string/label_search_by_address" />
+        android:id="@+id/text_search_address"
+        style="@style/PopupWindow.Party.SearchAddress" />
 
 </LinearLayout>

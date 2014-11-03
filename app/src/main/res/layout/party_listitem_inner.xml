@@ -58,7 +58,6 @@
         <TextView
             android:id="@+id/text_distance"
             style="@style/TextView.Party.Distance"
-            android:layout_toRightOf="@+id/text_title"
             android:layout_alignParentRight="true"/>
 
     </RelativeLayout>

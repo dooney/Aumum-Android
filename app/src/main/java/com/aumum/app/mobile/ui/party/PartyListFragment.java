@@ -3,7 +3,6 @@ package com.aumum.app.mobile.ui.party;
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.Menu;
@@ -13,6 +12,7 @@ import android.view.SubMenu;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.PopupWindow;
+import android.widget.TextView;
 
 import com.aumum.app.mobile.R;
 import com.aumum.app.mobile.core.Constants;
@@ -130,8 +130,11 @@ public class PartyListFragment extends CardListFragment
             for (Party party : partyList) {
                 User user = userStore.getUserById(party.getUserId(), false);
                 party.setUser(user);
-                party.setDistance(gpsTracker.getLatitude(), gpsTracker.getLongitude());
             }
+        }
+        gpsTracker.getLocation();
+        for (Party party: dataSet) {
+            party.setDistance(gpsTracker.getLatitude(), gpsTracker.getLongitude());
         }
         return buildCards();
     }
@@ -187,7 +190,24 @@ public class PartyListFragment extends CardListFragment
         popup.setOutsideTouchable(true);
         popup.setFocusable(true);
         popup.setBackgroundDrawable(new BitmapDrawable());
-        popup.showAsDropDown(menuItemView);
+        popup.showAsDropDown(menuItemView, -menuItemView.getWidth() / 2, 0);
+
+        TextView textSearchNearby = (TextView) layout.findViewById(R.id.text_search_nearby);
+        textSearchNearby.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                final Intent intent = new Intent(getActivity(), SearchPartyActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        TextView textSearchAddress = (TextView) layout.findViewById(R.id.text_search_address);
+        textSearchAddress.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+            }
+        });
     }
 
     @Override
