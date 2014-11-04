@@ -10,6 +10,7 @@ import android.support.v4.app.FragmentPagerAdapter;
 
 import com.aumum.app.mobile.R;
 import com.aumum.app.mobile.ui.message.MessageFragment;
+import com.aumum.app.mobile.ui.moment.MomentsFragment;
 import com.aumum.app.mobile.ui.party.PartyListFragment;
 import com.aumum.app.mobile.ui.user.UserFragment;
 
@@ -21,8 +22,9 @@ public class BootstrapPagerAdapter extends FragmentPagerAdapter {
     private String pages[];
 
     public static final int PAGE_PARTY = 0;
-    public static final int PAGE_MESSAGE = 1;
-    public static final int PAGE_PROFILE = 2;
+    public static final int PAGE_MOMENT = 1;
+    public static final int PAGE_MESSAGE = 2;
+    public static final int PAGE_PROFILE = 3;
 
     /**
      * Create pager adapter
@@ -46,6 +48,9 @@ public class BootstrapPagerAdapter extends FragmentPagerAdapter {
         switch (position) {
             case PAGE_PARTY:
                 result = new PartyListFragment();
+                break;
+            case PAGE_MOMENT:
+                result = new MomentsFragment();
                 break;
             case PAGE_MESSAGE:
                 result = new MessageFragment();

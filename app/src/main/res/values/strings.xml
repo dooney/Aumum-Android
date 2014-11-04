@@ -4,9 +4,10 @@
     <string name="app_name">澳妈圈</string>
 
     <string-array name="pages_array">
-        <item>宝妈聚会</item>
-        <item>消息中心</item>
-        <item>用户信息</item>
+        <item>聚会</item>
+        <item>瞬间</item>
+        <item>消息</item>
+        <item>个人</item>
     </string-array>
 
     <string name="menu_logout">注销</string>
@@ -24,7 +25,7 @@
     <string name="info_comment_deleted">该评论已成功删除</string>
     <string name="info_message_deleted">该消息已成功删除</string>
     <string name="info_click_back_again">再按一次返回桌面</string>
-    <string name="info_all_loaded">已达最后一项</string>
+    <string name="info_all_loaded">所有信息已加载</string>
 
     <!-- Error Message -->
     <string name="error_load_parties">获取聚会列表失败</string>
@@ -112,7 +113,7 @@
     <string name="label_search_address">搜索地址</string>
 
     <!-- New Party -->
-    <string name="title_activity_new_party">新宝妈聚会</string>
+    <string name="title_activity_new_party">新聚会</string>
     <string name="label_submit_new_party">发布</string>
     <string name="label_unlimited">不限</string>
     <string name="hint_party_title">给聚会起个标题吧</string>
