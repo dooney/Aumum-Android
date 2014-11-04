@@ -12,6 +12,7 @@ import com.aumum.app.mobile.R;
 import com.aumum.app.mobile.ui.message.MessageFragment;
 import com.aumum.app.mobile.ui.moment.MomentsFragment;
 import com.aumum.app.mobile.ui.party.PartyListFragment;
+import com.aumum.app.mobile.ui.post.PostsFragment;
 import com.aumum.app.mobile.ui.user.UserFragment;
 
 /**
@@ -23,8 +24,9 @@ public class BootstrapPagerAdapter extends FragmentPagerAdapter {
 
     public static final int PAGE_PARTY = 0;
     public static final int PAGE_MOMENT = 1;
-    public static final int PAGE_MESSAGE = 2;
-    public static final int PAGE_PROFILE = 3;
+    public static final int PAGE_POST = 2;
+    public static final int PAGE_MESSAGE = 3;
+    public static final int PAGE_PROFILE = 4;
 
     /**
      * Create pager adapter
@@ -51,6 +53,9 @@ public class BootstrapPagerAdapter extends FragmentPagerAdapter {
                 break;
             case PAGE_MOMENT:
                 result = new MomentsFragment();
+                break;
+            case PAGE_POST:
+                result = new PostsFragment();
                 break;
             case PAGE_MESSAGE:
                 result = new MessageFragment();

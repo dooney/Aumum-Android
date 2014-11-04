@@ -6,6 +6,7 @@
     <string-array name="pages_array">
         <item>聚会</item>
         <item>瞬间</item>
+        <item>话题</item>
         <item>消息</item>
         <item>个人</item>
     </string-array>
