@@ -6,6 +6,7 @@ import android.app.Application;
 import android.app.Instrumentation;
 import android.content.Context;
 
+import com.aumum.app.mobile.utils.ImageLoaderUtils;
 import com.aumum.app.mobile.utils.NotificationUtils;
 
 /**
@@ -41,6 +42,7 @@ public class BootstrapApplication extends Application {
         Injector.init(getRootModule(), this);
 
         NotificationUtils.init(this);
+        ImageLoaderUtils.init(this);
     }
 
     private Object getRootModule() {
