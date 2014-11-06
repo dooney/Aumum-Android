@@ -5,7 +5,7 @@
 
     <string-array name="pages_array">
         <item>聚会</item>
-        <item>瞬间</item>
+        <item>签到</item>
         <item>话题</item>
         <item>消息</item>
         <item>个人</item>
@@ -46,6 +46,7 @@
     <string name="error_delete_comment">删除评论失败</string>
     <string name="error_delete_message">删除消息失败</string>
     <string name="error_load_join_details">获取聚会报名信息失败</string>
+    <string name="error_load_moments">获取签到列表失败</string>
 
     <!-- Register -->
     <string name="hint_screen_name">用户名</string>
@@ -132,6 +133,12 @@
     <string name="label_party_join">聚会报名</string>
     <string name="label_party_comments">聚会评论</string>
     <string name="label_party_likes">聚会支持</string>
+
+    <!-- Moments -->
+    <string name="title_activity_new_moment">新签到</string>
+
+    <!-- Image List -->
+    <string name="title_activity_image_list">ImageListActivity</string>
 
     <!-- Widgets -->
     <string name="pull_to_refresh_pull_label">下拉刷新…</string>

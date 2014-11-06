@@ -174,6 +174,7 @@ public final class Constants {
         public static final int NEW_PARTY_REQ_CODE = 30;
         public static final int GET_PARTY_DETAILS_REQ_CODE = 31;
         public static final int PROFILE_IMAGE_REQ_CODE = 32;
+        public static final int NEW_MOMENT_REQ_CODE = 33;
     }
 }
 
