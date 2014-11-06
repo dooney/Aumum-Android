@@ -375,6 +375,7 @@
     </style>
 
     <style name="MenuItemTextAppearance">
+        <item name="android:textColor">@color/text</item>
         <item name="android:textSize">@dimen/text_sz_large</item>
     </style>
 

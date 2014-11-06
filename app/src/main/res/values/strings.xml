@@ -114,6 +114,7 @@
     <string name="label_distance">%1$skm</string>
     <string name="label_search_nearby">搜索附近</string>
     <string name="label_search_address">搜索地址</string>
+    <string name="title_activity_parties">我的聚会</string>
 
     <!-- New Party -->
     <string name="title_activity_new_party">新聚会</string>

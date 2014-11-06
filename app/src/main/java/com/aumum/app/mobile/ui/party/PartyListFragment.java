@@ -39,13 +39,13 @@ public class PartyListFragment extends CardListFragment
         implements PartyActionListener.OnActionListener,
                    PartyDetailsListener {
 
-    private List<Party> dataSet = new ArrayList<Party>();
+    protected List<Party> dataSet = new ArrayList<Party>();
 
-    private PartyStore dataStore;
+    protected PartyStore dataStore;
 
-    private UserStore userStore;
+    protected UserStore userStore;
 
-    private GPSTracker gpsTracker;
+    protected GPSTracker gpsTracker;
 
     @Override
     public void onCreate(final Bundle savedInstanceState) {
@@ -144,7 +144,7 @@ public class PartyListFragment extends CardListFragment
         if (dataSet.size() > 0) {
             after = dataSet.get(0).getCreatedAt();
         }
-        List<Party> partyList = dataStore.getUpwardsList(after);
+        List<Party> partyList = onGetUpwardsList(after);
         Collections.reverse(partyList);
         for(Party party: partyList) {
             dataSet.add(0, party);
@@ -155,7 +155,7 @@ public class PartyListFragment extends CardListFragment
     private List<Party> getBackwardsList() {
         if (dataSet.size() > 0) {
             Party last = dataSet.get(dataSet.size() - 1);
-            List<Party> partyList = dataStore.getBackwardsList(last.getCreatedAt());
+            List<Party> partyList = onGetBackwardsList(last.getCreatedAt());
             dataSet.addAll(partyList);
             if (partyList.size() > 0) {
                 setLoadMore(true);
@@ -242,5 +242,13 @@ public class PartyListFragment extends CardListFragment
         final Intent intent = new Intent(getActivity(), PartyDetailsActivity.class);
         intent.putExtra(PartyDetailsActivity.INTENT_PARTY_ID, partyId);
         startActivityForResult(intent, Constants.RequestCode.GET_PARTY_DETAILS_REQ_CODE);
+    }
+
+    protected List<Party> onGetUpwardsList(String after) {
+        return dataStore.getUpwardsList(after);
+    }
+
+    protected List<Party> onGetBackwardsList(String before) {
+        return dataStore.getBackwardsList(before);
     }
 }

@@ -8,8 +8,8 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 
 import com.aumum.app.mobile.R;
-import com.aumum.app.mobile.core.Constants;
 import com.aumum.app.mobile.ui.base.CardListFragment;
+import com.aumum.app.mobile.ui.party.PartiesActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,6 +22,8 @@ import it.gmariotti.cardslib.library.internal.Card;
  */
 public class MomentsFragment extends CardListFragment {
 
+    protected MenuItem checkInButton;
+
     @Override
     public void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -30,9 +32,9 @@ public class MomentsFragment extends CardListFragment {
 
     @Override
     public void onCreateOptionsMenu(final Menu menu, final MenuInflater inflater) {
-        menu.add("NEW")
-                .setIcon(R.drawable.ic_fa_camera_w)
+        menu.add(Menu.NONE, 0, Menu.NONE, getString(R.string.label_check_in))
                 .setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
+        checkInButton = menu.findItem(0);
     }
 
     @Override
@@ -40,8 +42,8 @@ public class MomentsFragment extends CardListFragment {
         if (!isUsable()) {
             return false;
         }
-        final Intent intent = new Intent(getActivity(), NewMomentActivity.class);
-        startActivityForResult(intent, Constants.RequestCode.NEW_MOMENT_REQ_CODE);
+        final Intent intent = new Intent(getActivity(), PartiesActivity.class);
+        startActivity(intent);
         return super.onOptionsItemSelected(item);
     }
 

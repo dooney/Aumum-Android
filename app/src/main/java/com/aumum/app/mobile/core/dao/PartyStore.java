@@ -37,9 +37,25 @@ public class PartyStore {
         return partyList;
     }
 
+    public List<Party> getUpwardsList(List<String> idList, String time) {
+        List<Party> partyList;
+        if (time != null) {
+            DateTime after = new DateTime(time, DateTimeZone.UTC);
+            partyList = restService.getPartiesAfter(idList, after, Integer.MAX_VALUE);
+        } else {
+            partyList = restService.getPartiesAfter(idList, null, LIMIT_PER_LOAD);
+        }
+        return partyList;
+    }
+
     public List<Party> getBackwardsList(String time) {
         DateTime before = new DateTime(time, DateTimeZone.UTC);
         return restService.getPartiesBefore(before, LIMIT_PER_LOAD);
+    }
+
+    public List<Party> getBackwardsList(List<String> idList, String time) {
+        DateTime before = new DateTime(time, DateTimeZone.UTC);
+        return restService.getPartiesBefore(idList, before, LIMIT_PER_LOAD);
     }
 
     public void refresh(List<Party> partyList) {

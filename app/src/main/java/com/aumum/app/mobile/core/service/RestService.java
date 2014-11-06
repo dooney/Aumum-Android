@@ -70,6 +70,16 @@ public class RestService {
         return getUserService().authenticate(username, password);
     }
 
+    private JsonObject buildIdListJson(List<String> idList) {
+        final JsonArray idListJson = new JsonArray();
+        for (String id: idList) {
+            idListJson.add(new JsonPrimitive(id));
+        }
+        final JsonObject objectIdInJson = new JsonObject();
+        objectIdInJson.add("$in", idListJson);
+        return objectIdInJson;
+    }
+
     public User register(String email, String password, String screenName, int area, String avatarUrl) {
         final JsonObject data = new JsonObject();
         data.addProperty(Constants.Http.PARAM_USERNAME, email);
@@ -101,8 +111,7 @@ public class RestService {
         return getPartyService().getById(id);
     }
 
-    public List<Party> getPartiesAfter(DateTime after, int limit) {
-        final JsonObject whereJson = new JsonObject();
+    private List<Party> getPartiesAfterCore(JsonObject whereJson, DateTime after, int limit) {
         if (after != null) {
             final JsonObject timeJson = new JsonObject();
             timeJson.addProperty("__type", "Date");
@@ -118,19 +127,40 @@ public class RestService {
         return getPartyService().getAll("-createdAt", where, limit).getResults();
     }
 
-    public List<Party> getPartiesBefore(DateTime before, int limit) {
+    public List<Party> getPartiesAfter(DateTime after, int limit) {
+        final JsonObject whereJson = new JsonObject();
+        return getPartiesAfterCore(whereJson, after, limit);
+    }
+
+    public List<Party> getPartiesAfter(List<String> idList, DateTime after, int limit) {
+        final JsonObject whereJson = new JsonObject();
+        whereJson.add("objectId", buildIdListJson(idList));
+        return getPartiesAfterCore(whereJson, after, limit);
+    }
+
+    private List<Party> getPartiesBeforeCore(JsonObject whereJson, DateTime before, int limit) {
         final JsonObject timeJson = new JsonObject();
         timeJson.addProperty("__type", "Date");
         timeJson.addProperty("iso", before.toString(Constants.DateTime.FORMAT));
         final JsonObject ltJson = new JsonObject();
         ltJson.add("$lt", timeJson);
-        final JsonObject whereJson = new JsonObject();
         whereJson.add("createdAt", ltJson);
         final JsonObject liveJson = new JsonObject();
         liveJson.addProperty("$exists", false);
         whereJson.add("deletedAt" ,liveJson);
         String where = whereJson.toString();
         return getPartyService().getAll("-createdAt", where, limit).getResults();
+    }
+
+    public List<Party> getPartiesBefore(DateTime before, int limit) {
+        final JsonObject whereJson = new JsonObject();
+        return getPartiesBeforeCore(whereJson, before, limit);
+    }
+
+    public List<Party> getPartiesBefore(List<String> idList, DateTime before, int limit) {
+        final JsonObject whereJson = new JsonObject();
+        whereJson.add("objectId", buildIdListJson(idList));
+        return getPartiesBeforeCore(whereJson, before, limit);
     }
 
     private JsonObject updateFollower(JsonObject op, String userId, String followerUserId) {
@@ -206,13 +236,7 @@ public class RestService {
 
     public List<Message> getMessagesAfter(List<String> idList, int[] typeList, DateTime after, int limit) {
         final JsonObject whereJson = new JsonObject();
-        final JsonArray idListJson = new JsonArray();
-        for (String id: idList) {
-            idListJson.add(new JsonPrimitive(id));
-        }
-        final JsonObject objectIdInJson = new JsonObject();
-        objectIdInJson.add("$in", idListJson);
-        whereJson.add("objectId", objectIdInJson);
+        whereJson.add("objectId", buildIdListJson(idList));
         final JsonArray typeListJson = new JsonArray();
         for (int type: typeList) {
             typeListJson.add(new JsonPrimitive(type));
@@ -234,13 +258,7 @@ public class RestService {
 
     public List<Message> getMessagesBefore(List<String> idList, int[] typeList, DateTime before, int limit) {
         final JsonObject whereJson = new JsonObject();
-        final JsonArray idListJson = new JsonArray();
-        for (String id: idList) {
-            idListJson.add(new JsonPrimitive(id));
-        }
-        final JsonObject inJson = new JsonObject();
-        inJson.add("$in", idListJson);
-        whereJson.add("objectId", inJson);
+        whereJson.add("objectId", buildIdListJson(idList));
         final JsonArray typeListJson = new JsonArray();
         for (int type: typeList) {
             typeListJson.add(new JsonPrimitive(type));
@@ -326,13 +344,7 @@ public class RestService {
                 Constants.Http.Party.PARAM_COMMENTS + "," +
                 Constants.Http.Party.PARAM_FANS;
         final JsonObject whereJson = new JsonObject();
-        final JsonArray idListJson = new JsonArray();
-        for (String id: idList) {
-            idListJson.add(new JsonPrimitive(id));
-        }
-        final JsonObject inJson = new JsonObject();
-        inJson.add("$in", idListJson);
-        whereJson.add("objectId", inJson);
+        whereJson.add("objectId", buildIdListJson(idList));
         String where = whereJson.toString();
         return getPartyService().refresh(keys, where).getResults();
     }
@@ -342,13 +354,7 @@ public class RestService {
         Party party = getPartyService().getFieldsById(partyId, keys);
         if (party != null) {
             final JsonObject whereJson = new JsonObject();
-            final JsonArray idListJson = new JsonArray();
-            for (String id: party.getComments()) {
-                idListJson.add(new JsonPrimitive(id));
-            }
-            final JsonObject inJson = new JsonObject();
-            inJson.add("$in", idListJson);
-            whereJson.add("objectId", inJson);
+            whereJson.add("objectId", buildIdListJson(party.getComments()));
             String where = whereJson.toString();
             return getPartyCommentService().getPartyComments("-createdAt", where).getResults();
         }
@@ -473,13 +479,7 @@ public class RestService {
         Party party = getPartyService().getFieldsById(partyId, keys);
         if (party != null) {
             final JsonObject whereJson = new JsonObject();
-            final JsonArray idListJson = new JsonArray();
-            for (String id: party.getReasons()) {
-                idListJson.add(new JsonPrimitive(id));
-            }
-            final JsonObject inJson = new JsonObject();
-            inJson.add("$in", idListJson);
-            whereJson.add("objectId", inJson);
+            whereJson.add("objectId", buildIdListJson(party.getReasons()));
             String where = whereJson.toString();
             return getPartyReasonService().getPartyReasons("-createdAt", where).getResults();
         }
