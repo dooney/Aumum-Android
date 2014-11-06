@@ -26,6 +26,7 @@ import com.aumum.app.mobile.ui.base.LoaderFragment;
 import com.aumum.app.mobile.ui.user.UserListener;
 import com.aumum.app.mobile.ui.view.Animation;
 import com.aumum.app.mobile.ui.view.AvatarImageView;
+import com.aumum.app.mobile.ui.view.CheckInTextView;
 import com.aumum.app.mobile.ui.view.DropdownImageView;
 import com.aumum.app.mobile.ui.view.JoinTextView;
 import com.aumum.app.mobile.ui.view.QuickReturnScrollView;
@@ -81,7 +82,7 @@ public class PartyDetailsFragment extends LoaderFragment<Party>
     private ViewGroup layoutJoinBox;
     private JoinTextView joinText;
     private TextView expiredText;
-    private TextView checkInText;
+    private CheckInTextView checkInText;
     private EditText editReason;
     private ImageView postReasonButton;
     private boolean isJoinBoxShow;
@@ -153,7 +154,7 @@ public class PartyDetailsFragment extends LoaderFragment<Party>
             }
         });
         expiredText = (TextView) view.findViewById(R.id.text_expired);
-        checkInText = (TextView) view.findViewById(R.id.text_check_in);
+        checkInText = (CheckInTextView) view.findViewById(R.id.text_check_in);
         editReason = (EditText) view.findViewById(R.id.edit_reason);
         postReasonButton = (ImageView) view.findViewById(R.id.image_post_reason);
         postReasonButton.setOnClickListener(new View.OnClickListener() {

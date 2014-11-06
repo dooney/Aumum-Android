@@ -96,7 +96,7 @@ public class MessageCard extends Card
         final MessageParent parent = message.getParent();
         TextView content = (TextView) view.findViewById(R.id.text_parent_content);
         content.setText(parent.getContent());
-        content.setOnClickListener(new View.OnClickListener() {
+        view.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 final Intent intent = new Intent(activity, PartyDetailsActivity.class);

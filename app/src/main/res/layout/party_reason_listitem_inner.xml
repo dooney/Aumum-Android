@@ -4,14 +4,11 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/card_background"
-    android:paddingTop="@dimen/margin_large"
-    android:paddingBottom="@dimen/margin_large"
-    android:paddingLeft="@dimen/margin_extra_large"
-    android:paddingRight="@dimen/margin_extra_large">
+    android:padding="@dimen/margin_large">
 
     <com.aumum.app.mobile.ui.view.AvatarImageView
         android:id="@+id/image_avatar"
-        style="@style/ImageView.Avatar"
+        style="@style/ImageView.Avatar.Small"
         android:layout_marginRight="@dimen/margin_large"
         android:src="@drawable/ic_avatar"/>
 

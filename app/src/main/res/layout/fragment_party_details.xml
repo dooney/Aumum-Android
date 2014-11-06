@@ -228,7 +228,7 @@
                 style="@style/TextView.Party.Expired"
                 android:visibility="gone"/>
 
-            <TextView
+            <com.aumum.app.mobile.ui.view.CheckInTextView
                 android:id="@+id/text_check_in"
                 style="@style/TextView.Party.CheckIn"
                 android:visibility="gone"/>

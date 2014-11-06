@@ -16,6 +16,7 @@ import com.aumum.app.mobile.core.model.User;
 import com.aumum.app.mobile.ui.user.UserListener;
 import com.aumum.app.mobile.ui.view.Animation;
 import com.aumum.app.mobile.ui.view.AvatarImageView;
+import com.aumum.app.mobile.ui.view.CheckInTextView;
 import com.aumum.app.mobile.ui.view.DropdownImageView;
 import com.aumum.app.mobile.ui.view.JoinTextView;
 import com.aumum.app.mobile.ui.view.LikeTextView;
@@ -123,7 +124,7 @@ public class PartyCard extends Card implements PartyActionListener.OnProgressLis
             joinLayout.setVisibility(View.VISIBLE);
             JoinTextView joinText = (JoinTextView) view.findViewById(R.id.text_join);
             TextView expiredText = (TextView) view.findViewById(R.id.text_expired);
-            TextView checkInText = (TextView) view.findViewById(R.id.text_check_in);
+            CheckInTextView checkInText = (CheckInTextView) view.findViewById(R.id.text_check_in);
             joinText.setVisibility(View.GONE);
             expiredText.setVisibility(View.GONE);
             checkInText.setVisibility(View.GONE);
