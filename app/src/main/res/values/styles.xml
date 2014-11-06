@@ -132,6 +132,11 @@
         <item name="android:text">@string/label_expired</item>
         <item name="android:textColor">@color/bbutton_danger</item>
     </style>
+    <style name="TextView.Party.CheckIn" parent="ButtonTextView">
+        <item name="android:paddingTop">@dimen/margin_medium</item>
+        <item name="android:text">@string/label_check_in</item>
+        <item name="android:textColor">@color/text_link</item>
+    </style>
     <style name="PopupWindow.Party.SearchNearby" parent="PopupWindow.Text">
         <item name="android:drawableLeft">@drawable/ic_fa_map_marker_lw</item>
         <item name="android:text">@string/label_search_nearby</item>

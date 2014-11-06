@@ -81,6 +81,7 @@ public class PartyDetailsFragment extends LoaderFragment<Party>
     private ViewGroup layoutJoinBox;
     private JoinTextView joinText;
     private TextView expiredText;
+    private TextView checkInText;
     private EditText editReason;
     private ImageView postReasonButton;
     private boolean isJoinBoxShow;
@@ -152,6 +153,7 @@ public class PartyDetailsFragment extends LoaderFragment<Party>
             }
         });
         expiredText = (TextView) view.findViewById(R.id.text_expired);
+        checkInText = (TextView) view.findViewById(R.id.text_check_in);
         editReason = (EditText) view.findViewById(R.id.edit_reason);
         postReasonButton = (ImageView) view.findViewById(R.id.image_post_reason);
         postReasonButton.setOnClickListener(new View.OnClickListener() {
@@ -245,17 +247,18 @@ public class PartyDetailsFragment extends LoaderFragment<Party>
                 ageText.setText(Constants.Options.AGE_OPTIONS[party.getAge()]);
                 genderText.setText(Constants.Options.GENDER_OPTIONS[party.getGender()]);
                 detailsText.setText(party.getDetails());
-                if (party.isOwner(currentUserId)) {
+                if (party.isOwner(currentUserId) && !party.isExpired()) {
                     showAction = false;
                     layoutAction.setVisibility(View.GONE);
                 } else {
                     showAction = true;
-                    layoutAction.setVisibility(View.VISIBLE);
                     if (party.isExpired()) {
-                        joinText.setVisibility(View.GONE);
-                        expiredText.setVisibility(View.VISIBLE);
+                        if (party.isMember(currentUserId)) {
+                            checkInText.setVisibility(View.VISIBLE);
+                        } else {
+                            expiredText.setVisibility(View.VISIBLE);
+                        }
                     } else {
-                        expiredText.setVisibility(View.GONE);
                         joinText.setVisibility(View.VISIBLE);
                         joinText.update(party.isMember(currentUserId));
                     }
@@ -273,7 +276,6 @@ public class PartyDetailsFragment extends LoaderFragment<Party>
         int count = members.size();
         if (count > 0) {
             ViewGroup layoutMembersAvatars = (ViewGroup) layoutMembers.findViewById(R.id.layout_members_avatars);
-            layoutMembersAvatars.setVisibility(View.VISIBLE);
             LayoutInflater inflater = getActivity().getLayoutInflater();
 
             layoutMembersAvatars.removeAllViews();
@@ -323,6 +325,7 @@ public class PartyDetailsFragment extends LoaderFragment<Party>
             if (likes.contains(currentUserId)) {
                 if (count == 1) {
                     likesCountText.setText(getString(R.string.label_you_like_the_party));
+                    layoutLikingAvatars.setVisibility(View.GONE);
                 } else {
                     likesCountText.setText(getString(R.string.label_you_and_others_like_the_party, count - 1));
                 }

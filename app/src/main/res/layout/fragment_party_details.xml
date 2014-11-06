@@ -208,8 +208,7 @@
         android:layout_height="wrap_content"
         android:layout_above="@+id/layout_join_box"
         android:layout_alignWithParentIfMissing="true"
-        android:background="@color/card_background"
-        android:visibility="gone">
+        android:background="@color/card_background">
 
         <View style="@style/Divider" />
 
@@ -221,11 +220,17 @@
 
             <com.aumum.app.mobile.ui.view.JoinTextView
                 android:id="@+id/text_join"
-                style="@style/ButtonTextView" />
+                style="@style/ButtonTextView"
+                android:visibility="gone"/>
 
             <TextView
                 android:id="@+id/text_expired"
                 style="@style/TextView.Party.Expired"
+                android:visibility="gone"/>
+
+            <TextView
+                android:id="@+id/text_check_in"
+                style="@style/TextView.Party.CheckIn"
                 android:visibility="gone"/>
 
         </LinearLayout>

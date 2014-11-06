@@ -19,50 +19,13 @@
     <color name="grey_extra_dark">#222222</color>   <!-- "big eddie grey" -->
     <color name="semi_transparent_blue_medium">#cc1e8cbe</color>
 
-    <color name="text">#FCFCFC</color>
+    <color name="text">#ffffff</color>
     <color name="text_light">#999999</color>
-    <color name="text_inverted">#FFFFFF</color>
-    <color name="text_title">#DFDFDF</color>
-    <color name="pager_footer">#1fb6ed</color>
-    <color name="pager_selected_text">#FFFFFF</color>
-    <color name="pager_background">#F4F4F4</color>
-    <color name="pager_background_alternate">#E7E7E7</color>
-    <color name="text_link">#005684</color>
     <color name="text_warning">#ffd9534f</color>
-    <color name="table_text">#484848</color>
-    <color name="table_text_inverted">#FFFFFF</color>
-    <color name="table_text_light">#A6A6A6</color>
-    <color name="table_text_header">#636363</color>
-    <color name="header_background_start">#ECECEC</color>
-    <color name="header_background_end">#C3C3C3</color>
-    <color name="header_background_top">#F9F9F9</color>
-    <color name="header_background_bottom">#A7A7A7</color>
-    <color name="actionbar_background_start">#272727</color>
-    <color name="actionbar_background_end">#1A1A1A</color>
-    <color name="divider_top">#000000</color>
-    <color name="divider_bottom">#5A5A5A</color>
+    <color name="pager_background">#F4F4F4</color>
+    <color name="text_link">#005684</color>
     <color name="divider_grey">#eeeeee</color>
-    <color name="main_background_start">#2E2E2E</color>
-    <color name="main_background_end">#2C2C2C</color>
-    <color name="button_background_enabled_start">#1fb6ed</color>
-    <color name="button_background_enabled_end">#1c9ac8</color>
-    <color name="button_background_pressed_start">#f76500</color>
-    <color name="button_background_pressed_end">#fb812c</color>
-    <color name="edit_text_background_start">#EFF6FF</color>
-    <color name="edit_text_background_end">#FBFDFF</color>
-    <color name="button_background_disabled_start">#7b7b7b</color>
-    <color name="button_background_disabled_end">#646464</color>
-    <color name="text_shadow">#000000</color>
     <color name="box_background">#F4F4F4</color>
-
-    <color name="background_selected">#1fb6ed</color>
-    <color name="nav_button_text_light">#ffffff</color>
-    <color name="nav_button_pressed">#1fb6ed</color>
-    <color name="nav_button_disabled">#646464</color>
-    <color name="nav_button_text_disabled">#464646</color>
-
-    <color name="dark_grey">#1f1f1f</color>
-    <color name="navigation_drawer_item_separator">#c2c2c2</color>
 
     <!--from Android-Bootstrap-->
     <color name="white">#ffffffff</color>
@@ -84,14 +47,12 @@
     <color name="bbutton_danger_disabled">#a5d9534f</color>
     <color name="bbutton_danger_disabled_edge">#a5d43f3a</color>
 
-
     <color name="bbutton_success">#ff5cb85c</color>
     <color name="bbutton_success_edge">#ff4cae4c</color>
     <color name="bbutton_success_pressed">#ff47a447</color>
     <color name="bbutton_success_pressed_edge">#ff398439</color>
     <color name="bbutton_success_disabled">#a55cb85c</color>
     <color name="bbutton_success_disabled_edge">#a54cae4c</color>
-
 
     <color name="bbutton_warning">#fff0ad4e</color>
     <color name="bbutton_warning_edge">#ffeea236</color>

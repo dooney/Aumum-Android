@@ -22,7 +22,6 @@
         android:inputType="text|textCapSentences|textMultiLine"
         android:maxLines="4"
         android:minLines="2"
-        android:textColor="@color/dark_grey"
         android:textColorHint="@color/grey_medium"
         android:textSize="@dimen/text_sz_large"
         android:paddingTop="@dimen/margin_extra_small"

@@ -117,17 +117,23 @@ public class PartyCard extends Card implements PartyActionListener.OnProgressLis
         genderText.setText(Constants.Options.GENDER_OPTIONS[party.getGender()]);
 
         ViewGroup joinLayout = (ViewGroup) view.findViewById(R.id.layout_join);
-        if (party.isOwner(currentUserId)) {
+        if (party.isOwner(currentUserId) && !party.isExpired()) {
             joinLayout.setVisibility(View.GONE);
         } else {
             joinLayout.setVisibility(View.VISIBLE);
             JoinTextView joinText = (JoinTextView) view.findViewById(R.id.text_join);
             TextView expiredText = (TextView) view.findViewById(R.id.text_expired);
+            TextView checkInText = (TextView) view.findViewById(R.id.text_check_in);
+            joinText.setVisibility(View.GONE);
+            expiredText.setVisibility(View.GONE);
+            checkInText.setVisibility(View.GONE);
             if (party.isExpired()) {
-                joinText.setVisibility(View.GONE);
-                expiredText.setVisibility(View.VISIBLE);
+                if (party.isMember(currentUserId)) {
+                    checkInText.setVisibility(View.VISIBLE);
+                } else {
+                    expiredText.setVisibility(View.VISIBLE);
+                }
             } else {
-                expiredText.setVisibility(View.GONE);
                 joinText.setVisibility(View.VISIBLE);
                 joinText.setOnClickListener(new View.OnClickListener() {
                     @Override
