@@ -220,7 +220,7 @@
 
             <com.aumum.app.mobile.ui.view.JoinTextView
                 android:id="@+id/text_join"
-                style="@style/ButtonTextView"
+                style="@style/TextView.Party.Join"
                 android:visibility="gone"/>
 
             <TextView

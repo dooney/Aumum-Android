@@ -35,10 +35,10 @@ public class JoinTextView extends AnimateTextView {
     public void update(boolean isMember) {
         if (isMember) {
             setText(R.string.label_quit_party);
-            setTextColor(context.getResources().getColor(R.color.text_warning));
+            setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_fa_times, 0, 0, 0);
         } else {
             setText(R.string.label_join);
-            setTextColor(context.getResources().getColor(R.color.text_link));
+            setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_fa_join, 0, 0, 0);
         }
         this.isMember = isMember;
     }
