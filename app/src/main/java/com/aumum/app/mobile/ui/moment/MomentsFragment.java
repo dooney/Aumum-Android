@@ -8,10 +8,16 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 
 import com.aumum.app.mobile.R;
+import com.aumum.app.mobile.core.dao.MomentStore;
+import com.aumum.app.mobile.core.dao.UserStore;
+import com.aumum.app.mobile.core.model.Moment;
+import com.aumum.app.mobile.core.model.User;
 import com.aumum.app.mobile.ui.base.CardListFragment;
 import com.aumum.app.mobile.ui.party.PartiesActivity;
+import com.github.kevinsawicki.wishlist.Toaster;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import it.gmariotti.cardslib.library.internal.Card;
@@ -22,12 +28,27 @@ import it.gmariotti.cardslib.library.internal.Card;
  */
 public class MomentsFragment extends CardListFragment {
 
+    protected List<Moment> dataSet = new ArrayList<Moment>();
+
+    protected MomentStore dataStore;
+
+    protected UserStore userStore;
+
     protected MenuItem checkInButton;
 
     @Override
     public void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
+        userStore = UserStore.getInstance(getActivity());
+        dataStore = new MomentStore();
+    }
+
+    @Override
+    public void onActivityCreated(final Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+
+        setEmptyText(R.string.no_moments);
     }
 
     @Override
@@ -54,6 +75,66 @@ public class MomentsFragment extends CardListFragment {
 
     @Override
     protected List<Card> loadCards(int mode) throws Exception {
-        return new ArrayList<Card>();
+        List<Moment> momentList;
+        User currentUser = userStore.getCurrentUser(false);
+        switch (mode) {
+            case UPWARDS_REFRESH:
+                momentList = getUpwardsList(currentUser.getMoments());
+                break;
+            case BACKWARDS_REFRESH:
+                momentList = getBackwardsList(currentUser.getMoments());
+                break;
+            default:
+                throw new Exception("Invalid refresh mode: " + mode);
+        }
+        if (momentList != null) {
+            for (Moment moment : momentList) {
+                User user = userStore.getUserById(moment.getUserId(), false);
+                moment.setUser(user);
+            }
+        }
+        return buildCards();
+    }
+
+    private List<Moment> getUpwardsList(List<String> idList) {
+        dataStore.refresh(dataSet);
+        String after = null;
+        if (dataSet.size() > 0) {
+            after = dataSet.get(0).getCreatedAt();
+        }
+        List<Moment> momentList = dataStore.getUpwardsList(idList, after);
+        Collections.reverse(momentList);
+        for(Moment moment: momentList) {
+            dataSet.add(0, moment);
+        }
+        return momentList;
+    }
+
+    private List<Moment> getBackwardsList(List<String> idList) {
+        if (dataSet.size() > 0) {
+            Moment last = dataSet.get(dataSet.size() - 1);
+            List<Moment> momentList = dataStore.getBackwardsList(idList, last.getCreatedAt());
+            dataSet.addAll(momentList);
+            if (momentList.size() > 0) {
+                setLoadMore(true);
+            } else {
+                setLoadMore(false);
+                Toaster.showShort(getActivity(), R.string.info_all_loaded);
+            }
+            return momentList;
+        }
+        return null;
+    }
+
+    private List<Card> buildCards() {
+        List<Card> cards = new ArrayList<Card>();
+        if (dataSet.size() > 0) {
+            User user = userStore.getCurrentUser(false);
+            for (Moment moment : dataSet) {
+                Card card = new MomentCard(getActivity(), moment, user.getObjectId());
+                cards.add(card);
+            }
+        }
+        return cards;
     }
 }

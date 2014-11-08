@@ -2,7 +2,6 @@ package com.aumum.app.mobile.ui.account;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.ActionBarActivity;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.KeyEvent;
@@ -14,9 +13,9 @@ import android.widget.TextView;
 import com.aumum.app.mobile.Injector;
 import com.aumum.app.mobile.R;
 import com.aumum.app.mobile.core.service.RestService;
+import com.aumum.app.mobile.ui.base.ProgressDialogActivity;
 import com.aumum.app.mobile.ui.helper.TextWatcherAdapter;
 import com.aumum.app.mobile.ui.view.Animation;
-import com.aumum.app.mobile.ui.view.ProgressDialog;
 import com.aumum.app.mobile.utils.SafeAsyncTask;
 import com.github.kevinsawicki.wishlist.Toaster;
 
@@ -31,7 +30,7 @@ import static android.view.KeyEvent.KEYCODE_ENTER;
 import static android.view.inputmethod.EditorInfo.IME_ACTION_DONE;
 import static com.aumum.app.mobile.ui.splash.SplashActivity.KEY_ACCOUNT_EMAIL;
 
-public class ResetPasswordActivity extends ActionBarActivity {
+public class ResetPasswordActivity extends ProgressDialogActivity {
 
     @Inject
     RestService restService;
@@ -40,7 +39,6 @@ public class ResetPasswordActivity extends ActionBarActivity {
     @InjectView(R.id.b_reset_password) protected Button submitButton;
 
     private final TextWatcher watcher = validationTextWatcher();
-    private final ProgressDialog progress = ProgressDialog.newInstance(R.string.info_submitting_password_reset);
 
     private SafeAsyncTask<Boolean> resetPasswordTask;
 
@@ -55,6 +53,8 @@ public class ResetPasswordActivity extends ActionBarActivity {
         setContentView(R.layout.activity_reset_password);
 
         ButterKnife.inject(this);
+
+        progress.setMessageId(R.string.info_submitting_password_reset);
 
         emailText.setOnKeyListener(new View.OnKeyListener() {
 
@@ -107,18 +107,6 @@ public class ResetPasswordActivity extends ActionBarActivity {
 
     private boolean populated(final EditText editText) {
         return editText.length() > 0;
-    }
-
-    private synchronized void showProgress() {
-        if (!progress.isAdded()) {
-            progress.show(getFragmentManager(), null);
-        }
-    }
-
-    private synchronized void hideProgress() {
-        if (progress != null && progress.getActivity() != null) {
-            progress.dismissAllowingStateLoss();
-        }
     }
 
     public void handleSubmit(final View view) {

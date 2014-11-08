@@ -3,7 +3,6 @@ package com.aumum.app.mobile.ui.party;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
-import android.support.v7.app.ActionBarActivity;
 import android.text.format.DateFormat;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -18,13 +17,16 @@ import com.aumum.app.mobile.R;
 import com.aumum.app.mobile.core.Constants;
 import com.aumum.app.mobile.core.dao.UserStore;
 import com.aumum.app.mobile.core.model.Date;
+import com.aumum.app.mobile.core.model.Message;
 import com.aumum.app.mobile.core.model.Party;
 import com.aumum.app.mobile.core.model.Place;
 import com.aumum.app.mobile.core.model.Time;
 import com.aumum.app.mobile.core.model.User;
+import com.aumum.app.mobile.core.model.helper.MessageBuilder;
+import com.aumum.app.mobile.core.service.MessageDeliveryService;
 import com.aumum.app.mobile.core.service.RestService;
+import com.aumum.app.mobile.ui.base.ProgressDialogActivity;
 import com.aumum.app.mobile.ui.view.Animation;
-import com.aumum.app.mobile.ui.view.ProgressDialog;
 import com.aumum.app.mobile.utils.DialogUtils;
 import com.aumum.app.mobile.utils.GooglePlaceUtils;
 import com.aumum.app.mobile.utils.SafeAsyncTask;
@@ -41,11 +43,12 @@ import butterknife.ButterKnife;
 import butterknife.InjectView;
 import retrofit.RetrofitError;
 
-public class NewPartyActivity extends ActionBarActivity
+public class NewPartyActivity extends ProgressDialogActivity
         implements CalendarDatePickerDialog.OnDateSetListener,
                    RadialTimePickerDialog.OnTimeSetListener {
 
     @Inject RestService restService;
+    @Inject MessageDeliveryService messageDeliveryService;
 
     private UserStore userStore;
 
@@ -65,8 +68,6 @@ public class NewPartyActivity extends ActionBarActivity
     @InjectView(R.id.et_title) protected EditText titleText;
     @InjectView(R.id.et_location) protected AutoCompleteTextView locationText;
     @InjectView(R.id.et_details) protected EditText detailsText;
-    protected MenuItem submitButton;
-    private final ProgressDialog progress = ProgressDialog.newInstance(R.string.info_posting_party);
 
     private SafeAsyncTask<Boolean> task;
 
@@ -77,6 +78,8 @@ public class NewPartyActivity extends ActionBarActivity
         Injector.inject(this);
         setContentView(R.layout.activity_new_party);
         ButterKnife.inject(this);
+
+        progress.setMessageId(R.string.info_posting_party);
 
         scrollView.setHorizontalScrollBarEnabled(false);
         scrollView.setVerticalScrollBarEnabled(false);
@@ -175,7 +178,6 @@ public class NewPartyActivity extends ActionBarActivity
     public boolean onCreateOptionsMenu(Menu menu) {
         menu.add(Menu.NONE, 0, Menu.NONE, getString(R.string.label_submit_new_party))
                 .setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
-        submitButton = menu.findItem(0);
         return true;
     }
 
@@ -215,6 +217,11 @@ public class NewPartyActivity extends ActionBarActivity
                 restService.addPartyMember(response.getObjectId(), user.getObjectId());
                 restService.addUserParty(user.getObjectId(), response.getObjectId());
                 restService.addUserPartyPost(user.getObjectId(), response.getObjectId());
+                for (String userId: user.getFollowers()) {
+                    Message message = MessageBuilder.buildPartyMessage(Message.Type.PARTY_NEW,
+                            user, userId, null, party);
+                    messageDeliveryService.send(message);
+                }
                 return true;
             }
 
@@ -245,17 +252,5 @@ public class NewPartyActivity extends ActionBarActivity
             }
         };
         task.execute();
-    }
-
-    private synchronized void showProgress() {
-        if (!progress.isAdded()) {
-            progress.show(getFragmentManager(), null);
-        }
-    }
-
-    private synchronized void hideProgress() {
-        if (progress != null && progress.getActivity() != null) {
-            progress.dismissAllowingStateLoss();
-        }
     }
 }

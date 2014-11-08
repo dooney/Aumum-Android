@@ -147,7 +147,7 @@
                 android:id="@+id/text_expired"
                 style="@style/TextView.Party.Expired"/>
 
-            <com.aumum.app.mobile.ui.view.CheckInTextView
+            <TextView
                 android:id="@+id/text_check_in"
                 style="@style/TextView.Party.CheckIn"/>
 

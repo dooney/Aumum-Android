@@ -3,6 +3,7 @@ package com.aumum.app.mobile;
 import android.accounts.AccountManager;
 import android.content.Context;
 
+import com.aumum.app.mobile.core.dao.MomentStore;
 import com.aumum.app.mobile.core.dao.PartyReasonStore;
 import com.aumum.app.mobile.core.infra.security.ApiKeyProvider;
 import com.aumum.app.mobile.core.service.MessageDeliveryService;
@@ -10,6 +11,7 @@ import com.aumum.app.mobile.core.service.RestService;
 import com.aumum.app.mobile.ui.LaunchActivity;
 import com.aumum.app.mobile.ui.comment.DeleteCommentListener;
 import com.aumum.app.mobile.ui.message.DeleteMessageListener;
+import com.aumum.app.mobile.ui.moment.NewMomentActivity;
 import com.aumum.app.mobile.ui.party.PartyReasonsFragment;
 import com.aumum.app.mobile.ui.party.NewPartyActivity;
 import com.aumum.app.mobile.ui.party.PartyActionListener;
@@ -77,7 +79,9 @@ import retrofit.converter.GsonConverter;
                 DeleteCommentListener.class,
                 DeleteMessageListener.class,
                 PartyReasonStore.class,
-                PartyReasonsFragment.class
+                PartyReasonsFragment.class,
+                NewMomentActivity.class,
+                MomentStore.class
         }
 )
 public class BootstrapModule {

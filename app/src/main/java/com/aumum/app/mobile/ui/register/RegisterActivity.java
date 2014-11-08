@@ -6,7 +6,6 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.v7.app.ActionBarActivity;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
@@ -20,9 +19,9 @@ import com.aumum.app.mobile.R;
 import com.aumum.app.mobile.core.service.FileUploadService;
 import com.aumum.app.mobile.core.service.RestService;
 import com.aumum.app.mobile.core.Constants;
+import com.aumum.app.mobile.ui.base.ProgressDialogActivity;
 import com.aumum.app.mobile.ui.helper.TextWatcherAdapter;
 import com.aumum.app.mobile.ui.view.Animation;
-import com.aumum.app.mobile.ui.view.ProgressDialog;
 import com.aumum.app.mobile.utils.DialogUtils;
 import com.aumum.app.mobile.utils.ImageUtils;
 import com.aumum.app.mobile.utils.Ln;
@@ -43,7 +42,7 @@ import retrofit.RetrofitError;
 import static com.aumum.app.mobile.ui.splash.SplashActivity.KEY_ACCOUNT_EMAIL;
 import static com.aumum.app.mobile.ui.splash.SplashActivity.SHOW_SIGN_IN;
 
-public class RegisterActivity extends ActionBarActivity
+public class RegisterActivity extends ProgressDialogActivity
         implements ReceiveUriScaledBitmapTask.ReceiveUriScaledBitmapListener,
                    FileUploadService.OnFileUploadListener {
     @Inject
@@ -58,7 +57,6 @@ public class RegisterActivity extends ActionBarActivity
     @InjectView(R.id.t_prompt_sign_in) protected TextView promptSignInText;
 
     private final TextWatcher watcher = validationTextWatcher();
-    private final ProgressDialog progress = ProgressDialog.newInstance();
 
     private SafeAsyncTask<Boolean> task;
 
@@ -161,18 +159,6 @@ public class RegisterActivity extends ActionBarActivity
 
     private boolean populated(final EditText editText) {
         return editText.length() > 0;
-    }
-
-    private synchronized void showProgress() {
-        if (!progress.isAdded()) {
-            progress.show(getFragmentManager(), null);
-        }
-    }
-
-    private synchronized void hideProgress() {
-        if (progress != null && progress.getActivity() != null) {
-            progress.dismissAllowingStateLoss();
-        }
     }
 
     private void finishRegistration() {

@@ -11,11 +11,11 @@ import android.widget.Button;
 import com.aumum.app.mobile.Injector;
 import com.aumum.app.mobile.R;
 import com.aumum.app.mobile.core.service.FileUploadService;
+import com.aumum.app.mobile.ui.base.ProgressDialogActivity;
 import com.aumum.app.mobile.utils.ImageUtils;
 import com.aumum.app.mobile.utils.ReceiveUriScaledBitmapTask;
 import com.aumum.app.mobile.core.service.RestService;
 import com.aumum.app.mobile.ui.view.NetworkImageView;
-import com.aumum.app.mobile.ui.view.ProgressDialog;
 import com.aumum.app.mobile.utils.Ln;
 import com.aumum.app.mobile.utils.SafeAsyncTask;
 import com.github.kevinsawicki.wishlist.Toaster;
@@ -29,7 +29,7 @@ import butterknife.ButterKnife;
 import butterknife.InjectView;
 import retrofit.RetrofitError;
 
-public class UserProfileImageActivity extends Activity
+public class UserProfileImageActivity extends ProgressDialogActivity
         implements ReceiveUriScaledBitmapTask.ReceiveUriScaledBitmapListener,
                    FileUploadService.OnFileUploadListener {
     public static String INTENT_USER_ID = "userId";
@@ -49,7 +49,6 @@ public class UserProfileImageActivity extends Activity
     @InjectView(R.id.b_save_avatar) protected Button saveAvatarButton;
 
     private Uri outputUri;
-    private final ProgressDialog progress = ProgressDialog.newInstance();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -127,18 +126,6 @@ public class UserProfileImageActivity extends Activity
         } else if (resultCode == Crop.RESULT_ERROR) {
             Toaster.showLong(this, R.string.invalid_image);
             Ln.d(Crop.getError(result));
-        }
-    }
-
-    private synchronized void showProgress() {
-        if (!progress.isAdded()) {
-            progress.show(getFragmentManager(), null);
-        }
-    }
-
-    private synchronized void hideProgress() {
-        if (progress != null && progress.getActivity() != null) {
-            progress.dismissAllowingStateLoss();
         }
     }
 

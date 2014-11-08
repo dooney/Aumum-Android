@@ -7,7 +7,7 @@
         <item name="actionBarStyle">@style/Widget.Styled.ActionBar</item>
         <item name="android:actionBarStyle">@style/Widget.Styled.ActionBar</item>
         <item name="vpiTabPageIndicatorStyle">@style/TabPageIndicator</item>
-        <item name="android:actionMenuTextAppearance">@style/MenuItemTextAppearance</item>
+        <item name="android:actionMenuTextAppearance">@style/MenuItem.Text</item>
     </style>
 
     <style name="Theme.Aumum.Light.NoTitle" parent="@style/Theme.Aumum.Light">
@@ -24,7 +24,7 @@
     <style name="Widget.Styled.ActionBar" parent="@style/Widget.AppCompat.ActionBar">
         <item name="android:background">@color/bbutton_danger</item>
         <item name="android:indeterminateProgressStyle">@style/Widget.Styled.ProgressBar</item>
-        <item name="android:titleTextStyle">@style/ActionBarTitleTextStyle</item>
+        <item name="android:titleTextStyle">@style/ActionBarTitle.Text</item>
     </style>
 
 </resources>

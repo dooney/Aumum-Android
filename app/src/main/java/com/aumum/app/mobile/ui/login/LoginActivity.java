@@ -14,7 +14,6 @@ import android.accounts.Account;
 import android.accounts.AccountManager;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.ActionBarActivity;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.KeyEvent;
@@ -34,9 +33,9 @@ import com.aumum.app.mobile.core.Constants;
 import com.aumum.app.mobile.core.model.User;
 import com.aumum.app.mobile.core.dao.UserStore;
 import com.aumum.app.mobile.events.UnAuthorizedErrorEvent;
+import com.aumum.app.mobile.ui.base.ProgressDialogActivity;
 import com.aumum.app.mobile.ui.helper.TextWatcherAdapter;
 import com.aumum.app.mobile.ui.view.Animation;
-import com.aumum.app.mobile.ui.view.ProgressDialog;
 import com.aumum.app.mobile.utils.SafeAsyncTask;
 import com.github.kevinsawicki.wishlist.Toaster;
 import com.greenhalolabs.emailautocompletetextview.EmailAutoCompleteTextView;
@@ -52,7 +51,7 @@ import retrofit.RetrofitError;
 /**
  * Activity to authenticate the user against an API (example API on Parse.com)
  */
-public class LoginActivity extends ActionBarActivity {
+public class LoginActivity extends ProgressDialogActivity {
     private AccountManager accountManager;
 
     private UserStore userStore;
@@ -68,7 +67,6 @@ public class LoginActivity extends ActionBarActivity {
     @InjectView(id.t_join_now) protected TextView joinNowText;
 
     private final TextWatcher watcher = validationTextWatcher();
-    private final ProgressDialog progress = ProgressDialog.newInstance(R.string.info_authenticating);
 
     private SafeAsyncTask<Boolean> authenticationTask;
     private String authToken;
@@ -101,6 +99,8 @@ public class LoginActivity extends ActionBarActivity {
         setContentView(layout.activity_login);
 
         ButterKnife.inject(this);
+
+        progress.setMessageId(R.string.info_authenticating);
 
         passwordText.setOnKeyListener(new OnKeyListener() {
 
@@ -187,18 +187,6 @@ public class LoginActivity extends ActionBarActivity {
     public void onUnAuthorizedErrorEvent(UnAuthorizedErrorEvent unAuthorizedErrorEvent) {
         // Could not authorize for some reason.
         Toaster.showLong(LoginActivity.this, R.string.error_bad_credentials);
-    }
-
-    private synchronized void showProgress() {
-        if (!progress.isAdded()) {
-            progress.show(getFragmentManager(), null);
-        }
-    }
-
-    private synchronized void hideProgress() {
-        if (progress != null && progress.getActivity() != null) {
-            progress.dismissAllowingStateLoss();
-        }
     }
 
     /**

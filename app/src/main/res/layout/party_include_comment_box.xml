@@ -12,29 +12,12 @@
 
     <EditText
         android:id="@+id/edit_comment"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        style="@style/EditText.Box"
         android:layout_toLeftOf="@+id/image_post_comment"
-        android:background="@color/transparent"
-        android:gravity="center_vertical"
-        android:hint="@string/hint_new_comment"
-        android:imeOptions="actionSend"
-        android:inputType="text|textCapSentences|textMultiLine"
-        android:maxLines="4"
-        android:minLines="2"
-        android:textColorHint="@color/grey_medium"
-        android:textSize="@dimen/text_sz_large"
-        android:paddingTop="@dimen/margin_extra_small"
-        android:paddingBottom="@dimen/margin_extra_small"
-        android:paddingLeft="@dimen/margin_large" />
+        android:hint="@string/hint_new_comment" />
 
     <ImageView
         android:id="@+id/image_post_comment"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
-        android:layout_centerVertical="true"
-        android:paddingRight="@dimen/margin_medium"
-        android:src="@drawable/ic_fa_send_o" />
+        style="@style/EditText.Box.Send" />
 
 </RelativeLayout>

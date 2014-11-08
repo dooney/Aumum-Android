@@ -16,6 +16,8 @@ public class User extends AggregateRoot {
     protected List<String> messages = new ArrayList<String>();
     protected List<String> parties = new ArrayList<String>();
     protected List<String> partyPosts = new ArrayList<String>();
+    protected List<String> moments = new ArrayList<String>();
+    protected List<String> momentPosts = new ArrayList<String>();
 
     public String getScreenName() {
         return screenName;
@@ -63,5 +65,13 @@ public class User extends AggregateRoot {
 
     public List<String> getPartyPosts() {
         return partyPosts;
+    }
+
+    public List<String> getMoments() {
+        return moments;
+    }
+
+    public List<String> getMomentPosts() {
+        return momentPosts;
     }
 }
