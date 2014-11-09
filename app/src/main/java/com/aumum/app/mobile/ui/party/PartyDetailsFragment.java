@@ -28,6 +28,7 @@ import com.aumum.app.mobile.ui.view.Animation;
 import com.aumum.app.mobile.ui.view.AvatarImageView;
 import com.aumum.app.mobile.ui.view.DropdownImageView;
 import com.aumum.app.mobile.ui.view.JoinTextView;
+import com.aumum.app.mobile.ui.view.LikeTextView;
 import com.aumum.app.mobile.ui.view.QuickReturnScrollView;
 import com.aumum.app.mobile.utils.EditTextUtils;
 import com.aumum.app.mobile.utils.GPSTracker;
@@ -76,12 +77,14 @@ public class PartyDetailsFragment extends LoaderFragment<Party>
     private ViewGroup layoutLikes;
     private TextView likesCountText;
 
-    private ViewGroup layoutAction;
+    private ViewGroup actionLayout;
     private boolean showAction;
-    private ViewGroup layoutJoinBox;
+    private ViewGroup joinBoxLayout;
     private JoinTextView joinText;
-    private TextView expiredText;
     private TextView checkInText;
+    private ViewGroup checkInLayout;
+    private TextView commentText;
+    private LikeTextView likeText;
     private EditText editReason;
     private ImageView postReasonButton;
     private boolean isJoinBoxShow;
@@ -143,8 +146,8 @@ public class PartyDetailsFragment extends LoaderFragment<Party>
         layoutLikes = (ViewGroup) view.findViewById(R.id.layout_likes);
         likesCountText = (TextView) view.findViewById(R.id.text_likes_count);
 
-        layoutAction = (ViewGroup) view.findViewById(R.id.layout_action);
-        layoutJoinBox = (ViewGroup) view.findViewById(R.id.layout_join_box);
+        actionLayout = (ViewGroup) view.findViewById(R.id.layout_action);
+        joinBoxLayout = (ViewGroup) view.findViewById(R.id.layout_join_box);
         joinText = (JoinTextView) view.findViewById(R.id.text_join);
         joinText.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -152,8 +155,10 @@ public class PartyDetailsFragment extends LoaderFragment<Party>
                 toggleJoinBox();
             }
         });
-        expiredText = (TextView) view.findViewById(R.id.text_expired);
         checkInText = (TextView) view.findViewById(R.id.text_check_in);
+        checkInLayout = (ViewGroup) view.findViewById(R.id.layout_check_in);
+        commentText = (TextView) view.findViewById(R.id.text_comment);
+        likeText = (LikeTextView) view.findViewById(R.id.text_like);
         editReason = (EditText) view.findViewById(R.id.edit_reason);
         postReasonButton = (ImageView) view.findViewById(R.id.image_post_reason);
         postReasonButton.setOnClickListener(new View.OnClickListener() {
@@ -216,7 +221,7 @@ public class PartyDetailsFragment extends LoaderFragment<Party>
     }
 
     @Override
-    protected void handleLoadResult(Party party) {
+    protected void handleLoadResult(final Party party) {
         try {
             if (party != null) {
                 setData(party);
@@ -247,23 +252,51 @@ public class PartyDetailsFragment extends LoaderFragment<Party>
                 ageText.setText(Constants.Options.AGE_OPTIONS[party.getAge()]);
                 genderText.setText(Constants.Options.GENDER_OPTIONS[party.getGender()]);
                 detailsText.setText(party.getDetails());
-                if (party.isOwner(currentUserId) && !party.isExpired()) {
-                    showAction = false;
-                    layoutAction.setVisibility(View.GONE);
-                } else {
-                    showAction = true;
-                    if (party.isExpired()) {
-                        if (party.isMember(currentUserId)) {
-                            checkInText.setVisibility(View.VISIBLE);
-                            checkInText.setOnClickListener(new CheckInListener(getActivity(), party));
-                        } else {
-                            expiredText.setVisibility(View.VISIBLE);
-                        }
-                    } else {
-                        joinText.setVisibility(View.VISIBLE);
-                        joinText.update(party.isMember(currentUserId));
-                    }
+
+                showAction = false;
+                if (party.isExpired() && party.isMember(currentUserId)) {
+                    checkInLayout.setVisibility(View.VISIBLE);
+                    checkInText.setText(party.getMomentCounts() > 0 ? String.valueOf(party.getMomentCounts()):
+                            getString(R.string.label_check_in));
+                    checkInText.setOnClickListener(new CheckInListener(getActivity(), party));
                 }
+                if (!party.isExpired() && !party.isOwner(currentUserId)) {
+                    showAction = true;
+                    actionLayout.setVisibility(View.VISIBLE);
+                    joinText.update(party.isMember(currentUserId));
+                }
+
+                int comments = party.getCommentCounts();
+                commentText.setText(comments > 0 ? String.valueOf(comments) : getString(R.string.label_comment));
+                commentText.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        Animation.animateTextView(view);
+                        final Intent intent = new Intent(getActivity(), PartyCommentsActivity.class);
+                        intent.putExtra(PartyCommentsActivity.INTENT_PARTY_ID, party.getObjectId());
+                        getActivity().startActivity(intent);
+                    }
+                });
+
+                boolean isLike = party.isLike(currentUserId);
+                likeText.setLike(isLike);
+                int likeDrawableId = (isLike ? R.drawable.ic_fa_thumbs_up : R.drawable.ic_fa_thumbs_o_up);
+                likeText.setCompoundDrawablesWithIntrinsicBounds(likeDrawableId, 0, 0, 0);
+                int likes = party.getLikeCounts();
+                likeText.setText(likes > 0 ? String.valueOf(likes) : getString(R.string.label_like));
+                LikeListener likeListener = new LikeListener(party);
+                likeListener.setOnLikeFinishedListener(new LikeListener.LikeFinishedListener() {
+                    @Override
+                    public void OnLikeFinished(Party party) {
+                        updateLikesLayout(party.getFans());
+                    }
+
+                    @Override
+                    public void OnUnLikeFinished(Party party) {
+                        updateLikesLayout(party.getFans());
+                    }
+                });
+                likeText.setLikeListener(likeListener);
 
                 updateMembersLayout(party.getMembers());
                 updateLikesLayout(party.getFans());
@@ -277,9 +310,8 @@ public class PartyDetailsFragment extends LoaderFragment<Party>
         int count = members.size();
         if (count > 0) {
             ViewGroup layoutMembersAvatars = (ViewGroup) layoutMembers.findViewById(R.id.layout_members_avatars);
-            LayoutInflater inflater = getActivity().getLayoutInflater();
-
             layoutMembersAvatars.removeAllViews();
+            LayoutInflater inflater = getActivity().getLayoutInflater();
             for(String userId: members) {
                 if (!userId.equals(currentUserId)) {
                     AvatarImageView imgAvatar = (AvatarImageView) inflater.inflate(R.layout.small_avatar, layoutMembersAvatars, false);
@@ -304,6 +336,8 @@ public class PartyDetailsFragment extends LoaderFragment<Party>
             if (layoutMembers.getVisibility() != View.VISIBLE) {
                 Animation.fadeIn(layoutMembers, Animation.Duration.SHORT);
             }
+        } else {
+            Animation.fadeOut(layoutMembers, Animation.Duration.SHORT);
         }
     }
 
@@ -311,8 +345,8 @@ public class PartyDetailsFragment extends LoaderFragment<Party>
         int count = likes.size();
         if (count > 0) {
             ViewGroup layoutLikingAvatars = (ViewGroup) layoutLikes.findViewById(R.id.layout_liking_avatars);
+            layoutLikingAvatars.removeAllViews();
             LayoutInflater inflater = getActivity().getLayoutInflater();
-
             for(String userId: likes) {
                 if (!userId.equals(currentUserId)) {
                     AvatarImageView imgAvatar = (AvatarImageView) inflater.inflate(R.layout.small_avatar, layoutLikingAvatars, false);
@@ -337,6 +371,8 @@ public class PartyDetailsFragment extends LoaderFragment<Party>
             if (layoutLikes.getVisibility() != View.VISIBLE) {
                 Animation.fadeIn(layoutLikes, Animation.Duration.SHORT);
             }
+        } else {
+            Animation.fadeOut(layoutLikes, Animation.Duration.SHORT);
         }
     }
 
@@ -368,11 +404,11 @@ public class PartyDetailsFragment extends LoaderFragment<Party>
     private void hideJoinBox() {
         EditTextUtils.hideSoftInput(editReason);
         editReason.setText(null);
-        Animation.flyOut(layoutJoinBox);
+        Animation.flyOut(joinBoxLayout);
     }
 
     private void showJoinBox() {
-        Animation.flyIn(layoutJoinBox);
+        Animation.flyIn(joinBoxLayout);
         EditTextUtils.showSoftInput(editReason, true);
     }
 
@@ -417,6 +453,7 @@ public class PartyDetailsFragment extends LoaderFragment<Party>
         } else if (event.getType() == PartyReason.QUIT) {
             joinText.update(false);
         }
+        updateMembersLayout(event.getParty().getMembers());
         
         enableSubmit();
     }
@@ -424,7 +461,7 @@ public class PartyDetailsFragment extends LoaderFragment<Party>
     @Override
     public void onScrollUp() {
         if (!isJoinBoxShow && showAction) {
-            Animation.animateIconBar(layoutAction, true);
+            Animation.animateIconBar(actionLayout, true);
         }
     }
 
@@ -437,9 +474,9 @@ public class PartyDetailsFragment extends LoaderFragment<Party>
         boolean canScrollDown = scrollView.canScrollDown();
         boolean canScrollUp = scrollView.canScrollUp();
         if (!canScrollDown) {
-            Animation.animateIconBar(layoutAction, true);
+            Animation.animateIconBar(actionLayout, true);
         } else if (canScrollDown && canScrollUp) {
-            Animation.animateIconBar(layoutAction, false);
+            Animation.animateIconBar(actionLayout, false);
         }
     }
 }

@@ -197,7 +197,7 @@ public class PartyReasonsFragment extends ItemListFragment<PartyReason> {
                 task = null;
                 getListAdapter().notifyDataSetChanged();
                 show();
-                bus.post(new AddPartyReasonFinishedEvent(event.getType()));
+                bus.post(new AddPartyReasonFinishedEvent(event.getType(), party));
             }
         };
         task.execute();

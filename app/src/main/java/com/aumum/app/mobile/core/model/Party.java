@@ -27,6 +27,7 @@ public class Party extends AggregateRoot {
     protected List<String> fans = new ArrayList<String>();
     protected List<String> comments = new ArrayList<String>();
     protected List<String> reasons = new ArrayList<String>();
+    protected List<String> moments = new ArrayList<String>();
 
     private static final double NEARBY_THRESHOLD = 10.0;
 
@@ -143,6 +144,10 @@ public class Party extends AggregateRoot {
         return reasons;
     }
 
+    public List<String> getMoments() {
+        return moments;
+    }
+
     public boolean validate() {
         return date != null && time != null && !title.isEmpty() && place != null && !details.isEmpty();
     }
@@ -172,7 +177,7 @@ public class Party extends AggregateRoot {
         return false;
     }
 
-    public int getLikes() {
+    public int getLikeCounts() {
         if (fans != null) {
             return fans.size();
         }
@@ -195,5 +200,12 @@ public class Party extends AggregateRoot {
             }
         }
         return false;
+    }
+
+    public int getMomentCounts() {
+        if (moments != null) {
+            return moments.size();
+        }
+        return 0;
     }
 }

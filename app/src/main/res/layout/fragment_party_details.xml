@@ -26,7 +26,9 @@
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
                     android:background="@color/card_background"
-                    android:padding="@dimen/margin_large"
+                    android:paddingTop="@dimen/margin_large"
+                    android:paddingLeft="@dimen/margin_large"
+                    android:paddingRight="@dimen/margin_large"
                     android:visibility="gone" >
 
                     <RelativeLayout
@@ -172,6 +174,54 @@
 
                     </RelativeLayout>
 
+                    <View style="@style/Divider"
+                        android:layout_marginTop="@dimen/margin_medium"/>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:padding="@dimen/margin_medium">
+
+                        <LinearLayout
+                            android:id="@+id/layout_check_in"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="center"
+                            android:layout_weight="1"
+                            android:visibility="gone">
+
+                            <TextView
+                                android:id="@+id/text_check_in"
+                                style="@style/TextView.Party.CheckIn"/>
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="center"
+                            android:layout_weight="1">
+
+                            <TextView
+                                android:id="@+id/text_comment"
+                                style="@style/TextView.Comment" />
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="center"
+                            android:layout_weight="1">
+
+                            <com.aumum.app.mobile.ui.view.LikeTextView
+                                android:id="@+id/text_like"
+                                style="@style/TextView.Like" />
+
+                        </LinearLayout>
+
+                    </LinearLayout>
+
                 </LinearLayout>
 
                 <View
@@ -208,7 +258,8 @@
         android:layout_height="wrap_content"
         android:layout_above="@+id/layout_join_box"
         android:layout_alignWithParentIfMissing="true"
-        android:background="@color/card_background">
+        android:background="@color/card_background"
+        android:visibility="gone">
 
         <View style="@style/Divider" />
 
@@ -216,22 +267,11 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:padding="@dimen/margin_medium"
-            android:gravity="center" >
+            android:gravity="center">
 
             <com.aumum.app.mobile.ui.view.JoinTextView
                 android:id="@+id/text_join"
-                style="@style/TextView.Party.Join"
-                android:visibility="gone"/>
-
-            <TextView
-                android:id="@+id/text_expired"
-                style="@style/TextView.Party.Expired"
-                android:visibility="gone"/>
-
-            <TextView
-                android:id="@+id/text_check_in"
-                style="@style/TextView.Party.CheckIn"
-                android:visibility="gone"/>
+                style="@style/TextView.Party.Join"/>
 
         </LinearLayout>
 

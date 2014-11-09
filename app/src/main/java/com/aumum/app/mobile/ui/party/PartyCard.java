@@ -117,34 +117,29 @@ public class PartyCard extends Card implements PartyActionListener.OnProgressLis
         genderText.setText(Constants.Options.GENDER_OPTIONS[party.getGender()]);
 
         ViewGroup joinLayout = (ViewGroup) view.findViewById(R.id.layout_join);
-        if (party.isOwner(currentUserId) && !party.isExpired()) {
-            joinLayout.setVisibility(View.GONE);
-        } else {
+        JoinTextView joinText = (JoinTextView) view.findViewById(R.id.text_join);
+        TextView checkInText = (TextView) view.findViewById(R.id.text_check_in);
+        joinLayout.setVisibility(View.GONE);
+        joinText.setVisibility(View.GONE);
+        checkInText.setVisibility(View.GONE);
+        if (party.isExpired() && party.isMember(currentUserId)) {
             joinLayout.setVisibility(View.VISIBLE);
-            JoinTextView joinText = (JoinTextView) view.findViewById(R.id.text_join);
-            TextView expiredText = (TextView) view.findViewById(R.id.text_expired);
-            TextView checkInText = (TextView) view.findViewById(R.id.text_check_in);
-            joinText.setVisibility(View.GONE);
-            expiredText.setVisibility(View.GONE);
-            checkInText.setVisibility(View.GONE);
-            if (party.isExpired()) {
-                if (party.isMember(currentUserId)) {
-                    checkInText.setVisibility(View.VISIBLE);
-                    checkInText.setOnClickListener(new CheckInListener(activity, party));
-                } else {
-                    expiredText.setVisibility(View.VISIBLE);
+            checkInText.setVisibility(View.VISIBLE);
+            checkInText.setText(party.getMomentCounts() > 0 ? String.valueOf(party.getMomentCounts()):
+                    view.getResources().getString(R.string.label_check_in));
+            checkInText.setOnClickListener(new CheckInListener(activity, party));
+        }
+        if (!party.isExpired() && !party.isMember(currentUserId)) {
+            joinLayout.setVisibility(View.VISIBLE);
+            joinText.setVisibility(View.VISIBLE);
+            joinText.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Animation.animateTextView(view);
+                    detailsListener.onPartyDetails(party.getObjectId());
                 }
-            } else {
-                joinText.setVisibility(View.VISIBLE);
-                joinText.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        Animation.animateTextView(view);
-                        detailsListener.onPartyDetails(party.getObjectId());
-                    }
-                });
-                joinText.update(party.isMember(currentUserId));
-            }
+            });
+            joinText.update(party.isMember(currentUserId));
         }
 
         TextView commentText = (TextView) view.findViewById(R.id.text_comment);
@@ -165,7 +160,7 @@ public class PartyCard extends Card implements PartyActionListener.OnProgressLis
         likeText.setLike(isLike);
         int likeDrawableId = (isLike ? R.drawable.ic_fa_thumbs_up : R.drawable.ic_fa_thumbs_o_up);
         likeText.setCompoundDrawablesWithIntrinsicBounds(likeDrawableId, 0, 0, 0);
-        int likes = party.getLikes();
+        int likes = party.getLikeCounts();
         likeText.setText(likes > 0 ? String.valueOf(likes) : view.getResources().getString(R.string.label_like));
         likeText.setLikeListener(likeListener);
 
@@ -191,9 +186,8 @@ public class PartyCard extends Card implements PartyActionListener.OnProgressLis
         if (count > 0) {
             ViewGroup layoutMembersAvatars = (ViewGroup) layoutMembers.findViewById(R.id.layout_members_avatars);
             layoutMembersAvatars.setVisibility(View.VISIBLE);
-            LayoutInflater inflater = activity.getLayoutInflater();
-
             layoutMembersAvatars.removeAllViews();
+            LayoutInflater inflater = activity.getLayoutInflater();
             for(String userId: members) {
                 if (!userId.equals(currentUserId)) {
                     AvatarImageView imgAvatar = (AvatarImageView) inflater.inflate(R.layout.small_avatar, layoutMembersAvatars, false);
@@ -218,6 +212,8 @@ public class PartyCard extends Card implements PartyActionListener.OnProgressLis
             if (layoutMembers.getVisibility() != View.VISIBLE) {
                 Animation.fadeIn(layoutMembers, Animation.Duration.SHORT);
             }
+        } else {
+            Animation.fadeOut(layoutMembers, Animation.Duration.SHORT);
         }
     }
 }

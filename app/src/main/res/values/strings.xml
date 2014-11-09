@@ -5,7 +5,6 @@
 
     <string-array name="pages_array">
         <item>聚会</item>
-        <item>签到</item>
         <item>话题</item>
         <item>消息</item>
         <item>个人</item>
@@ -106,10 +105,9 @@
     <string name="label_you_like_the_party">你支持了该聚会</string>
     <string name="label_you_and_others_like_the_party">你和其他%,d人支持了该聚会</string>
     <string name="label_others_like_the_party">%,d人支持了该聚会</string>
-    <string name="label_expired">报名结束</string>
-    <string name="label_check_in">我要签到</string>
-    <string name="label_join">我要报名</string>
-    <string name="label_quit_party">取消报名</string>
+    <string name="label_check_in">签到</string>
+    <string name="label_join">报名</string>
+    <string name="label_quit_party">取消</string>
     <string name="label_comment">评论</string>
     <string name="label_like">支持</string>
     <string name="label_createdAt">创建时间</string>

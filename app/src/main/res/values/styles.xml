@@ -158,10 +158,6 @@
         <item name="android:drawableLeft">@drawable/ic_fa_join</item>
         <item name="android:text">@string/label_join</item>
     </style>
-    <style name="TextView.Party.Expired" parent="ButtonTextView">
-        <item name="android:drawableLeft">@drawable/ic_fa_ban</item>
-        <item name="android:text">@string/label_expired</item>
-    </style>
     <style name="TextView.Party.CheckIn" parent="ButtonTextView">
         <item name="android:drawableLeft">@drawable/ic_fa_camera</item>
         <item name="android:text">@string/label_check_in</item>

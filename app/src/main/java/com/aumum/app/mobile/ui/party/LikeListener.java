@@ -30,6 +30,17 @@ public class LikeListener implements LikeTextView.OnLikeListener {
 
     private UserStore userStore;
 
+    private LikeFinishedListener likeFinishedListener;
+
+    public void setOnLikeFinishedListener(LikeFinishedListener likeFinishedListener) {
+        this.likeFinishedListener = likeFinishedListener;
+    }
+
+    public static interface LikeFinishedListener {
+        public void OnLikeFinished(Party party);
+        public void OnUnLikeFinished(Party party);
+    }
+
     public LikeListener(Party party) {
         this.party = party;
         userStore = UserStore.getInstance(null);
@@ -54,6 +65,15 @@ public class LikeListener implements LikeTextView.OnLikeListener {
                     final Throwable cause = e.getCause() != null ? e.getCause() : e;
                     if(cause != null) {
                         Ln.e(e.getCause(), cause.getMessage());
+                    }
+                }
+            }
+
+            @Override
+            public void onSuccess(final Boolean success) {
+                if (success) {
+                    if (likeFinishedListener != null) {
+                        likeFinishedListener.OnUnLikeFinished(party);
                     }
                 }
             }
@@ -88,6 +108,15 @@ public class LikeListener implements LikeTextView.OnLikeListener {
                     final Throwable cause = e.getCause() != null ? e.getCause() : e;
                     if(cause != null) {
                         Ln.e(e.getCause(), cause.getMessage());
+                    }
+                }
+            }
+
+            @Override
+            public void onSuccess(final Boolean success) {
+                if (success) {
+                    if (likeFinishedListener != null) {
+                        likeFinishedListener.OnLikeFinished(party);
                     }
                 }
             }

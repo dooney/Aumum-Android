@@ -23,10 +23,9 @@ public class BootstrapPagerAdapter extends FragmentPagerAdapter {
     private String pages[];
 
     public static final int PAGE_PARTY = 0;
-    public static final int PAGE_MOMENT = 1;
-    public static final int PAGE_POST = 2;
-    public static final int PAGE_MESSAGE = 3;
-    public static final int PAGE_PROFILE = 4;
+    public static final int PAGE_POST = 1;
+    public static final int PAGE_MESSAGE = 2;
+    public static final int PAGE_PROFILE = 3;
 
     /**
      * Create pager adapter
@@ -50,9 +49,6 @@ public class BootstrapPagerAdapter extends FragmentPagerAdapter {
         switch (position) {
             case PAGE_PARTY:
                 result = new PartyListFragment();
-                break;
-            case PAGE_MOMENT:
-                result = new MomentsFragment();
                 break;
             case PAGE_POST:
                 result = new PostsFragment();
