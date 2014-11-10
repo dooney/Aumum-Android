@@ -4,13 +4,30 @@
 
     <style name="LinearLayout" />
 
-    <style name="Button" />
-    <style name="Button.Primary" parent="Button">
+    <style name="Button">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:textColor">@color/text</item>
-        <item name="android:background">@drawable/bbuton_primary_rounded</item>
         <item name="android:layout_margin">@dimen/margin_large</item>
+    </style>
+    <style name="Button.Small">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textSize">@dimen/text_sz_medium</item>
+        <item name="android:textColor">@color/text</item>
+        <item name="android:layout_margin">0dp</item>
+    </style>
+    <style name="Button.Primary" parent="Button">
+        <item name="android:background">@drawable/bbuton_primary_rounded</item>
+    </style>
+    <style name="Button.Danger" parent="Button">
+        <item name="android:background">@drawable/bbuton_danger_rounded</item>
+    </style>
+    <style name="Button.Primary.Small" parent="Button.Small">
+        <item name="android:background">@drawable/bbuton_primary_rounded</item>
+    </style>
+    <style name="Button.Danger.Small" parent="Button.Small">
+        <item name="android:background">@drawable/bbuton_danger_rounded</item>
     </style>
 
     <style name="EditText">
@@ -156,7 +173,7 @@
     </style>
     <style name="TextView.Party.Join" parent="ButtonTextView">
         <item name="android:drawableLeft">@drawable/ic_fa_join</item>
-        <item name="android:text">@string/label_join</item>
+        <item name="android:text">@string/label_join_party</item>
     </style>
     <style name="TextView.Party.CheckIn" parent="ButtonTextView">
         <item name="android:drawableLeft">@drawable/ic_fa_camera</item>
@@ -226,6 +243,25 @@
     <!-- Moment -->
     <style name="EditText.Box.Moment" parent="EditText.Box">
         <item name="android:paddingRight">@dimen/margin_large</item>
+    </style>
+
+    <!-- Circle -->
+    <style name="PopupWindow.Circle.SearchKeyword" parent="PopupWindow.Text">
+        <item name="android:text">@string/label_search_circle_keyword</item>
+    </style>
+    <style name="TextView.Conversation.ScreenName" parent="TextView.UserName">
+        <item name="android:textSize">@dimen/margin_extra_large</item>
+    </style>
+    <style name="TextView.Group.ScreenName" parent="TextView.UserName">
+        <item name="android:textSize">@dimen/margin_extra_large</item>
+    </style>
+    <style name="TextView.Group.CurrentSize" parent="TextView.Subtitle" />
+    <style name="PopupWindow.Circle.SearchAll" parent="PopupWindow.Text">
+        <item name="android:text">@string/label_search_all_circles</item>
+    </style>
+    <style name="Button.Group.Action" parent="Button.Primary.Small">
+        <item name="android:minWidth">48sp</item>
+        <item name="android:minHeight">32sp</item>
     </style>
 
     <!-- Message -->

@@ -37,7 +37,7 @@ public class JoinTextView extends AnimateTextView {
             setText(R.string.label_quit_party);
             setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_fa_times, 0, 0, 0);
         } else {
-            setText(R.string.label_join);
+            setText(R.string.label_join_party);
             setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_fa_join, 0, 0, 0);
         }
         this.isMember = isMember;

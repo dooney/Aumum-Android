@@ -1,11 +1,16 @@
 package com.aumum.app.mobile.core.service;
 
 import com.aumum.app.mobile.core.model.Conversation;
+import com.aumum.app.mobile.core.model.Group;
 import com.aumum.app.mobile.utils.Ln;
 import com.easemob.EMCallBack;
 import com.easemob.chat.EMChatManager;
 import com.easemob.chat.EMConversation;
+import com.easemob.chat.EMGroup;
+import com.easemob.chat.EMGroupInfo;
+import com.easemob.chat.EMGroupManager;
 import com.easemob.chat.EMMessage;
+import com.easemob.exceptions.EaseMobException;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -22,7 +27,8 @@ public class ChatService {
         EMChatManager.getInstance().login(userName, password, new EMCallBack() {
             @Override
             public void onSuccess() {
-
+                EMGroupManager.getInstance().loadAllGroups();
+                EMChatManager.getInstance().loadAllConversations();
             }
 
             @Override
@@ -48,7 +54,6 @@ public class ChatService {
         Collections.sort(conversationList, new Comparator<EMConversation>() {
             @Override
             public int compare(final EMConversation con1, final EMConversation con2) {
-
                 EMMessage con2LastMessage = con2.getLastMessage();
                 EMMessage con1LastMessage = con1.getLastMessage();
                 if (con2LastMessage.getMsgTime() == con1LastMessage.getMsgTime()) {
@@ -75,6 +80,43 @@ public class ChatService {
         // 排序
         sortConversationByLastChatTime(list);
         ArrayList<Conversation> result = new ArrayList<Conversation>();
+        for (EMConversation conversation: list) {
+            result.add(buildConversation(conversation));
+        }
         return result;
+    }
+
+    private Conversation buildConversation(EMConversation emConversation) {
+        Conversation conversation = new Conversation();
+        conversation.setScreenName(emConversation.getUserName());
+        return conversation;
+    }
+
+    public List<Group> getAllPublicGroups(String userId) throws EaseMobException {
+        ArrayList<Group> result = new ArrayList<Group>();
+        List<EMGroupInfo> list = EMGroupManager.getInstance().getAllPublicGroupsFromServer();
+        for (EMGroupInfo groupInfo: list) {
+            result.add(buildGroupInfo(groupInfo, userId));
+        }
+        return result;
+    }
+
+    private Group buildGroupInfo(EMGroupInfo groupInfo, String userId) throws EaseMobException {
+        EMGroup groupDetails = EMGroupManager.getInstance().getGroupFromServer(groupInfo.getGroupId());
+        Group group = new Group();
+        group.setScreenName(groupInfo.getGroupName());
+        group.setObjectId(groupInfo.getGroupId());
+        group.setCurrentSize(groupDetails.getMembers().size());
+        group.setMember(groupDetails.getMembers().contains(userId.toLowerCase()));
+        group.setMembersOnly(groupDetails.isMembersOnly());
+        return group;
+    }
+
+    public void applyJoinToGroup(String groupId) throws EaseMobException {
+        EMGroupManager.getInstance().applyJoinToGroup(groupId, "求加入");
+    }
+
+    public void joinGroup(String groupId) throws EaseMobException {
+        EMGroupManager.getInstance().joinGroup(groupId);
     }
 }

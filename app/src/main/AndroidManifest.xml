@@ -157,9 +157,16 @@
             android:label="@string/title_activity_parties" >
         </activity>
 
-        <meta-data android:name="EASEMOB_APPKEY"  android:value="aumum#aumum" />
+        <meta-data
+            android:name="EASEMOB_APPKEY"
+            android:value="aumum#aumum" />
+
         <service android:name="com.easemob.chat.EMChatService" />
 
+        <activity
+            android:name="com.aumum.app.mobile.ui.circle.SearchCircleActivity"
+            android:label="@string/title_activity_search_circle" >
+        </activity>
     </application>
 
 </manifest>

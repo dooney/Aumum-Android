@@ -11,6 +11,8 @@ import com.aumum.app.mobile.core.service.MessageDeliveryService;
 import com.aumum.app.mobile.core.service.RestService;
 import com.aumum.app.mobile.ui.LaunchActivity;
 import com.aumum.app.mobile.ui.circle.CircleFragment;
+import com.aumum.app.mobile.ui.circle.GroupActionListener;
+import com.aumum.app.mobile.ui.circle.SearchCircleFragment;
 import com.aumum.app.mobile.ui.comment.DeleteCommentListener;
 import com.aumum.app.mobile.ui.message.DeleteMessageListener;
 import com.aumum.app.mobile.ui.moment.NewMomentActivity;
@@ -84,7 +86,9 @@ import retrofit.converter.GsonConverter;
                 PartyReasonsFragment.class,
                 NewMomentActivity.class,
                 MomentStore.class,
-                CircleFragment.class
+                CircleFragment.class,
+                SearchCircleFragment.class,
+                GroupActionListener.class
         }
 )
 public class BootstrapModule {

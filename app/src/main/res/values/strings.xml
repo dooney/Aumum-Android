@@ -52,6 +52,7 @@
     <string name="error_load_moments">获取签到列表失败</string>
     <string name="error_post_new_moment">提交新签到失败</string>
     <string name="error_load_circles">获取圈子信息失败</string>
+    <string name="error_group_action">%1$s该圈子失败</string>
 
     <!-- Register -->
     <string name="hint_screen_name">用户名</string>
@@ -109,7 +110,7 @@
     <string name="label_you_and_others_like_the_party">你和其他%,d人支持了该聚会</string>
     <string name="label_others_like_the_party">%,d人支持了该聚会</string>
     <string name="label_check_in">签到</string>
-    <string name="label_join">报名</string>
+    <string name="label_join_party">报名</string>
     <string name="label_quit_party">取消</string>
     <string name="label_comment">评论</string>
     <string name="label_like">支持</string>
@@ -119,6 +120,7 @@
     <string name="label_search_nearby">搜索附近</string>
     <string name="label_search_address">搜索地址</string>
     <string name="title_activity_parties">我的聚会</string>
+    <string name="title_activity_search_party">搜索聚会</string>
 
     <!-- New Party -->
     <string name="title_activity_new_party">新聚会</string>
@@ -132,8 +134,16 @@
     <string name="label_gender">要求小孩性别</string>
     <string name="hint_party_details">聚会内容（不超过140字）</string>
 
-    <!-- Search Party -->
-    <string name="title_activity_search_party">搜索聚会</string>
+    <!-- Circle -->
+    <string name="hint_search_circle">搜索圈子</string>
+    <string name="label_search_all_circles">所有圈子</string>
+    <string name="label_search_circle_keyword">圈子关键词</string>
+    <string name="title_activity_search_circle">搜索圈子</string>
+    <string name="label_group_current_size">%,d人</string>
+    <string name="label_join_group">加入</string>
+    <string name="label_quit_group">退出</string>
+    <string name="info_group_action">您已成功%1$s%2$s</string>
+    <string name="info_group_action_sent">您的请求已发送成功，等待群主同意</string>
 
     <!-- User Messages -->
     <string name="label_party_join">聚会报名</string>
