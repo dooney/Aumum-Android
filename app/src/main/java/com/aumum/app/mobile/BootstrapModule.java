@@ -6,9 +6,11 @@ import android.content.Context;
 import com.aumum.app.mobile.core.dao.MomentStore;
 import com.aumum.app.mobile.core.dao.PartyReasonStore;
 import com.aumum.app.mobile.core.infra.security.ApiKeyProvider;
+import com.aumum.app.mobile.core.service.ChatService;
 import com.aumum.app.mobile.core.service.MessageDeliveryService;
 import com.aumum.app.mobile.core.service.RestService;
 import com.aumum.app.mobile.ui.LaunchActivity;
+import com.aumum.app.mobile.ui.circle.CircleFragment;
 import com.aumum.app.mobile.ui.comment.DeleteCommentListener;
 import com.aumum.app.mobile.ui.message.DeleteMessageListener;
 import com.aumum.app.mobile.ui.moment.NewMomentActivity;
@@ -81,7 +83,8 @@ import retrofit.converter.GsonConverter;
                 PartyReasonStore.class,
                 PartyReasonsFragment.class,
                 NewMomentActivity.class,
-                MomentStore.class
+                MomentStore.class,
+                CircleFragment.class
         }
 )
 public class BootstrapModule {
@@ -103,6 +106,10 @@ public class BootstrapModule {
     LogoutService provideLogoutService(final Context context, final AccountManager accountManager) {
         return new LogoutService(context, accountManager);
     }
+
+    @Provides
+    @Singleton
+    ChatService provideChatService() { return new ChatService(); }
 
     @Provides
     RestService provideRestService(RestAdapter restAdapter) {

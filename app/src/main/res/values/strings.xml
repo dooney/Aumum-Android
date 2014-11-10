@@ -5,7 +5,8 @@
 
     <string-array name="pages_array">
         <item>聚会</item>
-        <item>话题</item>
+        <item>圈子</item>
+        <item>姐妹</item>
         <item>消息</item>
         <item>个人</item>
     </string-array>
@@ -14,6 +15,7 @@
     <string name="no_parties">暂时没有聚会</string>
     <string name="no_messages">暂时没有消息</string>
     <string name="no_moments">暂时没有签到</string>
+    <string name="no_circles">您还没加入任何圈子</string>
 
     <!-- Info Message -->
     <string name="info_authenticating">正在验证您的账号信息，请稍候…</string>
@@ -49,6 +51,7 @@
     <string name="error_load_join_details">获取聚会报名信息失败</string>
     <string name="error_load_moments">获取签到列表失败</string>
     <string name="error_post_new_moment">提交新签到失败</string>
+    <string name="error_load_circles">获取圈子信息失败</string>
 
     <!-- Register -->
     <string name="hint_screen_name">用户名</string>

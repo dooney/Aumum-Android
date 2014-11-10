@@ -1,4 +1,4 @@
-package com.aumum.app.mobile.ui.post;
+package com.aumum.app.mobile.ui.contact;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -12,11 +12,10 @@ import com.aumum.app.mobile.R;
  * A simple {@link Fragment} subclass.
  *
  */
-public class PostsFragment extends Fragment {
-
+public class ContactFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_posts, null);
+        return inflater.inflate(R.layout.fragment_contact, null);
     }
 }

@@ -28,6 +28,7 @@ import com.aumum.app.mobile.Injector;
 import com.aumum.app.mobile.R;
 import com.aumum.app.mobile.R.id;
 import com.aumum.app.mobile.R.layout;
+import com.aumum.app.mobile.core.service.ChatService;
 import com.aumum.app.mobile.core.service.RestService;
 import com.aumum.app.mobile.core.Constants;
 import com.aumum.app.mobile.core.model.User;
@@ -56,8 +57,8 @@ public class LoginActivity extends ProgressDialogActivity {
 
     private UserStore userStore;
 
-    @Inject
-    RestService restService;
+    @Inject RestService restService;
+    @Inject ChatService chatService;
     @Inject Bus bus;
 
     @InjectView(id.et_username) protected EmailAutoCompleteTextView usernameText;
@@ -231,7 +232,13 @@ public class LoginActivity extends ProgressDialogActivity {
 
             @Override
             public void onSuccess(final Boolean authSuccess) {
-                onAuthenticationResult(authSuccess);
+                if (authSuccess) {
+                    chatService.authenticate(userId, password);
+                    finishLogin();
+                } else {
+                    Toaster.showLong(LoginActivity.this,
+                            R.string.error_authentication);
+                }
             }
 
             @Override
@@ -267,19 +274,5 @@ public class LoginActivity extends ProgressDialogActivity {
 
         setResult(RESULT_OK, intent);
         finish();
-    }
-
-    /**
-     * Called when the authentication process completes (see attemptLogin()).
-     *
-     * @param result
-     */
-    public void onAuthenticationResult(final boolean result) {
-        if (result) {
-            finishLogin();
-        } else {
-            Toaster.showLong(LoginActivity.this,
-                    R.string.error_authentication);
-        }
     }
 }

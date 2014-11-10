@@ -14,6 +14,7 @@ import com.aumum.app.mobile.Injector;
 import com.aumum.app.mobile.ServiceProvider;
 import com.aumum.app.mobile.R;
 import com.aumum.app.mobile.core.infra.security.ApiKeyProvider;
+import com.aumum.app.mobile.core.service.ChatService;
 import com.aumum.app.mobile.core.service.LogoutService;
 import com.aumum.app.mobile.utils.NotificationUtils;
 import com.aumum.app.mobile.core.service.RestService;
@@ -26,6 +27,7 @@ import javax.inject.Inject;
 public class MainActivity extends BaseFragmentActivity {
     @Inject protected ServiceProvider serviceProvider;
     @Inject protected LogoutService logoutService;
+    @Inject protected ChatService chatService;
     @Inject protected ApiKeyProvider apiKeyProvider;
 
     private String userChannel;
@@ -72,6 +74,7 @@ public class MainActivity extends BaseFragmentActivity {
     }
 
     private void logout() {
+        chatService.logOut();
         logoutService.logout(new Runnable() {
             @Override
             public void run() {

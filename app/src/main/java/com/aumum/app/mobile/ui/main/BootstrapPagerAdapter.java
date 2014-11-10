@@ -9,10 +9,10 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
 import com.aumum.app.mobile.R;
+import com.aumum.app.mobile.ui.circle.CircleFragment;
+import com.aumum.app.mobile.ui.contact.ContactFragment;
 import com.aumum.app.mobile.ui.message.MessageFragment;
-import com.aumum.app.mobile.ui.moment.MomentsFragment;
 import com.aumum.app.mobile.ui.party.PartyListFragment;
-import com.aumum.app.mobile.ui.post.PostsFragment;
 import com.aumum.app.mobile.ui.user.UserFragment;
 
 /**
@@ -23,9 +23,10 @@ public class BootstrapPagerAdapter extends FragmentPagerAdapter {
     private String pages[];
 
     public static final int PAGE_PARTY = 0;
-    public static final int PAGE_POST = 1;
-    public static final int PAGE_MESSAGE = 2;
-    public static final int PAGE_PROFILE = 3;
+    public static final int PAGE_CIRCLE = 1;
+    public static final int PAGE_CONTACT = 2;
+    public static final int PAGE_MESSAGE = 3;
+    public static final int PAGE_PROFILE = 4;
 
     /**
      * Create pager adapter
@@ -50,8 +51,11 @@ public class BootstrapPagerAdapter extends FragmentPagerAdapter {
             case PAGE_PARTY:
                 result = new PartyListFragment();
                 break;
-            case PAGE_POST:
-                result = new PostsFragment();
+            case PAGE_CIRCLE:
+                result = new CircleFragment();
+                break;
+            case PAGE_CONTACT:
+                result = new ContactFragment();
                 break;
             case PAGE_MESSAGE:
                 result = new MessageFragment();
