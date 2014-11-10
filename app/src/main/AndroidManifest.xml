@@ -167,6 +167,10 @@
             android:name="com.aumum.app.mobile.ui.circle.SearchCircleActivity"
             android:label="@string/title_activity_search_circle" >
         </activity>
+        <activity
+            android:name="com.aumum.app.mobile.ui.chat.ChatActivity"
+            android:label="@string/title_activity_chat" >
+        </activity>
     </application>
 
 </manifest>

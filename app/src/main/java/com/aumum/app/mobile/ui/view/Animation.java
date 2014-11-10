@@ -224,6 +224,11 @@ public class Animation {
         flyIn(view);
     }
 
+    public static void scaleIn(Activity activity) {
+        View view = activity.findViewById(android.R.id.content);
+        scaleIn(view, Duration.MEDIUM);
+    }
+
     public static void animateIconBar(View view, boolean isAnimatingIn) {
         if (isAnimatingIn && view.getVisibility() == View.VISIBLE) {
             return;

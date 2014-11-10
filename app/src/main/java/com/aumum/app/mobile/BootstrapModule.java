@@ -10,6 +10,7 @@ import com.aumum.app.mobile.core.service.ChatService;
 import com.aumum.app.mobile.core.service.MessageDeliveryService;
 import com.aumum.app.mobile.core.service.RestService;
 import com.aumum.app.mobile.ui.LaunchActivity;
+import com.aumum.app.mobile.ui.chat.ChatFragment;
 import com.aumum.app.mobile.ui.circle.CircleFragment;
 import com.aumum.app.mobile.ui.circle.GroupActionListener;
 import com.aumum.app.mobile.ui.circle.SearchCircleFragment;
@@ -88,7 +89,8 @@ import retrofit.converter.GsonConverter;
                 MomentStore.class,
                 CircleFragment.class,
                 SearchCircleFragment.class,
-                GroupActionListener.class
+                GroupActionListener.class,
+                ChatFragment.class
         }
 )
 public class BootstrapModule {

@@ -1,6 +1,7 @@
 package com.aumum.app.mobile.ui.circle;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -9,12 +10,14 @@ import android.widget.TextView;
 
 import com.aumum.app.mobile.R;
 import com.aumum.app.mobile.core.model.Group;
+import com.aumum.app.mobile.ui.chat.ChatActivity;
 
 /**
  * Created by Administrator on 10/11/2014.
  */
 public class GroupCard implements GroupActionListener.OnProgressListener {
 
+    private View view;
     private Activity activity;
     private ImageView avatarImage;
     private TextView screenNameText;
@@ -23,6 +26,7 @@ public class GroupCard implements GroupActionListener.OnProgressListener {
     private ProgressBar progressBar;
 
     public GroupCard(View view, Activity activity) {
+        this.view = view;
         this.activity = activity;
         this.avatarImage = (ImageView) view.findViewById(R.id.image_avatar);
         this.screenNameText = (TextView) view.findViewById(R.id.text_screen_name);
@@ -31,7 +35,20 @@ public class GroupCard implements GroupActionListener.OnProgressListener {
         this.progressBar = (ProgressBar) view.findViewById(R.id.progress);
     }
 
-    public void refresh(Group group) {
+    public void refresh(final Group group) {
+        view.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (group.isMember()) {
+                    final Intent intent = new Intent(activity, ChatActivity.class);
+                    intent.putExtra(ChatActivity.INTENT_TITLE, group.getScreenName());
+                    intent.putExtra(ChatActivity.INTENT_TYPE, ChatActivity.TYPE_GROUP);
+                    intent.putExtra(ChatActivity.INTENT_ID, group.getObjectId());
+                    activity.startActivity(intent);
+                }
+            }
+        });
+
         screenNameText.setText(group.getScreenName());
         currentSizeText.setText(activity.getString(R.string.label_group_current_size, group.getCurrentSize()));
 

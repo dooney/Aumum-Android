@@ -10,6 +10,7 @@ import com.easemob.chat.EMGroup;
 import com.easemob.chat.EMGroupInfo;
 import com.easemob.chat.EMGroupManager;
 import com.easemob.chat.EMMessage;
+import com.easemob.chat.TextMessageBody;
 import com.easemob.exceptions.EaseMobException;
 
 import java.util.ArrayList;
@@ -118,5 +119,18 @@ public class ChatService {
 
     public void joinGroup(String groupId) throws EaseMobException {
         EMGroupManager.getInstance().joinGroup(groupId);
+    }
+
+    public void sendText(String receipt, boolean isGroup, String text) {
+        EMMessage message = EMMessage.createSendMessage(EMMessage.Type.TXT);
+        // 如果是群聊，设置chat type,默认是单聊
+        if (isGroup) {
+            message.setChatType(EMMessage.ChatType.GroupChat);
+        }
+        TextMessageBody txtBody = new TextMessageBody(text);
+        // 设置消息body
+        message.addBody(txtBody);
+        // 设置要发给谁,用户username或者群聊group id
+        message.setReceipt(receipt);
     }
 }

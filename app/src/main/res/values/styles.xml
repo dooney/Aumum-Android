@@ -264,6 +264,35 @@
         <item name="android:minHeight">32sp</item>
     </style>
 
+    <!-- Chat -->
+    <style name="Button.Chat.VoiceMode" parent="Button">
+        <item name="android:layout_width">@dimen/image_sz_small</item>
+        <item name="android:layout_height">@dimen/image_sz_small</item>
+        <item name="android:background">@drawable/button_set_voice_mode</item>
+    </style>
+    <style name="EditText.Chat.Text" parent="EditText">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:minHeight">40dp</item>
+        <item name="android:singleLine">false</item>
+        <item name="android:paddingLeft">@dimen/margin_medium</item>
+        <item name="android:paddingRight">@dimen/margin_medium</item>
+    </style>
+    <style name="Button.Chat.TypeSelect" parent="Button">
+        <item name="android:layout_width">@dimen/image_sz_small</item>
+        <item name="android:layout_height">@dimen/image_sz_small</item>
+        <item name="android:background">@drawable/button_message_type_select</item>
+        <item name="android:layout_marginLeft">@dimen/margin_small</item>
+        <item name="android:layout_marginRight">@dimen/margin_large</item>
+    </style>
+    <style name="Button.Chat.Send" parent="Button.Primary">
+        <item name="android:layout_width">40dp</item>
+        <item name="android:layout_height">32dp</item>
+        <item name="android:text">@string/label_send</item>
+        <item name="android:textSize">@dimen/text_sz_medium</item>
+        <item name="android:layout_margin">@dimen/margin_medium</item>
+    </style>
+
     <!-- Message -->
     <style name="TextView.Message.UserName" parent="TextView.UserName" />
     <style name="TextView.Message.CreatedAt" parent="TextView.Subtitle" >

@@ -145,6 +145,9 @@
     <string name="info_group_action">您已成功%1$s%2$s</string>
     <string name="info_group_action_sent">您的请求已发送成功，等待群主同意</string>
 
+    <!-- Circle -->
+    <string name="label_send">发送</string>
+
     <!-- User Messages -->
     <string name="label_party_join">聚会报名</string>
     <string name="label_party_comments">聚会评论</string>
@@ -165,5 +168,6 @@
     <string name="GPSAlertDialogMessage">GPS未开启，点击确定去设置菜单开启该功能。</string>
     <string name="ok">确定</string>
     <string name="cancel">取消</string>
+    <string name="title_activity_chat">ChatActivity</string>
 
 </resources>
