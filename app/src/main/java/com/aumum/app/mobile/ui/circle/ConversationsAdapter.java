@@ -36,7 +36,7 @@ public class ConversationsAdapter extends ArrayAdapter<EMContact> {
         if (convertView == null) {
             LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             convertView = inflater.inflate(R.layout.conversation_listitem_inner, parent, false);
-            card = new ConversationCard(convertView);
+            card = new ConversationCard(context, convertView);
             convertView.setTag(card);
         } else {
             card = (ConversationCard) convertView.getTag();

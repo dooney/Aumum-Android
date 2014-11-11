@@ -169,7 +169,7 @@
         </activity>
         <activity
             android:name="com.aumum.app.mobile.ui.chat.ChatActivity"
-            android:label="@string/title_activity_chat" >
+            android:windowSoftInputMode="adjustResize" >
         </activity>
     </application>
 
