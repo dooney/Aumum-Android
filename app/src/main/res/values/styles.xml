@@ -252,6 +252,10 @@
     <style name="TextView.Conversation.ScreenName" parent="TextView.UserName">
         <item name="android:textSize">@dimen/margin_extra_large</item>
     </style>
+    <style name="TextView.Conversation.MessageBody" parent="TextView.Subtitle">
+        <item name="android:maxLines">1</item>
+        <item name="android:ellipsize">end</item>
+    </style>
     <style name="TextView.Group.ScreenName" parent="TextView.UserName">
         <item name="android:textSize">@dimen/margin_extra_large</item>
     </style>
@@ -291,6 +295,24 @@
         <item name="android:text">@string/label_send</item>
         <item name="android:textSize">@dimen/text_sz_medium</item>
         <item name="android:layout_margin">@dimen/margin_medium</item>
+    </style>
+    <style name="TextView.ChatMessage.TimeStamp" parent="TextView.Subtitle">
+        <item name="android:textSize">@dimen/text_sz_small</item>
+    </style>
+    <style name="TextView.ChatMessage.UserName" parent="TextView.Subtitle">
+        <item name="android:textSize">@dimen/text_sz_small</item>
+    </style>
+    <style name="TextView.ChatMessage.Text" parent="TextView">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginTop">@dimen/margin_medium</item>
+        <item name="android:paddingTop">@dimen/margin_medium</item>
+        <item name="android:paddingBottom">@dimen/margin_medium</item>
+        <item name="android:paddingLeft">@dimen/margin_large</item>
+        <item name="android:paddingRight">@dimen/margin_extreme_large</item>
+        <item name="android:gravity">left|center</item>
+        <item name="android:textColor">@color/text</item>
+        <item name="android:background">@drawable/image_chat_sent_background</item>
     </style>
 
     <!-- Message -->

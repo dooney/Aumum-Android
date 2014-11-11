@@ -27,10 +27,10 @@ public class ReasonsAdapter extends ArrayAdapter<PartyReason> {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         final ReasonCard card;
-        LayoutInflater mInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
         if (convertView == null) {
-            convertView = mInflater.inflate(R.layout.party_reason_listitem_inner, parent, false);
+            LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            convertView = inflater.inflate(R.layout.party_reason_listitem_inner, parent, false);
             card = new ReasonCard(convertView);
             convertView.setTag(card);
         } else {

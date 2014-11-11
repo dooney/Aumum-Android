@@ -6,10 +6,10 @@ import android.widget.TextView;
 
 import com.aumum.app.mobile.Injector;
 import com.aumum.app.mobile.R;
-import com.aumum.app.mobile.core.model.Group;
 import com.aumum.app.mobile.core.service.ChatService;
 import com.aumum.app.mobile.utils.Ln;
 import com.aumum.app.mobile.utils.SafeAsyncTask;
+import com.easemob.chat.EMGroup;
 import com.github.kevinsawicki.wishlist.Toaster;
 
 import javax.inject.Inject;
@@ -24,14 +24,14 @@ public class GroupActionListener implements View.OnClickListener {
     @Inject ChatService chatService;
 
     private Activity activity;
-    private Group  group;
+    private EMGroup group;
     private SafeAsyncTask<Boolean> task;
 
     protected OnProgressListener onProgressListener;
 
     public static interface OnProgressListener {
         public void onActionStart();
-        public void onActionSuccess(Group group);
+        public void onActionSuccess(EMGroup group);
         public void onActionFinish();
     }
 
@@ -39,7 +39,7 @@ public class GroupActionListener implements View.OnClickListener {
         this.onProgressListener = onProgressListener;
     }
 
-    public GroupActionListener(Activity activity, Group group) {
+    public GroupActionListener(Activity activity, EMGroup group) {
         Injector.inject(this);
         this.activity = activity;
         this.group = group;
@@ -53,13 +53,13 @@ public class GroupActionListener implements View.OnClickListener {
         final String label = ((TextView)view).getText().toString();
         task = new SafeAsyncTask<Boolean>() {
             public Boolean call() throws Exception {
-                if (group.isMember()) {
+                if (group.getMembers().contains(chatService.getCurrentUser())) {
 
                 } else {
                     if (group.isMembersOnly()) {
-                        chatService.applyJoinToGroup(group.getObjectId());
+                        chatService.applyJoinToGroup(group.getGroupId());
                     } else {
-                        chatService.joinGroup(group.getObjectId());
+                        chatService.joinGroup(group.getGroupId());
                     }
                 }
                 return true;
@@ -79,10 +79,10 @@ public class GroupActionListener implements View.OnClickListener {
             @Override
             public void onSuccess(final Boolean success) {
                 String message;
-                if (group.isMembersOnly() && !group.isMember()) {
+                if (group.isMembersOnly()) {
                     message = activity.getString(R.string.info_group_action_sent);
                 } else {
-                    message = activity.getString(R.string.info_group_action, label, group.getScreenName());
+                    message = activity.getString(R.string.info_group_action, label, group.getGroupName());
                 }
                 Toaster.showShort(activity, message);
                 if (onProgressListener != null) {

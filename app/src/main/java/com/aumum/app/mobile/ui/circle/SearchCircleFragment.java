@@ -8,19 +8,17 @@ import android.widget.ArrayAdapter;
 
 import com.aumum.app.mobile.Injector;
 import com.aumum.app.mobile.R;
-import com.aumum.app.mobile.core.infra.security.ApiKeyProvider;
-import com.aumum.app.mobile.core.model.Group;
 import com.aumum.app.mobile.core.service.ChatService;
 import com.aumum.app.mobile.ui.base.ItemListFragment;
 import com.aumum.app.mobile.utils.Ln;
+import com.easemob.chat.EMGroup;
 
 import java.util.List;
 
 import javax.inject.Inject;
 
-public class SearchCircleFragment extends ItemListFragment<Group> {
+public class SearchCircleFragment extends ItemListFragment<EMGroup> {
 
-    @Inject ApiKeyProvider apiKeyProvider;
     @Inject ChatService chatService;
 
     @Override
@@ -43,8 +41,8 @@ public class SearchCircleFragment extends ItemListFragment<Group> {
     }
 
     @Override
-    protected ArrayAdapter<Group> createAdapter(List<Group> items) {
-        return new GroupsAdapter(getActivity(), items);
+    protected ArrayAdapter<EMGroup> createAdapter(List<EMGroup> items) {
+        return new GroupsAdapter(getActivity(), items, chatService.getCurrentUser());
     }
 
     @Override
@@ -53,13 +51,12 @@ public class SearchCircleFragment extends ItemListFragment<Group> {
     }
 
     @Override
-    protected List<Group> loadDataCore(Bundle bundle) throws Exception {
-        String currentUserId = apiKeyProvider.getAuthUserId();
-        return chatService.getAllPublicGroups(currentUserId);
+    protected List<EMGroup> loadDataCore(Bundle bundle) throws Exception {
+        return chatService.getAllPublicGroups();
     }
 
     @Override
-    protected void handleLoadResult(List<Group> result) {
+    protected void handleLoadResult(List<EMGroup> result) {
         try {
             if (result != null) {
                 getData().addAll(result);

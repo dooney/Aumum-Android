@@ -32,10 +32,10 @@ public class CommentsAdapter extends ArrayAdapter<Comment> {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         final CommentCard card;
-        LayoutInflater mInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
         if (convertView == null) {
-            convertView = mInflater.inflate(R.layout.comment_listitem_inner, parent, false);
+            LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            convertView = inflater.inflate(R.layout.comment_listitem_inner, parent, false);
             card = new CommentCard(convertView, currentUserId, onActionListener);
             convertView.setTag(card);
         } else {

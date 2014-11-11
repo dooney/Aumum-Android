@@ -8,18 +8,14 @@ import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ListView;
 
 import com.aumum.app.mobile.Injector;
 import com.aumum.app.mobile.R;
-import com.aumum.app.mobile.core.model.ChatMessage;
 import com.aumum.app.mobile.core.service.ChatService;
-import com.aumum.app.mobile.ui.base.ItemListFragment;
 import com.aumum.app.mobile.ui.helper.TextWatcherAdapter;
-
-import java.util.List;
 
 import javax.inject.Inject;
 
@@ -27,18 +23,20 @@ import javax.inject.Inject;
  * A simple {@link Fragment} subclass.
  *
  */
-public class ChatFragment extends ItemListFragment<ChatMessage> {
+public class ChatFragment extends Fragment {
 
     @Inject ChatService chatService;
 
     private int type;
     private String id;
 
+    private ListView listView;
     private EditText chatText;
     private Button typeSelectButton;
     private Button sendButton;
 
     private final TextWatcher watcher = validationTextWatcher();
+    private ChatMessagesAdapter adapter;
 
     @Override
     public void onCreate(final Bundle savedInstanceState) {
@@ -47,6 +45,7 @@ public class ChatFragment extends ItemListFragment<ChatMessage> {
         final Intent intent = getActivity().getIntent();
         type = intent.getIntExtra(ChatActivity.INTENT_TYPE, ChatActivity.TYPE_SINGLE);
         id = intent.getStringExtra(ChatActivity.INTENT_ID);
+        adapter = new ChatMessagesAdapter(getActivity(), chatService.getConversation(id));
     }
 
     @Override
@@ -59,6 +58,9 @@ public class ChatFragment extends ItemListFragment<ChatMessage> {
     public void onViewCreated(final View view, final Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        listView = (ListView) view.findViewById(android.R.id.list);
+        listView.setAdapter(adapter);
+
         chatText = (EditText) view.findViewById(R.id.et_text);
         chatText.addTextChangedListener(watcher);
         typeSelectButton = (Button) view.findViewById(R.id.b_type_select);
@@ -69,26 +71,6 @@ public class ChatFragment extends ItemListFragment<ChatMessage> {
                 sendText();
             }
         });
-    }
-
-    @Override
-    protected ArrayAdapter<ChatMessage> createAdapter(List<ChatMessage> items) {
-        return null;
-    }
-
-    @Override
-    protected int getErrorMessage(Exception exception) {
-        return 0;
-    }
-
-    @Override
-    protected List<ChatMessage> loadDataCore(Bundle bundle) throws Exception {
-        return null;
-    }
-
-    @Override
-    protected void handleLoadResult(List<ChatMessage> result) {
-
     }
 
     private TextWatcher validationTextWatcher() {
@@ -112,7 +94,8 @@ public class ChatFragment extends ItemListFragment<ChatMessage> {
     private void sendText() {
         String text = chatText.getText().toString();
         if (text.length() > 0) {
-            chatService.sendText(id, type == ChatActivity.TYPE_GROUP, text);
+            chatService.addTextMessage(id, type == ChatActivity.TYPE_GROUP, text);
+            adapter.notifyDataSetChanged();
         }
     }
 }

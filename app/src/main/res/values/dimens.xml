@@ -14,6 +14,7 @@
     <dimen name="margin_medium">8dp</dimen>
     <dimen name="margin_large">12dp</dimen>
     <dimen name="margin_extra_large">16dp</dimen>
+    <dimen name="margin_extreme_large">24dp</dimen>
 
     <dimen name="avatar_sz_small">@dimen/image_sz_small</dimen>
     <dimen name="avatar_sz_medium">@dimen/image_sz_medium</dimen>

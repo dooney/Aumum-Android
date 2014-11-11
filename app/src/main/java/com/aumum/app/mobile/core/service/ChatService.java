@@ -1,10 +1,9 @@
 package com.aumum.app.mobile.core.service;
 
-import com.aumum.app.mobile.core.model.Conversation;
-import com.aumum.app.mobile.core.model.Group;
 import com.aumum.app.mobile.utils.Ln;
 import com.easemob.EMCallBack;
 import com.easemob.chat.EMChatManager;
+import com.easemob.chat.EMContact;
 import com.easemob.chat.EMConversation;
 import com.easemob.chat.EMGroup;
 import com.easemob.chat.EMGroupInfo;
@@ -48,6 +47,48 @@ public class ChatService {
         EMChatManager.getInstance().logout();
     }
 
+    public String getCurrentUser() {
+        return EMChatManager.getInstance().getCurrentUser();
+    }
+
+    /**
+     * 根据最后一条消息的时间排序
+     */
+    private void sortUserByLastChatTime(List<EMContact> contactList) {
+        Collections.sort(contactList, new Comparator<EMContact>() {
+            @Override
+            public int compare(final EMContact user1, final EMContact user2) {
+                EMConversation conversation1 = EMChatManager.getInstance().getConversation(user1.getUsername());
+                EMConversation conversation2 = EMChatManager.getInstance().getConversation(user2.getUsername());
+
+                EMMessage user2LastMessage = conversation2.getLastMessage();
+                EMMessage user1LastMessage = conversation1.getLastMessage();
+                if (user2LastMessage.getMsgTime() == user1LastMessage.getMsgTime()) {
+                    return 0;
+                } else if (user2LastMessage.getMsgTime() > user1LastMessage.getMsgTime()) {
+                    return 1;
+                } else {
+                    return -1;
+                }
+            }
+
+        });
+    }
+
+    public List<EMContact> getAllContacts() {
+        List<EMContact> result = new ArrayList<EMContact>();
+        for(EMGroup group : EMGroupManager.getInstance().getAllGroups()){
+            EMConversation conversation = EMChatManager.getInstance().getConversation(group.getGroupId());
+            if(conversation.getMsgCount() > 0){
+                result.add(group);
+            }
+        }
+
+        // 排序
+        sortUserByLastChatTime(result);
+        return result;
+    }
+
     /**
      * 根据最后一条消息的时间排序
      */
@@ -69,7 +110,7 @@ public class ChatService {
         });
     }
 
-    public List<Conversation> getAllConversations() {
+    public List<EMConversation> getAllConversations() {
         // 获取所有会话，包括陌生人
         Hashtable<String, EMConversation> conversations = EMChatManager.getInstance().getAllConversations();
         List<EMConversation> list = new ArrayList<EMConversation>();
@@ -80,37 +121,16 @@ public class ChatService {
         }
         // 排序
         sortConversationByLastChatTime(list);
-        ArrayList<Conversation> result = new ArrayList<Conversation>();
-        for (EMConversation conversation: list) {
-            result.add(buildConversation(conversation));
-        }
-        return result;
+        return list;
     }
 
-    private Conversation buildConversation(EMConversation emConversation) {
-        Conversation conversation = new Conversation();
-        conversation.setScreenName(emConversation.getUserName());
-        return conversation;
-    }
-
-    public List<Group> getAllPublicGroups(String userId) throws EaseMobException {
-        ArrayList<Group> result = new ArrayList<Group>();
+    public List<EMGroup> getAllPublicGroups() throws EaseMobException {
+        ArrayList<EMGroup> result = new ArrayList<EMGroup>();
         List<EMGroupInfo> list = EMGroupManager.getInstance().getAllPublicGroupsFromServer();
         for (EMGroupInfo groupInfo: list) {
-            result.add(buildGroupInfo(groupInfo, userId));
+            result.add(EMGroupManager.getInstance().getGroupFromServer(groupInfo.getGroupId()));
         }
         return result;
-    }
-
-    private Group buildGroupInfo(EMGroupInfo groupInfo, String userId) throws EaseMobException {
-        EMGroup groupDetails = EMGroupManager.getInstance().getGroupFromServer(groupInfo.getGroupId());
-        Group group = new Group();
-        group.setScreenName(groupInfo.getGroupName());
-        group.setObjectId(groupInfo.getGroupId());
-        group.setCurrentSize(groupDetails.getMembers().size());
-        group.setMember(groupDetails.getMembers().contains(userId.toLowerCase()));
-        group.setMembersOnly(groupDetails.isMembersOnly());
-        return group;
     }
 
     public void applyJoinToGroup(String groupId) throws EaseMobException {
@@ -121,7 +141,7 @@ public class ChatService {
         EMGroupManager.getInstance().joinGroup(groupId);
     }
 
-    public void sendText(String receipt, boolean isGroup, String text) {
+    public void addTextMessage(String receipt, boolean isGroup, String text) {
         EMMessage message = EMMessage.createSendMessage(EMMessage.Type.TXT);
         // 如果是群聊，设置chat type,默认是单聊
         if (isGroup) {
@@ -132,5 +152,17 @@ public class ChatService {
         message.addBody(txtBody);
         // 设置要发给谁,用户username或者群聊group id
         message.setReceipt(receipt);
+        // update conversation
+        EMConversation conversation = EMChatManager.getInstance().getConversation(receipt);
+        conversation.addMessage(message);
+    }
+
+    public EMConversation getConversation(String id) {
+        return EMChatManager.getInstance().getConversation(id);
+    }
+
+    public void sendMessage(EMMessage message, EMCallBack callBack) {
+        // 调用sdk发送异步发送方法
+        EMChatManager.getInstance().sendMessage(message, callBack);
     }
 }

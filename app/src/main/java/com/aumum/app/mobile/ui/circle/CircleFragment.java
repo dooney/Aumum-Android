@@ -18,10 +18,10 @@ import android.widget.TextView;
 
 import com.aumum.app.mobile.Injector;
 import com.aumum.app.mobile.R;
-import com.aumum.app.mobile.core.model.Conversation;
 import com.aumum.app.mobile.core.service.ChatService;
 import com.aumum.app.mobile.ui.base.ItemListFragment;
 import com.aumum.app.mobile.utils.Ln;
+import com.easemob.chat.EMContact;
 
 import java.util.List;
 
@@ -31,7 +31,7 @@ import javax.inject.Inject;
  * A simple {@link Fragment} subclass.
  *
  */
-public class CircleFragment extends ItemListFragment<Conversation> {
+public class CircleFragment extends ItemListFragment<EMContact> {
 
     @Inject ChatService chatService;
 
@@ -73,8 +73,8 @@ public class CircleFragment extends ItemListFragment<Conversation> {
     }
 
     @Override
-    protected ArrayAdapter<Conversation> createAdapter(List<Conversation> items) {
-        return new ConversationsAdapter(getActivity(), items);
+    protected ArrayAdapter<EMContact> createAdapter(List<EMContact> items) {
+        return new ConversationsAdapter(getActivity(), items, chatService);
     }
 
     @Override
@@ -83,14 +83,15 @@ public class CircleFragment extends ItemListFragment<Conversation> {
     }
 
     @Override
-    protected List<Conversation> loadDataCore(Bundle bundle) throws Exception {
-        return chatService.getAllConversations();
+    protected List<EMContact> loadDataCore(Bundle bundle) throws Exception {
+        return chatService.getAllContacts();
     }
 
     @Override
-    protected void handleLoadResult(List<Conversation> result) {
+    protected void handleLoadResult(List<EMContact> result) {
         try {
             if (result != null) {
+                getData().clear();
                 getData().addAll(result);
                 getListAdapter().notifyDataSetChanged();
             }
