@@ -9,7 +9,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.aumum.app.mobile.R;
-import com.aumum.app.mobile.core.model.Message;
+import com.aumum.app.mobile.core.dao.gen.MessageVM;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -31,7 +31,7 @@ public class MessageFragment extends Fragment {
         partyMembershipText.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startMessageListActivity(Message.SubCategory.PARTY_MEMBERSHIP, R.string.label_party_join);
+                startMessageListActivity(MessageVM.SubCategory.PARTY_MEMBERSHIP, R.string.label_party_join);
             }
         });
 
@@ -39,7 +39,7 @@ public class MessageFragment extends Fragment {
         partyCommentsText.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startMessageListActivity(Message.SubCategory.PARTY_COMMENTS, R.string.label_party_comments);
+                startMessageListActivity(MessageVM.SubCategory.PARTY_COMMENTS, R.string.label_party_comments);
             }
         });
 
@@ -47,7 +47,7 @@ public class MessageFragment extends Fragment {
         partyLikesText.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startMessageListActivity(Message.SubCategory.PARTY_LIKES, R.string.label_party_likes);
+                startMessageListActivity(MessageVM.SubCategory.PARTY_LIKES, R.string.label_party_likes);
             }
         });
     }

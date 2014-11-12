@@ -3,7 +3,7 @@ package com.aumum.app.mobile.ui.message;
 import android.view.View;
 
 import com.aumum.app.mobile.Injector;
-import com.aumum.app.mobile.core.model.Message;
+import com.aumum.app.mobile.core.dao.gen.MessageVM;
 import com.aumum.app.mobile.core.service.RestService;
 import com.aumum.app.mobile.utils.Ln;
 import com.aumum.app.mobile.utils.SafeAsyncTask;
@@ -16,7 +16,7 @@ import retrofit.RetrofitError;
  * Created by Administrator on 23/10/2014.
  */
 public class DeleteMessageListener implements View.OnClickListener {
-    private Message message;
+    private MessageVM message;
     private String currentUserId;
 
     private SafeAsyncTask<Boolean> task;
@@ -44,7 +44,7 @@ public class DeleteMessageListener implements View.OnClickListener {
         public void onDeleteMessageFinish();
     }
 
-    public DeleteMessageListener(Message message, String currentUserId) {
+    public DeleteMessageListener(MessageVM message, String currentUserId) {
         this.message = message;
         this.currentUserId = currentUserId;
         Injector.inject(this);

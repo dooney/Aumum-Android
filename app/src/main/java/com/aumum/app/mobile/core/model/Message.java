@@ -1,7 +1,5 @@
 package com.aumum.app.mobile.core.model;
 
-import com.google.gson.Gson;
-
 /**
  * Created by Administrator on 7/10/2014.
  */
@@ -11,43 +9,6 @@ public class Message extends AggregateRoot {
     private int type;
     private String content;
     private String parent;
-    private User fromUser;
-
-    public static class Type {
-        public static final int DELETED = 0;
-        public static final int USER_FOLLOW = 1;
-        public static final int PARTY_NEW = 2;
-        public static final int PARTY_JOIN = 3;
-        public static final int PARTY_QUIT = 4;
-        public static final int PARTY_LIKE = 5;
-        public static final int PARTY_COMMENT = 6;
-        public static final int PARTY_REPLY = 7;
-        public static final int PARTY_DELETE = 8;
-        public static final int PARTY_CHECK_IN = 9;
-    }
-
-    public static class SubCategory {
-        public static final int PARTY_MEMBERSHIP = 101;
-        public static final int PARTY_COMMENTS = 102;
-        public static final int PARTY_LIKES = 103;
-    }
-
-    public static class Category {
-        public static final int PARTY = 1001;
-    }
-
-    private static final String ACTION_OPTIONS[] = {
-        "该消息已删除",
-        "关注了您",
-        "发布了新聚会",
-        "报名了聚会",
-        "退出了聚会",
-        "支持了聚会",
-        "发表了聚会评论",
-        "回复了聚会评论",
-        "删除了聚会",
-        "在聚会签到"
-    };
 
     public String getFromUserId() {
         return fromUserId;
@@ -65,16 +26,12 @@ public class Message extends AggregateRoot {
         this.toUserId = toUserId;
     }
 
+    public int getType() {
+        return type;
+    }
+
     public void setType(int type) {
         this.type = type;
-    }
-
-    public void setFromUser(User fromUser) {
-        this.fromUser = fromUser;
-    }
-
-    public User getFromUser() {
-        return fromUser;
     }
 
     public String getContent() {
@@ -85,34 +42,11 @@ public class Message extends AggregateRoot {
         this.content = content;
     }
 
-    public MessageParent getParent() {
-        if (parent != null) {
-            Gson gson = new Gson();
-            return gson.fromJson(parent, MessageParent.class);
-        }
-        return null;
+    public String getParent() {
+        return parent;
     }
 
-    public void setParent(MessageParent object) {
-        if (object != null) {
-            Gson gson = new Gson();
-            this.parent = gson.toJson(object);
-        }
-    }
-
-    public static int[] getSubCategoryTypes(int subCategory) {
-        switch (subCategory) {
-            case SubCategory.PARTY_MEMBERSHIP:
-                return new int[]{ Type.PARTY_JOIN, Type.PARTY_QUIT };
-            case SubCategory.PARTY_COMMENTS:
-                return new int[]{ Type.PARTY_COMMENT, Type.PARTY_REPLY };
-            case SubCategory.PARTY_LIKES:
-                return new int[]{ Type.PARTY_LIKE };
-        }
-        return new int[]{};
-    }
-
-    public String getActionText() {
-        return ACTION_OPTIONS[type];
+    public void setParent(String parent) {
+        this.parent = parent;
     }
 }

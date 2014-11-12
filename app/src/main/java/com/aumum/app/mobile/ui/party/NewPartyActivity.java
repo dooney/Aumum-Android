@@ -16,8 +16,8 @@ import com.aumum.app.mobile.Injector;
 import com.aumum.app.mobile.R;
 import com.aumum.app.mobile.core.Constants;
 import com.aumum.app.mobile.core.dao.UserStore;
+import com.aumum.app.mobile.core.dao.gen.MessageVM;
 import com.aumum.app.mobile.core.model.Date;
-import com.aumum.app.mobile.core.model.Message;
 import com.aumum.app.mobile.core.model.Party;
 import com.aumum.app.mobile.core.model.Place;
 import com.aumum.app.mobile.core.model.Time;
@@ -218,7 +218,7 @@ public class NewPartyActivity extends ProgressDialogActivity
                 restService.addUserParty(user.getObjectId(), response.getObjectId());
                 restService.addUserPartyPost(user.getObjectId(), response.getObjectId());
                 for (String userId: user.getFollowers()) {
-                    Message message = MessageBuilder.buildPartyMessage(Message.Type.PARTY_NEW,
+                    MessageVM message = MessageBuilder.buildPartyMessage(MessageVM.Type.PARTY_NEW,
                             user, userId, null, party);
                     messageDeliveryService.send(message);
                 }

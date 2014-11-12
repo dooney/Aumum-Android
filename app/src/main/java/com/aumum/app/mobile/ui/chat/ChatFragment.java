@@ -16,6 +16,7 @@ import com.aumum.app.mobile.Injector;
 import com.aumum.app.mobile.R;
 import com.aumum.app.mobile.core.service.ChatService;
 import com.aumum.app.mobile.ui.helper.TextWatcherAdapter;
+import com.aumum.app.mobile.utils.EditTextUtils;
 
 import javax.inject.Inject;
 
@@ -94,6 +95,8 @@ public class ChatFragment extends Fragment {
     private void sendText() {
         String text = chatText.getText().toString();
         if (text.length() > 0) {
+            EditTextUtils.hideSoftInput(chatText);
+            chatText.setText(null);
             chatService.addTextMessage(id, type == ChatActivity.TYPE_GROUP, text);
             adapter.notifyDataSetChanged();
         }

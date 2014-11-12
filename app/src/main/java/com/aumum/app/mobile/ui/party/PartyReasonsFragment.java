@@ -13,7 +13,7 @@ import com.aumum.app.mobile.R;
 import com.aumum.app.mobile.core.dao.PartyReasonStore;
 import com.aumum.app.mobile.core.dao.PartyStore;
 import com.aumum.app.mobile.core.dao.UserStore;
-import com.aumum.app.mobile.core.model.Message;
+import com.aumum.app.mobile.core.dao.gen.MessageVM;
 import com.aumum.app.mobile.core.model.Party;
 import com.aumum.app.mobile.core.model.PartyReason;
 import com.aumum.app.mobile.core.model.User;
@@ -164,7 +164,7 @@ public class PartyReasonsFragment extends ItemListFragment<PartyReason> {
                     currentUser.getParties().add(partyId);
                     party.getMembers().add(currentUser.getObjectId());
 
-                    Message message = MessageBuilder.buildPartyMessage(Message.Type.PARTY_JOIN,
+                    MessageVM message = MessageBuilder.buildPartyMessage(MessageVM.Type.PARTY_JOIN,
                             currentUser, party.getUserId(), reason.getContent(), party);
                     messageDeliveryService.send(message);
                 } else if (reason.getType() == PartyReason.QUIT) {
@@ -173,7 +173,7 @@ public class PartyReasonsFragment extends ItemListFragment<PartyReason> {
                     currentUser.getParties().remove(partyId);
                     party.getMembers().remove(currentUser.getObjectId());
 
-                    Message message = MessageBuilder.buildPartyMessage(Message.Type.PARTY_QUIT,
+                    MessageVM message = MessageBuilder.buildPartyMessage(MessageVM.Type.PARTY_QUIT,
                             currentUser, party.getUserId(), reason.getContent(), party);
                     messageDeliveryService.send(message);
                 }

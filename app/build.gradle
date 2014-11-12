@@ -1,20 +1,4 @@
-buildscript {
-    repositories {
-        maven { url 'http://repo1.maven.org/maven2' }
-        mavenLocal()
-        mavenCentral()
-    }
-    dependencies {
-        classpath 'com.android.tools.build:gradle:0.12.+'
-    }
-}
 apply plugin: 'android'
-
-repositories {
-    maven { url 'https://github.com/donnfelker/mvn-repo/raw/master/' }
-    mavenLocal()
-    mavenCentral()
-}
 
 dependencies {
     androidTestCompile 'junit:junit:4.11'
@@ -46,6 +30,7 @@ dependencies {
     compile 'com.soundcloud.android:android-crop:0.9.10@aar'
     compile 'com.greenhalolabs:emailautocompletetextview:1.3.1'
     compile files('src/main/libs/easemobchat_2.1.2.jar')
+    compile 'de.greenrobot:greendao:1.3.7'
 }
 
 android {

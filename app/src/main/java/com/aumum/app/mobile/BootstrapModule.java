@@ -5,6 +5,7 @@ import android.content.Context;
 
 import com.aumum.app.mobile.core.dao.MomentStore;
 import com.aumum.app.mobile.core.dao.PartyReasonStore;
+import com.aumum.app.mobile.core.dao.Repository;
 import com.aumum.app.mobile.core.infra.security.ApiKeyProvider;
 import com.aumum.app.mobile.core.service.ChatService;
 import com.aumum.app.mobile.core.service.MessageDeliveryService;
@@ -118,6 +119,12 @@ public class BootstrapModule {
     @Provides
     @Singleton
     ChatService provideChatService() { return new ChatService(); }
+
+    @Provides
+    @Singleton
+    Repository provideRepository(final Context context) {
+        return new Repository(context);
+    }
 
     @Provides
     RestService provideRestService(RestAdapter restAdapter) {

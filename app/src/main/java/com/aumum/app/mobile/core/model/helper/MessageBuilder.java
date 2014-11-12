@@ -1,6 +1,6 @@
 package com.aumum.app.mobile.core.model.helper;
 
-import com.aumum.app.mobile.core.model.Message;
+import com.aumum.app.mobile.core.dao.gen.MessageVM;
 import com.aumum.app.mobile.core.model.MessageParent;
 import com.aumum.app.mobile.core.model.Party;
 import com.aumum.app.mobile.core.model.User;
@@ -10,8 +10,8 @@ import com.aumum.app.mobile.core.model.User;
  */
 public class MessageBuilder {
 
-    private static Message build(int type, User fromUser, String toUserId, String content, String parentId, String parentTitle) {
-        Message message = new Message();
+    private static MessageVM build(int type, User fromUser, String toUserId, String content, String parentId, String parentTitle) {
+        MessageVM message = new MessageVM();
         message.setType(type);
         message.setFromUserId(fromUser.getObjectId());
         message.setFromUser(fromUser);
@@ -27,11 +27,11 @@ public class MessageBuilder {
         return message;
     }
 
-    public static Message buildPartyMessage(int type, User fromUser, String toUserId, String content, Party party) {
+    public static MessageVM buildPartyMessage(int type, User fromUser, String toUserId, String content, Party party) {
         return build(type, fromUser, toUserId, content, party.getObjectId(), party.getTitle());
     }
 
-    public static Message buildUserMessage(int type, User fromUser, String toUserId) {
+    public static MessageVM buildUserMessage(int type, User fromUser, String toUserId) {
         return build(type, fromUser, toUserId, null, null, null);
     }
 }

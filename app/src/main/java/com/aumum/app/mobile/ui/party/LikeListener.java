@@ -1,7 +1,7 @@
 package com.aumum.app.mobile.ui.party;
 
 import com.aumum.app.mobile.Injector;
-import com.aumum.app.mobile.core.model.Message;
+import com.aumum.app.mobile.core.dao.gen.MessageVM;
 import com.aumum.app.mobile.core.model.helper.MessageBuilder;
 import com.aumum.app.mobile.core.service.MessageDeliveryService;
 import com.aumum.app.mobile.core.service.RestService;
@@ -95,7 +95,7 @@ public class LikeListener implements LikeTextView.OnLikeListener {
                 party.getFans().add(currentUser.getObjectId());
                 userStore.saveUser(currentUser);
 
-                Message message = MessageBuilder.buildPartyMessage(Message.Type.PARTY_LIKE,
+                MessageVM message = MessageBuilder.buildPartyMessage(MessageVM.Type.PARTY_LIKE,
                         currentUser, party.getUserId(), null, party);
                 messageDeliveryService.send(message);
 

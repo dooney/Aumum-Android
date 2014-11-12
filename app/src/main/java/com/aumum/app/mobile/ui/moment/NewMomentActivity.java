@@ -9,7 +9,7 @@ import android.widget.EditText;
 import com.aumum.app.mobile.Injector;
 import com.aumum.app.mobile.R;
 import com.aumum.app.mobile.core.dao.UserStore;
-import com.aumum.app.mobile.core.model.Message;
+import com.aumum.app.mobile.core.dao.gen.MessageVM;
 import com.aumum.app.mobile.core.model.Moment;
 import com.aumum.app.mobile.core.model.Party;
 import com.aumum.app.mobile.core.model.User;
@@ -93,7 +93,7 @@ public class NewMomentActivity extends ProgressDialogActivity {
                 for(String userId: currentUser.getFollowers()) {
                     restService.addUserMoment(userId, response.getObjectId());
                 }
-                Message message = MessageBuilder.buildPartyMessage(Message.Type.PARTY_CHECK_IN,
+                MessageVM message = MessageBuilder.buildPartyMessage(MessageVM.Type.PARTY_CHECK_IN,
                         currentUser, party.getUserId(), null, party);
                 messageDeliveryService.send(message);
                 return true;

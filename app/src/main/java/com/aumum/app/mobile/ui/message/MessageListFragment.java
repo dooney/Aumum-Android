@@ -4,11 +4,13 @@ import android.content.Intent;
 import android.os.Bundle;
 
 import com.aumum.app.mobile.R;
-import com.aumum.app.mobile.core.model.Message;
+import com.aumum.app.mobile.core.Constants;
+import com.aumum.app.mobile.core.dao.gen.MessageVM;
 import com.aumum.app.mobile.core.dao.MessageStore;
 import com.aumum.app.mobile.core.model.User;
 import com.aumum.app.mobile.core.dao.UserStore;
 import com.aumum.app.mobile.ui.base.CardListFragment;
+import com.aumum.app.mobile.utils.DateUtils;
 import com.aumum.app.mobile.utils.Ln;
 import com.github.kevinsawicki.wishlist.Toaster;
 
@@ -24,7 +26,7 @@ import it.gmariotti.cardslib.library.internal.Card;
 public class MessageListFragment extends CardListFragment
         implements DeleteMessageListener.OnActionListener{
 
-    private List<Message> dataSet = new ArrayList<Message>();
+    private List<MessageVM> dataSet = new ArrayList<MessageVM>();
 
     private User currentUser;
 
@@ -52,7 +54,7 @@ public class MessageListFragment extends CardListFragment
 
     @Override
     protected List<Card> loadCards(int mode) throws Exception {
-        List<Message> messageList;
+        List<MessageVM> messageList;
         currentUser = userStore.getCurrentUser(false);
         switch (mode) {
             case UPWARDS_REFRESH:
@@ -65,7 +67,7 @@ public class MessageListFragment extends CardListFragment
                 throw new Exception("Invalid refresh mode: " + mode);
         }
         if (messageList != null) {
-            for (Message message : messageList) {
+            for (MessageVM message : messageList) {
                 User user = userStore.getUserById(message.getFromUserId(), false);
                 message.setFromUser(user);
             }
@@ -73,17 +75,17 @@ public class MessageListFragment extends CardListFragment
         return buildCards();
     }
 
-    private List<Message> getUpwardsList(User currentUser) {
+    private List<MessageVM> getUpwardsList(User currentUser) throws Exception {
         List<String> messageIdList = currentUser.getMessages();
         if (messageIdList != null) {
             String after = null;
             if (dataSet.size() > 0) {
-                after = dataSet.get(0).getCreatedAt();
+                after = DateUtils.dateToString(dataSet.get(0).getCreatedAt(), Constants.DateTime.FORMAT);
             }
-            List<Message> messageList = messageStore.getUpwardsList(currentUser.getMessages(),
-                    Message.getSubCategoryTypes(subCategory), after);
+            List<MessageVM> messageList = messageStore.getUpwardsList(currentUser.getMessages(),
+                    MessageVM.getSubCategoryTypes(subCategory), after);
             Collections.reverse(messageList);
-            for (Message message : messageList) {
+            for (MessageVM message : messageList) {
                 dataSet.add(0, message);
             }
             return messageList;
@@ -91,11 +93,12 @@ public class MessageListFragment extends CardListFragment
         return null;
     }
 
-    private List<Message> getBackwardsList(User currentUser) {
+    private List<MessageVM> getBackwardsList(User currentUser) throws Exception {
         if (dataSet.size() > 0) {
-            Message last = dataSet.get(dataSet.size() - 1);
-            List<Message> messageList = messageStore.getBackwardsList(currentUser.getMessages(),
-                    Message.getSubCategoryTypes(subCategory), last.getCreatedAt());
+            MessageVM last = dataSet.get(dataSet.size() - 1);
+            String lastCreatedAt = DateUtils.dateToString(last.getCreatedAt(), Constants.DateTime.FORMAT);
+            List<MessageVM> messageList = messageStore.getBackwardsList(currentUser.getMessages(),
+                    MessageVM.getSubCategoryTypes(subCategory), lastCreatedAt);
             dataSet.addAll(messageList);
             if (messageList.size() > 0) {
                 setLoadMore(true);
@@ -111,7 +114,7 @@ public class MessageListFragment extends CardListFragment
     private List<Card> buildCards() {
         List<Card> cards = new ArrayList<Card>();
         if (dataSet.size() > 0) {
-            for (Message message : dataSet) {
+            for (MessageVM message : dataSet) {
                 Card card = new MessageCard(getActivity(), message, currentUser.getObjectId(), this);
                 cards.add(card);
             }
@@ -129,7 +132,7 @@ public class MessageListFragment extends CardListFragment
         try {
             List<Card> cardList = getData();
             for (Card card : cardList) {
-                Message message = ((MessageCard) card).getMessage();
+                MessageVM message = ((MessageCard) card).getMessage();
                 if (message.getObjectId().equals(messageId)) {
                     dataSet.remove(message);
                     cardList.remove(card);

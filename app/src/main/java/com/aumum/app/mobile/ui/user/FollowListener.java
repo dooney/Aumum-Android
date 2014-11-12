@@ -1,7 +1,7 @@
 package com.aumum.app.mobile.ui.user;
 
 import com.aumum.app.mobile.Injector;
-import com.aumum.app.mobile.core.model.Message;
+import com.aumum.app.mobile.core.dao.gen.MessageVM;
 import com.aumum.app.mobile.core.model.helper.MessageBuilder;
 import com.aumum.app.mobile.core.service.MessageDeliveryService;
 import com.aumum.app.mobile.core.service.RestService;
@@ -48,7 +48,7 @@ public class FollowListener implements FollowTextView.OnFollowListener {
                 userStore.saveUser(currentUser);
                 userStore.saveUser(followedUser);
 
-                Message message = MessageBuilder.buildUserMessage(Message.Type.USER_FOLLOW,
+                MessageVM message = MessageBuilder.buildUserMessage(MessageVM.Type.USER_FOLLOW,
                         currentUser, followedUserId);
                 messageDeliveryService.send(message);
 

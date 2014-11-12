@@ -9,7 +9,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.aumum.app.mobile.R;
-import com.aumum.app.mobile.core.model.Message;
+import com.aumum.app.mobile.core.dao.gen.MessageVM;
 import com.aumum.app.mobile.core.model.MessageParent;
 import com.aumum.app.mobile.ui.party.PartyDetailsActivity;
 import com.aumum.app.mobile.ui.user.UserListener;
@@ -23,16 +23,16 @@ import it.gmariotti.cardslib.library.internal.Card;
 public class MessageCard extends Card
         implements DeleteMessageListener.OnProgressListener {
     private Activity activity;
-    private Message message;
+    private MessageVM message;
     private DeleteMessageListener deleteMessageListener;
     private ImageView deleteImage;
     private ProgressBar progressBar;
 
-    public Message getMessage() {
+    public MessageVM getMessage() {
         return message;
     }
 
-    public MessageCard(Activity activity, Message message, String currentUserId,
+    public MessageCard(Activity activity, MessageVM message, String currentUserId,
                        DeleteMessageListener.OnActionListener onActionListener) {
         super(activity, R.layout.message_listitem_inner);
         this.activity = activity;
@@ -72,7 +72,7 @@ public class MessageCard extends Card
         action.setText(message.getActionText());
 
         ViewGroup layoutParentBox = (ViewGroup) view.findViewById(R.id.layout_parent_box);
-        if (message.getParent() != null) {
+        if (message.getMessageParent() != null) {
             updateMessageParent(view);
             layoutParentBox.setVisibility(View.VISIBLE);
         } else {
@@ -93,7 +93,7 @@ public class MessageCard extends Card
     }
 
     private void updateMessageParent(View view) {
-        final MessageParent parent = message.getParent();
+        final MessageParent parent = message.getMessageParent();
         TextView content = (TextView) view.findViewById(R.id.text_parent_content);
         content.setText(parent.getContent());
         view.setOnClickListener(new View.OnClickListener() {

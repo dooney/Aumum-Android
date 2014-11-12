@@ -17,8 +17,8 @@ import android.widget.TextView;
 import com.aumum.app.mobile.Injector;
 import com.aumum.app.mobile.R;
 import com.aumum.app.mobile.core.dao.PartyStore;
+import com.aumum.app.mobile.core.dao.gen.MessageVM;
 import com.aumum.app.mobile.core.infra.security.ApiKeyProvider;
-import com.aumum.app.mobile.core.model.Message;
 import com.aumum.app.mobile.core.model.Party;
 import com.aumum.app.mobile.core.model.helper.MessageBuilder;
 import com.aumum.app.mobile.core.service.MessageDeliveryService;
@@ -248,11 +248,11 @@ public class PartyCommentsFragment extends ItemListFragment<Comment>
                 comment.setCreatedAt(response.getCreatedAt());
                 service.addUserComment(currentUser.getObjectId(), comment.getObjectId());
 
-                Message message = MessageBuilder.buildPartyMessage(Message.Type.PARTY_COMMENT,
+                MessageVM message = MessageBuilder.buildPartyMessage(MessageVM.Type.PARTY_COMMENT,
                         currentUser, party.getUserId(), comment.getContent(), party);
                 messageDeliveryService.send(message);
                 if (repliedComment != null) {
-                    Message repliedMessage = MessageBuilder.buildPartyMessage(Message.Type.PARTY_REPLY,
+                    MessageVM repliedMessage = MessageBuilder.buildPartyMessage(MessageVM.Type.PARTY_REPLY,
                             currentUser, repliedComment.getUserId(), repliedComment.getContent(), party);
                     messageDeliveryService.send(repliedMessage);
                 }
