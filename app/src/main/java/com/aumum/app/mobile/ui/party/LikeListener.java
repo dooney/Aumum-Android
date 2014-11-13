@@ -1,12 +1,12 @@
 package com.aumum.app.mobile.ui.party;
 
 import com.aumum.app.mobile.Injector;
-import com.aumum.app.mobile.core.dao.gen.MessageVM;
+import com.aumum.app.mobile.core.dao.vm.MessageVM;
+import com.aumum.app.mobile.core.dao.vm.UserVM;
 import com.aumum.app.mobile.core.model.helper.MessageBuilder;
 import com.aumum.app.mobile.core.service.MessageDeliveryService;
 import com.aumum.app.mobile.core.service.RestService;
 import com.aumum.app.mobile.core.model.Party;
-import com.aumum.app.mobile.core.model.User;
 import com.aumum.app.mobile.core.dao.UserStore;
 import com.aumum.app.mobile.ui.view.LikeTextView;
 import com.aumum.app.mobile.utils.Ln;
@@ -25,10 +25,8 @@ public class LikeListener implements LikeTextView.OnLikeListener {
     private Party party;
 
     @Inject RestService service;
-    @Inject
-    MessageDeliveryService messageDeliveryService;
-
-    private UserStore userStore;
+    @Inject MessageDeliveryService messageDeliveryService;
+    @Inject UserStore userStore;
 
     private LikeFinishedListener likeFinishedListener;
 
@@ -43,7 +41,6 @@ public class LikeListener implements LikeTextView.OnLikeListener {
 
     public LikeListener(Party party) {
         this.party = party;
-        userStore = UserStore.getInstance(null);
         Injector.inject(this);
     }
 
@@ -51,10 +48,9 @@ public class LikeListener implements LikeTextView.OnLikeListener {
     public void onUnLike(LikeTextView view) {
         task = new SafeAsyncTask<Boolean>() {
             public Boolean call() throws Exception {
-                User currentUser = userStore.getCurrentUser(false);
+                UserVM currentUser = userStore.getCurrentUser(false);
                 service.removePartyFan(party.getObjectId(), currentUser.getObjectId());
                 party.getFans().remove(currentUser.getObjectId());
-                userStore.saveUser(currentUser);
 
                 return true;
             }
@@ -90,10 +86,9 @@ public class LikeListener implements LikeTextView.OnLikeListener {
     public void onLike(LikeTextView view) {
         task = new SafeAsyncTask<Boolean>() {
             public Boolean call() throws Exception {
-                User currentUser = userStore.getCurrentUser(false);
+                UserVM currentUser = userStore.getCurrentUser(false);
                 service.addPartyFan(party.getObjectId(), currentUser.getObjectId());
                 party.getFans().add(currentUser.getObjectId());
-                userStore.saveUser(currentUser);
 
                 MessageVM message = MessageBuilder.buildPartyMessage(MessageVM.Type.PARTY_LIKE,
                         currentUser, party.getUserId(), null, party);

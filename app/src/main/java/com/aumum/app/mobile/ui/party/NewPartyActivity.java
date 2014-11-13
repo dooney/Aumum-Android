@@ -16,12 +16,12 @@ import com.aumum.app.mobile.Injector;
 import com.aumum.app.mobile.R;
 import com.aumum.app.mobile.core.Constants;
 import com.aumum.app.mobile.core.dao.UserStore;
-import com.aumum.app.mobile.core.dao.gen.MessageVM;
+import com.aumum.app.mobile.core.dao.vm.MessageVM;
+import com.aumum.app.mobile.core.dao.vm.UserVM;
 import com.aumum.app.mobile.core.model.Date;
 import com.aumum.app.mobile.core.model.Party;
 import com.aumum.app.mobile.core.model.Place;
 import com.aumum.app.mobile.core.model.Time;
-import com.aumum.app.mobile.core.model.User;
 import com.aumum.app.mobile.core.model.helper.MessageBuilder;
 import com.aumum.app.mobile.core.service.MessageDeliveryService;
 import com.aumum.app.mobile.core.service.RestService;
@@ -49,8 +49,7 @@ public class NewPartyActivity extends ProgressDialogActivity
 
     @Inject RestService restService;
     @Inject MessageDeliveryService messageDeliveryService;
-
-    private UserStore userStore;
+    @Inject UserStore userStore;
 
     private Date date = new Date();
     private Time time = new Time();
@@ -74,7 +73,6 @@ public class NewPartyActivity extends ProgressDialogActivity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        userStore = UserStore.getInstance(this);
         Injector.inject(this);
         setContentView(R.layout.activity_new_party);
         ButterKnife.inject(this);
@@ -211,13 +209,13 @@ public class NewPartyActivity extends ProgressDialogActivity
                 if (!GooglePlaceUtils.setPlaceLatLong(party.getPlace())) {
                     throw new Exception(getString(R.string.error_validate_party_location, party.getPlace().getLocation()));
                 }
-                User user = userStore.getCurrentUser(false);
+                UserVM user = userStore.getCurrentUser(false);
                 party.setUserId(user.getObjectId());
                 Party response = restService.newParty(party);
                 restService.addPartyMember(response.getObjectId(), user.getObjectId());
                 restService.addUserParty(user.getObjectId(), response.getObjectId());
                 restService.addUserPartyPost(user.getObjectId(), response.getObjectId());
-                for (String userId: user.getFollowers()) {
+                for (String userId: user.getFollowerList()) {
                     MessageVM message = MessageBuilder.buildPartyMessage(MessageVM.Type.PARTY_NEW,
                             user, userId, null, party);
                     messageDeliveryService.send(message);

@@ -44,7 +44,9 @@ public class ChatService {
     }
 
     public void logOut() {
-        EMChatManager.getInstance().logout();
+        if (getCurrentUser() != null) {
+            EMChatManager.getInstance().logout();
+        }
     }
 
     public String getCurrentUser() {

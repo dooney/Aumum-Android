@@ -1,6 +1,7 @@
 package com.aumum.app.mobile.core.model;
 
 import com.aumum.app.mobile.core.Constants;
+import com.aumum.app.mobile.core.dao.vm.UserVM;
 
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
@@ -22,7 +23,7 @@ public class Party extends AggregateRoot {
     protected Place place;
     protected String details;
     protected String distance;
-    protected User user;
+    protected UserVM user;
     protected List<String> members = new ArrayList<String>();
     protected List<String> fans = new ArrayList<String>();
     protected List<String> comments = new ArrayList<String>();
@@ -103,11 +104,11 @@ public class Party extends AggregateRoot {
         this.details = details;
     }
 
-    public User getUser() {
+    public UserVM getUser() {
         return user;
     }
 
-    public void setUser(User user) {
+    public void setUser(UserVM user) {
         this.user = user;
     }
 

@@ -9,7 +9,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.aumum.app.mobile.R;
-import com.aumum.app.mobile.core.dao.gen.MessageVM;
+import com.aumum.app.mobile.core.dao.vm.MessageVM;
 
 /**
  * A simple {@link Fragment} subclass.

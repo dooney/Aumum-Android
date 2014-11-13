@@ -1,5 +1,7 @@
 package com.aumum.app.mobile.core.model;
 
+import com.aumum.app.mobile.core.dao.vm.UserVM;
+
 /**
  * Created by Administrator on 28/10/2014.
  */
@@ -7,7 +9,7 @@ public class PartyReason extends AggregateRoot {
     private int type;
     private String content;
     private String userId;
-    private User user;
+    private UserVM user;
 
     public static final int JOIN = 0;
     public static final int QUIT = 1;
@@ -40,11 +42,11 @@ public class PartyReason extends AggregateRoot {
         return userId;
     }
 
-    public User getUser() {
+    public UserVM getUser() {
         return user;
     }
 
-    public void setUser(User user) {
+    public void setUser(UserVM user) {
         this.user = user;
     }
 

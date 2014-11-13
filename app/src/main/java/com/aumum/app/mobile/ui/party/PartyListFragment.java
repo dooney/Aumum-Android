@@ -14,11 +14,12 @@ import android.view.WindowManager;
 import android.widget.PopupWindow;
 import android.widget.TextView;
 
+import com.aumum.app.mobile.Injector;
 import com.aumum.app.mobile.R;
 import com.aumum.app.mobile.core.Constants;
 import com.aumum.app.mobile.core.dao.PartyStore;
+import com.aumum.app.mobile.core.dao.vm.UserVM;
 import com.aumum.app.mobile.core.model.Party;
-import com.aumum.app.mobile.core.model.User;
 import com.aumum.app.mobile.core.dao.UserStore;
 import com.aumum.app.mobile.ui.base.CardListFragment;
 import com.aumum.app.mobile.utils.GPSTracker;
@@ -28,6 +29,8 @@ import com.github.kevinsawicki.wishlist.Toaster;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+
+import javax.inject.Inject;
 
 import it.gmariotti.cardslib.library.internal.Card;
 
@@ -39,11 +42,11 @@ public class PartyListFragment extends CardListFragment
         implements PartyActionListener.OnActionListener,
                    PartyDetailsListener {
 
+    @Inject UserStore userStore;
+
     protected List<Party> dataSet = new ArrayList<Party>();
 
     protected PartyStore dataStore;
-
-    protected UserStore userStore;
 
     protected GPSTracker gpsTracker;
 
@@ -51,7 +54,7 @@ public class PartyListFragment extends CardListFragment
     public void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
-        userStore = UserStore.getInstance(getActivity());
+        Injector.inject(this);
         dataStore = new PartyStore();
         gpsTracker = new GPSTracker(getActivity());
         if (!gpsTracker.canGetLocation()) {
@@ -127,7 +130,7 @@ public class PartyListFragment extends CardListFragment
         }
         if (partyList != null) {
             for (Party party : partyList) {
-                User user = userStore.getUserById(party.getUserId(), false);
+                UserVM user = userStore.getUserById(party.getUserId(), false);
                 party.setUser(user);
             }
         }
@@ -138,7 +141,7 @@ public class PartyListFragment extends CardListFragment
         return buildCards();
     }
 
-    private List<Party> getUpwardsList() {
+    private List<Party> getUpwardsList() throws Exception {
         dataStore.refresh(dataSet);
         String after = null;
         if (dataSet.size() > 0) {
@@ -152,7 +155,7 @@ public class PartyListFragment extends CardListFragment
         return partyList;
     }
 
-    private List<Party> getBackwardsList() {
+    private List<Party> getBackwardsList() throws Exception {
         if (dataSet.size() > 0) {
             Party last = dataSet.get(dataSet.size() - 1);
             List<Party> partyList = onGetBackwardsList(last.getCreatedAt());
@@ -168,10 +171,10 @@ public class PartyListFragment extends CardListFragment
         return null;
     }
 
-    private List<Card> buildCards() {
+    private List<Card> buildCards() throws Exception {
         List<Card> cards = new ArrayList<Card>();
         if (dataSet.size() > 0) {
-            User user = userStore.getCurrentUser(false);
+            UserVM user = userStore.getCurrentUser(false);
             for (Party party : dataSet) {
                 Card card = new PartyCard(getActivity(), party, user.getObjectId(), this, this);
                 cards.add(card);
@@ -244,11 +247,11 @@ public class PartyListFragment extends CardListFragment
         startActivityForResult(intent, Constants.RequestCode.GET_PARTY_DETAILS_REQ_CODE);
     }
 
-    protected List<Party> onGetUpwardsList(String after) {
+    protected List<Party> onGetUpwardsList(String after) throws Exception {
         return dataStore.getUpwardsList(after);
     }
 
-    protected List<Party> onGetBackwardsList(String before) {
+    protected List<Party> onGetBackwardsList(String before) throws Exception {
         return dataStore.getBackwardsList(before);
     }
 }

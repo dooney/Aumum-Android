@@ -13,12 +13,12 @@ import android.widget.TextView;
 
 import com.aumum.app.mobile.Injector;
 import com.aumum.app.mobile.R;
+import com.aumum.app.mobile.core.dao.vm.UserVM;
 import com.aumum.app.mobile.core.infra.security.ApiKeyProvider;
 import com.aumum.app.mobile.core.Constants;
 import com.aumum.app.mobile.core.model.Party;
 import com.aumum.app.mobile.core.dao.PartyStore;
 import com.aumum.app.mobile.core.model.PartyReason;
-import com.aumum.app.mobile.core.model.User;
 import com.aumum.app.mobile.core.dao.UserStore;
 import com.aumum.app.mobile.events.AddPartyReasonEvent;
 import com.aumum.app.mobile.events.AddPartyReasonFinishedEvent;
@@ -49,12 +49,12 @@ public class PartyDetailsFragment extends LoaderFragment<Party>
                    QuickReturnScrollView.OnScrollDirectionListener {
     @Inject ApiKeyProvider apiKeyProvider;
     @Inject Bus bus;
+    @Inject UserStore userStore;
 
     private String partyId;
     private String currentUserId;
 
     private PartyStore partyStore;
-    private UserStore userStore;
     private GPSTracker gpsTracker;
 
     private QuickReturnScrollView scrollView;
@@ -72,10 +72,8 @@ public class PartyDetailsFragment extends LoaderFragment<Party>
     private TextView ageText;
     private TextView genderText;
     private TextView detailsText;
-    private ViewGroup layoutMembers;
-    private TextView membersCountText;
-    private ViewGroup layoutLikes;
-    private TextView likesCountText;
+    private ViewGroup membersLayout;
+    private ViewGroup likesLayout;
 
     private ViewGroup actionLayout;
     private boolean showAction;
@@ -89,15 +87,19 @@ public class PartyDetailsFragment extends LoaderFragment<Party>
     private ImageView postReasonButton;
     private boolean isJoinBoxShow;
 
+    private MembersLayoutListener membersLayoutListener;
+    private LikesLayoutListener likesLayoutListener;
+
     @Override
     public void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Injector.inject(this);
         partyStore = new PartyStore();
-        userStore = UserStore.getInstance(getActivity());
         final Intent intent = getActivity().getIntent();
         partyId = intent.getStringExtra(PartyDetailsActivity.INTENT_PARTY_ID);
         currentUserId = apiKeyProvider.getAuthUserId();
+        membersLayoutListener = new MembersLayoutListener(getActivity(), currentUserId);
+        likesLayoutListener = new LikesLayoutListener(getActivity(), currentUserId);
         gpsTracker = new GPSTracker(getActivity());
         if (!gpsTracker.canGetLocation()) {
             gpsTracker.showSettingsAlert();
@@ -141,10 +143,8 @@ public class PartyDetailsFragment extends LoaderFragment<Party>
         genderText = (TextView) view.findViewById(R.id.text_gender);
         detailsText = (TextView) view.findViewById(R.id.text_details);
 
-        layoutMembers = (ViewGroup) view.findViewById(R.id.layout_members);
-        membersCountText = (TextView) view.findViewById(R.id.text_members_count);
-        layoutLikes = (ViewGroup) view.findViewById(R.id.layout_likes);
-        likesCountText = (TextView) view.findViewById(R.id.text_likes_count);
+        membersLayout = (ViewGroup) view.findViewById(R.id.layout_members);
+        likesLayout = (ViewGroup) view.findViewById(R.id.layout_likes);
 
         actionLayout = (ViewGroup) view.findViewById(R.id.layout_action);
         joinBoxLayout = (ViewGroup) view.findViewById(R.id.layout_join_box);
@@ -209,7 +209,7 @@ public class PartyDetailsFragment extends LoaderFragment<Party>
         if (party == null) {
             throw new Exception(getString(R.string.invalid_party));
         }
-        User user;
+        UserVM user;
         if (party.isOwner(currentUserId)) {
             user = userStore.getCurrentUser(false);
         } else {
@@ -298,7 +298,8 @@ public class PartyDetailsFragment extends LoaderFragment<Party>
                 });
                 likeText.setLikeListener(likeListener);
 
-                updateMembersLayout(party.getMembers());
+                membersLayoutListener.update(membersLayout, party.getMembers());
+
                 updateLikesLayout(party.getFans());
             }
         } catch (Exception e) {
@@ -306,73 +307,11 @@ public class PartyDetailsFragment extends LoaderFragment<Party>
         }
     }
 
-    private void updateMembersLayout(List<String> members) {
-        int count = members.size();
-        if (count > 0) {
-            ViewGroup layoutMembersAvatars = (ViewGroup) layoutMembers.findViewById(R.id.layout_members_avatars);
-            layoutMembersAvatars.removeAllViews();
-            LayoutInflater inflater = getActivity().getLayoutInflater();
-            for(String userId: members) {
-                if (!userId.equals(currentUserId)) {
-                    AvatarImageView imgAvatar = (AvatarImageView) inflater.inflate(R.layout.small_avatar, layoutMembersAvatars, false);
-                    imgAvatar.setOnClickListener(new UserListener(getActivity(), userId));
-                    User user = userStore.getUserById(userId, false);
-                    imgAvatar.getFromUrl(user.getAvatarUrl());
-                    layoutMembersAvatars.addView(imgAvatar);
-                }
-            }
-
-            if (members.contains(currentUserId)) {
-                if (count == 1) {
-                    membersCountText.setText(getString(R.string.label_you_join_the_party));
-                    layoutMembersAvatars.setVisibility(View.GONE);
-                } else {
-                    membersCountText.setText(getString(R.string.label_you_and_others_join_the_party, count - 1));
-                }
-            } else {
-                membersCountText.setText(getString(R.string.label_others_join_the_party, count));
-            }
-
-            if (layoutMembers.getVisibility() != View.VISIBLE) {
-                Animation.fadeIn(layoutMembers, Animation.Duration.SHORT);
-            }
-        } else {
-            Animation.fadeOut(layoutMembers, Animation.Duration.SHORT);
-        }
-    }
-
     private void updateLikesLayout(List<String> likes) {
-        int count = likes.size();
-        if (count > 0) {
-            ViewGroup layoutLikingAvatars = (ViewGroup) layoutLikes.findViewById(R.id.layout_liking_avatars);
-            layoutLikingAvatars.removeAllViews();
-            LayoutInflater inflater = getActivity().getLayoutInflater();
-            for(String userId: likes) {
-                if (!userId.equals(currentUserId)) {
-                    AvatarImageView imgAvatar = (AvatarImageView) inflater.inflate(R.layout.small_avatar, layoutLikingAvatars, false);
-                    imgAvatar.setOnClickListener(new UserListener(getActivity(), userId));
-                    User user = userStore.getUserById(userId, false);
-                    imgAvatar.getFromUrl(user.getAvatarUrl());
-                    layoutLikingAvatars.addView(imgAvatar);
-                }
-            }
-
-            if (likes.contains(currentUserId)) {
-                if (count == 1) {
-                    likesCountText.setText(getString(R.string.label_you_like_the_party));
-                    layoutLikingAvatars.setVisibility(View.GONE);
-                } else {
-                    likesCountText.setText(getString(R.string.label_you_and_others_like_the_party, count - 1));
-                }
-            } else {
-                likesCountText.setText(getString(R.string.label_others_like_the_party, count));
-            }
-
-            if (layoutLikes.getVisibility() != View.VISIBLE) {
-                Animation.fadeIn(layoutLikes, Animation.Duration.SHORT);
-            }
-        } else {
-            Animation.fadeOut(layoutLikes, Animation.Duration.SHORT);
+        try {
+            likesLayoutListener.update(likesLayout, likes);
+        } catch (Exception e) {
+            Ln.e(e);
         }
     }
 
@@ -453,7 +392,12 @@ public class PartyDetailsFragment extends LoaderFragment<Party>
         } else if (event.getType() == PartyReason.QUIT) {
             joinText.update(false);
         }
-        updateMembersLayout(event.getParty().getMembers());
+
+        try {
+            membersLayoutListener.update(membersLayout, event.getParty().getMembers());
+        } catch (Exception e) {
+            Ln.e(e);
+        }
         
         enableSubmit();
     }

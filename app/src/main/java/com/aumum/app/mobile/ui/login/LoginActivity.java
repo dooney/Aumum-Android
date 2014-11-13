@@ -32,7 +32,6 @@ import com.aumum.app.mobile.core.service.ChatService;
 import com.aumum.app.mobile.core.service.RestService;
 import com.aumum.app.mobile.core.Constants;
 import com.aumum.app.mobile.core.model.User;
-import com.aumum.app.mobile.core.dao.UserStore;
 import com.aumum.app.mobile.events.UnAuthorizedErrorEvent;
 import com.aumum.app.mobile.ui.base.ProgressDialogActivity;
 import com.aumum.app.mobile.ui.helper.TextWatcherAdapter;
@@ -54,8 +53,6 @@ import retrofit.RetrofitError;
  */
 public class LoginActivity extends ProgressDialogActivity {
     private AccountManager accountManager;
-
-    private UserStore userStore;
 
     @Inject RestService restService;
     @Inject ChatService chatService;
@@ -91,8 +88,6 @@ public class LoginActivity extends ProgressDialogActivity {
         Injector.inject(this);
 
         accountManager = AccountManager.get(this);
-
-        userStore = UserStore.getInstance(this);
 
         final Intent intent = getIntent();
         authTokenType = intent.getStringExtra(PARAM_AUTHTOKEN_TYPE);
@@ -213,7 +208,6 @@ public class LoginActivity extends ProgressDialogActivity {
                 if (!response.getEmailVerified()) {
                     throw new Exception(getString(R.string.error_authentication_email_not_verified));
                 }
-                userStore.saveUser(response);
                 token = response.getSessionToken();
                 userId = response.getObjectId();
 

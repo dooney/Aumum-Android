@@ -17,7 +17,8 @@ import android.widget.TextView;
 import com.aumum.app.mobile.Injector;
 import com.aumum.app.mobile.R;
 import com.aumum.app.mobile.core.dao.PartyStore;
-import com.aumum.app.mobile.core.dao.gen.MessageVM;
+import com.aumum.app.mobile.core.dao.vm.MessageVM;
+import com.aumum.app.mobile.core.dao.vm.UserVM;
 import com.aumum.app.mobile.core.infra.security.ApiKeyProvider;
 import com.aumum.app.mobile.core.model.Party;
 import com.aumum.app.mobile.core.model.helper.MessageBuilder;
@@ -25,7 +26,6 @@ import com.aumum.app.mobile.core.service.MessageDeliveryService;
 import com.aumum.app.mobile.core.service.RestService;
 import com.aumum.app.mobile.core.model.Comment;
 import com.aumum.app.mobile.core.dao.PartyCommentStore;
-import com.aumum.app.mobile.core.model.User;
 import com.aumum.app.mobile.core.dao.UserStore;
 import com.aumum.app.mobile.ui.comment.CommentsAdapter;
 import com.aumum.app.mobile.ui.base.ItemListFragment;
@@ -51,19 +51,18 @@ public class PartyCommentsFragment extends ItemListFragment<Comment>
         implements DeleteCommentListener.OnActionListener,
                    QuickReturnListView.OnScrollDirectionListener {
     private String partyId;
-    private User currentUser;
+    private UserVM currentUser;
     private Party party;
     private PartyCommentStore partyCommentStore;
-    private UserStore userStore;
     private PartyStore partyStore;
 
     private SafeAsyncTask<Boolean> task;
     private Comment repliedComment;
 
     @Inject RestService service;
-    @Inject
-    MessageDeliveryService messageDeliveryService;
+    @Inject MessageDeliveryService messageDeliveryService;
     @Inject ApiKeyProvider apiKeyProvider;
+    @Inject UserStore userStore;
 
     private QuickReturnListView quickReturnListView;
     private ViewGroup layoutAction;
@@ -78,7 +77,6 @@ public class PartyCommentsFragment extends ItemListFragment<Comment>
         super.onCreate(savedInstanceState);
         Injector.inject(this);
         partyCommentStore = new PartyCommentStore();
-        userStore = UserStore.getInstance(null);
         partyStore = new PartyStore();
         final Intent intent = getActivity().getIntent();
         partyId = intent.getStringExtra(PartyCommentsActivity.INTENT_PARTY_ID);

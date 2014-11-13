@@ -8,18 +8,21 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 
+import com.aumum.app.mobile.Injector;
 import com.aumum.app.mobile.R;
 import com.aumum.app.mobile.core.Constants;
 import com.aumum.app.mobile.core.dao.PartyStore;
 import com.aumum.app.mobile.core.dao.UserStore;
+import com.aumum.app.mobile.core.dao.vm.UserVM;
 import com.aumum.app.mobile.core.model.Party;
-import com.aumum.app.mobile.core.model.User;
 import com.aumum.app.mobile.ui.base.ItemListFragment;
 import com.aumum.app.mobile.utils.GPSTracker;
 import com.aumum.app.mobile.utils.Ln;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import javax.inject.Inject;
 
 import it.gmariotti.cardslib.library.internal.Card;
 import it.gmariotti.cardslib.library.internal.CardArrayAdapter;
@@ -28,16 +31,16 @@ public class SearchPartyFragment extends ItemListFragment<Card>
         implements PartyActionListener.OnActionListener,
         PartyDetailsListener {
 
-    private PartyStore dataStore;
+    @Inject UserStore userStore;
 
-    private UserStore userStore;
+    private PartyStore dataStore;
 
     private GPSTracker gpsTracker;
 
     @Override
     public void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        userStore = UserStore.getInstance(getActivity());
+        Injector.inject(this);
         dataStore = new PartyStore();
         gpsTracker = new GPSTracker(getActivity());
         if (!gpsTracker.canGetLocation()) {
@@ -84,7 +87,7 @@ public class SearchPartyFragment extends ItemListFragment<Card>
         if (partyList != null) {
             gpsTracker.getLocation();
             for (Party party : partyList) {
-                User user = userStore.getUserById(party.getUserId(), false);
+                UserVM user = userStore.getUserById(party.getUserId(), false);
                 party.setUser(user);
                 party.setDistance(gpsTracker.getLatitude(), gpsTracker.getLongitude());
                 if (!party.isNearby()) {
@@ -95,10 +98,10 @@ public class SearchPartyFragment extends ItemListFragment<Card>
         return buildCards(partyList);
     }
 
-    private List<Card> buildCards(List<Party> partyList) {
+    private List<Card> buildCards(List<Party> partyList) throws Exception {
         List<Card> cards = new ArrayList<Card>();
         if (partyList.size() > 0) {
-            User user = userStore.getCurrentUser(false);
+            UserVM user = userStore.getCurrentUser(false);
             for (Party party : partyList) {
                 Card card = new PartyCard(getActivity(), party, user.getObjectId(), this, this);
                 cards.add(card);

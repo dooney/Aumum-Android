@@ -9,7 +9,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.aumum.app.mobile.R;
-import com.aumum.app.mobile.core.dao.gen.MessageVM;
+import com.aumum.app.mobile.core.dao.vm.MessageVM;
 import com.aumum.app.mobile.core.model.MessageParent;
 import com.aumum.app.mobile.ui.party.PartyDetailsActivity;
 import com.aumum.app.mobile.ui.user.UserListener;

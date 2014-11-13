@@ -3,7 +3,7 @@ package com.aumum.app.mobile.ui.message;
 import android.view.View;
 
 import com.aumum.app.mobile.Injector;
-import com.aumum.app.mobile.core.dao.gen.MessageVM;
+import com.aumum.app.mobile.core.dao.vm.MessageVM;
 import com.aumum.app.mobile.core.service.RestService;
 import com.aumum.app.mobile.utils.Ln;
 import com.aumum.app.mobile.utils.SafeAsyncTask;

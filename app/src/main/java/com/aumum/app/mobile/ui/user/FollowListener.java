@@ -1,11 +1,11 @@
 package com.aumum.app.mobile.ui.user;
 
 import com.aumum.app.mobile.Injector;
-import com.aumum.app.mobile.core.dao.gen.MessageVM;
+import com.aumum.app.mobile.core.dao.vm.MessageVM;
+import com.aumum.app.mobile.core.dao.vm.UserVM;
 import com.aumum.app.mobile.core.model.helper.MessageBuilder;
 import com.aumum.app.mobile.core.service.MessageDeliveryService;
 import com.aumum.app.mobile.core.service.RestService;
-import com.aumum.app.mobile.core.model.User;
 import com.aumum.app.mobile.core.dao.UserStore;
 import com.aumum.app.mobile.ui.view.FollowTextView;
 import com.aumum.app.mobile.utils.Ln;
@@ -24,14 +24,11 @@ public class FollowListener implements FollowTextView.OnFollowListener {
     private String followedUserId;
 
     @Inject RestService service;
-    @Inject
-    MessageDeliveryService messageDeliveryService;
-
-    private UserStore userStore;
+    @Inject MessageDeliveryService messageDeliveryService;
+    @Inject UserStore userStore;
 
     public FollowListener(String userId) {
         this.followedUserId = userId;
-        userStore = UserStore.getInstance(null);
         Injector.inject(this);
     }
 
@@ -39,14 +36,9 @@ public class FollowListener implements FollowTextView.OnFollowListener {
     public void onFollow(FollowTextView view) {
         task = new SafeAsyncTask<Boolean>() {
             public Boolean call() throws Exception {
-                User currentUser = userStore.getCurrentUser(false);
-                User followedUser = userStore.getUserById(followedUserId, false);
+                UserVM currentUser = userStore.getCurrentUser(false);
                 service.addFollower(followedUserId, currentUser.getObjectId());
                 service.addFollowing(currentUser.getObjectId(), followedUserId);
-                currentUser.getFollowings().add(followedUserId);
-                followedUser.getFollowers().add(currentUser.getObjectId());
-                userStore.saveUser(currentUser);
-                userStore.saveUser(followedUser);
 
                 MessageVM message = MessageBuilder.buildUserMessage(MessageVM.Type.USER_FOLLOW,
                         currentUser, followedUserId);
@@ -77,14 +69,9 @@ public class FollowListener implements FollowTextView.OnFollowListener {
     public void onUnFollow(FollowTextView view) {
         task = new SafeAsyncTask<Boolean>() {
             public Boolean call() throws Exception {
-                User currentUser = userStore.getCurrentUser(false);
-                User followedUser = userStore.getUserById(followedUserId, false);
+                UserVM currentUser = userStore.getCurrentUser(false);
                 service.removeFollower(followedUserId, currentUser.getObjectId());
                 service.removeFollowing(currentUser.getObjectId(), followedUserId);
-                currentUser.getFollowings().remove(followedUserId);
-                followedUser.getFollowers().remove(currentUser.getObjectId());
-                userStore.saveUser(currentUser);
-                userStore.saveUser(followedUser);
                 return true;
             }
 

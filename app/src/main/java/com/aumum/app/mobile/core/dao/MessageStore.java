@@ -1,8 +1,7 @@
 package com.aumum.app.mobile.core.dao;
 
-import com.aumum.app.mobile.Injector;
 import com.aumum.app.mobile.core.Constants;
-import com.aumum.app.mobile.core.dao.gen.MessageVM;
+import com.aumum.app.mobile.core.dao.vm.MessageVM;
 import com.aumum.app.mobile.core.dao.gen.MessageVMDao;
 import com.aumum.app.mobile.core.model.Message;
 import com.aumum.app.mobile.core.service.RestService;
@@ -12,26 +11,21 @@ import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
-
-import javax.inject.Inject;
 
 /**
  * Created by Administrator on 7/10/2014.
  */
 public class MessageStore {
-    @Inject RestService restService;
-    @Inject Repository repository;
-
+    private RestService restService;
     private MessageVMDao messageVMDao;
 
     private final int LIMIT_PER_LOAD = 10;
 
-    public MessageStore() {
-        Injector.inject(this);
-        messageVMDao = repository.getMessageVMDao();
+    public MessageStore(RestService restService, Repository repository) {
+        this.restService = restService;
+        this.messageVMDao = repository.getMessageVMDao();
     }
 
     private MessageVM map(Message message) throws Exception {
@@ -89,5 +83,9 @@ public class MessageStore {
             List<Message> messageList = restService.getMessagesBefore(idList, typeList, before, LIMIT_PER_LOAD);
             return map(messageList);
         }
+    }
+
+    public void remove(MessageVM message) {
+        messageVMDao.deleteByKey(message.getId());
     }
 }

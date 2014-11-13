@@ -18,7 +18,11 @@ import com.aumum.app.mobile.ui.circle.GroupActionListener;
 import com.aumum.app.mobile.ui.circle.SearchCircleFragment;
 import com.aumum.app.mobile.ui.comment.DeleteCommentListener;
 import com.aumum.app.mobile.ui.message.DeleteMessageListener;
+import com.aumum.app.mobile.ui.message.MessageListFragment;
 import com.aumum.app.mobile.ui.moment.NewMomentActivity;
+import com.aumum.app.mobile.ui.party.LikesLayoutListener;
+import com.aumum.app.mobile.ui.party.MembersLayoutListener;
+import com.aumum.app.mobile.ui.party.PartyListFragment;
 import com.aumum.app.mobile.ui.party.PartyReasonsFragment;
 import com.aumum.app.mobile.ui.party.NewPartyActivity;
 import com.aumum.app.mobile.ui.party.PartyActionListener;
@@ -27,6 +31,7 @@ import com.aumum.app.mobile.ui.account.ResetPasswordActivity;
 import com.aumum.app.mobile.ui.login.LoginActivity;
 import com.aumum.app.mobile.core.service.LogoutService;
 import com.aumum.app.mobile.ui.party.PartyUserActionListener;
+import com.aumum.app.mobile.ui.party.SearchPartyFragment;
 import com.aumum.app.mobile.ui.register.RegisterActivity;
 import com.aumum.app.mobile.core.Constants;
 import com.aumum.app.mobile.core.dao.MessageStore;
@@ -72,8 +77,6 @@ import retrofit.converter.GsonConverter;
                 NewPartyActivity.class,
                 PartyStore.class,
                 FollowListener.class,
-                UserStore.class,
-                MessageStore.class,
                 LikeListener.class,
                 PartyCommentStore.class,
                 PartyCommentsFragment.class,
@@ -93,7 +96,12 @@ import retrofit.converter.GsonConverter;
                 SearchCircleFragment.class,
                 GroupActionListener.class,
                 ChatFragment.class,
-                SendMessageListener.class
+                SendMessageListener.class,
+                MessageListFragment.class,
+                PartyListFragment.class,
+                SearchPartyFragment.class,
+                MembersLayoutListener.class,
+                LikesLayoutListener.class
         }
 )
 public class BootstrapModule {
@@ -129,6 +137,18 @@ public class BootstrapModule {
     @Provides
     RestService provideRestService(RestAdapter restAdapter) {
         return new RestService(restAdapter);
+    }
+
+    @Provides
+    @Singleton
+    MessageStore provideMessageStore(RestService restService, Repository repository) {
+        return new MessageStore(restService, repository);
+    }
+
+    @Provides
+    @Singleton
+    UserStore provideUserStore(RestService restService, ApiKeyProvider apiKeyProvider, Repository repository) {
+        return new UserStore(restService, apiKeyProvider, repository);
     }
 
     @Provides

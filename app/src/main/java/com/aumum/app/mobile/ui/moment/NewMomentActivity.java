@@ -9,10 +9,10 @@ import android.widget.EditText;
 import com.aumum.app.mobile.Injector;
 import com.aumum.app.mobile.R;
 import com.aumum.app.mobile.core.dao.UserStore;
-import com.aumum.app.mobile.core.dao.gen.MessageVM;
+import com.aumum.app.mobile.core.dao.vm.MessageVM;
+import com.aumum.app.mobile.core.dao.vm.UserVM;
 import com.aumum.app.mobile.core.model.Moment;
 import com.aumum.app.mobile.core.model.Party;
-import com.aumum.app.mobile.core.model.User;
 import com.aumum.app.mobile.core.model.helper.MessageBuilder;
 import com.aumum.app.mobile.core.service.MessageDeliveryService;
 import com.aumum.app.mobile.core.service.RestService;
@@ -30,10 +30,10 @@ import retrofit.RetrofitError;
 
 public class NewMomentActivity extends ProgressDialogActivity {
 
+    @Inject UserStore userStore;
     @Inject RestService restService;
     @Inject MessageDeliveryService messageDeliveryService;
 
-    private UserStore userStore;
     private Party party;
 
     @InjectView(R.id.edit_moment_text) protected EditText momentText;
@@ -45,7 +45,6 @@ public class NewMomentActivity extends ProgressDialogActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        userStore = UserStore.getInstance(this);
         Injector.inject(this);
         setContentView(R.layout.activity_new_moment);
         ButterKnife.inject(this);
@@ -82,7 +81,7 @@ public class NewMomentActivity extends ProgressDialogActivity {
 
         task = new SafeAsyncTask<Boolean>() {
             public Boolean call() throws Exception {
-                User currentUser = userStore.getCurrentUser(false);
+                UserVM currentUser = userStore.getCurrentUser(false);
                 moment.setUserId(currentUser.getObjectId());
                 Moment response = restService.newMoment(moment);
                 restService.addUserMomentPost(currentUser.getObjectId(), response.getObjectId());
@@ -90,7 +89,7 @@ public class NewMomentActivity extends ProgressDialogActivity {
                 for(String userId: party.getMembers()) {
                     restService.addUserMoment(userId, response.getObjectId());
                 }
-                for(String userId: currentUser.getFollowers()) {
+                for(String userId: currentUser.getFollowerList()) {
                     restService.addUserMoment(userId, response.getObjectId());
                 }
                 MessageVM message = MessageBuilder.buildPartyMessage(MessageVM.Type.PARTY_CHECK_IN,

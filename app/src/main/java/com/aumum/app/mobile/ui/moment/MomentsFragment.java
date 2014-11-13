@@ -7,11 +7,12 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 
+import com.aumum.app.mobile.Injector;
 import com.aumum.app.mobile.R;
 import com.aumum.app.mobile.core.dao.MomentStore;
 import com.aumum.app.mobile.core.dao.UserStore;
+import com.aumum.app.mobile.core.dao.vm.UserVM;
 import com.aumum.app.mobile.core.model.Moment;
-import com.aumum.app.mobile.core.model.User;
 import com.aumum.app.mobile.ui.base.CardListFragment;
 import com.aumum.app.mobile.ui.party.PartiesActivity;
 import com.github.kevinsawicki.wishlist.Toaster;
@@ -19,6 +20,8 @@ import com.github.kevinsawicki.wishlist.Toaster;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+
+import javax.inject.Inject;
 
 import it.gmariotti.cardslib.library.internal.Card;
 
@@ -28,19 +31,17 @@ import it.gmariotti.cardslib.library.internal.Card;
  */
 public class MomentsFragment extends CardListFragment {
 
+    @Inject UserStore userStore;
+
     protected List<Moment> dataSet = new ArrayList<Moment>();
-
     protected MomentStore dataStore;
-
-    protected UserStore userStore;
-
     protected MenuItem checkInButton;
 
     @Override
     public void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
-        userStore = UserStore.getInstance(getActivity());
+        Injector.inject(this);
         dataStore = new MomentStore();
     }
 
@@ -76,20 +77,20 @@ public class MomentsFragment extends CardListFragment {
     @Override
     protected List<Card> loadCards(int mode) throws Exception {
         List<Moment> momentList;
-        User currentUser = userStore.getCurrentUser(false);
+        UserVM currentUser = userStore.getCurrentUser(false);
         switch (mode) {
             case UPWARDS_REFRESH:
-                momentList = getUpwardsList(currentUser.getMoments());
+                momentList = getUpwardsList(currentUser.getMomentList());
                 break;
             case BACKWARDS_REFRESH:
-                momentList = getBackwardsList(currentUser.getMoments());
+                momentList = getBackwardsList(currentUser.getMomentList());
                 break;
             default:
                 throw new Exception("Invalid refresh mode: " + mode);
         }
         if (momentList != null) {
             for (Moment moment : momentList) {
-                User user = userStore.getUserById(moment.getUserId(), false);
+                UserVM user = userStore.getUserById(moment.getUserId(), false);
                 moment.setUser(user);
             }
         }
@@ -126,10 +127,10 @@ public class MomentsFragment extends CardListFragment {
         return null;
     }
 
-    private List<Card> buildCards() {
+    private List<Card> buildCards() throws Exception {
         List<Card> cards = new ArrayList<Card>();
         if (dataSet.size() > 0) {
-            User user = userStore.getCurrentUser(false);
+            UserVM user = userStore.getCurrentUser(false);
             for (Moment moment : dataSet) {
                 Card card = new MomentCard(getActivity(), moment, user.getObjectId());
                 cards.add(card);

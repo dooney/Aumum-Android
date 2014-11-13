@@ -1,6 +1,6 @@
 package com.aumum.app.mobile.core.service;
 
-import com.aumum.app.mobile.core.dao.gen.MessageVM;
+import com.aumum.app.mobile.core.dao.vm.MessageVM;
 import com.aumum.app.mobile.core.model.Message;
 import com.aumum.app.mobile.utils.Ln;
 import com.aumum.app.mobile.utils.NotificationUtils;

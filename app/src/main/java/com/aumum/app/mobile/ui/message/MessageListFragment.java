@@ -3,11 +3,12 @@ package com.aumum.app.mobile.ui.message;
 import android.content.Intent;
 import android.os.Bundle;
 
+import com.aumum.app.mobile.Injector;
 import com.aumum.app.mobile.R;
 import com.aumum.app.mobile.core.Constants;
-import com.aumum.app.mobile.core.dao.gen.MessageVM;
+import com.aumum.app.mobile.core.dao.vm.MessageVM;
 import com.aumum.app.mobile.core.dao.MessageStore;
-import com.aumum.app.mobile.core.model.User;
+import com.aumum.app.mobile.core.dao.vm.UserVM;
 import com.aumum.app.mobile.core.dao.UserStore;
 import com.aumum.app.mobile.ui.base.CardListFragment;
 import com.aumum.app.mobile.utils.DateUtils;
@@ -18,6 +19,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import javax.inject.Inject;
+
 import it.gmariotti.cardslib.library.internal.Card;
 
 /**
@@ -26,21 +29,17 @@ import it.gmariotti.cardslib.library.internal.Card;
 public class MessageListFragment extends CardListFragment
         implements DeleteMessageListener.OnActionListener{
 
+    @Inject UserStore userStore;
+    @Inject MessageStore messageStore;
+
     private List<MessageVM> dataSet = new ArrayList<MessageVM>();
-
-    private User currentUser;
-
-    private UserStore userStore;
-
-    private MessageStore messageStore;
-
+    private UserVM currentUser;
     private int subCategory;
 
     @Override
     public void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        userStore = UserStore.getInstance(getActivity());
-        messageStore = new MessageStore();
+        Injector.inject(this);
         final Intent intent = getActivity().getIntent();
         subCategory = intent.getIntExtra(MessageListActivity.INTENT_MESSAGE_TYPE, 0);
     }
@@ -68,21 +67,21 @@ public class MessageListFragment extends CardListFragment
         }
         if (messageList != null) {
             for (MessageVM message : messageList) {
-                User user = userStore.getUserById(message.getFromUserId(), false);
+                UserVM user = userStore.getUserById(message.getFromUserId(), false);
                 message.setFromUser(user);
             }
         }
         return buildCards();
     }
 
-    private List<MessageVM> getUpwardsList(User currentUser) throws Exception {
-        List<String> messageIdList = currentUser.getMessages();
+    private List<MessageVM> getUpwardsList(UserVM currentUser) throws Exception {
+        List<String> messageIdList = currentUser.getMessageList();
         if (messageIdList != null) {
             String after = null;
             if (dataSet.size() > 0) {
                 after = DateUtils.dateToString(dataSet.get(0).getCreatedAt(), Constants.DateTime.FORMAT);
             }
-            List<MessageVM> messageList = messageStore.getUpwardsList(currentUser.getMessages(),
+            List<MessageVM> messageList = messageStore.getUpwardsList(currentUser.getMessageList(),
                     MessageVM.getSubCategoryTypes(subCategory), after);
             Collections.reverse(messageList);
             for (MessageVM message : messageList) {
@@ -93,11 +92,11 @@ public class MessageListFragment extends CardListFragment
         return null;
     }
 
-    private List<MessageVM> getBackwardsList(User currentUser) throws Exception {
+    private List<MessageVM> getBackwardsList(UserVM currentUser) throws Exception {
         if (dataSet.size() > 0) {
             MessageVM last = dataSet.get(dataSet.size() - 1);
             String lastCreatedAt = DateUtils.dateToString(last.getCreatedAt(), Constants.DateTime.FORMAT);
-            List<MessageVM> messageList = messageStore.getBackwardsList(currentUser.getMessages(),
+            List<MessageVM> messageList = messageStore.getBackwardsList(currentUser.getMessageList(),
                     MessageVM.getSubCategoryTypes(subCategory), lastCreatedAt);
             dataSet.addAll(messageList);
             if (messageList.size() > 0) {
@@ -135,6 +134,7 @@ public class MessageListFragment extends CardListFragment
                 MessageVM message = ((MessageCard) card).getMessage();
                 if (message.getObjectId().equals(messageId)) {
                     dataSet.remove(message);
+                    messageStore.remove(message);
                     cardList.remove(card);
                     getActivity().runOnUiThread(new Runnable() {
                         @Override

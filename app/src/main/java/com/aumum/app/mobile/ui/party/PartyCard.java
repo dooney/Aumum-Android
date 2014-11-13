@@ -2,7 +2,6 @@ package com.aumum.app.mobile.ui.party;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
@@ -10,17 +9,14 @@ import android.widget.TextView;
 
 import com.aumum.app.mobile.R;
 import com.aumum.app.mobile.core.Constants;
-import com.aumum.app.mobile.core.dao.UserStore;
 import com.aumum.app.mobile.core.model.Party;
-import com.aumum.app.mobile.core.model.User;
 import com.aumum.app.mobile.ui.user.UserListener;
 import com.aumum.app.mobile.ui.view.Animation;
 import com.aumum.app.mobile.ui.view.AvatarImageView;
 import com.aumum.app.mobile.ui.view.DropdownImageView;
 import com.aumum.app.mobile.ui.view.JoinTextView;
 import com.aumum.app.mobile.ui.view.LikeTextView;
-
-import java.util.List;
+import com.aumum.app.mobile.utils.Ln;
 
 import it.gmariotti.cardslib.library.internal.Card;
 
@@ -32,33 +28,31 @@ public class PartyCard extends Card implements PartyActionListener.OnProgressLis
     private Party party;
     private String currentUserId;
     private LikeListener likeListener;
+    private MembersLayoutListener membersLayoutListener;
     private PartyDetailsListener detailsListener;
     private PartyOwnerActionListener ownerActionListener;
     private PartyUserActionListener userActionListener;
     private DropdownImageView dropdownImage;
     private ProgressBar progressBar;
-    private ViewGroup layoutMembers;
-    private TextView membersCountText;
-
-    private UserStore userStore;
 
     public Party getParty() {
         return party;
     }
 
-    public PartyCard(final Activity context, final Party party, String currentUserId,
+    public PartyCard(final Activity activity, final Party party, String currentUserId,
                      PartyActionListener.OnActionListener onActionListener,
                      PartyDetailsListener partyDetailsListener) {
-        super(context, R.layout.party_listitem_inner);
-        this.activity = context;
+        super(activity, R.layout.party_listitem_inner);
+        this.activity = activity;
         this.party = party;
         this.currentUserId = currentUserId;
         this.likeListener = new LikeListener(party);
+        this.membersLayoutListener = new MembersLayoutListener(activity, currentUserId);
         this.detailsListener = partyDetailsListener;
-        this.ownerActionListener = new PartyOwnerActionListener(context, party);
+        this.ownerActionListener = new PartyOwnerActionListener(activity, party);
         this.ownerActionListener.setOnActionListener(onActionListener);
         this.ownerActionListener.setOnProgressListener(this);
-        this.userActionListener = new PartyUserActionListener(context, party);
+        this.userActionListener = new PartyUserActionListener(activity, party);
         this.userActionListener.setOnActionListener(onActionListener);
         this.userActionListener.setOnProgressListener(this);
         setOnClickListener(new OnCardClickListener() {
@@ -67,8 +61,6 @@ public class PartyCard extends Card implements PartyActionListener.OnProgressLis
                 detailsListener.onPartyDetails(party.getObjectId());
             }
         });
-
-        this.userStore = UserStore.getInstance(context);
     }
 
     @Override
@@ -164,9 +156,12 @@ public class PartyCard extends Card implements PartyActionListener.OnProgressLis
         likeText.setText(likes > 0 ? String.valueOf(likes) : view.getResources().getString(R.string.label_like));
         likeText.setLikeListener(likeListener);
 
-        layoutMembers = (ViewGroup) view.findViewById(R.id.layout_members);
-        membersCountText = (TextView) view.findViewById(R.id.text_members_count);
-        updateMembersLayout(party.getMembers());
+        try {
+            ViewGroup membersLayout = (ViewGroup) view.findViewById(R.id.layout_members);
+            membersLayoutListener.update(membersLayout, party.getMembers());
+        } catch (Exception e) {
+            Ln.e(e);
+        }
     }
 
     @Override
@@ -179,41 +174,5 @@ public class PartyCard extends Card implements PartyActionListener.OnProgressLis
     public void onPartyActionFinish() {
         progressBar.setVisibility(View.GONE);
         dropdownImage.setVisibility(View.VISIBLE);
-    }
-
-    private void updateMembersLayout(List<String> members) {
-        int count = members.size();
-        if (count > 0) {
-            ViewGroup layoutMembersAvatars = (ViewGroup) layoutMembers.findViewById(R.id.layout_members_avatars);
-            layoutMembersAvatars.setVisibility(View.VISIBLE);
-            layoutMembersAvatars.removeAllViews();
-            LayoutInflater inflater = activity.getLayoutInflater();
-            for(String userId: members) {
-                if (!userId.equals(currentUserId)) {
-                    AvatarImageView imgAvatar = (AvatarImageView) inflater.inflate(R.layout.small_avatar, layoutMembersAvatars, false);
-                    imgAvatar.setOnClickListener(new UserListener(activity, userId));
-                    User user = userStore.getUserById(userId, false);
-                    imgAvatar.getFromUrl(user.getAvatarUrl());
-                    layoutMembersAvatars.addView(imgAvatar);
-                }
-            }
-
-            if (members.contains(currentUserId)) {
-                if (count == 1) {
-                    membersCountText.setText(activity.getString(R.string.label_you_join_the_party));
-                    layoutMembersAvatars.setVisibility(View.GONE);
-                } else {
-                    membersCountText.setText(activity.getString(R.string.label_you_and_others_join_the_party, count - 1));
-                }
-            } else {
-                membersCountText.setText(activity.getString(R.string.label_others_join_the_party, count));
-            }
-
-            if (layoutMembers.getVisibility() != View.VISIBLE) {
-                Animation.fadeIn(layoutMembers, Animation.Duration.SHORT);
-            }
-        } else {
-            Animation.fadeOut(layoutMembers, Animation.Duration.SHORT);
-        }
     }
 }
