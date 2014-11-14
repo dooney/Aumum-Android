@@ -254,7 +254,7 @@ public class PartyDetailsFragment extends LoaderFragment<Party>
                 showAction = false;
                 if (party.isExpired() && party.isMember(currentUserId)) {
                     checkInLayout.setVisibility(View.VISIBLE);
-                    checkInText.setText(party.getMomentCounts() > 0 ? String.valueOf(party.getMomentCounts()):
+                    checkInText.setText(party.getMomentsCount() > 0 ? String.valueOf(party.getMomentsCount()):
                             getString(R.string.label_check_in));
                     checkInText.setOnClickListener(new CheckInListener(getActivity(), party));
                 }
@@ -264,7 +264,7 @@ public class PartyDetailsFragment extends LoaderFragment<Party>
                     joinText.update(party.isMember(currentUserId));
                 }
 
-                int comments = party.getCommentCounts();
+                int comments = party.getCommentsCount();
                 commentText.setText(comments > 0 ? String.valueOf(comments) : getString(R.string.label_comment));
                 commentText.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -280,7 +280,7 @@ public class PartyDetailsFragment extends LoaderFragment<Party>
                 likeText.setLike(isLike);
                 int likeDrawableId = (isLike ? R.drawable.ic_fa_thumbs_up : R.drawable.ic_fa_thumbs_o_up);
                 likeText.setCompoundDrawablesWithIntrinsicBounds(likeDrawableId, 0, 0, 0);
-                int likes = party.getLikeCounts();
+                int likes = party.getLikesCount();
                 likeText.setText(likes > 0 ? String.valueOf(likes) : getString(R.string.label_like));
                 LikeListener likeListener = new LikeListener(party);
                 likeListener.setOnLikeFinishedListener(new LikeListener.LikeFinishedListener() {

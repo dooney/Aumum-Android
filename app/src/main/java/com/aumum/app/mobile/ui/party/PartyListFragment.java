@@ -154,7 +154,6 @@ public class PartyListFragment extends CardListFragment
                 setLoadMore(true);
             } else {
                 setLoadMore(false);
-                Toaster.showShort(getActivity(), R.string.info_all_loaded);
             }
         }
     }

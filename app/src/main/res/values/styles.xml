@@ -85,6 +85,11 @@
         <item name="android:layout_height">@dimen/image_sz_extra_small</item>
         <item name="android:src">@drawable/ic_fa_trash_o</item>
     </style>
+    <style name="ImageView.Unread.Small" parent="ImageView">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:src">@drawable/image_unread_background</item>
+    </style>
 
     <style name="TextView" parent="android:Widget.TextView"/>
     <style name="LinkTextView" parent="TextView">
@@ -329,12 +334,15 @@
     </style>
     <style name="TextView.MessageParent.Content" parent="TextView.Subtitle" />
     <style name="ButtonTextView.Message" parent="ButtonTextView">
-        <item name="android:layout_width">match_parent</item>
         <item name="android:textSize">@dimen/text_sz_large</item>
-        <item name="android:padding">@dimen/margin_large</item>
+        <item name="android:paddingTop">@dimen/margin_large</item>
+        <item name="android:paddingBottom">@dimen/margin_large</item>
+        <item name="android:paddingLeft">@dimen/margin_large</item>
+        <item name="android:paddingRight">0dp</item>
         <item name="android:gravity">center_vertical</item>
     </style>
     <style name="ButtonTextView.Message.PartyMembership" parent="ButtonTextView.Message">
+        <item name="android:layout_width">wrap_content</item>
         <item name="android:drawableLeft">@drawable/ic_fa_user_l</item>
         <item name="android:text">@string/label_party_join</item>
     </style>

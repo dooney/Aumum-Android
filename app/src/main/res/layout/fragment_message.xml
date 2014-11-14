@@ -7,21 +7,60 @@
     android:background="@color/card_background"
     tools:context="com.aumum.app.mobile.ui.message.MessageFragment">
 
-    <TextView
-        android:id="@+id/text_party_membership"
-        style="@style/ButtonTextView.Message.PartyMembership" />
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/text_party_membership"
+            style="@style/ButtonTextView.Message.PartyMembership" />
+
+        <ImageView
+            android:id="@+id/image_unread_party_membership_message"
+            style="@style/ImageView.Unread.Small"
+            android:paddingTop="@dimen/margin_large"
+            android:layout_toRightOf="@id/text_party_membership"
+            android:visibility="gone"/>
+
+    </RelativeLayout>
 
     <View style="@style/Divider" />
 
-    <TextView
-        android:id="@+id/text_party_comments"
-        style="@style/ButtonTextView.Message.PartyComments" />
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/text_party_comments"
+            style="@style/ButtonTextView.Message.PartyComments" />
+
+        <ImageView
+            android:id="@+id/image_unread_party_comments_message"
+            style="@style/ImageView.Unread.Small"
+            android:paddingTop="@dimen/margin_large"
+            android:layout_toRightOf="@id/text_party_comments"
+            android:visibility="gone"/>
+
+    </RelativeLayout>
 
     <View style="@style/Divider" />
 
-    <TextView
-        android:id="@+id/text_party_likes"
-        style="@style/ButtonTextView.Message.PartyLikes" />
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/text_party_likes"
+            style="@style/ButtonTextView.Message.PartyLikes" />
+
+        <ImageView
+            android:id="@+id/image_unread_party_likes_message"
+            style="@style/ImageView.Unread.Small"
+            android:paddingTop="@dimen/margin_large"
+            android:layout_toRightOf="@id/text_party_likes"
+            android:visibility="gone"/>
+
+    </RelativeLayout>
 
     <View style="@style/Divider" />
 

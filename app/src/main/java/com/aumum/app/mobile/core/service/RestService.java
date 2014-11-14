@@ -85,19 +85,19 @@ public class RestService {
         return objectIdInJson;
     }
 
-    private JsonObject buildDateTimeAfterJson(DateTime dateTime) {
+    private JsonObject buildDateTimeAfterJson(String dateTime) {
         final JsonObject timeJson = new JsonObject();
         timeJson.addProperty("__type", "Date");
-        timeJson.addProperty("iso", dateTime.toString(Constants.DateTime.FORMAT));
+        timeJson.addProperty("iso", dateTime);
         final JsonObject gtJson = new JsonObject();
         gtJson.add("$gt", timeJson);
         return gtJson;
     }
 
-    private JsonObject buildDateTimeBeforeJson(DateTime dateTime) {
+    private JsonObject buildDateTimeBeforeJson(String dateTime) {
         final JsonObject timeJson = new JsonObject();
         timeJson.addProperty("__type", "Date");
-        timeJson.addProperty("iso", dateTime.toString(Constants.DateTime.FORMAT));
+        timeJson.addProperty("iso", dateTime);
         final JsonObject ltJson = new JsonObject();
         ltJson.add("$lt", timeJson);
         return ltJson;
@@ -134,7 +134,7 @@ public class RestService {
         return getPartyService().getById(id);
     }
 
-    private List<Party> getPartiesAfterCore(JsonObject whereJson, DateTime after, int limit) {
+    private List<Party> getPartiesAfterCore(JsonObject whereJson, String after, int limit) {
         if (after != null) {
             whereJson.add("createdAt", buildDateTimeAfterJson(after));
         }
@@ -145,18 +145,18 @@ public class RestService {
         return getPartyService().getAll("-createdAt", where, limit).getResults();
     }
 
-    public List<Party> getPartiesAfter(DateTime after, int limit) {
+    public List<Party> getPartiesAfter(String after, int limit) {
         final JsonObject whereJson = new JsonObject();
         return getPartiesAfterCore(whereJson, after, limit);
     }
 
-    public List<Party> getPartiesAfter(List<String> idList, DateTime after, int limit) {
+    public List<Party> getPartiesAfter(List<String> idList, String after, int limit) {
         final JsonObject whereJson = new JsonObject();
         whereJson.add("objectId", buildIdListJson(idList));
         return getPartiesAfterCore(whereJson, after, limit);
     }
 
-    private List<Party> getPartiesBeforeCore(JsonObject whereJson, DateTime before, int limit) {
+    private List<Party> getPartiesBeforeCore(JsonObject whereJson, String before, int limit) {
         whereJson.add("createdAt", buildDateTimeBeforeJson(before));
         final JsonObject liveJson = new JsonObject();
         liveJson.addProperty("$exists", false);
@@ -165,12 +165,12 @@ public class RestService {
         return getPartyService().getAll("-createdAt", where, limit).getResults();
     }
 
-    public List<Party> getPartiesBefore(DateTime before, int limit) {
+    public List<Party> getPartiesBefore(String before, int limit) {
         final JsonObject whereJson = new JsonObject();
         return getPartiesBeforeCore(whereJson, before, limit);
     }
 
-    public List<Party> getPartiesBefore(List<String> idList, DateTime before, int limit) {
+    public List<Party> getPartiesBefore(List<String> idList, String before, int limit) {
         final JsonObject whereJson = new JsonObject();
         whereJson.add("objectId", buildIdListJson(idList));
         return getPartiesBeforeCore(whereJson, before, limit);
@@ -247,7 +247,7 @@ public class RestService {
         return getUserService().updateById(userId, data);
     }
 
-    public List<Message> getMessagesAfter(List<String> idList, int[] typeList, DateTime after, int limit) {
+    public List<Message> getMessagesAfter(List<String> idList, int[] typeList, String after, int limit) {
         final JsonObject whereJson = new JsonObject();
         whereJson.add("objectId", buildIdListJson(idList));
         final JsonArray typeListJson = new JsonArray();
@@ -264,7 +264,7 @@ public class RestService {
         return getMessageService().getMessages("-createdAt", where, limit).getResults();
     }
 
-    public List<Message> getMessagesBefore(List<String> idList, int[] typeList, DateTime before, int limit) {
+    public List<Message> getMessagesBefore(List<String> idList, int[] typeList, String before, int limit) {
         final JsonObject whereJson = new JsonObject();
         whereJson.add("objectId", buildIdListJson(idList));
         final JsonArray typeListJson = new JsonArray();
@@ -492,7 +492,7 @@ public class RestService {
     public List<Party> getLiveParties() {
         final JsonObject whereJson = new JsonObject();
         DateTime now = DateTime.now(DateTimeZone.UTC);
-        whereJson.add("dateTime", buildDateTimeAfterJson(now));
+        whereJson.add("dateTime", buildDateTimeAfterJson(now.toString(Constants.DateTime.FORMAT)));
         final JsonObject liveJson = new JsonObject();
         liveJson.addProperty("$exists", false);
         whereJson.add("deletedAt" ,liveJson);
@@ -500,7 +500,7 @@ public class RestService {
         return getPartyService().getAll("dateTime", where, Integer.MAX_VALUE).getResults();
     }
 
-    public List<Moment> getMomentsAfter(List<String> idList, DateTime after, int limit) {
+    public List<Moment> getMomentsAfter(List<String> idList, String after, int limit) {
         final JsonObject whereJson = new JsonObject();
         whereJson.add("objectId", buildIdListJson(idList));
         if (after != null) {
@@ -513,7 +513,7 @@ public class RestService {
         return getMomentService().getAll("-createdAt", where, limit).getResults();
     }
 
-    public List<Moment> getMomentsBefore(List<String> idList, DateTime before, int limit) {
+    public List<Moment> getMomentsBefore(List<String> idList, String before, int limit) {
         final JsonObject whereJson = new JsonObject();
         whereJson.add("objectId", buildIdListJson(idList));
         whereJson.add("createdAt", buildDateTimeBeforeJson(before));
@@ -589,5 +589,21 @@ public class RestService {
         op.add("objects", partyMoments);
         data.add(Constants.Http.Party.PARAM_MOMENTS, op);
         return getPartyService().updateById(partyId, data);
+    }
+
+    public int getMessagesCountAfter(String toUserId, int[] typeList, String time) {
+        final JsonObject whereJson = new JsonObject();
+        whereJson.addProperty("toUserId", toUserId);
+        final JsonArray typeListJson = new JsonArray();
+        for (int type: typeList) {
+            typeListJson.add(new JsonPrimitive(type));
+        }
+        final JsonObject typeInJson = new JsonObject();
+        typeInJson.add("$in", typeListJson);
+        whereJson.add("type", typeInJson);
+        whereJson.add("createdAt", buildDateTimeAfterJson(time));
+        String where = whereJson.toString();
+        JsonObject result = getMessageService().getMessagesCount("-createdAt", where, 1, 0);
+        return result.get("count").getAsInt();
     }
 }

@@ -30,6 +30,7 @@ public class PartyEntity extends BaseEntity {
     }
 
     public PartyEntity(Long id,
+                       String instanceId,
                        String objectId,
                        java.util.Date createdAt,
                        String userId,
@@ -46,6 +47,7 @@ public class PartyEntity extends BaseEntity {
                        String reasons,
                        String moments) {
         this.id = id;
+        this.instanceId = instanceId;
         this.objectId = objectId;
         this.createdAt = createdAt;
         this.userId = userId;

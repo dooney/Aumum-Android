@@ -131,6 +131,7 @@ public class PartyReasonsFragment extends ItemListFragment<PartyReason> {
         reason.setType(event.getType());
         reason.setContent(event.getReason());
         reason.setUserId(currentUser.getObjectId());
+        reason.setUser(currentUser);
         getData().add(0, reason);
         getListAdapter().notifyDataSetChanged();
         show();

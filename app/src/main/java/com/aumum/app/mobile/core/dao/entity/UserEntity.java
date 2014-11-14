@@ -31,6 +31,7 @@ public class UserEntity extends BaseEntity {
     }
 
     public UserEntity(Long id,
+                      String instanceId,
                       String objectId,
                       Date createdAt,
                       String screenName,
@@ -46,6 +47,7 @@ public class UserEntity extends BaseEntity {
                       String moments,
                       String momentPosts) {
         this.id = id;
+        this.instanceId = instanceId;
         this.objectId = objectId;
         this.createdAt = createdAt;
         this.screenName = screenName;

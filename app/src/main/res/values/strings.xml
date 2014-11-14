@@ -28,7 +28,6 @@
     <string name="info_comment_deleted">该评论已成功删除</string>
     <string name="info_message_deleted">该消息已成功删除</string>
     <string name="info_click_back_again">再按一次返回桌面</string>
-    <string name="info_all_loaded">所有信息已加载</string>
     <string name="info_posting_moment">正在提交您的签到，请稍候…</string>
 
     <!-- Error Message -->

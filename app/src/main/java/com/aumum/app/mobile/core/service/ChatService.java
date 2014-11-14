@@ -50,7 +50,12 @@ public class ChatService {
     }
 
     public String getCurrentUser() {
-        return EMChatManager.getInstance().getCurrentUser();
+        try {
+            return EMChatManager.getInstance().getCurrentUser();
+        } catch (Exception e) {
+            Ln.e(e);
+        }
+        return null;
     }
 
     /**

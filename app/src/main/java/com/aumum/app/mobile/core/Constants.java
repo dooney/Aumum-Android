@@ -140,6 +140,10 @@ public final class Constants {
         public static final String FORMAT = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'";
     }
 
+    public static final class Schedule {
+        public static final long DELAY = 10000;
+    }
+
     public static final class Options {
         private Options() {
         }

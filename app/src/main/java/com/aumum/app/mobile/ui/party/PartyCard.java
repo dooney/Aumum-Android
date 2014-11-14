@@ -117,7 +117,7 @@ public class PartyCard extends Card implements PartyActionListener.OnProgressLis
         if (party.isExpired() && party.isMember(currentUserId)) {
             joinLayout.setVisibility(View.VISIBLE);
             checkInText.setVisibility(View.VISIBLE);
-            checkInText.setText(party.getMomentCounts() > 0 ? String.valueOf(party.getMomentCounts()):
+            checkInText.setText(party.getMomentsCount() > 0 ? String.valueOf(party.getMomentsCount()):
                     view.getResources().getString(R.string.label_check_in));
             checkInText.setOnClickListener(new CheckInListener(activity, party));
         }
@@ -135,7 +135,7 @@ public class PartyCard extends Card implements PartyActionListener.OnProgressLis
         }
 
         TextView commentText = (TextView) view.findViewById(R.id.text_comment);
-        int comments = party.getCommentCounts();
+        int comments = party.getCommentsCount();
         commentText.setText(comments > 0 ? String.valueOf(comments) : view.getResources().getString(R.string.label_comment));
         commentText.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -152,7 +152,7 @@ public class PartyCard extends Card implements PartyActionListener.OnProgressLis
         likeText.setLike(isLike);
         int likeDrawableId = (isLike ? R.drawable.ic_fa_thumbs_up : R.drawable.ic_fa_thumbs_o_up);
         likeText.setCompoundDrawablesWithIntrinsicBounds(likeDrawableId, 0, 0, 0);
-        int likes = party.getLikeCounts();
+        int likes = party.getLikesCount();
         likeText.setText(likes > 0 ? String.valueOf(likes) : view.getResources().getString(R.string.label_like));
         likeText.setLikeListener(likeListener);
 

@@ -201,7 +201,7 @@ public class Party extends AggregateRoot {
         return false;
     }
 
-    public int getCommentCounts() {
+    public int getCommentsCount() {
         if (comments != null) {
             return comments.size();
         }
@@ -215,7 +215,7 @@ public class Party extends AggregateRoot {
         return false;
     }
 
-    public int getLikeCounts() {
+    public int getLikesCount() {
         if (fans != null) {
             return fans.size();
         }
@@ -240,7 +240,7 @@ public class Party extends AggregateRoot {
         return false;
     }
 
-    public int getMomentCounts() {
+    public int getMomentsCount() {
         if (moments != null) {
             return moments.size();
         }

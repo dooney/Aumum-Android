@@ -24,6 +24,7 @@ public class MessageEntity extends BaseEntity {
     }
 
     public MessageEntity(Long id,
+                         String instanceId,
                          String objectId,
                          Date createdAt,
                          String fromUserId,
@@ -32,6 +33,7 @@ public class MessageEntity extends BaseEntity {
                          String content,
                          String parent) {
         this.id = id;
+        this.instanceId = instanceId;
         this.objectId = objectId;
         this.createdAt = createdAt;
         this.fromUserId = fromUserId;
