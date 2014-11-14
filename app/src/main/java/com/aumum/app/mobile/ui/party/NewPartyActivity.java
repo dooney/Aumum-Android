@@ -16,13 +16,12 @@ import com.aumum.app.mobile.Injector;
 import com.aumum.app.mobile.R;
 import com.aumum.app.mobile.core.Constants;
 import com.aumum.app.mobile.core.dao.UserStore;
-import com.aumum.app.mobile.core.dao.vm.MessageVM;
-import com.aumum.app.mobile.core.dao.vm.UserVM;
 import com.aumum.app.mobile.core.model.Date;
+import com.aumum.app.mobile.core.model.Message;
 import com.aumum.app.mobile.core.model.Party;
 import com.aumum.app.mobile.core.model.Place;
 import com.aumum.app.mobile.core.model.Time;
-import com.aumum.app.mobile.core.model.helper.MessageBuilder;
+import com.aumum.app.mobile.core.model.User;
 import com.aumum.app.mobile.core.service.MessageDeliveryService;
 import com.aumum.app.mobile.core.service.RestService;
 import com.aumum.app.mobile.ui.base.ProgressDialogActivity;
@@ -209,15 +208,15 @@ public class NewPartyActivity extends ProgressDialogActivity
                 if (!GooglePlaceUtils.setPlaceLatLong(party.getPlace())) {
                     throw new Exception(getString(R.string.error_validate_party_location, party.getPlace().getLocation()));
                 }
-                UserVM user = userStore.getCurrentUser(false);
+                User user = userStore.getCurrentUser();
                 party.setUserId(user.getObjectId());
                 Party response = restService.newParty(party);
                 restService.addPartyMember(response.getObjectId(), user.getObjectId());
                 restService.addUserParty(user.getObjectId(), response.getObjectId());
                 restService.addUserPartyPost(user.getObjectId(), response.getObjectId());
-                for (String userId: user.getFollowerList()) {
-                    MessageVM message = MessageBuilder.buildPartyMessage(MessageVM.Type.PARTY_NEW,
-                            user, userId, null, party);
+                for (String userId: user.getFollowers()) {
+                    Message message = new Message(Message.Type.PARTY_NEW,
+                            user.getObjectId(), userId, null, party.getObjectId(), party.getTitle());
                     messageDeliveryService.send(message);
                 }
                 return true;

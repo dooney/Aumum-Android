@@ -19,6 +19,48 @@ public class User extends AggregateRoot {
     protected List<String> moments = new ArrayList<String>();
     protected List<String> momentPosts = new ArrayList<String>();
 
+    public User() {
+
+    }
+
+    public User(String objectId,
+                String createdAt,
+                String screenName,
+                int area,
+                String avatarUrl,
+                String about,
+                List<String> followers,
+                List<String> followings,
+                List<String> comments,
+                List<String> messages,
+                List<String> parties,
+                List<String> partyPosts,
+                List<String> moments,
+                List<String> momentPosts) {
+        this.objectId = objectId;
+        this.createdAt = createdAt;
+        this.screenName = screenName;
+        this.area = area;
+        this.avatarUrl = avatarUrl;
+        this.about = about;
+        this.followers.clear();
+        this.followers.addAll(followers);
+        this.followings.clear();
+        this.followings.addAll(followings);
+        this.comments.clear();
+        this.comments.addAll(comments);
+        this.messages.clear();
+        this.messages.addAll(messages);
+        this.parties.clear();
+        this.parties.addAll(parties);
+        this.partyPosts.clear();
+        this.partyPosts.addAll(partyPosts);
+        this.moments.clear();
+        this.moments.addAll(moments);
+        this.momentPosts.clear();
+        this.momentPosts.addAll(momentPosts);
+    }
+
     public String getScreenName() {
         return screenName;
     }

@@ -1,14 +1,9 @@
-package com.aumum.app.mobile.core.dao.vm;
-
-import com.aumum.app.mobile.utils.TimeUtils;
-
-import org.joda.time.DateTime;
-import org.joda.time.DateTimeZone;
+package com.aumum.app.mobile.core.dao.entity;
 
 /**
  * Created by Administrator on 13/11/2014.
  */
-public class BaseVM {
+public class BaseEntity {
     /** Not-null value. */
     protected String objectId;
     /** Not-null value. */
@@ -32,10 +27,5 @@ public class BaseVM {
     /** Not-null value; ensure this value is available before it is saved to the database. */
     public void setCreatedAt(java.util.Date createdAt) {
         this.createdAt = createdAt;
-    }
-
-    public String getCreatedAtFormatted() {
-        DateTime time = new DateTime(createdAt, DateTimeZone.UTC);
-        return TimeUtils.getFormattedTimeString(time);
     }
 }

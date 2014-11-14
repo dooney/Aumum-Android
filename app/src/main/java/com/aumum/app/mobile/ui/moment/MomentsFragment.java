@@ -11,8 +11,8 @@ import com.aumum.app.mobile.Injector;
 import com.aumum.app.mobile.R;
 import com.aumum.app.mobile.core.dao.MomentStore;
 import com.aumum.app.mobile.core.dao.UserStore;
-import com.aumum.app.mobile.core.dao.vm.UserVM;
 import com.aumum.app.mobile.core.model.Moment;
+import com.aumum.app.mobile.core.model.User;
 import com.aumum.app.mobile.ui.base.CardListFragment;
 import com.aumum.app.mobile.ui.party.PartiesActivity;
 import com.github.kevinsawicki.wishlist.Toaster;
@@ -76,28 +76,21 @@ public class MomentsFragment extends CardListFragment {
 
     @Override
     protected List<Card> loadCards(int mode) throws Exception {
-        List<Moment> momentList;
-        UserVM currentUser = userStore.getCurrentUser(false);
+        User currentUser = userStore.getCurrentUser();
         switch (mode) {
             case UPWARDS_REFRESH:
-                momentList = getUpwardsList(currentUser.getMomentList());
+                getUpwardsList(currentUser.getMoments());
                 break;
             case BACKWARDS_REFRESH:
-                momentList = getBackwardsList(currentUser.getMomentList());
+                getBackwardsList(currentUser.getMoments());
                 break;
             default:
                 throw new Exception("Invalid refresh mode: " + mode);
         }
-        if (momentList != null) {
-            for (Moment moment : momentList) {
-                UserVM user = userStore.getUserById(moment.getUserId(), false);
-                moment.setUser(user);
-            }
-        }
         return buildCards();
     }
 
-    private List<Moment> getUpwardsList(List<String> idList) {
+    private void getUpwardsList(List<String> idList) {
         dataStore.refresh(dataSet);
         String after = null;
         if (dataSet.size() > 0) {
@@ -108,10 +101,9 @@ public class MomentsFragment extends CardListFragment {
         for(Moment moment: momentList) {
             dataSet.add(0, moment);
         }
-        return momentList;
     }
 
-    private List<Moment> getBackwardsList(List<String> idList) {
+    private void getBackwardsList(List<String> idList) {
         if (dataSet.size() > 0) {
             Moment last = dataSet.get(dataSet.size() - 1);
             List<Moment> momentList = dataStore.getBackwardsList(idList, last.getCreatedAt());
@@ -122,17 +114,16 @@ public class MomentsFragment extends CardListFragment {
                 setLoadMore(false);
                 Toaster.showShort(getActivity(), R.string.info_all_loaded);
             }
-            return momentList;
         }
-        return null;
     }
 
     private List<Card> buildCards() throws Exception {
         List<Card> cards = new ArrayList<Card>();
         if (dataSet.size() > 0) {
-            UserVM user = userStore.getCurrentUser(false);
+            User currentUser = userStore.getCurrentUser();
             for (Moment moment : dataSet) {
-                Card card = new MomentCard(getActivity(), moment, user.getObjectId());
+                moment.setUser(userStore.getUserById(moment.getUserId()));
+                Card card = new MomentCard(getActivity(), moment, currentUser.getObjectId());
                 cards.add(card);
             }
         }

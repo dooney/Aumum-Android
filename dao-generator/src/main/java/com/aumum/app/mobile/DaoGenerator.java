@@ -12,12 +12,13 @@ public class DaoGenerator {
 
         addMessage(schema);
         addUser(schema);
+        addParty(schema);
 
         new de.greenrobot.daogenerator.DaoGenerator().generateAll(schema, args[0]);
     }
 
     private static void addMessage(Schema schema) {
-        Entity message = schema.addEntity("MessageVM");
+        Entity message = schema.addEntity("MessageEntity");
         message.setSuperclass("BaseVM");
         message.addIdProperty();
         message.addStringProperty("objectId").notNull();
@@ -30,7 +31,7 @@ public class DaoGenerator {
     }
 
     private static void addUser(Schema schema) {
-        Entity user = schema.addEntity("UserVM");
+        Entity user = schema.addEntity("UserEntity");
         user.setSuperclass("BaseVM");
         user.addIdProperty();
         user.addStringProperty("objectId").notNull();
@@ -47,5 +48,26 @@ public class DaoGenerator {
         user.addStringProperty("partyPosts");
         user.addStringProperty("moments");
         user.addStringProperty("momentPosts");
+    }
+
+    private static void addParty(Schema schema) {
+        Entity party = schema.addEntity("PartyEntity");
+        party.setSuperclass("BaseVM");
+        party.addIdProperty();
+        party.addStringProperty("objectId").notNull();
+        party.addDateProperty("createdAt").notNull();
+        party.addStringProperty("userId");
+        party.addStringProperty("date");
+        party.addStringProperty("time");
+        party.addIntProperty("age");
+        party.addIntProperty("gender");
+        party.addStringProperty("title");
+        party.addStringProperty("place");
+        party.addStringProperty("details");
+        party.addStringProperty("members");
+        party.addStringProperty("fans");
+        party.addStringProperty("comments");
+        party.addStringProperty("reasons");
+        party.addStringProperty("moments");
     }
 }

@@ -13,8 +13,8 @@ import com.aumum.app.mobile.R;
 import com.aumum.app.mobile.core.Constants;
 import com.aumum.app.mobile.core.dao.PartyStore;
 import com.aumum.app.mobile.core.dao.UserStore;
-import com.aumum.app.mobile.core.dao.vm.UserVM;
 import com.aumum.app.mobile.core.model.Party;
+import com.aumum.app.mobile.core.model.User;
 import com.aumum.app.mobile.ui.base.ItemListFragment;
 import com.aumum.app.mobile.utils.GPSTracker;
 import com.aumum.app.mobile.utils.Ln;
@@ -32,8 +32,7 @@ public class SearchPartyFragment extends ItemListFragment<Card>
         PartyDetailsListener {
 
     @Inject UserStore userStore;
-
-    private PartyStore dataStore;
+    @Inject PartyStore dataStore;
 
     private GPSTracker gpsTracker;
 
@@ -41,7 +40,6 @@ public class SearchPartyFragment extends ItemListFragment<Card>
     public void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Injector.inject(this);
-        dataStore = new PartyStore();
         gpsTracker = new GPSTracker(getActivity());
         if (!gpsTracker.canGetLocation()) {
             gpsTracker.showSettingsAlert();
@@ -87,8 +85,6 @@ public class SearchPartyFragment extends ItemListFragment<Card>
         if (partyList != null) {
             gpsTracker.getLocation();
             for (Party party : partyList) {
-                UserVM user = userStore.getUserById(party.getUserId(), false);
-                party.setUser(user);
                 party.setDistance(gpsTracker.getLatitude(), gpsTracker.getLongitude());
                 if (!party.isNearby()) {
                     partyList.remove(party);
@@ -101,9 +97,12 @@ public class SearchPartyFragment extends ItemListFragment<Card>
     private List<Card> buildCards(List<Party> partyList) throws Exception {
         List<Card> cards = new ArrayList<Card>();
         if (partyList.size() > 0) {
-            UserVM user = userStore.getCurrentUser(false);
+            User currentUser = userStore.getCurrentUser();
             for (Party party : partyList) {
-                Card card = new PartyCard(getActivity(), party, user.getObjectId(), this, this);
+                if (party.getUser() == null) {
+                    party.setUser(userStore.getUserById(party.getObjectId()));
+                }
+                Card card = new PartyCard(getActivity(), party, currentUser.getObjectId(), this, this);
                 cards.add(card);
             }
         }

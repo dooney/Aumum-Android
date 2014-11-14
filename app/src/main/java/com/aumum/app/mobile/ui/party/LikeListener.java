@@ -1,9 +1,8 @@
 package com.aumum.app.mobile.ui.party;
 
 import com.aumum.app.mobile.Injector;
-import com.aumum.app.mobile.core.dao.vm.MessageVM;
-import com.aumum.app.mobile.core.dao.vm.UserVM;
-import com.aumum.app.mobile.core.model.helper.MessageBuilder;
+import com.aumum.app.mobile.core.model.Message;
+import com.aumum.app.mobile.core.model.User;
 import com.aumum.app.mobile.core.service.MessageDeliveryService;
 import com.aumum.app.mobile.core.service.RestService;
 import com.aumum.app.mobile.core.model.Party;
@@ -48,7 +47,7 @@ public class LikeListener implements LikeTextView.OnLikeListener {
     public void onUnLike(LikeTextView view) {
         task = new SafeAsyncTask<Boolean>() {
             public Boolean call() throws Exception {
-                UserVM currentUser = userStore.getCurrentUser(false);
+                User currentUser = userStore.getCurrentUser();
                 service.removePartyFan(party.getObjectId(), currentUser.getObjectId());
                 party.getFans().remove(currentUser.getObjectId());
 
@@ -86,12 +85,12 @@ public class LikeListener implements LikeTextView.OnLikeListener {
     public void onLike(LikeTextView view) {
         task = new SafeAsyncTask<Boolean>() {
             public Boolean call() throws Exception {
-                UserVM currentUser = userStore.getCurrentUser(false);
+                User currentUser = userStore.getCurrentUser();
                 service.addPartyFan(party.getObjectId(), currentUser.getObjectId());
                 party.getFans().add(currentUser.getObjectId());
 
-                MessageVM message = MessageBuilder.buildPartyMessage(MessageVM.Type.PARTY_LIKE,
-                        currentUser, party.getUserId(), null, party);
+                Message message = new Message(Message.Type.PARTY_LIKE,
+                        currentUser.getObjectId(), party.getUserId(), null, party.getObjectId(), party.getTitle());
                 messageDeliveryService.send(message);
 
                 return true;

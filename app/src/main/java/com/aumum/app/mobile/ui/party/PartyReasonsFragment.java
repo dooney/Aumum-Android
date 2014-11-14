@@ -13,11 +13,10 @@ import com.aumum.app.mobile.R;
 import com.aumum.app.mobile.core.dao.PartyReasonStore;
 import com.aumum.app.mobile.core.dao.PartyStore;
 import com.aumum.app.mobile.core.dao.UserStore;
-import com.aumum.app.mobile.core.dao.vm.MessageVM;
-import com.aumum.app.mobile.core.dao.vm.UserVM;
+import com.aumum.app.mobile.core.model.Message;
 import com.aumum.app.mobile.core.model.Party;
 import com.aumum.app.mobile.core.model.PartyReason;
-import com.aumum.app.mobile.core.model.helper.MessageBuilder;
+import com.aumum.app.mobile.core.model.User;
 import com.aumum.app.mobile.core.service.MessageDeliveryService;
 import com.aumum.app.mobile.core.service.RestService;
 import com.aumum.app.mobile.events.AddPartyReasonEvent;
@@ -44,14 +43,14 @@ public class PartyReasonsFragment extends ItemListFragment<PartyReason> {
     @Inject MessageDeliveryService messageDeliveryService;
     @Inject Bus bus;
     @Inject UserStore userStore;
+    @Inject PartyStore partyStore;
 
     private SafeAsyncTask<Boolean> task;
 
     private String partyId;
     private Party party;
-    private UserVM currentUser;
+    private User currentUser;
     private PartyReasonStore partyReasonStore;
-    private PartyStore partyStore;
 
     private ViewGroup mainView;
 
@@ -59,7 +58,6 @@ public class PartyReasonsFragment extends ItemListFragment<PartyReason> {
     public void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Injector.inject(this);
-        partyStore = new PartyStore();
         partyReasonStore = new PartyReasonStore();
         final Intent intent = getActivity().getIntent();
         partyId = intent.getStringExtra(PartyDetailsActivity.INTENT_PARTY_ID);
@@ -97,7 +95,7 @@ public class PartyReasonsFragment extends ItemListFragment<PartyReason> {
 
     @Override
     protected List<PartyReason> loadDataCore(Bundle bundle) throws Exception {
-        currentUser = userStore.getCurrentUser(false);
+        currentUser = userStore.getCurrentUser();
         party = partyStore.getPartyById(partyId);
         return partyReasonStore.getPartyReasons(partyId);
     }
@@ -106,8 +104,8 @@ public class PartyReasonsFragment extends ItemListFragment<PartyReason> {
     protected void handleLoadResult(List<PartyReason> result) {
         try {
             if (result != null) {
-                for (PartyReason reason : result) {
-                    reason.setUser(userStore.getUserById(reason.getUserId(), false));
+                for (PartyReason reason: result) {
+                    reason.setUser(userStore.getUserById(reason.getUserId()));
                 }
                 getData().addAll(result);
                 getListAdapter().notifyDataSetChanged();
@@ -133,7 +131,6 @@ public class PartyReasonsFragment extends ItemListFragment<PartyReason> {
         reason.setType(event.getType());
         reason.setContent(event.getReason());
         reason.setUserId(currentUser.getObjectId());
-        reason.setUser(currentUser);
         getData().add(0, reason);
         getListAdapter().notifyDataSetChanged();
         show();
@@ -143,10 +140,10 @@ public class PartyReasonsFragment extends ItemListFragment<PartyReason> {
         task = new SafeAsyncTask<Boolean>() {
             public Boolean call() throws Exception {
                 PartyReason reason = getData().get(0);
-                final PartyReason newReason = new PartyReason();
-                newReason.setType(reason.getType());
-                newReason.setContent(reason.getContent());
-                newReason.setUserId(reason.getUserId());
+                final PartyReason newReason = new PartyReason(
+                        reason.getType(),
+                        reason.getContent(),
+                        reason.getUserId());
 
                 // join reason
                 PartyReason response = service.newPartyReason(newReason);
@@ -155,22 +152,22 @@ public class PartyReasonsFragment extends ItemListFragment<PartyReason> {
                 reason.setCreatedAt(response.getCreatedAt());
                 party.getReasons().add(response.getObjectId());
 
-                UserVM currentUser = userStore.getCurrentUser(false);
+                User currentUser = userStore.getCurrentUser();
                 if (reason.getType() == PartyReason.JOIN) {
                     service.addPartyMember(partyId, currentUser.getObjectId());
                     service.addUserParty(currentUser.getObjectId(), partyId);
                     party.getMembers().add(currentUser.getObjectId());
 
-                    MessageVM message = MessageBuilder.buildPartyMessage(MessageVM.Type.PARTY_JOIN,
-                            currentUser, party.getUserId(), reason.getContent(), party);
+                    Message message = new Message(Message.Type.PARTY_JOIN,
+                            currentUser.getObjectId(), party.getUserId(), reason.getContent(), party.getObjectId(), party.getTitle());
                     messageDeliveryService.send(message);
                 } else if (reason.getType() == PartyReason.QUIT) {
                     service.removePartyMember(partyId, currentUser.getObjectId());
                     service.removeUserParty(currentUser.getObjectId(), partyId);
                     party.getMembers().remove(currentUser.getObjectId());
 
-                    MessageVM message = MessageBuilder.buildPartyMessage(MessageVM.Type.PARTY_QUIT,
-                            currentUser, party.getUserId(), reason.getContent(), party);
+                    Message message = new Message(Message.Type.PARTY_QUIT,
+                            currentUser.getObjectId(), party.getUserId(), reason.getContent(), party.getObjectId(), party.getTitle());
                     messageDeliveryService.send(message);
                 }
 

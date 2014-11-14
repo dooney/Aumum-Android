@@ -4,8 +4,9 @@ import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 
 import com.aumum.app.mobile.core.dao.gen.DaoMaster;
-import com.aumum.app.mobile.core.dao.gen.MessageVMDao;
-import com.aumum.app.mobile.core.dao.gen.UserVMDao;
+import com.aumum.app.mobile.core.dao.gen.MessageEntityDao;
+import com.aumum.app.mobile.core.dao.gen.PartyEntityDao;
+import com.aumum.app.mobile.core.dao.gen.UserEntityDao;
 
 /**
  * Created by Administrator on 12/11/2014.
@@ -22,11 +23,15 @@ public class Repository {
         daoMaster = new DaoMaster(db);
     }
 
-    public MessageVMDao getMessageVMDao() {
-        return daoMaster.newSession().getMessageVMDao();
+    public MessageEntityDao getMessageEntityDao() {
+        return daoMaster.newSession().getMessageEntityDao();
     }
 
-    public UserVMDao getUserVMDao() {
-        return daoMaster.newSession().getUserVMDao();
+    public UserEntityDao getUserEntityDao() {
+        return daoMaster.newSession().getUserEntityDao();
+    }
+
+    public PartyEntityDao getPartyEntityDao() {
+        return daoMaster.newSession().getPartyEntityDao();
     }
 }

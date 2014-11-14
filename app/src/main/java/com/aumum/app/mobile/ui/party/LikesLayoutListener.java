@@ -9,7 +9,7 @@ import android.widget.TextView;
 import com.aumum.app.mobile.Injector;
 import com.aumum.app.mobile.R;
 import com.aumum.app.mobile.core.dao.UserStore;
-import com.aumum.app.mobile.core.dao.vm.UserVM;
+import com.aumum.app.mobile.core.model.User;
 import com.aumum.app.mobile.ui.user.UserListener;
 import com.aumum.app.mobile.ui.view.Animation;
 import com.aumum.app.mobile.ui.view.AvatarImageView;
@@ -44,7 +44,7 @@ public class LikesLayoutListener {
                 if (!userId.equals(currentUserId)) {
                     AvatarImageView imgAvatar = (AvatarImageView) inflater.inflate(R.layout.small_avatar, layoutLikingAvatars, false);
                     imgAvatar.setOnClickListener(new UserListener(activity, userId));
-                    UserVM user = userStore.getUserById(userId, false);
+                    User user = userStore.getUserById(userId);
                     imgAvatar.getFromUrl(user.getAvatarUrl());
                     layoutLikingAvatars.addView(imgAvatar);
                 }

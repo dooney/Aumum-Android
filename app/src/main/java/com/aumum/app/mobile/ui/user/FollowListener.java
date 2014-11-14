@@ -1,9 +1,8 @@
 package com.aumum.app.mobile.ui.user;
 
 import com.aumum.app.mobile.Injector;
-import com.aumum.app.mobile.core.dao.vm.MessageVM;
-import com.aumum.app.mobile.core.dao.vm.UserVM;
-import com.aumum.app.mobile.core.model.helper.MessageBuilder;
+import com.aumum.app.mobile.core.model.Message;
+import com.aumum.app.mobile.core.model.User;
 import com.aumum.app.mobile.core.service.MessageDeliveryService;
 import com.aumum.app.mobile.core.service.RestService;
 import com.aumum.app.mobile.core.dao.UserStore;
@@ -36,12 +35,12 @@ public class FollowListener implements FollowTextView.OnFollowListener {
     public void onFollow(FollowTextView view) {
         task = new SafeAsyncTask<Boolean>() {
             public Boolean call() throws Exception {
-                UserVM currentUser = userStore.getCurrentUser(false);
+                User currentUser = userStore.getCurrentUser();
                 service.addFollower(followedUserId, currentUser.getObjectId());
                 service.addFollowing(currentUser.getObjectId(), followedUserId);
 
-                MessageVM message = MessageBuilder.buildUserMessage(MessageVM.Type.USER_FOLLOW,
-                        currentUser, followedUserId);
+                Message message = new Message(Message.Type.USER_FOLLOW,
+                        currentUser.getObjectId(), followedUserId, null, null, null);
                 messageDeliveryService.send(message);
 
                 return true;
@@ -69,7 +68,7 @@ public class FollowListener implements FollowTextView.OnFollowListener {
     public void onUnFollow(FollowTextView view) {
         task = new SafeAsyncTask<Boolean>() {
             public Boolean call() throws Exception {
-                UserVM currentUser = userStore.getCurrentUser(false);
+                User currentUser = userStore.getCurrentUser();
                 service.removeFollower(followedUserId, currentUser.getObjectId());
                 service.removeFollowing(currentUser.getObjectId(), followedUserId);
                 return true;

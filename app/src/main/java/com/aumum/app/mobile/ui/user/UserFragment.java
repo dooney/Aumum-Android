@@ -12,9 +12,9 @@ import android.widget.TextView;
 import com.aumum.app.mobile.Injector;
 import com.aumum.app.mobile.R;
 import com.aumum.app.mobile.core.Constants;
-import com.aumum.app.mobile.core.dao.vm.UserVM;
 import com.aumum.app.mobile.core.infra.security.ApiKeyProvider;
 import com.aumum.app.mobile.core.dao.UserStore;
+import com.aumum.app.mobile.core.model.User;
 import com.aumum.app.mobile.ui.base.LoaderFragment;
 import com.aumum.app.mobile.ui.view.AvatarImageView;
 import com.aumum.app.mobile.ui.view.FollowTextView;
@@ -26,7 +26,7 @@ import javax.inject.Inject;
  * A simple {@link Fragment} subclass.
  *
  */
-public class UserFragment extends LoaderFragment<UserVM> {
+public class UserFragment extends LoaderFragment<User> {
     @Inject ApiKeyProvider apiKeyProvider;
     @Inject UserStore dataStore;
 
@@ -113,11 +113,11 @@ public class UserFragment extends LoaderFragment<UserVM> {
     }
 
     @Override
-    protected UserVM loadDataCore(Bundle bundle) throws Exception {
+    protected User loadDataCore(Bundle bundle) throws Exception {
         if (userId.equals(currentUserId)) {
-            return dataStore.getCurrentUser(true);
+            return dataStore.getCurrentUserFromServer();
         } else {
-            UserVM user = dataStore.getUserById(userId, true);
+            User user = dataStore.getUserByIdFromServer(userId);
             if (user == null) {
                 throw new Exception(getString(R.string.invalid_user));
             }
@@ -126,7 +126,7 @@ public class UserFragment extends LoaderFragment<UserVM> {
     }
 
     @Override
-    protected void handleLoadResult(final UserVM user) {
+    protected void handleLoadResult(final User user) {
         try {
             if (user != null) {
                 setData(user);
@@ -151,11 +151,11 @@ public class UserFragment extends LoaderFragment<UserVM> {
                 }
                 areaText.setText(Constants.Options.AREA_OPTIONS[user.getArea()]);
                 aboutText.setText(user.getAbout());
-                followingsCountText.setText(String.valueOf(user.getFollowingList().size()));
-                followersCountText.setText(String.valueOf(user.getFollowerList().size()));
-                commentsCountText.setText(String.valueOf(user.getCommentList().size()));
-                partyPostCountText.setText(String.valueOf(user.getPartyPostList().size()));
-                joinedPartyCountText.setText(String.valueOf(user.getPartyList().size()));
+                followingsCountText.setText(String.valueOf(user.getFollowings().size()));
+                followersCountText.setText(String.valueOf(user.getFollowers().size()));
+                commentsCountText.setText(String.valueOf(user.getComments().size()));
+                partyPostCountText.setText(String.valueOf(user.getPartyPosts().size()));
+                joinedPartyCountText.setText(String.valueOf(user.getParties().size()));
             }
         } catch (Exception e) {
             Ln.d(e);

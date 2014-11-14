@@ -13,13 +13,13 @@ import android.widget.TextView;
 
 import com.aumum.app.mobile.Injector;
 import com.aumum.app.mobile.R;
-import com.aumum.app.mobile.core.dao.vm.UserVM;
 import com.aumum.app.mobile.core.infra.security.ApiKeyProvider;
 import com.aumum.app.mobile.core.Constants;
-import com.aumum.app.mobile.core.model.Party;
 import com.aumum.app.mobile.core.dao.PartyStore;
+import com.aumum.app.mobile.core.model.Party;
 import com.aumum.app.mobile.core.model.PartyReason;
 import com.aumum.app.mobile.core.dao.UserStore;
+import com.aumum.app.mobile.core.model.User;
 import com.aumum.app.mobile.events.AddPartyReasonEvent;
 import com.aumum.app.mobile.events.AddPartyReasonFinishedEvent;
 import com.aumum.app.mobile.ui.base.LoaderFragment;
@@ -50,11 +50,11 @@ public class PartyDetailsFragment extends LoaderFragment<Party>
     @Inject ApiKeyProvider apiKeyProvider;
     @Inject Bus bus;
     @Inject UserStore userStore;
+    @Inject PartyStore partyStore;
 
     private String partyId;
     private String currentUserId;
 
-    private PartyStore partyStore;
     private GPSTracker gpsTracker;
 
     private QuickReturnScrollView scrollView;
@@ -94,7 +94,6 @@ public class PartyDetailsFragment extends LoaderFragment<Party>
     public void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Injector.inject(this);
-        partyStore = new PartyStore();
         final Intent intent = getActivity().getIntent();
         partyId = intent.getStringExtra(PartyDetailsActivity.INTENT_PARTY_ID);
         currentUserId = apiKeyProvider.getAuthUserId();
@@ -205,17 +204,10 @@ public class PartyDetailsFragment extends LoaderFragment<Party>
 
     @Override
     protected Party loadDataCore(Bundle bundle) throws Exception {
-        Party party = partyStore.getPartyById(partyId);
+        Party party = partyStore.getPartyByIdFromServer(partyId);
         if (party == null) {
             throw new Exception(getString(R.string.invalid_party));
         }
-        UserVM user;
-        if (party.isOwner(currentUserId)) {
-            user = userStore.getCurrentUser(false);
-        } else {
-            user = userStore.getUserById(party.getUserId(), false);
-        }
-        party.setUser(user);
         party.setDistance(gpsTracker.getLatitude(), gpsTracker.getLongitude());
         return party;
     }
@@ -226,7 +218,13 @@ public class PartyDetailsFragment extends LoaderFragment<Party>
             if (party != null) {
                 setData(party);
 
-                avatarImage.getFromUrl(party.getUser().getAvatarUrl());
+                User user;
+                if (party.isOwner(currentUserId)) {
+                    user = userStore.getCurrentUser();
+                } else {
+                    user = userStore.getUserById(party.getUserId());
+                }
+                avatarImage.getFromUrl(user.getAvatarUrl());
                 avatarImage.setOnClickListener(new UserListener(avatarImage.getContext(), party.getUserId()));
 
                 if (party.isOwner(currentUserId)) {
@@ -241,7 +239,7 @@ public class PartyDetailsFragment extends LoaderFragment<Party>
                     dropdownImage.init(listener);
                 }
 
-                userNameText.setText(party.getUser().getScreenName());
+                userNameText.setText(user.getScreenName());
                 userNameText.setOnClickListener(new UserListener(userNameText.getContext(), party.getUserId()));
                 titleText.setText(party.getTitle());
                 distanceText.setText(getString(R.string.label_distance, party.getDistance()));

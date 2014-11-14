@@ -75,7 +75,6 @@ import retrofit.converter.GsonConverter;
                 ResetPasswordActivity.class,
                 MainActivity.class,
                 NewPartyActivity.class,
-                PartyStore.class,
                 FollowListener.class,
                 LikeListener.class,
                 PartyCommentStore.class,
@@ -114,8 +113,8 @@ public class BootstrapModule {
 
     @Singleton
     @Provides
-    MessageDeliveryService provideMessageListener(RestService restService) {
-        return new MessageDeliveryService(restService);
+    MessageDeliveryService provideMessageDeliveryService(RestService restService, UserStore userStore) {
+        return new MessageDeliveryService(restService, userStore);
     }
 
     @Provides
@@ -149,6 +148,12 @@ public class BootstrapModule {
     @Singleton
     UserStore provideUserStore(RestService restService, ApiKeyProvider apiKeyProvider, Repository repository) {
         return new UserStore(restService, apiKeyProvider, repository);
+    }
+
+    @Provides
+    @Singleton
+    PartyStore providePartyStore(RestService restService, Repository repository) {
+        return new PartyStore(restService, repository);
     }
 
     @Provides

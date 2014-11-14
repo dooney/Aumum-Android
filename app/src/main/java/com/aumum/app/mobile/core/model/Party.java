@@ -1,7 +1,6 @@
 package com.aumum.app.mobile.core.model;
 
 import com.aumum.app.mobile.core.Constants;
-import com.aumum.app.mobile.core.dao.vm.UserVM;
 
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
@@ -22,13 +21,14 @@ public class Party extends AggregateRoot {
     protected String title;
     protected Place place;
     protected String details;
-    protected String distance;
-    protected UserVM user;
     protected List<String> members = new ArrayList<String>();
     protected List<String> fans = new ArrayList<String>();
     protected List<String> comments = new ArrayList<String>();
     protected List<String> reasons = new ArrayList<String>();
     protected List<String> moments = new ArrayList<String>();
+
+    protected String distance;
+    protected User user;
 
     private static final double NEARBY_THRESHOLD = 10.0;
 
@@ -36,6 +36,43 @@ public class Party extends AggregateRoot {
         date = new Date();
         time = new Time();
         place = new Place();
+    }
+
+    public Party(String objectId,
+                 String createdAt,
+                 String userId,
+                 Date date,
+                 Time time,
+                 int age,
+                 int gender,
+                 String title,
+                 Place place,
+                 String details,
+                 List<String> members,
+                 List<String> fans,
+                 List<String> comments,
+                 List<String> reasons,
+                 List<String> moments) {
+        this.objectId = objectId;
+        this.createdAt = createdAt;
+        this.userId = userId;
+        this.date = date;
+        this.time = time;
+        this.age = age;
+        this.gender = gender;
+        this.title = title;
+        this.place = place;
+        this.details = details;
+        this.members.clear();
+        this.members.addAll(members);
+        this.fans.clear();
+        this.fans.addAll(fans);
+        this.comments.clear();
+        this.comments.addAll(comments);
+        this.reasons.clear();
+        this.reasons.addAll(reasons);
+        this.moments.clear();
+        this.moments.addAll(moments);
     }
 
     public String getUserId() {
@@ -104,12 +141,22 @@ public class Party extends AggregateRoot {
         this.details = details;
     }
 
-    public UserVM getUser() {
-        return user;
+    public List<String> getMembers() {
+        return members;
     }
 
-    public void setUser(UserVM user) {
-        this.user = user;
+    public List<String> getFans() {
+        return fans;
+    }
+
+    public List<String> getComments() { return comments; }
+
+    public List<String> getReasons() {
+        return reasons;
+    }
+
+    public List<String> getMoments() {
+        return moments;
     }
 
     public String getDistance() {
@@ -131,22 +178,12 @@ public class Party extends AggregateRoot {
         distance = df.format(d);
     }
 
-    public List<String> getMembers() {
-        return members;
+    public User getUser() {
+        return user;
     }
 
-    public List<String> getFans() {
-        return fans;
-    }
-
-    public List<String> getComments() { return comments; }
-
-    public List<String> getReasons() {
-        return reasons;
-    }
-
-    public List<String> getMoments() {
-        return moments;
+    public void setUser(User user) {
+        this.user = user;
     }
 
     public boolean validate() {

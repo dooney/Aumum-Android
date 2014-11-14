@@ -1,6 +1,6 @@
 package com.aumum.app.mobile.core.service;
 
-import com.aumum.app.mobile.core.dao.vm.MessageVM;
+import com.aumum.app.mobile.core.dao.UserStore;
 import com.aumum.app.mobile.core.model.Message;
 import com.aumum.app.mobile.utils.Ln;
 import com.aumum.app.mobile.utils.NotificationUtils;
@@ -12,15 +12,17 @@ import retrofit.RetrofitError;
  * Created by Administrator on 7/10/2014.
  */
 public class MessageDeliveryService {
-    private RestService service;
+    private RestService restService;
+    private UserStore userStore;
 
     private SafeAsyncTask<Boolean> task;
 
-    public MessageDeliveryService(RestService restService) {
-        service = restService;
+    public MessageDeliveryService(RestService restService, UserStore userStore) {
+        this.restService = restService;
+        this.userStore = userStore;
     }
 
-    public void send(final MessageVM message) {
+    public void send(final Message message) {
         if (task != null) {
             return;
         }
@@ -28,10 +30,10 @@ public class MessageDeliveryService {
         if (!message.getToUserId().equals(message.getFromUserId())) {
             task = new SafeAsyncTask<Boolean>() {
                 public Boolean call() throws Exception {
-                    Message response = service.newMessage(message.map());
-                    service.addUserMessage(message.getToUserId(), response.getObjectId());
+                    Message response = restService.newMessage(message);
+                    restService.addUserMessage(message.getToUserId(), response.getObjectId());
 
-                    String fromName = message.getFromUser().getScreenName();
+                    String fromName = userStore.getUserById(message.getFromUserId()).getScreenName();
                     String text = "您有一条来自 @" + fromName + " 的消息";
                     NotificationUtils.pushNotification(message.getToUserId(), text);
                     return true;

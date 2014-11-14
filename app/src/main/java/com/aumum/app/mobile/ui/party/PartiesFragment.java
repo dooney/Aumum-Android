@@ -4,8 +4,8 @@ import android.support.v4.app.Fragment;
 import android.view.Menu;
 import android.view.MenuInflater;
 
-import com.aumum.app.mobile.core.dao.vm.UserVM;
 import com.aumum.app.mobile.core.model.Party;
+import com.aumum.app.mobile.core.model.User;
 
 import java.util.List;
 
@@ -20,13 +20,13 @@ public class PartiesFragment extends PartyListFragment {
 
     @Override
     protected List<Party> onGetUpwardsList(String after) throws Exception {
-        UserVM currentUser = userStore.getCurrentUser(false);
-        return dataStore.getUpwardsList(currentUser.getPartyList(), after);
+        User currentUser = userStore.getCurrentUser();
+        return dataStore.getUpwardsList(currentUser.getParties(), after);
     }
 
     @Override
     protected List<Party> onGetBackwardsList(String before) throws Exception {
-        UserVM currentUser = userStore.getCurrentUser(false);
-        return dataStore.getBackwardsList(currentUser.getPartyList(), before);
+        User currentUser = userStore.getCurrentUser();
+        return dataStore.getBackwardsList(currentUser.getParties(), before);
     }
 }

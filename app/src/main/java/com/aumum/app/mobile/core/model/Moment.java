@@ -1,14 +1,13 @@
 package com.aumum.app.mobile.core.model;
 
-import com.aumum.app.mobile.core.dao.vm.UserVM;
-
 /**
  * Created by Administrator on 8/11/2014.
  */
 public class Moment extends AggregateRoot {
     private String text;
     private String userId;
-    private UserVM user;
+
+    private User user;
 
     public String getText() {
         return text;
@@ -26,11 +25,11 @@ public class Moment extends AggregateRoot {
         this.userId = userId;
     }
 
-    public UserVM getUser() {
+    public User getUser() {
         return user;
     }
 
-    public void setUser(UserVM user) {
+    public void setUser(User user) {
         this.user = user;
     }
 }

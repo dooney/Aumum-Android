@@ -1,7 +1,5 @@
 package com.aumum.app.mobile.core.model;
 
-import com.aumum.app.mobile.core.dao.vm.UserVM;
-
 /**
  * Created by Administrator on 10/10/2014.
  */
@@ -10,7 +8,19 @@ public class Comment extends AggregateRoot {
     private String repliedId;
     private String content;
     private String userId;
-    private UserVM user;
+
+    private User user;
+
+    public Comment() {
+
+    }
+
+    public Comment(String parentId, String repliedId, String content, String userId) {
+        this.parentId = parentId;
+        this.repliedId = repliedId;
+        this.content = content;
+        this.userId = userId;
+    }
 
     public void setParentId(String parentId) {
         this.parentId = parentId;
@@ -44,15 +54,15 @@ public class Comment extends AggregateRoot {
         return userId;
     }
 
-    public UserVM getUser() {
+    public boolean isOwner(String userId) {
+        return userId.equals(this.userId);
+    }
+
+    public User getUser() {
         return user;
     }
 
-    public void setUser(UserVM user) {
+    public void setUser(User user) {
         this.user = user;
-    }
-
-    public boolean isOwner(String userId) {
-        return userId.equals(this.userId);
     }
 }

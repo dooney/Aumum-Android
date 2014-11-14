@@ -1,14 +1,14 @@
 package com.aumum.app.mobile.core.dao;
 
 import com.aumum.app.mobile.core.Constants;
-import com.aumum.app.mobile.core.dao.gen.MessageVMDao;
-import com.aumum.app.mobile.core.dao.gen.UserVMDao;
-import com.aumum.app.mobile.core.dao.vm.UserVM;
+import com.aumum.app.mobile.core.dao.entity.UserEntity;
+import com.aumum.app.mobile.core.dao.gen.UserEntityDao;
 import com.aumum.app.mobile.core.infra.security.ApiKeyProvider;
 import com.aumum.app.mobile.core.model.User;
 import com.aumum.app.mobile.core.service.RestService;
 import com.aumum.app.mobile.utils.DateUtils;
 import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
 import java.util.Date;
 import java.util.List;
@@ -20,12 +20,12 @@ public class UserStore {
 
     private RestService restService;
     private ApiKeyProvider apiKeyProvider;
-    private UserVMDao userVMDao;
+    private UserEntityDao userEntityDao;
 
     public UserStore(RestService restService, ApiKeyProvider apiKeyProvider, Repository repository) {
         this.restService = restService;
         this.apiKeyProvider = apiKeyProvider;
-        this.userVMDao = repository.getUserVMDao();
+        this.userEntityDao = repository.getUserEntityDao();
     }
 
     private String getJsonString(List<String> list) {
@@ -36,9 +36,52 @@ public class UserStore {
         return null;
     }
 
-    private UserVM map(User user, Long pk) throws Exception {
+    private List<String> getList(String data) {
+        if (data != null) {
+            Gson gson = new Gson();
+            return gson.fromJson(data, new TypeToken<List<String>>(){}.getType());
+        }
+        return null;
+    }
+
+    private void updateOrInsert(User user) throws Exception {
+        UserEntity userEntity = userEntityDao.queryBuilder()
+                .where(UserEntityDao.Properties.ObjectId.eq(user.getObjectId()))
+                .unique();
+        Long pk = userEntity != null ? userEntity.getId() : null;
+        userEntity = map(user, pk);
+        userEntityDao.insertOrReplace(userEntity);
+    }
+
+    private User map(UserEntity userEntity) {
+        String createdAt = DateUtils.dateToString(userEntity.getCreatedAt(), Constants.DateTime.FORMAT);
+        return new User(
+                userEntity.getObjectId(),
+                createdAt,
+                userEntity.getScreenName(),
+                userEntity.getArea(),
+                userEntity.getAvatarUrl(),
+                userEntity.getAbout(),
+                getList(userEntity.getFollowers()),
+                getList(userEntity.getFollowings()),
+                getList(userEntity.getComments()),
+                getList(userEntity.getMessages()),
+                getList(userEntity.getParties()),
+                getList(userEntity.getPartyPosts()),
+                getList(userEntity.getMoments()),
+                getList(userEntity.getMomentPosts()));
+    }
+
+    private UserEntity map(User user, Long pk) throws Exception {
         Date createdAt = DateUtils.stringToDate(user.getCreatedAt(), Constants.DateTime.FORMAT);
-        UserVM userVM = new UserVM(pk, user.getObjectId(), createdAt, user.getScreenName(), user.getArea(), user.getAvatarUrl(), user.getAbout(),
+        UserEntity userEntity = new UserEntity(
+                pk,
+                user.getObjectId(),
+                createdAt,
+                user.getScreenName(),
+                user.getArea(),
+                user.getAvatarUrl(),
+                user.getAbout(),
                 getJsonString(user.getFollowers()),
                 getJsonString(user.getFollowings()),
                 getJsonString(user.getComments()),
@@ -47,28 +90,33 @@ public class UserStore {
                 getJsonString(user.getPartyPosts()),
                 getJsonString(user.getMoments()),
                 getJsonString(user.getMomentPosts()));
-        return userVM;
+        return userEntity;
     }
 
-    public UserVM getCurrentUser(boolean refresh) throws Exception {
+    public User getCurrentUserFromServer() throws Exception {
         String currentUserId = apiKeyProvider.getAuthUserId();
-        return getUserById(currentUserId, refresh);
+        return getUserByIdFromServer(currentUserId);
     }
 
-    private UserVM getUserById(String id, Long pk) throws Exception {
-        UserVM user = map(restService.getUserById(id), pk);
-        userVMDao.insertOrReplace(user);
+    public User getCurrentUser() throws Exception {
+        String currentUserId = apiKeyProvider.getAuthUserId();
+        return getUserById(currentUserId);
+    }
+
+    public User getUserByIdFromServer(String id) throws Exception {
+        User user = restService.getUserById(id);
+        updateOrInsert(user);
         return user;
     }
 
-    public UserVM getUserById(String id, boolean refresh) throws Exception {
-        UserVM user = userVMDao.queryBuilder()
-                .where(MessageVMDao.Properties.ObjectId.eq(id))
+    public User getUserById(String id) throws Exception {
+        UserEntity userEntity = userEntityDao.queryBuilder()
+                .where(UserEntityDao.Properties.ObjectId.eq(id))
                 .unique();
-        Long pk = user != null ? user.getId() : null;
-        if (refresh || pk == null) {
-            return getUserById(id, pk);
+        if (userEntity != null) {
+            return map(userEntity);
+        } else {
+            return getUserByIdFromServer(id);
         }
-        return user;
     }
 }

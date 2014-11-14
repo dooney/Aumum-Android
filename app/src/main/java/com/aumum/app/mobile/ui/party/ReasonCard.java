@@ -5,7 +5,6 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.aumum.app.mobile.R;
-import com.aumum.app.mobile.core.Constants;
 import com.aumum.app.mobile.core.model.PartyReason;
 import com.aumum.app.mobile.ui.user.UserListener;
 import com.aumum.app.mobile.ui.view.AvatarImageView;

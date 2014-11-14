@@ -5,13 +5,11 @@ import android.os.Bundle;
 
 import com.aumum.app.mobile.Injector;
 import com.aumum.app.mobile.R;
-import com.aumum.app.mobile.core.Constants;
-import com.aumum.app.mobile.core.dao.vm.MessageVM;
 import com.aumum.app.mobile.core.dao.MessageStore;
-import com.aumum.app.mobile.core.dao.vm.UserVM;
 import com.aumum.app.mobile.core.dao.UserStore;
+import com.aumum.app.mobile.core.model.Message;
+import com.aumum.app.mobile.core.model.User;
 import com.aumum.app.mobile.ui.base.CardListFragment;
-import com.aumum.app.mobile.utils.DateUtils;
 import com.aumum.app.mobile.utils.Ln;
 import com.github.kevinsawicki.wishlist.Toaster;
 
@@ -32,8 +30,8 @@ public class MessageListFragment extends CardListFragment
     @Inject UserStore userStore;
     @Inject MessageStore messageStore;
 
-    private List<MessageVM> dataSet = new ArrayList<MessageVM>();
-    private UserVM currentUser;
+    private List<Message> dataSet = new ArrayList<Message>();
+    private User currentUser;
     private int subCategory;
 
     @Override
@@ -53,51 +51,41 @@ public class MessageListFragment extends CardListFragment
 
     @Override
     protected List<Card> loadCards(int mode) throws Exception {
-        List<MessageVM> messageList;
-        currentUser = userStore.getCurrentUser(false);
+        currentUser = userStore.getCurrentUser();
         switch (mode) {
             case UPWARDS_REFRESH:
-                messageList = getUpwardsList(currentUser);
+                getUpwardsList(currentUser);
                 break;
             case BACKWARDS_REFRESH:
-                messageList = getBackwardsList(currentUser);
+                getBackwardsList(currentUser);
                 break;
             default:
                 throw new Exception("Invalid refresh mode: " + mode);
         }
-        if (messageList != null) {
-            for (MessageVM message : messageList) {
-                UserVM user = userStore.getUserById(message.getFromUserId(), false);
-                message.setFromUser(user);
-            }
-        }
         return buildCards();
     }
 
-    private List<MessageVM> getUpwardsList(UserVM currentUser) throws Exception {
-        List<String> messageIdList = currentUser.getMessageList();
+    private void getUpwardsList(User currentUser) throws Exception {
+        List<String> messageIdList = currentUser.getMessages();
         if (messageIdList != null) {
             String after = null;
             if (dataSet.size() > 0) {
-                after = DateUtils.dateToString(dataSet.get(0).getCreatedAt(), Constants.DateTime.FORMAT);
+                after = dataSet.get(0).getCreatedAt();
             }
-            List<MessageVM> messageList = messageStore.getUpwardsList(currentUser.getMessageList(),
-                    MessageVM.getSubCategoryTypes(subCategory), after);
+            List<Message> messageList = messageStore.getUpwardsList(currentUser.getMessages(),
+                    Message.getSubCategoryTypes(subCategory), after);
             Collections.reverse(messageList);
-            for (MessageVM message : messageList) {
+            for (Message message : messageList) {
                 dataSet.add(0, message);
             }
-            return messageList;
         }
-        return null;
     }
 
-    private List<MessageVM> getBackwardsList(UserVM currentUser) throws Exception {
+    private void getBackwardsList(User currentUser) throws Exception {
         if (dataSet.size() > 0) {
-            MessageVM last = dataSet.get(dataSet.size() - 1);
-            String lastCreatedAt = DateUtils.dateToString(last.getCreatedAt(), Constants.DateTime.FORMAT);
-            List<MessageVM> messageList = messageStore.getBackwardsList(currentUser.getMessageList(),
-                    MessageVM.getSubCategoryTypes(subCategory), lastCreatedAt);
+            Message last = dataSet.get(dataSet.size() - 1);
+            List<Message> messageList = messageStore.getBackwardsList(currentUser.getMessages(),
+                    Message.getSubCategoryTypes(subCategory), last.getCreatedAt());
             dataSet.addAll(messageList);
             if (messageList.size() > 0) {
                 setLoadMore(true);
@@ -105,15 +93,16 @@ public class MessageListFragment extends CardListFragment
                 setLoadMore(false);
                 Toaster.showShort(getActivity(), R.string.info_all_loaded);
             }
-            return messageList;
         }
-        return null;
     }
 
-    private List<Card> buildCards() {
+    private List<Card> buildCards() throws Exception {
         List<Card> cards = new ArrayList<Card>();
         if (dataSet.size() > 0) {
-            for (MessageVM message : dataSet) {
+            for (Message message : dataSet) {
+                if (message.getUser() == null) {
+                    message.setUser(userStore.getUserById(message.getFromUserId()));
+                }
                 Card card = new MessageCard(getActivity(), message, currentUser.getObjectId(), this);
                 cards.add(card);
             }
@@ -131,7 +120,7 @@ public class MessageListFragment extends CardListFragment
         try {
             List<Card> cardList = getData();
             for (Card card : cardList) {
-                MessageVM message = ((MessageCard) card).getMessage();
+                Message message = ((MessageCard) card).getMessage();
                 if (message.getObjectId().equals(messageId)) {
                     dataSet.remove(message);
                     messageStore.remove(message);

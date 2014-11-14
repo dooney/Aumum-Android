@@ -14,7 +14,7 @@ import it.gmariotti.cardslib.library.internal.Card;
  */
 public class MomentCard extends Card {
 
-    public MomentCard(final Activity context, final Moment moment, String currentUserId) {
+    public MomentCard(final Activity context, Moment moment, String currentUserId) {
         super(context, R.layout.moment_listitem_inner);
     }
 

@@ -18,9 +18,9 @@ import com.aumum.app.mobile.Injector;
 import com.aumum.app.mobile.R;
 import com.aumum.app.mobile.core.Constants;
 import com.aumum.app.mobile.core.dao.PartyStore;
-import com.aumum.app.mobile.core.dao.vm.UserVM;
-import com.aumum.app.mobile.core.model.Party;
 import com.aumum.app.mobile.core.dao.UserStore;
+import com.aumum.app.mobile.core.model.Party;
+import com.aumum.app.mobile.core.model.User;
 import com.aumum.app.mobile.ui.base.CardListFragment;
 import com.aumum.app.mobile.utils.GPSTracker;
 import com.aumum.app.mobile.utils.Ln;
@@ -43,10 +43,9 @@ public class PartyListFragment extends CardListFragment
                    PartyDetailsListener {
 
     @Inject UserStore userStore;
+    @Inject PartyStore dataStore;
 
     protected List<Party> dataSet = new ArrayList<Party>();
-
-    protected PartyStore dataStore;
 
     protected GPSTracker gpsTracker;
 
@@ -55,7 +54,6 @@ public class PartyListFragment extends CardListFragment
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
         Injector.inject(this);
-        dataStore = new PartyStore();
         gpsTracker = new GPSTracker(getActivity());
         if (!gpsTracker.canGetLocation()) {
             gpsTracker.showSettingsAlert();
@@ -117,22 +115,15 @@ public class PartyListFragment extends CardListFragment
 
     @Override
     protected List<Card> loadCards(int mode) throws Exception {
-        List<Party> partyList;
         switch (mode) {
             case UPWARDS_REFRESH:
-                partyList = getUpwardsList();
+                getUpwardsList();
                 break;
             case BACKWARDS_REFRESH:
-                partyList = getBackwardsList();
+                getBackwardsList();
                 break;
             default:
                 throw new Exception("Invalid refresh mode: " + mode);
-        }
-        if (partyList != null) {
-            for (Party party : partyList) {
-                UserVM user = userStore.getUserById(party.getUserId(), false);
-                party.setUser(user);
-            }
         }
         gpsTracker.getLocation();
         for (Party party: dataSet) {
@@ -141,7 +132,7 @@ public class PartyListFragment extends CardListFragment
         return buildCards();
     }
 
-    private List<Party> getUpwardsList() throws Exception {
+    private void getUpwardsList() throws Exception {
         dataStore.refresh(dataSet);
         String after = null;
         if (dataSet.size() > 0) {
@@ -152,10 +143,9 @@ public class PartyListFragment extends CardListFragment
         for(Party party: partyList) {
             dataSet.add(0, party);
         }
-        return partyList;
     }
 
-    private List<Party> getBackwardsList() throws Exception {
+    private void getBackwardsList() throws Exception {
         if (dataSet.size() > 0) {
             Party last = dataSet.get(dataSet.size() - 1);
             List<Party> partyList = onGetBackwardsList(last.getCreatedAt());
@@ -166,17 +156,18 @@ public class PartyListFragment extends CardListFragment
                 setLoadMore(false);
                 Toaster.showShort(getActivity(), R.string.info_all_loaded);
             }
-            return partyList;
         }
-        return null;
     }
 
     private List<Card> buildCards() throws Exception {
         List<Card> cards = new ArrayList<Card>();
         if (dataSet.size() > 0) {
-            UserVM user = userStore.getCurrentUser(false);
+            User currentUser = userStore.getCurrentUser();
             for (Party party : dataSet) {
-                Card card = new PartyCard(getActivity(), party, user.getObjectId(), this, this);
+                if (party.getUser() == null) {
+                    party.setUser(userStore.getUserById(party.getUserId()));
+                }
+                Card card = new PartyCard(getActivity(), party, currentUser.getObjectId(), this, this);
                 cards.add(card);
             }
         }

@@ -9,7 +9,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.aumum.app.mobile.R;
-import com.aumum.app.mobile.core.dao.vm.MessageVM;
+import com.aumum.app.mobile.core.model.Message;
 import com.aumum.app.mobile.core.model.MessageParent;
 import com.aumum.app.mobile.ui.party.PartyDetailsActivity;
 import com.aumum.app.mobile.ui.user.UserListener;
@@ -23,16 +23,16 @@ import it.gmariotti.cardslib.library.internal.Card;
 public class MessageCard extends Card
         implements DeleteMessageListener.OnProgressListener {
     private Activity activity;
-    private MessageVM message;
+    private Message message;
     private DeleteMessageListener deleteMessageListener;
     private ImageView deleteImage;
     private ProgressBar progressBar;
 
-    public MessageVM getMessage() {
+    public Message getMessage() {
         return message;
     }
 
-    public MessageCard(Activity activity, MessageVM message, String currentUserId,
+    public MessageCard(Activity activity, Message message, String currentUserId,
                        DeleteMessageListener.OnActionListener onActionListener) {
         super(activity, R.layout.message_listitem_inner);
         this.activity = activity;
@@ -47,7 +47,7 @@ public class MessageCard extends Card
         super.setupInnerViewElements(parent, view);
 
         AvatarImageView avatarImage = (AvatarImageView)view.findViewById(R.id.image_avatar);
-        avatarImage.getFromUrl(message.getFromUser().getAvatarUrl());
+        avatarImage.getFromUrl(message.getUser().getAvatarUrl());
         avatarImage.setOnClickListener(new UserListener(avatarImage.getContext(), message.getFromUserId()));
 
         deleteImage = (ImageView) view.findViewById(R.id.image_delete);
@@ -55,7 +55,7 @@ public class MessageCard extends Card
         progressBar = (ProgressBar) view.findViewById(R.id.progress);
 
         TextView userName = (TextView)view.findViewById(R.id.text_user_name);
-        userName.setText(message.getFromUser().getScreenName());
+        userName.setText(message.getUser().getScreenName());
 
         TextView content = (TextView) view.findViewById(R.id.text_content);
         if (message.getContent() != null) {

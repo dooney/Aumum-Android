@@ -17,11 +17,10 @@ import android.widget.TextView;
 import com.aumum.app.mobile.Injector;
 import com.aumum.app.mobile.R;
 import com.aumum.app.mobile.core.dao.PartyStore;
-import com.aumum.app.mobile.core.dao.vm.MessageVM;
-import com.aumum.app.mobile.core.dao.vm.UserVM;
 import com.aumum.app.mobile.core.infra.security.ApiKeyProvider;
+import com.aumum.app.mobile.core.model.Message;
 import com.aumum.app.mobile.core.model.Party;
-import com.aumum.app.mobile.core.model.helper.MessageBuilder;
+import com.aumum.app.mobile.core.model.User;
 import com.aumum.app.mobile.core.service.MessageDeliveryService;
 import com.aumum.app.mobile.core.service.RestService;
 import com.aumum.app.mobile.core.model.Comment;
@@ -51,10 +50,9 @@ public class PartyCommentsFragment extends ItemListFragment<Comment>
         implements DeleteCommentListener.OnActionListener,
                    QuickReturnListView.OnScrollDirectionListener {
     private String partyId;
-    private UserVM currentUser;
+    private User currentUser;
     private Party party;
     private PartyCommentStore partyCommentStore;
-    private PartyStore partyStore;
 
     private SafeAsyncTask<Boolean> task;
     private Comment repliedComment;
@@ -63,6 +61,7 @@ public class PartyCommentsFragment extends ItemListFragment<Comment>
     @Inject MessageDeliveryService messageDeliveryService;
     @Inject ApiKeyProvider apiKeyProvider;
     @Inject UserStore userStore;
+    @Inject PartyStore partyStore;
 
     private QuickReturnListView quickReturnListView;
     private ViewGroup layoutAction;
@@ -77,7 +76,6 @@ public class PartyCommentsFragment extends ItemListFragment<Comment>
         super.onCreate(savedInstanceState);
         Injector.inject(this);
         partyCommentStore = new PartyCommentStore();
-        partyStore = new PartyStore();
         final Intent intent = getActivity().getIntent();
         partyId = intent.getStringExtra(PartyCommentsActivity.INTENT_PARTY_ID);
     }
@@ -151,7 +149,7 @@ public class PartyCommentsFragment extends ItemListFragment<Comment>
 
     @Override
     protected List<Comment> loadDataCore(Bundle bundle) throws Exception {
-        currentUser = userStore.getCurrentUser(false);
+        currentUser = userStore.getCurrentUser();
         party = partyStore.getPartyById(partyId);
         return partyCommentStore.getPartyComments(partyId);
     }
@@ -161,7 +159,7 @@ public class PartyCommentsFragment extends ItemListFragment<Comment>
         try {
             if (result != null) {
                 for (Comment comment : result) {
-                    comment.setUser(userStore.getUserById(comment.getUserId(), false));
+                    comment.setUser(userStore.getUserById(comment.getUserId()));
                 }
                 getData().addAll(result);
                 getListAdapter().notifyDataSetChanged();
@@ -235,23 +233,23 @@ public class PartyCommentsFragment extends ItemListFragment<Comment>
         task = new SafeAsyncTask<Boolean>() {
             public Boolean call() throws Exception {
                 Comment comment = getData().get(0);
-                final Comment newComment = new Comment();
-                newComment.setParentId(comment.getParentId());
-                newComment.setContent(comment.getContent());
-                newComment.setUserId(comment.getUserId());
-                newComment.setRepliedId(comment.getRepliedId());
+                final Comment newComment = new Comment(
+                        comment.getParentId(),
+                        comment.getRepliedId(),
+                        comment.getContent(),
+                        comment.getUserId());
                 Comment response = service.newPartyComment(newComment);
                 service.addPartyComment(partyId, response.getObjectId());
                 comment.setObjectId(response.getObjectId());
                 comment.setCreatedAt(response.getCreatedAt());
                 service.addUserComment(currentUser.getObjectId(), comment.getObjectId());
 
-                MessageVM message = MessageBuilder.buildPartyMessage(MessageVM.Type.PARTY_COMMENT,
-                        currentUser, party.getUserId(), comment.getContent(), party);
+                Message message = new Message(Message.Type.PARTY_COMMENT,
+                        currentUser.getObjectId(), party.getUserId(), comment.getContent(), party.getObjectId(), party.getTitle());
                 messageDeliveryService.send(message);
                 if (repliedComment != null) {
-                    MessageVM repliedMessage = MessageBuilder.buildPartyMessage(MessageVM.Type.PARTY_REPLY,
-                            currentUser, repliedComment.getUserId(), repliedComment.getContent(), party);
+                    Message repliedMessage = new Message(Message.Type.PARTY_REPLY,
+                            currentUser.getObjectId(), repliedComment.getUserId(), repliedComment.getContent(), party.getObjectId(), party.getTitle());
                     messageDeliveryService.send(repliedMessage);
                 }
                 return true;

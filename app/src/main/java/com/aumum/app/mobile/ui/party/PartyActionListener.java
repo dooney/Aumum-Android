@@ -4,9 +4,8 @@ import android.app.Activity;
 
 import com.aumum.app.mobile.Injector;
 import com.aumum.app.mobile.R;
-import com.aumum.app.mobile.core.dao.vm.MessageVM;
+import com.aumum.app.mobile.core.model.Message;
 import com.aumum.app.mobile.core.model.Party;
-import com.aumum.app.mobile.core.model.helper.MessageBuilder;
 import com.aumum.app.mobile.core.service.MessageDeliveryService;
 import com.aumum.app.mobile.core.service.RestService;
 import com.aumum.app.mobile.utils.Ln;
@@ -69,8 +68,8 @@ public class PartyActionListener {
                 for(String userId: party.getMembers()) {
                     service.removeUserParty(userId, party.getObjectId());
 
-                    MessageVM message = MessageBuilder.buildPartyMessage(MessageVM.Type.PARTY_DELETE,
-                            party.getUser(), userId, null, party);
+                    Message message = new Message(Message.Type.PARTY_DELETE,
+                            party.getUserId(), userId, null, party.getObjectId(), party.getTitle());
                     messageDeliveryService.send(message);
                 }
                 return true;
