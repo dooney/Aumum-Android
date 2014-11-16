@@ -18,7 +18,7 @@ import com.aumum.app.mobile.ui.user.UserFragment;
 /**
  * Pager adapter
  */
-public class BootstrapPagerAdapter extends FragmentPagerAdapter {
+public class PagerAdapter extends FragmentPagerAdapter {
 
     private String pages[];
 
@@ -34,7 +34,7 @@ public class BootstrapPagerAdapter extends FragmentPagerAdapter {
      * @param resources
      * @param fragmentManager
      */
-    public BootstrapPagerAdapter(final Resources resources, final FragmentManager fragmentManager) {
+    public PagerAdapter(final Resources resources, final FragmentManager fragmentManager) {
         super(fragmentManager);
         pages = resources.getStringArray(R.array.pages_array);
     }

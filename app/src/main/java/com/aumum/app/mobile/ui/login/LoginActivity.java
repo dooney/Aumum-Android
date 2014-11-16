@@ -28,6 +28,7 @@ import com.aumum.app.mobile.Injector;
 import com.aumum.app.mobile.R;
 import com.aumum.app.mobile.R.id;
 import com.aumum.app.mobile.R.layout;
+import com.aumum.app.mobile.core.dao.Repository;
 import com.aumum.app.mobile.core.service.ChatService;
 import com.aumum.app.mobile.core.service.RestService;
 import com.aumum.app.mobile.core.Constants;
@@ -57,6 +58,7 @@ public class LoginActivity extends ProgressDialogActivity {
     @Inject RestService restService;
     @Inject ChatService chatService;
     @Inject Bus bus;
+    @Inject Repository repository;
 
     @InjectView(id.et_username) protected EmailAutoCompleteTextView usernameText;
     @InjectView(id.et_password) protected EditText passwordText;
@@ -227,6 +229,7 @@ public class LoginActivity extends ProgressDialogActivity {
             @Override
             public void onSuccess(final Boolean authSuccess) {
                 if (authSuccess) {
+                    repository.reset();
                     chatService.authenticate(userId, password);
                     finishLogin();
                 } else {

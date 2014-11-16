@@ -20,9 +20,7 @@ public class DaoGenerator {
     private static void addMessage(Schema schema) {
         Entity message = schema.addEntity("MessageEntity");
         message.setSuperclass("BaseEntity");
-        message.addIdProperty();
-        message.addStringProperty("instanceId").notNull();
-        message.addStringProperty("objectId").notNull();
+        message.addStringProperty("objectId").notNull().primaryKey();
         message.addDateProperty("createdAt").notNull();
         message.addStringProperty("fromUserId");
         message.addStringProperty("toUserId");
@@ -34,9 +32,7 @@ public class DaoGenerator {
     private static void addUser(Schema schema) {
         Entity user = schema.addEntity("UserEntity");
         user.setSuperclass("BaseEntity");
-        user.addIdProperty();
-        user.addStringProperty("instanceId").notNull();
-        user.addStringProperty("objectId").notNull();
+        user.addStringProperty("objectId").notNull().primaryKey();
         user.addDateProperty("createdAt").notNull();
         user.addStringProperty("screenName");
         user.addIntProperty("area");
@@ -55,9 +51,7 @@ public class DaoGenerator {
     private static void addParty(Schema schema) {
         Entity party = schema.addEntity("PartyEntity");
         party.setSuperclass("BaseEntity");
-        party.addIdProperty();
-        party.addStringProperty("instanceId").notNull();
-        party.addStringProperty("objectId").notNull();
+        party.addStringProperty("objectId").notNull().primaryKey();
         party.addDateProperty("createdAt").notNull();
         party.addStringProperty("userId");
         party.addStringProperty("date");

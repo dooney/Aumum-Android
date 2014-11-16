@@ -24,7 +24,6 @@ import com.aumum.app.mobile.core.model.User;
 import com.aumum.app.mobile.ui.base.CardListFragment;
 import com.aumum.app.mobile.utils.GPSTracker;
 import com.aumum.app.mobile.utils.Ln;
-import com.github.kevinsawicki.wishlist.Toaster;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -133,6 +132,7 @@ public class PartyListFragment extends CardListFragment
     }
 
     private void getUpwardsList() throws Exception {
+        dataStore.getUnreadList().clear();
         dataStore.refresh(dataSet);
         String after = null;
         if (dataSet.size() > 0) {

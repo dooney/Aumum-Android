@@ -9,7 +9,6 @@ import java.util.Date;
  */
 public class UserEntity extends BaseEntity {
 
-    private Long id;
     private String screenName;
     private Integer area;
     private String avatarUrl;
@@ -26,13 +25,11 @@ public class UserEntity extends BaseEntity {
     public UserEntity() {
     }
 
-    public UserEntity(Long id) {
-        this.id = id;
+    public UserEntity(String objectId) {
+        this.objectId = objectId;
     }
 
-    public UserEntity(Long id,
-                      String instanceId,
-                      String objectId,
+    public UserEntity(String objectId,
                       Date createdAt,
                       String screenName,
                       Integer area,
@@ -46,8 +43,6 @@ public class UserEntity extends BaseEntity {
                       String partyPosts,
                       String moments,
                       String momentPosts) {
-        this.id = id;
-        this.instanceId = instanceId;
         this.objectId = objectId;
         this.createdAt = createdAt;
         this.screenName = screenName;
@@ -62,14 +57,6 @@ public class UserEntity extends BaseEntity {
         this.partyPosts = partyPosts;
         this.moments = moments;
         this.momentPosts = momentPosts;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
     }
 
     public String getScreenName() {

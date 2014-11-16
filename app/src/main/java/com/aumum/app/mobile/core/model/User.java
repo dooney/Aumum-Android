@@ -116,4 +116,8 @@ public class User extends AggregateRoot {
     public List<String> getMomentPosts() {
         return momentPosts;
     }
+
+    public boolean isLatestMessage(String messageId) {
+        return messages.indexOf(messageId) + 1 == messages.size();
+    }
 }

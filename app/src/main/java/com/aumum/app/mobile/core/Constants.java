@@ -140,10 +140,6 @@ public final class Constants {
         public static final String FORMAT = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'";
     }
 
-    public static final class Schedule {
-        public static final long DELAY = 10000;
-    }
-
     public static final class Options {
         private Options() {
         }
@@ -187,6 +183,7 @@ public final class Constants {
         public static final int GET_PARTY_DETAILS_REQ_CODE = 31;
         public static final int PROFILE_IMAGE_REQ_CODE = 32;
         public static final int NEW_MOMENT_REQ_CODE = 33;
+        public static final int MESSAGE_LIST_REQ_CODE = 34;
     }
 }
 

@@ -44,17 +44,6 @@ public class UserStore {
         return null;
     }
 
-    private void updateOrInsert(User user) throws Exception {
-        String instanceId = apiKeyProvider.getAuthUserId();
-        UserEntity userEntity = userEntityDao.queryBuilder()
-                .where(UserEntityDao.Properties.InstanceId.eq(instanceId))
-                .where(UserEntityDao.Properties.ObjectId.eq(user.getObjectId()))
-                .unique();
-        Long pk = userEntity != null ? userEntity.getId() : null;
-        userEntity = map(user, pk);
-        userEntityDao.insertOrReplace(userEntity);
-    }
-
     private User map(UserEntity userEntity) {
         String createdAt = DateUtils.dateToString(userEntity.getCreatedAt(), Constants.DateTime.FORMAT);
         return new User(
@@ -74,12 +63,9 @@ public class UserStore {
                 getList(userEntity.getMomentPosts()));
     }
 
-    private UserEntity map(User user, Long pk) throws Exception {
-        String instanceId = apiKeyProvider.getAuthUserId();
+    private UserEntity map(User user) throws Exception {
         Date createdAt = DateUtils.stringToDate(user.getCreatedAt(), Constants.DateTime.FORMAT);
         UserEntity userEntity = new UserEntity(
-                pk,
-                instanceId,
                 user.getObjectId(),
                 createdAt,
                 user.getScreenName(),
@@ -109,16 +95,12 @@ public class UserStore {
 
     public User getUserByIdFromServer(String id) throws Exception {
         User user = restService.getUserById(id);
-        updateOrInsert(user);
+        userEntityDao.insertOrReplace(map(user));
         return user;
     }
 
     public User getUserById(String id) throws Exception {
-        String instanceId = apiKeyProvider.getAuthUserId();
-        UserEntity userEntity = userEntityDao.queryBuilder()
-                .where(UserEntityDao.Properties.InstanceId.eq(instanceId))
-                .where(UserEntityDao.Properties.ObjectId.eq(id))
-                .unique();
+        UserEntity userEntity = userEntityDao.load(id);
         if (userEntity != null) {
             return map(userEntity);
         } else {

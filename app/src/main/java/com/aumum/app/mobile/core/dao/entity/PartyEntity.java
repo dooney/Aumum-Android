@@ -7,7 +7,6 @@ package com.aumum.app.mobile.core.dao.entity;
  */
 public class PartyEntity extends BaseEntity {
 
-    private Long id;
     private String userId;
     private String date;
     private String time;
@@ -25,13 +24,11 @@ public class PartyEntity extends BaseEntity {
     public PartyEntity() {
     }
 
-    public PartyEntity(Long id) {
-        this.id = id;
+    public PartyEntity(String objectId) {
+        this.objectId = objectId;
     }
 
-    public PartyEntity(Long id,
-                       String instanceId,
-                       String objectId,
+    public PartyEntity(String objectId,
                        java.util.Date createdAt,
                        String userId,
                        String date,
@@ -46,8 +43,6 @@ public class PartyEntity extends BaseEntity {
                        String comments,
                        String reasons,
                        String moments) {
-        this.id = id;
-        this.instanceId = instanceId;
         this.objectId = objectId;
         this.createdAt = createdAt;
         this.userId = userId;
@@ -63,14 +58,6 @@ public class PartyEntity extends BaseEntity {
         this.comments = comments;
         this.reasons = reasons;
         this.moments = moments;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
     }
 
     public String getUserId() {

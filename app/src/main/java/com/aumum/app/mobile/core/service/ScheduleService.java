@@ -10,15 +10,13 @@ public class ScheduleService {
 
     private ScheduledThreadPoolExecutor exec;
     private OnScheduleListener onScheduleListener;
-    private long period;
 
     public static interface OnScheduleListener {
         public void onAction();
     }
 
-    public ScheduleService(final OnScheduleListener onScheduleListener, long period) {
+    public ScheduleService(final OnScheduleListener onScheduleListener) {
         this.onScheduleListener = onScheduleListener;
-        this.period = period;
     }
 
     public void start() {
@@ -29,7 +27,7 @@ public class ScheduleService {
                 public void run() {
                     onScheduleListener.onAction();
                 }
-            }, 0, period, TimeUnit.MILLISECONDS);
+            }, 0, 10000, TimeUnit.MILLISECONDS);
         }
     }
 

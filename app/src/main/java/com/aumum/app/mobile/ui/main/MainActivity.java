@@ -32,7 +32,7 @@ public class MainActivity extends BaseFragmentActivity {
 
     private String userChannel;
 
-    private CarouselFragment carouselFragment;
+    private MainFragment mainFragment;
 
     public static final String INTENT_NOTIFICATION = "intentNotification";
 
@@ -74,11 +74,11 @@ public class MainActivity extends BaseFragmentActivity {
     }
 
     private void logout() {
-        chatService.logOut();
         logoutService.logout(new Runnable() {
             @Override
             public void run() {
                 unSubscribeUserChannel();
+                chatService.logOut();
                 checkAuth();
             }
         });
@@ -86,14 +86,14 @@ public class MainActivity extends BaseFragmentActivity {
 
     private void initScreen() {
         final FragmentManager fragmentManager = getSupportFragmentManager();
-        carouselFragment = new CarouselFragment();
+        mainFragment = new MainFragment();
         Intent intent = getIntent();
         if (intent.hasExtra(INTENT_NOTIFICATION)) {
-            carouselFragment.setLandingPage(BootstrapPagerAdapter.PAGE_MESSAGE);
+            mainFragment.setLandingPage(PagerAdapter.PAGE_MESSAGE);
             intent.removeExtra(INTENT_NOTIFICATION);
         }
         fragmentManager.beginTransaction()
-                .replace(R.id.container, carouselFragment)
+                .replace(R.id.container, mainFragment)
                 .commit();
     }
 

@@ -17,6 +17,7 @@ import com.aumum.app.mobile.ui.circle.CircleFragment;
 import com.aumum.app.mobile.ui.circle.GroupActionListener;
 import com.aumum.app.mobile.ui.circle.SearchCircleFragment;
 import com.aumum.app.mobile.ui.comment.DeleteCommentListener;
+import com.aumum.app.mobile.ui.main.MainFragment;
 import com.aumum.app.mobile.ui.message.DeleteMessageListener;
 import com.aumum.app.mobile.ui.message.MessageFragment;
 import com.aumum.app.mobile.ui.message.MessageListFragment;
@@ -103,6 +104,7 @@ import retrofit.converter.GsonConverter;
                 MembersLayoutListener.class,
                 LikesLayoutListener.class,
                 MessageFragment.class,
+                MainFragment.class
         }
 )
 public class BootstrapModule {
@@ -142,8 +144,8 @@ public class BootstrapModule {
 
     @Provides
     @Singleton
-    MessageStore provideMessageStore(RestService restService, ApiKeyProvider apiKeyProvider, Repository repository) {
-        return new MessageStore(restService, apiKeyProvider, repository);
+    MessageStore provideMessageStore(RestService restService, Repository repository) {
+        return new MessageStore(restService, repository);
     }
 
     @Provides
@@ -154,8 +156,8 @@ public class BootstrapModule {
 
     @Provides
     @Singleton
-    PartyStore providePartyStore(RestService restService, ApiKeyProvider apiKeyProvider, Repository repository) {
-        return new PartyStore(restService, apiKeyProvider, repository);
+    PartyStore providePartyStore(RestService restService, Repository repository) {
+        return new PartyStore(restService, repository);
     }
 
     @Provides

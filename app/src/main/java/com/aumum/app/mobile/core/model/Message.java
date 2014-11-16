@@ -2,6 +2,10 @@ package com.aumum.app.mobile.core.model;
 
 import com.google.gson.Gson;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+
 /**
  * Created by Administrator on 7/10/2014.
  */
@@ -151,16 +155,23 @@ public class Message extends AggregateRoot {
         }
     }
 
-    public static int[] getSubCategoryTypes(int subCategory) {
+    public static List<Integer> getSubCategoryTypes(int subCategory) {
+        ArrayList<Integer> types = new ArrayList<Integer>();
         switch (subCategory) {
             case SubCategory.PARTY_MEMBERSHIP:
-                return new int[]{ Type.PARTY_JOIN, Type.PARTY_QUIT };
+                types.add(Type.PARTY_JOIN);
+                types.add(Type.PARTY_QUIT);
+                return types;
             case SubCategory.PARTY_COMMENTS:
-                return new int[]{ Type.PARTY_COMMENT, Type.PARTY_REPLY };
+                types.add(Type.PARTY_COMMENT);
+                types.add(Type.PARTY_REPLY);
+                return types;
             case SubCategory.PARTY_LIKES:
-                return new int[]{ Type.PARTY_LIKE };
+                types.add(Type.PARTY_LIKE);
+                return types;
+            default:
+                return types;
         }
-        return new int[]{};
     }
 
     public String getActionText() {

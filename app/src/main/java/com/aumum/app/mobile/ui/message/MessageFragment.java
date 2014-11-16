@@ -14,28 +14,22 @@ import com.aumum.app.mobile.R;
 import com.aumum.app.mobile.core.Constants;
 import com.aumum.app.mobile.core.dao.MessageStore;
 import com.aumum.app.mobile.core.model.Message;
-import com.aumum.app.mobile.core.service.ScheduleService;
-import com.aumum.app.mobile.utils.Ln;
-import com.aumum.app.mobile.utils.SafeAsyncTask;
+
+import java.util.List;
 
 import javax.inject.Inject;
-
-import retrofit.RetrofitError;
 
 /**
  * A simple {@link Fragment} subclass.
  *
  */
-public class MessageFragment extends Fragment
-        implements ScheduleService.OnScheduleListener{
+public class MessageFragment extends Fragment {
 
     @Inject MessageStore messageStore;
-    private ScheduleService scheduleService;
-    private SafeAsyncTask<Boolean> task;
 
-    private int unreadPartyMembershipCount;
-    private int unreadPartyCommentsCount;
-    private int unreadPartyLikesCount;
+    private long unreadPartyMembershipCount;
+    private long unreadPartyCommentsCount;
+    private long unreadPartyLikesCount;
 
     private ImageView partyMembershipUnreadImage;
     private ImageView partyCommentsUnreadImage;
@@ -45,19 +39,6 @@ public class MessageFragment extends Fragment
     public void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Injector.inject(this);
-        scheduleService = new ScheduleService(this, Constants.Schedule.DELAY);
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        scheduleService.start();
-    }
-
-    @Override
-    public void onPause() {
-        super.onDestroy();
-        scheduleService.shutDown();
     }
 
     @Override
@@ -72,103 +53,81 @@ public class MessageFragment extends Fragment
 
         TextView partyMembershipText = (TextView) view.findViewById(R.id.text_party_membership);
         partyMembershipUnreadImage = (ImageView) view.findViewById(R.id.image_unread_party_membership_message);
-        if (unreadPartyMembershipCount > 0) {
-            partyMembershipUnreadImage.setVisibility(View.VISIBLE);
-        }
         partyMembershipText.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startMessageListActivity(Message.SubCategory.PARTY_MEMBERSHIP, R.string.label_party_join);
-                unreadPartyMembershipCount = 0;
-                partyMembershipUnreadImage.setVisibility(View.GONE);
+                int subCategory = Message.SubCategory.PARTY_MEMBERSHIP;
+                startMessageListActivity(subCategory, R.string.label_party_join);
+                messageStore.markAsRead(Message.getSubCategoryTypes(subCategory));
             }
         });
 
         TextView partyCommentsText = (TextView) view.findViewById(R.id.text_party_comments);
         partyCommentsUnreadImage = (ImageView) view.findViewById(R.id.image_unread_party_comments_message);
-        if (unreadPartyCommentsCount > 0) {
-            partyCommentsUnreadImage.setVisibility(View.VISIBLE);
-        }
         partyCommentsText.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startMessageListActivity(Message.SubCategory.PARTY_COMMENTS, R.string.label_party_comments);
-                unreadPartyCommentsCount = 0;
-                partyCommentsUnreadImage.setVisibility(View.GONE);
+                int subCategory = Message.SubCategory.PARTY_COMMENTS;
+                startMessageListActivity(subCategory, R.string.label_party_comments);
+                messageStore.markAsRead(Message.getSubCategoryTypes(subCategory));
             }
         });
 
         TextView partyLikesText = (TextView) view.findViewById(R.id.text_party_likes);
         partyLikesUnreadImage = (ImageView) view.findViewById(R.id.image_unread_party_likes_message);
-        if (unreadPartyLikesCount > 0) {
-            partyLikesUnreadImage.setVisibility(View.VISIBLE);
-        }
         partyLikesText.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startMessageListActivity(Message.SubCategory.PARTY_LIKES, R.string.label_party_likes);
-                unreadPartyLikesCount = 0;
-                partyLikesUnreadImage.setVisibility(View.GONE);
+                int subCategory = Message.SubCategory.PARTY_LIKES;
+                startMessageListActivity(subCategory, R.string.label_party_likes);
+                messageStore.markAsRead(Message.getSubCategoryTypes(subCategory));
             }
         });
+
+        updateUnreadView(messageStore.getUnreadList());
+    }
+
+    @Override
+    public void onActivityResult (int requestCode, int resultCode, Intent data) {
+        if (requestCode == Constants.RequestCode.MESSAGE_LIST_REQ_CODE) {
+            updateUnreadView(messageStore.getUnreadList());
+        }
     }
 
     private void startMessageListActivity(int category, int title) {
         final Intent intent = new Intent(getActivity(), MessageListActivity.class);
         intent.putExtra(MessageListActivity.INTENT_TITLE, title);
         intent.putExtra(MessageListActivity.INTENT_MESSAGE_TYPE, category);
-        startActivity(intent);
+        startActivityForResult(intent, Constants.RequestCode.MESSAGE_LIST_REQ_CODE);
     }
 
-    @Override
-    public void onAction() {
-        task = new SafeAsyncTask<Boolean>() {
-            public Boolean call() throws Exception {
-                unreadPartyMembershipCount = messageStore.getUnreadPartyMembershipCount();
-                if (unreadPartyMembershipCount > 0) {
-                    getActivity().runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            partyMembershipUnreadImage.setVisibility(View.VISIBLE);
-                        }
-                    });
-                }
-                unreadPartyCommentsCount = messageStore.getUnreadPartyCommentsCount();
-                if (unreadPartyCommentsCount > 0) {
-                    getActivity().runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            partyCommentsUnreadImage.setVisibility(View.VISIBLE);
-                        }
-                    });
-                }
-                unreadPartyLikesCount = messageStore.getUnreadPartyLikesCount();
-                if (unreadPartyLikesCount > 0) {
-                    getActivity().runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            partyLikesUnreadImage.setVisibility(View.VISIBLE);
-                        }
-                    });
-                }
-                return true;
-            }
+    private void toggleUnreadImage(ImageView imageView, long count) {
+        if (count > 0) {
+            imageView.setVisibility(View.VISIBLE);
+        } else {
+            imageView.setVisibility(View.GONE);
+        }
+    }
 
-            @Override
-            protected void onException(final Exception e) throws RuntimeException {
-                if(!(e instanceof RetrofitError)) {
-                    final Throwable cause = e.getCause() != null ? e.getCause() : e;
-                    if(cause != null) {
-                        Ln.e(e.getCause(), cause.getMessage());
-                    }
-                }
+    private void updateUnreadView(List<Message> unreadList) {
+        unreadPartyMembershipCount = 0;
+        unreadPartyCommentsCount = 0;
+        unreadPartyLikesCount = 0;
+        List<Integer> partyMembershipTypes = Message.getSubCategoryTypes(Message.SubCategory.PARTY_MEMBERSHIP);
+        List<Integer> partyCommentsTypes = Message.getSubCategoryTypes(Message.SubCategory.PARTY_COMMENTS);
+        List<Integer> partyLikesTypes = Message.getSubCategoryTypes(Message.SubCategory.PARTY_LIKES);
+        for (Message message: unreadList) {
+            if (partyMembershipTypes.contains(message.getType())) {
+                unreadPartyMembershipCount++;
+            } else if (partyCommentsTypes.contains(message.getType())) {
+                unreadPartyCommentsCount++;
+            } else if (partyLikesTypes.contains(message.getType())) {
+                unreadPartyLikesCount++;
             }
+        }
 
-            @Override
-            protected void onFinally() throws RuntimeException {
-                task = null;
-            }
-        };
-        task.execute();
+        toggleUnreadImage(partyMembershipUnreadImage, unreadPartyMembershipCount);
+        toggleUnreadImage(partyCommentsUnreadImage, unreadPartyCommentsCount);
+        toggleUnreadImage(partyLikesUnreadImage, unreadPartyLikesCount);
     }
 }

@@ -115,7 +115,7 @@ public class UserFragment extends LoaderFragment<User> {
     @Override
     protected User loadDataCore(Bundle bundle) throws Exception {
         if (userId.equals(currentUserId)) {
-            return dataStore.getCurrentUserFromServer();
+            return dataStore.getCurrentUser();
         } else {
             User user = dataStore.getUserByIdFromServer(userId);
             if (user == null) {

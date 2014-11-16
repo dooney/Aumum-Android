@@ -27,10 +27,4 @@ public interface MessageService {
 
     @PUT(Constants.Http.URL_MESSAGE_BY_ID_FRAG)
     JsonObject updateById(@Path("id") String id, @Body JsonObject data);
-
-    @GET(Constants.Http.URL_MESSAGES_FRAG)
-    JsonObject getMessagesCount(@Query("order") String order,
-                                @Query("where") String where,
-                                @Query("count") int count,
-                                @Query("limit") int limit);
 }

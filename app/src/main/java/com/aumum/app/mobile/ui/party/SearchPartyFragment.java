@@ -81,7 +81,7 @@ public class SearchPartyFragment extends ItemListFragment<Card>
 
     @Override
     protected List<Card> loadDataCore(Bundle bundle) throws Exception {
-        List<Party> partyList = dataStore.getLiveList();
+        List<Party> partyList = dataStore.getLiveListFromServer();
         if (partyList != null) {
             gpsTracker.getLocation();
             for (Party party : partyList) {

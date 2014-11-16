@@ -9,7 +9,6 @@ import java.util.Date;
  */
 public class MessageEntity extends BaseEntity {
 
-    private Long id;
     private String fromUserId;
     private String toUserId;
     private Integer type;
@@ -19,21 +18,17 @@ public class MessageEntity extends BaseEntity {
     public MessageEntity() {
     }
 
-    public MessageEntity(Long id) {
-        this.id = id;
+    public MessageEntity(String objectId) {
+        this.objectId = objectId;
     }
 
-    public MessageEntity(Long id,
-                         String instanceId,
-                         String objectId,
+    public MessageEntity(String objectId,
                          Date createdAt,
                          String fromUserId,
                          String toUserId,
                          Integer type,
                          String content,
                          String parent) {
-        this.id = id;
-        this.instanceId = instanceId;
         this.objectId = objectId;
         this.createdAt = createdAt;
         this.fromUserId = fromUserId;
@@ -41,14 +36,6 @@ public class MessageEntity extends BaseEntity {
         this.type = type;
         this.content = content;
         this.parent = parent;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
     }
 
     public String getFromUserId() {
