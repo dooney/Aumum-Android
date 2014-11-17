@@ -70,7 +70,7 @@ public abstract class ItemListFragment<E> extends LoaderFragment<List<E>> {
     }
 
     protected void scrollToTop() {
-        listView.setSelectionFromTop(listView.getHeaderViewsCount(), 0);
+        listView.setSelection(0);
     }
 
     @Override

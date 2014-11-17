@@ -311,13 +311,16 @@
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_marginTop">@dimen/margin_medium</item>
-        <item name="android:paddingTop">@dimen/margin_medium</item>
-        <item name="android:paddingBottom">@dimen/margin_medium</item>
-        <item name="android:paddingLeft">@dimen/margin_large</item>
-        <item name="android:paddingRight">@dimen/margin_extreme_large</item>
+        <item name="android:padding">@dimen/margin_medium</item>
         <item name="android:gravity">left|center</item>
+        <item name="android:maxWidth">225dp</item>
+    </style>
+    <style name="TextView.ChatMessage.SentText" parent="TextView.ChatMessage.Text">
         <item name="android:textColor">@color/text</item>
-        <item name="android:background">@drawable/image_chat_sent_background</item>
+        <item name="android:background">@drawable/chat_sent_text_background</item>
+    </style>
+    <style name="TextView.ChatMessage.ReceivedText" parent="TextView.ChatMessage.Text">
+        <item name="android:background">@drawable/chat_received_text_background</item>
     </style>
 
     <!-- Message -->
@@ -475,8 +478,8 @@
     <style name="TabPageIndicator" parent="Widget.TabPageIndicator">
         <item name="android:textSize">@dimen/text_sz_medium</item>
         <item name="android:paddingTop">0dp</item>
-        <item name="android:paddingLeft">12dp</item>
-        <item name="android:paddingRight">12dp</item>
+        <item name="android:paddingLeft">@dimen/margin_large</item>
+        <item name="android:paddingRight">@dimen/margin_large</item>
         <item name="android:textAppearance">@style/TabPageIndicator.Text</item>
     </style>
 
@@ -504,4 +507,8 @@
     </style>
 
     <style name="ProgressBar" parent="@android:style/Widget.Holo.Light.ProgressBar" />
+    <style name="ProgressBar.Small" parent="ProgressBar">
+        <item name="android:layout_width">@dimen/image_sz_extra_small</item>
+        <item name="android:layout_height">@dimen/image_sz_extra_small</item>
+    </style>
 </resources>

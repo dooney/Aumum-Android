@@ -3,7 +3,10 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="@dimen/margin_large">
+    android:paddingTop="@dimen/margin_small"
+    android:paddingBottom="@dimen/margin_small"
+    android:paddingLeft="@dimen/margin_medium"
+    android:paddingRight="@dimen/margin_medium">
 
     <TextView
         android:id="@+id/text_time_stamp"
@@ -14,10 +17,9 @@
 
     <com.aumum.app.mobile.ui.view.AvatarImageView
         android:id="@+id/image_avatar"
-        style="@style/ImageView.Avatar"
+        style="@style/ImageView.Avatar.Small"
         android:layout_marginLeft="@dimen/margin_medium"
         android:layout_alignParentRight="true"
-        android:layout_centerVertical="true"
         android:src="@drawable/ic_avatar"/>
 
     <TextView
@@ -27,20 +29,23 @@
         android:layout_toLeftOf="@+id/image_avatar"
         android:text="用户名"/>
 
-    <TextView
-        android:id="@+id/text_text_body"
-        style="@style/TextView.ChatMessage.Text"
-        android:layout_alignRight="@+id/text_user_name"
-        android:layout_below="@+id/text_user_name"
-        android:text="消息内容"/>
-
-    <ProgressBar
-        android:id="@+id/progress"
-        style="@style/ProgressBar"
+    <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_toLeftOf="@+id/text_text_body"
-        android:layout_alignTop="@+id/text_text_body"
-        android:visibility="gone"/>
+        android:layout_alignRight="@+id/text_user_name"
+        android:layout_below="@+id/text_user_name">
+
+        <ProgressBar
+            android:id="@+id/progress"
+            style="@style/ProgressBar.Small"
+            android:layout_gravity="center_vertical"
+            android:visibility="invisible"/>
+
+        <TextView
+            android:id="@+id/text_text_body"
+            style="@style/TextView.ChatMessage.SentText"
+            android:text="消息内容"/>
+
+    </LinearLayout>
 
 </RelativeLayout>

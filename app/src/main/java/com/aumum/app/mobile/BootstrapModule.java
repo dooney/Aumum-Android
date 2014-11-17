@@ -9,6 +9,7 @@ import com.aumum.app.mobile.core.dao.Repository;
 import com.aumum.app.mobile.core.infra.security.ApiKeyProvider;
 import com.aumum.app.mobile.core.service.ChatService;
 import com.aumum.app.mobile.core.service.MessageDeliveryService;
+import com.aumum.app.mobile.core.service.NotificationService;
 import com.aumum.app.mobile.core.service.RestService;
 import com.aumum.app.mobile.ui.LaunchActivity;
 import com.aumum.app.mobile.ui.chat.ChatFragment;
@@ -117,8 +118,14 @@ public class BootstrapModule {
 
     @Singleton
     @Provides
-    MessageDeliveryService provideMessageDeliveryService(RestService restService, UserStore userStore) {
-        return new MessageDeliveryService(restService, userStore);
+    MessageDeliveryService provideMessageDeliveryService(RestService restService, NotificationService notificationService, UserStore userStore) {
+        return new MessageDeliveryService(restService, notificationService, userStore);
+    }
+
+    @Singleton
+    @Provides
+    NotificationService provideNotificationService() {
+        return new NotificationService();
     }
 
     @Provides

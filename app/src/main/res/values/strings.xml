@@ -143,6 +143,7 @@
     <string name="label_quit_group">退出</string>
     <string name="info_group_action">您已成功%1$s%2$s</string>
     <string name="info_group_action_sent">您的请求已发送成功，等待群主同意</string>
+    <string name="label_unknown_user">未知用户</string>
 
     <!-- Circle -->
     <string name="label_send">发送</string>

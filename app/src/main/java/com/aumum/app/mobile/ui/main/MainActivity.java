@@ -13,10 +13,8 @@ import android.view.Window;
 import com.aumum.app.mobile.Injector;
 import com.aumum.app.mobile.ServiceProvider;
 import com.aumum.app.mobile.R;
-import com.aumum.app.mobile.core.infra.security.ApiKeyProvider;
 import com.aumum.app.mobile.core.service.ChatService;
 import com.aumum.app.mobile.core.service.LogoutService;
-import com.aumum.app.mobile.utils.NotificationUtils;
 import com.aumum.app.mobile.core.service.RestService;
 import com.aumum.app.mobile.ui.base.BaseFragmentActivity;
 import com.aumum.app.mobile.utils.SafeAsyncTask;
@@ -28,9 +26,6 @@ public class MainActivity extends BaseFragmentActivity {
     @Inject protected ServiceProvider serviceProvider;
     @Inject protected LogoutService logoutService;
     @Inject protected ChatService chatService;
-    @Inject protected ApiKeyProvider apiKeyProvider;
-
-    private String userChannel;
 
     private MainFragment mainFragment;
 
@@ -46,12 +41,6 @@ public class MainActivity extends BaseFragmentActivity {
         Injector.inject(this);
         setContentView(R.layout.activity_main);
         initScreen();
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        unSubscribeUserChannel();
     }
 
     @Override
@@ -77,7 +66,6 @@ public class MainActivity extends BaseFragmentActivity {
         logoutService.logout(new Runnable() {
             @Override
             public void run() {
-                unSubscribeUserChannel();
                 chatService.logOut();
                 checkAuth();
             }
@@ -119,19 +107,9 @@ public class MainActivity extends BaseFragmentActivity {
             @Override
             protected void onSuccess(final Boolean hasAuthenticated) throws Exception {
                 super.onSuccess(hasAuthenticated);
-                subscribeUserChannel();
                 initScreen();
             }
         }.execute();
-    }
-
-    private void subscribeUserChannel() {
-        userChannel = apiKeyProvider.getAuthUserId();
-        NotificationUtils.subscribe(userChannel);
-    }
-
-    private void unSubscribeUserChannel() {
-        NotificationUtils.unSubscribe(userChannel);
     }
 
     @Override

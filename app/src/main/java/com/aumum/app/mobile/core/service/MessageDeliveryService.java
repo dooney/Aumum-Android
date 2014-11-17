@@ -3,7 +3,6 @@ package com.aumum.app.mobile.core.service;
 import com.aumum.app.mobile.core.dao.UserStore;
 import com.aumum.app.mobile.core.model.Message;
 import com.aumum.app.mobile.utils.Ln;
-import com.aumum.app.mobile.utils.NotificationUtils;
 import com.aumum.app.mobile.utils.SafeAsyncTask;
 
 import retrofit.RetrofitError;
@@ -13,13 +12,15 @@ import retrofit.RetrofitError;
  */
 public class MessageDeliveryService {
     private RestService restService;
+    private NotificationService notificationService;
     private UserStore userStore;
 
     private SafeAsyncTask<Boolean> task;
 
-    public MessageDeliveryService(RestService restService, UserStore userStore) {
+    public MessageDeliveryService(RestService restService, NotificationService notificationService, UserStore userStore) {
         this.restService = restService;
         this.userStore = userStore;
+        this.notificationService = notificationService;
     }
 
     public void send(final Message message) {
@@ -35,7 +36,7 @@ public class MessageDeliveryService {
 
                     String fromName = userStore.getUserById(message.getFromUserId()).getScreenName();
                     String text = "您有一条来自 @" + fromName + " 的消息";
-                    NotificationUtils.pushNotification(message.getToUserId(), text);
+                    notificationService.pushNotification(message.getToUserId(), text);
                     return true;
                 }
 

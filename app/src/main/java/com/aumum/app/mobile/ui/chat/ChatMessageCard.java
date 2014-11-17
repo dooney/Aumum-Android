@@ -6,6 +6,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.aumum.app.mobile.R;
+import com.aumum.app.mobile.ui.view.AvatarImageView;
 import com.easemob.chat.EMConversation;
 import com.easemob.chat.EMMessage;
 import com.easemob.chat.TextMessageBody;
@@ -22,6 +23,7 @@ public class ChatMessageCard implements SendMessageListener.OnActionListener {
 
     private Activity activity;
     private TextView timeStampText;
+    private AvatarImageView avatarImage;
     private TextView userNameText;
     private TextView textBodyText;
     private ProgressBar progressBar;
@@ -29,6 +31,7 @@ public class ChatMessageCard implements SendMessageListener.OnActionListener {
     public ChatMessageCard(Activity activity, View view) {
         this.activity = activity;
         timeStampText = (TextView) view.findViewById(R.id.text_time_stamp);
+        avatarImage = (AvatarImageView) view.findViewById(R.id.image_avatar);
         userNameText = (TextView) view.findViewById(R.id.text_user_name);
         textBodyText = (TextView) view.findViewById(R.id.text_text_body);
         progressBar = (ProgressBar) view.findViewById(R.id.progress);
@@ -36,7 +39,7 @@ public class ChatMessageCard implements SendMessageListener.OnActionListener {
         listener.setListener(this);
     }
 
-    public void refresh(EMConversation conversation, int position) {
+    public void refresh(EMConversation conversation, int position, String userName, String avatarUrl) {
         EMMessage message = conversation.getMessage(position);
         if (position == 0) {
             timeStampText.setText(DateUtils.getTimestampString(new Date(message.getMsgTime())));
@@ -51,7 +54,12 @@ public class ChatMessageCard implements SendMessageListener.OnActionListener {
             }
         }
 
-        userNameText.setText(message.getFrom());
+        userNameText.setText(userName);
+        if (avatarUrl != null) {
+            avatarImage.getFromUrl(avatarUrl);
+        } else {
+            avatarImage.setImageResource(R.drawable.ic_avatar);
+        }
 
         TextMessageBody textBody = (TextMessageBody) message.getBody();
         textBodyText.setText(textBody.getMessage());
@@ -62,10 +70,10 @@ public class ChatMessageCard implements SendMessageListener.OnActionListener {
                     progressBar.setVisibility(View.VISIBLE);
                     break;
                 case SUCCESS:
-                    progressBar.setVisibility(View.GONE);
+                    progressBar.setVisibility(View.INVISIBLE);
                     break;
                 case FAIL:
-                    progressBar.setVisibility(View.GONE);
+                    progressBar.setVisibility(View.INVISIBLE);
                     break;
                 default:
                     progressBar.setVisibility(View.VISIBLE);
@@ -79,7 +87,7 @@ public class ChatMessageCard implements SendMessageListener.OnActionListener {
         activity.runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                progressBar.setVisibility(View.GONE);
+                progressBar.setVisibility(View.INVISIBLE);
             }
         });
     }
@@ -89,7 +97,7 @@ public class ChatMessageCard implements SendMessageListener.OnActionListener {
         activity.runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                progressBar.setVisibility(View.GONE);
+                progressBar.setVisibility(View.INVISIBLE);
             }
         });
     }

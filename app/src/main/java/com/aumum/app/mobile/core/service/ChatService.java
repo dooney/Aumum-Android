@@ -148,8 +148,9 @@ public class ChatService {
         EMGroupManager.getInstance().joinGroup(groupId);
     }
 
-    public void addTextMessage(String receipt, boolean isGroup, String text) {
+    public void addTextMessage(String from, String receipt, boolean isGroup, String text) {
         EMMessage message = EMMessage.createSendMessage(EMMessage.Type.TXT);
+        message.setAttribute("userId", from);
         // 如果是群聊，设置chat type,默认是单聊
         if (isGroup) {
             message.setChatType(EMMessage.ChatType.GroupChat);
