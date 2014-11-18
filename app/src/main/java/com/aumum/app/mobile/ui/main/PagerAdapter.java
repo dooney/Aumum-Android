@@ -36,7 +36,7 @@ public class PagerAdapter extends FragmentPagerAdapter {
      */
     public PagerAdapter(final Resources resources, final FragmentManager fragmentManager) {
         super(fragmentManager);
-        pages = resources.getStringArray(R.array.pages_array);
+        pages = resources.getStringArray(R.array.label_pages);
     }
 
     @Override

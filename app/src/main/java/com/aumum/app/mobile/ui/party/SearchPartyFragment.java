@@ -100,7 +100,7 @@ public class SearchPartyFragment extends ItemListFragment<Card>
             User currentUser = userStore.getCurrentUser();
             for (Party party : partyList) {
                 if (party.getUser() == null) {
-                    party.setUser(userStore.getUserById(party.getObjectId()));
+                    party.setUser(userStore.getUserById(party.getUserId()));
                 }
                 Card card = new PartyCard(getActivity(), party, currentUser.getObjectId(), this, this);
                 cards.add(card);

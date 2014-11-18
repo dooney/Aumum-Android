@@ -1,7 +1,7 @@
 package com.aumum.app.mobile.ui.circle;
 
+import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -11,15 +11,13 @@ import android.view.MenuItem;
 import android.view.SubMenu;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.WindowManager;
 import android.widget.ArrayAdapter;
-import android.widget.PopupWindow;
-import android.widget.TextView;
 
 import com.aumum.app.mobile.Injector;
 import com.aumum.app.mobile.R;
 import com.aumum.app.mobile.core.service.ChatService;
 import com.aumum.app.mobile.ui.base.ItemListFragment;
+import com.aumum.app.mobile.utils.DialogUtils;
 import com.aumum.app.mobile.utils.Ln;
 import com.easemob.chat.EMContact;
 
@@ -62,7 +60,22 @@ public class CircleFragment extends ItemListFragment<EMContact> {
         if (!isUsable()) {
             return false;
         }
-        showSearchPopupWindow(getActivity().findViewById(item.getItemId()));
+        String searchOptions[] = getResources().getStringArray(R.array.label_search_circle);
+        DialogUtils.showDialog(getActivity(), searchOptions, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                switch (i) {
+                    case 0:
+                        final Intent intent = new Intent(getActivity(), SearchCircleActivity.class);
+                        startActivity(intent);
+                        break;
+                    case 1:
+                        break;
+                    default:
+                        break;
+                }
+            }
+        });
         return super.onOptionsItemSelected(item);
     }
 
@@ -98,34 +111,5 @@ public class CircleFragment extends ItemListFragment<EMContact> {
         } catch (Exception e) {
             Ln.d(e);
         }
-    }
-
-    private void showSearchPopupWindow(View menuItemView) {
-        PopupWindow popup = new PopupWindow(getActivity());
-        View layout = getActivity().getLayoutInflater().inflate(R.layout.popup_window_search_circle, null);
-        popup.setContentView(layout);
-        popup.setHeight(WindowManager.LayoutParams.WRAP_CONTENT);
-        popup.setWidth(WindowManager.LayoutParams.WRAP_CONTENT);
-        popup.setOutsideTouchable(true);
-        popup.setFocusable(true);
-        popup.setBackgroundDrawable(new BitmapDrawable());
-        popup.showAsDropDown(menuItemView, -menuItemView.getWidth() / 2, 0);
-
-        TextView textSearchNearby = (TextView) layout.findViewById(R.id.text_search_all);
-        textSearchNearby.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                final Intent intent = new Intent(getActivity(), SearchCircleActivity.class);
-                startActivity(intent);
-            }
-        });
-
-        TextView textSearchAddress = (TextView) layout.findViewById(R.id.text_search_keyword);
-        textSearchAddress.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-            }
-        });
     }
 }

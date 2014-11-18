@@ -1,18 +1,14 @@
 package com.aumum.app.mobile.ui.party;
 
 import android.app.Activity;
+import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.SubMenu;
-import android.view.View;
-import android.view.WindowManager;
-import android.widget.PopupWindow;
-import android.widget.TextView;
 
 import com.aumum.app.mobile.Injector;
 import com.aumum.app.mobile.R;
@@ -22,6 +18,7 @@ import com.aumum.app.mobile.core.dao.UserStore;
 import com.aumum.app.mobile.core.model.Party;
 import com.aumum.app.mobile.core.model.User;
 import com.aumum.app.mobile.ui.base.CardListFragment;
+import com.aumum.app.mobile.utils.DialogUtils;
 import com.aumum.app.mobile.utils.GPSTracker;
 import com.aumum.app.mobile.utils.Ln;
 
@@ -85,7 +82,7 @@ public class PartyListFragment extends CardListFragment
         }
         switch (item.getItemId()) {
             case 0:
-                showSearchPopupWindow(getActivity().findViewById(item.getItemId()));
+                showSearchPartyDialog();
                 break;
             case 1:
                 final Intent intent = new Intent(getActivity(), NewPartyActivity.class);
@@ -173,31 +170,21 @@ public class PartyListFragment extends CardListFragment
         return cards;
     }
 
-    private void showSearchPopupWindow(View menuItemView) {
-        PopupWindow popup = new PopupWindow(getActivity());
-        View layout = getActivity().getLayoutInflater().inflate(R.layout.popup_window_search_party, null);
-        popup.setContentView(layout);
-        popup.setHeight(WindowManager.LayoutParams.WRAP_CONTENT);
-        popup.setWidth(WindowManager.LayoutParams.WRAP_CONTENT);
-        popup.setOutsideTouchable(true);
-        popup.setFocusable(true);
-        popup.setBackgroundDrawable(new BitmapDrawable());
-        popup.showAsDropDown(menuItemView, -menuItemView.getWidth() / 2, 0);
-
-        TextView textSearchNearby = (TextView) layout.findViewById(R.id.text_search_nearby);
-        textSearchNearby.setOnClickListener(new View.OnClickListener() {
+    private void showSearchPartyDialog() {
+        String searchOptions[] = getResources().getStringArray(R.array.label_search_party);
+        DialogUtils.showDialog(getActivity(), searchOptions, new DialogInterface.OnClickListener() {
             @Override
-            public void onClick(View view) {
-                final Intent intent = new Intent(getActivity(), SearchPartyActivity.class);
-                startActivity(intent);
-            }
-        });
-
-        TextView textSearchAddress = (TextView) layout.findViewById(R.id.text_search_address);
-        textSearchAddress.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
+            public void onClick(DialogInterface dialogInterface, int i) {
+                switch (i) {
+                    case 0:
+                        final Intent intent = new Intent(getActivity(), SearchPartyActivity.class);
+                        startActivity(intent);
+                        break;
+                    case 1:
+                        break;
+                    default:
+                        break;
+                }
             }
         });
     }

@@ -3,12 +3,22 @@
 
     <string name="app_name">澳妈圈</string>
 
-    <string-array name="pages_array">
+    <string-array name="label_pages">
         <item>聚会</item>
         <item>圈子</item>
         <item>姐妹</item>
         <item>消息</item>
         <item>个人</item>
+    </string-array>
+
+    <string-array name="label_search_party">
+        <item>搜索附近</item>
+        <item>搜索地址</item>
+    </string-array>
+
+    <string-array name="label_search_circle">
+        <item>所有圈子</item>
+        <item>圈子关键词</item>
     </string-array>
 
     <string name="menu_logout">注销</string>
@@ -116,8 +126,6 @@
     <string name="label_createdAt">创建时间</string>
     <string name="label_join_details">报名动态</string>
     <string name="label_distance">%1$skm</string>
-    <string name="label_search_nearby">搜索附近</string>
-    <string name="label_search_address">搜索地址</string>
     <string name="title_activity_parties">我的聚会</string>
     <string name="title_activity_search_party">搜索聚会</string>
 
@@ -135,8 +143,6 @@
 
     <!-- Circle -->
     <string name="hint_search_circle">搜索圈子</string>
-    <string name="label_search_all_circles">所有圈子</string>
-    <string name="label_search_circle_keyword">圈子关键词</string>
     <string name="title_activity_search_circle">搜索圈子</string>
     <string name="label_group_current_size">%,d人</string>
     <string name="label_join_group">加入</string>
