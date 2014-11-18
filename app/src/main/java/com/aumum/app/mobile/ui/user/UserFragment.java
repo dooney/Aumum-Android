@@ -7,7 +7,6 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import com.aumum.app.mobile.Injector;
 import com.aumum.app.mobile.R;
@@ -16,8 +15,6 @@ import com.aumum.app.mobile.core.infra.security.ApiKeyProvider;
 import com.aumum.app.mobile.core.dao.UserStore;
 import com.aumum.app.mobile.core.model.User;
 import com.aumum.app.mobile.ui.base.LoaderFragment;
-import com.aumum.app.mobile.ui.view.AvatarImageView;
-import com.aumum.app.mobile.ui.view.FollowTextView;
 import com.aumum.app.mobile.utils.Ln;
 
 import javax.inject.Inject;
@@ -34,17 +31,6 @@ public class UserFragment extends LoaderFragment<User> {
     private String currentUserId;
 
     private View mainView;
-    private AvatarImageView avatarImage;
-    private TextView userNameText;
-    private FollowTextView followText;
-    private TextView editProfileText;
-    private TextView areaText;
-    private TextView aboutText;
-    private TextView followingsCountText;
-    private TextView followersCountText;
-    private TextView commentsCountText;
-    private TextView partyPostCountText;
-    private TextView joinedPartyCountText;
 
     @Override
     public void onCreate(final Bundle savedInstanceState) {
@@ -76,18 +62,6 @@ public class UserFragment extends LoaderFragment<User> {
         super.onViewCreated(view, savedInstanceState);
 
         mainView = view.findViewById(R.id.main_view);
-        avatarImage = (AvatarImageView) view.findViewById(R.id.image_avatar);
-        userNameText = (TextView) view.findViewById(R.id.text_user_name);
-        followText = (FollowTextView) view.findViewById(R.id.text_follow);
-        followText.setFollowListener(new FollowListener(userId));
-        editProfileText = (TextView) view.findViewById(R.id.text_edit_profile);
-        areaText = (TextView) view.findViewById(R.id.text_area);
-        aboutText = (TextView) view.findViewById(R.id.text_about);
-        followingsCountText = (TextView) view.findViewById(R.id.text_followings_count);
-        followersCountText = (TextView) view.findViewById(R.id.text_followers_count);
-        commentsCountText = (TextView) view.findViewById(R.id.text_comments_count);
-        partyPostCountText = (TextView) view.findViewById(R.id.text_party_post_count);
-        joinedPartyCountText = (TextView) view.findViewById(R.id.text_joined_party_count);
     }
 
     @Override
@@ -130,32 +104,6 @@ public class UserFragment extends LoaderFragment<User> {
         try {
             if (user != null) {
                 setData(user);
-
-                avatarImage.getFromUrl(user.getAvatarUrl());
-                userNameText.setText(user.getScreenName());
-                if (userId.equals(currentUserId)) {
-                    avatarImage.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View view) {
-                            startProfileImageActivity(userId, user.getAvatarUrl());
-                        }
-                    });
-                    followText.setVisibility(View.GONE);
-                    editProfileText.setVisibility(View.VISIBLE);
-                } else {
-                    editProfileText.setVisibility(View.GONE);
-                    followText.setVisibility(View.VISIBLE);
-                }
-                if (user.getFollowers().contains(currentUserId)) {
-                    followText.update(true);
-                }
-                areaText.setText(Constants.Options.AREA_OPTIONS[user.getArea()]);
-                aboutText.setText(user.getAbout());
-                followingsCountText.setText(String.valueOf(user.getFollowings().size()));
-                followersCountText.setText(String.valueOf(user.getFollowers().size()));
-                commentsCountText.setText(String.valueOf(user.getComments().size()));
-                partyPostCountText.setText(String.valueOf(user.getPartyPosts().size()));
-                joinedPartyCountText.setText(String.valueOf(user.getParties().size()));
             }
         } catch (Exception e) {
             Ln.d(e);

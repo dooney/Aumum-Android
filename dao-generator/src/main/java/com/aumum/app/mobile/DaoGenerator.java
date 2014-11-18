@@ -38,8 +38,7 @@ public class DaoGenerator {
         user.addIntProperty("area");
         user.addStringProperty("avatarUrl");
         user.addStringProperty("about");
-        user.addStringProperty("followers");
-        user.addStringProperty("followings");
+        user.addStringProperty("contacts");
         user.addStringProperty("comments");
         user.addStringProperty("messages");
         user.addStringProperty("parties");

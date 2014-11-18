@@ -3,7 +3,6 @@ package com.aumum.app.mobile.core.model;
 import com.google.gson.Gson;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 
 /**
@@ -106,15 +105,14 @@ public class Message extends AggregateRoot {
 
     public static class Type {
         public static final int DELETED = 0;
-        public static final int USER_FOLLOW = 1;
-        public static final int PARTY_NEW = 2;
-        public static final int PARTY_JOIN = 3;
-        public static final int PARTY_QUIT = 4;
-        public static final int PARTY_LIKE = 5;
-        public static final int PARTY_COMMENT = 6;
-        public static final int PARTY_REPLY = 7;
-        public static final int PARTY_DELETE = 8;
-        public static final int PARTY_CHECK_IN = 9;
+        public static final int PARTY_NEW = 1;
+        public static final int PARTY_JOIN = 2;
+        public static final int PARTY_QUIT = 3;
+        public static final int PARTY_LIKE = 4;
+        public static final int PARTY_COMMENT = 5;
+        public static final int PARTY_REPLY = 6;
+        public static final int PARTY_DELETE = 7;
+        public static final int PARTY_CHECK_IN = 8;
     }
 
     public static class SubCategory {
@@ -129,7 +127,6 @@ public class Message extends AggregateRoot {
 
     private static final String ACTION_OPTIONS[] = {
             "该消息已删除",
-            "关注了您",
             "发布了新聚会",
             "报名了聚会",
             "退出了聚会",

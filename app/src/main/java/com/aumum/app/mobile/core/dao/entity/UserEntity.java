@@ -13,8 +13,7 @@ public class UserEntity extends BaseEntity {
     private Integer area;
     private String avatarUrl;
     private String about;
-    private String followers;
-    private String followings;
+    private String contacts;
     private String comments;
     private String messages;
     private String parties;
@@ -35,8 +34,7 @@ public class UserEntity extends BaseEntity {
                       Integer area,
                       String avatarUrl,
                       String about,
-                      String followers,
-                      String followings,
+                      String contacts,
                       String comments,
                       String messages,
                       String parties,
@@ -49,8 +47,7 @@ public class UserEntity extends BaseEntity {
         this.area = area;
         this.avatarUrl = avatarUrl;
         this.about = about;
-        this.followers = followers;
-        this.followings = followings;
+        this.contacts = contacts;
         this.comments = comments;
         this.messages = messages;
         this.parties = parties;
@@ -91,20 +88,12 @@ public class UserEntity extends BaseEntity {
         this.about = about;
     }
 
-    public String getFollowers() {
-        return followers;
+    public String getContacts() {
+        return contacts;
     }
 
-    public void setFollowers(String followers) {
-        this.followers = followers;
-    }
-
-    public String getFollowings() {
-        return followings;
-    }
-
-    public void setFollowings(String followings) {
-        this.followings = followings;
+    public void setContacts(String contacts) {
+        this.contacts = contacts;
     }
 
     public String getComments() {

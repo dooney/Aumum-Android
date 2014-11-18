@@ -10,8 +10,7 @@ public class User extends AggregateRoot {
     protected int area;
     protected String avatarUrl;
     protected String about;
-    protected List<String> followers = new ArrayList<String>();
-    protected List<String> followings = new ArrayList<String>();
+    protected List<String> contacts = new ArrayList<String>();
     protected List<String> comments = new ArrayList<String>();
     protected List<String> messages = new ArrayList<String>();
     protected List<String> parties = new ArrayList<String>();
@@ -29,8 +28,7 @@ public class User extends AggregateRoot {
                 int area,
                 String avatarUrl,
                 String about,
-                List<String> followers,
-                List<String> followings,
+                List<String> contacts,
                 List<String> comments,
                 List<String> messages,
                 List<String> parties,
@@ -43,10 +41,8 @@ public class User extends AggregateRoot {
         this.area = area;
         this.avatarUrl = avatarUrl;
         this.about = about;
-        this.followers.clear();
-        this.followers.addAll(followers);
-        this.followings.clear();
-        this.followings.addAll(followings);
+        this.contacts.clear();
+        this.contacts.addAll(contacts);
         this.comments.clear();
         this.comments.addAll(comments);
         this.messages.clear();
@@ -85,12 +81,8 @@ public class User extends AggregateRoot {
         return about;
     }
 
-    public List<String> getFollowers() {
-        return followers;
-    }
-
-    public List<String> getFollowings() {
-        return followings;
+    public List<String> getContacts() {
+        return contacts;
     }
 
     public List<String> getComments() {
@@ -115,9 +107,5 @@ public class User extends AggregateRoot {
 
     public List<String> getMomentPosts() {
         return momentPosts;
-    }
-
-    public boolean isLatestMessage(String messageId) {
-        return messages.indexOf(messageId) + 1 == messages.size();
     }
 }

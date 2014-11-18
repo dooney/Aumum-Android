@@ -45,7 +45,6 @@ import com.aumum.app.mobile.core.api.RestAdapterRequestInterceptor;
 import com.aumum.app.mobile.core.api.RestErrorHandler;
 import com.aumum.app.mobile.core.api.UserAgentProvider;
 import com.aumum.app.mobile.core.dao.UserStore;
-import com.aumum.app.mobile.ui.user.FollowListener;
 import com.aumum.app.mobile.ui.party.LikeListener;
 import com.aumum.app.mobile.ui.main.MainActivity;
 import com.aumum.app.mobile.ui.party.PartyCommentsFragment;
@@ -78,7 +77,6 @@ import retrofit.converter.GsonConverter;
                 ResetPasswordActivity.class,
                 MainActivity.class,
                 NewPartyActivity.class,
-                FollowListener.class,
                 LikeListener.class,
                 PartyCommentStore.class,
                 PartyCommentsFragment.class,

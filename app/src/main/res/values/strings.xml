@@ -90,14 +90,6 @@
     <string name="title_activity_party_comments">聚会评论</string>
 
     <!-- User Profile -->
-    <string name="label_profile">个人资料</string>
-    <string name="label_follow">关注</string>
-    <string name="label_unfollow">取消关注</string>
-    <string name="label_followings_count">关注数</string>
-    <string name="label_followers_count">粉丝数</string>
-    <string name="label_comments_count">评论数</string>
-    <string name="label_party_post_count">已发布聚会数</string>
-    <string name="label_joined_party_count">已报名聚会数</string>
     <string name="invalid_user">无法获取该用户信息</string>
     <string name="invalid_image">无法获取该图片</string>
 
