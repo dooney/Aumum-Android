@@ -171,6 +171,10 @@
             android:name="com.aumum.app.mobile.ui.chat.ChatActivity"
             android:windowSoftInputMode="adjustResize" >
         </activity>
+        <activity
+            android:name="com.aumum.app.mobile.ui.user.AddContactActivity"
+            android:label="@string/title_activity_add_contact" >
+        </activity>
     </application>
 
 </manifest>

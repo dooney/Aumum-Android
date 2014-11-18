@@ -4,6 +4,7 @@ import com.aumum.app.mobile.utils.Ln;
 import com.easemob.EMCallBack;
 import com.easemob.chat.EMChatManager;
 import com.easemob.chat.EMContact;
+import com.easemob.chat.EMContactManager;
 import com.easemob.chat.EMConversation;
 import com.easemob.chat.EMGroup;
 import com.easemob.chat.EMGroupInfo;
@@ -172,5 +173,9 @@ public class ChatService {
     public void sendMessage(EMMessage message, EMCallBack callBack) {
         // 调用sdk发送异步发送方法
         EMChatManager.getInstance().sendMessage(message, callBack);
+    }
+
+    public void addContact(String toUserId, String reason) throws Exception {
+        EMContactManager.getInstance().addContact(toUserId, reason);
     }
 }

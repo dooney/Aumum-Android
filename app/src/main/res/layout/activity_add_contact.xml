@@ -1,0 +1,15 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="@dimen/activity_horizontal_margin"
+    android:focusable="true"
+    android:focusableInTouchMode="true"
+    tools:context="com.aumum.app.mobile.ui.user.AddContactActivity">
+
+    <EditText
+        android:id="@+id/et_intro"
+        style="@style/EditText.AddContact.Intro"
+        android:hint="@string/hint_add_contact_intro" />
+
+</RelativeLayout>

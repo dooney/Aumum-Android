@@ -13,7 +13,7 @@ import com.aumum.app.mobile.ui.circle.CircleFragment;
 import com.aumum.app.mobile.ui.contact.ContactFragment;
 import com.aumum.app.mobile.ui.message.MessageFragment;
 import com.aumum.app.mobile.ui.party.PartyListFragment;
-import com.aumum.app.mobile.ui.user.UserFragment;
+import com.aumum.app.mobile.ui.user.ProfileFragment;
 
 /**
  * Pager adapter
@@ -61,7 +61,7 @@ public class PagerAdapter extends FragmentPagerAdapter {
                 result = new MessageFragment();
                 break;
             case PAGE_PROFILE:
-                result = new UserFragment();
+                result = new ProfileFragment();
                 break;
             default:
                 result = null;

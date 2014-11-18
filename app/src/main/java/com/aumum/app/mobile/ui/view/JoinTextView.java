@@ -9,7 +9,6 @@ import com.aumum.app.mobile.R;
  * Created by Administrator on 29/10/2014.
  */
 public class JoinTextView extends AnimateTextView {
-    private Context context;
     private boolean isMember;
 
     public boolean isMember() {
@@ -18,17 +17,14 @@ public class JoinTextView extends AnimateTextView {
 
     public JoinTextView(Context context) {
         super(context);
-        this.context = context;
     }
 
     public JoinTextView(Context context, AttributeSet attrs) {
         super(context, attrs);
-        this.context = context;
     }
 
     public JoinTextView(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
-        this.context = context;
     }
 
     @Override

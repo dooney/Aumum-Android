@@ -6,16 +6,14 @@
     <string-array name="label_pages">
         <item>聚会</item>
         <item>圈子</item>
-        <item>姐妹</item>
+        <item>好友</item>
         <item>消息</item>
         <item>个人</item>
     </string-array>
-
     <string-array name="label_search_party">
         <item>搜索附近</item>
         <item>搜索地址</item>
     </string-array>
-
     <string-array name="label_search_circle">
         <item>所有圈子</item>
         <item>圈子关键词</item>
@@ -39,6 +37,8 @@
     <string name="info_message_deleted">该消息已成功删除</string>
     <string name="info_click_back_again">再按一次返回桌面</string>
     <string name="info_posting_moment">正在提交您的签到，请稍候…</string>
+    <string name="info_submitting_add_contact">正在提交您的添加好友请求，请稍候…</string>
+    <string name="info_add_contact_sent">发送添加好友请求成功，等待对方验证</string>
 
     <!-- Error Message -->
     <string name="error_load_parties">获取聚会列表失败</string>
@@ -62,6 +62,7 @@
     <string name="error_post_new_moment">提交新签到失败</string>
     <string name="error_load_circles">获取圈子信息失败</string>
     <string name="error_group_action">%1$s该圈子失败</string>
+    <string name="error_add_contact">添加好友失败</string>
 
     <!-- Register -->
     <string name="hint_screen_name">用户名</string>
@@ -86,12 +87,16 @@
     <string name="title_activity_registration_success">注册成功</string>
     <string name="title_activity_reset_password">重置密码</string>
     <string name="title_activity_reset_password_success">重置密码成功</string>
-    <string name="title_activity_user">用户</string>
+    <string name="title_activity_user">用户详情</string>
     <string name="title_activity_party_comments">聚会评论</string>
 
-    <!-- User Profile -->
+    <!-- User -->
+    <string name="label_send_message">发送消息</string>
+    <string name="label_add_contact">添加好友</string>
     <string name="invalid_user">无法获取该用户信息</string>
     <string name="invalid_image">无法获取该图片</string>
+    <string name="hint_add_contact_intro">打个招呼吧</string>
+    <string name="label_add_contact_intro">你好，我是%1$s</string>
 
     <!-- Comments -->
     <string name="no_comments">暂时还没有评论，你是沙发哦！</string>
@@ -167,5 +172,6 @@
     <string name="ok">确定</string>
     <string name="cancel">取消</string>
     <string name="title_activity_chat">ChatActivity</string>
+    <string name="title_activity_add_contact">AddContactActivity</string>
 
 </resources>

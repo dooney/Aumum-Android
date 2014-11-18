@@ -35,6 +35,8 @@ public class MessageFragment extends Fragment {
     private ImageView partyCommentsUnreadImage;
     private ImageView partyLikesUnreadImage;
 
+    private static final int MESSAGE_LIST_REQ_CODE = 100;
+
     @Override
     public void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -89,7 +91,7 @@ public class MessageFragment extends Fragment {
 
     @Override
     public void onActivityResult (int requestCode, int resultCode, Intent data) {
-        if (requestCode == Constants.RequestCode.MESSAGE_LIST_REQ_CODE) {
+        if (requestCode == MESSAGE_LIST_REQ_CODE) {
             updateUnreadView(messageStore.getUnreadList());
         }
     }
@@ -98,7 +100,7 @@ public class MessageFragment extends Fragment {
         final Intent intent = new Intent(getActivity(), MessageListActivity.class);
         intent.putExtra(MessageListActivity.INTENT_TITLE, title);
         intent.putExtra(MessageListActivity.INTENT_MESSAGE_TYPE, category);
-        startActivityForResult(intent, Constants.RequestCode.MESSAGE_LIST_REQ_CODE);
+        startActivityForResult(intent, MESSAGE_LIST_REQ_CODE);
     }
 
     private void toggleUnreadImage(ImageView imageView, long count) {

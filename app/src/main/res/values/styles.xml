@@ -29,6 +29,10 @@
     <style name="Button.Danger.Small" parent="Button.Small">
         <item name="android:background">@drawable/bbuton_danger_rounded</item>
     </style>
+    <style name="Button.MenuItem" parent="Button.Primary.Small">
+        <item name="android:minWidth">48sp</item>
+        <item name="android:minHeight">32sp</item>
+    </style>
 
     <style name="EditText">
         <item name="android:layout_width">match_parent</item>
@@ -352,6 +356,8 @@
     <style name="TextView.Comment.Text" parent="TextView.Content.Text" />
 
     <!-- User -->
+    <style name="Button.User.Contact" parent="Button.Primary" />
+    <style name="EditText.AddContact.Intro" parent="EditText" />
 
     <!-- Splash -->
     <style name="Button.Splash.SignUp" parent="Button.Primary">

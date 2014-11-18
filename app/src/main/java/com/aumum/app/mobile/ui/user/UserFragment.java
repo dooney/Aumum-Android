@@ -1,17 +1,15 @@
 package com.aumum.app.mobile.ui.user;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 
 import com.aumum.app.mobile.Injector;
 import com.aumum.app.mobile.R;
-import com.aumum.app.mobile.core.Constants;
-import com.aumum.app.mobile.core.infra.security.ApiKeyProvider;
 import com.aumum.app.mobile.core.dao.UserStore;
 import com.aumum.app.mobile.core.model.User;
 import com.aumum.app.mobile.ui.base.LoaderFragment;
@@ -24,24 +22,20 @@ import javax.inject.Inject;
  *
  */
 public class UserFragment extends LoaderFragment<User> {
-    @Inject ApiKeyProvider apiKeyProvider;
     @Inject UserStore dataStore;
 
     private String userId;
-    private String currentUserId;
+    private User currentUser;
 
     private View mainView;
+    private Button contactButton;
 
     @Override
     public void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Injector.inject(this);
         final Intent intent = getActivity().getIntent();
-        currentUserId = apiKeyProvider.getAuthUserId();
         userId = intent.getStringExtra(UserActivity.INTENT_USER_ID);
-        if (userId == null) {
-            userId = currentUserId;
-        }
     }
 
     @Override
@@ -62,6 +56,7 @@ public class UserFragment extends LoaderFragment<User> {
         super.onViewCreated(view, savedInstanceState);
 
         mainView = view.findViewById(R.id.main_view);
+        contactButton = (Button) view.findViewById(R.id.b_contact);
     }
 
     @Override
@@ -88,8 +83,9 @@ public class UserFragment extends LoaderFragment<User> {
 
     @Override
     protected User loadDataCore(Bundle bundle) throws Exception {
-        if (userId.equals(currentUserId)) {
-            return dataStore.getCurrentUser();
+        currentUser = dataStore.getCurrentUser();
+        if (userId.equals(currentUser.getObjectId())) {
+            return currentUser;
         } else {
             User user = dataStore.getUserByIdFromServer(userId);
             if (user == null) {
@@ -104,23 +100,25 @@ public class UserFragment extends LoaderFragment<User> {
         try {
             if (user != null) {
                 setData(user);
+
+                if (currentUser.getContacts().contains(userId)) {
+                    contactButton.setText(R.string.label_send_message);
+                    contactButton.setOnClickListener(new AddContactListener());
+                } else {
+                    contactButton.setText(R.string.label_add_contact);
+                    contactButton.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            final Intent intent = new Intent(getActivity(), AddContactActivity.class);
+                            intent.putExtra(AddContactActivity.INTENT_TO_USER_ID, userId);
+                            intent.putExtra(AddContactActivity.INTENT_FROM_USER_NAME, currentUser.getScreenName());
+                            startActivity(intent);
+                        }
+                    });
+                }
             }
         } catch (Exception e) {
             Ln.d(e);
-        }
-    }
-
-    private void startProfileImageActivity(String userId, String avatarUrl) {
-        final Intent intent = new Intent(getActivity(), UserProfileImageActivity.class);
-        intent.putExtra(UserProfileImageActivity.INTENT_USER_ID, userId);
-        intent.putExtra(UserProfileImageActivity.INTENT_AVATAR_URL, avatarUrl);
-        startActivityForResult(intent, Constants.RequestCode.PROFILE_IMAGE_REQ_CODE);
-    }
-
-    @Override
-    public void onActivityResult (int requestCode, int resultCode, Intent data) {
-        if (requestCode == Constants.RequestCode.PROFILE_IMAGE_REQ_CODE && resultCode == Activity.RESULT_OK) {
-            refresh(null);
         }
     }
 }
