@@ -11,7 +11,6 @@ import android.widget.TextView;
 
 import com.aumum.app.mobile.Injector;
 import com.aumum.app.mobile.R;
-import com.aumum.app.mobile.core.Constants;
 import com.aumum.app.mobile.core.dao.MessageStore;
 import com.aumum.app.mobile.core.model.Message;
 
@@ -59,7 +58,7 @@ public class MessageFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 int subCategory = Message.SubCategory.PARTY_MEMBERSHIP;
-                startMessageListActivity(subCategory, R.string.label_party_join);
+                startMessageListActivity(subCategory, R.string.label_party_membership);
                 messageStore.markAsRead(Message.getSubCategoryTypes(subCategory));
             }
         });
@@ -99,7 +98,7 @@ public class MessageFragment extends Fragment {
     private void startMessageListActivity(int category, int title) {
         final Intent intent = new Intent(getActivity(), MessageListActivity.class);
         intent.putExtra(MessageListActivity.INTENT_TITLE, title);
-        intent.putExtra(MessageListActivity.INTENT_MESSAGE_TYPE, category);
+        intent.putExtra(MessageListActivity.INTENT_SUBCATEGORY, category);
         startActivityForResult(intent, MESSAGE_LIST_REQ_CODE);
     }
 

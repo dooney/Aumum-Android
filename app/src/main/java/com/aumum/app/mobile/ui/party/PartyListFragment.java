@@ -24,6 +24,7 @@ import com.aumum.app.mobile.utils.Ln;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Iterator;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -193,11 +194,12 @@ public class PartyListFragment extends CardListFragment
     public void onPartyDeletedSuccess(String partyId) {
         try {
             List<Card> cardList = getData();
-            for (Card card : cardList) {
+            for (Iterator<Card> it = cardList.iterator(); it.hasNext();) {
+                Card card = it.next();
                 Party party = ((PartyCard) card).getParty();
                 if (party.getObjectId().equals(partyId)) {
                     dataSet.remove(party);
-                    cardList.remove(card);
+                    it.remove();
                     getActivity().runOnUiThread(new Runnable() {
                         @Override
                         public void run() {

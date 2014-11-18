@@ -152,7 +152,7 @@
     <string name="label_send">发送</string>
 
     <!-- User Messages -->
-    <string name="label_party_join">聚会报名</string>
+    <string name="label_party_membership">聚会报名</string>
     <string name="label_party_comments">聚会评论</string>
     <string name="label_party_likes">聚会支持</string>
 

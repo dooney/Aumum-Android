@@ -20,6 +20,7 @@ import com.aumum.app.mobile.utils.GPSTracker;
 import com.aumum.app.mobile.utils.Ln;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -84,10 +85,11 @@ public class SearchPartyFragment extends ItemListFragment<Card>
         List<Party> partyList = dataStore.getLiveListFromServer();
         if (partyList != null) {
             gpsTracker.getLocation();
-            for (Party party : partyList) {
+            for (Iterator<Party> it = partyList.iterator(); it.hasNext();) {
+                Party party = it.next();
                 party.setDistance(gpsTracker.getLatitude(), gpsTracker.getLongitude());
                 if (!party.isNearby()) {
-                    partyList.remove(party);
+                    it.remove();
                 }
             }
         }
@@ -126,10 +128,11 @@ public class SearchPartyFragment extends ItemListFragment<Card>
     public void onPartyDeletedSuccess(String partyId) {
         try {
             List<Card> cardList = getData();
-            for (Card card : cardList) {
+            for (Iterator<Card> it = cardList.iterator(); it.hasNext();) {
+                Card card = it.next();
                 Party party = ((PartyCard) card).getParty();
                 if (party.getObjectId().equals(partyId)) {
-                    cardList.remove(card);
+                    it.remove();
                     getActivity().runOnUiThread(new Runnable() {
                         @Override
                         public void run() {

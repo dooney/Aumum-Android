@@ -1,5 +1,6 @@
 package com.aumum.app.mobile.core.model;
 
+import com.aumum.app.mobile.R;
 import com.google.gson.Gson;
 
 import java.util.ArrayList;
@@ -173,5 +174,27 @@ public class Message extends AggregateRoot {
 
     public String getActionText() {
         return ACTION_OPTIONS[type];
+    }
+
+    public int getSubCategory() {
+        if (type == Type.PARTY_JOIN || type == Type.PARTY_QUIT) {
+            return SubCategory.PARTY_MEMBERSHIP;
+        } else if (type == Type.PARTY_COMMENT || type == Type.PARTY_REPLY) {
+            return SubCategory.PARTY_COMMENTS;
+        } else if (type == Type.PARTY_LIKE) {
+            return SubCategory.PARTY_LIKES;
+        }
+        return -1;
+    }
+
+    public int getTitleResId() {
+        if (type == Type.PARTY_JOIN || type == Type.PARTY_QUIT) {
+            return R.string.label_party_membership;
+        } else if (type == Type.PARTY_COMMENT || type == Type.PARTY_REPLY) {
+            return R.string.label_party_comments;
+        } else if (type == Type.PARTY_LIKE) {
+            return R.string.label_party_likes;
+        }
+        return 0;
     }
 }

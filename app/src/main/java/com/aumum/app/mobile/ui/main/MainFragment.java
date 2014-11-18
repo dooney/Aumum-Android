@@ -16,6 +16,7 @@ import com.aumum.app.mobile.core.dao.UserStore;
 import com.aumum.app.mobile.core.model.Message;
 import com.aumum.app.mobile.core.model.Party;
 import com.aumum.app.mobile.core.model.User;
+import com.aumum.app.mobile.core.service.NotificationService;
 import com.aumum.app.mobile.core.service.ScheduleService;
 import com.aumum.app.mobile.utils.Ln;
 import com.aumum.app.mobile.utils.SafeAsyncTask;
@@ -38,6 +39,7 @@ public class MainFragment extends Fragment
     @Inject UserStore userStore;
     @Inject MessageStore messageStore;
     @Inject PartyStore partyStore;
+    @Inject NotificationService notificationService;
 
     private ScheduleService scheduleService;
     private SafeAsyncTask<Boolean> task;
@@ -47,8 +49,6 @@ public class MainFragment extends Fragment
 
     @InjectView(R.id.vp_pages)
     protected ViewPager pager;
-
-    private int landingPage;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -65,7 +65,6 @@ public class MainFragment extends Fragment
         ButterKnife.inject(this, getView());
         pager.setAdapter(new PagerAdapter(getResources(), getChildFragmentManager()));
         indicator.setViewPager(pager);
-        pager.setCurrentItem(landingPage);
     }
 
     @Override
@@ -85,18 +84,16 @@ public class MainFragment extends Fragment
         super.onActivityResult(requestCode, resultCode, data);
     }
 
-    public void setLandingPage(int page) {
-        landingPage = page;
-    }
-
     @Override
     public void onAction() {
         task = new SafeAsyncTask<Boolean>() {
             public Boolean call() throws Exception {
                 User currentUser = userStore.getCurrentUserFromServer();
                 List<Message> unreadMessageList = messageStore.getUnreadListFromServer(currentUser.getMessages());
-                if (unreadMessageList.size() > 0) {
-                    messageStore.getUnreadList().addAll(unreadMessageList);
+                for (Message message: unreadMessageList) {
+                    String fromName = userStore.getUserById(message.getFromUserId()).getScreenName();
+                    notificationService.pushUserMessageNotification(getActivity(), fromName, message);
+                    messageStore.getUnreadList().add(message);
                 }
                 List<Party> unreadPartyList = partyStore.getUnreadListFromServer();
                 if (unreadPartyList.size() > 0) {

@@ -9,7 +9,7 @@ import com.aumum.app.mobile.R;
 public class MessageListActivity extends ActionBarActivity {
 
     public static final String INTENT_TITLE = "title";
-    public static final String INTENT_MESSAGE_TYPE = "messageType";
+    public static final String INTENT_SUBCATEGORY = "subCategory";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

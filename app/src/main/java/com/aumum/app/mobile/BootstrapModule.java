@@ -118,8 +118,8 @@ public class BootstrapModule {
 
     @Singleton
     @Provides
-    MessageDeliveryService provideMessageDeliveryService(RestService restService, NotificationService notificationService, UserStore userStore) {
-        return new MessageDeliveryService(restService, notificationService, userStore);
+    MessageDeliveryService provideMessageDeliveryService(RestService restService) {
+        return new MessageDeliveryService(restService);
     }
 
     @Singleton

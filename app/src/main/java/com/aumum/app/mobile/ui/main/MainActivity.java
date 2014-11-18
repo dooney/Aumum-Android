@@ -1,10 +1,8 @@
 package com.aumum.app.mobile.ui.main;
 
 import android.accounts.OperationCanceledException;
-import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
-import android.support.v4.app.FragmentManager;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -26,10 +24,6 @@ public class MainActivity extends BaseFragmentActivity {
     @Inject protected ServiceProvider serviceProvider;
     @Inject protected LogoutService logoutService;
     @Inject protected ChatService chatService;
-
-    private MainFragment mainFragment;
-
-    public static final String INTENT_NOTIFICATION = "intentNotification";
 
     private boolean doubleBackToExitPressedOnce;
     private static final int DOUBLE_BACK_DELAY = 2000;
@@ -73,15 +67,8 @@ public class MainActivity extends BaseFragmentActivity {
     }
 
     private void initScreen() {
-        final FragmentManager fragmentManager = getSupportFragmentManager();
-        mainFragment = new MainFragment();
-        Intent intent = getIntent();
-        if (intent.hasExtra(INTENT_NOTIFICATION)) {
-            mainFragment.setLandingPage(PagerAdapter.PAGE_MESSAGE);
-            intent.removeExtra(INTENT_NOTIFICATION);
-        }
-        fragmentManager.beginTransaction()
-                .replace(R.id.container, mainFragment)
+        getSupportFragmentManager().beginTransaction()
+                .replace(R.id.container, new MainFragment())
                 .commit();
     }
 

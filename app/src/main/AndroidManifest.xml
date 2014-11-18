@@ -138,7 +138,11 @@
             android:name="com.aumum.app.mobile.ui.party.NewPartyActivity"
             android:label="@string/title_activity_new_party" >
         </activity>
-        <activity android:name="com.aumum.app.mobile.ui.message.MessageListActivity" >
+        <activity
+            android:name="com.aumum.app.mobile.ui.message.MessageListActivity"
+            android:launchMode="singleTask"
+            android:taskAffinity=""
+            android:excludeFromRecents="true">
         </activity>
         <activity
             android:name="com.aumum.app.mobile.ui.party.SearchPartyActivity"

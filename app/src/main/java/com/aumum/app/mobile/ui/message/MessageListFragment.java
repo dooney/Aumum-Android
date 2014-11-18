@@ -15,6 +15,7 @@ import com.github.kevinsawicki.wishlist.Toaster;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Iterator;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -39,7 +40,7 @@ public class MessageListFragment extends CardListFragment
         super.onCreate(savedInstanceState);
         Injector.inject(this);
         final Intent intent = getActivity().getIntent();
-        subCategory = intent.getIntExtra(MessageListActivity.INTENT_MESSAGE_TYPE, 0);
+        subCategory = intent.getIntExtra(MessageListActivity.INTENT_SUBCATEGORY, 0);
     }
 
     @Override
@@ -118,12 +119,13 @@ public class MessageListFragment extends CardListFragment
     public void onMessageDeletedSuccess(String messageId) {
         try {
             List<Card> cardList = getData();
-            for (Card card : cardList) {
+            for (Iterator<Card> it = cardList.iterator(); it.hasNext();) {
+                Card card = it.next();
                 Message message = ((MessageCard) card).getMessage();
                 if (message.getObjectId().equals(messageId)) {
                     dataSet.remove(message);
                     messageStore.remove(message);
-                    cardList.remove(card);
+                    it.remove();
                     getActivity().runOnUiThread(new Runnable() {
                         @Override
                         public void run() {

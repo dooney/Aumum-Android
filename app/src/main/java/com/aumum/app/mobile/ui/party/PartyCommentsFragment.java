@@ -36,6 +36,7 @@ import com.aumum.app.mobile.utils.Ln;
 import com.aumum.app.mobile.utils.SafeAsyncTask;
 import com.github.kevinsawicki.wishlist.Toaster;
 
+import java.util.Iterator;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -249,7 +250,7 @@ public class PartyCommentsFragment extends ItemListFragment<Comment>
                 messageDeliveryService.send(message);
                 if (repliedComment != null) {
                     Message repliedMessage = new Message(Message.Type.PARTY_REPLY,
-                            currentUser.getObjectId(), repliedComment.getUserId(), repliedComment.getContent(), party.getObjectId(), party.getTitle());
+                            currentUser.getObjectId(), repliedComment.getUserId(), comment.getContent(), party.getObjectId(), party.getTitle());
                     messageDeliveryService.send(repliedMessage);
                 }
                 return true;
@@ -280,9 +281,10 @@ public class PartyCommentsFragment extends ItemListFragment<Comment>
     public void onCommentDeletedSuccess(String commentId) {
         try {
             List<Comment> commentList = getData();
-            for (Comment comment : commentList) {
+            for (Iterator<Comment> it = commentList.iterator(); it.hasNext();) {
+                Comment comment = it.next();
                 if (comment.getObjectId().equals(commentId)) {
-                    commentList.remove(comment);
+                    it.remove();
                     getActivity().runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
