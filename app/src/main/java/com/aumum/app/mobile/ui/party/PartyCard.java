@@ -110,17 +110,8 @@ public class PartyCard extends Card implements PartyActionListener.OnProgressLis
 
         ViewGroup joinLayout = (ViewGroup) view.findViewById(R.id.layout_join);
         JoinTextView joinText = (JoinTextView) view.findViewById(R.id.text_join);
-        TextView checkInText = (TextView) view.findViewById(R.id.text_check_in);
         joinLayout.setVisibility(View.GONE);
         joinText.setVisibility(View.GONE);
-        checkInText.setVisibility(View.GONE);
-        if (party.isExpired() && party.isMember(currentUserId)) {
-            joinLayout.setVisibility(View.VISIBLE);
-            checkInText.setVisibility(View.VISIBLE);
-            checkInText.setText(party.getMomentsCount() > 0 ? String.valueOf(party.getMomentsCount()):
-                    view.getResources().getString(R.string.label_check_in));
-            checkInText.setOnClickListener(new CheckInListener(activity, party));
-        }
         if (!party.isExpired() && !party.isMember(currentUserId)) {
             joinLayout.setVisibility(View.VISIBLE);
             joinText.setVisibility(View.VISIBLE);

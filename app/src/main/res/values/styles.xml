@@ -184,10 +184,6 @@
         <item name="android:drawableLeft">@drawable/ic_fa_join</item>
         <item name="android:text">@string/label_join_party</item>
     </style>
-    <style name="TextView.Party.CheckIn" parent="ButtonTextView">
-        <item name="android:drawableLeft">@drawable/ic_fa_camera</item>
-        <item name="android:text">@string/label_check_in</item>
-    </style>
     <style name="LinearLayout.Party.UserAvatars" parent="LinearLayout">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">@dimen/avatar_sz_small</item>
@@ -240,11 +236,6 @@
         <item name="android:textSize">@dimen/text_sz_small</item>
     </style>
     <style name="TextView.PartyReason.Text" parent="TextView.Content.Text" />
-
-    <!-- Moment -->
-    <style name="EditText.Box.Moment" parent="EditText.Box">
-        <item name="android:paddingRight">@dimen/margin_large</item>
-    </style>
 
     <!-- Circle -->
     <style name="TextView.Conversation.ScreenName" parent="TextView.UserName">

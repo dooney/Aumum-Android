@@ -55,8 +55,7 @@ public class UserStore {
                 userEntity.getAbout(),
                 getList(userEntity.getContacts()),
                 getList(userEntity.getMessages()),
-                getList(userEntity.getParties()),
-                getList(userEntity.getMoments()));
+                getList(userEntity.getParties()));
     }
 
     private UserEntity map(User user) throws Exception {
@@ -70,8 +69,7 @@ public class UserStore {
                 user.getAbout(),
                 getJsonString(user.getContacts()),
                 getJsonString(user.getMessages()),
-                getJsonString(user.getParties()),
-                getJsonString(user.getMoments()));
+                getJsonString(user.getParties()));
         return userEntity;
     }
 

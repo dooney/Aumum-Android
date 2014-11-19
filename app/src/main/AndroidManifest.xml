@@ -125,10 +125,16 @@
 
         <activity
             android:name="com.aumum.app.mobile.ui.party.PartyCommentsActivity"
+            android:launchMode="singleTask"
+            android:taskAffinity=""
+            android:excludeFromRecents="true"
             android:label="@string/title_activity_party_comments" >
         </activity>
         <activity
             android:name="com.aumum.app.mobile.ui.party.PartyDetailsActivity"
+            android:launchMode="singleTask"
+            android:taskAffinity=""
+            android:excludeFromRecents="true"
             android:label="@string/title_activity_party_details" >
         </activity>
         <activity android:name="com.soundcloud.android.crop.CropImageActivity" />
@@ -139,18 +145,8 @@
             android:label="@string/title_activity_new_party" >
         </activity>
         <activity
-            android:name="com.aumum.app.mobile.ui.message.MessageListActivity"
-            android:launchMode="singleTask"
-            android:taskAffinity=""
-            android:excludeFromRecents="true">
-        </activity>
-        <activity
             android:name="com.aumum.app.mobile.ui.party.SearchPartyActivity"
             android:label="@string/title_activity_search_party" >
-        </activity>
-        <activity
-            android:name="com.aumum.app.mobile.ui.moment.NewMomentActivity"
-            android:label="@string/title_activity_new_moment" >
         </activity>
         <activity
             android:name="com.aumum.app.mobile.ui.image.ImageListActivity"

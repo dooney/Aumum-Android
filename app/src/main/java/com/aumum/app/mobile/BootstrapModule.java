@@ -3,7 +3,6 @@ package com.aumum.app.mobile;
 import android.accounts.AccountManager;
 import android.content.Context;
 
-import com.aumum.app.mobile.core.dao.MomentStore;
 import com.aumum.app.mobile.core.dao.PartyReasonStore;
 import com.aumum.app.mobile.core.dao.Repository;
 import com.aumum.app.mobile.core.infra.security.ApiKeyProvider;
@@ -19,7 +18,6 @@ import com.aumum.app.mobile.ui.circle.GroupActionListener;
 import com.aumum.app.mobile.ui.circle.SearchCircleFragment;
 import com.aumum.app.mobile.ui.comment.DeleteCommentListener;
 import com.aumum.app.mobile.ui.main.MainFragment;
-import com.aumum.app.mobile.ui.moment.NewMomentActivity;
 import com.aumum.app.mobile.ui.party.LikesLayoutListener;
 import com.aumum.app.mobile.ui.party.MembersLayoutListener;
 import com.aumum.app.mobile.ui.party.PartyListFragment;
@@ -87,8 +85,6 @@ import retrofit.converter.GsonConverter;
                 DeleteCommentListener.class,
                 PartyReasonStore.class,
                 PartyReasonsFragment.class,
-                NewMomentActivity.class,
-                MomentStore.class,
                 CircleFragment.class,
                 SearchCircleFragment.class,
                 GroupActionListener.class,

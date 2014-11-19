@@ -36,7 +36,6 @@ public class DaoGenerator {
         user.addStringProperty("contacts");
         user.addStringProperty("messages");
         user.addStringProperty("parties");
-        user.addStringProperty("moments");
     }
 
     private static void addParty(Schema schema) {
@@ -56,6 +55,5 @@ public class DaoGenerator {
         party.addStringProperty("fans");
         party.addStringProperty("comments");
         party.addStringProperty("reasons");
-        party.addStringProperty("moments");
     }
 }

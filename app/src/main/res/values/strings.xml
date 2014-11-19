@@ -20,7 +20,6 @@
 
     <string name="menu_logout">注销</string>
     <string name="no_parties">暂时没有聚会</string>
-    <string name="no_moments">暂时没有签到</string>
     <string name="no_circles">您还没加入任何圈子</string>
 
     <!-- Info Message -->
@@ -33,7 +32,6 @@
     <string name="info_party_deleted">该聚会已成功删除</string>
     <string name="info_comment_deleted">该评论已成功删除</string>
     <string name="info_click_back_again">再按一次返回桌面</string>
-    <string name="info_posting_moment">正在提交您的签到，请稍候…</string>
     <string name="info_submitting_add_contact">正在提交您的添加好友请求，请稍候…</string>
     <string name="info_add_contact_sent">发送添加好友请求成功，等待对方验证</string>
 
@@ -53,8 +51,6 @@
     <string name="error_delete_party">删除聚会失败</string>
     <string name="error_delete_comment">删除评论失败</string>
     <string name="error_load_join_details">获取聚会报名信息失败</string>
-    <string name="error_load_moments">获取签到列表失败</string>
-    <string name="error_post_new_moment">提交新签到失败</string>
     <string name="error_load_circles">获取圈子信息失败</string>
     <string name="error_group_action">%1$s该圈子失败</string>
     <string name="error_add_contact">添加好友失败</string>
@@ -110,7 +106,6 @@
     <string name="label_you_like_the_party">你支持了该聚会</string>
     <string name="label_you_and_others_like_the_party">你和其他%,d人支持了该聚会</string>
     <string name="label_others_like_the_party">%,d人支持了该聚会</string>
-    <string name="label_check_in">签到</string>
     <string name="label_join_party">报名</string>
     <string name="label_quit_party">取消</string>
     <string name="label_comment">评论</string>
@@ -148,10 +143,6 @@
 
     <!-- Circle -->
     <string name="label_send">发送</string>
-
-    <!-- Moments -->
-    <string name="title_activity_new_moment">新签到</string>
-    <string name="hint_new_moment_text">想写点啥呢，亲？</string>
 
     <!-- Image List -->
     <string name="title_activity_image_list">ImageListActivity</string>

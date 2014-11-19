@@ -79,8 +79,6 @@ public class PartyDetailsFragment extends LoaderFragment<Party>
     private boolean showAction;
     private ViewGroup joinBoxLayout;
     private JoinTextView joinText;
-    private TextView checkInText;
-    private ViewGroup checkInLayout;
     private TextView commentText;
     private LikeTextView likeText;
     private EditText editReason;
@@ -154,8 +152,6 @@ public class PartyDetailsFragment extends LoaderFragment<Party>
                 toggleJoinBox();
             }
         });
-        checkInText = (TextView) view.findViewById(R.id.text_check_in);
-        checkInLayout = (ViewGroup) view.findViewById(R.id.layout_check_in);
         commentText = (TextView) view.findViewById(R.id.text_comment);
         likeText = (LikeTextView) view.findViewById(R.id.text_like);
         editReason = (EditText) view.findViewById(R.id.edit_reason);
@@ -252,12 +248,6 @@ public class PartyDetailsFragment extends LoaderFragment<Party>
                 detailsText.setText(party.getDetails());
 
                 showAction = false;
-                if (party.isExpired() && party.isMember(currentUserId)) {
-                    checkInLayout.setVisibility(View.VISIBLE);
-                    checkInText.setText(party.getMomentsCount() > 0 ? String.valueOf(party.getMomentsCount()):
-                            getString(R.string.label_check_in));
-                    checkInText.setOnClickListener(new CheckInListener(getActivity(), party));
-                }
                 if (!party.isExpired() && !party.isOwner(currentUserId)) {
                     showAction = true;
                     actionLayout.setVisibility(View.VISIBLE);

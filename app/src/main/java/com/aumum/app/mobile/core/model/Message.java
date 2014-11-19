@@ -1,7 +1,5 @@
 package com.aumum.app.mobile.core.model;
 
-import com.google.gson.Gson;
-
 /**
  * Created by Administrator on 7/10/2014.
  */
@@ -103,6 +101,5 @@ public class Message extends AggregateRoot {
         public static final int PARTY_COMMENT = 5;
         public static final int PARTY_REPLY = 6;
         public static final int PARTY_DELETE = 7;
-        public static final int PARTY_CHECK_IN = 8;
     }
 }

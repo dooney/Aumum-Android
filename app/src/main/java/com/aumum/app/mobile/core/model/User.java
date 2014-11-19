@@ -13,7 +13,6 @@ public class User extends AggregateRoot {
     protected List<String> contacts = new ArrayList<String>();
     protected List<String> messages = new ArrayList<String>();
     protected List<String> parties = new ArrayList<String>();
-    protected List<String> moments = new ArrayList<String>();
 
     public User() {
 
@@ -27,8 +26,7 @@ public class User extends AggregateRoot {
                 String about,
                 List<String> contacts,
                 List<String> messages,
-                List<String> parties,
-                List<String> moments) {
+                List<String> parties) {
         this.objectId = objectId;
         this.createdAt = createdAt;
         this.screenName = screenName;
@@ -41,8 +39,6 @@ public class User extends AggregateRoot {
         this.messages.addAll(messages);
         this.parties.clear();
         this.parties.addAll(parties);
-        this.moments.clear();
-        this.moments.addAll(moments);
     }
 
     public String getScreenName() {
@@ -79,9 +75,5 @@ public class User extends AggregateRoot {
 
     public List<String> getParties() {
         return parties;
-    }
-
-    public List<String> getMoments() {
-        return moments;
     }
 }

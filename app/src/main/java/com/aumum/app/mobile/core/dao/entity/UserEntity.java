@@ -16,7 +16,6 @@ public class UserEntity extends BaseEntity {
     private String contacts;
     private String messages;
     private String parties;
-    private String moments;
 
     public UserEntity() {
     }
@@ -33,8 +32,7 @@ public class UserEntity extends BaseEntity {
                       String about,
                       String contacts,
                       String messages,
-                      String parties,
-                      String moments) {
+                      String parties) {
         this.objectId = objectId;
         this.createdAt = createdAt;
         this.screenName = screenName;
@@ -44,7 +42,6 @@ public class UserEntity extends BaseEntity {
         this.contacts = contacts;
         this.messages = messages;
         this.parties = parties;
-        this.moments = moments;
     }
 
     public String getScreenName() {
@@ -101,13 +98,5 @@ public class UserEntity extends BaseEntity {
 
     public void setParties(String parties) {
         this.parties = parties;
-    }
-
-    public String getMoments() {
-        return moments;
-    }
-
-    public void setMoments(String moments) {
-        this.moments = moments;
     }
 }

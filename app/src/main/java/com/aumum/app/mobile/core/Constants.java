@@ -87,11 +87,6 @@ public final class Constants {
         public static final String URL_PARTY_REASONS_FRAG = "/1/classes/PartyReasons";
 
         /**
-         * List Moments URL
-         */
-        public static final String URL_MOMENTS_FRAG = "/1/classes/Moments";
-
-        /**
          * PARAMS for auth
          */
         public static final String PARAM_USERNAME = "username";
@@ -115,7 +110,6 @@ public final class Constants {
             public static final String PARAM_FANS = "fans";
             public static final String PARAM_COMMENTS = "comments";
             public static final String PARAM_REASONS = "reasons";
-            public static final String PARAM_MOMENTS = "moments";
         }
 
         public static final class User {
@@ -123,7 +117,6 @@ public final class Constants {
             public static final String PARAM_MESSAGES = "messages";
             public static final String PARAM_PARTIES = "parties";
             public static final String PARAM_AVATAR_URL = "avatarUrl";
-            public static final String PARAM_MOMENTS = "moments";
         }
     }
 

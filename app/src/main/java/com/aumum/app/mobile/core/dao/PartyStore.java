@@ -70,8 +70,7 @@ public class PartyStore {
                 getList(partyEntity.getMembers()),
                 getList(partyEntity.getFans()),
                 getList(partyEntity.getComments()),
-                getList(partyEntity.getReasons()),
-                getList(partyEntity.getMoments()));
+                getList(partyEntity.getReasons()));
     }
 
     private PartyEntity map(Party party) throws Exception {
@@ -90,8 +89,7 @@ public class PartyStore {
                 gson.toJson(party.getMembers()),
                 gson.toJson(party.getFans()),
                 gson.toJson(party.getComments()),
-                gson.toJson(party.getReasons()),
-                gson.toJson(party.getMoments()));
+                gson.toJson(party.getReasons()));
         return partyEntity;
     }
 

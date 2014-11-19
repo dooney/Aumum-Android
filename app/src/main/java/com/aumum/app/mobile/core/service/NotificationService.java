@@ -78,9 +78,7 @@ public class NotificationService {
                     intent.setComponent(new ComponentName(context, PartyCommentsActivity.class));
                 }
                 break;
-            case Message.Type.DELETED:
-                break;
-            case Message.Type.PARTY_CHECK_IN:
+            case Message.Type.PARTY_DELETE:
                 break;
             default:
                 break;

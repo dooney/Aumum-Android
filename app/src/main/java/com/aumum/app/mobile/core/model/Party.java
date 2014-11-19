@@ -25,7 +25,6 @@ public class Party extends AggregateRoot {
     protected List<String> fans = new ArrayList<String>();
     protected List<String> comments = new ArrayList<String>();
     protected List<String> reasons = new ArrayList<String>();
-    protected List<String> moments = new ArrayList<String>();
 
     protected String distance;
     protected User user;
@@ -51,8 +50,7 @@ public class Party extends AggregateRoot {
                  List<String> members,
                  List<String> fans,
                  List<String> comments,
-                 List<String> reasons,
-                 List<String> moments) {
+                 List<String> reasons) {
         this.objectId = objectId;
         this.createdAt = createdAt;
         this.userId = userId;
@@ -71,8 +69,6 @@ public class Party extends AggregateRoot {
         this.comments.addAll(comments);
         this.reasons.clear();
         this.reasons.addAll(reasons);
-        this.moments.clear();
-        this.moments.addAll(moments);
     }
 
     public String getUserId() {
@@ -155,10 +151,6 @@ public class Party extends AggregateRoot {
         return reasons;
     }
 
-    public List<String> getMoments() {
-        return moments;
-    }
-
     public String getDistance() {
         return distance;
     }
@@ -238,12 +230,5 @@ public class Party extends AggregateRoot {
             }
         }
         return false;
-    }
-
-    public int getMomentsCount() {
-        if (moments != null) {
-            return moments.size();
-        }
-        return 0;
     }
 }

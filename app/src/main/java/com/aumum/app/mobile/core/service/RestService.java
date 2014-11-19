@@ -4,7 +4,6 @@ package com.aumum.app.mobile.core.service;
 import com.aumum.app.mobile.core.model.Comment;
 import com.aumum.app.mobile.core.Constants;
 import com.aumum.app.mobile.core.model.Message;
-import com.aumum.app.mobile.core.model.Moment;
 import com.aumum.app.mobile.core.model.Party;
 import com.aumum.app.mobile.core.model.PartyReason;
 import com.aumum.app.mobile.core.model.User;
@@ -61,10 +60,6 @@ public class RestService {
 
     private PartyReasonService getPartyReasonService() {
         return getRestAdapter().create(PartyReasonService.class);
-    }
-
-    private MomentService getMomentService() {
-        return getRestAdapter().create(MomentService.class);
     }
 
     private RestAdapter getRestAdapter() {
@@ -409,75 +404,5 @@ public class RestService {
         whereJson.add("deletedAt" ,liveJson);
         String where = whereJson.toString();
         return getPartyService().getAll("dateTime", where, Integer.MAX_VALUE).getResults();
-    }
-
-    public List<Moment> getMomentsAfter(List<String> idList, String after, int limit) {
-        final JsonObject whereJson = new JsonObject();
-        whereJson.add("objectId", buildIdListJson(idList));
-        if (after != null) {
-            whereJson.add("createdAt", buildDateTimeAfterJson(after));
-        }
-        final JsonObject liveJson = new JsonObject();
-        liveJson.addProperty("$exists", false);
-        whereJson.add("deletedAt" ,liveJson);
-        String where = whereJson.toString();
-        return getMomentService().getAll("-createdAt", where, limit).getResults();
-    }
-
-    public List<Moment> getMomentsBefore(List<String> idList, String before, int limit) {
-        final JsonObject whereJson = new JsonObject();
-        whereJson.add("objectId", buildIdListJson(idList));
-        whereJson.add("createdAt", buildDateTimeBeforeJson(before));
-        final JsonObject liveJson = new JsonObject();
-        liveJson.addProperty("$exists", false);
-        whereJson.add("deletedAt" ,liveJson);
-        String where = whereJson.toString();
-        return getMomentService().getAll("-createdAt", where, limit).getResults();
-    }
-
-    public Moment newMoment(Moment moment) {
-        return getMomentService().newMoment(moment);
-    }
-
-    public JsonObject addUserMoment(String userId, String momentId) {
-        final JsonObject op = new JsonObject();
-        op.addProperty("__op", "AddUnique");
-        return updateUserMoment(op, userId, momentId);
-    }
-
-    public JsonObject removeUserMoment(String userId, String momentId) {
-        final JsonObject op = new JsonObject();
-        op.addProperty("__op", "Remove");
-        return updateUserMoment(op, userId, momentId);
-    }
-
-    private JsonObject updateUserMoment(JsonObject op, String userId, String momentId) {
-        final JsonObject data = new JsonObject();
-        final JsonArray userMoments = new JsonArray();
-        userMoments.add(new JsonPrimitive(momentId));
-        op.add("objects", userMoments);
-        data.add(Constants.Http.User.PARAM_MOMENTS, op);
-        return getUserService().updateById(userId, data);
-    }
-
-    public JsonObject addPartyMoment(String partyId, String momentId) {
-        final JsonObject op = new JsonObject();
-        op.addProperty("__op", "AddUnique");
-        return updatePartyMoments(op, partyId, momentId);
-    }
-
-    public JsonObject removePartyMoment(String partyId, String momentId) {
-        final JsonObject op = new JsonObject();
-        op.addProperty("__op", "Remove");
-        return updatePartyMoments(op, partyId, momentId);
-    }
-
-    private JsonObject updatePartyMoments(JsonObject op, String partyId, String momentId) {
-        final JsonObject data = new JsonObject();
-        final JsonArray partyMoments = new JsonArray();
-        partyMoments.add(new JsonPrimitive(momentId));
-        op.add("objects", partyMoments);
-        data.add(Constants.Http.Party.PARAM_MOMENTS, op);
-        return getPartyService().updateById(partyId, data);
     }
 }
