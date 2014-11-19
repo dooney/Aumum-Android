@@ -1,6 +1,9 @@
 package com.aumum.app.mobile.ui.main;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
@@ -16,8 +19,10 @@ import com.aumum.app.mobile.core.dao.UserStore;
 import com.aumum.app.mobile.core.model.Message;
 import com.aumum.app.mobile.core.model.Party;
 import com.aumum.app.mobile.core.model.User;
+import com.aumum.app.mobile.core.service.ChatService;
 import com.aumum.app.mobile.core.service.NotificationService;
 import com.aumum.app.mobile.core.service.ScheduleService;
+import com.aumum.app.mobile.ui.contact.ContactListener;
 import com.aumum.app.mobile.utils.Ln;
 import com.aumum.app.mobile.utils.SafeAsyncTask;
 import com.viewpagerindicator.TabPageIndicator;
@@ -40,9 +45,13 @@ public class MainFragment extends Fragment
     @Inject MessageStore messageStore;
     @Inject PartyStore partyStore;
     @Inject NotificationService notificationService;
+    @Inject ChatService chatService;
 
     private ScheduleService scheduleService;
     private SafeAsyncTask<Boolean> task;
+
+    NewMessageBroadcastReceiver newMessageBroadcastReceiver;
+    AckMessageBroadcastReceiver ackMessageBroadcastReceiver;
 
     @InjectView(R.id.tpi_footer)
     protected TabPageIndicator indicator;
@@ -59,6 +68,19 @@ public class MainFragment extends Fragment
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         Injector.inject(this);
+
+        newMessageBroadcastReceiver = new NewMessageBroadcastReceiver();
+        IntentFilter intentFilter = new IntentFilter(chatService.getNewMessageBroadcastAction());
+        intentFilter.setPriority(3);
+        getActivity().registerReceiver(newMessageBroadcastReceiver, intentFilter);
+
+        ackMessageBroadcastReceiver = new AckMessageBroadcastReceiver();
+        IntentFilter ackMessageIntentFilter = new IntentFilter(chatService.getAckMessageBroadcastAction());
+        ackMessageIntentFilter.setPriority(3);
+        getActivity().registerReceiver(ackMessageBroadcastReceiver, ackMessageIntentFilter);
+
+        chatService.setContactListener(new ContactListener());
+        chatService.setAppInitialized();
 
         scheduleService = new ScheduleService(this);
 
@@ -80,6 +102,13 @@ public class MainFragment extends Fragment
     }
 
     @Override
+    public void onDestroy() {
+        super.onDestroy();
+        getActivity().unregisterReceiver(newMessageBroadcastReceiver);
+        getActivity().unregisterReceiver(ackMessageBroadcastReceiver);
+    }
+
+    @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
     }
@@ -92,7 +121,7 @@ public class MainFragment extends Fragment
                 List<Message> unreadMessageList = messageStore.getUnreadListFromServer(currentUser.getMessages());
                 for (Message message: unreadMessageList) {
                     String fromName = userStore.getUserById(message.getFromUserId()).getScreenName();
-                    notificationService.pushUserMessageNotification(getActivity(), fromName, message);
+                    notificationService.pushUserMessageNotification(fromName, message);
                     messageStore.getUnreadList().add(message);
                 }
                 List<Party> unreadPartyList = partyStore.getUnreadListFromServer();
@@ -118,5 +147,21 @@ public class MainFragment extends Fragment
             }
         };
         task.execute();
+    }
+
+    private class NewMessageBroadcastReceiver extends BroadcastReceiver {
+
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            return;
+        }
+    }
+
+    private class AckMessageBroadcastReceiver extends BroadcastReceiver {
+
+        @Override
+        public void onReceive(Context context, Intent intent) {
+
+        }
     }
 }

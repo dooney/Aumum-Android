@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/card_background"
+    android:padding="@dimen/margin_large">
+
+    <com.aumum.app.mobile.ui.view.AvatarImageView
+        android:id="@+id/image_avatar"
+        style="@style/ImageView.Avatar"
+        android:layout_marginRight="@dimen/margin_large"
+        android:src="@drawable/ic_avatar"/>
+
+    <TextView
+        android:id="@+id/text_screen_name"
+        style="@style/TextView.ContactRequest.ScreenName"
+        android:layout_toRightOf="@+id/image_avatar" />
+
+    <TextView
+        android:id="@+id/text_intro"
+        style="@style/TextView.ContactRequest.Intro"
+        android:layout_alignLeft="@+id/text_screen_name"
+        android:layout_alignBottom="@+id/image_avatar"/>
+
+    <Button
+        android:id="@+id/b_action"
+        style="@style/Button.ContactRequest.Action"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true" />
+
+    <ProgressBar
+        android:id="@+id/progress"
+        style="@style/ProgressBar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:visibility="gone" />
+
+</RelativeLayout>

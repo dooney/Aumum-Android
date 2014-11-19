@@ -2,8 +2,10 @@ package com.aumum.app.mobile.core.service;
 
 import com.aumum.app.mobile.utils.Ln;
 import com.easemob.EMCallBack;
+import com.easemob.chat.EMChat;
 import com.easemob.chat.EMChatManager;
 import com.easemob.chat.EMContact;
+import com.easemob.chat.EMContactListener;
 import com.easemob.chat.EMContactManager;
 import com.easemob.chat.EMConversation;
 import com.easemob.chat.EMGroup;
@@ -177,5 +179,21 @@ public class ChatService {
 
     public void addContact(String toUserId, String reason) throws Exception {
         EMContactManager.getInstance().addContact(toUserId, reason);
+    }
+
+    public void setContactListener(EMContactListener contactListener) {
+        EMContactManager.getInstance().setContactListener(contactListener);
+    }
+
+    public String getNewMessageBroadcastAction() {
+        return EMChatManager.getInstance().getNewMessageBroadcastAction();
+    }
+
+    public String getAckMessageBroadcastAction() {
+        return EMChatManager.getInstance().getAckMessageBroadcastAction();
+    }
+
+    public void setAppInitialized() {
+        EMChat.getInstance().setAppInited();
     }
 }

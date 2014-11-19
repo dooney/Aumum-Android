@@ -5,7 +5,7 @@
     android:padding="@dimen/activity_horizontal_margin"
     android:focusable="true"
     android:focusableInTouchMode="true"
-    tools:context="com.aumum.app.mobile.ui.user.AddContactActivity">
+    tools:context="com.aumum.app.mobile.ui.contact.AddContactActivity">
 
     <EditText
         android:id="@+id/et_intro"

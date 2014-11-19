@@ -29,7 +29,7 @@
     <style name="Button.Danger.Small" parent="Button.Small">
         <item name="android:background">@drawable/bbuton_danger_rounded</item>
     </style>
-    <style name="Button.MenuItem" parent="Button.Primary.Small">
+    <style name="Button.Action" parent="Button.Primary.Small">
         <item name="android:minWidth">48sp</item>
         <item name="android:minHeight">32sp</item>
     </style>
@@ -249,10 +249,7 @@
         <item name="android:textSize">@dimen/margin_extra_large</item>
     </style>
     <style name="TextView.Group.CurrentSize" parent="TextView.Subtitle" />
-    <style name="Button.Group.Action" parent="Button.Primary.Small">
-        <item name="android:minWidth">48sp</item>
-        <item name="android:minHeight">32sp</item>
-    </style>
+    <style name="Button.Group.Action" parent="Button.Action" />
 
     <!-- Chat -->
     <style name="Button.Chat.VoiceMode" parent="Button">
@@ -303,6 +300,11 @@
     <style name="TextView.ChatMessage.ReceivedText" parent="TextView.ChatMessage.Text">
         <item name="android:background">@drawable/chat_received_text_background</item>
     </style>
+
+    <!-- Contact Request -->
+    <style name="TextView.ContactRequest.ScreenName" parent="TextView.UserName" />
+    <style name="TextView.ContactRequest.Intro" parent="TextView.Subtitle" />
+    <style name="Button.ContactRequest.Action" parent="Button.Action" />
 
     <!-- Comment -->
     <style name="TextView.Comment.UserName" parent="TextView.UserName" />

@@ -1,15 +1,19 @@
 package com.aumum.app.mobile.core.dao;
 
 import com.aumum.app.mobile.core.Constants;
+import com.aumum.app.mobile.core.dao.entity.ContactRequestEntity;
 import com.aumum.app.mobile.core.dao.entity.UserEntity;
+import com.aumum.app.mobile.core.dao.gen.ContactRequestEntityDao;
 import com.aumum.app.mobile.core.dao.gen.UserEntityDao;
 import com.aumum.app.mobile.core.infra.security.ApiKeyProvider;
 import com.aumum.app.mobile.core.model.User;
 import com.aumum.app.mobile.core.service.RestService;
+import com.aumum.app.mobile.ui.contact.ContactRequest;
 import com.aumum.app.mobile.utils.DateUtils;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -21,11 +25,13 @@ public class UserStore {
     private RestService restService;
     private ApiKeyProvider apiKeyProvider;
     private UserEntityDao userEntityDao;
+    private ContactRequestEntityDao contactRequestEntityDao;
 
     public UserStore(RestService restService, ApiKeyProvider apiKeyProvider, Repository repository) {
         this.restService = restService;
         this.apiKeyProvider = apiKeyProvider;
         this.userEntityDao = repository.getUserEntityDao();
+        this.contactRequestEntityDao = repository.getContactRequestEntityDao();
     }
 
     private String getJsonString(List<String> list) {
@@ -96,5 +102,22 @@ public class UserStore {
         } else {
             return getUserByIdFromServer(id);
         }
+    }
+
+    public void addContactRequest(String userId, String intro) {
+        ContactRequestEntity contactRequestEntity = new ContactRequestEntity(null, userId, intro);
+        contactRequestEntityDao.insert(contactRequestEntity);
+    }
+
+    public List<ContactRequest> getContactRequestList() throws Exception {
+        List<ContactRequestEntity> entities = contactRequestEntityDao.queryBuilder()
+                .orderDesc(ContactRequestEntityDao.Properties.Id)
+                .list();
+        List<ContactRequest> result = new ArrayList<ContactRequest>();
+        for (ContactRequestEntity entity: entities) {
+            User user = getUserById(entity.getUserId());
+            result.add(new ContactRequest(user, entity.getIntro()));
+        }
+        return result;
     }
 }

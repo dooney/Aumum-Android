@@ -13,6 +13,7 @@ public class DaoGenerator {
         addMessage(schema);
         addUser(schema);
         addParty(schema);
+        addContactRequest(schema);
 
         new de.greenrobot.daogenerator.DaoGenerator().generateAll(schema, args[0]);
     }
@@ -55,5 +56,12 @@ public class DaoGenerator {
         party.addStringProperty("fans");
         party.addStringProperty("comments");
         party.addStringProperty("reasons");
+    }
+
+    private static void addContactRequest(Schema schema) {
+        Entity request = schema.addEntity("ContactRequestEntity");
+        request.addIdProperty();
+        request.addStringProperty("userId").notNull();
+        request.addStringProperty("intro");
     }
 }

@@ -125,17 +125,17 @@
 
         <activity
             android:name="com.aumum.app.mobile.ui.party.PartyCommentsActivity"
-            android:launchMode="singleTask"
-            android:taskAffinity=""
             android:excludeFromRecents="true"
-            android:label="@string/title_activity_party_comments" >
+            android:label="@string/title_activity_party_comments"
+            android:launchMode="singleTask"
+            android:taskAffinity="" >
         </activity>
         <activity
             android:name="com.aumum.app.mobile.ui.party.PartyDetailsActivity"
-            android:launchMode="singleTask"
-            android:taskAffinity=""
             android:excludeFromRecents="true"
-            android:label="@string/title_activity_party_details" >
+            android:label="@string/title_activity_party_details"
+            android:launchMode="singleTask"
+            android:taskAffinity="" >
         </activity>
         <activity android:name="com.soundcloud.android.crop.CropImageActivity" />
         <activity android:name="com.aumum.app.mobile.ui.user.UserProfileImageActivity" >
@@ -172,8 +172,15 @@
             android:windowSoftInputMode="adjustResize" >
         </activity>
         <activity
-            android:name="com.aumum.app.mobile.ui.user.AddContactActivity"
+            android:name="com.aumum.app.mobile.ui.contact.AddContactActivity"
             android:label="@string/title_activity_add_contact" >
+        </activity>
+        <activity
+            android:name="com.aumum.app.mobile.ui.contact.ContactRequestsActivity"
+            android:excludeFromRecents="true"
+            android:launchMode="singleTask"
+            android:taskAffinity=""
+            android:label="@string/title_activity_contact_requests" >
         </activity>
     </application>
 

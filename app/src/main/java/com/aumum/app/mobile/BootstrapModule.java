@@ -17,6 +17,8 @@ import com.aumum.app.mobile.ui.circle.CircleFragment;
 import com.aumum.app.mobile.ui.circle.GroupActionListener;
 import com.aumum.app.mobile.ui.circle.SearchCircleFragment;
 import com.aumum.app.mobile.ui.comment.DeleteCommentListener;
+import com.aumum.app.mobile.ui.contact.ContactListener;
+import com.aumum.app.mobile.ui.contact.ContactRequestsFragment;
 import com.aumum.app.mobile.ui.main.MainFragment;
 import com.aumum.app.mobile.ui.party.LikesLayoutListener;
 import com.aumum.app.mobile.ui.party.MembersLayoutListener;
@@ -35,7 +37,7 @@ import com.aumum.app.mobile.core.Constants;
 import com.aumum.app.mobile.core.dao.MessageStore;
 import com.aumum.app.mobile.core.dao.PartyCommentStore;
 import com.aumum.app.mobile.core.dao.PartyStore;
-import com.aumum.app.mobile.ui.user.AddContactActivity;
+import com.aumum.app.mobile.ui.contact.AddContactActivity;
 import com.aumum.app.mobile.utils.PostFromAnyThreadBus;
 import com.aumum.app.mobile.core.api.RestAdapterRequestInterceptor;
 import com.aumum.app.mobile.core.api.RestErrorHandler;
@@ -95,7 +97,9 @@ import retrofit.converter.GsonConverter;
                 MembersLayoutListener.class,
                 LikesLayoutListener.class,
                 MainFragment.class,
-                AddContactActivity.class
+                AddContactActivity.class,
+                ContactListener.class,
+                ContactRequestsFragment.class
         }
 )
 public class BootstrapModule {
@@ -114,8 +118,8 @@ public class BootstrapModule {
 
     @Singleton
     @Provides
-    NotificationService provideNotificationService() {
-        return new NotificationService();
+    NotificationService provideNotificationService(final Context context) {
+        return new NotificationService(context);
     }
 
     @Provides

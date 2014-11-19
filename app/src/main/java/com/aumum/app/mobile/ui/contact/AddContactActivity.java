@@ -1,11 +1,15 @@
-package com.aumum.app.mobile.ui.user;
+package com.aumum.app.mobile.ui.contact;
 
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 
+import com.aumum.app.mobile.Injector;
 import com.aumum.app.mobile.R;
+import com.aumum.app.mobile.core.infra.security.ApiKeyProvider;
 import com.aumum.app.mobile.core.service.ChatService;
 import com.aumum.app.mobile.ui.base.ProgressDialogActivity;
 import com.aumum.app.mobile.utils.SafeAsyncTask;
@@ -20,7 +24,10 @@ import retrofit.RetrofitError;
 public class AddContactActivity extends ProgressDialogActivity {
 
     @Inject ChatService chatService;
+    @Inject ApiKeyProvider apiKeyProvider;
+
     private String toUserId;
+    private String fromUserName;
 
     public static final String INTENT_TO_USER_ID = "toUserId";
     public static final String INTENT_FROM_USER_NAME = "fromUserName";
@@ -32,28 +39,30 @@ public class AddContactActivity extends ProgressDialogActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        Injector.inject(this);
         setContentView(R.layout.activity_add_contact);
         ButterKnife.inject(this);
 
         toUserId = getIntent().getStringExtra(INTENT_TO_USER_ID);
-        final String userName = getIntent().getStringExtra(INTENT_FROM_USER_NAME);
-        introEditText.setText(getString(R.string.label_add_contact_intro, userName));
+        fromUserName = getIntent().getStringExtra(INTENT_FROM_USER_NAME);
+        introEditText.setText(getString(R.string.label_add_contact_intro, fromUserName));
         progress.setMessageId(R.string.info_submitting_add_contact);
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        menu.add(Menu.NONE, 0, Menu.NONE, getString(R.string.label_send))
-                .setActionView(R.layout.menuitem_button_send)
-                .setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
+        MenuItem menuItem = menu.add(Menu.NONE, 0, Menu.NONE, getString(R.string.label_send));
+        menuItem.setActionView(R.layout.menuitem_button_send);
+        menuItem.setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
+        View view = menuItem.getActionView();
+        Button sendButton = (Button) view.findViewById(R.id.b_send);
+        sendButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                addContact();
+            }
+        });
         return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        addContact();
-        return super.onOptionsItemSelected(item);
     }
 
     private void addContact() {
@@ -65,7 +74,9 @@ public class AddContactActivity extends ProgressDialogActivity {
                 if (introEditText.getText() != null) {
                     intro = introEditText.getText().toString();
                 }
-                chatService.addContact(toUserId, intro);
+                String fromUserId = apiKeyProvider.getAuthUserId();
+                AddContactRequest request = new AddContactRequest(fromUserId, fromUserName, intro);
+                chatService.addContact(toUserId, request.toJsonString());
                 return true;
             }
 

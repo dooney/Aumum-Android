@@ -8,7 +8,8 @@
 
         <Button
             xmlns:android="http://schemas.android.com/apk/res/android"
-            style="@style/Button.MenuItem"
+            android:id="@+id/b_send"
+            style="@style/Button.Action"
             android:text="@string/label_send" />
 
 </FrameLayout>

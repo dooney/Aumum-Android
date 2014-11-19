@@ -13,6 +13,7 @@ import com.aumum.app.mobile.R;
 import com.aumum.app.mobile.core.dao.UserStore;
 import com.aumum.app.mobile.core.model.User;
 import com.aumum.app.mobile.ui.base.LoaderFragment;
+import com.aumum.app.mobile.ui.contact.AddContactActivity;
 import com.aumum.app.mobile.utils.Ln;
 
 import javax.inject.Inject;
@@ -103,7 +104,12 @@ public class UserFragment extends LoaderFragment<User> {
 
                 if (currentUser.getContacts().contains(userId)) {
                     contactButton.setText(R.string.label_send_message);
-                    contactButton.setOnClickListener(new AddContactListener());
+                    contactButton.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+
+                        }
+                    });
                 } else {
                     contactButton.setText(R.string.label_add_contact);
                     contactButton.setOnClickListener(new View.OnClickListener() {

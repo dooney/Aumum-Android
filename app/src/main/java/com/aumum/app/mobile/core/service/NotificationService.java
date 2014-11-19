@@ -10,6 +10,7 @@ import android.support.v4.app.NotificationCompat;
 
 import com.aumum.app.mobile.R;
 import com.aumum.app.mobile.core.model.Message;
+import com.aumum.app.mobile.ui.contact.ContactRequestsActivity;
 import com.aumum.app.mobile.ui.party.PartyCommentsActivity;
 import com.aumum.app.mobile.ui.party.PartyDetailsActivity;
 import com.aumum.app.mobile.utils.Ln;
@@ -19,6 +20,11 @@ import com.parse.ParsePush;
  * Created by Administrator on 18/11/2014.
  */
 public class NotificationService {
+    private Context context;
+
+    public NotificationService(Context context) {
+        this.context = context;
+    }
 
     public void subscribe(String channel) {
         if (channel != null) {
@@ -40,23 +46,29 @@ public class NotificationService {
         }
     }
 
-    public void pushUserMessageNotification(Context context, String title, Message message) {
-        NotificationCompat.Builder mBuilder =
-                new NotificationCompat.Builder(context)
-                        .setAutoCancel(true)
-                        .setDefaults(Notification.DEFAULT_VIBRATE | Notification.DEFAULT_LIGHTS)
-                        .setVibrate(new long[]{0, 100, 200, 300})
-                        .setLights(0xd9534f, 300, 1000)
-                        .setSmallIcon(R.drawable.icon)
-                        .setContentTitle(title)
-                        .setContentText(message.getContent());
+    private NotificationCompat.Builder getNotificationBuilder(String title, String content) {
+        return new NotificationCompat.Builder(context)
+                .setAutoCancel(true)
+                .setDefaults(Notification.DEFAULT_VIBRATE | Notification.DEFAULT_LIGHTS)
+                .setVibrate(new long[]{0, 100, 200, 300})
+                .setLights(0xd9534f, 300, 1000)
+                .setSmallIcon(R.drawable.icon)
+                .setContentTitle(title)
+                .setContentText(content);
+    }
 
-        Intent intent = getUserMessageIntent(context, message);
+    private void notify(NotificationCompat.Builder builder, Intent intent) {
         PendingIntent notifyIntent = PendingIntent.getActivity(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
-        mBuilder.setContentIntent(notifyIntent);
+        builder.setContentIntent(notifyIntent);
         NotificationManager mNotificationManager =
                 (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
-        mNotificationManager.notify(0, mBuilder.build());
+        mNotificationManager.notify(0, builder.build());
+    }
+
+    public void pushUserMessageNotification(String title, Message message) {
+        NotificationCompat.Builder builder = getNotificationBuilder(title, message.getContent());
+        Intent intent = getUserMessageIntent(context, message);
+        notify(builder, intent);
     }
 
     private Intent getUserMessageIntent(Context context, Message message) {
@@ -85,5 +97,14 @@ public class NotificationService {
         }
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         return intent;
+    }
+
+    public void pushContactInvitedNotification(String userName, String reason) {
+        String content = context.getString(R.string.label_contact_invited, userName);
+        NotificationCompat.Builder builder = getNotificationBuilder(content, reason);
+        Intent intent = new Intent();
+        intent.setComponent(new ComponentName(context, ContactRequestsActivity.class));
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        notify(builder, intent);
     }
 }
