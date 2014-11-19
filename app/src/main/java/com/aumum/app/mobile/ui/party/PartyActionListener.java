@@ -64,12 +64,12 @@ public class PartyActionListener {
         task = new SafeAsyncTask<Boolean>() {
             public Boolean call() throws Exception {
                 service.deleteParty(party.getObjectId());
-                service.removeUserPartyPost(party.getUserId(), party.getObjectId());
                 for(String userId: party.getMembers()) {
                     service.removeUserParty(userId, party.getObjectId());
 
+                    String content = activity.getString(R.string.label_delete_party_message, party.getTitle());
                     Message message = new Message(Message.Type.PARTY_DELETE,
-                            party.getUserId(), userId, null, party.getObjectId(), party.getTitle());
+                            party.getUserId(), userId, content, party.getObjectId());
                     messageDeliveryService.send(message);
                 }
                 return true;

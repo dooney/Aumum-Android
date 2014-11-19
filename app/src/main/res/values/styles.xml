@@ -313,41 +313,6 @@
         <item name="android:background">@drawable/chat_received_text_background</item>
     </style>
 
-    <!-- Message -->
-    <style name="TextView.Message.UserName" parent="TextView.UserName" />
-    <style name="TextView.Message.CreatedAt" parent="TextView.Subtitle" >
-        <item name="android:textSize">@dimen/text_sz_small</item>
-    </style>
-    <style name="TextView.Message.Action" parent="TextView.Subtitle" >
-        <item name="android:textSize">@dimen/text_sz_small</item>
-    </style>
-    <style name="TextView.Message.Content" parent="TextView.Content.Text" >
-        <item name="android:paddingTop">@dimen/margin_small</item>
-        <item name="android:paddingBottom">@dimen/margin_small</item>
-    </style>
-    <style name="TextView.MessageParent.Content" parent="TextView.Subtitle" />
-    <style name="ButtonTextView.Message" parent="ButtonTextView">
-        <item name="android:textSize">@dimen/text_sz_large</item>
-        <item name="android:paddingTop">@dimen/margin_large</item>
-        <item name="android:paddingBottom">@dimen/margin_large</item>
-        <item name="android:paddingLeft">@dimen/margin_large</item>
-        <item name="android:paddingRight">0dp</item>
-        <item name="android:gravity">center_vertical</item>
-    </style>
-    <style name="ButtonTextView.Message.PartyMembership" parent="ButtonTextView.Message">
-        <item name="android:layout_width">wrap_content</item>
-        <item name="android:drawableLeft">@drawable/ic_fa_user_l</item>
-        <item name="android:text">@string/label_party_membership</item>
-    </style>
-    <style name="ButtonTextView.Message.PartyComments" parent="ButtonTextView.Message">
-        <item name="android:drawableLeft">@drawable/ic_fa_comments_o</item>
-        <item name="android:text">@string/label_party_comments</item>
-    </style>
-    <style name="ButtonTextView.Message.PartyLikes" parent="ButtonTextView.Message">
-        <item name="android:drawableLeft">@drawable/ic_fa_thumbs_o_up</item>
-        <item name="android:text">@string/label_party_likes</item>
-    </style>
-
     <!-- Comment -->
     <style name="TextView.Comment.UserName" parent="TextView.UserName" />
     <style name="TextView.Comment.CreatedAt" parent="TextView.Subtitle" >

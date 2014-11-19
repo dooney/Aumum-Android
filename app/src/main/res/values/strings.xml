@@ -7,7 +7,6 @@
         <item>聚会</item>
         <item>圈子</item>
         <item>好友</item>
-        <item>消息</item>
         <item>个人</item>
     </string-array>
     <string-array name="label_search_party">
@@ -21,7 +20,6 @@
 
     <string name="menu_logout">注销</string>
     <string name="no_parties">暂时没有聚会</string>
-    <string name="no_messages">暂时没有消息</string>
     <string name="no_moments">暂时没有签到</string>
     <string name="no_circles">您还没加入任何圈子</string>
 
@@ -34,7 +32,6 @@
     <string name="info_uploading_profile_image">正在上传头像图片，请稍候…</string>
     <string name="info_party_deleted">该聚会已成功删除</string>
     <string name="info_comment_deleted">该评论已成功删除</string>
-    <string name="info_message_deleted">该消息已成功删除</string>
     <string name="info_click_back_again">再按一次返回桌面</string>
     <string name="info_posting_moment">正在提交您的签到，请稍候…</string>
     <string name="info_submitting_add_contact">正在提交您的添加好友请求，请稍候…</string>
@@ -42,7 +39,6 @@
 
     <!-- Error Message -->
     <string name="error_load_parties">获取聚会列表失败</string>
-    <string name="error_load_messages">获取消息列表失败</string>
     <string name="error_load_party_comments">获取聚会评论失败</string>
     <string name="error_load_user">获取用户信息失败</string>
     <string name="error_load_party">获取聚会信息失败</string>
@@ -56,7 +52,6 @@
     <string name="error_validate_party_location">验证聚会地点失败：%1$s 不是一个有效的Google地图地址</string>
     <string name="error_delete_party">删除聚会失败</string>
     <string name="error_delete_comment">删除评论失败</string>
-    <string name="error_delete_message">删除消息失败</string>
     <string name="error_load_join_details">获取聚会报名信息失败</string>
     <string name="error_load_moments">获取签到列表失败</string>
     <string name="error_post_new_moment">提交新签到失败</string>
@@ -125,6 +120,9 @@
     <string name="label_distance">%1$skm</string>
     <string name="title_activity_parties">我的聚会</string>
     <string name="title_activity_search_party">搜索聚会</string>
+    <string name="label_new_party_message">发布了聚会：%1$s</string>
+    <string name="label_delete_party_message">取消了聚会：%1$s</string>
+    <string name="label_like_party_message">支持了聚会：%1$s</string>
 
     <!-- New Party -->
     <string name="title_activity_new_party">新聚会</string>
@@ -150,11 +148,6 @@
 
     <!-- Circle -->
     <string name="label_send">发送</string>
-
-    <!-- User Messages -->
-    <string name="label_party_membership">聚会报名</string>
-    <string name="label_party_comments">聚会评论</string>
-    <string name="label_party_likes">聚会支持</string>
 
     <!-- Moments -->
     <string name="title_activity_new_moment">新签到</string>

@@ -19,9 +19,6 @@ import com.aumum.app.mobile.ui.circle.GroupActionListener;
 import com.aumum.app.mobile.ui.circle.SearchCircleFragment;
 import com.aumum.app.mobile.ui.comment.DeleteCommentListener;
 import com.aumum.app.mobile.ui.main.MainFragment;
-import com.aumum.app.mobile.ui.message.DeleteMessageListener;
-import com.aumum.app.mobile.ui.message.MessageFragment;
-import com.aumum.app.mobile.ui.message.MessageListFragment;
 import com.aumum.app.mobile.ui.moment.NewMomentActivity;
 import com.aumum.app.mobile.ui.party.LikesLayoutListener;
 import com.aumum.app.mobile.ui.party.MembersLayoutListener;
@@ -88,7 +85,6 @@ import retrofit.converter.GsonConverter;
                 PartyOwnerActionListener.class,
                 PartyUserActionListener.class,
                 DeleteCommentListener.class,
-                DeleteMessageListener.class,
                 PartyReasonStore.class,
                 PartyReasonsFragment.class,
                 NewMomentActivity.class,
@@ -98,12 +94,10 @@ import retrofit.converter.GsonConverter;
                 GroupActionListener.class,
                 ChatFragment.class,
                 SendMessageListener.class,
-                MessageListFragment.class,
                 PartyListFragment.class,
                 SearchPartyFragment.class,
                 MembersLayoutListener.class,
                 LikesLayoutListener.class,
-                MessageFragment.class,
                 MainFragment.class,
                 AddContactActivity.class
         }

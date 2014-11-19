@@ -22,11 +22,6 @@ public class DaoGenerator {
         message.setSuperclass("BaseEntity");
         message.addStringProperty("objectId").notNull().primaryKey();
         message.addDateProperty("createdAt").notNull();
-        message.addStringProperty("fromUserId");
-        message.addStringProperty("toUserId");
-        message.addIntProperty("type");
-        message.addStringProperty("content");
-        message.addStringProperty("parent");
     }
 
     private static void addUser(Schema schema) {
@@ -39,12 +34,9 @@ public class DaoGenerator {
         user.addStringProperty("avatarUrl");
         user.addStringProperty("about");
         user.addStringProperty("contacts");
-        user.addStringProperty("comments");
         user.addStringProperty("messages");
         user.addStringProperty("parties");
-        user.addStringProperty("partyPosts");
         user.addStringProperty("moments");
-        user.addStringProperty("momentPosts");
     }
 
     private static void addParty(Schema schema) {

@@ -211,12 +211,6 @@ public class RestService {
         return updateUserMessage(op, userId, messageId);
     }
 
-    public JsonObject removeUserMessage(String userId, String messageId) {
-        final JsonObject op = new JsonObject();
-        op.addProperty("__op", "Remove");
-        return updateUserMessage(op, userId, messageId);
-    }
-
     private JsonObject updateUserMessage(JsonObject op, String userId, String messageId) {
         final JsonObject data = new JsonObject();
         final JsonArray messages = new JsonArray();
@@ -241,21 +235,6 @@ public class RestService {
         if (after != null) {
             whereJson.add("createdAt", buildDateTimeAfterJson(after));
         }
-        String where = whereJson.toString();
-        return getMessageService().getMessages("-createdAt", where, limit).getResults();
-    }
-
-    public List<Message> getMessagesBefore(List<String> idList, List<Integer> typeList, String before, int limit) {
-        final JsonObject whereJson = new JsonObject();
-        whereJson.add("objectId", buildIdListJson(idList));
-        final JsonArray typeListJson = new JsonArray();
-        for (int type: typeList) {
-            typeListJson.add(new JsonPrimitive(type));
-        }
-        final JsonObject typeInJson = new JsonObject();
-        typeInJson.add("$in", typeListJson);
-        whereJson.add("type", typeInJson);
-        whereJson.add("createdAt", buildDateTimeBeforeJson(before));
         String where = whereJson.toString();
         return getMessageService().getMessages("-createdAt", where, limit).getResults();
     }
@@ -370,27 +349,6 @@ public class RestService {
         return getPartyService().updateById(partyId, data);
     }
 
-    public JsonObject addUserPartyPost(String userId, String partyId) {
-        final JsonObject op = new JsonObject();
-        op.addProperty("__op", "AddUnique");
-        return updateUserPartyPosts(op, userId, partyId);
-    }
-
-    public JsonObject removeUserPartyPost(String userId, String partyId) {
-        final JsonObject op = new JsonObject();
-        op.addProperty("__op", "Remove");
-        return updateUserPartyPosts(op, userId, partyId);
-    }
-
-    private JsonObject updateUserPartyPosts(JsonObject op, String userId, String partyId) {
-        final JsonObject data = new JsonObject();
-        final JsonArray userPartyPosts = new JsonArray();
-        userPartyPosts.add(new JsonPrimitive(partyId));
-        op.add("objects", userPartyPosts);
-        data.add(Constants.Http.User.PARAM_PARTY_POSTS, op);
-        return getUserService().updateById(userId, data);
-    }
-
     public JsonObject updateUserAvatar(String userId, String avatarUrl) {
         final JsonObject data = new JsonObject();
         data.addProperty(Constants.Http.User.PARAM_AVATAR_URL, avatarUrl);
@@ -404,39 +362,11 @@ public class RestService {
         return getPartyService().updateById(partyId, data);
     }
 
-    public JsonObject addUserComment(String userId, String commentId) {
-        final JsonObject op = new JsonObject();
-        op.addProperty("__op", "AddUnique");
-        return updateUserComments(op, userId, commentId);
-    }
-
-    public JsonObject removeUserComment(String userId, String commentId) {
-        final JsonObject op = new JsonObject();
-        op.addProperty("__op", "Remove");
-        return updateUserComments(op, userId, commentId);
-    }
-
-    private JsonObject updateUserComments(JsonObject op, String userId, String commentId) {
-        final JsonObject data = new JsonObject();
-        final JsonArray userComments = new JsonArray();
-        userComments.add(new JsonPrimitive(commentId));
-        op.add("objects", userComments);
-        data.add(Constants.Http.User.PARAM_COMMENTS, op);
-        return getUserService().updateById(userId, data);
-    }
-
     public JsonObject deletePartyComment(String commentId) {
         final JsonObject data = new JsonObject();
         DateTime now = DateTime.now(DateTimeZone.UTC);
         data.addProperty("deletedAt", now.toString(Constants.DateTime.FORMAT));
         return getPartyCommentService().updateById(commentId, data);
-    }
-
-    public JsonObject deleteMessage(String messageId) {
-        final JsonObject data = new JsonObject();
-        DateTime now = DateTime.now(DateTimeZone.UTC);
-        data.addProperty("deletedAt", now.toString(Constants.DateTime.FORMAT));
-        return getMessageService().updateById(messageId, data);
     }
 
     public PartyReason newPartyReason(PartyReason reason) {
@@ -507,27 +437,6 @@ public class RestService {
 
     public Moment newMoment(Moment moment) {
         return getMomentService().newMoment(moment);
-    }
-
-    public JsonObject addUserMomentPost(String userId, String momentId) {
-        final JsonObject op = new JsonObject();
-        op.addProperty("__op", "AddUnique");
-        return updateUserMomentPosts(op, userId, momentId);
-    }
-
-    public JsonObject removeUserMomentPost(String userId, String momentId) {
-        final JsonObject op = new JsonObject();
-        op.addProperty("__op", "Remove");
-        return updateUserMomentPosts(op, userId, momentId);
-    }
-
-    private JsonObject updateUserMomentPosts(JsonObject op, String userId, String momentId) {
-        final JsonObject data = new JsonObject();
-        final JsonArray userMomentPosts = new JsonArray();
-        userMomentPosts.add(new JsonPrimitive(momentId));
-        op.add("objects", userMomentPosts);
-        data.add(Constants.Http.User.PARAM_MOMENT_POSTS, op);
-        return getUserService().updateById(userId, data);
     }
 
     public JsonObject addUserMoment(String userId, String momentId) {

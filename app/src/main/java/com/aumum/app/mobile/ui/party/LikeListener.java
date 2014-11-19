@@ -1,6 +1,7 @@
 package com.aumum.app.mobile.ui.party;
 
 import com.aumum.app.mobile.Injector;
+import com.aumum.app.mobile.R;
 import com.aumum.app.mobile.core.model.Message;
 import com.aumum.app.mobile.core.model.User;
 import com.aumum.app.mobile.core.service.MessageDeliveryService;
@@ -82,15 +83,16 @@ public class LikeListener implements LikeTextView.OnLikeListener {
     }
 
     @Override
-    public void onLike(LikeTextView view) {
+    public void onLike(final LikeTextView view) {
         task = new SafeAsyncTask<Boolean>() {
             public Boolean call() throws Exception {
                 User currentUser = userStore.getCurrentUser();
                 service.addPartyFan(party.getObjectId(), currentUser.getObjectId());
                 party.getFans().add(currentUser.getObjectId());
 
+                String content = view.getResources().getString(R.string.label_like_party_message, party.getTitle());
                 Message message = new Message(Message.Type.PARTY_LIKE,
-                        currentUser.getObjectId(), party.getUserId(), null, party.getObjectId(), party.getTitle());
+                        currentUser.getObjectId(), party.getUserId(), content, party.getObjectId());
                 messageDeliveryService.send(message);
 
                 return true;

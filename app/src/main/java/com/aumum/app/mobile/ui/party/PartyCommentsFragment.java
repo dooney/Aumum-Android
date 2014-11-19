@@ -243,14 +243,13 @@ public class PartyCommentsFragment extends ItemListFragment<Comment>
                 service.addPartyComment(partyId, response.getObjectId());
                 comment.setObjectId(response.getObjectId());
                 comment.setCreatedAt(response.getCreatedAt());
-                service.addUserComment(currentUser.getObjectId(), comment.getObjectId());
 
                 Message message = new Message(Message.Type.PARTY_COMMENT,
-                        currentUser.getObjectId(), party.getUserId(), comment.getContent(), party.getObjectId(), party.getTitle());
+                        currentUser.getObjectId(), party.getUserId(), comment.getContent(), party.getObjectId());
                 messageDeliveryService.send(message);
                 if (repliedComment != null) {
                     Message repliedMessage = new Message(Message.Type.PARTY_REPLY,
-                            currentUser.getObjectId(), repliedComment.getUserId(), comment.getContent(), party.getObjectId(), party.getTitle());
+                            currentUser.getObjectId(), repliedComment.getUserId(), comment.getContent(), party.getObjectId());
                     messageDeliveryService.send(repliedMessage);
                 }
                 return true;

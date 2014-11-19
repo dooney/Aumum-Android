@@ -50,7 +50,7 @@ public class CommentCard implements DeleteCommentListener.OnProgressListener {
             createdAtText.setVisibility(View.VISIBLE);
             if (comment.isOwner(currentUserId)) {
                 deleteImage.setVisibility(View.VISIBLE);
-                DeleteCommentListener listener = new DeleteCommentListener(comment, currentUserId);
+                DeleteCommentListener listener = new DeleteCommentListener(comment);
                 listener.setOnActionListener(onActionListener);
                 listener.setOnProgressListener(this);
                 deleteImage.setOnClickListener(listener);

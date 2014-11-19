@@ -83,13 +83,12 @@ public class NewMomentActivity extends ProgressDialogActivity {
                 User currentUser = userStore.getCurrentUser();
                 moment.setUserId(currentUser.getObjectId());
                 Moment response = restService.newMoment(moment);
-                restService.addUserMomentPost(currentUser.getObjectId(), response.getObjectId());
                 restService.addPartyMoment(party.getObjectId(), response.getObjectId());
                 for(String userId: party.getMembers()) {
                     restService.addUserMoment(userId, response.getObjectId());
                 }
                 Message message = new Message(Message.Type.PARTY_CHECK_IN,
-                        currentUser.getObjectId(), party.getUserId(), null, party.getObjectId(), party.getTitle());
+                        currentUser.getObjectId(), party.getUserId(), null, party.getObjectId());
                 messageDeliveryService.send(message);
                 return true;
             }

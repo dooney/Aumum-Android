@@ -213,10 +213,10 @@ public class NewPartyActivity extends ProgressDialogActivity
                 Party response = restService.newParty(party);
                 restService.addPartyMember(response.getObjectId(), user.getObjectId());
                 restService.addUserParty(user.getObjectId(), response.getObjectId());
-                restService.addUserPartyPost(user.getObjectId(), response.getObjectId());
                 for (String userId: user.getContacts()) {
+                    String content = getString(R.string.label_new_party_message, party.getTitle());
                     Message message = new Message(Message.Type.PARTY_NEW,
-                            user.getObjectId(), userId, null, party.getObjectId(), party.getTitle());
+                            user.getObjectId(), userId, content, party.getObjectId());
                     messageDeliveryService.send(message);
                 }
                 return true;

@@ -160,7 +160,7 @@ public class PartyReasonsFragment extends ItemListFragment<PartyReason> {
                     party.getMembers().add(currentUser.getObjectId());
 
                     Message message = new Message(Message.Type.PARTY_JOIN,
-                            currentUser.getObjectId(), party.getUserId(), reason.getContent(), party.getObjectId(), party.getTitle());
+                            currentUser.getObjectId(), party.getUserId(), reason.getContent(), party.getObjectId());
                     messageDeliveryService.send(message);
                 } else if (reason.getType() == PartyReason.QUIT) {
                     service.removePartyMember(partyId, currentUser.getObjectId());
@@ -168,7 +168,7 @@ public class PartyReasonsFragment extends ItemListFragment<PartyReason> {
                     party.getMembers().remove(currentUser.getObjectId());
 
                     Message message = new Message(Message.Type.PARTY_QUIT,
-                            currentUser.getObjectId(), party.getUserId(), reason.getContent(), party.getObjectId(), party.getTitle());
+                            currentUser.getObjectId(), party.getUserId(), reason.getContent(), party.getObjectId());
                     messageDeliveryService.send(message);
                 }
 

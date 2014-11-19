@@ -54,12 +54,9 @@ public class UserStore {
                 userEntity.getAvatarUrl(),
                 userEntity.getAbout(),
                 getList(userEntity.getContacts()),
-                getList(userEntity.getComments()),
                 getList(userEntity.getMessages()),
                 getList(userEntity.getParties()),
-                getList(userEntity.getPartyPosts()),
-                getList(userEntity.getMoments()),
-                getList(userEntity.getMomentPosts()));
+                getList(userEntity.getMoments()));
     }
 
     private UserEntity map(User user) throws Exception {
@@ -72,12 +69,9 @@ public class UserStore {
                 user.getAvatarUrl(),
                 user.getAbout(),
                 getJsonString(user.getContacts()),
-                getJsonString(user.getComments()),
                 getJsonString(user.getMessages()),
                 getJsonString(user.getParties()),
-                getJsonString(user.getPartyPosts()),
-                getJsonString(user.getMoments()),
-                getJsonString(user.getMomentPosts()));
+                getJsonString(user.getMoments()));
         return userEntity;
     }
 

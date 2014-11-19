@@ -7,7 +7,7 @@ import com.aumum.app.mobile.R;
 
 public class PartyCommentsActivity extends ActionBarActivity {
 
-    public static final String INTENT_PARTY_ID = "intentPartyId";
+    public static final String INTENT_PARTY_ID = "partyId";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

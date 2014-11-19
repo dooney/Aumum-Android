@@ -11,7 +11,6 @@ import android.support.v4.app.FragmentPagerAdapter;
 import com.aumum.app.mobile.R;
 import com.aumum.app.mobile.ui.circle.CircleFragment;
 import com.aumum.app.mobile.ui.contact.ContactFragment;
-import com.aumum.app.mobile.ui.message.MessageFragment;
 import com.aumum.app.mobile.ui.party.PartyListFragment;
 import com.aumum.app.mobile.ui.user.ProfileFragment;
 
@@ -25,8 +24,7 @@ public class PagerAdapter extends FragmentPagerAdapter {
     public static final int PAGE_PARTY = 0;
     public static final int PAGE_CIRCLE = 1;
     public static final int PAGE_CONTACT = 2;
-    public static final int PAGE_MESSAGE = 3;
-    public static final int PAGE_PROFILE = 4;
+    public static final int PAGE_PROFILE = 3;
 
     /**
      * Create pager adapter
@@ -56,9 +54,6 @@ public class PagerAdapter extends FragmentPagerAdapter {
                 break;
             case PAGE_CONTACT:
                 result = new ContactFragment();
-                break;
-            case PAGE_MESSAGE:
-                result = new MessageFragment();
                 break;
             case PAGE_PROFILE:
                 result = new ProfileFragment();
