@@ -128,4 +128,15 @@ public class UserStore {
         }
         return result;
     }
+
+    public List<User> getContacts(String userId) throws Exception {
+        User user = getUserById(userId);
+        List<User> result = new ArrayList<User>();
+        if (user != null) {
+            for (String contactId: user.getContacts()) {
+                result.add(getUserById(contactId));
+            }
+        }
+        return result;
+    }
 }

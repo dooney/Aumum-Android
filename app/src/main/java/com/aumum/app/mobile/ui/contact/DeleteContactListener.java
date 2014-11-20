@@ -45,7 +45,7 @@ public class DeleteContactListener implements View.OnClickListener,
     }
 
     public static interface OnActionListener {
-        public void onDeleteContactSuccess();
+        public void onDeleteContactSuccess(String contactId);
         public void onDeleteContactFailed();
     }
 
@@ -99,7 +99,7 @@ public class DeleteContactListener implements View.OnClickListener,
             @Override
             public void onSuccess(final Boolean success) {
                 if (onActionListener != null) {
-                    onActionListener.onDeleteContactSuccess();
+                    onActionListener.onDeleteContactSuccess(userId);
                 }
             }
 

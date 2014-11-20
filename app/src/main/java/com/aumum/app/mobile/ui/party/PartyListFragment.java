@@ -61,7 +61,7 @@ public class PartyListFragment extends CardListFragment
     public void onActivityCreated(final Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        setEmptyText(R.string.no_parties);
+        setEmptyText(R.string.info_no_parties);
     }
 
     @Override

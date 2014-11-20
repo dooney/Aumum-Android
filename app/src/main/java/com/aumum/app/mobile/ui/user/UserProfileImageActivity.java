@@ -124,7 +124,7 @@ public class UserProfileImageActivity extends ProgressDialogActivity
             avatarBitmapCurrent = ImageUtils.getBitmap(this, outputUri);
             avatarImage.setImageBitmap(avatarBitmapCurrent);
         } else if (resultCode == Crop.RESULT_ERROR) {
-            Toaster.showLong(this, R.string.invalid_image);
+            Toaster.showLong(this, R.string.error_load_image);
             Ln.d(Crop.getError(result));
         }
     }

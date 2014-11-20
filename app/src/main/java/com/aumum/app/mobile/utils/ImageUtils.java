@@ -165,7 +165,7 @@ public class ImageUtils {
             ParcelFileDescriptor descriptor = activity.getContentResolver().openFileDescriptor(originalUri, "r");
             selectedBitmap = BitmapFactory.decodeFileDescriptor(descriptor.getFileDescriptor(), null, bitmapOptions);
         } catch (FileNotFoundException e) {
-            Toaster.showLong(activity, R.string.invalid_image);
+            Toaster.showLong(activity, R.string.error_load_image);
         }
         return selectedBitmap;
     }

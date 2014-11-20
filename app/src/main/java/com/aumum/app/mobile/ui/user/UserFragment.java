@@ -16,7 +16,6 @@ import com.aumum.app.mobile.ui.base.LoaderFragment;
 import com.aumum.app.mobile.ui.contact.AddContactActivity;
 import com.aumum.app.mobile.ui.contact.DeleteContactListener;
 import com.aumum.app.mobile.utils.Ln;
-import com.github.kevinsawicki.wishlist.Toaster;
 
 import javax.inject.Inject;
 
@@ -24,8 +23,7 @@ import javax.inject.Inject;
  * A simple {@link Fragment} subclass.
  *
  */
-public class UserFragment extends LoaderFragment<User>
-        implements DeleteContactListener.OnActionListener {
+public class UserFragment extends LoaderFragment<User> {
     @Inject UserStore dataStore;
 
     private String userId;
@@ -49,7 +47,7 @@ public class UserFragment extends LoaderFragment<User>
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        setEmptyText(R.string.invalid_user);
+        setEmptyText(R.string.error_load_user);
     }
 
     @Override
@@ -99,7 +97,7 @@ public class UserFragment extends LoaderFragment<User>
         } else {
             User user = dataStore.getUserByIdFromServer(userId);
             if (user == null) {
-                throw new Exception(getString(R.string.invalid_user));
+                throw new Exception(getString(R.string.error_load_user));
             }
             return user;
         }
@@ -126,7 +124,7 @@ public class UserFragment extends LoaderFragment<User>
                     });
                     DeleteContactListener deleteContactListener = new DeleteContactListener(getActivity(), userId);
                     deleteContactListener.setOnProgressListener((DeleteContactListener.OnProgressListener)getActivity());
-                    deleteContactListener.setOnActionListener(this);
+                    deleteContactListener.setOnActionListener((DeleteContactListener.OnActionListener)getActivity());
                     deleteContactButton.setOnClickListener(deleteContactListener);
                 } else {
                     addContactButton.setVisibility(View.VISIBLE);
@@ -144,16 +142,5 @@ public class UserFragment extends LoaderFragment<User>
         } catch (Exception e) {
             Ln.d(e);
         }
-    }
-
-    @Override
-    public void onDeleteContactSuccess() {
-        addContactButton.setVisibility(View.VISIBLE);
-        actionLayout.setVisibility(View.GONE);
-    }
-
-    @Override
-    public void onDeleteContactFailed() {
-        Toaster.showLong(getActivity(), R.string.error_delete_contact);
     }
 }

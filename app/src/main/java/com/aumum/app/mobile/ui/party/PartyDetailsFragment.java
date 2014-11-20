@@ -107,7 +107,7 @@ public class PartyDetailsFragment extends LoaderFragment<Party>
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        setEmptyText(R.string.error_invalid_party);
+        setEmptyText(R.string.error_load_party_details);
     }
 
     @Override
@@ -202,7 +202,7 @@ public class PartyDetailsFragment extends LoaderFragment<Party>
     protected Party loadDataCore(Bundle bundle) throws Exception {
         Party party = partyStore.getPartyByIdFromServer(partyId);
         if (party == null) {
-            throw new Exception(getString(R.string.error_invalid_party));
+            throw new Exception(getString(R.string.error_load_party_details));
         }
         party.setDistance(gpsTracker.getLatitude(), gpsTracker.getLongitude());
         return party;

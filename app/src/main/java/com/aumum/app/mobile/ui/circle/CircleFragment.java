@@ -44,7 +44,7 @@ public class CircleFragment extends ItemListFragment<EMContact> {
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        setEmptyText(R.string.no_circles);
+        setEmptyText(R.string.info_no_circles);
     }
 
     @Override

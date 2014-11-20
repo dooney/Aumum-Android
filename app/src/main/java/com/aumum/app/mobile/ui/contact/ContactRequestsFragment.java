@@ -41,7 +41,7 @@ public class ContactRequestsFragment extends ItemListFragment<ContactRequest> {
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        setEmptyText(R.string.no_contact_requests);
+        setEmptyText(R.string.info_no_contact_requests);
     }
 
     @Override
