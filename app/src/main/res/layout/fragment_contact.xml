@@ -1,13 +1,22 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.aumum.app.mobile.ui.contact.ContactFragment">
+    android:padding="@dimen/margin_large">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/layout_contact_requests"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:layout_height="wrap_content"
+        android:background="@color/card_background">
 
-</FrameLayout>
+        <ImageView
+            style="@style/ImageView.Avatar"
+            android:layout_marginRight="@dimen/margin_large"
+            android:src="@drawable/ic_avatar"/>
+
+    </RelativeLayout>
+
+</RelativeLayout>

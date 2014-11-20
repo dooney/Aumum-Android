@@ -19,13 +19,15 @@ public class DialogUtils {
         dlg.show();
     }
 
-    public static void showDialog(Context context, int titleId, CharSequence[] items,
-                                  DialogInterface.OnClickListener itemsClickListener)
-    {
+    public static void showDialog(Context context, int messageId,
+                                  int positiveButtonTextId, DialogInterface.OnClickListener positiveListener,
+                                  int negativeButtonTextId, DialogInterface.OnClickListener negativeListener) {
         Dialog dlg = new AlertDialog.Builder(context)
-                .setTitle(titleId)
-                .setItems(items, itemsClickListener)
+                .setPositiveButton(positiveButtonTextId, positiveListener)
+                .setNegativeButton(negativeButtonTextId, negativeListener)
+                .setMessage(messageId)
                 .create();
+
         dlg.setCanceledOnTouchOutside(true);
         dlg.show();
     }

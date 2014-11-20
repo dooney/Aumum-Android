@@ -8,10 +8,12 @@ import com.aumum.app.mobile.core.model.User;
 public class ContactRequest {
     private User user;
     private String intro;
+    private boolean isAdded;
 
-    public ContactRequest(User user, String intro) {
+    public ContactRequest(User user, String intro, boolean isAdded) {
         this.user = user;
         this.intro = intro;
+        this.isAdded = isAdded;
     }
 
     public User getUser() {
@@ -20,5 +22,9 @@ public class ContactRequest {
 
     public String getIntro() {
         return intro;
+    }
+
+    public boolean isAdded() {
+        return isAdded;
     }
 }

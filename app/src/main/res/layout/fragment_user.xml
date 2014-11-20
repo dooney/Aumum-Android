@@ -6,9 +6,38 @@
     android:layout_height="match_parent"
     android:padding="@dimen/margin_large">
 
-    <Button
-        android:id="@+id/b_contact"
-        style="@style/Button.User.Contact" />
+    <LinearLayout
+        android:id="@+id/main_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:visibility="gone">
+
+        <Button
+            android:id="@+id/b_add_contact"
+            style="@style/Button.User.AddContact" />
+
+        <LinearLayout
+            android:id="@+id/layout_action"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <Button
+                android:id="@+id/b_send_message"
+                style="@style/Button.User.SendMessage"
+                android:layout_marginTop="@dimen/margin_large"
+                android:layout_marginBottom="@dimen/margin_medium"/>
+
+            <Button
+                android:id="@+id/b_delete_contact"
+                style="@style/Button.User.DeleteContact"
+                android:layout_marginTop="@dimen/margin_medium"
+                android:layout_marginBottom="@dimen/margin_large"/>
+
+        </LinearLayout>
+
+    </LinearLayout>
 
     <TextView
         android:id="@android:id/empty"

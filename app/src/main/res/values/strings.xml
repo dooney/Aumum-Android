@@ -21,7 +21,7 @@
     <string name="menu_logout">注销</string>
     <string name="no_parties">暂时没有聚会</string>
     <string name="no_circles">您还没加入任何圈子</string>
-    <string name="no_contact_requests">暂时没有添加好友请求</string>
+    <string name="no_contact_requests">暂时没有好友请求</string>
 
     <!-- Info Message -->
     <string name="info_authenticating">正在验证您的账号信息，请稍候…</string>
@@ -34,6 +34,7 @@
     <string name="info_comment_deleted">该评论已成功删除</string>
     <string name="info_click_back_again">再按一次返回桌面</string>
     <string name="info_submitting_add_contact">正在提交您的添加好友请求，请稍候…</string>
+    <string name="info_submitting_delete_contact">正在提交您的移除好友请求，请稍候…</string>
     <string name="info_add_contact_sent">发送添加好友请求成功，等待对方验证</string>
 
     <!-- Error Message -->
@@ -55,7 +56,10 @@
     <string name="error_load_circles">获取圈子信息失败</string>
     <string name="error_group_action">%1$s该圈子失败</string>
     <string name="error_add_contact">添加好友失败</string>
-    <string name="error_load_contact_requests">获取添加好友请求列表失败</string>
+    <string name="error_load_contact_requests">获取好友请求列表失败</string>
+    <string name="error_accept_contact">同意添加好友失败</string>
+    <string name="error_invalid_party">无法获取该聚会信息</string>
+    <string name="error_delete_contact">移除好友失败</string>
 
     <!-- Register -->
     <string name="hint_screen_name">用户名</string>
@@ -84,13 +88,19 @@
     <string name="title_activity_party_comments">聚会评论</string>
 
     <!-- User -->
+    <string name="title_activity_contact_requests">好友请求</string>
     <string name="label_send_message">发送消息</string>
     <string name="label_add_contact">添加好友</string>
+    <string name="label_delete_contact">移除好友</string>
     <string name="invalid_user">无法获取该用户信息</string>
     <string name="invalid_image">无法获取该图片</string>
     <string name="hint_add_contact_intro">打个招呼吧</string>
     <string name="label_add_contact_intro">你好，我是%1$s</string>
     <string name="label_contact_invited">%1$s请求添加好友</string>
+    <string name="label_contact_requests">好友请求</string>
+    <string name="label_accept">同意</string>
+    <string name="label_added">已添加</string>
+    <string name="info_confirm_delete_contact">您确定要移除该好友？</string>
 
     <!-- Comments -->
     <string name="no_comments">暂时还没有评论，你是沙发哦！</string>
@@ -102,7 +112,6 @@
     <string name="hint_join_reason">一句话介绍自己的情况，或报名理由</string>
     <string name="hint_quit_reason">为啥要取消呢，亲？</string>
     <string name="title_activity_party_details">聚会详情</string>
-    <string name="invalid_party">无法获取该聚会信息</string>
     <string name="label_you_join_the_party">你报名了该聚会</string>
     <string name="label_you_and_others_join_the_party">你和其他%,d人报名了该聚会</string>
     <string name="label_others_join_the_party">%,d人报名了该聚会</string>
@@ -152,12 +161,11 @@
     <string name="pull_to_refresh_pull_label">下拉刷新…</string>
     <string name="pull_to_refresh_release_label">放开以刷新…</string>
     <string name="pull_to_refresh_refreshing_label">正在载入…</string>
-    <string name="GPSAlertDialogTitle">GPS设置</string>
-    <string name="GPSAlertDialogMessage">GPS未开启，点击确定去设置菜单开启该功能。</string>
-    <string name="ok">确定</string>
-    <string name="cancel">取消</string>
+    <string name="title_gps_alert_dialog">GPS设置</string>
+    <string name="info_gps_alert_dialog">GPS未开启，点击确定去设置菜单开启该功能。</string>
+    <string name="label_ok">确定</string>
+    <string name="label_cancel">取消</string>
     <string name="title_activity_chat">ChatActivity</string>
     <string name="title_activity_add_contact">AddContactActivity</string>
-    <string name="title_activity_contact_requests">ContactRequestsActivity</string>
 
 </resources>

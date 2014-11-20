@@ -14,7 +14,9 @@ import com.aumum.app.mobile.core.dao.UserStore;
 import com.aumum.app.mobile.core.model.User;
 import com.aumum.app.mobile.ui.base.LoaderFragment;
 import com.aumum.app.mobile.ui.contact.AddContactActivity;
+import com.aumum.app.mobile.ui.contact.DeleteContactListener;
 import com.aumum.app.mobile.utils.Ln;
+import com.github.kevinsawicki.wishlist.Toaster;
 
 import javax.inject.Inject;
 
@@ -22,14 +24,18 @@ import javax.inject.Inject;
  * A simple {@link Fragment} subclass.
  *
  */
-public class UserFragment extends LoaderFragment<User> {
+public class UserFragment extends LoaderFragment<User>
+        implements DeleteContactListener.OnActionListener {
     @Inject UserStore dataStore;
 
     private String userId;
     private User currentUser;
 
     private View mainView;
-    private Button contactButton;
+    private Button addContactButton;
+    private ViewGroup actionLayout;
+    private Button sendMessageButton;
+    private Button deleteContactButton;
 
     @Override
     public void onCreate(final Bundle savedInstanceState) {
@@ -57,7 +63,10 @@ public class UserFragment extends LoaderFragment<User> {
         super.onViewCreated(view, savedInstanceState);
 
         mainView = view.findViewById(R.id.main_view);
-        contactButton = (Button) view.findViewById(R.id.b_contact);
+        addContactButton = (Button) view.findViewById(R.id.b_add_contact);
+        actionLayout = (ViewGroup) view.findViewById(R.id.layout_action);
+        sendMessageButton = (Button) view.findViewById(R.id.b_send_message);
+        deleteContactButton = (Button) view.findViewById(R.id.b_delete_contact);
     }
 
     @Override
@@ -102,17 +111,26 @@ public class UserFragment extends LoaderFragment<User> {
             if (user != null) {
                 setData(user);
 
+                addContactButton.setVisibility(View.GONE);
+                actionLayout.setVisibility(View.GONE);
+                if (currentUser.getObjectId().equals(userId)) {
+                    return;
+                }
                 if (currentUser.getContacts().contains(userId)) {
-                    contactButton.setText(R.string.label_send_message);
-                    contactButton.setOnClickListener(new View.OnClickListener() {
+                    actionLayout.setVisibility(View.VISIBLE);
+                    sendMessageButton.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
 
                         }
                     });
+                    DeleteContactListener deleteContactListener = new DeleteContactListener(getActivity(), userId);
+                    deleteContactListener.setOnProgressListener((DeleteContactListener.OnProgressListener)getActivity());
+                    deleteContactListener.setOnActionListener(this);
+                    deleteContactButton.setOnClickListener(deleteContactListener);
                 } else {
-                    contactButton.setText(R.string.label_add_contact);
-                    contactButton.setOnClickListener(new View.OnClickListener() {
+                    addContactButton.setVisibility(View.VISIBLE);
+                    addContactButton.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
                             final Intent intent = new Intent(getActivity(), AddContactActivity.class);
@@ -126,5 +144,16 @@ public class UserFragment extends LoaderFragment<User> {
         } catch (Exception e) {
             Ln.d(e);
         }
+    }
+
+    @Override
+    public void onDeleteContactSuccess() {
+        addContactButton.setVisibility(View.VISIBLE);
+        actionLayout.setVisibility(View.GONE);
+    }
+
+    @Override
+    public void onDeleteContactFailed() {
+        Toaster.showLong(getActivity(), R.string.error_delete_contact);
     }
 }

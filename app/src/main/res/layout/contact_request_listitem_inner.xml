@@ -24,8 +24,14 @@
         android:layout_alignBottom="@+id/image_avatar"/>
 
     <Button
-        android:id="@+id/b_action"
-        style="@style/Button.ContactRequest.Action"
+        android:id="@+id/b_accept"
+        style="@style/Button.ContactRequest.Accept"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true" />
+
+    <TextView
+        android:id="@+id/text_added"
+        style="@style/TextView.ContactRequest.Added"
         android:layout_alignParentRight="true"
         android:layout_centerVertical="true" />
 

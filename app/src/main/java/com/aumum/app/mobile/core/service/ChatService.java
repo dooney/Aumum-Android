@@ -181,6 +181,10 @@ public class ChatService {
         EMContactManager.getInstance().addContact(toUserId, reason);
     }
 
+    public void deleteContact(String userId) throws Exception {
+        EMContactManager.getInstance().deleteContact(userId);
+    }
+
     public void setContactListener(EMContactListener contactListener) {
         EMContactManager.getInstance().setContactListener(contactListener);
     }
@@ -195,5 +199,13 @@ public class ChatService {
 
     public void setAppInitialized() {
         EMChat.getInstance().setAppInited();
+    }
+
+    public void acceptInvitation(String userId) throws Exception {
+        EMChatManager.getInstance().acceptInvitation(userId);
+    }
+
+    public void refuseInvitation(String userId) throws Exception {
+        EMChatManager.getInstance().refuseInvitation(userId);
     }
 }

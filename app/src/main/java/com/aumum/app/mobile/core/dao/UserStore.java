@@ -105,18 +105,26 @@ public class UserStore {
     }
 
     public void addContactRequest(String userId, String intro) {
-        ContactRequestEntity contactRequestEntity = new ContactRequestEntity(null, userId, intro);
+        ContactRequestEntity contactRequestEntity = contactRequestEntityDao.queryBuilder()
+                .where(ContactRequestEntityDao.Properties.UserId.eq(userId))
+                .unique();
+        if (contactRequestEntity != null) {
+            contactRequestEntityDao.delete(contactRequestEntity);
+        }
+        contactRequestEntity = new ContactRequestEntity(null, userId, intro);
         contactRequestEntityDao.insert(contactRequestEntity);
     }
 
     public List<ContactRequest> getContactRequestList() throws Exception {
+        User currentUser = getCurrentUser();
         List<ContactRequestEntity> entities = contactRequestEntityDao.queryBuilder()
                 .orderDesc(ContactRequestEntityDao.Properties.Id)
                 .list();
         List<ContactRequest> result = new ArrayList<ContactRequest>();
         for (ContactRequestEntity entity: entities) {
             User user = getUserById(entity.getUserId());
-            result.add(new ContactRequest(user, entity.getIntro()));
+            boolean isAdded = currentUser.getContacts().contains(entity.getUserId());
+            result.add(new ContactRequest(user, entity.getIntro(), isAdded));
         }
         return result;
     }

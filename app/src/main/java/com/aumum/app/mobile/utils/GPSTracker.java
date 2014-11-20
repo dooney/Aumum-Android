@@ -186,13 +186,13 @@ public class GPSTracker extends Service implements LocationListener
         AlertDialog.Builder alertDialog = new AlertDialog.Builder(mContext);
 
         //Setting Dialog Title
-        alertDialog.setTitle(R.string.GPSAlertDialogTitle);
+        alertDialog.setTitle(R.string.title_gps_alert_dialog);
 
         //Setting Dialog Message
-        alertDialog.setMessage(R.string.GPSAlertDialogMessage);
+        alertDialog.setMessage(R.string.info_gps_alert_dialog);
 
         //On Pressing Setting button
-        alertDialog.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener()
+        alertDialog.setPositiveButton(R.string.label_ok, new DialogInterface.OnClickListener()
         {
             @Override
             public void onClick(DialogInterface dialog, int which)
@@ -203,7 +203,7 @@ public class GPSTracker extends Service implements LocationListener
         });
 
         //On pressing cancel button
-        alertDialog.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener()
+        alertDialog.setNegativeButton(R.string.label_cancel, new DialogInterface.OnClickListener()
         {
             @Override
             public void onClick(DialogInterface dialog, int which)

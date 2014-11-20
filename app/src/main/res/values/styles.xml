@@ -304,7 +304,12 @@
     <!-- Contact Request -->
     <style name="TextView.ContactRequest.ScreenName" parent="TextView.UserName" />
     <style name="TextView.ContactRequest.Intro" parent="TextView.Subtitle" />
-    <style name="Button.ContactRequest.Action" parent="Button.Action" />
+    <style name="Button.ContactRequest.Accept" parent="Button.Action">
+        <item name="android:text">@string/label_accept</item>
+    </style>
+    <style name="TextView.ContactRequest.Added" parent="TextView.Subtitle">
+        <item name="android:text">@string/label_added</item>
+    </style>
 
     <!-- Comment -->
     <style name="TextView.Comment.UserName" parent="TextView.UserName" />
@@ -314,7 +319,15 @@
     <style name="TextView.Comment.Text" parent="TextView.Content.Text" />
 
     <!-- User -->
-    <style name="Button.User.Contact" parent="Button.Primary" />
+    <style name="Button.User.AddContact" parent="Button.Primary">
+        <item name="android:text">@string/label_add_contact</item>
+    </style>
+    <style name="Button.User.SendMessage" parent="Button.Primary">
+        <item name="android:text">@string/label_send_message</item>
+    </style>
+    <style name="Button.User.DeleteContact" parent="Button.Danger">
+        <item name="android:text">@string/label_delete_contact</item>
+    </style>
     <style name="EditText.AddContact.Intro" parent="EditText" />
 
     <!-- Splash -->

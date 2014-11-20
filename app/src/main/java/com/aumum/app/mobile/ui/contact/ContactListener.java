@@ -47,6 +47,6 @@ public class ContactListener implements EMContactListener {
 
     @Override
     public void onContactRefused(String s) {
-
+        return;
     }
 }
