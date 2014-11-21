@@ -43,11 +43,11 @@ public class ConversationCard {
 
     public void refresh(Conversation conversation) {
         if (conversation.getContact() != null) {
-            id = conversation.getContact().getObjectId();
+            id = conversation.getContact().getChatId();
             screenName = conversation.getContact().getScreenName();
             avatarImage.getFromUrl(conversation.getContact().getAvatarUrl());
         } else if (conversation.getGroup() != null) {
-            id = conversation.getGroup().getObjectId();
+            id = conversation.getGroup().getChatId();
             screenName = conversation.getGroup().getScreenName();
         }
         this.view.setOnClickListener(new View.OnClickListener() {

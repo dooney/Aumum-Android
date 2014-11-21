@@ -118,7 +118,7 @@ public class UserFragment extends LoaderFragment<User>
                             final Intent intent = new Intent(getActivity(), ChatActivity.class);
                             intent.putExtra(ChatActivity.INTENT_TITLE, user.getScreenName());
                             intent.putExtra(ChatActivity.INTENT_TYPE, ChatActivity.TYPE_SINGLE);
-                            intent.putExtra(ChatActivity.INTENT_ID, userId);
+                            intent.putExtra(ChatActivity.INTENT_ID, user.getChatId());
                             startActivity(intent);
                         }
                     });

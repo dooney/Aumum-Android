@@ -68,7 +68,7 @@ public class ContactListener implements EMContactListener {
     public void onContactAgreed(String userName) {
         try {
             User user = userStore.getUserByChatId(userName);
-            notificationService.pushContactAgreedNotification(user.getObjectId(), user.getScreenName());
+            notificationService.pushContactAgreedNotification(user.getChatId(), user.getScreenName());
         } catch (Exception e) {
             Ln.e(e);
         }
