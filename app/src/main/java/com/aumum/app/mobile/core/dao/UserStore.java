@@ -26,12 +26,18 @@ public class UserStore {
     private ApiKeyProvider apiKeyProvider;
     private UserEntityDao userEntityDao;
     private ContactRequestEntityDao contactRequestEntityDao;
+    private List<User> addedContacts;
 
     public UserStore(RestService restService, ApiKeyProvider apiKeyProvider, Repository repository) {
         this.restService = restService;
         this.apiKeyProvider = apiKeyProvider;
         this.userEntityDao = repository.getUserEntityDao();
         this.contactRequestEntityDao = repository.getContactRequestEntityDao();
+        this.addedContacts = new ArrayList<User>();
+    }
+
+    public List<User> getAddedContacts() {
+        return addedContacts;
     }
 
     private String getJsonString(List<String> list) {
@@ -138,5 +144,10 @@ public class UserStore {
             }
         }
         return result;
+    }
+
+    public void addContact(String userId) throws Exception {
+        User user = getUserById(userId);
+        addedContacts.add(user);
     }
 }

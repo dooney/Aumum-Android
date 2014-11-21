@@ -33,6 +33,7 @@ public class ContactFragment extends ItemListFragment<User>
 
     @Inject UserStore userStore;
     @Inject ApiKeyProvider apiKeyProvider;
+    private boolean hasUpdated;
 
     @Override
     public void onCreate(final Bundle savedInstanceState) {
@@ -68,12 +69,25 @@ public class ContactFragment extends ItemListFragment<User>
     }
 
     @Override
+    public void onResume() {
+        super.onResume();
+
+        List<User> addedContacts = userStore.getAddedContacts();
+        if (addedContacts.size() > 0) {
+            getData().addAll(addedContacts);
+            getListAdapter().notifyDataSetChanged();
+            addedContacts.clear();
+        }
+    }
+
+    @Override
     protected int getErrorMessage(Exception exception) {
         return R.string.error_load_contacts;
     }
 
     @Override
     protected List<User> loadDataCore(Bundle bundle) throws Exception {
+        hasUpdated = false;
         String currentUserId = apiKeyProvider.getAuthUserId();
         return userStore.getContacts(currentUserId);
     }
@@ -81,10 +95,14 @@ public class ContactFragment extends ItemListFragment<User>
     @Override
     protected void handleLoadResult(List<User> result) {
         try {
+            if (hasUpdated) {
+                return;
+            }
             if (result != null) {
                 getData().clear();
                 getData().addAll(result);
                 getListAdapter().notifyDataSetChanged();
+                hasUpdated = true;
             }
         } catch (Exception e) {
             Ln.d(e);
@@ -114,6 +132,7 @@ public class ContactFragment extends ItemListFragment<User>
                     if (user.getObjectId().equals(contactId)) {
                         it.remove();
                         getListAdapter().notifyDataSetChanged();
+                        hasUpdated = true;
                         return;
                     }
                 }
