@@ -21,7 +21,6 @@ import com.github.kevinsawicki.wishlist.ViewUtils;
 public abstract class LoaderFragment<E> extends Fragment
         implements LoaderManager.LoaderCallbacks<E> {
     private E data;
-    private TextView emptyView;
     private ProgressBar progressBar;
     private boolean isShown;
 
@@ -47,7 +46,6 @@ public abstract class LoaderFragment<E> extends Fragment
     @Override
     public void onDestroyView() {
         isShown = false;
-        emptyView = null;
         progressBar = null;
 
         super.onDestroyView();
@@ -58,7 +56,6 @@ public abstract class LoaderFragment<E> extends Fragment
         super.onViewCreated(view, savedInstanceState);
 
         progressBar = (ProgressBar) view.findViewById(R.id.pb_loading);
-        emptyView = (TextView) view.findViewById(android.R.id.empty);
     }
 
     @Override
@@ -130,9 +127,9 @@ public abstract class LoaderFragment<E> extends Fragment
                 // List has already been shown so hide/show the empty view with
                 // no fade effect
                 if (!readyToShow()) {
-                    hide(mainView).show(emptyView);
+                    hide(mainView);
                 } else {
-                    hide(emptyView).show(mainView);
+                    show(mainView);
                 }
             }
             return;
@@ -142,15 +139,12 @@ public abstract class LoaderFragment<E> extends Fragment
 
         if (shown) {
             if (readyToShow()) {
-                hide(progressBar).hide(emptyView).fadeIn(mainView, animate)
-                        .show(mainView);
+                hide(progressBar).fadeIn(mainView, animate).show(mainView);
             } else {
-                hide(progressBar).hide(mainView).fadeIn(emptyView, animate)
-                        .show(emptyView);
+                hide(progressBar).hide(mainView);
             }
         } else {
-            hide(mainView).hide(emptyView).fadeIn(progressBar, animate)
-                    .show(progressBar);
+            hide(mainView).fadeIn(progressBar, animate).show(progressBar);
         }
         return;
     }
@@ -181,13 +175,6 @@ public abstract class LoaderFragment<E> extends Fragment
     private LoaderFragment<E> hide(final View view) {
         if (view != null) {
             ViewUtils.setGone(view, true);
-        }
-        return this;
-    }
-
-    protected LoaderFragment<E> setEmptyText(final int resId) {
-        if (emptyView != null) {
-            emptyView.setText(resId);
         }
         return this;
     }

@@ -33,10 +33,6 @@
     <string name="info_submitting_add_contact">正在提交您的添加好友请求，请稍候…</string>
     <string name="info_submitting_delete_contact">正在提交您的移除好友请求，请稍候…</string>
     <string name="info_add_contact_sent">发送添加好友请求成功，等待对方验证</string>
-    <string name="info_no_parties">暂时没有聚会</string>
-    <string name="info_no_circles">您暂时还没加入任何圈子</string>
-    <string name="info_no_contact_requests">暂时没有好友请求</string>
-    <string name="info_no_contacts">您暂时还没添加任何好友</string>
     <string name="info_contact_deleted">该好友已成功移除</string>
 
     <!-- Error Message -->
@@ -106,7 +102,6 @@
     <string name="label_contact_agreed">已经同意您的添加好友请求</string>
 
     <!-- Comments -->
-    <string name="no_comments">暂时还没有评论，你是沙发哦！</string>
     <string name="hint_new_comment">写评论</string>
     <string name="hint_reply_comment">回复@%1$s：%2$s</string>
 

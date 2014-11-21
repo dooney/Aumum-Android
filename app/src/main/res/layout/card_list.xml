@@ -19,14 +19,6 @@
             android:visibility="gone" />
     </uk.co.senab.actionbarpulltorefresh.extras.actionbarcompat.PullToRefreshLayout>
 
-    <TextView
-        android:id="@android:id/empty"
-        style="@style/TextView.Subtitle"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:gravity="center"
-        android:visibility="gone" />
-
     <ProgressBar
         android:id="@+id/pb_loading"
         style="@style/ListSpinner"

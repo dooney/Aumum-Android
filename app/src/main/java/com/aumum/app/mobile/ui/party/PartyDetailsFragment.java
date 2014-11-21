@@ -104,13 +104,6 @@ public class PartyDetailsFragment extends LoaderFragment<Party>
     }
 
     @Override
-    public void onActivityCreated(Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-
-        setEmptyText(R.string.error_load_party_details);
-    }
-
-    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         return inflater.inflate(R.layout.fragment_party_details, null);

@@ -230,7 +230,8 @@ public class LoginActivity extends ProgressDialogActivity {
             public void onSuccess(final Boolean authSuccess) {
                 if (authSuccess) {
                     repository.reset();
-                    chatService.authenticate(userId, password);
+                    String chatId = userId.toLowerCase();
+                    chatService.authenticate(chatId, password);
                     finishLogin();
                 } else {
                     Toaster.showLong(LoginActivity.this,

@@ -58,13 +58,6 @@ public class PartyListFragment extends CardListFragment
     }
 
     @Override
-    public void onActivityCreated(final Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-
-        setEmptyText(R.string.info_no_parties);
-    }
-
-    @Override
     public void onCreateOptionsMenu(final Menu menu, final MenuInflater inflater) {
         SubMenu search = menu.addSubMenu(Menu.NONE, 0, Menu.NONE, getString(R.string.hint_search_party));
         MenuItem item = search.getItem();

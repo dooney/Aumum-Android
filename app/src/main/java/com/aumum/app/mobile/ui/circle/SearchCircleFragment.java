@@ -28,13 +28,6 @@ public class SearchCircleFragment extends ItemListFragment<EMGroup> {
     }
 
     @Override
-    public void onActivityCreated(Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-
-        setEmptyText(R.string.error_load_circles);
-    }
-
-    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         return inflater.inflate(R.layout.fragment_search_circle, null);

@@ -48,13 +48,6 @@ public class CircleFragment extends ItemListFragment<Conversation> {
     }
 
     @Override
-    public void onActivityCreated(Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-
-        setEmptyText(R.string.info_no_circles);
-    }
-
-    @Override
     public void onCreateOptionsMenu(final Menu menu, final MenuInflater inflater) {
         SubMenu search = menu.addSubMenu(Menu.NONE, 0, Menu.NONE, getString(R.string.hint_search_circle));
         MenuItem item = search.getItem();

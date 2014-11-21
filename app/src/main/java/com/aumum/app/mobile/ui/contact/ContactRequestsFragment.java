@@ -38,13 +38,6 @@ public class ContactRequestsFragment extends ItemListFragment<ContactRequest> {
     }
 
     @Override
-    public void onActivityCreated(Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-
-        setEmptyText(R.string.info_no_contact_requests);
-    }
-
-    @Override
     protected ArrayAdapter<ContactRequest> createAdapter(List<ContactRequest> items) {
         return new ContactRequestAdapter(getActivity(), items);
     }

@@ -54,13 +54,6 @@ public class SearchPartyFragment extends ItemListFragment<Card>
     }
 
     @Override
-    public void onActivityCreated(final Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-
-        setEmptyText(R.string.info_no_parties);
-    }
-
-    @Override
     protected ArrayAdapter<Card> createAdapter(List<Card> items) {
         return new CardArrayAdapter(getActivity(), items);
     }

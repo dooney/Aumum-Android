@@ -36,13 +36,6 @@ public class ContactFragment extends ItemListFragment<User>
     }
 
     @Override
-    public void onActivityCreated(Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-
-        setEmptyText(R.string.info_no_contacts);
-    }
-
-    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         return inflater.inflate(R.layout.fragment_contact, null);
@@ -67,13 +60,10 @@ public class ContactFragment extends ItemListFragment<User>
         super.onResume();
 
         try {
-            User currentUser = userStore.getCurrentUser();
-            if (currentUser.getContacts().size() != getData().size()) {
-                getData().clear();
-                List<User> contacts = userStore.getContacts();
-                getData().addAll(contacts);
-                getListAdapter().notifyDataSetChanged();
-            }
+            getData().clear();
+            List<User> contacts = userStore.getContacts();
+            getData().addAll(contacts);
+            getListAdapter().notifyDataSetChanged();
         } catch (Exception e) {
             Ln.e(e);
         }
