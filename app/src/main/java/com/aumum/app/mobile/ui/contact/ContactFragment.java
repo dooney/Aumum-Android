@@ -1,6 +1,5 @@
 package com.aumum.app.mobile.ui.contact;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -11,15 +10,12 @@ import android.widget.ArrayAdapter;
 
 import com.aumum.app.mobile.Injector;
 import com.aumum.app.mobile.R;
-import com.aumum.app.mobile.core.Constants;
 import com.aumum.app.mobile.core.dao.UserStore;
-import com.aumum.app.mobile.core.infra.security.ApiKeyProvider;
 import com.aumum.app.mobile.core.model.User;
 import com.aumum.app.mobile.ui.base.ItemListFragment;
 import com.aumum.app.mobile.ui.user.UserActivity;
 import com.aumum.app.mobile.utils.Ln;
 
-import java.util.Iterator;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -32,8 +28,6 @@ public class ContactFragment extends ItemListFragment<User>
         implements ContactClickListener {
 
     @Inject UserStore userStore;
-    @Inject ApiKeyProvider apiKeyProvider;
-    private boolean hasUpdated;
 
     @Override
     public void onCreate(final Bundle savedInstanceState) {
@@ -72,11 +66,16 @@ public class ContactFragment extends ItemListFragment<User>
     public void onResume() {
         super.onResume();
 
-        List<User> addedContacts = userStore.getAddedContacts();
-        if (addedContacts.size() > 0) {
-            getData().addAll(addedContacts);
-            getListAdapter().notifyDataSetChanged();
-            addedContacts.clear();
+        try {
+            User currentUser = userStore.getCurrentUser();
+            if (currentUser.getContacts().size() != getData().size()) {
+                getData().clear();
+                List<User> contacts = userStore.getContacts();
+                getData().addAll(contacts);
+                getListAdapter().notifyDataSetChanged();
+            }
+        } catch (Exception e) {
+            Ln.e(e);
         }
     }
 
@@ -87,22 +86,16 @@ public class ContactFragment extends ItemListFragment<User>
 
     @Override
     protected List<User> loadDataCore(Bundle bundle) throws Exception {
-        hasUpdated = false;
-        String currentUserId = apiKeyProvider.getAuthUserId();
-        return userStore.getContacts(currentUserId);
+        return userStore.getContacts();
     }
 
     @Override
     protected void handleLoadResult(List<User> result) {
         try {
-            if (hasUpdated) {
-                return;
-            }
             if (result != null) {
                 getData().clear();
                 getData().addAll(result);
                 getListAdapter().notifyDataSetChanged();
-                hasUpdated = true;
             }
         } catch (Exception e) {
             Ln.d(e);
@@ -118,27 +111,6 @@ public class ContactFragment extends ItemListFragment<User>
     public void onContactClick(String contactId) {
         final Intent intent = new Intent(getActivity(), UserActivity.class);
         intent.putExtra(UserActivity.INTENT_USER_ID, contactId);
-        startActivityForResult(intent, Constants.RequestCode.GET_USER_DETAILS_REQ_CODE);
-    }
-
-    @Override
-    public void onActivityResult (int requestCode, int resultCode, Intent data) {
-        if (requestCode == Constants.RequestCode.GET_USER_DETAILS_REQ_CODE && resultCode == Activity.RESULT_OK) {
-            try {
-                List<User> contacts = getData();
-                String contactId = data.getStringExtra(UserActivity.INTENT_USER_ID);
-                for (Iterator<User> it = contacts.iterator(); it.hasNext();) {
-                    User user = it.next();
-                    if (user.getObjectId().equals(contactId)) {
-                        it.remove();
-                        getListAdapter().notifyDataSetChanged();
-                        hasUpdated = true;
-                        return;
-                    }
-                }
-            } catch (Exception e) {
-                Ln.d(e);
-            }
-        }
+        startActivity(intent);
     }
 }

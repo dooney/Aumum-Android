@@ -9,6 +9,7 @@ import java.util.Date;
  */
 public class UserEntity extends BaseEntity {
 
+    private String chatId;
     private String screenName;
     private Integer area;
     private String avatarUrl;
@@ -25,6 +26,7 @@ public class UserEntity extends BaseEntity {
     }
 
     public UserEntity(String objectId,
+                      String chatId,
                       Date createdAt,
                       String screenName,
                       Integer area,
@@ -34,6 +36,7 @@ public class UserEntity extends BaseEntity {
                       String messages,
                       String parties) {
         this.objectId = objectId;
+        this.chatId = chatId;
         this.createdAt = createdAt;
         this.screenName = screenName;
         this.area = area;
@@ -42,6 +45,14 @@ public class UserEntity extends BaseEntity {
         this.contacts = contacts;
         this.messages = messages;
         this.parties = parties;
+    }
+
+    public String getChatId() {
+        return chatId;
+    }
+
+    public void setChatId(String chatId) {
+        this.chatId = chatId;
     }
 
     public String getScreenName() {

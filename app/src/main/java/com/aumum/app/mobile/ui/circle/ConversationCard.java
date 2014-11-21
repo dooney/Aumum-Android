@@ -7,10 +7,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.aumum.app.mobile.R;
+import com.aumum.app.mobile.core.model.Conversation;
 import com.aumum.app.mobile.ui.chat.ChatActivity;
-import com.easemob.chat.EMContact;
-import com.easemob.chat.EMConversation;
-import com.easemob.chat.EMGroup;
+import com.aumum.app.mobile.ui.view.AvatarImageView;
 import com.easemob.chat.EMMessage;
 import com.easemob.chat.TextMessageBody;
 import com.easemob.util.DateUtils;
@@ -24,31 +23,32 @@ public class ConversationCard {
 
     private Context context;
     private View view;
-    private ImageView avatarImage;
+    private AvatarImageView avatarImage;
     private TextView screenNameText;
     private TextView timeStampText;
     private TextView messageBodyText;
+
+    private String id;
+    private String screenName;
 
     public ConversationCard(Context context, View view) {
         this.context = context;
         this.view = view;
 
-        avatarImage = (ImageView) view.findViewById(R.id.image_avatar);
+        avatarImage = (AvatarImageView) view.findViewById(R.id.image_avatar);
         screenNameText = (TextView) view.findViewById(R.id.text_screen_name);
         timeStampText = (TextView) view.findViewById(R.id.text_time_stamp);
         messageBodyText = (TextView) view.findViewById(R.id.text_message_body);
     }
 
-    public void refresh(final EMContact contact, final EMConversation conversation) {
-        final String id;
-        final String screenName;
-        if (contact instanceof EMGroup) {
-            EMGroup group = (EMGroup) contact;
-            id = group.getGroupId();
-            screenName = group.getGroupName();
-        } else {
-            id = contact.getUsername();
-            screenName = contact.getUsername();
+    public void refresh(Conversation conversation) {
+        if (conversation.getContact() != null) {
+            id = conversation.getContact().getObjectId();
+            screenName = conversation.getContact().getScreenName();
+            avatarImage.getFromUrl(conversation.getContact().getAvatarUrl());
+        } else if (conversation.getGroup() != null) {
+            id = conversation.getGroup().getObjectId();
+            screenName = conversation.getGroup().getScreenName();
         }
         this.view.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -62,9 +62,9 @@ public class ConversationCard {
         });
         screenNameText.setText(screenName);
 
-        if (conversation.getMsgCount() != 0) {
+        if (conversation.getEmConversation().getMsgCount() != 0) {
             // 把最后一条消息的内容作为item的message内容
-            EMMessage lastMessage = conversation.getLastMessage();
+            EMMessage lastMessage = conversation.getEmConversation().getLastMessage();
             timeStampText.setText(DateUtils.getTimestampString(new Date(lastMessage.getMsgTime())));
 
             TextMessageBody messageBody = (TextMessageBody) lastMessage.getBody();

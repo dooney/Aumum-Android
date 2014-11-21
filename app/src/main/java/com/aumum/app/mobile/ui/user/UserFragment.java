@@ -13,9 +13,11 @@ import com.aumum.app.mobile.R;
 import com.aumum.app.mobile.core.dao.UserStore;
 import com.aumum.app.mobile.core.model.User;
 import com.aumum.app.mobile.ui.base.LoaderFragment;
+import com.aumum.app.mobile.ui.chat.ChatActivity;
 import com.aumum.app.mobile.ui.contact.AddContactActivity;
 import com.aumum.app.mobile.ui.contact.DeleteContactListener;
 import com.aumum.app.mobile.utils.Ln;
+import com.github.kevinsawicki.wishlist.Toaster;
 
 import javax.inject.Inject;
 
@@ -23,7 +25,8 @@ import javax.inject.Inject;
  * A simple {@link Fragment} subclass.
  *
  */
-public class UserFragment extends LoaderFragment<User> {
+public class UserFragment extends LoaderFragment<User>
+        implements DeleteContactListener.OnActionListener {
     @Inject UserStore dataStore;
 
     private String userId;
@@ -119,12 +122,16 @@ public class UserFragment extends LoaderFragment<User> {
                     sendMessageButton.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
-
+                            final Intent intent = new Intent(getActivity(), ChatActivity.class);
+                            intent.putExtra(ChatActivity.INTENT_TITLE, user.getScreenName());
+                            intent.putExtra(ChatActivity.INTENT_TYPE, ChatActivity.TYPE_SINGLE);
+                            intent.putExtra(ChatActivity.INTENT_ID, userId);
+                            startActivity(intent);
                         }
                     });
                     DeleteContactListener deleteContactListener = new DeleteContactListener(getActivity(), userId);
                     deleteContactListener.setOnProgressListener((DeleteContactListener.OnProgressListener)getActivity());
-                    deleteContactListener.setOnActionListener((DeleteContactListener.OnActionListener)getActivity());
+                    deleteContactListener.setOnActionListener(this);
                     deleteContactButton.setOnClickListener(deleteContactListener);
                 } else {
                     addContactButton.setVisibility(View.VISIBLE);
@@ -142,5 +149,16 @@ public class UserFragment extends LoaderFragment<User> {
         } catch (Exception e) {
             Ln.d(e);
         }
+    }
+
+    @Override
+    public void onDeleteContactSuccess(String contactId) {
+        actionLayout.setVisibility(View.GONE);
+        addContactButton.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void onDeleteContactFailed() {
+        Toaster.showLong(getActivity(), R.string.error_delete_contact);
     }
 }

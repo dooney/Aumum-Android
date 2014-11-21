@@ -170,6 +170,9 @@
         </activity>
         <activity
             android:name="com.aumum.app.mobile.ui.chat.ChatActivity"
+            android:excludeFromRecents="true"
+            android:launchMode="singleTask"
+            android:taskAffinity=""
             android:windowSoftInputMode="adjustResize" >
         </activity>
         <activity

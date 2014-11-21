@@ -54,7 +54,7 @@ public class GroupActionListener implements View.OnClickListener {
         task = new SafeAsyncTask<Boolean>() {
             public Boolean call() throws Exception {
                 if (group.getMembers().contains(chatService.getCurrentUser())) {
-
+                    chatService.quitGroup(group.getGroupId());
                 } else {
                     if (group.isMembersOnly()) {
                         chatService.applyJoinToGroup(group.getGroupId());

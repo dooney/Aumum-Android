@@ -9,7 +9,6 @@ import android.widget.EditText;
 
 import com.aumum.app.mobile.Injector;
 import com.aumum.app.mobile.R;
-import com.aumum.app.mobile.core.infra.security.ApiKeyProvider;
 import com.aumum.app.mobile.core.service.ChatService;
 import com.aumum.app.mobile.ui.base.ProgressDialogActivity;
 import com.aumum.app.mobile.utils.SafeAsyncTask;
@@ -24,7 +23,6 @@ import retrofit.RetrofitError;
 public class AddContactActivity extends ProgressDialogActivity {
 
     @Inject ChatService chatService;
-    @Inject ApiKeyProvider apiKeyProvider;
 
     private String toUserId;
     private String fromUserName;
@@ -74,9 +72,7 @@ public class AddContactActivity extends ProgressDialogActivity {
                 if (introEditText.getText() != null) {
                     intro = introEditText.getText().toString();
                 }
-                String fromUserId = apiKeyProvider.getAuthUserId();
-                AddContactRequest request = new AddContactRequest(fromUserId, fromUserName, intro);
-                chatService.addContact(toUserId, request.toJsonString());
+                chatService.addContact(toUserId, intro);
                 return true;
             }
 

@@ -16,6 +16,8 @@ import android.widget.TextView;
 
 import com.aumum.app.mobile.Injector;
 import com.aumum.app.mobile.R;
+import com.aumum.app.mobile.core.model.User;
+import com.aumum.app.mobile.core.service.ChatService;
 import com.aumum.app.mobile.core.service.FileUploadService;
 import com.aumum.app.mobile.core.service.RestService;
 import com.aumum.app.mobile.core.Constants;
@@ -45,8 +47,8 @@ import static com.aumum.app.mobile.ui.splash.SplashActivity.SHOW_SIGN_IN;
 public class RegisterActivity extends ProgressDialogActivity
         implements ReceiveUriScaledBitmapTask.ReceiveUriScaledBitmapListener,
                    FileUploadService.OnFileUploadListener {
-    @Inject
-    RestService restService;
+    @Inject RestService restService;
+    @Inject ChatService chatService;
 
     @InjectView(R.id.et_email) protected EmailAutoCompleteTextView emailText;
     @InjectView(R.id.et_password) protected EditText passwordText;
@@ -246,8 +248,10 @@ public class RegisterActivity extends ProgressDialogActivity
 
         task = new SafeAsyncTask<Boolean>() {
             public Boolean call() throws Exception {
-                restService.register(email, password, screenName, area, avatarUrl);
-
+                User response = restService.register(email, password, screenName, area, avatarUrl);
+                String chatId = response.getObjectId().toLowerCase();
+                restService.updateUserChatId(response.getObjectId(), chatId);
+                chatService.createAccount(chatId, password);
                 return true;
             }
 

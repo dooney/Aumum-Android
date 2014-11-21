@@ -22,6 +22,7 @@ import com.aumum.app.mobile.core.model.User;
 import com.aumum.app.mobile.core.service.ChatService;
 import com.aumum.app.mobile.core.service.NotificationService;
 import com.aumum.app.mobile.core.service.ScheduleService;
+import com.aumum.app.mobile.ui.circle.GroupListener;
 import com.aumum.app.mobile.ui.contact.ContactListener;
 import com.aumum.app.mobile.utils.Ln;
 import com.aumum.app.mobile.utils.SafeAsyncTask;
@@ -80,6 +81,7 @@ public class MainFragment extends Fragment
         getActivity().registerReceiver(ackMessageBroadcastReceiver, ackMessageIntentFilter);
 
         chatService.setContactListener(new ContactListener());
+        chatService.setGroupChangeListener(new GroupListener());
         chatService.setAppInitialized();
 
         scheduleService = new ScheduleService(this);

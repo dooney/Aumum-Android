@@ -1,6 +1,7 @@
 package com.aumum.app.mobile.core.service;
 
 import com.aumum.app.mobile.core.Constants;
+import com.aumum.app.mobile.core.api.ListWrapper;
 import com.aumum.app.mobile.core.model.User;
 import com.google.gson.JsonObject;
 
@@ -41,4 +42,8 @@ public interface UserService {
 
     @GET(Constants.Http.URL_USER_BY_ID_FRAG)
     User getById(@Path("id") String id);
+
+    @GET(Constants.Http.URL_USERS_FRAG)
+    ListWrapper<User> getByChatId(@Query("where") String where,
+                                  @Query("limit") int limit);
 }

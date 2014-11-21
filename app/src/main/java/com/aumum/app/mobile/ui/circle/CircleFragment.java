@@ -15,12 +15,18 @@ import android.widget.ArrayAdapter;
 
 import com.aumum.app.mobile.Injector;
 import com.aumum.app.mobile.R;
+import com.aumum.app.mobile.core.dao.UserStore;
+import com.aumum.app.mobile.core.model.Conversation;
+import com.aumum.app.mobile.core.model.Group;
+import com.aumum.app.mobile.core.model.User;
 import com.aumum.app.mobile.core.service.ChatService;
 import com.aumum.app.mobile.ui.base.ItemListFragment;
 import com.aumum.app.mobile.utils.DialogUtils;
 import com.aumum.app.mobile.utils.Ln;
-import com.easemob.chat.EMContact;
+import com.easemob.chat.EMConversation;
+import com.easemob.chat.EMGroup;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -29,9 +35,10 @@ import javax.inject.Inject;
  * A simple {@link Fragment} subclass.
  *
  */
-public class CircleFragment extends ItemListFragment<EMContact> {
+public class CircleFragment extends ItemListFragment<Conversation> {
 
     @Inject ChatService chatService;
+    @Inject UserStore userStore;
 
     @Override
     public void onCreate(final Bundle savedInstanceState) {
@@ -86,8 +93,8 @@ public class CircleFragment extends ItemListFragment<EMContact> {
     }
 
     @Override
-    protected ArrayAdapter<EMContact> createAdapter(List<EMContact> items) {
-        return new ConversationsAdapter(getActivity(), items, chatService);
+    protected ArrayAdapter<Conversation> createAdapter(List<Conversation> items) {
+        return new ConversationsAdapter(getActivity(), items);
     }
 
     @Override
@@ -96,12 +103,26 @@ public class CircleFragment extends ItemListFragment<EMContact> {
     }
 
     @Override
-    protected List<EMContact> loadDataCore(Bundle bundle) throws Exception {
-        return chatService.getAllContacts();
+    protected List<Conversation> loadDataCore(Bundle bundle) throws Exception {
+        List<Conversation> result = new ArrayList<Conversation>();
+        List<EMConversation> emConversations = chatService.getAllConversations();
+        for (EMConversation emConversation: emConversations) {
+            Conversation conversation = new Conversation(emConversation);
+            if (emConversation.isGroup()) {
+                EMGroup emGroup = chatService.getGroupById(emConversation.getUserName());
+                Group group = new Group(emGroup.getGroupId(), emGroup.getGroupName());
+                conversation.setGroup(group);
+            } else {
+                User contact = userStore.getUserByChatId(emConversation.getUserName());
+                conversation.setContact(contact);
+            }
+            result.add(conversation);
+        }
+        return result;
     }
 
     @Override
-    protected void handleLoadResult(List<EMContact> result) {
+    protected void handleLoadResult(List<Conversation> result) {
         try {
             if (result != null) {
                 getData().clear();

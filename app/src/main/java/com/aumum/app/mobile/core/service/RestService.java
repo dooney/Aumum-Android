@@ -196,6 +196,13 @@ public class RestService {
         return getUserService().getById(id);
     }
 
+    public User getUserByChatId(String id) {
+        final JsonObject whereJson = new JsonObject();
+        whereJson.addProperty("chatId", id);
+        String where = whereJson.toString();
+        return getUserService().getByChatId(where, 1).getResults().get(0);
+    }
+
     public Message newMessage(Message message) {
         return getMessageService().newMessage(message);
     }
@@ -404,5 +411,11 @@ public class RestService {
         whereJson.add("deletedAt" ,liveJson);
         String where = whereJson.toString();
         return getPartyService().getAll("dateTime", where, Integer.MAX_VALUE).getResults();
+    }
+
+    public JsonObject updateUserChatId(String userId, String chatId) {
+        final JsonObject data = new JsonObject();
+        data.addProperty(Constants.Http.User.PARAM_CHAT_ID, chatId);
+        return getUserService().updateById(userId, data);
     }
 }

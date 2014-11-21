@@ -7,26 +7,22 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 
 import com.aumum.app.mobile.R;
-import com.aumum.app.mobile.core.service.ChatService;
-import com.easemob.chat.EMContact;
-import com.easemob.chat.EMConversation;
+import com.aumum.app.mobile.core.model.Conversation;
 
 import java.util.List;
 
 /**
  * Created by Administrator on 10/11/2014.
  */
-public class ConversationsAdapter extends ArrayAdapter<EMContact> {
+public class ConversationsAdapter extends ArrayAdapter<Conversation> {
 
     private Context context;
-    private List<EMContact> dataSet;
-    private ChatService chatService;
+    private List<Conversation> dataSet;
 
-    public ConversationsAdapter(Context context, List<EMContact> objects, ChatService chatService) {
+    public ConversationsAdapter(Context context, List<Conversation> objects) {
         super(context, 0, objects);
         this.context = context;
         this.dataSet = objects;
-        this.chatService = chatService;
     }
 
     @Override
@@ -42,9 +38,8 @@ public class ConversationsAdapter extends ArrayAdapter<EMContact> {
             card = (ConversationCard) convertView.getTag();
         }
 
-        EMContact contact = dataSet.get(position);
-        EMConversation conversation = chatService.getConversation(contact.getUsername());
-        card.refresh(contact, conversation);
+        Conversation conversation = dataSet.get(position);
+        card.refresh(conversation);
 
         return convertView;
     }

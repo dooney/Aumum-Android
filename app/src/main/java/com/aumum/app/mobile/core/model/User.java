@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class User extends AggregateRoot {
+    protected String chatId;
     protected String screenName;
     protected String sessionToken;
     protected Boolean emailVerified;
@@ -19,6 +20,7 @@ public class User extends AggregateRoot {
     }
 
     public User(String objectId,
+                String chatId,
                 String createdAt,
                 String screenName,
                 int area,
@@ -28,6 +30,7 @@ public class User extends AggregateRoot {
                 List<String> messages,
                 List<String> parties) {
         this.objectId = objectId;
+        this.chatId = chatId;
         this.createdAt = createdAt;
         this.screenName = screenName;
         this.area = area;
@@ -39,6 +42,10 @@ public class User extends AggregateRoot {
         this.messages.addAll(messages);
         this.parties.clear();
         this.parties.addAll(parties);
+    }
+
+    public String getChatId() {
+        return chatId;
     }
 
     public String getScreenName() {

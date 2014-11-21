@@ -117,6 +117,7 @@ public final class Constants {
             public static final String PARAM_MESSAGES = "messages";
             public static final String PARAM_PARTIES = "parties";
             public static final String PARAM_AVATAR_URL = "avatarUrl";
+            public static final String PARAM_CHAT_ID = "chatId";
         }
     }
 
@@ -165,7 +166,6 @@ public final class Constants {
 
         public static final int NEW_PARTY_REQ_CODE = 30;
         public static final int GET_PARTY_DETAILS_REQ_CODE = 31;
-        public static final int GET_USER_DETAILS_REQ_CODE = 32;
     }
 }
 

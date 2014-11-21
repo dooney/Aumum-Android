@@ -6,7 +6,7 @@
     android:background="@color/card_background"
     android:padding="@dimen/margin_large">
 
-    <ImageView
+    <com.aumum.app.mobile.ui.view.AvatarImageView
         android:id="@+id/image_avatar"
         style="@style/ImageView.Avatar"
         android:layout_marginRight="@dimen/margin_large"

@@ -10,6 +10,7 @@ import android.support.v4.app.NotificationCompat;
 
 import com.aumum.app.mobile.R;
 import com.aumum.app.mobile.core.model.Message;
+import com.aumum.app.mobile.ui.chat.ChatActivity;
 import com.aumum.app.mobile.ui.contact.ContactRequestsActivity;
 import com.aumum.app.mobile.ui.party.PartyCommentsActivity;
 import com.aumum.app.mobile.ui.party.PartyDetailsActivity;
@@ -104,6 +105,18 @@ public class NotificationService {
         NotificationCompat.Builder builder = getNotificationBuilder(content, reason);
         Intent intent = new Intent();
         intent.setComponent(new ComponentName(context, ContactRequestsActivity.class));
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        notify(builder, intent);
+    }
+
+    public void pushContactAgreedNotification(String userId, String userName) {
+        String content = context.getString(R.string.label_contact_agreed);
+        NotificationCompat.Builder builder = getNotificationBuilder(userName, content);
+        Intent intent = new Intent();
+        intent.putExtra(ChatActivity.INTENT_ID, userId);
+        intent.putExtra(ChatActivity.INTENT_TYPE, ChatActivity.TYPE_SINGLE);
+        intent.putExtra(ChatActivity.INTENT_TITLE, userName);
+        intent.setComponent(new ComponentName(context, ChatActivity.class));
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         notify(builder, intent);
     }

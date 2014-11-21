@@ -26,18 +26,12 @@ public class UserStore {
     private ApiKeyProvider apiKeyProvider;
     private UserEntityDao userEntityDao;
     private ContactRequestEntityDao contactRequestEntityDao;
-    private List<User> addedContacts;
 
     public UserStore(RestService restService, ApiKeyProvider apiKeyProvider, Repository repository) {
         this.restService = restService;
         this.apiKeyProvider = apiKeyProvider;
         this.userEntityDao = repository.getUserEntityDao();
         this.contactRequestEntityDao = repository.getContactRequestEntityDao();
-        this.addedContacts = new ArrayList<User>();
-    }
-
-    public List<User> getAddedContacts() {
-        return addedContacts;
     }
 
     private String getJsonString(List<String> list) {
@@ -60,6 +54,7 @@ public class UserStore {
         String createdAt = DateUtils.dateToString(userEntity.getCreatedAt(), Constants.DateTime.FORMAT);
         return new User(
                 userEntity.getObjectId(),
+                userEntity.getChatId(),
                 createdAt,
                 userEntity.getScreenName(),
                 userEntity.getArea(),
@@ -74,6 +69,7 @@ public class UserStore {
         Date createdAt = DateUtils.stringToDate(user.getCreatedAt(), Constants.DateTime.FORMAT);
         UserEntity userEntity = new UserEntity(
                 user.getObjectId(),
+                user.getChatId(),
                 createdAt,
                 user.getScreenName(),
                 user.getArea(),
@@ -101,12 +97,29 @@ public class UserStore {
         return user;
     }
 
+    public User getUserByChatIdFromServer(String id) throws Exception {
+        User user = restService.getUserByChatId(id);
+        userEntityDao.insertOrReplace(map(user));
+        return user;
+    }
+
     public User getUserById(String id) throws Exception {
         UserEntity userEntity = userEntityDao.load(id);
         if (userEntity != null) {
             return map(userEntity);
         } else {
             return getUserByIdFromServer(id);
+        }
+    }
+
+    public User getUserByChatId(String id) throws Exception {
+        UserEntity userEntity = userEntityDao.queryBuilder()
+                .where(UserEntityDao.Properties.ChatId.eq(id))
+                .unique();
+        if (userEntity != null) {
+            return map(userEntity);
+        } else {
+            return getUserByChatIdFromServer(id);
         }
     }
 
@@ -135,8 +148,8 @@ public class UserStore {
         return result;
     }
 
-    public List<User> getContacts(String userId) throws Exception {
-        User user = getUserById(userId);
+    public List<User> getContacts() throws Exception {
+        User user = getCurrentUser();
         List<User> result = new ArrayList<User>();
         if (user != null) {
             for (String contactId: user.getContacts()) {
@@ -147,7 +160,14 @@ public class UserStore {
     }
 
     public void addContact(String userId) throws Exception {
-        User user = getUserById(userId);
-        addedContacts.add(user);
+        User user = getCurrentUser();
+        user.getContacts().add(userId);
+        userEntityDao.insertOrReplace(map(user));
+    }
+
+    public void removeContact(String userId) throws Exception {
+        User user = getCurrentUser();
+        user.getContacts().remove(userId);
+        userEntityDao.insertOrReplace(map(user));
     }
 }

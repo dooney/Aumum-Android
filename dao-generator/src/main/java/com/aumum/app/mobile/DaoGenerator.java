@@ -29,6 +29,7 @@ public class DaoGenerator {
         Entity user = schema.addEntity("UserEntity");
         user.setSuperclass("BaseEntity");
         user.addStringProperty("objectId").notNull().primaryKey();
+        user.addStringProperty("chatId").notNull();
         user.addDateProperty("createdAt").notNull();
         user.addStringProperty("screenName");
         user.addIntProperty("area");
