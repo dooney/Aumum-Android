@@ -1,32 +1,52 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/card_background"
     android:padding="@dimen/margin_large">
 
-    <com.aumum.app.mobile.ui.view.AvatarImageView
-        android:id="@+id/image_avatar"
-        style="@style/ImageView.Avatar"
-        android:layout_marginRight="@dimen/margin_large"
-        android:src="@drawable/ic_avatar"/>
+    <RelativeLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1">
 
-    <TextView
-        android:id="@+id/text_screen_name"
-        style="@style/TextView.Conversation.ScreenName"
-        android:layout_toRightOf="@+id/image_avatar"
-        android:text="用户名"/>
+        <com.aumum.app.mobile.ui.view.AvatarImageView
+            android:id="@+id/image_avatar"
+            style="@style/ImageView.Avatar"
+            android:layout_marginRight="@dimen/margin_large"
+            android:src="@drawable/ic_avatar"/>
 
-    <TextView
-        android:id="@+id/text_time_stamp"
-        style="@style/TextView.Subtitle"
-        android:layout_alignParentRight="true" />
-    
-    <TextView
-        android:id="@+id/text_message_body"
-        style="@style/TextView.Conversation.MessageBody"
-        android:layout_alignLeft="@+id/text_screen_name"
-        android:layout_alignBottom="@+id/image_avatar" />
+        <TextView
+            android:id="@+id/text_screen_name"
+            style="@style/TextView.Conversation.ScreenName"
+            android:layout_toRightOf="@+id/image_avatar"
+            android:text="用户名"/>
 
-</RelativeLayout>
+        <TextView
+            android:id="@+id/text_message_body"
+            style="@style/TextView.Conversation.MessageBody"
+            android:layout_alignLeft="@+id/text_screen_name"
+            android:layout_alignBottom="@+id/image_avatar" />
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/text_time_stamp"
+            style="@style/TextView.Subtitle" />
+
+        <ImageView
+            android:id="@+id/image_unread"
+            style="@style/ImageView.Unread.Small"
+            android:layout_centerHorizontal="true"
+            android:layout_alignParentBottom="true"
+            android:paddingBottom="@dimen/margin_small"/>
+
+    </RelativeLayout>
+
+</LinearLayout>

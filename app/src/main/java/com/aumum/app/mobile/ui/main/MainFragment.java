@@ -52,7 +52,6 @@ public class MainFragment extends Fragment
     private SafeAsyncTask<Boolean> task;
 
     NewMessageBroadcastReceiver newMessageBroadcastReceiver;
-    AckMessageBroadcastReceiver ackMessageBroadcastReceiver;
 
     @InjectView(R.id.tpi_footer)
     protected TabPageIndicator indicator;
@@ -74,11 +73,6 @@ public class MainFragment extends Fragment
         IntentFilter intentFilter = new IntentFilter(chatService.getNewMessageBroadcastAction());
         intentFilter.setPriority(3);
         getActivity().registerReceiver(newMessageBroadcastReceiver, intentFilter);
-
-        ackMessageBroadcastReceiver = new AckMessageBroadcastReceiver();
-        IntentFilter ackMessageIntentFilter = new IntentFilter(chatService.getAckMessageBroadcastAction());
-        ackMessageIntentFilter.setPriority(3);
-        getActivity().registerReceiver(ackMessageBroadcastReceiver, ackMessageIntentFilter);
 
         chatService.setContactListener(new ContactListener());
         chatService.setGroupChangeListener(new GroupListener());
@@ -107,7 +101,6 @@ public class MainFragment extends Fragment
     public void onDestroy() {
         super.onDestroy();
         getActivity().unregisterReceiver(newMessageBroadcastReceiver);
-        getActivity().unregisterReceiver(ackMessageBroadcastReceiver);
     }
 
     @Override
@@ -156,14 +149,6 @@ public class MainFragment extends Fragment
         @Override
         public void onReceive(Context context, Intent intent) {
             return;
-        }
-    }
-
-    private class AckMessageBroadcastReceiver extends BroadcastReceiver {
-
-        @Override
-        public void onReceive(Context context, Intent intent) {
-
         }
     }
 }

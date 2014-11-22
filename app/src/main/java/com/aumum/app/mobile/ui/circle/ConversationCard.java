@@ -27,6 +27,7 @@ public class ConversationCard {
     private TextView screenNameText;
     private TextView timeStampText;
     private TextView messageBodyText;
+    private ImageView unreadImage;
 
     private String id;
     private String screenName;
@@ -40,6 +41,7 @@ public class ConversationCard {
         screenNameText = (TextView) view.findViewById(R.id.text_screen_name);
         timeStampText = (TextView) view.findViewById(R.id.text_time_stamp);
         messageBodyText = (TextView) view.findViewById(R.id.text_message_body);
+        unreadImage = (ImageView) view.findViewById(R.id.image_unread);
     }
 
     public void refresh(Conversation conversation) {
@@ -72,6 +74,12 @@ public class ConversationCard {
 
             TextMessageBody messageBody = (TextMessageBody) lastMessage.getBody();
             messageBodyText.setText(messageBody.getMessage());
+        }
+
+        if (conversation.getEmConversation().getUnreadMsgCount() > 0) {
+            unreadImage.setVisibility(View.VISIBLE);
+        } else {
+            unreadImage.setVisibility(View.GONE);
         }
     }
 }

@@ -1,7 +1,10 @@
 package com.aumum.app.mobile.ui.circle;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -40,11 +43,18 @@ public class CircleFragment extends ItemListFragment<Conversation> {
     @Inject ChatService chatService;
     @Inject UserStore userStore;
 
+    private NewMessageBroadcastReceiver newMessageBroadcastReceiver;
+
     @Override
     public void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
         Injector.inject(this);
+
+        newMessageBroadcastReceiver = new NewMessageBroadcastReceiver();
+        IntentFilter intentFilter = new IntentFilter(chatService.getNewMessageBroadcastAction());
+        intentFilter.setPriority(4);
+        getActivity().registerReceiver(newMessageBroadcastReceiver, intentFilter);
     }
 
     @Override
@@ -86,6 +96,25 @@ public class CircleFragment extends ItemListFragment<Conversation> {
     }
 
     @Override
+    public void onResume() {
+        super.onResume();
+
+        try {
+            getData().clear();
+            getData().addAll(getAllConversations());
+            getListAdapter().notifyDataSetChanged();
+        } catch (Exception e) {
+            Ln.e(e);
+        }
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        getActivity().unregisterReceiver(newMessageBroadcastReceiver);
+    }
+
+    @Override
     protected ArrayAdapter<Conversation> createAdapter(List<Conversation> items) {
         return new ConversationsAdapter(getActivity(), items);
     }
@@ -97,6 +126,23 @@ public class CircleFragment extends ItemListFragment<Conversation> {
 
     @Override
     protected List<Conversation> loadDataCore(Bundle bundle) throws Exception {
+        return getAllConversations();
+    }
+
+    @Override
+    protected void handleLoadResult(List<Conversation> result) {
+        try {
+            if (result != null) {
+                getData().clear();
+                getData().addAll(result);
+                getListAdapter().notifyDataSetChanged();
+            }
+        } catch (Exception e) {
+            Ln.d(e);
+        }
+    }
+
+    private List<Conversation> getAllConversations() throws Exception {
         List<Conversation> result = new ArrayList<Conversation>();
         List<EMConversation> emConversations = chatService.getAllConversations();
         for (EMConversation emConversation: emConversations) {
@@ -114,16 +160,13 @@ public class CircleFragment extends ItemListFragment<Conversation> {
         return result;
     }
 
-    @Override
-    protected void handleLoadResult(List<Conversation> result) {
-        try {
-            if (result != null) {
-                getData().clear();
-                getData().addAll(result);
-                getListAdapter().notifyDataSetChanged();
-            }
-        } catch (Exception e) {
-            Ln.d(e);
+    private class NewMessageBroadcastReceiver extends BroadcastReceiver {
+
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            abortBroadcast();
+
+            getListAdapter().notifyDataSetChanged();
         }
     }
 }

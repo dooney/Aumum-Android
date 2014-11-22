@@ -61,8 +61,7 @@ public class ContactFragment extends ItemListFragment<User>
 
         try {
             getData().clear();
-            List<User> contacts = userStore.getContacts();
-            getData().addAll(contacts);
+            getData().addAll(userStore.getContacts());
             getListAdapter().notifyDataSetChanged();
         } catch (Exception e) {
             Ln.e(e);

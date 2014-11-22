@@ -30,5 +30,7 @@ public class EMChatUtils {
         options.setNoticedByVibrate(false);
         // 设置语音消息播放是否设置为扬声器播放 默认为true
         options.setUseSpeaker(false);
+        // 当app在后台时，新消息还是走发送广播的形式
+        options.setShowNotificationInBackgroud(false);
     }
 }

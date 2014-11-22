@@ -52,7 +52,7 @@ public class ChatFragment extends Fragment
     private final TextWatcher watcher = validationTextWatcher();
     private ChatMessagesAdapter adapter;
     private EMConversation conversation;
-    NewMessageBroadcastReceiver newMessageBroadcastReceiver;
+    private NewMessageBroadcastReceiver newMessageBroadcastReceiver;
 
     private boolean isLoading;
     private boolean loadMore = true;
@@ -66,11 +66,12 @@ public class ChatFragment extends Fragment
         type = intent.getIntExtra(ChatActivity.INTENT_TYPE, ChatActivity.TYPE_SINGLE);
         id = intent.getStringExtra(ChatActivity.INTENT_ID);
         conversation = chatService.getConversation(id);
+        conversation.resetUnsetMsgCount();
         adapter = new ChatMessagesAdapter(getActivity(), conversation, userStore);
 
         newMessageBroadcastReceiver = new NewMessageBroadcastReceiver();
         IntentFilter intentFilter = new IntentFilter(chatService.getNewMessageBroadcastAction());
-        intentFilter.setPriority(3);
+        intentFilter.setPriority(5);
         getActivity().registerReceiver(newMessageBroadcastReceiver, intentFilter);
     }
 
@@ -103,6 +104,12 @@ public class ChatFragment extends Fragment
                 sendText();
             }
         });
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        getActivity().unregisterReceiver(newMessageBroadcastReceiver);
     }
 
     private TextWatcher validationTextWatcher() {
