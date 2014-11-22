@@ -1,46 +1,55 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/card_background"
     android:padding="@dimen/margin_large">
 
-    <com.aumum.app.mobile.ui.view.AvatarImageView
-        android:id="@+id/image_avatar"
-        style="@style/ImageView.Avatar"
-        android:layout_marginRight="@dimen/margin_large"
-        android:src="@drawable/ic_avatar"/>
+    <RelativeLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1">
 
-    <TextView
-        android:id="@+id/text_screen_name"
-        style="@style/TextView.ContactRequest.ScreenName"
-        android:layout_toRightOf="@+id/image_avatar" />
+        <com.aumum.app.mobile.ui.view.AvatarImageView
+            android:id="@+id/image_avatar"
+            style="@style/ImageView.Avatar"
+            android:layout_marginRight="@dimen/margin_large"
+            android:src="@drawable/ic_avatar"/>
 
-    <TextView
-        android:id="@+id/text_intro"
-        style="@style/TextView.ContactRequest.Intro"
-        android:layout_alignLeft="@+id/text_screen_name"
-        android:layout_alignBottom="@+id/image_avatar"/>
+        <TextView
+            android:id="@+id/text_screen_name"
+            style="@style/TextView.ContactRequest.ScreenName"
+            android:layout_toRightOf="@+id/image_avatar" />
 
-    <Button
-        android:id="@+id/b_accept"
-        style="@style/Button.ContactRequest.Accept"
-        android:layout_alignParentRight="true"
-        android:layout_centerVertical="true" />
+        <TextView
+            android:id="@+id/text_intro"
+            style="@style/TextView.ContactRequest.Intro"
+            android:layout_alignLeft="@+id/text_screen_name"
+            android:layout_alignBottom="@+id/image_avatar"/>
 
-    <TextView
-        android:id="@+id/text_added"
-        style="@style/TextView.ContactRequest.Added"
-        android:layout_alignParentRight="true"
-        android:layout_centerVertical="true" />
+    </RelativeLayout>
 
-    <ProgressBar
-        android:id="@+id/progress"
-        style="@style/ProgressBar"
+    <RelativeLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
-        android:visibility="gone" />
+        android:layout_gravity="center_vertical">
 
-</RelativeLayout>
+        <Button
+            android:id="@+id/b_accept"
+            style="@style/Button.ContactRequest.Accept" />
+
+        <TextView
+            android:id="@+id/text_added"
+            style="@style/TextView.ContactRequest.Added" />
+
+        <ProgressBar
+            android:id="@+id/progress"
+            style="@style/ProgressBar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="gone" />
+
+    </RelativeLayout>
+
+</LinearLayout>

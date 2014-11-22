@@ -239,6 +239,7 @@
 
     <!-- Circle -->
     <style name="TextView.Conversation.ScreenName" parent="TextView.UserName">
+        <item name="android:textColor">@color/black</item>
         <item name="android:textSize">@dimen/margin_extra_large</item>
     </style>
     <style name="TextView.Conversation.MessageBody" parent="TextView.Subtitle">
@@ -280,7 +281,10 @@
         <item name="android:layout_margin">@dimen/margin_medium</item>
     </style>
     <style name="TextView.ChatMessage.TimeStamp" parent="TextView.Subtitle">
+        <item name="android:textColor">@color/text</item>
         <item name="android:textSize">@dimen/text_sz_small</item>
+        <item name="android:padding">@dimen/margin_small</item>
+        <item name="android:background">@drawable/chat_timestamp_background</item>
     </style>
     <style name="TextView.ChatMessage.UserName" parent="TextView.Subtitle">
         <item name="android:textSize">@dimen/text_sz_small</item>
@@ -307,7 +311,10 @@
         <item name="android:textSize">@dimen/text_sz_large</item>
     </style>
     <style name="TextView.ContactRequest.ScreenName" parent="TextView.UserName" />
-    <style name="TextView.ContactRequest.Intro" parent="TextView.Subtitle" />
+    <style name="TextView.ContactRequest.Intro" parent="TextView.Subtitle">
+        <item name="android:maxLines">1</item>
+        <item name="android:ellipsize">end</item>
+    </style>
     <style name="Button.ContactRequest.Accept" parent="Button.Action">
         <item name="android:text">@string/label_accept</item>
     </style>

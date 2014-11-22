@@ -151,6 +151,10 @@ public class ChatService {
         EMChatManager.getInstance().sendMessage(message, callBack);
     }
 
+    public EMMessage getMessage(String msgId) {
+        return EMChatManager.getInstance().getMessage(msgId);
+    }
+
     public void addContact(String toUserId, String reason) throws Exception {
         EMContactManager.getInstance().addContact(toUserId, reason);
     }

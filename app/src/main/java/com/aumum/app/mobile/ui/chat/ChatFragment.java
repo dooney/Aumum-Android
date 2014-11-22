@@ -1,6 +1,9 @@
 package com.aumum.app.mobile.ui.chat;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.text.Editable;
@@ -49,6 +52,7 @@ public class ChatFragment extends Fragment
     private final TextWatcher watcher = validationTextWatcher();
     private ChatMessagesAdapter adapter;
     private EMConversation conversation;
+    NewMessageBroadcastReceiver newMessageBroadcastReceiver;
 
     private boolean isLoading;
     private boolean loadMore = true;
@@ -63,6 +67,11 @@ public class ChatFragment extends Fragment
         id = intent.getStringExtra(ChatActivity.INTENT_ID);
         conversation = chatService.getConversation(id);
         adapter = new ChatMessagesAdapter(getActivity(), conversation, userStore);
+
+        newMessageBroadcastReceiver = new NewMessageBroadcastReceiver();
+        IntentFilter intentFilter = new IntentFilter(chatService.getNewMessageBroadcastAction());
+        intentFilter.setPriority(3);
+        getActivity().registerReceiver(newMessageBroadcastReceiver, intentFilter);
     }
 
     @Override
@@ -159,5 +168,16 @@ public class ChatFragment extends Fragment
     @Override
     public void onScroll(AbsListView absListView, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
 
+    }
+
+    private class NewMessageBroadcastReceiver extends BroadcastReceiver {
+
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            abortBroadcast();
+
+            adapter.notifyDataSetChanged();
+            listView.setSelection(listView.getCount() - 1);
+        }
     }
 }
