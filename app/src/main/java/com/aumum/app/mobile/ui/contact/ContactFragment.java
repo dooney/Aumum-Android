@@ -48,6 +48,10 @@ public class ContactFragment extends ItemListFragment<User>
         MenuItem item = search.getItem();
         item.setIcon(R.drawable.ic_fa_search);
         item.setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
+
+        menu.add(Menu.NONE, 1, Menu.NONE, "NEW")
+                .setIcon(R.drawable.ic_fa_plus)
+                .setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
     }
 
     @Override
@@ -55,22 +59,15 @@ public class ContactFragment extends ItemListFragment<User>
         if (!isUsable()) {
             return false;
         }
-        String searchOptions[] = getResources().getStringArray(R.array.label_search_contact);
-        DialogUtils.showDialog(getActivity(), searchOptions, new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialogInterface, int i) {
-                switch (i) {
-                    case 0:
-                        final Intent intent = new Intent(getActivity(), AllGroupsActivity.class);
-                        startActivity(intent);
-                        break;
-                    case 1:
-                        break;
-                    default:
-                        break;
-                }
-            }
-        });
+        switch (item.getItemId()) {
+            case 0:
+                showSearchContactDialog();
+                break;
+            case 1:
+                final Intent intent = new Intent(getActivity(), InviteFriendsActivity.class);
+                startActivity(intent);
+                break;
+        }
         return super.onOptionsItemSelected(item);
     }
 
@@ -149,5 +146,24 @@ public class ContactFragment extends ItemListFragment<User>
         final Intent intent = new Intent(getActivity(), UserActivity.class);
         intent.putExtra(UserActivity.INTENT_USER_ID, contactId);
         startActivity(intent);
+    }
+
+    private void showSearchContactDialog() {
+        String searchOptions[] = getResources().getStringArray(R.array.label_search_contact);
+        DialogUtils.showDialog(getActivity(), searchOptions, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                switch (i) {
+                    case 0:
+                        final Intent intent = new Intent(getActivity(), AllGroupsActivity.class);
+                        startActivity(intent);
+                        break;
+                    case 1:
+                        break;
+                    default:
+                        break;
+                }
+            }
+        });
     }
 }

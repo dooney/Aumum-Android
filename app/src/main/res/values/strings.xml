@@ -147,6 +147,7 @@
     <!-- Contact -->
     <string name="hint_search_contact">搜索</string>
     <string name="title_activity_add_contact">添加好友</string>
+    <string name="title_activity_invite_friends">邀请好友</string>
     <string name="title_activity_all_groups">所有圈子</string>
     <string name="title_activity_my_groups">我的圈子</string>
     <string name="label_group_current_size">%,d人</string>
@@ -158,6 +159,7 @@
     <string name="label_group_quit">%1$s刚刚退出了圈子</string>
     <string name="label_contact_requests">好友请求</string>
     <string name="label_my_groups">我的圈子</string>
+    <string name="label_mobile_contacts">手机联系人</string>
 
     <!-- Image List -->
     <string name="title_activity_image_list">ImageListActivity</string>
