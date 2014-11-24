@@ -53,7 +53,7 @@ public class CircleFragment extends ItemListFragment<Conversation> {
 
         newMessageBroadcastReceiver = new NewMessageBroadcastReceiver();
         IntentFilter intentFilter = new IntentFilter(chatService.getNewMessageBroadcastAction());
-        intentFilter.setPriority(4);
+        intentFilter.setPriority(NewMessageBroadcastReceiver.PRIORITY);
         getActivity().registerReceiver(newMessageBroadcastReceiver, intentFilter);
     }
 
@@ -149,18 +149,25 @@ public class CircleFragment extends ItemListFragment<Conversation> {
             Conversation conversation = new Conversation(emConversation);
             if (emConversation.isGroup()) {
                 EMGroup emGroup = chatService.getGroupById(emConversation.getUserName());
-                Group group = new Group(emGroup.getGroupId(), emGroup.getGroupName());
-                conversation.setGroup(group);
+                if (emGroup != null) {
+                    Group group = new Group(emGroup.getGroupId(), emGroup.getGroupName());
+                    conversation.setGroup(group);
+                    result.add(conversation);
+                }
             } else {
                 User contact = userStore.getUserByChatId(emConversation.getUserName());
-                conversation.setContact(contact);
+                if (contact != null) {
+                    conversation.setContact(contact);
+                    result.add(conversation);
+                }
             }
-            result.add(conversation);
         }
         return result;
     }
 
     private class NewMessageBroadcastReceiver extends BroadcastReceiver {
+
+        public static final int PRIORITY = 4;
 
         @Override
         public void onReceive(Context context, Intent intent) {

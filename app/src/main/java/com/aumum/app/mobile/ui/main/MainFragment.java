@@ -71,7 +71,7 @@ public class MainFragment extends Fragment
 
         newMessageBroadcastReceiver = new NewMessageBroadcastReceiver();
         IntentFilter intentFilter = new IntentFilter(chatService.getNewMessageBroadcastAction());
-        intentFilter.setPriority(3);
+        intentFilter.setPriority(NewMessageBroadcastReceiver.PRIORITY);
         getActivity().registerReceiver(newMessageBroadcastReceiver, intentFilter);
 
         chatService.setContactListener(new ContactListener());
@@ -145,6 +145,8 @@ public class MainFragment extends Fragment
     }
 
     private class NewMessageBroadcastReceiver extends BroadcastReceiver {
+
+        public static final int PRIORITY = 3;
 
         @Override
         public void onReceive(Context context, Intent intent) {

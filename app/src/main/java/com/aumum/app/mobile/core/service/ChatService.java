@@ -13,7 +13,6 @@ import com.easemob.chat.EMGroupManager;
 import com.easemob.chat.EMMessage;
 import com.easemob.chat.GroupChangeListener;
 import com.easemob.chat.TextMessageBody;
-import com.easemob.exceptions.EaseMobException;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -87,20 +86,23 @@ public class ChatService {
     }
 
     public List<EMConversation> getAllConversations() {
-        // 获取所有会话，包括陌生人
         Hashtable<String, EMConversation> conversations = EMChatManager.getInstance().getAllConversations();
         List<EMConversation> list = new ArrayList<EMConversation>();
-        // 过滤掉messages size为0的conversation
         for (EMConversation conversation : conversations.values()) {
-            if (conversation.getAllMessages().size() != 0)
+            if (conversation.getAllMessages().size() > 0) {
                 list.add(conversation);
+            }
         }
         // 排序
         sortConversationByLastChatTime(list);
         return list;
     }
 
-    public List<EMGroup> getAllPublicGroups() throws EaseMobException {
+    public void deleteGroupConversation(String groupId) {
+        EMChatManager.getInstance().deleteConversation(groupId, true);
+    }
+
+    public List<EMGroup> getAllPublicGroups() throws Exception {
         ArrayList<EMGroup> result = new ArrayList<EMGroup>();
         List<EMGroupInfo> list = EMGroupManager.getInstance().getAllPublicGroupsFromServer();
         for (EMGroupInfo groupInfo: list) {
@@ -113,11 +115,11 @@ public class ChatService {
         return EMGroupManager.getInstance().getGroup(groupId);
     }
 
-    public void applyJoinToGroup(String groupId) throws EaseMobException {
+    public void applyJoinToGroup(String groupId) throws Exception {
         EMGroupManager.getInstance().applyJoinToGroup(groupId, "求加入");
     }
 
-    public void joinGroup(String groupId) throws EaseMobException {
+    public void joinGroup(String groupId) throws Exception {
         EMGroupManager.getInstance().joinGroup(groupId);
     }
 
@@ -125,21 +127,29 @@ public class ChatService {
         EMGroupManager.getInstance().exitFromGroup(groupId);
     }
 
-    public void addTextMessage(String from, String receipt, boolean isGroup, String text) {
+    private EMMessage addTextMessage(String receipt, boolean isGroup, boolean isSystem, String text) {
         EMMessage message = EMMessage.createSendMessage(EMMessage.Type.TXT);
-        message.setAttribute("userId", from);
-        // 如果是群聊，设置chat type,默认是单聊
         if (isGroup) {
             message.setChatType(EMMessage.ChatType.GroupChat);
         }
+        if (isSystem) {
+            message.setAttribute("isSystem", true);
+        }
         TextMessageBody txtBody = new TextMessageBody(text);
-        // 设置消息body
         message.addBody(txtBody);
-        // 设置要发给谁,用户username或者群聊group id
         message.setReceipt(receipt);
-        // update conversation
         EMConversation conversation = EMChatManager.getInstance().getConversation(receipt);
         conversation.addMessage(message);
+        return message;
+    }
+
+    public void addTextMessage(String receipt, boolean isGroup, String text) {
+        addTextMessage(receipt, isGroup, false, text);
+    }
+
+    public void sendSystemMessage(String receipt, boolean isGroup, String text, EMCallBack callBack) {
+        EMMessage message = addTextMessage(receipt, isGroup, true, text);
+        EMChatManager.getInstance().sendMessage(message, callBack);
     }
 
     public EMConversation getConversation(String id) {
@@ -147,7 +157,6 @@ public class ChatService {
     }
 
     public void sendMessage(EMMessage message, EMCallBack callBack) {
-        // 调用sdk发送异步发送方法
         EMChatManager.getInstance().sendMessage(message, callBack);
     }
 
@@ -171,20 +180,12 @@ public class ChatService {
         return EMChatManager.getInstance().getNewMessageBroadcastAction();
     }
 
-    public String getAckMessageBroadcastAction() {
-        return EMChatManager.getInstance().getAckMessageBroadcastAction();
-    }
-
     public void setAppInitialized() {
         EMChat.getInstance().setAppInited();
     }
 
     public void acceptInvitation(String userId) throws Exception {
         EMChatManager.getInstance().acceptInvitation(userId);
-    }
-
-    public void refuseInvitation(String userId) throws Exception {
-        EMChatManager.getInstance().refuseInvitation(userId);
     }
 
     public void setGroupChangeListener(GroupChangeListener groupChangeListener) {

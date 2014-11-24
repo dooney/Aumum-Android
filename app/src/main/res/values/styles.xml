@@ -284,7 +284,7 @@
         <item name="android:textColor">@color/text</item>
         <item name="android:textSize">@dimen/text_sz_small</item>
         <item name="android:padding">@dimen/margin_small</item>
-        <item name="android:background">@drawable/chat_timestamp_background</item>
+        <item name="android:background">@drawable/chat_msg_background</item>
     </style>
     <style name="TextView.ChatMessage.UserName" parent="TextView.Subtitle">
         <item name="android:textSize">@dimen/text_sz_small</item>
@@ -303,6 +303,12 @@
     </style>
     <style name="TextView.ChatMessage.ReceivedText" parent="TextView.ChatMessage.Text">
         <item name="android:background">@drawable/chat_received_text_background</item>
+    </style>
+    <style name="TextView.ChatMessage.System" parent="TextView.Subtitle">
+        <item name="android:textColor">@color/text</item>
+        <item name="android:textSize">@dimen/text_sz_small</item>
+        <item name="android:padding">@dimen/margin_small</item>
+        <item name="android:background">@drawable/chat_msg_background</item>
     </style>
 
     <!-- Contact -->

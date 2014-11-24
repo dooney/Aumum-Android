@@ -15,7 +15,8 @@ import com.easemob.chat.EMGroup;
 /**
  * Created by Administrator on 10/11/2014.
  */
-public class GroupCard implements GroupActionListener.OnProgressListener {
+public class GroupCard  implements GroupJoinListener.OnProgressListener,
+                                   GroupQuitListener.OnProgressListener {
 
     private Activity activity;
     private View view;
@@ -52,37 +53,69 @@ public class GroupCard implements GroupActionListener.OnProgressListener {
         });
 
         screenNameText.setText(group.getGroupName());
-        currentSizeText.setText(activity.getString(R.string.label_group_current_size, group.getMembers().size()));
 
-        updateAction(group);
-        GroupActionListener listener = new GroupActionListener(activity, group);
+        if (group.getMembers().contains(currentUserId)) {
+            showQuit(group);
+        } else {
+            showJoin(group);
+        }
+
+        showCurrentSize(group);
+    }
+
+    private void showJoin(EMGroup group) {
+        actionButton.setText(R.string.label_join_group);
+        actionButton.setBackgroundResource(R.drawable.bbuton_primary_rounded);
+        GroupJoinListener listener = new GroupJoinListener(activity, group);
         listener.setOnProgressListener(this);
         actionButton.setOnClickListener(listener);
     }
 
-    private void updateAction(EMGroup group) {
-        if (group.getMembers().contains(currentUserId)) {
-            actionButton.setText(R.string.label_quit_group);
-            actionButton.setBackgroundResource(R.drawable.bbuton_danger_rounded);
-        } else {
-            actionButton.setText(R.string.label_join_group);
-            actionButton.setBackgroundResource(R.drawable.bbuton_primary_rounded);
-        }
+    private void showQuit(EMGroup group) {
+        actionButton.setText(R.string.label_quit_group);
+        actionButton.setBackgroundResource(R.drawable.bbuton_danger_rounded);
+        GroupQuitListener listener = new GroupQuitListener(activity, group);
+        listener.setOnProgressListener(this);
+        actionButton.setOnClickListener(listener);
+    }
+
+    private void showCurrentSize(EMGroup group) {
+        currentSizeText.setText(activity.getString(R.string.label_group_current_size,
+                group.getMembers().size()));
     }
 
     @Override
-    public void onActionStart() {
+    public void onJoinStart() {
         actionButton.setVisibility(View.GONE);
         progressBar.setVisibility(View.VISIBLE);
     }
 
     @Override
-    public void onActionSuccess(EMGroup group) {
-        updateAction(group);
+    public void onJoinSuccess(EMGroup group) {
+        showQuit(group);
+        showCurrentSize(group);
     }
 
     @Override
-    public void onActionFinish() {
+    public void onJoinFinish() {
+        progressBar.setVisibility(View.GONE);
+        actionButton.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void onQuitStart() {
+        actionButton.setVisibility(View.GONE);
+        progressBar.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void onQuitSuccess(EMGroup group) {
+        showJoin(group);
+        showCurrentSize(group);
+    }
+
+    @Override
+    public void onQuitFinish() {
         progressBar.setVisibility(View.GONE);
         actionButton.setVisibility(View.VISIBLE);
     }

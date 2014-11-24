@@ -53,6 +53,7 @@ public class ConversationCard {
         } else if (conversation.getGroup() != null) {
             id = conversation.getGroup().getChatId();
             screenName = conversation.getGroup().getScreenName();
+            avatarImage.setImageResource(R.drawable.ic_avatar);
             type = ChatActivity.TYPE_GROUP;
         }
         this.view.setOnClickListener(new View.OnClickListener() {

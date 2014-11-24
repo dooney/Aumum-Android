@@ -14,8 +14,7 @@
         <com.aumum.app.mobile.ui.view.AvatarImageView
             android:id="@+id/image_avatar"
             style="@style/ImageView.Avatar"
-            android:layout_marginRight="@dimen/margin_large"
-            android:src="@drawable/ic_avatar"/>
+            android:layout_marginRight="@dimen/margin_large" />
 
         <TextView
             android:id="@+id/text_screen_name"

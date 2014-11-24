@@ -5,47 +5,53 @@ import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.aumum.app.mobile.Injector;
 import com.aumum.app.mobile.R;
+import com.aumum.app.mobile.core.dao.UserStore;
+import com.aumum.app.mobile.core.model.User;
 import com.aumum.app.mobile.ui.view.AvatarImageView;
+import com.aumum.app.mobile.utils.Ln;
 import com.easemob.chat.EMConversation;
 import com.easemob.chat.EMMessage;
-import com.easemob.chat.TextMessageBody;
 import com.easemob.util.DateUtils;
 
 import java.util.Date;
 
+import javax.inject.Inject;
+
 /**
  * Created by Administrator on 11/11/2014.
  */
-public class ChatMessageCard implements SendMessageListener.OnActionListener {
+public abstract class ChatMessageCard
+        implements SendMessageListener.OnActionListener,
+                   CardRefreshListener {
 
+    @Inject UserStore userStore;
     private SendMessageListener listener;
 
     private Activity activity;
     private TextView timeStampText;
     private AvatarImageView avatarImage;
     private TextView userNameText;
-    private TextView textBodyText;
     private ProgressBar progressBar;
 
     public ChatMessageCard(Activity activity, View view) {
+        Injector.inject(this);
         this.activity = activity;
         timeStampText = (TextView) view.findViewById(R.id.text_time_stamp);
         avatarImage = (AvatarImageView) view.findViewById(R.id.image_avatar);
         userNameText = (TextView) view.findViewById(R.id.text_user_name);
-        textBodyText = (TextView) view.findViewById(R.id.text_text_body);
         progressBar = (ProgressBar) view.findViewById(R.id.progress);
         listener = new SendMessageListener();
         listener.setListener(this);
     }
 
-    public void refresh(EMConversation conversation, int position, String userName, String avatarUrl) {
+    public void refresh(EMConversation conversation, int position) {
         EMMessage message = conversation.getMessage(position);
         if (position == 0) {
             timeStampText.setText(DateUtils.getTimestampString(new Date(message.getMsgTime())));
             timeStampText.setVisibility(View.VISIBLE);
         } else {
-            // 两条消息时间离得如果稍长，显示时间
             if (DateUtils.isCloseEnough(message.getMsgTime(), conversation.getMessage(position - 1).getMsgTime())) {
                 timeStampText.setVisibility(View.GONE);
             } else {
@@ -54,15 +60,21 @@ public class ChatMessageCard implements SendMessageListener.OnActionListener {
             }
         }
 
+        String userName = activity.getString(R.string.label_unknown_user);
+        String avatarUrl = null;
+        try {
+            User user = userStore.getUserByChatId(message.getFrom());
+            userName = user.getScreenName();
+            avatarUrl = user.getAvatarUrl();
+        } catch (Exception e) {
+            Ln.e(e);
+        }
         userNameText.setText(userName);
         if (avatarUrl != null) {
             avatarImage.getFromUrl(avatarUrl);
         } else {
             avatarImage.setImageResource(R.drawable.ic_avatar);
         }
-
-        TextMessageBody textBody = (TextMessageBody) message.getBody();
-        textBodyText.setText(textBody.getMessage());
 
         if (message.direct == EMMessage.Direct.SEND ) {
             switch (message.status) {

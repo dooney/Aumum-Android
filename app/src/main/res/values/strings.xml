@@ -34,6 +34,9 @@
     <string name="info_submitting_delete_contact">正在提交您的移除好友请求，请稍候…</string>
     <string name="info_add_contact_sent">发送添加好友请求成功，等待对方验证</string>
     <string name="info_contact_deleted">该好友已成功移除</string>
+    <string name="info_group_joint">您已成功加入了%1$s</string>
+    <string name="info_group_quit">您已成功退出了%1$s</string>
+    <string name="info_group_application_sent">您的请求已发送成功，等待群主同意</string>
 
     <!-- Error Message -->
     <string name="error_load_parties">获取聚会列表失败</string>
@@ -52,7 +55,8 @@
     <string name="error_delete_comment">删除评论失败</string>
     <string name="error_load_join_details">获取聚会报名信息失败</string>
     <string name="error_load_circles">获取圈子信息失败</string>
-    <string name="error_group_action">%1$s该圈子失败</string>
+    <string name="error_join_group">加入该圈子失败</string>
+    <string name="error_quit_group">退出该圈子失败</string>
     <string name="error_add_contact">添加好友失败</string>
     <string name="error_load_contact_requests">获取好友请求列表失败</string>
     <string name="error_accept_contact">同意添加好友失败</string>
@@ -147,10 +151,10 @@
     <string name="label_group_current_size">%,d人</string>
     <string name="label_join_group">加入</string>
     <string name="label_quit_group">退出</string>
-    <string name="info_group_action">您已成功%1$s%2$s</string>
-    <string name="info_group_action_sent">您的请求已发送成功，等待群主同意</string>
     <string name="label_unknown_user">未知用户</string>
     <string name="label_send">发送</string>
+    <string name="label_group_joint">%1$s刚刚加入了圈子</string>
+    <string name="label_group_quit">%1$s刚刚退出了圈子</string>
 
     <!-- Image List -->
     <string name="title_activity_image_list">ImageListActivity</string>

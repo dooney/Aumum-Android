@@ -2,10 +2,11 @@ package com.aumum.app.mobile.ui.circle;
 
 import android.app.Activity;
 import android.view.View;
-import android.widget.TextView;
 
 import com.aumum.app.mobile.Injector;
 import com.aumum.app.mobile.R;
+import com.aumum.app.mobile.core.dao.UserStore;
+import com.aumum.app.mobile.core.model.User;
 import com.aumum.app.mobile.core.service.ChatService;
 import com.aumum.app.mobile.utils.Ln;
 import com.aumum.app.mobile.utils.SafeAsyncTask;
@@ -19,10 +20,12 @@ import retrofit.RetrofitError;
 /**
  * Created by Administrator on 10/11/2014.
  */
-public class GroupActionListener implements View.OnClickListener {
+public class GroupJoinListener implements View.OnClickListener {
 
     @Inject ChatService chatService;
+    @Inject UserStore userStore;
 
+    private User currentUser;
     private Activity activity;
     private EMGroup group;
     private SafeAsyncTask<Boolean> task;
@@ -30,16 +33,16 @@ public class GroupActionListener implements View.OnClickListener {
     protected OnProgressListener onProgressListener;
 
     public static interface OnProgressListener {
-        public void onActionStart();
-        public void onActionSuccess(EMGroup group);
-        public void onActionFinish();
+        public void onJoinStart();
+        public void onJoinSuccess(EMGroup group);
+        public void onJoinFinish();
     }
 
     public void setOnProgressListener(OnProgressListener onProgressListener) {
         this.onProgressListener = onProgressListener;
     }
 
-    public GroupActionListener(Activity activity, EMGroup group) {
+    public GroupJoinListener(Activity activity, EMGroup group) {
         Injector.inject(this);
         this.activity = activity;
         this.group = group;
@@ -48,20 +51,16 @@ public class GroupActionListener implements View.OnClickListener {
     @Override
     public void onClick(final View view) {
         if (onProgressListener != null) {
-            onProgressListener.onActionStart();
+            onProgressListener.onJoinStart();
         }
-        final String label = ((TextView)view).getText().toString();
         task = new SafeAsyncTask<Boolean>() {
             public Boolean call() throws Exception {
-                if (group.getMembers().contains(chatService.getCurrentUser())) {
-                    chatService.quitGroup(group.getGroupId());
+                if (group.isMembersOnly()) {
+                    chatService.applyJoinToGroup(group.getGroupId());
                 } else {
-                    if (group.isMembersOnly()) {
-                        chatService.applyJoinToGroup(group.getGroupId());
-                    } else {
-                        chatService.joinGroup(group.getGroupId());
-                    }
+                    chatService.joinGroup(group.getGroupId());
                 }
+                currentUser = userStore.getCurrentUser();
                 return true;
             }
 
@@ -72,7 +71,7 @@ public class GroupActionListener implements View.OnClickListener {
                     if(cause != null) {
                         Ln.e(e.getCause(), cause.getMessage());
                     }
-                    Toaster.showShort(activity, activity.getString(R.string.error_group_action, label));
+                    Toaster.showShort(activity, R.string.error_join_group);
                 }
             }
 
@@ -80,20 +79,23 @@ public class GroupActionListener implements View.OnClickListener {
             public void onSuccess(final Boolean success) {
                 String message;
                 if (group.isMembersOnly()) {
-                    message = activity.getString(R.string.info_group_action_sent);
+                    message = activity.getString(R.string.info_group_application_sent);
                 } else {
-                    message = activity.getString(R.string.info_group_action, label, group.getGroupName());
+                    group.addMember(currentUser.getChatId());
+                    message = activity.getString(R.string.info_group_joint, group.getGroupName());
+                    String text = activity.getString(R.string.label_group_joint, currentUser.getScreenName());
+                    chatService.sendSystemMessage(group.getGroupId(), true, text, null);
                 }
                 Toaster.showShort(activity, message);
                 if (onProgressListener != null) {
-                    onProgressListener.onActionSuccess(group);
+                    onProgressListener.onJoinSuccess(group);
                 }
             }
 
             @Override
             protected void onFinally() throws RuntimeException {
                 if (onProgressListener != null) {
-                    onProgressListener.onActionFinish();
+                    onProgressListener.onJoinFinish();
                 }
                 task = null;
             }

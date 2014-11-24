@@ -18,8 +18,6 @@ import android.widget.ListView;
 
 import com.aumum.app.mobile.Injector;
 import com.aumum.app.mobile.R;
-import com.aumum.app.mobile.core.dao.UserStore;
-import com.aumum.app.mobile.core.infra.security.ApiKeyProvider;
 import com.aumum.app.mobile.core.service.ChatService;
 import com.aumum.app.mobile.ui.helper.TextWatcherAdapter;
 import com.aumum.app.mobile.utils.EditTextUtils;
@@ -38,8 +36,6 @@ public class ChatFragment extends Fragment
         implements AbsListView.OnScrollListener{
 
     @Inject ChatService chatService;
-    @Inject UserStore userStore;
-    @Inject ApiKeyProvider apiKeyProvider;
 
     private int type;
     private String id;
@@ -67,11 +63,11 @@ public class ChatFragment extends Fragment
         id = intent.getStringExtra(ChatActivity.INTENT_ID);
         conversation = chatService.getConversation(id);
         conversation.resetUnsetMsgCount();
-        adapter = new ChatMessagesAdapter(getActivity(), conversation, userStore);
+        adapter = new ChatMessagesAdapter(getActivity(), conversation);
 
         newMessageBroadcastReceiver = new NewMessageBroadcastReceiver();
         IntentFilter intentFilter = new IntentFilter(chatService.getNewMessageBroadcastAction());
-        intentFilter.setPriority(5);
+        intentFilter.setPriority(NewMessageBroadcastReceiver.PRIORITY);
         getActivity().registerReceiver(newMessageBroadcastReceiver, intentFilter);
     }
 
@@ -135,7 +131,7 @@ public class ChatFragment extends Fragment
         if (text.length() > 0) {
             EditTextUtils.hideSoftInput(chatText);
             chatText.setText(null);
-            chatService.addTextMessage(apiKeyProvider.getAuthUserId(), id, type == ChatActivity.TYPE_GROUP, text);
+            chatService.addTextMessage(id, type == ChatActivity.TYPE_GROUP, text);
             adapter.notifyDataSetChanged();
             listView.setSelection(listView.getCount() - 1);
         }
@@ -178,6 +174,8 @@ public class ChatFragment extends Fragment
     }
 
     private class NewMessageBroadcastReceiver extends BroadcastReceiver {
+
+        public static final int PRIORITY = 5;
 
         @Override
         public void onReceive(Context context, Intent intent) {
