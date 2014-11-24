@@ -5,6 +5,7 @@
 
     <string-array name="label_pages">
         <item>聚会</item>
+        <item>问问</item>
         <item>聊天</item>
         <item>好友</item>
         <item>个人</item>
