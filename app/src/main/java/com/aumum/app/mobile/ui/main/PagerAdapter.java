@@ -9,7 +9,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
 import com.aumum.app.mobile.R;
-import com.aumum.app.mobile.ui.circle.CircleFragment;
+import com.aumum.app.mobile.ui.conversation.ConversationFragment;
 import com.aumum.app.mobile.ui.contact.ContactFragment;
 import com.aumum.app.mobile.ui.party.PartyListFragment;
 import com.aumum.app.mobile.ui.user.ProfileFragment;
@@ -22,7 +22,7 @@ public class PagerAdapter extends FragmentPagerAdapter {
     private String pages[];
 
     public static final int PAGE_PARTY = 0;
-    public static final int PAGE_CIRCLE = 1;
+    public static final int PAGE_CONVERSATION = 1;
     public static final int PAGE_CONTACT = 2;
     public static final int PAGE_PROFILE = 3;
 
@@ -49,8 +49,8 @@ public class PagerAdapter extends FragmentPagerAdapter {
             case PAGE_PARTY:
                 result = new PartyListFragment();
                 break;
-            case PAGE_CIRCLE:
-                result = new CircleFragment();
+            case PAGE_CONVERSATION:
+                result = new ConversationFragment();
                 break;
             case PAGE_CONTACT:
                 result = new ContactFragment();

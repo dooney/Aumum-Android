@@ -165,8 +165,8 @@
         <service android:name="com.easemob.chat.EMChatService" />
 
         <activity
-            android:name="com.aumum.app.mobile.ui.circle.SearchCircleActivity"
-            android:label="@string/title_activity_search_circle" >
+            android:name=".ui.contact.AllGroupsActivity"
+            android:label="@string/title_activity_all_groups" >
         </activity>
         <activity
             android:name="com.aumum.app.mobile.ui.chat.ChatActivity"

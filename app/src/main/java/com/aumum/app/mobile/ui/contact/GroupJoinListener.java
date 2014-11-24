@@ -1,4 +1,4 @@
-package com.aumum.app.mobile.ui.circle;
+package com.aumum.app.mobile.ui.contact;
 
 import android.app.Activity;
 import android.view.View;

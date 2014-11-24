@@ -5,17 +5,16 @@
 
     <string-array name="label_pages">
         <item>聚会</item>
+        <item>聊天</item>
         <item>圈子</item>
-        <item>好友</item>
         <item>个人</item>
     </string-array>
     <string-array name="label_search_party">
         <item>搜索附近</item>
         <item>搜索地址</item>
     </string-array>
-    <string-array name="label_search_circle">
+    <string-array name="label_search_contact">
         <item>所有圈子</item>
-        <item>圈子关键词</item>
     </string-array>
 
     <string name="menu_logout">注销</string>
@@ -54,7 +53,7 @@
     <string name="error_delete_party">删除聚会失败</string>
     <string name="error_delete_comment">删除评论失败</string>
     <string name="error_load_join_details">获取聚会报名信息失败</string>
-    <string name="error_load_circles">获取圈子信息失败</string>
+    <string name="error_load_conversations">获取聊天记录失败</string>
     <string name="error_join_group">加入该圈子失败</string>
     <string name="error_quit_group">退出该圈子失败</string>
     <string name="error_add_contact">添加好友失败</string>
@@ -145,9 +144,9 @@
     <string name="label_gender">要求小孩性别</string>
     <string name="hint_party_details">聚会内容（不超过140字）</string>
 
-    <!-- Circle -->
-    <string name="hint_search_circle">搜索圈子</string>
-    <string name="title_activity_search_circle">搜索圈子</string>
+    <!-- Contact -->
+    <string name="hint_search_contact">搜索</string>
+    <string name="title_activity_all_groups">所有圈子</string>
     <string name="label_group_current_size">%,d人</string>
     <string name="label_join_group">加入</string>
     <string name="label_quit_group">退出</string>

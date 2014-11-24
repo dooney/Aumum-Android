@@ -1,4 +1,4 @@
-package com.aumum.app.mobile.ui.circle;
+package com.aumum.app.mobile.ui.contact;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -17,7 +17,7 @@ import java.util.List;
 
 import javax.inject.Inject;
 
-public class SearchCircleFragment extends ItemListFragment<EMGroup> {
+public class AllGroupsFragment extends ItemListFragment<EMGroup> {
 
     @Inject ChatService chatService;
 
@@ -30,7 +30,7 @@ public class SearchCircleFragment extends ItemListFragment<EMGroup> {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_search_circle, null);
+        return inflater.inflate(R.layout.fragment_all_groups, null);
     }
 
     @Override
@@ -40,7 +40,7 @@ public class SearchCircleFragment extends ItemListFragment<EMGroup> {
 
     @Override
     protected int getErrorMessage(Exception exception) {
-        return R.string.error_load_circles;
+        return R.string.error_load_conversations;
     }
 
     @Override
