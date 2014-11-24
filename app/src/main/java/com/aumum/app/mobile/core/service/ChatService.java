@@ -102,6 +102,15 @@ public class ChatService {
         EMChatManager.getInstance().deleteConversation(groupId, true);
     }
 
+    public List<EMGroup> getMyGroups() throws Exception {
+        ArrayList<EMGroup> result = new ArrayList<EMGroup>();
+        List<EMGroup> list = EMGroupManager.getInstance().getAllGroups();
+        for (EMGroup group: list) {
+            result.add(EMGroupManager.getInstance().getGroupFromServer(group.getGroupId()));
+        }
+        return result;
+    }
+
     public List<EMGroup> getAllPublicGroups() throws Exception {
         ArrayList<EMGroup> result = new ArrayList<EMGroup>();
         List<EMGroupInfo> list = EMGroupManager.getInstance().getAllPublicGroupsFromServer();

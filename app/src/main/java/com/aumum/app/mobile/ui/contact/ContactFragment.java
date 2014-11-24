@@ -84,11 +84,20 @@ public class ContactFragment extends ItemListFragment<User>
     public void onViewCreated(final View view, final Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        ViewGroup viewGroup = (ViewGroup) view.findViewById(R.id.layout_contact_requests);
-        viewGroup.setOnClickListener(new View.OnClickListener() {
+        ViewGroup contactRequestsLayout = (ViewGroup) view.findViewById(R.id.layout_contact_requests);
+        contactRequestsLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 final Intent intent = new Intent(getActivity(), ContactRequestsActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        ViewGroup myGroupsLayout = (ViewGroup) view.findViewById(R.id.layout_my_groups);
+        myGroupsLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                final Intent intent = new Intent(getActivity(), MyGroupsActivity.class);
                 startActivity(intent);
             }
         });

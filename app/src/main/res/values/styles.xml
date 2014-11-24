@@ -307,10 +307,11 @@
     </style>
 
     <!-- Contact -->
-    <style name="TextView.Contact.ScreenName" parent="TextView.UserName">
+    <style name="TextView.Contact" parent="TextView.UserName">
         <item name="android:textColor">@color/black</item>
         <item name="android:textSize">@dimen/text_sz_large</item>
     </style>
+    <style name="TextView.Contact.ScreenName" parent="TextView.Contact" />
     <style name="TextView.ContactRequest.ScreenName" parent="TextView.UserName" />
     <style name="TextView.ContactRequest.Intro" parent="TextView.Subtitle">
         <item name="android:maxLines">1</item>

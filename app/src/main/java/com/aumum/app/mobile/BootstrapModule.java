@@ -14,6 +14,7 @@ import com.aumum.app.mobile.ui.LaunchActivity;
 import com.aumum.app.mobile.ui.chat.ChatFragment;
 import com.aumum.app.mobile.ui.chat.SendMessageListener;
 import com.aumum.app.mobile.ui.chat.TextMessageCard;
+import com.aumum.app.mobile.ui.contact.MyGroupsFragment;
 import com.aumum.app.mobile.ui.conversation.ConversationFragment;
 import com.aumum.app.mobile.ui.contact.AllGroupsFragment;
 import com.aumum.app.mobile.ui.contact.GroupJoinListener;
@@ -109,7 +110,8 @@ import retrofit.converter.GsonConverter;
                 AcceptContactListener.class,
                 DeleteContactListener.class,
                 ContactFragment.class,
-                TextMessageCard.class
+                TextMessageCard.class,
+                MyGroupsFragment.class
         }
 )
 public class BootstrapModule {

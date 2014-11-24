@@ -7,21 +7,53 @@
     android:orientation="vertical">
 
     <LinearLayout
-        android:id="@+id/layout_contact_requests"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:background="@color/card_background"
         android:layout_marginBottom="@dimen/margin_large">
 
-        <ImageView
-            style="@style/ImageView.Avatar"
-            android:layout_margin="@dimen/margin_large"
-            android:src="@drawable/ic_avatar"/>
+        <RelativeLayout
+            android:id="@+id/layout_contact_requests"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
 
-        <View
-            style="@style/Divider"
-            android:background="@color/grey_light"/>
+            <ImageView
+                android:id="@+id/image_contact_requests"
+                style="@style/ImageView.Avatar.Small"
+                android:layout_margin="@dimen/margin_large"
+                android:src="@drawable/ic_avatar"/>
+
+            <TextView
+                style="@style/TextView.Contact"
+                android:layout_toRightOf="@+id/image_contact_requests"
+                android:layout_centerVertical="true"
+                android:text="@string/label_contact_requests"/>
+
+        </RelativeLayout>
+
+        <View style="@style/Divider"/>
+
+        <RelativeLayout
+            android:id="@+id/layout_my_groups"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:id="@+id/image_my_groups"
+                style="@style/ImageView.Avatar.Small"
+                android:layout_margin="@dimen/margin_large"
+                android:src="@drawable/ic_avatar"/>
+
+            <TextView
+                style="@style/TextView.Contact"
+                android:layout_toRightOf="@+id/image_my_groups"
+                android:layout_centerVertical="true"
+                android:text="@string/label_my_groups"/>
+
+        </RelativeLayout>
+
+        <View style="@style/Divider"/>
 
     </LinearLayout>
 
