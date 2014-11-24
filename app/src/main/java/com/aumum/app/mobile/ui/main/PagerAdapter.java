@@ -1,9 +1,6 @@
-
-
 package com.aumum.app.mobile.ui.main;
 
 import android.content.res.Resources;
-import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
@@ -36,7 +33,7 @@ public class PagerAdapter extends FragmentPagerAdapter {
      */
     public PagerAdapter(final Resources resources, final FragmentManager fragmentManager) {
         super(fragmentManager);
-        pages = resources.getStringArray(R.array.label_pages);
+        pages = resources.getStringArray(R.array.label_main_pages);
     }
 
     @Override
@@ -66,9 +63,6 @@ public class PagerAdapter extends FragmentPagerAdapter {
             default:
                 result = null;
                 break;
-        }
-        if (result != null) {
-            result.setArguments(new Bundle()); //TODO do we need this?
         }
         return result;
     }

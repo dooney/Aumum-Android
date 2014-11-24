@@ -348,6 +348,12 @@
     </style>
     <style name="EditText.AddContact.Intro" parent="EditText" />
 
+    <!-- User -->
+    <style name="TextView.Profile.ScreenName" parent="TextView.UserName">
+        <item name="android:textColor">@color/black</item>
+        <item name="android:textSize">@dimen/text_sz_large</item>
+    </style>
+
     <!-- Splash -->
     <style name="Button.Splash.SignUp" parent="Button.Primary">
         <item name="android:background">@drawable/bbuton_danger_rounded</item>
@@ -422,6 +428,10 @@
         <item name="android:paddingTop">0dp</item>
         <item name="android:paddingLeft">@dimen/margin_large</item>
         <item name="android:paddingRight">@dimen/margin_large</item>
+        <item name="android:textAppearance">@style/TabPageIndicator.Text</item>
+    </style>
+    <style name="Widget.TabPageIndicator.Top" parent="Widget">
+        <item name="android:paddingTop">@dimen/margin_medium</item>
         <item name="android:textAppearance">@style/TabPageIndicator.Text</item>
     </style>
 
