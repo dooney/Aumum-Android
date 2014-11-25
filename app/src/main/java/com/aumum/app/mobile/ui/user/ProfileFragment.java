@@ -1,5 +1,6 @@
 package com.aumum.app.mobile.ui.user;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -9,9 +10,11 @@ import android.widget.TextView;
 
 import com.aumum.app.mobile.Injector;
 import com.aumum.app.mobile.R;
+import com.aumum.app.mobile.core.Constants;
 import com.aumum.app.mobile.core.dao.UserStore;
 import com.aumum.app.mobile.core.model.User;
 import com.aumum.app.mobile.ui.base.LoaderFragment;
+import com.aumum.app.mobile.ui.settings.SettingsActivity;
 import com.aumum.app.mobile.ui.view.AvatarImageView;
 import com.aumum.app.mobile.utils.Ln;
 
@@ -28,6 +31,7 @@ public class ProfileFragment extends LoaderFragment<User> {
     private View mainView;
     private AvatarImageView avatarImage;
     private TextView screenNameText;
+    private ViewGroup settingsLayout;
 
     @Override
     public void onCreate(final Bundle savedInstanceState) {
@@ -48,6 +52,14 @@ public class ProfileFragment extends LoaderFragment<User> {
         mainView = view.findViewById(R.id.main_view);
         avatarImage = (AvatarImageView) view.findViewById(R.id.image_avatar);
         screenNameText = (TextView) view.findViewById(R.id.text_screen_name);
+        settingsLayout = (ViewGroup) view.findViewById(R.id.layout_settings);
+        settingsLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                final Intent intent = new Intent(getActivity(), SettingsActivity.class);
+                getActivity().startActivityForResult(intent, Constants.RequestCode.SETTINGS_REQ_CODE);
+            }
+        });
     }
 
     @Override

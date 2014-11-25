@@ -194,6 +194,10 @@
             android:name="com.aumum.app.mobile.ui.contact.InviteFriendsActivity"
             android:label="@string/title_activity_invite_friends" >
         </activity>
+        <activity
+            android:name="com.aumum.app.mobile.ui.settings.SettingsActivity"
+            android:label="@string/title_activity_settings" >
+        </activity>
     </application>
 
 </manifest>

@@ -44,6 +44,7 @@ import com.aumum.app.mobile.core.dao.MessageStore;
 import com.aumum.app.mobile.core.dao.PartyCommentStore;
 import com.aumum.app.mobile.core.dao.PartyStore;
 import com.aumum.app.mobile.ui.contact.AddContactActivity;
+import com.aumum.app.mobile.ui.settings.SettingsActivity;
 import com.aumum.app.mobile.ui.user.ProfileFragment;
 import com.aumum.app.mobile.utils.PostFromAnyThreadBus;
 import com.aumum.app.mobile.core.api.RestAdapterRequestInterceptor;
@@ -113,7 +114,8 @@ import retrofit.converter.GsonConverter;
                 ContactFragment.class,
                 TextMessageCard.class,
                 MyGroupsFragment.class,
-                ProfileFragment.class
+                ProfileFragment.class,
+                SettingsActivity.class
         }
 )
 public class BootstrapModule {

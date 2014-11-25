@@ -10,6 +10,7 @@
         android:id="@+id/main_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:orientation="vertical"
         android:visibility="gone">
 
         <LinearLayout
@@ -35,6 +36,89 @@
                     style="@style/TextView.Profile.ScreenName"
                     android:layout_toRightOf="@+id/image_avatar"
                     android:layout_centerVertical="true"/>
+
+            </RelativeLayout>
+
+            <View style="@style/Divider"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:background="@color/card_background"
+            android:layout_marginBottom="@dimen/margin_extra_large">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/margin_large">
+
+                <ImageView
+                    android:id="@+id/image_my_parties"
+                    style="@style/ImageView.Avatar.Small"
+                    android:layout_marginRight="@dimen/margin_large"
+                    android:src="@drawable/ic_avatar"/>
+
+                <TextView
+                    android:id="@+id/text_my_parties"
+                    style="@style/TextView.Profile"
+                    android:layout_toRightOf="@+id/image_my_parties"
+                    android:layout_centerVertical="true"
+                    android:text="@string/label_my_parties"/>
+
+            </RelativeLayout>
+
+            <View style="@style/Divider"/>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/margin_large">
+
+                <ImageView
+                    android:id="@+id/image_my_askings"
+                    style="@style/ImageView.Avatar.Small"
+                    android:layout_marginRight="@dimen/margin_large"
+                    android:src="@drawable/ic_avatar"/>
+
+                <TextView
+                    android:id="@+id/text_my_askings"
+                    style="@style/TextView.Profile"
+                    android:layout_toRightOf="@+id/image_my_askings"
+                    android:layout_centerVertical="true"
+                    android:text="@string/label_my_askings"/>
+
+            </RelativeLayout>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/layout_settings"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:background="@color/card_background"
+            android:layout_marginBottom="@dimen/margin_extra_large">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/margin_large">
+
+                <ImageView
+                    android:id="@+id/image_settings"
+                    style="@style/ImageView.Avatar.Small"
+                    android:layout_marginRight="@dimen/margin_large"
+                    android:src="@drawable/ic_avatar"/>
+
+                <TextView
+                    android:id="@+id/text_settings"
+                    style="@style/TextView.Profile"
+                    android:layout_toRightOf="@+id/image_settings"
+                    android:layout_centerVertical="true"
+                    android:text="@string/label_settings"/>
 
             </RelativeLayout>
 

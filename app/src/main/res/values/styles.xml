@@ -102,6 +102,14 @@
         <item name="android:textColor">@color/text_link</item>
         <item name="android:gravity">center_vertical</item>
     </style>
+    <style name="TextView.Title" parent="TextView">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textSize">@dimen/text_sz_large</item>
+        <item name="android:textColor">@color/black</item>
+        <item name="android:maxLines">1</item>
+        <item name="android:ellipsize">end</item>
+    </style>
     <style name="TextView.Subtitle" parent="TextView">
         <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_width">wrap_content</item>
@@ -307,10 +315,7 @@
     </style>
 
     <!-- Contact -->
-    <style name="TextView.Contact" parent="TextView.UserName">
-        <item name="android:textColor">@color/black</item>
-        <item name="android:textSize">@dimen/text_sz_large</item>
-    </style>
+    <style name="TextView.Contact" parent="TextView.Title" />
     <style name="TextView.Contact.ScreenName" parent="TextView.Contact" />
     <style name="TextView.ContactRequest.ScreenName" parent="TextView.UserName" />
     <style name="TextView.ContactRequest.Intro" parent="TextView.Subtitle">
@@ -348,10 +353,13 @@
     </style>
     <style name="EditText.AddContact.Intro" parent="EditText" />
 
-    <!-- User -->
-    <style name="TextView.Profile.ScreenName" parent="TextView.UserName">
-        <item name="android:textColor">@color/black</item>
-        <item name="android:textSize">@dimen/text_sz_large</item>
+    <!-- Profile -->
+    <style name="TextView.Profile" parent="TextView.Title" />
+    <style name="TextView.Profile.ScreenName" parent="TextView.Profile" />
+
+    <!-- Settings -->
+    <style name="Button.Settings.Logout" parent="Button.Danger">
+        <item name="android:text">@string/label_logout</item>
     </style>
 
     <!-- Splash -->

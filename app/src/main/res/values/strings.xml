@@ -43,6 +43,8 @@
     <string name="info_group_joint">您已成功加入了%1$s</string>
     <string name="info_group_quit">您已成功退出了%1$s</string>
     <string name="info_group_application_sent">您的请求已发送成功，等待群主同意</string>
+    <string name="info_confirm_delete_contact">您确定要移除该好友？</string>
+    <string name="info_confirm_logout">您确定要退出登录？</string>
 
     <!-- Error Message -->
     <string name="error_load_parties">获取聚会列表失败</string>
@@ -109,8 +111,16 @@
     <string name="label_contact_invited">%1$s请求添加好友</string>
     <string name="label_accept">同意</string>
     <string name="label_added">已添加</string>
-    <string name="info_confirm_delete_contact">您确定要移除该好友？</string>
     <string name="label_contact_agreed">已经同意您的添加好友请求</string>
+
+    <!-- Profile -->
+    <string name="label_my_parties">我的聚会</string>
+    <string name="label_my_askings">我的问问</string>
+
+    <!-- Settings -->
+    <string name="label_settings">设置</string>
+    <string name="title_activity_settings">设置</string>
+    <string name="label_logout">退出登录</string>
 
     <!-- Comments -->
     <string name="hint_new_comment">写评论</string>

@@ -1,18 +1,15 @@
 package com.aumum.app.mobile.ui.main;
 
 import android.accounts.OperationCanceledException;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.Window;
 
 import com.aumum.app.mobile.Injector;
 import com.aumum.app.mobile.ServiceProvider;
 import com.aumum.app.mobile.R;
-import com.aumum.app.mobile.core.service.ChatService;
-import com.aumum.app.mobile.core.service.LogoutService;
+import com.aumum.app.mobile.core.Constants;
 import com.aumum.app.mobile.core.service.RestService;
 import com.aumum.app.mobile.ui.base.BaseFragmentActivity;
 import com.aumum.app.mobile.utils.SafeAsyncTask;
@@ -21,9 +18,7 @@ import com.github.kevinsawicki.wishlist.Toaster;
 import javax.inject.Inject;
 
 public class MainActivity extends BaseFragmentActivity {
-    @Inject protected ServiceProvider serviceProvider;
-    @Inject protected LogoutService logoutService;
-    @Inject protected ChatService chatService;
+    @Inject ServiceProvider serviceProvider;
 
     private boolean doubleBackToExitPressedOnce;
     private static final int DOUBLE_BACK_DELAY = 2000;
@@ -38,32 +33,13 @@ public class MainActivity extends BaseFragmentActivity {
     }
 
     @Override
-    public boolean onCreateOptionsMenu(final Menu menu) {
-        super.onCreateOptionsMenu(menu);
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.bootstrap, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(final MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.logout:
-                logout();
-                return true;
-            default:
-                return super.onOptionsItemSelected(item);
-        }
-    }
-
-    private void logout() {
-        logoutService.logout(new Runnable() {
-            @Override
-            public void run() {
-                chatService.logOut();
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == Constants.RequestCode.SETTINGS_REQ_CODE && resultCode == RESULT_OK) {
+            if (data.getBooleanExtra("logout", false)) {
                 checkAuth();
             }
-        });
+        }
     }
 
     private void initScreen() {
