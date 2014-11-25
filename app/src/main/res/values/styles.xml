@@ -342,6 +342,13 @@
     <style name="TextView.Comment.Text" parent="TextView.Content.Text" />
 
     <!-- User -->
+    <style name="TextView.User" parent="TextView.Title" />
+    <style name="TextView.User.ScreenName" parent="TextView.User" />
+    <style name="TextView.User.About" parent="TextView.Subtitle">
+        <item name="android:maxLines">4</item>
+        <item name="android:ellipsize">end</item>
+        <item name="android:lineSpacingMultiplier">1.1</item>
+    </style>
     <style name="Button.User.AddContact" parent="Button.Primary">
         <item name="android:text">@string/label_add_contact</item>
     </style>

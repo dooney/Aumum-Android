@@ -4,7 +4,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="@dimen/margin_large">
+    android:paddingTop="@dimen/margin_extra_large">
 
     <LinearLayout
         android:id="@+id/main_view"
@@ -13,27 +13,164 @@
         android:orientation="vertical"
         android:visibility="gone">
 
-        <Button
-            android:id="@+id/b_add_contact"
-            style="@style/Button.User.AddContact" />
-
         <LinearLayout
-            android:id="@+id/layout_action"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:background="@color/card_background"
+            android:layout_marginBottom="@dimen/margin_extra_large">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/margin_large">
+
+                <com.aumum.app.mobile.ui.view.AvatarImageView
+                    android:id="@+id/image_avatar"
+                    style="@style/ImageView.Avatar.Large"
+                    android:layout_marginRight="@dimen/margin_large"
+                    android:src="@drawable/ic_avatar"/>
+
+                <TextView
+                    android:id="@+id/text_screen_name"
+                    style="@style/TextView.User.ScreenName"
+                    android:layout_toRightOf="@+id/image_avatar"
+                    android:layout_centerVertical="true"/>
+
+            </RelativeLayout>
+
+            <View style="@style/Divider"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:background="@color/card_background"
+            android:layout_marginBottom="@dimen/margin_extra_large">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/margin_large"
+                android:gravity="center_vertical">
+
+                <TextView
+                    android:id="@+id/text_label_area"
+                    style="@style/TextView.User"
+                    android:layout_marginRight="@dimen/margin_large"
+                    android:text="@string/label_area"/>
+
+                <TextView
+                    android:id="@+id/text_area"
+                    style="@style/TextView.Subtitle"
+                    android:layout_toRightOf="@+id/text_label_area"/>
+
+            </RelativeLayout>
+
+            <View style="@style/Divider"/>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/margin_large">
+
+                <TextView
+                    android:id="@+id/text_label_about"
+                    style="@style/TextView.User"
+                    android:layout_marginRight="@dimen/margin_large"
+                    android:text="@string/label_about"/>
+
+                <TextView
+                    android:id="@+id/text_about"
+                    style="@style/TextView.User.About"
+                    android:layout_toRightOf="@+id/text_label_about"/>
+
+            </RelativeLayout>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:background="@color/card_background"
+            android:layout_marginBottom="@dimen/margin_extra_large">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/margin_large">
+
+                <ImageView
+                    android:id="@+id/image_her_parties"
+                    style="@style/ImageView.Avatar.Small"
+                    android:layout_marginRight="@dimen/margin_large"
+                    android:src="@drawable/ic_avatar"/>
+
+                <TextView
+                    android:id="@+id/text_her_parties"
+                    style="@style/TextView.User"
+                    android:layout_toRightOf="@+id/image_her_parties"
+                    android:layout_centerVertical="true"
+                    android:text="@string/label_her_parties"/>
+
+            </RelativeLayout>
+
+            <View style="@style/Divider"/>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/margin_large">
+
+                <ImageView
+                    android:id="@+id/image_her_askings"
+                    style="@style/ImageView.Avatar.Small"
+                    android:layout_marginRight="@dimen/margin_large"
+                    android:src="@drawable/ic_avatar"/>
+
+                <TextView
+                    android:id="@+id/text_her_askings"
+                    style="@style/TextView.User"
+                    android:layout_toRightOf="@+id/image_her_askings"
+                    android:layout_centerVertical="true"
+                    android:text="@string/label_her_askings"/>
+
+            </RelativeLayout>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingLeft="@dimen/margin_large"
+            android:paddingRight="@dimen/margin_large">
 
             <Button
-                android:id="@+id/b_send_message"
-                style="@style/Button.User.SendMessage"
-                android:layout_marginTop="@dimen/margin_large"
-                android:layout_marginBottom="@dimen/margin_medium"/>
+                android:id="@+id/b_add_contact"
+                style="@style/Button.User.AddContact" />
 
-            <Button
-                android:id="@+id/b_delete_contact"
-                style="@style/Button.User.DeleteContact"
-                android:layout_marginTop="@dimen/margin_medium"
-                android:layout_marginBottom="@dimen/margin_large"/>
+            <LinearLayout
+                android:id="@+id/layout_action"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <Button
+                    android:id="@+id/b_send_message"
+                    style="@style/Button.User.SendMessage"
+                    android:layout_marginTop="@dimen/margin_large"
+                    android:layout_marginBottom="@dimen/margin_medium"/>
+
+                <Button
+                    android:id="@+id/b_delete_contact"
+                    style="@style/Button.User.DeleteContact"
+                    android:layout_marginTop="@dimen/margin_medium"
+                    android:layout_marginBottom="@dimen/margin_large"/>
+
+            </LinearLayout>
 
         </LinearLayout>
 

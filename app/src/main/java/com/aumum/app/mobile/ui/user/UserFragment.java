@@ -7,15 +7,18 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.TextView;
 
 import com.aumum.app.mobile.Injector;
 import com.aumum.app.mobile.R;
+import com.aumum.app.mobile.core.Constants;
 import com.aumum.app.mobile.core.dao.UserStore;
 import com.aumum.app.mobile.core.model.User;
 import com.aumum.app.mobile.ui.base.LoaderFragment;
 import com.aumum.app.mobile.ui.chat.ChatActivity;
 import com.aumum.app.mobile.ui.contact.AddContactActivity;
 import com.aumum.app.mobile.ui.contact.DeleteContactListener;
+import com.aumum.app.mobile.ui.view.AvatarImageView;
 import com.aumum.app.mobile.utils.Ln;
 import com.github.kevinsawicki.wishlist.Toaster;
 
@@ -33,6 +36,10 @@ public class UserFragment extends LoaderFragment<User>
     private User currentUser;
 
     private View mainView;
+    private AvatarImageView avatarImage;
+    private TextView screenNameText;
+    private TextView areaText;
+    private TextView aboutText;
     private Button addContactButton;
     private ViewGroup actionLayout;
     private Button sendMessageButton;
@@ -57,6 +64,10 @@ public class UserFragment extends LoaderFragment<User>
         super.onViewCreated(view, savedInstanceState);
 
         mainView = view.findViewById(R.id.main_view);
+        avatarImage = (AvatarImageView) view.findViewById(R.id.image_avatar);
+        screenNameText = (TextView) view.findViewById(R.id.text_screen_name);
+        areaText = (TextView) view.findViewById(R.id.text_area);
+        aboutText = (TextView) view.findViewById(R.id.text_about);
         addContactButton = (Button) view.findViewById(R.id.b_add_contact);
         actionLayout = (ViewGroup) view.findViewById(R.id.layout_action);
         sendMessageButton = (Button) view.findViewById(R.id.b_send_message);
@@ -105,6 +116,10 @@ public class UserFragment extends LoaderFragment<User>
             if (user != null) {
                 setData(user);
 
+                avatarImage.getFromUrl(user.getAvatarUrl());
+                screenNameText.setText(user.getScreenName());
+                areaText.setText(Constants.Options.AREA_OPTIONS[user.getArea()]);
+                aboutText.setText(user.getAbout());
                 addContactButton.setVisibility(View.GONE);
                 actionLayout.setVisibility(View.GONE);
                 if (currentUser.getObjectId().equals(userId)) {
