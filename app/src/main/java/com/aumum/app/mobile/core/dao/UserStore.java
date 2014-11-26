@@ -162,12 +162,16 @@ public class UserStore {
     public void addContact(String userId) throws Exception {
         User user = getCurrentUser();
         user.getContacts().add(userId);
-        userEntityDao.insertOrReplace(map(user));
+        update(user);
     }
 
     public void removeContact(String userId) throws Exception {
         User user = getCurrentUser();
         user.getContacts().remove(userId);
+        update(user);
+    }
+
+    public void update(User user) throws Exception {
         userEntityDao.insertOrReplace(map(user));
     }
 }

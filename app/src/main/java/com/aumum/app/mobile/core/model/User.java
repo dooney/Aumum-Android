@@ -68,6 +68,10 @@ public class User extends AggregateRoot {
         return avatarUrl;
     }
 
+    public void setAvatarUrl(String avatarUrl) {
+        this.avatarUrl = avatarUrl;
+    }
+
     public String getAbout() {
         return about;
     }

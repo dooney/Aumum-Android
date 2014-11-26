@@ -75,6 +75,27 @@
     <string name="error_load_my_groups">获取圈子列表失败</string>
     <string name="error_load_profile">获取个人信息失败</string>
 
+    <!-- Title -->
+    <string name="title_activity_login">用户登录</string>
+    <string name="title_activity_register">注册新用户</string>
+    <string name="title_activity_registration_success">注册成功</string>
+    <string name="title_activity_reset_password">重置密码</string>
+    <string name="title_activity_reset_password_success">重置密码成功</string>
+    <string name="title_activity_user">用户详情</string>
+    <string name="title_activity_party_comments">聚会评论</string>
+    <string name="title_activity_contact_requests">好友请求</string>
+    <string name="title_activity_settings">设置</string>
+    <string name="title_activity_party_details">聚会详情</string>
+    <string name="title_activity_parties">我的聚会</string>
+    <string name="title_activity_search_party">搜索聚会</string>
+    <string name="title_activity_new_party">新聚会</string>
+    <string name="title_activity_add_contact">添加好友</string>
+    <string name="title_activity_invite_friends">邀请好友</string>
+    <string name="title_activity_all_groups">所有圈子</string>
+    <string name="title_activity_my_groups">我的圈子</string>
+    <string name="title_activity_image_list">ImageListActivity</string>
+    <string name="title_activity_change_avatar">更换头像</string>
+
     <!-- Register -->
     <string name="hint_screen_name">用户名</string>
     <string name="hint_email_address">邮箱</string>
@@ -91,18 +112,9 @@
     <string name="label_join_now">注册新用户</string>
     <string name="label_prompt_sign_in">已有账户？登录</string>
     <string name="hello_world">Hello world!</string>
-    <string name="action_settings">Settings</string>
     <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="title_activity_login">用户登录</string>
-    <string name="title_activity_register">注册新用户</string>
-    <string name="title_activity_registration_success">注册成功</string>
-    <string name="title_activity_reset_password">重置密码</string>
-    <string name="title_activity_reset_password_success">重置密码成功</string>
-    <string name="title_activity_user">用户详情</string>
-    <string name="title_activity_party_comments">聚会评论</string>
 
     <!-- User -->
-    <string name="title_activity_contact_requests">好友请求</string>
     <string name="label_send_message">发送消息</string>
     <string name="label_add_contact">添加好友</string>
     <string name="label_delete_contact">移除好友</string>
@@ -117,13 +129,13 @@
 
     <!-- Profile -->
     <string name="label_avatar">头像图片</string>
+    <string name="label_save">保存</string>
     <string name="label_screen_name">用户昵称</string>
     <string name="label_my_parties">我的聚会</string>
     <string name="label_my_askings">我的问问</string>
 
     <!-- Settings -->
     <string name="label_settings">设置</string>
-    <string name="title_activity_settings">设置</string>
     <string name="label_logout">退出登录</string>
 
     <!-- Comments -->
@@ -134,7 +146,6 @@
     <string name="hint_search_party">搜索聚会</string>
     <string name="hint_join_reason">一句话介绍自己的情况，或报名理由</string>
     <string name="hint_quit_reason">为啥要取消呢，亲？</string>
-    <string name="title_activity_party_details">聚会详情</string>
     <string name="label_you_join_the_party">你报名了该聚会</string>
     <string name="label_you_and_others_join_the_party">你和其他%,d人报名了该聚会</string>
     <string name="label_others_join_the_party">%,d人报名了该聚会</string>
@@ -148,14 +159,11 @@
     <string name="label_createdAt">创建时间</string>
     <string name="label_join_details">报名动态</string>
     <string name="label_distance">%1$skm</string>
-    <string name="title_activity_parties">我的聚会</string>
-    <string name="title_activity_search_party">搜索聚会</string>
     <string name="label_new_party_message">发布了聚会：%1$s</string>
     <string name="label_delete_party_message">取消了聚会：%1$s</string>
     <string name="label_like_party_message">支持了聚会：%1$s</string>
 
     <!-- New Party -->
-    <string name="title_activity_new_party">新聚会</string>
     <string name="label_submit_new_party">发布</string>
     <string name="label_unlimited">不限</string>
     <string name="hint_party_title">给聚会起个标题吧</string>
@@ -168,10 +176,6 @@
 
     <!-- Contact -->
     <string name="hint_search_contact">搜索</string>
-    <string name="title_activity_add_contact">添加好友</string>
-    <string name="title_activity_invite_friends">邀请好友</string>
-    <string name="title_activity_all_groups">所有圈子</string>
-    <string name="title_activity_my_groups">我的圈子</string>
     <string name="label_group_current_size">%,d人</string>
     <string name="label_join_group">加入</string>
     <string name="label_quit_group">退出</string>
@@ -184,7 +188,6 @@
     <string name="label_mobile_contacts">手机联系人</string>
 
     <!-- Image List -->
-    <string name="title_activity_image_list">ImageListActivity</string>
 
     <!-- Widgets -->
     <string name="pull_to_refresh_pull_label">下拉刷新…</string>

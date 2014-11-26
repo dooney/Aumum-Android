@@ -3,14 +3,13 @@ package com.aumum.app.mobile.ui.base;
 import android.content.Intent;
 import android.support.v4.app.SupportV4App;
 import android.support.v4.app.Fragment;
-import android.support.v7.app.ActionBarActivity;
 
 import java.util.ArrayList;
 
 /**
  * Base class for all Bootstrap Activities that need fragments.
  */
-public class BaseFragmentActivity extends ActionBarActivity {
+public class BaseFragmentActivity extends ProgressDialogActivity {
     //http://blog.shamanland.com/2014/01/nested-fragments-for-result.html
     private static final int[] POW_2 = {1, 2, 4, 8, 16, 32, 64, 128, 256, 512, 1024, 2048, 4096};
     // 16 bits available at all

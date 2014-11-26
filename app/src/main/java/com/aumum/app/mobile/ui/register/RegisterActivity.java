@@ -4,7 +4,9 @@ import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -22,18 +24,15 @@ import com.aumum.app.mobile.core.service.FileUploadService;
 import com.aumum.app.mobile.core.service.RestService;
 import com.aumum.app.mobile.core.Constants;
 import com.aumum.app.mobile.ui.base.ProgressDialogActivity;
+import com.aumum.app.mobile.ui.crop.CropImageActivity;
 import com.aumum.app.mobile.ui.helper.TextWatcherAdapter;
 import com.aumum.app.mobile.ui.view.Animation;
 import com.aumum.app.mobile.utils.DialogUtils;
 import com.aumum.app.mobile.utils.ImageUtils;
 import com.aumum.app.mobile.utils.Ln;
-import com.aumum.app.mobile.utils.ReceiveUriScaledBitmapTask;
 import com.aumum.app.mobile.utils.SafeAsyncTask;
 import com.github.kevinsawicki.wishlist.Toaster;
 import com.greenhalolabs.emailautocompletetextview.EmailAutoCompleteTextView;
-import com.soundcloud.android.crop.Crop;
-
-import java.io.File;
 
 import javax.inject.Inject;
 
@@ -45,8 +44,7 @@ import static com.aumum.app.mobile.ui.splash.SplashActivity.KEY_ACCOUNT_EMAIL;
 import static com.aumum.app.mobile.ui.splash.SplashActivity.SHOW_SIGN_IN;
 
 public class RegisterActivity extends ProgressDialogActivity
-        implements ReceiveUriScaledBitmapTask.ReceiveUriScaledBitmapListener,
-                   FileUploadService.OnFileUploadListener {
+        implements FileUploadService.OnFileUploadListener {
     @Inject RestService restService;
     @Inject ChatService chatService;
 
@@ -68,8 +66,8 @@ public class RegisterActivity extends ProgressDialogActivity
     private int area;
 
     private FileUploadService fileUploadService;
-    private Uri outputUri;
-    private Bitmap avatarBitmapCurrent;
+    private Bitmap avatarBitmap;
+    private byte[] avatarData;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -103,7 +101,7 @@ public class RegisterActivity extends ProgressDialogActivity
         avatarImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startImageSelector();
+                startImageSelectionActivity();
             }
         });
 
@@ -112,7 +110,7 @@ public class RegisterActivity extends ProgressDialogActivity
             public void onClick(View view) {
                 progress.setMessageId(R.string.info_processing_registration);
                 showProgress();
-                if (avatarBitmapCurrent != null) {
+                if (avatarBitmap != null) {
                     saveUserAvatar();
                 } else {
                     register(null);
@@ -174,55 +172,77 @@ public class RegisterActivity extends ProgressDialogActivity
         if (result) {
             finishRegistration();
         } else {
-            Toaster.showLong(RegisterActivity.this,
-                    R.string.error_authentication);
+            Toaster.showLong(RegisterActivity.this, R.string.error_authentication);
         }
     }
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == Crop.REQUEST_CROP) {
-            handleCrop(resultCode, data);
-        } else if (requestCode == ImageUtils.GALLERY_INTENT_CALLED && resultCode == Activity.RESULT_OK) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == Constants.RequestCode.GALLERY_INTENT_REQ_CODE &&
+                resultCode == Activity.RESULT_OK) {
             Uri originalUri = data.getData();
             if (originalUri != null) {
-                progress.setMessageId(R.string.info_loading_image);
-                showProgress();
-                new ReceiveUriScaledBitmapTask(this, this).execute(originalUri);
+                startCropImageActivity(originalUri.toString());
             }
+        } else if (requestCode == Constants.RequestCode.CROP_PROFILE_IMAGE_REQ_CODE &&
+                resultCode == Activity.RESULT_OK) {
+            String avatarImagePath = data.getStringExtra(CropImageActivity.INTENT_BITMAP);
+            avatarBitmap = BitmapFactory.decodeFile(avatarImagePath);
+            avatarImage.setImageBitmap(avatarBitmap);
         }
-        super.onActivityResult(requestCode, resultCode, data);
     }
 
-    private void startImageSelector() {
-        ImageUtils.getImage(this);
+    private void startImageSelectionActivity() {
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.KITKAT) {
+            Intent intent = new Intent();
+            intent.setType("image/*");
+            intent.setAction(Intent.ACTION_GET_CONTENT);
+            startActivityForResult(intent, Constants.RequestCode.GALLERY_INTENT_REQ_CODE);
+        } else {
+            Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
+            intent.addCategory(Intent.CATEGORY_OPENABLE);
+            intent.setType("image/*");
+            startActivityForResult(intent, Constants.RequestCode.GALLERY_INTENT_REQ_CODE);
+        }
+    }
+
+    private void startCropImageActivity(String imageUri) {
+        final Intent intent = new Intent(this, CropImageActivity.class);
+        intent.putExtra(CropImageActivity.INTENT_TITLE, getString(R.string.title_activity_change_avatar));
+        intent.putExtra(CropImageActivity.INTENT_IMAGE_URI, imageUri);
+        startActivityForResult(intent, Constants.RequestCode.CROP_PROFILE_IMAGE_REQ_CODE);
     }
 
     private void saveUserAvatar() {
-        byte[] avatarData = ImageUtils.getBytesBitmap(avatarBitmapCurrent);
-        String fileName = emailText.getText().toString() + ".jpg";
-        fileUploadService.upload(fileName, avatarData);
-    }
+        task = new SafeAsyncTask<Boolean>() {
+            public Boolean call() throws Exception {
+                avatarData = ImageUtils.getBytesBitmap(avatarBitmap);
+                return true;
+            }
 
-    @Override
-    public void onUriScaledBitmapReceived(Uri uri) {
-        hideProgress();
-        startCropActivity(uri);
-    }
+            @Override
+            protected void onException(final Exception e) throws RuntimeException {
+                if(!(e instanceof RetrofitError)) {
+                    final Throwable cause = e.getCause() != null ? e.getCause() : e;
+                    if(cause != null) {
+                        Toaster.showLong(RegisterActivity.this, cause.getMessage());
+                    }
+                }
+            }
 
-    private void startCropActivity(Uri originalUri) {
-        outputUri = Uri.fromFile(new File(getCacheDir(), Crop.class.getName()));
-        new Crop(originalUri).output(outputUri).asSquare().start(this);
-    }
+            @Override
+            public void onSuccess(final Boolean authSuccess) {
+                String fileName = emailText.getText().toString() + ".jpg";
+                fileUploadService.upload(fileName, avatarData);
+            }
 
-    private void handleCrop(int resultCode, Intent result) {
-        if (resultCode == RESULT_OK) {
-            avatarBitmapCurrent = ImageUtils.getBitmap(this, outputUri);
-            avatarImage.setImageBitmap(avatarBitmapCurrent);
-        } else if (resultCode == Crop.RESULT_ERROR) {
-            Toaster.showLong(this, R.string.error_load_image);
-            Ln.d(Crop.getError(result));
-        }
+            @Override
+            protected void onFinally() throws RuntimeException {
+                task = null;
+            }
+        };
+        task.execute();
     }
 
     @Override

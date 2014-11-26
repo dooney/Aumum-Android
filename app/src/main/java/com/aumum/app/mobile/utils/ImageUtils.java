@@ -5,34 +5,22 @@ package com.aumum.app.mobile.utils;
  */
 import android.app.Activity;
 import android.content.Context;
-import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Rect;
-import android.net.Uri;
-import android.os.Build;
-import android.os.ParcelFileDescriptor;
 import android.util.DisplayMetrics;
 import android.util.TypedValue;
-import android.view.Display;
-
-import com.aumum.app.mobile.R;
-import com.github.kevinsawicki.wishlist.Toaster;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 
 public class ImageUtils {
 
-    public static final int GALLERY_INTENT_CALLED = 1017;
-
-    private static final String TEMP_FILE_NAME = "temp.png";
+    private static final String TEMP_FILE_NAME = "temp.jpg";
 
     private static final int ZERO_INT_VALUE = 0;
 
@@ -59,21 +47,12 @@ public class ImageUtils {
     public static byte[] getBytesBitmap(Bitmap imageBitmap) {
         ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
         if (imageBitmap != null) {
-            imageBitmap.compress(Bitmap.CompressFormat.PNG, FULL_QUALITY, byteArrayOutputStream);
+            imageBitmap.compress(Bitmap.CompressFormat.JPEG, FULL_QUALITY, byteArrayOutputStream);
             byte[] byteArray = byteArrayOutputStream.toByteArray();
             closeOutputStream(byteArrayOutputStream);
             return byteArray;
         }
         return null;
-    }
-
-    public static Bitmap createScaledBitmap(Activity activity, Bitmap unscaledBitmap) {
-        Display display = activity.getWindowManager().getDefaultDisplay();
-        int displayWidth = display.getWidth();
-
-        Bitmap scaledBitmap = createScaledBitmap(unscaledBitmap, displayWidth, displayWidth, ScalingLogic.FIT);
-
-        return scaledBitmap;
     }
 
     private static Bitmap createScaledBitmap(Bitmap unscaledBitmap, int dstWidth, int dstHeight,
@@ -126,20 +105,6 @@ public class ImageUtils {
         }
     }
 
-    public static void getImage(Activity activity) {
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.KITKAT) {
-            Intent intent = new Intent();
-            intent.setType("image/*");
-            intent.setAction(Intent.ACTION_GET_CONTENT);
-            activity.startActivityForResult(intent, GALLERY_INTENT_CALLED);
-        } else {
-            Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
-            intent.addCategory(Intent.CATEGORY_OPENABLE);
-            intent.setType("image/*");
-            activity.startActivityForResult(intent, GALLERY_INTENT_CALLED);
-        }
-    }
-
     public static File getFileFromBitmap(Activity activity, Bitmap origBitmap) throws IOException {
         int width = dipToPixels(activity, ATTACH_WIDTH);
         int height = dipToPixels(activity, ATTACH_HEIGHT);
@@ -149,34 +114,13 @@ public class ImageUtils {
         return tempFile;
     }
 
-    public static File createFile(Activity activity, byte[] bitmapData) throws IOException {
+    private static File createFile(Activity activity, byte[] bitmapData) throws IOException {
         File tempFile = new File(activity.getCacheDir(), TEMP_FILE_NAME);
         tempFile.createNewFile();
         FileOutputStream fileOutputStream = new FileOutputStream(tempFile);
         fileOutputStream.write(bitmapData);
         closeOutputStream(fileOutputStream);
         return tempFile;
-    }
-
-    public static Bitmap getBitmap(Activity activity, Uri originalUri) {
-        BitmapFactory.Options bitmapOptions = getBitmapOption();
-        Bitmap selectedBitmap = null;
-        try {
-            ParcelFileDescriptor descriptor = activity.getContentResolver().openFileDescriptor(originalUri, "r");
-            selectedBitmap = BitmapFactory.decodeFileDescriptor(descriptor.getFileDescriptor(), null, bitmapOptions);
-        } catch (FileNotFoundException e) {
-            Toaster.showLong(activity, R.string.error_load_image);
-        }
-        return selectedBitmap;
-    }
-
-    private static BitmapFactory.Options getBitmapOption() {
-        BitmapFactory.Options bitmapOptions = new BitmapFactory.Options();
-        bitmapOptions.inDither = false;
-        bitmapOptions.inPurgeable = true;
-        bitmapOptions.inInputShareable = true;
-        bitmapOptions.inTempStorage = new byte[32 * 1024];
-        return bitmapOptions;
     }
 
     private enum ScalingLogic {

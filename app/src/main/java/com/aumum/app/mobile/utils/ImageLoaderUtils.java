@@ -7,6 +7,7 @@ import android.graphics.Canvas;
 import android.media.ThumbnailUtils;
 import android.provider.MediaStore;
 import android.text.TextUtils;
+import android.view.View;
 import android.webkit.MimeTypeMap;
 import android.widget.ImageView;
 
@@ -16,6 +17,7 @@ import com.nostra13.universalimageloader.cache.memory.impl.UsingFreqLimitedMemor
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
+import com.nostra13.universalimageloader.core.assist.FailReason;
 import com.nostra13.universalimageloader.core.assist.ImageScaleType;
 import com.nostra13.universalimageloader.core.decode.BaseImageDecoder;
 import com.nostra13.universalimageloader.core.decode.ImageDecoder;
@@ -29,13 +31,25 @@ import java.lang.ref.WeakReference;
  * Created by Administrator on 5/11/2014.
  */
 public class ImageLoaderUtils {
+
+    public interface ImageLoadingListener {
+        public void onLoadingStarted();
+        public void onLoadingFailed();
+        public void onLoadingComplete();
+        public void onLoadingCancelled();
+    }
+
     public static void init(Context context) {
         ImageLoader.getInstance().init(getImageLoaderConfiguration(context));
     }
 
     private static final DisplayImageOptions UIL_DEFAULT_DISPLAY_OPTIONS = new DisplayImageOptions.Builder()
-            .imageScaleType(ImageScaleType.IN_SAMPLE_POWER_OF_2).bitmapConfig(Bitmap.Config.RGB_565)
-            .cacheOnDisk(true).cacheInMemory(true).build();
+            .considerExifParams(true)
+            .imageScaleType(ImageScaleType.IN_SAMPLE_POWER_OF_2)
+            .bitmapConfig(Bitmap.Config.RGB_565)
+            .cacheOnDisk(true)
+            .cacheInMemory(true)
+            .build();
 
     private static ImageLoaderConfiguration getImageLoaderConfiguration(Context context) {
         final int MEMORY_CACHE_LIMIT = 2 * 1024 * 1024;
@@ -45,13 +59,17 @@ public class ImageLoaderUtils {
 
         ImageLoaderConfiguration imageLoaderConfiguration = new ImageLoaderConfiguration.Builder(context)
                 .memoryCacheExtraOptions(MAX_IMAGE_WIDTH_FOR_MEMORY_CACHE, MAX_IMAGE_HEIGHT_FOR_MEMORY_CACHE)
-                .diskCacheExtraOptions(MAX_IMAGE_WIDTH_FOR_MEMORY_CACHE, MAX_IMAGE_HEIGHT_FOR_MEMORY_CACHE, null).threadPoolSize(THREAD_POOL_SIZE)
-                .threadPriority(Thread.NORM_PRIORITY).denyCacheImageMultipleSizesInMemory().memoryCache(
-                        new UsingFreqLimitedMemoryCache(MEMORY_CACHE_LIMIT)).writeDebugLogs()
-                .defaultDisplayImageOptions(UIL_DEFAULT_DISPLAY_OPTIONS).imageDecoder(
-                        new SmartUriDecoder(context, new BaseImageDecoder(false)))
-                .denyCacheImageMultipleSizesInMemory().diskCacheFileNameGenerator(
-                        new HashCodeFileNameGenerator()).build();
+                .diskCacheExtraOptions(MAX_IMAGE_WIDTH_FOR_MEMORY_CACHE, MAX_IMAGE_HEIGHT_FOR_MEMORY_CACHE, null)
+                .threadPoolSize(THREAD_POOL_SIZE)
+                .threadPriority(Thread.NORM_PRIORITY)
+                .denyCacheImageMultipleSizesInMemory()
+                .memoryCache(new UsingFreqLimitedMemoryCache(MEMORY_CACHE_LIMIT))
+                .writeDebugLogs()
+                .defaultDisplayImageOptions(UIL_DEFAULT_DISPLAY_OPTIONS)
+                .imageDecoder(new SmartUriDecoder(context, new BaseImageDecoder(false)))
+                .denyCacheImageMultipleSizesInMemory()
+                .diskCacheFileNameGenerator(new HashCodeFileNameGenerator())
+                .build();
         return imageLoaderConfiguration;
     }
 
@@ -137,8 +155,41 @@ public class ImageLoaderUtils {
         }
     }
 
+    public static void displayImage(String imageUri, ImageView imageView, final ImageLoadingListener listener) {
+        ImageLoader.getInstance().displayImage(imageUri, imageView,
+                new com.nostra13.universalimageloader.core.listener.ImageLoadingListener() {
+            @Override
+            public void onLoadingStarted(String imageUri, View view) {
+                if (listener != null) {
+                    listener.onLoadingStarted();
+                }
+            }
+
+            @Override
+            public void onLoadingFailed(String imageUri, View view, FailReason failReason) {
+                if (listener != null) {
+                    listener.onLoadingFailed();
+                }
+            }
+
+            @Override
+            public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
+                if (listener != null) {
+                    listener.onLoadingComplete();
+                }
+            }
+
+            @Override
+            public void onLoadingCancelled(String imageUri, View view) {
+                if (listener != null) {
+                    listener.onLoadingCancelled();
+                }
+            }
+        });
+    }
+
     public static void displayImage(int resId, ImageView imageView) {
         String imageUri = "drawable://" + resId;
-        ImageLoader.getInstance().displayImage(imageUri, imageView);
+        displayImage(imageUri, imageView, null);
     }
 }

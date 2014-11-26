@@ -2,7 +2,6 @@ package com.aumum.app.mobile.ui.splash;
 
 import android.content.Intent;
 import android.content.res.TypedArray;
-import android.graphics.Bitmap;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.os.Bundle;
@@ -18,7 +17,6 @@ import com.aumum.app.mobile.ui.register.RegistrationSuccessActivity;
 import com.aumum.app.mobile.ui.account.ResetPasswordActivity;
 import com.aumum.app.mobile.ui.account.ResetPasswordSuccessActivity;
 import com.aumum.app.mobile.utils.ImageLoaderUtils;
-import com.aumum.app.mobile.utils.ImageUtils;
 import com.viewpagerindicator.CirclePageIndicator;
 
 import java.util.ArrayList;
