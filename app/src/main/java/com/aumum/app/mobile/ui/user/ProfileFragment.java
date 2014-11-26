@@ -31,6 +31,8 @@ public class ProfileFragment extends LoaderFragment<User> {
     private View mainView;
     private AvatarImageView avatarImage;
     private TextView screenNameText;
+    private TextView areaText;
+    private TextView aboutText;
     private ViewGroup settingsLayout;
 
     @Override
@@ -52,6 +54,8 @@ public class ProfileFragment extends LoaderFragment<User> {
         mainView = view.findViewById(R.id.main_view);
         avatarImage = (AvatarImageView) view.findViewById(R.id.image_avatar);
         screenNameText = (TextView) view.findViewById(R.id.text_screen_name);
+        areaText = (TextView) view.findViewById(R.id.text_area);
+        aboutText = (TextView) view.findViewById(R.id.text_about);
         settingsLayout = (ViewGroup) view.findViewById(R.id.layout_settings);
         settingsLayout.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -83,12 +87,23 @@ public class ProfileFragment extends LoaderFragment<User> {
     }
 
     @Override
-    protected void handleLoadResult(User user) {
+    protected void handleLoadResult(final User user) {
         try {
             setData(user);
 
             avatarImage.getFromUrl(user.getAvatarUrl());
+            avatarImage.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    final Intent intent = new Intent(getActivity(), UserProfileImageActivity.class);
+                    intent.putExtra(UserProfileImageActivity.INTENT_USER_ID, user.getObjectId());
+                    intent.putExtra(UserProfileImageActivity.INTENT_AVATAR_URL, user.getAvatarUrl());
+                    startActivityForResult(intent, Constants.RequestCode.USER_PROFILE_IMAGE_REQ_CODE);
+                }
+            });
             screenNameText.setText(user.getScreenName());
+            areaText.setText(Constants.Options.AREA_OPTIONS[user.getArea()]);
+            aboutText.setText(user.getAbout());
         } catch (Exception e) {
             Ln.e(e);
         }

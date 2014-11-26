@@ -82,8 +82,8 @@
     <string name="hint_area">所在城市</string>
     <string name="hint_avatar">头像图片</string>
     <string name="hint_about">个人简介</string>
-    <string name="label_area">所在城市：</string>
-    <string name="label_about">个人简介：</string>
+    <string name="label_area">所在城市</string>
+    <string name="label_about">个人简介</string>
     <string name="label_sign_in">登录</string>
     <string name="label_sign_up">注册</string>
     <string name="label_submit">提交</string>
@@ -116,6 +116,8 @@
     <string name="label_her_askings">她的问问</string>
 
     <!-- Profile -->
+    <string name="label_avatar">头像图片</string>
+    <string name="label_screen_name">用户昵称</string>
     <string name="label_my_parties">我的聚会</string>
     <string name="label_my_askings">我的问问</string>
 

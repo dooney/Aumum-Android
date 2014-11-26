@@ -9,6 +9,7 @@ import com.aumum.app.mobile.Injector;
 import com.aumum.app.mobile.R;
 import com.aumum.app.mobile.core.dao.UserStore;
 import com.aumum.app.mobile.core.model.User;
+import com.aumum.app.mobile.ui.user.UserListener;
 import com.aumum.app.mobile.ui.view.AvatarImageView;
 import com.aumum.app.mobile.utils.Ln;
 import com.easemob.chat.EMConversation;
@@ -66,6 +67,9 @@ public abstract class ChatMessageCard
             User user = userStore.getUserByChatId(message.getFrom());
             userName = user.getScreenName();
             avatarUrl = user.getAvatarUrl();
+            UserListener userListener = new UserListener(activity, user.getObjectId());
+            userNameText.setOnClickListener(userListener);
+            avatarImage.setOnClickListener(userListener);
         } catch (Exception e) {
             Ln.e(e);
         }

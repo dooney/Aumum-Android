@@ -248,7 +248,7 @@
     <!-- Conversation -->
     <style name="TextView.Conversation.ScreenName" parent="TextView.UserName">
         <item name="android:textColor">@color/black</item>
-        <item name="android:textSize">@dimen/margin_extra_large</item>
+        <item name="android:textSize">@dimen/text_sz_large</item>
     </style>
     <style name="TextView.Conversation.MessageBody" parent="TextView.Subtitle">
         <item name="android:maxLines">1</item>
@@ -290,6 +290,7 @@
         <item name="android:background">@drawable/chat_msg_background</item>
     </style>
     <style name="TextView.ChatMessage.UserName" parent="TextView.Subtitle">
+        <item name="android:textColor">@color/text_link</item>
         <item name="android:textSize">@dimen/text_sz_small</item>
     </style>
     <style name="TextView.ChatMessage.Text" parent="TextView">
@@ -317,7 +318,7 @@
     <!-- Contact -->
     <style name="TextView.Contact" parent="TextView.Title" />
     <style name="TextView.Contact.ScreenName" parent="TextView.Contact" />
-    <style name="TextView.ContactRequest.ScreenName" parent="TextView.UserName" />
+    <style name="TextView.ContactRequest.ScreenName" parent="TextView.Title" />
     <style name="TextView.ContactRequest.Intro" parent="TextView.Subtitle">
         <item name="android:maxLines">1</item>
         <item name="android:ellipsize">end</item>
@@ -328,9 +329,7 @@
     <style name="TextView.ContactRequest.Added" parent="TextView.Subtitle">
         <item name="android:text">@string/label_added</item>
     </style>
-    <style name="TextView.Group.ScreenName" parent="TextView.UserName">
-        <item name="android:textSize">@dimen/margin_extra_large</item>
-    </style>
+    <style name="TextView.Group.ScreenName" parent="TextView.Title" />
     <style name="TextView.Group.CurrentSize" parent="TextView.Subtitle" />
     <style name="Button.Group.Action" parent="Button.Action" />
 
@@ -363,6 +362,11 @@
     <!-- Profile -->
     <style name="TextView.Profile" parent="TextView.Title" />
     <style name="TextView.Profile.ScreenName" parent="TextView.Profile" />
+    <style name="TextView.Profile.About" parent="TextView.Subtitle">
+        <item name="android:maxLines">4</item>
+        <item name="android:ellipsize">end</item>
+        <item name="android:lineSpacingMultiplier">1.1</item>
+    </style>
 
     <!-- Settings -->
     <style name="Button.Settings.Logout" parent="Button.Danger">
