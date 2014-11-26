@@ -75,7 +75,11 @@ public class ChatMessagesAdapter extends BaseAdapter {
                     card = new SystemMessageCard(convertView);
                     break;
                 case MESSAGE_TYPE_RECV_TXT:
-                    viewId = R.layout.chat_text_received_listitem_inner;
+                    if (conversation.isGroup()) {
+                        viewId = R.layout.group_chat_text_received_listitem_inner;
+                    } else {
+                        viewId = R.layout.chat_text_received_listitem_inner;
+                    }
                     convertView = inflater.inflate(viewId, parent, false);
                     card = new TextMessageCard(activity, convertView);
                     break;

@@ -21,23 +21,16 @@
 
         <com.aumum.app.mobile.ui.view.AvatarImageView
             android:id="@+id/image_avatar"
-            style="@style/ImageView.Avatar.Small"
+            style="@style/ImageView.Avatar"
             android:layout_marginLeft="@dimen/margin_medium"
             android:layout_alignParentRight="true"
             android:src="@drawable/ic_avatar"/>
 
-        <TextView
-            android:id="@+id/text_user_name"
-            style="@style/TextView.ChatMessage.UserName"
-            android:layout_alignTop="@+id/image_avatar"
-            android:layout_toLeftOf="@+id/image_avatar"
-            android:text="用户名"/>
-
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignRight="@+id/text_user_name"
-            android:layout_below="@+id/text_user_name">
+            android:layout_toLeftOf="@+id/image_avatar"
+            android:layout_alignBaseline="@+id/image_avatar">
 
             <ProgressBar
                 android:id="@+id/progress"

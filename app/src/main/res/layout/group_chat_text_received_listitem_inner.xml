@@ -22,11 +22,18 @@
         android:layout_alignParentLeft="true"
         android:src="@drawable/ic_avatar"/>
 
+    <TextView
+        android:id="@+id/text_user_name"
+        style="@style/TextView.ChatMessage.UserName"
+        android:layout_alignTop="@+id/image_avatar"
+        android:layout_toRightOf="@+id/image_avatar"
+        android:text="用户名"/>
+
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_toRightOf="@+id/image_avatar"
-        android:layout_alignBaseline="@+id/image_avatar">
+        android:layout_alignLeft="@+id/text_user_name"
+        android:layout_below="@+id/text_user_name">
 
         <TextView
             android:id="@+id/text_text_body"

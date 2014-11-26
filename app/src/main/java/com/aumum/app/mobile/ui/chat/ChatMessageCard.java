@@ -68,12 +68,16 @@ public abstract class ChatMessageCard
             userName = user.getScreenName();
             avatarUrl = user.getAvatarUrl();
             UserListener userListener = new UserListener(activity, user.getObjectId());
-            userNameText.setOnClickListener(userListener);
+            if (userNameText != null) {
+                userNameText.setOnClickListener(userListener);
+            }
             avatarImage.setOnClickListener(userListener);
         } catch (Exception e) {
             Ln.e(e);
         }
-        userNameText.setText(userName);
+        if (userNameText != null) {
+            userNameText.setText(userName);
+        }
         if (avatarUrl != null) {
             avatarImage.getFromUrl(avatarUrl);
         } else {
