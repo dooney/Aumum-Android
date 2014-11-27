@@ -447,4 +447,25 @@ public class RestService {
         whereJson.addProperty("category", category);
         return getAskingListAfterCore(whereJson, after, limit);
     }
+
+    public Asking newAsking(Asking asking) {
+        Gson gson = new Gson();
+        JsonObject data = gson.toJsonTree(asking).getAsJsonObject();
+        return getAskingService().newAsking(data);
+    }
+
+    public JsonObject addUserAsking(String userId, String askingId) {
+        final JsonObject op = new JsonObject();
+        op.addProperty("__op", "AddUnique");
+        return updateUserAskingList(op, userId, askingId);
+    }
+
+    private JsonObject updateUserAskingList(JsonObject op, String userId, String askingId) {
+        final JsonObject data = new JsonObject();
+        final JsonArray userAskingList = new JsonArray();
+        userAskingList.add(new JsonPrimitive(askingId));
+        op.add("objects", userAskingList);
+        data.add(Constants.Http.User.PARAM_ASKINGS, op);
+        return getUserService().updateById(userId, data);
+    }
 }

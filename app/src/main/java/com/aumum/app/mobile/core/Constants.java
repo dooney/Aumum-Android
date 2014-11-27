@@ -123,6 +123,7 @@ public final class Constants {
             public static final String PARAM_PARTIES = "parties";
             public static final String PARAM_AVATAR_URL = "avatarUrl";
             public static final String PARAM_CHAT_ID = "chatId";
+            public static final String PARAM_ASKINGS = "askings";
         }
     }
 
@@ -174,6 +175,7 @@ public final class Constants {
         public static final int SETTINGS_REQ_CODE = 32;
         public static final int GALLERY_INTENT_REQ_CODE = 33;
         public static final int CROP_PROFILE_IMAGE_REQ_CODE = 34;
+        public static final int NEW_ASKING_REQ_CODE = 35;
     }
 }
 

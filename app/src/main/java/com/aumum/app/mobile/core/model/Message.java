@@ -48,16 +48,8 @@ public class Message extends AggregateRoot {
         return fromUserId;
     }
 
-    public void setFromUserId(String fromUserId) {
-        this.fromUserId = fromUserId;
-    }
-
     public String getToUserId() {
         return toUserId;
-    }
-
-    public void setToUserId(String toUserId) {
-        this.toUserId = toUserId;
     }
 
     public int getType() {
@@ -80,10 +72,6 @@ public class Message extends AggregateRoot {
         return parentId;
     }
 
-    public void setParentId(String parentId) {
-        this.parentId = parentId;
-    }
-
     public User getUser() {
         return user;
     }
@@ -101,5 +89,6 @@ public class Message extends AggregateRoot {
         public static final int PARTY_COMMENT = 5;
         public static final int PARTY_REPLY = 6;
         public static final int PARTY_DELETE = 7;
+        public static final int ASKING_NEW = 8;
     }
 }

@@ -1,13 +1,19 @@
 package com.aumum.app.mobile.ui.asking;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
+import android.view.SubMenu;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.aumum.app.mobile.R;
+import com.aumum.app.mobile.core.Constants;
 import com.viewpagerindicator.TabPageIndicator;
 
 import butterknife.ButterKnife;
@@ -24,6 +30,43 @@ public class AskingFragment extends Fragment {
 
     @InjectView(R.id.vp_pages)
     protected ViewPager pager;
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setHasOptionsMenu(true);
+    }
+
+    @Override
+    public void onCreateOptionsMenu(final Menu menu, final MenuInflater inflater) {
+        SubMenu search = menu.addSubMenu(Menu.NONE, 0, Menu.NONE, getString(R.string.hint_search_asking));
+        MenuItem item = search.getItem();
+        item.setIcon(R.drawable.ic_fa_search);
+        item.setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
+
+        menu.add(Menu.NONE, 1, Menu.NONE, "NEW")
+                .setIcon(R.drawable.ic_fa_plus)
+                .setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(final MenuItem item) {
+        if (getActivity() == null) {
+            return false;
+        }
+        switch (item.getItemId()) {
+            case 0:
+                break;
+            case 1:
+                final Intent intent = new Intent(getActivity(), NewAskingActivity.class);
+                intent.putExtra(NewAskingActivity.INTENT_CATEGORY, pager.getCurrentItem());
+                startActivityForResult(intent, Constants.RequestCode.NEW_ASKING_REQ_CODE);
+                break;
+            default:
+                break;
+        }
+        return super.onOptionsItemSelected(item);
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,

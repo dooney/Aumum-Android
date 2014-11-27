@@ -37,6 +37,24 @@ public class Party extends AggregateRoot {
         place = new Place();
     }
 
+    public Party(String userId,
+                 String title,
+                 Date date,
+                 Time time,
+                 int age,
+                 int gender,
+                 String place,
+                 String details) {
+        this.userId = userId;
+        this.title = title;
+        this.date = date;
+        this.time = time;
+        this.age = age;
+        this.gender = gender;
+        this.place = new Place(place);
+        this.details = details;
+    }
+
     public Party(String objectId,
                  String createdAt,
                  String userId,
@@ -75,21 +93,12 @@ public class Party extends AggregateRoot {
         return userId;
     }
 
-    public void setUserId(String userId) {
-        this.userId = userId;
-    }
-
     public Date getDate() {
         return date;
     }
 
     public Time getTime() {
         return time;
-    }
-
-    public void setDateTime(Date date, Time time) {
-        this.date = date;
-        this.time = time;
     }
 
     public String getDateTime() {
@@ -101,40 +110,20 @@ public class Party extends AggregateRoot {
         return age;
     }
 
-    public void setAge(int age) {
-        this.age = age;
-    }
-
     public int getGender() {
         return gender;
-    }
-
-    public void setGender(int gender) {
-        this.gender = gender;
     }
 
     public String getTitle() {
         return title;
     }
 
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
     public Place getPlace() {
         return place;
     }
 
-    public void setPlace(Place place) {
-        this.place = place;
-    }
-
     public String getDetails() {
         return details;
-    }
-
-    public void setDetails(String details) {
-        this.details = details;
     }
 
     public List<String> getMembers() {
@@ -176,10 +165,6 @@ public class Party extends AggregateRoot {
 
     public void setUser(User user) {
         this.user = user;
-    }
-
-    public boolean validate() {
-        return date != null && time != null && !title.isEmpty() && place != null && !details.isEmpty();
     }
 
     public boolean isOwner(String userId) {

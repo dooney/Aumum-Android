@@ -148,10 +148,6 @@
             android:label="@string/title_activity_search_party" >
         </activity>
         <activity
-            android:name="com.aumum.app.mobile.ui.image.ImageListActivity"
-            android:label="@string/title_activity_image_list" >
-        </activity>
-        <activity
             android:name="com.aumum.app.mobile.ui.party.PartiesActivity"
             android:label="@string/title_activity_parties" >
         </activity>
@@ -195,6 +191,10 @@
         <activity
             android:name="com.aumum.app.mobile.ui.settings.SettingsActivity"
             android:label="@string/title_activity_settings" >
+        </activity>
+        <activity
+            android:name="com.aumum.app.mobile.ui.asking.NewAskingActivity"
+            android:label="@string/title_activity_new_asking" >
         </activity>
     </application>
 
