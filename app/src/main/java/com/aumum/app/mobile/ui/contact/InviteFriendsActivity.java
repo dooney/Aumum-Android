@@ -6,6 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.aumum.app.mobile.R;
+import com.aumum.app.mobile.ui.view.Animation;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
@@ -26,5 +27,7 @@ public class InviteFriendsActivity extends Activity {
 
             }
         });
+
+        Animation.flyIn(this);
     }
 }

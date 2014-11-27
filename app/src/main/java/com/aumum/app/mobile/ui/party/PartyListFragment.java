@@ -165,20 +165,14 @@ public class PartyListFragment extends CardListFragment
     }
 
     private void showSearchPartyDialog() {
-        String searchOptions[] = getResources().getStringArray(R.array.label_search_party);
+        final String searchOptions[] = getResources().getStringArray(R.array.label_search_party);
         DialogUtils.showDialog(getActivity(), searchOptions, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
-                switch (i) {
-                    case 0:
-                        final Intent intent = new Intent(getActivity(), SearchPartyActivity.class);
-                        startActivity(intent);
-                        break;
-                    case 1:
-                        break;
-                    default:
-                        break;
-                }
+                final Intent intent = new Intent(getActivity(), SearchPartyActivity.class);
+                intent.putExtra(SearchPartyActivity.INTENT_TITLE, searchOptions[i]);
+                intent.putExtra(SearchPartyActivity.INTENT_NEARBY_PARTIES, true);
+                startActivity(intent);
             }
         });
     }

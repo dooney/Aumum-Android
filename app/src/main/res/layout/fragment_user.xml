@@ -102,6 +102,7 @@
             android:layout_marginBottom="@dimen/margin_extra_large">
 
             <RelativeLayout
+                android:id="@+id/layout_her_parties"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:padding="@dimen/margin_large">
@@ -113,7 +114,6 @@
                     android:src="@drawable/ic_avatar"/>
 
                 <TextView
-                    android:id="@+id/text_her_parties"
                     style="@style/TextView.User"
                     android:layout_toRightOf="@+id/image_her_parties"
                     android:layout_centerVertical="true"

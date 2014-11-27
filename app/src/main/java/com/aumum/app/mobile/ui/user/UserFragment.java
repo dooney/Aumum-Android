@@ -18,6 +18,7 @@ import com.aumum.app.mobile.ui.base.LoaderFragment;
 import com.aumum.app.mobile.ui.chat.ChatActivity;
 import com.aumum.app.mobile.ui.contact.AddContactActivity;
 import com.aumum.app.mobile.ui.contact.DeleteContactListener;
+import com.aumum.app.mobile.ui.party.SearchPartyActivity;
 import com.aumum.app.mobile.ui.view.AvatarImageView;
 import com.aumum.app.mobile.utils.Ln;
 import com.github.kevinsawicki.wishlist.Toaster;
@@ -40,6 +41,7 @@ public class UserFragment extends LoaderFragment<User>
     private TextView screenNameText;
     private TextView areaText;
     private TextView aboutText;
+    private ViewGroup partiesLayout;
     private Button addContactButton;
     private ViewGroup actionLayout;
     private Button sendMessageButton;
@@ -68,6 +70,7 @@ public class UserFragment extends LoaderFragment<User>
         screenNameText = (TextView) view.findViewById(R.id.text_screen_name);
         areaText = (TextView) view.findViewById(R.id.text_area);
         aboutText = (TextView) view.findViewById(R.id.text_about);
+        partiesLayout = (ViewGroup) view.findViewById(R.id.layout_her_parties);
         addContactButton = (Button) view.findViewById(R.id.b_add_contact);
         actionLayout = (ViewGroup) view.findViewById(R.id.layout_action);
         sendMessageButton = (Button) view.findViewById(R.id.b_send_message);
@@ -120,6 +123,16 @@ public class UserFragment extends LoaderFragment<User>
                 screenNameText.setText(user.getScreenName());
                 areaText.setText(Constants.Options.AREA_OPTIONS[user.getArea()]);
                 aboutText.setText(user.getAbout());
+                partiesLayout.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        final Intent intent = new Intent(getActivity(), SearchPartyActivity.class);
+                        intent.putExtra(SearchPartyActivity.INTENT_TITLE,
+                                getString(R.string.title_user_parties, user.getScreenName()));
+                        intent.putExtra(SearchPartyActivity.INTENT_USER_ID, userId);
+                        startActivity(intent);
+                    }
+                });
                 addContactButton.setVisibility(View.GONE);
                 actionLayout.setVisibility(View.GONE);
                 if (currentUser.getObjectId().equals(userId)) {

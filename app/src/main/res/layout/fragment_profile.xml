@@ -121,6 +121,7 @@
             android:layout_marginBottom="@dimen/margin_extra_large">
 
             <RelativeLayout
+                android:id="@+id/layout_my_parties"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:padding="@dimen/margin_large">
@@ -132,7 +133,6 @@
                     android:src="@drawable/ic_avatar"/>
 
                 <TextView
-                    android:id="@+id/text_my_parties"
                     style="@style/TextView.Profile"
                     android:layout_toRightOf="@+id/image_my_parties"
                     android:layout_centerVertical="true"

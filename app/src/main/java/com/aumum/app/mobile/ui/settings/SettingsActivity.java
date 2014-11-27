@@ -11,6 +11,7 @@ import com.aumum.app.mobile.Injector;
 import com.aumum.app.mobile.R;
 import com.aumum.app.mobile.core.service.ChatService;
 import com.aumum.app.mobile.core.service.LogoutService;
+import com.aumum.app.mobile.ui.view.Animation;
 import com.aumum.app.mobile.utils.DialogUtils;
 
 import javax.inject.Inject;
@@ -39,6 +40,8 @@ public class SettingsActivity extends ActionBarActivity
                 showLogoutConfirmDialog();
             }
         });
+
+        Animation.flyIn(this);
     }
 
     private void showLogoutConfirmDialog() {

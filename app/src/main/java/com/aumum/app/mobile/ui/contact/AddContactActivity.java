@@ -11,6 +11,7 @@ import com.aumum.app.mobile.Injector;
 import com.aumum.app.mobile.R;
 import com.aumum.app.mobile.core.service.ChatService;
 import com.aumum.app.mobile.ui.base.ProgressDialogActivity;
+import com.aumum.app.mobile.ui.view.Animation;
 import com.aumum.app.mobile.utils.SafeAsyncTask;
 import com.github.kevinsawicki.wishlist.Toaster;
 
@@ -45,6 +46,8 @@ public class AddContactActivity extends ProgressDialogActivity {
         fromUserName = getIntent().getStringExtra(INTENT_FROM_USER_NAME);
         introEditText.setText(getString(R.string.label_add_contact_intro, fromUserName));
         progress.setMessageId(R.string.info_submitting_add_contact);
+
+        Animation.flyIn(this);
     }
 
     @Override

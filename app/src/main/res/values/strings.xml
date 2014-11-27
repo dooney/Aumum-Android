@@ -11,9 +11,9 @@
         <item>个人</item>
     </string-array>
     <string-array name="label_asking_pages">
-        <item>亲子育儿</item>
-        <item>子女教育</item>
-        <item>我爱我家</item>
+        <item>亲子教育</item>
+        <item>生活服务</item>
+        <item>购房家装</item>
         <item>投资理财</item>
     </string-array>
     <string-array name="label_search_party">
@@ -95,6 +95,7 @@
     <string name="title_activity_my_groups">我的圈子</string>
     <string name="title_activity_image_list">ImageListActivity</string>
     <string name="title_activity_change_avatar">更换头像</string>
+    <string name="title_user_parties">%1$s的聚会</string>
 
     <!-- Register -->
     <string name="hint_screen_name">昵称</string>

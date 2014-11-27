@@ -245,4 +245,12 @@ public class PartyStore {
         }
         return null;
     }
+
+    public List<Party> getList(List<String> idList) throws Exception {
+        List<Party> partyList = restService.getParties(idList);
+        for (Party party: partyList) {
+            partyEntityDao.insertOrReplace(map(party));
+        }
+        return partyList;
+    }
 }

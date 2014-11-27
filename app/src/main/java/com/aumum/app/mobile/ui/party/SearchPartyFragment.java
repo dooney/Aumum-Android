@@ -30,12 +30,17 @@ import it.gmariotti.cardslib.library.internal.CardArrayAdapter;
 
 public class SearchPartyFragment extends ItemListFragment<Card>
         implements PartyActionListener.OnActionListener,
-        PartyDetailsListener {
+                   PartyDetailsListener {
 
     @Inject UserStore userStore;
     @Inject PartyStore dataStore;
 
     private GPSTracker gpsTracker;
+
+    private int mode;
+    private String userId;
+    private final int NEARBY_PARTIES = 0;
+    private final int USER_PARTIES = 1;
 
     @Override
     public void onCreate(final Bundle savedInstanceState) {
@@ -44,6 +49,15 @@ public class SearchPartyFragment extends ItemListFragment<Card>
         gpsTracker = new GPSTracker(getActivity());
         if (!gpsTracker.canGetLocation()) {
             gpsTracker.showSettingsAlert();
+        }
+
+        final Intent intent = getActivity().getIntent();
+        if (intent.hasExtra(SearchPartyActivity.INTENT_NEARBY_PARTIES)) {
+            mode = NEARBY_PARTIES;
+        }
+        userId = intent.getStringExtra(SearchPartyActivity.INTENT_USER_ID);
+        if (userId != null) {
+            mode = USER_PARTIES;
         }
     }
 
@@ -75,6 +89,21 @@ public class SearchPartyFragment extends ItemListFragment<Card>
 
     @Override
     protected List<Card> loadDataCore(Bundle bundle) throws Exception {
+        List<Party> partyList = null;
+        switch (mode) {
+            case NEARBY_PARTIES:
+                partyList = getNearByParties();
+                break;
+            case USER_PARTIES:
+                partyList = getUserParties();
+                break;
+            default:
+                break;
+        }
+        return buildCards(partyList);
+    }
+
+    private List<Party> getNearByParties() throws Exception {
         List<Party> partyList = dataStore.getLiveListFromServer();
         if (partyList != null) {
             gpsTracker.getLocation();
@@ -86,7 +115,13 @@ public class SearchPartyFragment extends ItemListFragment<Card>
                 }
             }
         }
-        return buildCards(partyList);
+        return partyList;
+    }
+
+    private List<Party> getUserParties() throws Exception {
+        User user = userStore.getUserById(userId);
+        List<Party> partyList = dataStore.getList(user.getParties());
+        return partyList;
     }
 
     private List<Card> buildCards(List<Party> partyList) throws Exception {

@@ -171,6 +171,13 @@ public class RestService {
         return getPartiesBeforeCore(whereJson, before, limit);
     }
 
+    public List<Party> getParties(List<String> idList) {
+        final JsonObject whereJson = new JsonObject();
+        whereJson.add("objectId", buildIdListJson(idList));
+        String where = whereJson.toString();
+        return getPartyService().getAll("-createdAt", where, Integer.MAX_VALUE).getResults();
+    }
+
     private JsonObject updateContact(JsonObject op, String userId, String contactId) {
         final JsonObject data = new JsonObject();
         final JsonArray contacts = new JsonArray();
