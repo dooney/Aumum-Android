@@ -1,6 +1,7 @@
 
 package com.aumum.app.mobile.core.service;
 
+import com.aumum.app.mobile.core.model.Asking;
 import com.aumum.app.mobile.core.model.Comment;
 import com.aumum.app.mobile.core.Constants;
 import com.aumum.app.mobile.core.model.Message;
@@ -60,6 +61,10 @@ public class RestService {
 
     private PartyReasonService getPartyReasonService() {
         return getRestAdapter().create(PartyReasonService.class);
+    }
+
+    private AskingService getAskingService() {
+        return getRestAdapter().create(AskingService.class);
     }
 
     private RestAdapter getRestAdapter() {
@@ -424,5 +429,22 @@ public class RestService {
         final JsonObject data = new JsonObject();
         data.addProperty(Constants.Http.User.PARAM_CHAT_ID, chatId);
         return getUserService().updateById(userId, data);
+    }
+
+    private List<Asking> getAskingListAfterCore(JsonObject whereJson, String after, int limit) {
+        if (after != null) {
+            whereJson.add("createdAt", buildDateTimeAfterJson(after));
+        }
+        final JsonObject liveJson = new JsonObject();
+        liveJson.addProperty("$exists", false);
+        whereJson.add("deletedAt" ,liveJson);
+        String where = whereJson.toString();
+        return getAskingService().getAll("-createdAt", where, limit).getResults();
+    }
+
+    public List<Asking> getAskingListAfter(int category, String after, int limit) {
+        final JsonObject whereJson = new JsonObject();
+        whereJson.addProperty("category", category);
+        return getAskingListAfterCore(whereJson, after, limit);
     }
 }

@@ -11,6 +11,9 @@ import com.aumum.app.mobile.utils.DateUtils;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
+import org.joda.time.DateTime;
+import org.joda.time.DateTimeZone;
+
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -242,8 +245,10 @@ public class PartyStore {
                 .unique();
         if (partyEntity != null) {
             return DateUtils.dateToString(partyEntity.getCreatedAt(), Constants.DateTime.FORMAT);
+        } else {
+            DateTime now = DateTime.now(DateTimeZone.UTC);
+            return now.toString(Constants.DateTime.FORMAT);
         }
-        return null;
     }
 
     public List<Party> getList(List<String> idList) throws Exception {

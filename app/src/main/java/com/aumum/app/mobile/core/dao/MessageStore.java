@@ -7,6 +7,9 @@ import com.aumum.app.mobile.core.model.Message;
 import com.aumum.app.mobile.core.service.RestService;
 import com.aumum.app.mobile.utils.DateUtils;
 
+import org.joda.time.DateTime;
+import org.joda.time.DateTimeZone;
+
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -49,7 +52,9 @@ public class MessageStore {
                 .unique();
         if (messageEntity != null) {
             return DateUtils.dateToString(messageEntity.getCreatedAt(), Constants.DateTime.FORMAT);
+        } else {
+            DateTime now = DateTime.now(DateTimeZone.UTC);
+            return now.toString(Constants.DateTime.FORMAT);
         }
-        return null;
     }
 }

@@ -1,6 +1,7 @@
 package com.aumum.app.mobile.ui.asking;
 
 import android.content.res.Resources;
+import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
@@ -32,7 +33,10 @@ public class PagerAdapter extends FragmentPagerAdapter {
 
     @Override
     public Fragment getItem(final int position) {
-        final Fragment result = new DummyFragment();
+        final Fragment result = new AskingListFragment();
+        Bundle bundle = new Bundle();
+        bundle.putInt(AskingListFragment.CATEGORY, position);
+        result.setArguments(bundle);
         return result;
     }
 

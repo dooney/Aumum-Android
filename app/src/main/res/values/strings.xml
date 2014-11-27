@@ -74,6 +74,7 @@
     <string name="error_load_contacts">获取好友列表失败</string>
     <string name="error_load_my_groups">获取圈子列表失败</string>
     <string name="error_load_profile">获取个人信息失败</string>
+    <string name="error_load_askings">获取问问列表失败</string>
 
     <!-- Title -->
     <string name="title_activity_login">用户登录</string>

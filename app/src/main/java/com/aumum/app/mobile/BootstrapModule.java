@@ -3,6 +3,7 @@ package com.aumum.app.mobile;
 import android.accounts.AccountManager;
 import android.content.Context;
 
+import com.aumum.app.mobile.core.dao.AskingStore;
 import com.aumum.app.mobile.core.dao.PartyReasonStore;
 import com.aumum.app.mobile.core.dao.Repository;
 import com.aumum.app.mobile.core.infra.security.ApiKeyProvider;
@@ -11,6 +12,7 @@ import com.aumum.app.mobile.core.service.MessageDeliveryService;
 import com.aumum.app.mobile.core.service.NotificationService;
 import com.aumum.app.mobile.core.service.RestService;
 import com.aumum.app.mobile.ui.LaunchActivity;
+import com.aumum.app.mobile.ui.asking.AskingListFragment;
 import com.aumum.app.mobile.ui.chat.ChatFragment;
 import com.aumum.app.mobile.ui.chat.SendMessageListener;
 import com.aumum.app.mobile.ui.chat.TextMessageCard;
@@ -113,7 +115,8 @@ import retrofit.converter.GsonConverter;
                 TextMessageCard.class,
                 MyGroupsFragment.class,
                 ProfileFragment.class,
-                SettingsActivity.class
+                SettingsActivity.class,
+                AskingListFragment.class
         }
 )
 public class BootstrapModule {
@@ -173,6 +176,12 @@ public class BootstrapModule {
     @Singleton
     PartyStore providePartyStore(RestService restService, Repository repository) {
         return new PartyStore(restService, repository);
+    }
+
+    @Provides
+    @Singleton
+    AskingStore provideAskingStore(RestService restService) {
+        return new AskingStore(restService);
     }
 
     @Provides

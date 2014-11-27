@@ -87,6 +87,11 @@ public final class Constants {
         public static final String URL_PARTY_REASONS_FRAG = "/1/classes/PartyReasons";
 
         /**
+         * List Askings URL
+         */
+        public static final String URL_ASKINGS_FRAG = "/1/classes/Askings";
+
+        /**
          * PARAMS for auth
          */
         public static final String PARAM_USERNAME = "username";
