@@ -1,7 +1,45 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/card_background"
+    android:padding="@dimen/margin_large">
 
-</LinearLayout>
+    <com.aumum.app.mobile.ui.view.AvatarImageView
+        android:id="@+id/image_avatar"
+        style="@style/ImageView.Avatar.Small"
+        android:layout_marginRight="@dimen/margin_large"
+        android:src="@drawable/ic_avatar"/>
+
+    <TextView
+        android:id="@+id/text_user_name"
+        style="@style/TextView.Asking.UserName"
+        android:layout_toRightOf="@+id/image_avatar" />
+
+    <TextView
+        android:id="@+id/text_createdAt"
+        style="@style/TextView.Asking.CreatedAt"
+        android:layout_below="@+id/text_user_name"
+        android:layout_alignLeft="@+id/text_user_name" />
+
+    <TextView
+        android:id="@+id/text_question"
+        style="@style/TextView.Asking.Question"
+        android:layout_below="@+id/text_createdAt"
+        android:layout_alignLeft="@+id/text_user_name"/>
+
+    <ImageView
+        android:id="@+id/image_delete"
+        style="@style/ImageView.Delete.ExtraSmall"
+        android:layout_alignParentRight="true"
+        android:visibility="gone" />
+
+    <ProgressBar
+        android:id="@+id/progress"
+        style="@style/ProgressBar.Small"
+        android:layout_alignParentRight="true"
+        android:layout_alignTop="@+id/image_avatar"
+        android:visibility="gone" />
+
+</RelativeLayout>

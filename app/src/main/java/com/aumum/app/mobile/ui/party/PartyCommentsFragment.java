@@ -1,5 +1,6 @@
 package com.aumum.app.mobile.ui.party;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.app.Fragment;
@@ -17,7 +18,6 @@ import android.widget.TextView;
 import com.aumum.app.mobile.Injector;
 import com.aumum.app.mobile.R;
 import com.aumum.app.mobile.core.dao.PartyStore;
-import com.aumum.app.mobile.core.infra.security.ApiKeyProvider;
 import com.aumum.app.mobile.core.model.Message;
 import com.aumum.app.mobile.core.model.Party;
 import com.aumum.app.mobile.core.model.User;
@@ -26,11 +26,12 @@ import com.aumum.app.mobile.core.service.RestService;
 import com.aumum.app.mobile.core.model.Comment;
 import com.aumum.app.mobile.core.dao.PartyCommentStore;
 import com.aumum.app.mobile.core.dao.UserStore;
+import com.aumum.app.mobile.ui.comment.CommentCard;
 import com.aumum.app.mobile.ui.comment.CommentsAdapter;
 import com.aumum.app.mobile.ui.base.ItemListFragment;
-import com.aumum.app.mobile.ui.comment.DeleteCommentListener;
 import com.aumum.app.mobile.ui.view.Animation;
 import com.aumum.app.mobile.ui.view.QuickReturnListView;
+import com.aumum.app.mobile.utils.DialogUtils;
 import com.aumum.app.mobile.utils.EditTextUtils;
 import com.aumum.app.mobile.utils.Ln;
 import com.aumum.app.mobile.utils.SafeAsyncTask;
@@ -48,8 +49,7 @@ import retrofit.RetrofitError;
  *
  */
 public class PartyCommentsFragment extends ItemListFragment<Comment>
-        implements DeleteCommentListener.OnActionListener,
-                   QuickReturnListView.OnScrollDirectionListener {
+        implements QuickReturnListView.OnScrollDirectionListener {
     private String partyId;
     private User currentUser;
     private Party party;
@@ -60,7 +60,6 @@ public class PartyCommentsFragment extends ItemListFragment<Comment>
 
     @Inject RestService service;
     @Inject MessageDeliveryService messageDeliveryService;
-    @Inject ApiKeyProvider apiKeyProvider;
     @Inject UserStore userStore;
     @Inject PartyStore partyStore;
 
@@ -127,11 +126,14 @@ public class PartyCommentsFragment extends ItemListFragment<Comment>
         quickReturnListView.setOnScrollDirectionListener(this);
         quickReturnListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                showCommentBox();
-                repliedComment = getData().get(i);
-                editComment.setHint(getString(R.string.hint_reply_comment,
-                        repliedComment.getUser().getScreenName(), repliedComment.getContent()));
+            public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
+                Comment comment = getData().get(position);
+                if (party.isOwner(currentUser.getObjectId()) ||
+                    comment.isOwner(currentUser.getObjectId())) {
+                    showActionDialog(view);
+                } else {
+                    reply(comment);
+                }
             }
         });
     }
@@ -165,8 +167,7 @@ public class PartyCommentsFragment extends ItemListFragment<Comment>
 
     @Override
     protected ArrayAdapter<Comment> createAdapter(List<Comment> items) {
-        String currentUserId = apiKeyProvider.getAuthUserId();
-        return new CommentsAdapter(getActivity(), items, currentUserId, this);
+        return new CommentsAdapter(getActivity(), items);
     }
 
     private void toggleCommentBox() {
@@ -269,8 +270,70 @@ public class PartyCommentsFragment extends ItemListFragment<Comment>
         task.execute();
     }
 
-    @Override
-    public void onCommentDeletedSuccess(String commentId) {
+    private void reply(Comment comment) {
+        showCommentBox();
+        repliedComment = comment;
+        editComment.setHint(getString(R.string.hint_reply_comment,
+                repliedComment.getUser().getScreenName(), repliedComment.getContent()));
+    }
+
+    private void deleteComment(final CommentCard card) {
+        final Comment comment = card.getComment();
+
+        card.onActionStart();
+        task = new SafeAsyncTask<Boolean>() {
+            public Boolean call() throws Exception {
+                service.deletePartyComment(comment.getObjectId());
+                service.removePartyComment(comment.getParentId(), comment.getObjectId());
+                return true;
+            }
+
+            @Override
+            protected void onException(final Exception e) throws RuntimeException {
+                if(!(e instanceof RetrofitError)) {
+                    final Throwable cause = e.getCause() != null ? e.getCause() : e;
+                    if(cause != null) {
+                        Ln.e(e.getCause(), cause.getMessage());
+                    }
+                }
+                Toaster.showLong(getActivity(), R.string.error_delete_comment);
+            }
+
+            @Override
+            public void onSuccess(final Boolean success) {
+                onCommentDeletedSuccess(comment.getObjectId());
+            }
+
+            @Override
+            protected void onFinally() throws RuntimeException {
+                card.onActionFinish();
+                task = null;
+            }
+        };
+        task.execute();
+    }
+
+    private void showActionDialog(View view) {
+        final CommentCard card = (CommentCard) view.getTag();
+        final String actionOptions[] = getResources().getStringArray(R.array.label_comment_actions);
+        DialogUtils.showDialog(getActivity(), actionOptions, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                switch (i) {
+                    case 0:
+                        reply(card.getComment());
+                        break;
+                    case 1:
+                        deleteComment(card);
+                        break;
+                    default:
+                        break;
+                }
+            }
+        });
+    }
+
+    private void onCommentDeletedSuccess(String commentId) {
         try {
             List<Comment> commentList = getData();
             for (Iterator<Comment> it = commentList.iterator(); it.hasNext();) {

@@ -10,10 +10,13 @@ import android.widget.ArrayAdapter;
 import com.aumum.app.mobile.Injector;
 import com.aumum.app.mobile.R;
 import com.aumum.app.mobile.core.dao.AskingStore;
+import com.aumum.app.mobile.core.dao.UserStore;
 import com.aumum.app.mobile.core.model.Asking;
 import com.aumum.app.mobile.ui.base.ItemListFragment;
 import com.aumum.app.mobile.utils.Ln;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -24,9 +27,11 @@ import javax.inject.Inject;
  */
 public class AskingListFragment extends ItemListFragment<Asking> {
 
-    @Inject AskingStore askingStore;
+    @Inject AskingStore dataStore;
+    @Inject UserStore userStore;
 
     private int category;
+    private List<Asking> dataSet;
 
     public static final String CATEGORY = "category";
 
@@ -37,6 +42,8 @@ public class AskingListFragment extends ItemListFragment<Asking> {
 
         Bundle bundle = getArguments();
         category = bundle.getInt(CATEGORY);
+
+        dataSet = new ArrayList<Asking>();
     }
 
     @Override
@@ -57,7 +64,13 @@ public class AskingListFragment extends ItemListFragment<Asking> {
 
     @Override
     protected List<Asking> loadDataCore(Bundle bundle) throws Exception {
-        return askingStore.getUpwardsList(category, null);
+        getUpwardsList();
+        for (Asking asking: dataSet) {
+            if (asking.getUser() == null) {
+                asking.setUser(userStore.getUserById(asking.getUserId()));
+            }
+        }
+        return dataSet;
     }
 
     @Override
@@ -71,5 +84,21 @@ public class AskingListFragment extends ItemListFragment<Asking> {
         } catch (Exception e) {
             Ln.d(e);
         }
+    }
+
+    private void getUpwardsList() throws Exception {
+        String after = null;
+        if (dataSet.size() > 0) {
+            after = dataSet.get(0).getCreatedAt();
+        }
+        List<Asking> askingList = onGetUpwardsList(after);
+        Collections.reverse(askingList);
+        for(Asking asking: askingList) {
+            dataSet.add(0, asking);
+        }
+    }
+
+    protected List<Asking> onGetUpwardsList(String time) {
+        return dataStore.getUpwardsList(category, time);
     }
 }

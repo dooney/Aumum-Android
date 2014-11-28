@@ -22,7 +22,6 @@ import com.aumum.app.mobile.ui.conversation.ConversationFragment;
 import com.aumum.app.mobile.ui.contact.AllGroupsFragment;
 import com.aumum.app.mobile.ui.contact.GroupJoinListener;
 import com.aumum.app.mobile.ui.contact.GroupQuitListener;
-import com.aumum.app.mobile.ui.comment.DeleteCommentListener;
 import com.aumum.app.mobile.ui.contact.AcceptContactListener;
 import com.aumum.app.mobile.ui.contact.ContactFragment;
 import com.aumum.app.mobile.ui.contact.ContactListener;
@@ -93,7 +92,6 @@ import retrofit.converter.GsonConverter;
                 PartyActionListener.class,
                 PartyOwnerActionListener.class,
                 PartyUserActionListener.class,
-                DeleteCommentListener.class,
                 PartyReasonStore.class,
                 PartyReasonsFragment.class,
                 ConversationFragment.class,

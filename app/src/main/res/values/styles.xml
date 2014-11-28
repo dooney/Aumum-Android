@@ -255,6 +255,11 @@
         <item name="android:maxLines">4</item>
         <item name="android:hint">@string/hint_asking_question</item>
     </style>
+    <style name="TextView.Asking.UserName" parent="TextView.UserName" />
+    <style name="TextView.Asking.CreatedAt" parent="TextView.Subtitle" >
+        <item name="android:textSize">@dimen/text_sz_small</item>
+    </style>
+    <style name="TextView.Asking.Question" parent="TextView.Content.Text" />
 
     <!-- Conversation -->
     <style name="TextView.Conversation.ScreenName" parent="TextView.UserName">
@@ -475,7 +480,10 @@
         <item name="android:textSize">@dimen/text_sz_large</item>
     </style>
 
-    <style name="ProgressBar" parent="@android:style/Widget.Holo.Light.ProgressBar" />
+    <style name="ProgressBar" parent="@android:style/Widget.Holo.Light.ProgressBar">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+    </style>
     <style name="ProgressBar.Small" parent="ProgressBar">
         <item name="android:layout_width">@dimen/image_sz_extra_small</item>
         <item name="android:layout_height">@dimen/image_sz_extra_small</item>

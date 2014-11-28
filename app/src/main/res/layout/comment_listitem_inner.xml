@@ -29,18 +29,11 @@
         android:layout_below="@+id/text_createdAt"
         android:layout_alignLeft="@+id/text_user_name" />
 
-    <ImageView
-        android:id="@+id/image_delete"
-        style="@style/ImageView.Delete.ExtraSmall"
-        android:layout_alignParentRight="true"
-        android:visibility="gone" />
-
     <ProgressBar
         android:id="@+id/progress"
-        style="@style/ProgressBar"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        style="@style/ProgressBar.Small"
         android:layout_alignParentRight="true"
+        android:layout_alignTop="@+id/image_avatar"
         android:visibility="gone" />
 
 </RelativeLayout>
