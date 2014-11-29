@@ -182,6 +182,7 @@
     <string name="hint_search_asking">搜索问问</string>
     <string name="hint_asking_question">一句话描述您的问题</string>
     <string name="label_new_asking_message">发布了提问：%1$s</string>
+    <string name="label_answer">回答</string>
 
     <!-- Contact -->
     <string name="hint_search_contact">搜索</string>

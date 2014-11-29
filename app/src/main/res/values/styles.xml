@@ -260,6 +260,10 @@
         <item name="android:textSize">@dimen/text_sz_small</item>
     </style>
     <style name="TextView.Asking.Question" parent="TextView.Content.Text" />
+    <style name="TextView.Asking.Answer" parent="ButtonTextView">
+        <item name="android:drawableLeft">@drawable/ic_fa_comment_o</item>
+        <item name="android:text">@string/label_answer</item>
+    </style>
 
     <!-- Conversation -->
     <style name="TextView.Conversation.ScreenName" parent="TextView.UserName">
