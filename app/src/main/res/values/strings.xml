@@ -28,7 +28,13 @@
         <item>删除</item>
     </string-array>
 
-    <string name="menu_logout">注销</string>
+    <!-- General -->
+    <string name="label_ok">确定</string>
+    <string name="label_cancel">取消</string>
+    <string name="label_save">保存</string>
+    <string name="label_send">发送</string>
+    <string name="label_delete">删除</string>
+    <string name="label_favorite">收藏</string>
 
     <!-- Info Message -->
     <string name="info_authenticating">正在验证您的账号信息，请稍候…</string>
@@ -136,7 +142,6 @@
 
     <!-- Profile -->
     <string name="label_avatar">头像图片</string>
-    <string name="label_save">保存</string>
     <string name="label_screen_name">用户昵称</string>
     <string name="label_my_parties">我的聚会</string>
     <string name="label_my_askings">我的问问</string>
@@ -150,7 +155,6 @@
     <string name="hint_reply_comment">回复@%1$s：%2$s</string>
 
     <!-- Party -->
-    <string name="hint_search_party">搜索聚会</string>
     <string name="hint_join_reason">一句话介绍自己的情况，或报名理由</string>
     <string name="hint_quit_reason">给聚会组织者留言</string>
     <string name="label_you_join_the_party">你报名了该聚会</string>
@@ -179,18 +183,15 @@
     <string name="hint_party_details">聚会内容（不超过140字）</string>
 
     <!-- Asking -->
-    <string name="hint_search_asking">搜索问问</string>
     <string name="hint_asking_question">一句话描述您的问题</string>
     <string name="label_new_asking_message">发布了提问：%1$s</string>
     <string name="label_answer">回答</string>
 
     <!-- Contact -->
-    <string name="hint_search_contact">搜索</string>
     <string name="label_group_current_size">%,d人</string>
     <string name="label_join_group">加入</string>
     <string name="label_quit_group">退出</string>
     <string name="label_unknown_user">未知用户</string>
-    <string name="label_send">发送</string>
     <string name="label_group_joint">%1$s刚刚加入了圈子</string>
     <string name="label_group_quit">%1$s刚刚退出了圈子</string>
     <string name="label_contact_requests">好友请求</string>
@@ -203,7 +204,5 @@
     <string name="pull_to_refresh_refreshing_label">正在载入…</string>
     <string name="title_gps_alert_dialog">GPS设置</string>
     <string name="info_gps_alert_dialog">GPS未开启，点击确定去设置菜单开启该功能。</string>
-    <string name="label_ok">确定</string>
-    <string name="label_cancel">取消</string>
 
 </resources>

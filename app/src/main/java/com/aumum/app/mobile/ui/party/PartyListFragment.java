@@ -8,7 +8,7 @@ import android.support.v4.app.Fragment;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.view.SubMenu;
+import android.view.View;
 
 import com.aumum.app.mobile.Injector;
 import com.aumum.app.mobile.R;
@@ -35,9 +35,7 @@ import it.gmariotti.cardslib.library.internal.Card;
  * A simple {@link Fragment} subclass.
  *
  */
-public class PartyListFragment extends CardListFragment
-        implements PartyActionListener.OnActionListener,
-                   PartyDetailsListener {
+public class PartyListFragment extends CardListFragment {
 
     @Inject UserStore userStore;
     @Inject PartyStore dataStore;
@@ -59,10 +57,9 @@ public class PartyListFragment extends CardListFragment
 
     @Override
     public void onCreateOptionsMenu(final Menu menu, final MenuInflater inflater) {
-        SubMenu search = menu.addSubMenu(Menu.NONE, 0, Menu.NONE, getString(R.string.hint_search_party));
-        MenuItem item = search.getItem();
-        item.setIcon(R.drawable.ic_fa_search);
-        item.setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
+        menu.add(Menu.NONE, 0, Menu.NONE, "SEARCH")
+                .setIcon(R.drawable.ic_fa_search)
+                .setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
 
         menu.add(Menu.NONE, 1, Menu.NONE, "NEW")
                 .setIcon(R.drawable.ic_fa_plus)
@@ -93,7 +90,7 @@ public class PartyListFragment extends CardListFragment
         } else if (requestCode == Constants.RequestCode.GET_PARTY_DETAILS_REQ_CODE && resultCode == Activity.RESULT_OK) {
             String partyId = data.getStringExtra(PartyDetailsActivity.INTENT_PARTY_ID);
             if (partyId != null) {
-                onPartyDeletedSuccess(partyId);
+                onPartyDeleted(partyId);
             }
         }
     }
@@ -157,7 +154,16 @@ public class PartyListFragment extends CardListFragment
                 if (party.getUser() == null) {
                     party.setUser(userStore.getUserById(party.getUserId()));
                 }
-                Card card = new PartyCard(getActivity(), party, currentUser.getObjectId(), this, this);
+                Card card = new PartyCard(getActivity(), party, currentUser.getObjectId());
+                card.setOnClickListener(new Card.OnCardClickListener() {
+                    @Override
+                    public void onClick(Card card, View view) {
+                        PartyCard partyCard = (PartyCard) card;
+                        final Intent intent = new Intent(getActivity(), PartyDetailsActivity.class);
+                        intent.putExtra(PartyDetailsActivity.INTENT_PARTY_ID, partyCard.getParty().getObjectId());
+                        startActivityForResult(intent, Constants.RequestCode.GET_PARTY_DETAILS_REQ_CODE);
+                    }
+                });
                 cards.add(card);
             }
         }
@@ -165,20 +171,19 @@ public class PartyListFragment extends CardListFragment
     }
 
     private void showSearchPartyDialog() {
-        final String searchOptions[] = getResources().getStringArray(R.array.label_search_party);
-        DialogUtils.showDialog(getActivity(), searchOptions, new DialogInterface.OnClickListener() {
+        final String options[] = getResources().getStringArray(R.array.label_search_party);
+        DialogUtils.showDialog(getActivity(), options, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
                 final Intent intent = new Intent(getActivity(), SearchPartyActivity.class);
-                intent.putExtra(SearchPartyActivity.INTENT_TITLE, searchOptions[i]);
+                intent.putExtra(SearchPartyActivity.INTENT_TITLE, options[i]);
                 intent.putExtra(SearchPartyActivity.INTENT_NEARBY_PARTIES, true);
                 startActivity(intent);
             }
         });
     }
 
-    @Override
-    public void onPartyDeletedSuccess(String partyId) {
+    private void onPartyDeleted(String partyId) {
         try {
             List<Card> cardList = getData();
             for (Iterator<Card> it = cardList.iterator(); it.hasNext();) {
@@ -199,18 +204,6 @@ public class PartyListFragment extends CardListFragment
         } catch (Exception e) {
             Ln.d(e);
         }
-    }
-
-    @Override
-    public void onPartySharedSuccess() {
-
-    }
-
-    @Override
-    public void onPartyDetails(String partyId) {
-        final Intent intent = new Intent(getActivity(), PartyDetailsActivity.class);
-        intent.putExtra(PartyDetailsActivity.INTENT_PARTY_ID, partyId);
-        startActivityForResult(intent, Constants.RequestCode.GET_PARTY_DETAILS_REQ_CODE);
     }
 
     protected List<Party> onGetUpwardsList(String after) throws Exception {

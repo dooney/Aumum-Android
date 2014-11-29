@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.content.Intent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.aumum.app.mobile.R;
@@ -13,7 +12,6 @@ import com.aumum.app.mobile.core.model.Party;
 import com.aumum.app.mobile.ui.user.UserListener;
 import com.aumum.app.mobile.ui.view.Animation;
 import com.aumum.app.mobile.ui.view.AvatarImageView;
-import com.aumum.app.mobile.ui.view.DropdownImageView;
 import com.aumum.app.mobile.ui.view.JoinTextView;
 import com.aumum.app.mobile.ui.view.LikeTextView;
 import com.aumum.app.mobile.utils.Ln;
@@ -23,44 +21,24 @@ import it.gmariotti.cardslib.library.internal.Card;
 /**
  * Created by Administrator on 2/10/2014.
  */
-public class PartyCard extends Card implements PartyActionListener.OnProgressListener{
+public class PartyCard extends Card {
     private Activity activity;
     private Party party;
     private String currentUserId;
     private LikeListener likeListener;
     private MembersLayoutListener membersLayoutListener;
-    private PartyDetailsListener detailsListener;
-    private PartyOwnerActionListener ownerActionListener;
-    private PartyUserActionListener userActionListener;
-    private DropdownImageView dropdownImage;
-    private ProgressBar progressBar;
 
     public Party getParty() {
         return party;
     }
 
-    public PartyCard(final Activity activity, final Party party, String currentUserId,
-                     PartyActionListener.OnActionListener onActionListener,
-                     PartyDetailsListener partyDetailsListener) {
+    public PartyCard(final Activity activity, final Party party, String currentUserId) {
         super(activity, R.layout.party_listitem_inner);
         this.activity = activity;
         this.party = party;
         this.currentUserId = currentUserId;
         this.likeListener = new LikeListener(party);
         this.membersLayoutListener = new MembersLayoutListener(activity, currentUserId);
-        this.detailsListener = partyDetailsListener;
-        this.ownerActionListener = new PartyOwnerActionListener(activity, party);
-        this.ownerActionListener.setOnActionListener(onActionListener);
-        this.ownerActionListener.setOnProgressListener(this);
-        this.userActionListener = new PartyUserActionListener(activity, party);
-        this.userActionListener.setOnActionListener(onActionListener);
-        this.userActionListener.setOnProgressListener(this);
-        setOnClickListener(new OnCardClickListener() {
-            @Override
-            public void onClick(Card card, View view) {
-                detailsListener.onPartyDetails(party.getObjectId());
-            }
-        });
     }
 
     @Override
@@ -70,15 +48,6 @@ public class PartyCard extends Card implements PartyActionListener.OnProgressLis
         AvatarImageView avatarImage = (AvatarImageView) view.findViewById(R.id.image_avatar);
         avatarImage.getFromUrl(party.getUser().getAvatarUrl());
         avatarImage.setOnClickListener(new UserListener(avatarImage.getContext(), party.getUserId()));
-
-        dropdownImage = (DropdownImageView) view.findViewById(R.id.image_dropdown);
-        if (party.isOwner(currentUserId)) {
-            dropdownImage.init(ownerActionListener);
-        } else {
-            dropdownImage.init(userActionListener);
-        }
-
-        progressBar = (ProgressBar) view.findViewById(R.id.progress);
 
         TextView userNameText = (TextView) view.findViewById(R.id.text_user_name);
         userNameText.setText(party.getUser().getScreenName());
@@ -119,7 +88,9 @@ public class PartyCard extends Card implements PartyActionListener.OnProgressLis
                 @Override
                 public void onClick(View view) {
                     Animation.animateTextView(view);
-                    detailsListener.onPartyDetails(party.getObjectId());
+                    final Intent intent = new Intent(activity, PartyDetailsActivity.class);
+                    intent.putExtra(PartyDetailsActivity.INTENT_PARTY_ID, party.getObjectId());
+                    activity.startActivity(intent);
                 }
             });
             joinText.update(party.isMember(currentUserId));
@@ -153,17 +124,5 @@ public class PartyCard extends Card implements PartyActionListener.OnProgressLis
         } catch (Exception e) {
             Ln.e(e);
         }
-    }
-
-    @Override
-    public void onPartyActionStart() {
-        dropdownImage.setVisibility(View.GONE);
-        progressBar.setVisibility(View.VISIBLE);
-    }
-
-    @Override
-    public void onPartyActionFinish() {
-        progressBar.setVisibility(View.GONE);
-        dropdownImage.setVisibility(View.VISIBLE);
     }
 }

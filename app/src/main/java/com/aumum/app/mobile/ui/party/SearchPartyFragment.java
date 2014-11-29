@@ -28,9 +28,7 @@ import javax.inject.Inject;
 import it.gmariotti.cardslib.library.internal.Card;
 import it.gmariotti.cardslib.library.internal.CardArrayAdapter;
 
-public class SearchPartyFragment extends ItemListFragment<Card>
-        implements PartyActionListener.OnActionListener,
-                   PartyDetailsListener {
+public class SearchPartyFragment extends ItemListFragment<Card> {
 
     @Inject UserStore userStore;
     @Inject PartyStore dataStore;
@@ -77,7 +75,7 @@ public class SearchPartyFragment extends ItemListFragment<Card>
         if (requestCode == Constants.RequestCode.GET_PARTY_DETAILS_REQ_CODE && resultCode == Activity.RESULT_OK) {
             String partyId = data.getStringExtra(PartyDetailsActivity.INTENT_PARTY_ID);
             if (partyId != null) {
-                onPartyDeletedSuccess(partyId);
+                onPartyDeleted(partyId);
             }
         }
     }
@@ -132,7 +130,16 @@ public class SearchPartyFragment extends ItemListFragment<Card>
                 if (party.getUser() == null) {
                     party.setUser(userStore.getUserById(party.getUserId()));
                 }
-                Card card = new PartyCard(getActivity(), party, currentUser.getObjectId(), this, this);
+                Card card = new PartyCard(getActivity(), party, currentUser.getObjectId());
+                card.setOnClickListener(new Card.OnCardClickListener() {
+                    @Override
+                    public void onClick(Card card, View view) {
+                        PartyCard partyCard = (PartyCard) card;
+                        final Intent intent = new Intent(getActivity(), PartyDetailsActivity.class);
+                        intent.putExtra(PartyDetailsActivity.INTENT_PARTY_ID, partyCard.getParty().getObjectId());
+                        startActivityForResult(intent, Constants.RequestCode.GET_PARTY_DETAILS_REQ_CODE);
+                    }
+                });
                 cards.add(card);
             }
         }
@@ -152,8 +159,7 @@ public class SearchPartyFragment extends ItemListFragment<Card>
         }
     }
 
-    @Override
-    public void onPartyDeletedSuccess(String partyId) {
+    private void onPartyDeleted(String partyId) {
         try {
             List<Card> cardList = getData();
             for (Iterator<Card> it = cardList.iterator(); it.hasNext();) {
@@ -173,17 +179,5 @@ public class SearchPartyFragment extends ItemListFragment<Card>
         } catch (Exception e) {
             Ln.d(e);
         }
-    }
-
-    @Override
-    public void onPartySharedSuccess() {
-
-    }
-
-    @Override
-    public void onPartyDetails(String partyId) {
-        final Intent intent = new Intent(getActivity(), PartyDetailsActivity.class);
-        intent.putExtra(PartyDetailsActivity.INTENT_PARTY_ID, partyId);
-        startActivityForResult(intent, Constants.RequestCode.GET_PARTY_DETAILS_REQ_CODE);
     }
 }

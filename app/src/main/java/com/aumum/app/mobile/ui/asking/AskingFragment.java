@@ -8,7 +8,6 @@ import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.view.SubMenu;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -39,10 +38,9 @@ public class AskingFragment extends Fragment {
 
     @Override
     public void onCreateOptionsMenu(final Menu menu, final MenuInflater inflater) {
-        SubMenu search = menu.addSubMenu(Menu.NONE, 0, Menu.NONE, getString(R.string.hint_search_asking));
-        MenuItem item = search.getItem();
-        item.setIcon(R.drawable.ic_fa_search);
-        item.setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
+        menu.add(Menu.NONE, 0, Menu.NONE, "SEARCH")
+                .setIcon(R.drawable.ic_fa_search)
+                .setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
 
         menu.add(Menu.NONE, 1, Menu.NONE, "NEW")
                 .setIcon(R.drawable.ic_fa_plus)

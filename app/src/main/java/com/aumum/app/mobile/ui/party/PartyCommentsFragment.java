@@ -315,8 +315,8 @@ public class PartyCommentsFragment extends ItemListFragment<Comment>
 
     private void showActionDialog(View view) {
         final CommentCard card = (CommentCard) view.getTag();
-        final String actionOptions[] = getResources().getStringArray(R.array.label_comment_actions);
-        DialogUtils.showDialog(getActivity(), actionOptions, new DialogInterface.OnClickListener() {
+        final String options[] = getResources().getStringArray(R.array.label_comment_actions);
+        DialogUtils.showDialog(getActivity(), options, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
                 switch (i) {

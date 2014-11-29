@@ -8,7 +8,6 @@ import android.support.v7.app.ActionBarActivity;
 import android.view.View;
 import android.view.animation.AnimationUtils;
 import android.widget.ProgressBar;
-import android.widget.TextView;
 
 import com.aumum.app.mobile.R;
 import com.aumum.app.mobile.core.infra.async.ThrowableLoader;
@@ -70,7 +69,7 @@ public abstract class LoaderFragment<E> extends Fragment
 
     @Override
     public void onLoadFinished(Loader<E> loader, E data) {
-        getActionBarActivity().setSupportProgressBarIndeterminateVisibility(false);
+        hideProgress();
 
         final Exception exception = getException(loader);
         if (exception != null) {
@@ -92,12 +91,8 @@ public abstract class LoaderFragment<E> extends Fragment
         if (!isUsable()) {
             return;
         }
-        getActionBarActivity().setSupportProgressBarIndeterminateVisibility(true);
+        showProgress();
         getLoaderManager().restartLoader(0, args, this);
-    }
-
-    private ActionBarActivity getActionBarActivity() {
-        return ((ActionBarActivity) getActivity());
     }
 
     protected void showError(final int message) {
@@ -177,6 +172,14 @@ public abstract class LoaderFragment<E> extends Fragment
             ViewUtils.setGone(view, true);
         }
         return this;
+    }
+
+    protected void showProgress() {
+        ((ActionBarActivity) getActivity()).setSupportProgressBarIndeterminateVisibility(true);
+    }
+
+    protected void hideProgress() {
+        ((ActionBarActivity) getActivity()).setSupportProgressBarIndeterminateVisibility(false);
     }
 
     protected abstract int getErrorMessage(final Exception exception);

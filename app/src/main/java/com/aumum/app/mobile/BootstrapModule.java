@@ -33,12 +33,9 @@ import com.aumum.app.mobile.ui.party.MembersLayoutListener;
 import com.aumum.app.mobile.ui.party.PartyListFragment;
 import com.aumum.app.mobile.ui.party.PartyReasonsFragment;
 import com.aumum.app.mobile.ui.party.NewPartyActivity;
-import com.aumum.app.mobile.ui.party.PartyActionListener;
-import com.aumum.app.mobile.ui.party.PartyOwnerActionListener;
 import com.aumum.app.mobile.ui.account.ResetPasswordActivity;
 import com.aumum.app.mobile.ui.login.LoginActivity;
 import com.aumum.app.mobile.core.service.LogoutService;
-import com.aumum.app.mobile.ui.party.PartyUserActionListener;
 import com.aumum.app.mobile.ui.party.SearchPartyFragment;
 import com.aumum.app.mobile.ui.register.RegisterActivity;
 import com.aumum.app.mobile.core.Constants;
@@ -89,9 +86,6 @@ import retrofit.converter.GsonConverter;
                 PartyCommentsFragment.class,
                 UserFragment.class,
                 PartyDetailsFragment.class,
-                PartyActionListener.class,
-                PartyOwnerActionListener.class,
-                PartyUserActionListener.class,
                 PartyReasonStore.class,
                 PartyReasonsFragment.class,
                 ConversationFragment.class,

@@ -8,7 +8,6 @@ import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.view.SubMenu;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
@@ -44,10 +43,9 @@ public class ContactFragment extends ItemListFragment<User>
 
     @Override
     public void onCreateOptionsMenu(final Menu menu, final MenuInflater inflater) {
-        SubMenu search = menu.addSubMenu(Menu.NONE, 0, Menu.NONE, getString(R.string.hint_search_contact));
-        MenuItem item = search.getItem();
-        item.setIcon(R.drawable.ic_fa_search);
-        item.setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
+        menu.add(Menu.NONE, 0, Menu.NONE, "SEARCH")
+                .setIcon(R.drawable.ic_fa_search)
+                .setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
 
         menu.add(Menu.NONE, 1, Menu.NONE, "NEW")
                 .setIcon(R.drawable.ic_fa_plus)
@@ -149,8 +147,8 @@ public class ContactFragment extends ItemListFragment<User>
     }
 
     private void showSearchContactDialog() {
-        String searchOptions[] = getResources().getStringArray(R.array.label_search_contact);
-        DialogUtils.showDialog(getActivity(), searchOptions, new DialogInterface.OnClickListener() {
+        String options[] = getResources().getStringArray(R.array.label_search_contact);
+        DialogUtils.showDialog(getActivity(), options, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
                 switch (i) {
