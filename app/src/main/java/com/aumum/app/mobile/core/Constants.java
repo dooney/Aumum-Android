@@ -97,6 +97,11 @@ public final class Constants {
         public static final String URL_ASKING_BY_ID_FRAG = "/1/classes/Askings/{id}";
 
         /**
+         * List Asking Reply URL
+         */
+        public static final String URL_ASKING_REPLIES_FRAG = "/1/classes/AskingReplies";
+
+        /**
          * PARAMS for auth
          */
         public static final String PARAM_USERNAME = "username";
@@ -129,6 +134,10 @@ public final class Constants {
             public static final String PARAM_AVATAR_URL = "avatarUrl";
             public static final String PARAM_CHAT_ID = "chatId";
             public static final String PARAM_ASKINGS = "askings";
+        }
+
+        public static final class Asking {
+            public static final String PARAM_REPLIES = "replies";
         }
     }
 

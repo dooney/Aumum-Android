@@ -10,10 +10,6 @@ public class PartyReason extends AggregateRoot {
 
     private User user;
 
-    public PartyReason() {
-
-    }
-
     public PartyReason(int type, String content, String userId) {
         this.type = type;
         this.content = content;

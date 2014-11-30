@@ -11,7 +11,6 @@ import com.aumum.app.mobile.Injector;
 import com.aumum.app.mobile.R;
 import com.aumum.app.mobile.core.dao.UserStore;
 import com.aumum.app.mobile.ui.base.ItemListFragment;
-import com.aumum.app.mobile.utils.Ln;
 
 import java.util.List;
 
@@ -50,17 +49,5 @@ public class ContactRequestsFragment extends ItemListFragment<ContactRequest> {
     @Override
     protected List<ContactRequest> loadDataCore(Bundle bundle) throws Exception {
         return userStore.getContactRequestList();
-    }
-
-    @Override
-    protected void handleLoadResult(List<ContactRequest> result) {
-        try {
-            if (result != null) {
-                getData().addAll(result);
-                getListAdapter().notifyDataSetChanged();
-            }
-        } catch (Exception e) {
-            Ln.d(e);
-        }
     }
 }

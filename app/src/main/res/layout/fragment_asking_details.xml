@@ -37,20 +37,24 @@
                         android:id="@+id/text_user_name"
                         style="@style/TextView.Asking.UserName"
                         android:paddingRight="@dimen/margin_large"
-                        android:layout_toLeftOf="@+id/text_createdAt"
-                        android:layout_alignBaseline="@+id/text_createdAt"/>
+                        android:layout_below="@+id/text_question"
+                        android:layout_alignParentLeft="true"/>
 
                     <TextView
                         android:id="@+id/text_createdAt"
                         style="@style/TextView.Asking.CreatedAt"
-                        android:layout_below="@+id/text_question"
-                        android:layout_alignParentRight="true"/>
+                        android:layout_toRightOf="@+id/text_user_name"
+                        android:layout_alignBaseline="@+id/text_user_name"/>
 
                 </RelativeLayout>
 
                 <View
                     style="@style/Divider"
                     android:background="@color/grey_light"/>
+
+                <fragment android:name="com.aumum.app.mobile.ui.asking.AskingRepliesFragment"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent" />
 
             </LinearLayout>
 
@@ -62,5 +66,36 @@
         android:id="@+id/pb_loading"
         style="@style/ListSpinner"
         android:layout_centerInParent="true" />
+
+    <RelativeLayout
+        android:id="@+id/layout_action"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/layout_reply_box"
+        android:layout_alignWithParentIfMissing="true"
+        android:background="@color/card_background">
+
+        <View style="@style/Divider" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/margin_medium"
+            android:gravity="center">
+
+            <TextView
+                android:id="@+id/text_reply"
+                style="@style/TextView.Asking.Reply"/>
+
+        </LinearLayout>
+
+    </RelativeLayout>
+
+    <include
+        android:id="@+id/layout_reply_box"
+        layout="@layout/asking_include_reply_box"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true" />
 
 </RelativeLayout>

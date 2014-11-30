@@ -11,10 +11,6 @@ public class Comment extends AggregateRoot {
 
     private User user;
 
-    public Comment() {
-
-    }
-
     public Comment(String parentId, String repliedId, String content, String userId) {
         this.parentId = parentId;
         this.repliedId = repliedId;
@@ -22,16 +18,8 @@ public class Comment extends AggregateRoot {
         this.userId = userId;
     }
 
-    public void setParentId(String parentId) {
-        this.parentId = parentId;
-    }
-
     public String getParentId() {
         return parentId;
-    }
-
-    public void setRepliedId(String repliedId) {
-        this.repliedId = repliedId;
     }
 
     public String getRepliedId() {

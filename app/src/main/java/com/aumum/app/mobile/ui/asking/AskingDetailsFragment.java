@@ -6,6 +6,8 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.aumum.app.mobile.Injector;
@@ -14,9 +16,13 @@ import com.aumum.app.mobile.core.dao.AskingStore;
 import com.aumum.app.mobile.core.dao.UserStore;
 import com.aumum.app.mobile.core.model.Asking;
 import com.aumum.app.mobile.core.model.User;
+import com.aumum.app.mobile.events.AddAskingReplyEvent;
 import com.aumum.app.mobile.ui.base.LoaderFragment;
+import com.aumum.app.mobile.ui.view.Animation;
 import com.aumum.app.mobile.ui.view.QuickReturnScrollView;
+import com.aumum.app.mobile.utils.EditTextUtils;
 import com.aumum.app.mobile.utils.Ln;
+import com.squareup.otto.Bus;
 
 import javax.inject.Inject;
 
@@ -29,6 +35,7 @@ public class AskingDetailsFragment extends LoaderFragment<Asking>
 
     @Inject UserStore userStore;
     @Inject AskingStore askingStore;
+    @Inject Bus bus;
 
     private String askingId;
 
@@ -37,6 +44,13 @@ public class AskingDetailsFragment extends LoaderFragment<Asking>
     private TextView questionText;
     private TextView userNameText;
     private TextView createdAtText;
+
+    private ViewGroup layoutReplyBox;
+    private TextView replyText;
+    private boolean isReplyBoxShow;
+    private EditText editReply;
+    private ImageView postReplyButton;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -65,6 +79,35 @@ public class AskingDetailsFragment extends LoaderFragment<Asking>
         questionText = (TextView) view.findViewById(R.id.text_question);
         userNameText = (TextView) view.findViewById(R.id.text_user_name);
         createdAtText = (TextView) view.findViewById(R.id.text_createdAt);
+
+        layoutReplyBox = (ViewGroup) view.findViewById(R.id.layout_reply_box);
+        replyText = (TextView) view.findViewById(R.id.text_reply);
+        replyText.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                toggleReplyBox();
+            }
+        });
+        editReply = (EditText) view.findViewById(R.id.edit_reply);
+        postReplyButton = (ImageView) view.findViewById(R.id.image_post_reply);
+        postReplyButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                submitReply();
+            }
+        });
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        bus.register(this);
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        bus.unregister(this);
     }
 
     @Override
@@ -118,5 +161,42 @@ public class AskingDetailsFragment extends LoaderFragment<Asking>
     @Override
     public void onScrollDown() {
 
+    }
+
+    private void toggleReplyBox() {
+        if (isReplyBoxShow) {
+            hideReplyBox();
+        } else {
+            editReply.setHint(R.string.hint_new_reply);
+            showReplyBox();
+        }
+        isReplyBoxShow = !isReplyBoxShow;
+    }
+
+    private void showReplyBox() {
+        Animation.flyIn(layoutReplyBox);
+        EditTextUtils.showSoftInput(editReply, true);
+    }
+
+    private void hideReplyBox() {
+        EditTextUtils.hideSoftInput(editReply);
+        editReply.setText(null);
+        Animation.flyOut(layoutReplyBox);
+    }
+
+    private void enableSubmit() {
+        postReplyButton.setEnabled(true);
+    }
+
+    private void disableSubmit() {
+        postReplyButton.setEnabled(false);
+    }
+
+    private void submitReply() {
+        String answer = editReply.getText().toString();
+        bus.post(new AddAskingReplyEvent(answer));
+
+        hideReplyBox();
+        disableSubmit();
     }
 }

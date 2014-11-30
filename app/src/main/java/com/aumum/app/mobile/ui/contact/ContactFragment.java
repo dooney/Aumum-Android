@@ -122,19 +122,6 @@ public class ContactFragment extends ItemListFragment<User>
     }
 
     @Override
-    protected void handleLoadResult(List<User> result) {
-        try {
-            if (result != null) {
-                getData().clear();
-                getData().addAll(result);
-                getListAdapter().notifyDataSetChanged();
-            }
-        } catch (Exception e) {
-            Ln.d(e);
-        }
-    }
-
-    @Override
     protected ArrayAdapter<User> createAdapter(List<User> items) {
         return new ContactAdapter(getActivity(), items, this);
     }

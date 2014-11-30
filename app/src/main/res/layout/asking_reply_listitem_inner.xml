@@ -17,18 +17,18 @@
 
     <TextView
         android:id="@+id/text_user_name"
-        style="@style/TextView.Comment.UserName"
+        style="@style/TextView.AskingReply.UserName"
         android:layout_toRightOf="@+id/image_avatar" />
 
     <TextView
         android:id="@+id/text_createdAt"
-        style="@style/TextView.Comment.CreatedAt"
+        style="@style/TextView.AskingReply.CreatedAt"
         android:layout_below="@+id/text_user_name"
         android:layout_alignLeft="@+id/text_user_name" />
 
     <TextView
         android:id="@+id/text_content"
-        style="@style/TextView.Comment.Text"
+        style="@style/TextView.AskingReply.Content"
         android:layout_below="@+id/text_createdAt"
         android:layout_alignLeft="@+id/text_user_name" />
 

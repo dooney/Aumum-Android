@@ -44,13 +44,13 @@ public class PartyReasonsFragment extends ItemListFragment<PartyReason> {
     @Inject Bus bus;
     @Inject UserStore userStore;
     @Inject PartyStore partyStore;
+    @Inject PartyReasonStore partyReasonStore;
 
     private SafeAsyncTask<Boolean> task;
 
     private String partyId;
     private Party party;
     private User currentUser;
-    private PartyReasonStore partyReasonStore;
 
     private ViewGroup mainView;
 
@@ -58,7 +58,6 @@ public class PartyReasonsFragment extends ItemListFragment<PartyReason> {
     public void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Injector.inject(this);
-        partyReasonStore = new PartyReasonStore();
         final Intent intent = getActivity().getIntent();
         partyId = intent.getStringExtra(PartyDetailsActivity.INTENT_PARTY_ID);
     }
@@ -97,22 +96,11 @@ public class PartyReasonsFragment extends ItemListFragment<PartyReason> {
     protected List<PartyReason> loadDataCore(Bundle bundle) throws Exception {
         currentUser = userStore.getCurrentUser();
         party = partyStore.getPartyById(partyId);
-        return partyReasonStore.getPartyReasons(partyId);
-    }
-
-    @Override
-    protected void handleLoadResult(List<PartyReason> result) {
-        try {
-            if (result != null) {
-                for (PartyReason reason: result) {
-                    reason.setUser(userStore.getUserById(reason.getUserId()));
-                }
-                getData().addAll(result);
-                getListAdapter().notifyDataSetChanged();
-            }
-        } catch (Exception e) {
-            Ln.d(e);
+        List<PartyReason> result = partyReasonStore.getPartyReasons(party.getReasons());
+        for (PartyReason reason: result) {
+            reason.setUser(userStore.getUserById(reason.getUserId()));
         }
+        return result;
     }
 
     @Override
@@ -127,10 +115,7 @@ public class PartyReasonsFragment extends ItemListFragment<PartyReason> {
         }
 
         // update UI first
-        PartyReason reason = new PartyReason();
-        reason.setType(event.getType());
-        reason.setContent(event.getReason());
-        reason.setUserId(currentUser.getObjectId());
+        PartyReason reason = new PartyReason(event.getType(), event.getReason(), currentUser.getObjectId());
         reason.setUser(currentUser);
         getData().add(0, reason);
         getListAdapter().notifyDataSetChanged();
@@ -153,7 +138,6 @@ public class PartyReasonsFragment extends ItemListFragment<PartyReason> {
                 reason.setCreatedAt(response.getCreatedAt());
                 party.getReasons().add(response.getObjectId());
 
-                User currentUser = userStore.getCurrentUser();
                 if (reason.getType() == PartyReason.JOIN) {
                     service.addPartyMember(partyId, currentUser.getObjectId());
                     service.addUserParty(currentUser.getObjectId(), partyId);

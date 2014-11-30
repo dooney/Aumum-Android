@@ -37,6 +37,7 @@ import com.aumum.app.mobile.events.UnAuthorizedErrorEvent;
 import com.aumum.app.mobile.ui.base.ProgressDialogActivity;
 import com.aumum.app.mobile.ui.helper.TextWatcherAdapter;
 import com.aumum.app.mobile.ui.view.Animation;
+import com.aumum.app.mobile.utils.EditTextUtils;
 import com.aumum.app.mobile.utils.SafeAsyncTask;
 import com.github.kevinsawicki.wishlist.Toaster;
 import com.greenhalolabs.emailautocompletetextview.EmailAutoCompleteTextView;
@@ -201,7 +202,9 @@ public class LoginActivity extends ProgressDialogActivity {
         }
 
         username = usernameText.getText().toString();
+        EditTextUtils.hideSoftInput(usernameText);
         password = passwordText.getText().toString();
+        EditTextUtils.hideSoftInput(passwordText);
         showProgress();
 
         authenticationTask = new SafeAsyncTask<Boolean>() {

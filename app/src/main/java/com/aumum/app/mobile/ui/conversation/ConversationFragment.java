@@ -90,19 +90,6 @@ public class ConversationFragment extends ItemListFragment<Conversation> {
         return getAllConversations();
     }
 
-    @Override
-    protected void handleLoadResult(List<Conversation> result) {
-        try {
-            if (result != null) {
-                getData().clear();
-                getData().addAll(result);
-                getListAdapter().notifyDataSetChanged();
-            }
-        } catch (Exception e) {
-            Ln.d(e);
-        }
-    }
-
     private List<Conversation> getAllConversations() throws Exception {
         List<Conversation> result = new ArrayList<Conversation>();
         List<EMConversation> emConversations = chatService.getAllConversations();

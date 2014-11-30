@@ -100,6 +100,13 @@ public class ProfileFragment extends LoaderFragment<User>
     }
 
     @Override
+    public void onDestroyView() {
+        mainView = null;
+
+        super.onDestroyView();
+    }
+
+    @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 

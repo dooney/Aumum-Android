@@ -2,6 +2,7 @@
 package com.aumum.app.mobile.core.service;
 
 import com.aumum.app.mobile.core.model.Asking;
+import com.aumum.app.mobile.core.model.AskingReply;
 import com.aumum.app.mobile.core.model.Comment;
 import com.aumum.app.mobile.core.Constants;
 import com.aumum.app.mobile.core.model.Message;
@@ -65,6 +66,10 @@ public class RestService {
 
     private AskingService getAskingService() {
         return getRestAdapter().create(AskingService.class);
+    }
+
+    private AskingReplyService getAskingReplyService() {
+        return getRestAdapter().create(AskingReplyService.class);
     }
 
     private RestAdapter getRestAdapter() {
@@ -326,16 +331,11 @@ public class RestService {
         return getPartyService().refresh(keys, where).getResults();
     }
 
-    public List<Comment> getPartyComments(String partyId) {
-        String keys = Constants.Http.Party.PARAM_COMMENTS;
-        Party party = getPartyService().getFieldsById(partyId, keys);
-        if (party != null) {
-            final JsonObject whereJson = new JsonObject();
-            whereJson.add("objectId", buildIdListJson(party.getComments()));
-            String where = whereJson.toString();
-            return getPartyCommentService().getPartyComments("-createdAt", where).getResults();
-        }
-        return null;
+    public List<Comment> getPartyComments(List<String> idList) {
+        final JsonObject whereJson = new JsonObject();
+        whereJson.add("objectId", buildIdListJson(idList));
+        String where = whereJson.toString();
+        return getPartyCommentService().getPartyComments("-createdAt", where).getResults();
     }
 
     public Comment newPartyComment(Comment comment) {
@@ -402,16 +402,11 @@ public class RestService {
         return getPartyService().updateById(partyId, data);
     }
 
-    public List<PartyReason> getPartyReasons(String partyId) {
-        String keys = Constants.Http.Party.PARAM_REASONS;
-        Party party = getPartyService().getFieldsById(partyId, keys);
-        if (party != null) {
-            final JsonObject whereJson = new JsonObject();
-            whereJson.add("objectId", buildIdListJson(party.getReasons()));
-            String where = whereJson.toString();
-            return getPartyReasonService().getPartyReasons("-createdAt", where).getResults();
-        }
-        return null;
+    public List<PartyReason> getPartyReasons(List<String> idList) {
+        final JsonObject whereJson = new JsonObject();
+        whereJson.add("objectId", buildIdListJson(idList));
+        String where = whereJson.toString();
+        return getPartyReasonService().getPartyReasons("-createdAt", where).getResults();
     }
 
     public List<Party> getLiveParties() {
@@ -471,5 +466,33 @@ public class RestService {
 
     public Asking getAskingById(String id) {
         return getAskingService().getById(id);
+    }
+
+    public List<AskingReply> getAskingReplies(List<String> idList) {
+        final JsonObject whereJson = new JsonObject();
+        whereJson.add("objectId", buildIdListJson(idList));
+        String where = whereJson.toString();
+        return getAskingReplyService().getAskingReplies("-createdAt", where).getResults();
+    }
+
+    public AskingReply newAskingReply(AskingReply askingReply) {
+        Gson gson = new Gson();
+        JsonObject data = gson.toJsonTree(askingReply).getAsJsonObject();
+        return getAskingReplyService().newAskingReply(data);
+    }
+
+    public JsonObject addAskingReplies(String askingId, String replyId) {
+        final JsonObject op = new JsonObject();
+        op.addProperty("__op", "AddUnique");
+        return updateAskingReplies(op, askingId, replyId);
+    }
+
+    private JsonObject updateAskingReplies(JsonObject op, String askingId, String replyId) {
+        final JsonObject data = new JsonObject();
+        final JsonArray askingReplies = new JsonArray();
+        askingReplies.add(new JsonPrimitive(replyId));
+        op.add("objects", askingReplies);
+        data.add(Constants.Http.Asking.PARAM_REPLIES, op);
+        return getAskingService().updateById(askingId, data);
     }
 }

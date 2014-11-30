@@ -10,7 +10,6 @@ import com.aumum.app.mobile.Injector;
 import com.aumum.app.mobile.R;
 import com.aumum.app.mobile.core.service.ChatService;
 import com.aumum.app.mobile.ui.base.ItemListFragment;
-import com.aumum.app.mobile.utils.Ln;
 import com.easemob.chat.EMGroup;
 
 import java.util.List;
@@ -46,17 +45,5 @@ public class AllGroupsFragment extends ItemListFragment<EMGroup> {
     @Override
     protected List<EMGroup> loadDataCore(Bundle bundle) throws Exception {
         return chatService.getAllPublicGroups();
-    }
-
-    @Override
-    protected void handleLoadResult(List<EMGroup> result) {
-        try {
-            if (result != null) {
-                getData().addAll(result);
-                getListAdapter().notifyDataSetChanged();
-            }
-        } catch (Exception e) {
-            Ln.d(e);
-        }
     }
 }

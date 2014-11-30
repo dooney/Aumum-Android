@@ -3,6 +3,7 @@ package com.aumum.app.mobile;
 import android.accounts.AccountManager;
 import android.content.Context;
 
+import com.aumum.app.mobile.core.dao.AskingReplyStore;
 import com.aumum.app.mobile.core.dao.AskingStore;
 import com.aumum.app.mobile.core.dao.PartyReasonStore;
 import com.aumum.app.mobile.core.dao.Repository;
@@ -14,6 +15,7 @@ import com.aumum.app.mobile.core.service.RestService;
 import com.aumum.app.mobile.ui.LaunchActivity;
 import com.aumum.app.mobile.ui.asking.AskingDetailsFragment;
 import com.aumum.app.mobile.ui.asking.AskingListFragment;
+import com.aumum.app.mobile.ui.asking.AskingRepliesFragment;
 import com.aumum.app.mobile.ui.asking.NewAskingActivity;
 import com.aumum.app.mobile.ui.chat.ChatFragment;
 import com.aumum.app.mobile.ui.chat.SendMessageListener;
@@ -83,11 +85,9 @@ import retrofit.converter.GsonConverter;
                 MainActivity.class,
                 NewPartyActivity.class,
                 LikeListener.class,
-                PartyCommentStore.class,
                 PartyCommentsFragment.class,
                 UserFragment.class,
                 PartyDetailsFragment.class,
-                PartyReasonStore.class,
                 PartyReasonsFragment.class,
                 ConversationFragment.class,
                 AllGroupsFragment.class,
@@ -112,7 +112,8 @@ import retrofit.converter.GsonConverter;
                 SettingsActivity.class,
                 AskingListFragment.class,
                 NewAskingActivity.class,
-                AskingDetailsFragment.class
+                AskingDetailsFragment.class,
+                AskingRepliesFragment.class
         }
 )
 public class BootstrapModule {
@@ -176,8 +177,26 @@ public class BootstrapModule {
 
     @Provides
     @Singleton
+    PartyCommentStore providePartyCommentStore(RestService restService) {
+        return new PartyCommentStore(restService);
+    }
+
+    @Provides
+    @Singleton
+    PartyReasonStore providePartyReasonStore(RestService restService) {
+        return new PartyReasonStore(restService);
+    }
+
+    @Provides
+    @Singleton
     AskingStore provideAskingStore(RestService restService) {
         return new AskingStore(restService);
+    }
+
+    @Provides
+    @Singleton
+    AskingReplyStore provideAskingReplyStore(RestService restService) {
+        return new AskingReplyStore(restService);
     }
 
     @Provides

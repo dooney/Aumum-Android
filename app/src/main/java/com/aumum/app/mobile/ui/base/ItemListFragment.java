@@ -82,4 +82,13 @@ public abstract class ItemListFragment<E> extends LoaderFragment<List<E>> {
     protected View getMainView() {
         return listView;
     }
+
+    @Override
+    protected void handleLoadResult(List<E> result) {
+        if (result != null) {
+            getData().clear();
+            getData().addAll(result);
+            getListAdapter().notifyDataSetChanged();
+        }
+    }
 }

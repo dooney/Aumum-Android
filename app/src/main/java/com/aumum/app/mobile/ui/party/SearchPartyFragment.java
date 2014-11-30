@@ -146,19 +146,6 @@ public class SearchPartyFragment extends ItemListFragment<Card> {
         return cards;
     }
 
-    @Override
-    protected void handleLoadResult(List<Card> result) {
-        try {
-            if (result != null) {
-                getData().clear();
-                getData().addAll(result);
-                getListAdapter().notifyDataSetChanged();
-            }
-        } catch (Exception e) {
-            Ln.d(e);
-        }
-    }
-
     private void onPartyDeleted(String partyId) {
         try {
             List<Card> cardList = getData();

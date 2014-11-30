@@ -16,7 +16,6 @@ import com.aumum.app.mobile.core.dao.AskingStore;
 import com.aumum.app.mobile.core.dao.UserStore;
 import com.aumum.app.mobile.core.model.Asking;
 import com.aumum.app.mobile.ui.base.ItemListFragment;
-import com.aumum.app.mobile.utils.Ln;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -109,19 +108,6 @@ public class AskingListFragment extends ItemListFragment<Asking> {
             }
         }
         return dataSet;
-    }
-
-    @Override
-    protected void handleLoadResult(List<Asking> result) {
-        try {
-            if (result != null) {
-                getData().clear();
-                getData().addAll(result);
-                getListAdapter().notifyDataSetChanged();
-            }
-        } catch (Exception e) {
-            Ln.d(e);
-        }
     }
 
     private void getUpwardsList() throws Exception {

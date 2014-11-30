@@ -9,7 +9,6 @@ import android.widget.AbsListView;
 import android.widget.ArrayAdapter;
 
 import com.aumum.app.mobile.R;
-import com.aumum.app.mobile.utils.Ln;
 
 import java.util.List;
 
@@ -106,16 +105,8 @@ public abstract class CardListFragment extends ItemListFragment<Card> {
 
     @Override
     protected void handleLoadResult(final List<Card> result) {
-        try {
-            if (result != null) {
-                getData().clear();
-                getData().addAll(result);
-                getListAdapter().notifyDataSetChanged();
-            }
-            isLoading = false;
-        } catch (Exception e) {
-            Ln.d(e);
-        }
+        super.handleLoadResult(result);
+        isLoading = false;
     }
 
     protected abstract List<Card> loadCards(int mode) throws Exception;

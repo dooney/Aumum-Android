@@ -86,6 +86,7 @@
     <string name="error_load_askings">获取问问列表失败</string>
     <string name="error_submit_new_asking">发布问题失败</string>
     <string name="error_load_asking">获取问题详情失败</string>
+    <string name="error_load_asking_reply_list">获取回复列表失败</string>
 
     <!-- Title -->
     <string name="title_activity_login">用户登录</string>
@@ -186,7 +187,8 @@
     <!-- Asking -->
     <string name="hint_asking_question">一句话描述您的问题</string>
     <string name="label_new_asking_message">发布了提问：%1$s</string>
-    <string name="label_answer">回答</string>
+    <string name="label_reply">回复</string>
+    <string name="hint_new_reply">写下您的回复</string>
 
     <!-- Contact -->
     <string name="label_group_current_size">%,d人</string>

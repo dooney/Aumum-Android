@@ -50,18 +50,18 @@ import retrofit.RetrofitError;
  */
 public class PartyCommentsFragment extends ItemListFragment<Comment>
         implements QuickReturnListView.OnScrollDirectionListener {
-    private String partyId;
-    private User currentUser;
-    private Party party;
-    private PartyCommentStore partyCommentStore;
-
-    private SafeAsyncTask<Boolean> task;
-    private Comment repliedComment;
-
     @Inject RestService service;
     @Inject MessageDeliveryService messageDeliveryService;
     @Inject UserStore userStore;
     @Inject PartyStore partyStore;
+    @Inject PartyCommentStore partyCommentStore;
+
+    private String partyId;
+    private User currentUser;
+    private Party party;
+
+    private SafeAsyncTask<Boolean> task;
+    private Comment repliedComment;
 
     private QuickReturnListView quickReturnListView;
     private ViewGroup layoutAction;
@@ -75,7 +75,6 @@ public class PartyCommentsFragment extends ItemListFragment<Comment>
     public void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Injector.inject(this);
-        partyCommentStore = new PartyCommentStore();
         final Intent intent = getActivity().getIntent();
         partyId = intent.getStringExtra(PartyCommentsActivity.INTENT_PARTY_ID);
     }
@@ -147,22 +146,11 @@ public class PartyCommentsFragment extends ItemListFragment<Comment>
     protected List<Comment> loadDataCore(Bundle bundle) throws Exception {
         currentUser = userStore.getCurrentUser();
         party = partyStore.getPartyById(partyId);
-        return partyCommentStore.getPartyComments(partyId);
-    }
-
-    @Override
-    protected void handleLoadResult(List<Comment> result) {
-        try {
-            if (result != null) {
-                for (Comment comment : result) {
-                    comment.setUser(userStore.getUserById(comment.getUserId()));
-                }
-                getData().addAll(result);
-                getListAdapter().notifyDataSetChanged();
-            }
-        } catch (Exception e) {
-            Ln.d(e);
+        List<Comment> result = partyCommentStore.getPartyComments(party.getComments());
+        for (Comment comment : result) {
+            comment.setUser(userStore.getUserById(comment.getUserId()));
         }
+        return result;
     }
 
     @Override
@@ -205,17 +193,14 @@ public class PartyCommentsFragment extends ItemListFragment<Comment>
         }
 
         // update UI first
-        Comment comment = new Comment();
-        comment.setParentId(partyId);
+        String repliedId = null;
         String content = editComment.getText().toString();
         if (repliedComment != null) {
-            comment.setRepliedId(repliedComment.getObjectId());
-            comment.setContent(getString(R.string.hint_reply_comment,
-                    repliedComment.getUser().getScreenName(), content));
-        } else {
-            comment.setContent(content);
+            repliedId = repliedComment.getObjectId();
+            content = getString(R.string.hint_reply_comment,
+                    repliedComment.getUser().getScreenName(), content);
         }
-        comment.setUserId(currentUser.getObjectId());
+        Comment comment = new Comment(partyId, repliedId, content, currentUser.getObjectId());
         comment.setUser(currentUser);
         getData().add(0, comment);
         getListAdapter().notifyDataSetChanged();
