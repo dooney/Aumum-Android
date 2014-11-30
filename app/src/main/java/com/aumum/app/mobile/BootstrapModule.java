@@ -12,6 +12,7 @@ import com.aumum.app.mobile.core.service.MessageDeliveryService;
 import com.aumum.app.mobile.core.service.NotificationService;
 import com.aumum.app.mobile.core.service.RestService;
 import com.aumum.app.mobile.ui.LaunchActivity;
+import com.aumum.app.mobile.ui.asking.AskingDetailsFragment;
 import com.aumum.app.mobile.ui.asking.AskingListFragment;
 import com.aumum.app.mobile.ui.asking.NewAskingActivity;
 import com.aumum.app.mobile.ui.chat.ChatFragment;
@@ -110,7 +111,8 @@ import retrofit.converter.GsonConverter;
                 ProfileFragment.class,
                 SettingsActivity.class,
                 AskingListFragment.class,
-                NewAskingActivity.class
+                NewAskingActivity.class,
+                AskingDetailsFragment.class
         }
 )
 public class BootstrapModule {

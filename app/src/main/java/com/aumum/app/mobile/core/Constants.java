@@ -92,6 +92,11 @@ public final class Constants {
         public static final String URL_ASKINGS_FRAG = "/1/classes/Askings";
 
         /**
+         * Asking By Id URL
+         */
+        public static final String URL_ASKING_BY_ID_FRAG = "/1/classes/Askings/{id}";
+
+        /**
          * PARAMS for auth
          */
         public static final String PARAM_USERNAME = "username";
@@ -176,6 +181,7 @@ public final class Constants {
         public static final int GALLERY_INTENT_REQ_CODE = 33;
         public static final int CROP_PROFILE_IMAGE_REQ_CODE = 34;
         public static final int NEW_ASKING_REQ_CODE = 35;
+        public static final int GET_ASKING_DETAILS_REQ_CODE = 36;
     }
 }
 

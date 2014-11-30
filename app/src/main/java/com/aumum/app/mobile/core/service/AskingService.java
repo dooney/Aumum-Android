@@ -8,6 +8,7 @@ import com.google.gson.JsonObject;
 import retrofit.http.Body;
 import retrofit.http.GET;
 import retrofit.http.POST;
+import retrofit.http.Path;
 import retrofit.http.Query;
 
 /**
@@ -22,4 +23,7 @@ public interface AskingService {
 
     @POST(Constants.Http.URL_ASKINGS_FRAG)
     Asking newAsking(@Body JsonObject data);
+
+    @GET(Constants.Http.URL_ASKING_BY_ID_FRAG)
+    Asking getById(@Path("id") String id);
 }

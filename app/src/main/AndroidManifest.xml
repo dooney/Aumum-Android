@@ -193,6 +193,7 @@
             android:name="com.aumum.app.mobile.ui.asking.NewAskingActivity"
             android:label="@string/title_activity_new_asking" >
         </activity>
+        <activity android:name="com.aumum.app.mobile.ui.asking.AskingDetailsActivity" />
     </application>
 
 </manifest>

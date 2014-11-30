@@ -211,7 +211,7 @@ public class PartyDetailsFragment extends LoaderFragment<Party>
 
     @Override
     protected int getErrorMessage(Exception exception) {
-        return R.string.error_load_party;
+        return R.string.error_load_party_details;
     }
 
     @Override
@@ -227,9 +227,6 @@ public class PartyDetailsFragment extends LoaderFragment<Party>
     @Override
     protected Party loadDataCore(Bundle bundle) throws Exception {
         party = partyStore.getPartyByIdFromServer(partyId);
-        if (party == null) {
-            throw new Exception(getString(R.string.error_load_party_details));
-        }
         party.setDistance(gpsTracker.getLatitude(), gpsTracker.getLongitude());
         return party;
     }

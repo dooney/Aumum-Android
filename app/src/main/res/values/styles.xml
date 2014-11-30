@@ -264,6 +264,9 @@
         <item name="android:drawableLeft">@drawable/ic_fa_comment_o</item>
         <item name="android:text">@string/label_answer</item>
     </style>
+    <style name="TextView.AskingDetails.Question" parent="TextView.Content.Text">
+        <item name="android:textColor">@color/text_light</item>
+    </style>
 
     <!-- Conversation -->
     <style name="TextView.Conversation.ScreenName" parent="TextView.UserName">

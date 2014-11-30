@@ -36,6 +36,7 @@ public class PagerAdapter extends FragmentPagerAdapter {
         final Fragment result = new AskingListFragment();
         Bundle bundle = new Bundle();
         bundle.putInt(AskingListFragment.CATEGORY, position);
+        bundle.putString(AskingListFragment.TITLE, pages[position]);
         result.setArguments(bundle);
         return result;
     }

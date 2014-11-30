@@ -468,4 +468,8 @@ public class RestService {
         data.add(Constants.Http.User.PARAM_ASKINGS, op);
         return getUserService().updateById(userId, data);
     }
+
+    public Asking getAskingById(String id) {
+        return getAskingService().getById(id);
+    }
 }

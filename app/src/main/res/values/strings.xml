@@ -61,7 +61,6 @@
     <string name="error_load_parties">获取聚会列表失败</string>
     <string name="error_load_party_comments">获取聚会评论失败</string>
     <string name="error_load_user">获取用户信息失败</string>
-    <string name="error_load_party">获取聚会信息失败</string>
     <string name="error_upload_profile_image">上传头像图片失败</string>
     <string name="error_bad_credentials">您的账号验证失败，请重新输入正确的用户名/密码</string>
     <string name="error_authentication">您的账号验证失败</string>
@@ -78,14 +77,15 @@
     <string name="error_add_contact">添加好友失败</string>
     <string name="error_load_contact_requests">获取好友请求列表失败</string>
     <string name="error_accept_contact">同意添加好友失败</string>
-    <string name="error_load_party_details">获取聚会信息失败</string>
+    <string name="error_load_party_details">获取聚会详情失败</string>
     <string name="error_delete_contact">移除好友失败</string>
     <string name="error_load_image">获取图片失败</string>
     <string name="error_load_contacts">获取好友列表失败</string>
     <string name="error_load_my_groups">获取圈子列表失败</string>
     <string name="error_load_profile">获取个人信息失败</string>
     <string name="error_load_askings">获取问问列表失败</string>
-    <string name="error_submit_new_asking">发布问问失败</string>
+    <string name="error_submit_new_asking">发布问题失败</string>
+    <string name="error_load_asking">获取问题详情失败</string>
 
     <!-- Title -->
     <string name="title_activity_login">用户登录</string>
@@ -108,6 +108,7 @@
     <string name="title_activity_change_avatar">更换头像</string>
     <string name="title_user_parties">%1$s的聚会</string>
     <string name="title_activity_new_asking">发布提问</string>
+    <string name="title_activity_asking_details">问题详情</string>
 
     <!-- Register -->
     <string name="hint_screen_name">昵称</string>

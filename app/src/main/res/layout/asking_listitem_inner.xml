@@ -32,11 +32,4 @@
         android:layout_alignParentRight="true"
         android:layout_alignBaseline="@+id/text_answer"/>
 
-    <ProgressBar
-        android:id="@+id/progress"
-        style="@style/ProgressBar.Small"
-        android:layout_below="@+id/text_question"
-        android:layout_alignParentRight="true"
-        android:visibility="gone" />
-
 </RelativeLayout>

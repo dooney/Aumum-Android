@@ -21,4 +21,8 @@ public class AskingStore {
     public List<Asking> getUpwardsList(int category, String time) {
         return restService.getAskingListAfter(category, time, LIMIT_PER_LOAD);
     }
+
+    public Asking getById(String askingId) {
+        return restService.getAskingById(askingId);
+    }
 }

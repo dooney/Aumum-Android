@@ -1,0 +1,66 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <com.aumum.app.mobile.ui.view.QuickReturnScrollView
+        android:id="@+id/scroll_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true">
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" >
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <RelativeLayout
+                    android:id="@+id/main_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/card_background"
+                    android:paddingTop="@dimen/margin_medium"
+                    android:paddingBottom="@dimen/margin_medium"
+                    android:paddingLeft="@dimen/margin_large"
+                    android:paddingRight="@dimen/margin_large"
+                    android:visibility="gone" >
+
+                    <TextView
+                        android:id="@+id/text_question"
+                        style="@style/TextView.AskingDetails.Question" />
+
+                    <TextView
+                        android:id="@+id/text_user_name"
+                        style="@style/TextView.Asking.UserName"
+                        android:paddingRight="@dimen/margin_large"
+                        android:layout_toLeftOf="@+id/text_createdAt"
+                        android:layout_alignBaseline="@+id/text_createdAt"/>
+
+                    <TextView
+                        android:id="@+id/text_createdAt"
+                        style="@style/TextView.Asking.CreatedAt"
+                        android:layout_below="@+id/text_question"
+                        android:layout_alignParentRight="true"/>
+
+                </RelativeLayout>
+
+                <View
+                    style="@style/Divider"
+                    android:background="@color/grey_light"/>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </com.aumum.app.mobile.ui.view.QuickReturnScrollView>
+
+    <ProgressBar
+        android:id="@+id/pb_loading"
+        style="@style/ListSpinner"
+        android:layout_centerInParent="true" />
+
+</RelativeLayout>
