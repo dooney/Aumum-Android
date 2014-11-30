@@ -42,4 +42,8 @@ public class Asking extends AggregateRoot {
     public void setUser(User user) {
         this.user = user;
     }
+
+    public int getRepliesCount() {
+        return replies.size();
+    }
 }

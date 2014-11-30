@@ -32,7 +32,7 @@ public class AskingListAdapter extends ArrayAdapter<Asking> {
         if (convertView == null) {
             LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             convertView = inflater.inflate(R.layout.asking_listitem_inner, parent, false);
-            card = new AskingCard(convertView);
+            card = new AskingCard(context, convertView);
             convertView.setTag(card);
         } else {
             card = (AskingCard) convertView.getTag();
