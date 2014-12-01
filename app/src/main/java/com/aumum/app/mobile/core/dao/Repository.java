@@ -3,6 +3,7 @@ package com.aumum.app.mobile.core.dao;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 
+import com.aumum.app.mobile.core.dao.gen.AskingEntityDao;
 import com.aumum.app.mobile.core.dao.gen.ContactRequestEntityDao;
 import com.aumum.app.mobile.core.dao.gen.DaoMaster;
 import com.aumum.app.mobile.core.dao.gen.MessageEntityDao;
@@ -28,6 +29,7 @@ public class Repository {
         getMessageEntityDao().deleteAll();
         getUserEntityDao().deleteAll();
         getPartyEntityDao().deleteAll();
+        getAskingEntityDao().deleteAll();
     }
 
     public MessageEntityDao getMessageEntityDao() {
@@ -44,5 +46,9 @@ public class Repository {
 
     public ContactRequestEntityDao getContactRequestEntityDao() {
         return daoMaster.newSession().getContactRequestEntityDao();
+    }
+
+    public AskingEntityDao getAskingEntityDao() {
+        return daoMaster.newSession().getAskingEntityDao();
     }
 }

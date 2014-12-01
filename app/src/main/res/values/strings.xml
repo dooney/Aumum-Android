@@ -108,6 +108,7 @@
     <string name="title_activity_my_groups">我的圈子</string>
     <string name="title_activity_change_avatar">更换头像</string>
     <string name="title_user_parties">%1$s的聚会</string>
+    <string name="title_user_askings">%1$s的问问</string>
     <string name="title_activity_new_asking">发布提问</string>
     <string name="title_activity_asking_details">问题详情</string>
 

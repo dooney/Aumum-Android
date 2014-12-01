@@ -18,9 +18,9 @@ import retrofit.http.Query;
 public interface PartyService {
 
     @GET(Constants.Http.URL_PARTIES_FRAG)
-    ListWrapper<Party> getAll(@Query("order") String order,
-                              @Query("where") String where,
-                              @Query("limit") int limit);
+    ListWrapper<Party> getList(@Query("order") String order,
+                               @Query("where") String where,
+                               @Query("limit") int limit);
 
     @POST(Constants.Http.URL_PARTIES_FRAG)
     Party newParty(@Body JsonObject data);

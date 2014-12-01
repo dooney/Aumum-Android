@@ -20,6 +20,7 @@ import com.aumum.app.mobile.core.dao.UserStore;
 import com.aumum.app.mobile.core.model.User;
 import com.aumum.app.mobile.core.service.FileUploadService;
 import com.aumum.app.mobile.core.service.RestService;
+import com.aumum.app.mobile.ui.asking.SearchAskingActivity;
 import com.aumum.app.mobile.ui.base.LoaderFragment;
 import com.aumum.app.mobile.ui.base.ProgressListener;
 import com.aumum.app.mobile.ui.crop.CropImageActivity;
@@ -59,6 +60,7 @@ public class ProfileFragment extends LoaderFragment<User>
     private TextView areaText;
     private TextView aboutText;
     private ViewGroup partiesLayout;
+    private ViewGroup askingsLayout;
     private ViewGroup settingsLayout;
 
     @Override
@@ -89,6 +91,7 @@ public class ProfileFragment extends LoaderFragment<User>
         areaText = (TextView) view.findViewById(R.id.text_area);
         aboutText = (TextView) view.findViewById(R.id.text_about);
         partiesLayout = (ViewGroup) view.findViewById(R.id.layout_my_parties);
+        askingsLayout = (ViewGroup) view.findViewById(R.id.layout_my_askings);
         settingsLayout = (ViewGroup) view.findViewById(R.id.layout_settings);
         settingsLayout.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -195,6 +198,15 @@ public class ProfileFragment extends LoaderFragment<User>
                     final Intent intent = new Intent(getActivity(), SearchPartyActivity.class);
                     intent.putExtra(SearchPartyActivity.INTENT_TITLE, getString(R.string.label_my_parties));
                     intent.putExtra(SearchPartyActivity.INTENT_USER_ID, user.getObjectId());
+                    startActivity(intent);
+                }
+            });
+            askingsLayout.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    final Intent intent = new Intent(getActivity(), SearchAskingActivity.class);
+                    intent.putExtra(SearchAskingActivity.INTENT_TITLE, getString(R.string.label_my_askings));
+                    intent.putExtra(SearchAskingActivity.INTENT_USER_ID, user.getObjectId());
                     startActivity(intent);
                 }
             });

@@ -134,7 +134,7 @@ public class AskingDetailsFragment extends LoaderFragment<Asking>
 
     @Override
     protected Asking loadDataCore(Bundle bundle) throws Exception {
-        Asking asking = askingStore.getById(askingId);
+        Asking asking = askingStore.getAskingByIdFromServer(askingId);
         User user = userStore.getUserById(asking.getUserId());
         asking.setUser(user);
         return asking;

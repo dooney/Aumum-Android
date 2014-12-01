@@ -18,9 +18,9 @@ import retrofit.http.Query;
 public interface AskingService {
 
     @GET(Constants.Http.URL_ASKINGS_FRAG)
-    ListWrapper<Asking> getAll(@Query("order") String order,
-                               @Query("where") String where,
-                               @Query("limit") int limit);
+    ListWrapper<Asking> getList(@Query("order") String order,
+                                @Query("where") String where,
+                                @Query("limit") int limit);
 
     @POST(Constants.Http.URL_ASKINGS_FRAG)
     Asking newAsking(@Body JsonObject data);

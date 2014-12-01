@@ -18,8 +18,8 @@ import retrofit.http.Query;
 public interface PartyCommentService {
 
     @GET(Constants.Http.URL_COMMENTS_FRAG)
-    ListWrapper<Comment> getPartyComments(@Query("order") String order,
-                                          @Query("where") String where);
+    ListWrapper<Comment> getList(@Query("order") String order,
+                                 @Query("where") String where);
 
     @POST(Constants.Http.URL_COMMENTS_FRAG)
     Comment newPartyComment(@Body Comment data);

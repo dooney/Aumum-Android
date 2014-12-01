@@ -91,7 +91,7 @@ public class AskingRepliesFragment extends ItemListFragment<AskingReply> {
     @Override
     protected List<AskingReply> loadDataCore(Bundle bundle) throws Exception {
         currentUser = userStore.getCurrentUser();
-        Asking asking = askingStore.getById(askingId);
+        Asking asking = askingStore.getAskingById(askingId);
         List<AskingReply> result = askingReplyStore.getAskingReplies(asking.getReplies());
         for (AskingReply askingReply: result) {
             askingReply.setUser(userStore.getUserById(askingReply.getUserId()));

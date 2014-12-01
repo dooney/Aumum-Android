@@ -17,6 +17,7 @@ public class UserEntity extends BaseEntity {
     private String contacts;
     private String messages;
     private String parties;
+    private String askings;
 
     public UserEntity() {
     }
@@ -34,7 +35,8 @@ public class UserEntity extends BaseEntity {
                       String about,
                       String contacts,
                       String messages,
-                      String parties) {
+                      String parties,
+                      String askings) {
         this.objectId = objectId;
         this.chatId = chatId;
         this.createdAt = createdAt;
@@ -45,6 +47,7 @@ public class UserEntity extends BaseEntity {
         this.contacts = contacts;
         this.messages = messages;
         this.parties = parties;
+        this.askings = askings;
     }
 
     public String getChatId() {
@@ -109,5 +112,13 @@ public class UserEntity extends BaseEntity {
 
     public void setParties(String parties) {
         this.parties = parties;
+    }
+
+    public String getAskings() {
+        return askings;
+    }
+
+    public void setAskings(String askings) {
+        this.askings = askings;
     }
 }

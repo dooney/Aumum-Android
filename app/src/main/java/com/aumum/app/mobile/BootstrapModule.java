@@ -17,6 +17,7 @@ import com.aumum.app.mobile.ui.asking.AskingDetailsFragment;
 import com.aumum.app.mobile.ui.asking.AskingListFragment;
 import com.aumum.app.mobile.ui.asking.AskingRepliesFragment;
 import com.aumum.app.mobile.ui.asking.NewAskingActivity;
+import com.aumum.app.mobile.ui.asking.SearchAskingFragment;
 import com.aumum.app.mobile.ui.chat.ChatFragment;
 import com.aumum.app.mobile.ui.chat.SendMessageListener;
 import com.aumum.app.mobile.ui.chat.TextMessageCard;
@@ -113,7 +114,8 @@ import retrofit.converter.GsonConverter;
                 AskingListFragment.class,
                 NewAskingActivity.class,
                 AskingDetailsFragment.class,
-                AskingRepliesFragment.class
+                AskingRepliesFragment.class,
+                SearchAskingFragment.class
         }
 )
 public class BootstrapModule {
@@ -189,8 +191,8 @@ public class BootstrapModule {
 
     @Provides
     @Singleton
-    AskingStore provideAskingStore(RestService restService) {
-        return new AskingStore(restService);
+    AskingStore provideAskingStore(RestService restService, Repository repository) {
+        return new AskingStore(restService, repository);
     }
 
     @Provides

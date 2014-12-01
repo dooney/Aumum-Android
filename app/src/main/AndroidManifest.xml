@@ -194,6 +194,7 @@
             android:label="@string/title_activity_new_asking" >
         </activity>
         <activity android:name="com.aumum.app.mobile.ui.asking.AskingDetailsActivity" />
+        <activity android:name="com.aumum.app.mobile.ui.asking.SearchAskingActivity" />
     </application>
 
 </manifest>

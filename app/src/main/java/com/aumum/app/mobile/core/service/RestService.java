@@ -147,7 +147,7 @@ public class RestService {
         liveJson.addProperty("$exists", false);
         whereJson.add("deletedAt" ,liveJson);
         String where = whereJson.toString();
-        return getPartyService().getAll("-createdAt", where, limit).getResults();
+        return getPartyService().getList("-createdAt", where, limit).getResults();
     }
 
     public List<Party> getPartiesAfter(String after, int limit) {
@@ -167,7 +167,7 @@ public class RestService {
         liveJson.addProperty("$exists", false);
         whereJson.add("deletedAt" ,liveJson);
         String where = whereJson.toString();
-        return getPartyService().getAll("-createdAt", where, limit).getResults();
+        return getPartyService().getList("-createdAt", where, limit).getResults();
     }
 
     public List<Party> getPartiesBefore(String before, int limit) {
@@ -185,7 +185,7 @@ public class RestService {
         final JsonObject whereJson = new JsonObject();
         whereJson.add("objectId", buildIdListJson(idList));
         String where = whereJson.toString();
-        return getPartyService().getAll("-createdAt", where, Integer.MAX_VALUE).getResults();
+        return getPartyService().getList("-createdAt", where, Integer.MAX_VALUE).getResults();
     }
 
     private JsonObject updateContact(JsonObject op, String userId, String contactId) {
@@ -335,7 +335,7 @@ public class RestService {
         final JsonObject whereJson = new JsonObject();
         whereJson.add("objectId", buildIdListJson(idList));
         String where = whereJson.toString();
-        return getPartyCommentService().getPartyComments("-createdAt", where).getResults();
+        return getPartyCommentService().getList("-createdAt", where).getResults();
     }
 
     public Comment newPartyComment(Comment comment) {
@@ -406,7 +406,7 @@ public class RestService {
         final JsonObject whereJson = new JsonObject();
         whereJson.add("objectId", buildIdListJson(idList));
         String where = whereJson.toString();
-        return getPartyReasonService().getPartyReasons("-createdAt", where).getResults();
+        return getPartyReasonService().getList("-createdAt", where).getResults();
     }
 
     public List<Party> getLiveParties() {
@@ -417,7 +417,7 @@ public class RestService {
         liveJson.addProperty("$exists", false);
         whereJson.add("deletedAt" ,liveJson);
         String where = whereJson.toString();
-        return getPartyService().getAll("dateTime", where, Integer.MAX_VALUE).getResults();
+        return getPartyService().getList("dateTime", where, Integer.MAX_VALUE).getResults();
     }
 
     public JsonObject updateUserChatId(String userId, String chatId) {
@@ -434,7 +434,7 @@ public class RestService {
         liveJson.addProperty("$exists", false);
         whereJson.add("deletedAt" ,liveJson);
         String where = whereJson.toString();
-        return getAskingService().getAll("-createdAt", where, limit).getResults();
+        return getAskingService().getList("-createdAt", where, limit).getResults();
     }
 
     public List<Asking> getAskingListAfter(int category, String after, int limit) {
@@ -472,7 +472,7 @@ public class RestService {
         final JsonObject whereJson = new JsonObject();
         whereJson.add("objectId", buildIdListJson(idList));
         String where = whereJson.toString();
-        return getAskingReplyService().getAskingReplies("-createdAt", where).getResults();
+        return getAskingReplyService().getList("-createdAt", where).getResults();
     }
 
     public AskingReply newAskingReply(AskingReply askingReply) {
@@ -494,5 +494,12 @@ public class RestService {
         op.add("objects", askingReplies);
         data.add(Constants.Http.Asking.PARAM_REPLIES, op);
         return getAskingService().updateById(askingId, data);
+    }
+
+    public List<Asking> getAskingList(List<String> idList) {
+        final JsonObject whereJson = new JsonObject();
+        whereJson.add("objectId", buildIdListJson(idList));
+        String where = whereJson.toString();
+        return getAskingService().getList("-createdAt", where, Integer.MAX_VALUE).getResults();
     }
 }

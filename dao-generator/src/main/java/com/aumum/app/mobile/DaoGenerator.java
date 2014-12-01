@@ -14,6 +14,7 @@ public class DaoGenerator {
         addUser(schema);
         addParty(schema);
         addContactRequest(schema);
+        addAsking(schema);
 
         new de.greenrobot.daogenerator.DaoGenerator().generateAll(schema, args[0]);
     }
@@ -38,6 +39,7 @@ public class DaoGenerator {
         user.addStringProperty("contacts");
         user.addStringProperty("messages");
         user.addStringProperty("parties");
+        user.addStringProperty("askings");
     }
 
     private static void addParty(Schema schema) {
@@ -64,5 +66,16 @@ public class DaoGenerator {
         request.addIdProperty();
         request.addStringProperty("userId").notNull();
         request.addStringProperty("intro");
+    }
+
+    private static void addAsking(Schema schema) {
+        Entity asking = schema.addEntity("AskingEntity");
+        asking.setSuperclass("BaseEntity");
+        asking.addStringProperty("objectId").notNull().primaryKey();
+        asking.addDateProperty("createdAt").notNull();
+        asking.addStringProperty("userId");
+        asking.addIntProperty("category");
+        asking.addStringProperty("question");
+        asking.addStringProperty("replies");
     }
 }

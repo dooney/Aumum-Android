@@ -122,7 +122,7 @@ public class AskingListFragment extends ItemListFragment<Asking> {
         }
     }
 
-    protected List<Asking> onGetUpwardsList(String time) {
+    protected List<Asking> onGetUpwardsList(String time) throws Exception {
         return dataStore.getUpwardsList(category, time);
     }
 }

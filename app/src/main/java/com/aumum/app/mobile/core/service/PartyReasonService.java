@@ -15,8 +15,8 @@ import retrofit.http.Query;
 public interface PartyReasonService {
 
     @GET(Constants.Http.URL_PARTY_REASONS_FRAG)
-    ListWrapper<PartyReason> getPartyReasons(@Query("order") String order,
-                                             @Query("where") String where);
+    ListWrapper<PartyReason> getList(@Query("order") String order,
+                                     @Query("where") String where);
 
     @POST(Constants.Http.URL_PARTY_REASONS_FRAG)
     PartyReason newPartyReason(@Body PartyReason data);

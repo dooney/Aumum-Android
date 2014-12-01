@@ -23,8 +23,27 @@ public class Asking extends AggregateRoot {
         this.question = question;
     }
 
+    public Asking(String objectId,
+                  String createdAt,
+                  String userId,
+                  int category,
+                  String question,
+                  List<String> replies) {
+        this.objectId = objectId;
+        this.createdAt = createdAt;
+        this.userId = userId;
+        this.category = category;
+        this.question = question;
+        this.replies.clear();
+        this.replies.addAll(replies);
+    }
+
     public String getUserId() {
         return userId;
+    }
+
+    public int getCategory() {
+        return category;
     }
 
     public String getQuestion() {

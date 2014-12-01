@@ -14,6 +14,7 @@ import com.aumum.app.mobile.R;
 import com.aumum.app.mobile.core.Constants;
 import com.aumum.app.mobile.core.dao.UserStore;
 import com.aumum.app.mobile.core.model.User;
+import com.aumum.app.mobile.ui.asking.SearchAskingActivity;
 import com.aumum.app.mobile.ui.base.LoaderFragment;
 import com.aumum.app.mobile.ui.chat.ChatActivity;
 import com.aumum.app.mobile.ui.contact.AddContactActivity;
@@ -42,6 +43,7 @@ public class UserFragment extends LoaderFragment<User>
     private TextView areaText;
     private TextView aboutText;
     private ViewGroup partiesLayout;
+    private ViewGroup askingsLayout;
     private Button addContactButton;
     private ViewGroup actionLayout;
     private Button sendMessageButton;
@@ -71,6 +73,7 @@ public class UserFragment extends LoaderFragment<User>
         areaText = (TextView) view.findViewById(R.id.text_area);
         aboutText = (TextView) view.findViewById(R.id.text_about);
         partiesLayout = (ViewGroup) view.findViewById(R.id.layout_her_parties);
+        askingsLayout = (ViewGroup) view.findViewById(R.id.layout_her_askings);
         addContactButton = (Button) view.findViewById(R.id.b_add_contact);
         actionLayout = (ViewGroup) view.findViewById(R.id.layout_action);
         sendMessageButton = (Button) view.findViewById(R.id.b_send_message);
@@ -129,6 +132,16 @@ public class UserFragment extends LoaderFragment<User>
                         final Intent intent = new Intent(getActivity(), SearchPartyActivity.class);
                         intent.putExtra(SearchPartyActivity.INTENT_TITLE,
                                 getString(R.string.title_user_parties, user.getScreenName()));
+                        intent.putExtra(SearchPartyActivity.INTENT_USER_ID, userId);
+                        startActivity(intent);
+                    }
+                });
+                askingsLayout.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        final Intent intent = new Intent(getActivity(), SearchAskingActivity.class);
+                        intent.putExtra(SearchAskingActivity.INTENT_TITLE,
+                                getString(R.string.title_user_askings, user.getScreenName()));
                         intent.putExtra(SearchPartyActivity.INTENT_USER_ID, userId);
                         startActivity(intent);
                     }
