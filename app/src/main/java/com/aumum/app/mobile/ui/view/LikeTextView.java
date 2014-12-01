@@ -12,11 +12,21 @@ import com.aumum.app.mobile.R;
 public class LikeTextView extends AnimateTextView {
 
     private boolean isLike;
+    private int likeResId;
+    private int likedResId;
 
     private OnLikeListener likeListener;
 
     public void setLike(boolean isLike) {
         this.isLike = isLike;
+    }
+
+    public void setLikeResId(int likeResId) {
+        this.likeResId = likeResId;
+    }
+
+    public void setLikedResId(int likedResId) {
+        this.likedResId = likedResId;
     }
 
     public void setLikeListener(OnLikeListener likeListener) {
@@ -60,7 +70,7 @@ public class LikeTextView extends AnimateTextView {
     @Override
     public void update(boolean newValue) {
         isLike = newValue;
-        int drawableId = (isLike ? R.drawable.ic_fa_thumbs_up : R.drawable.ic_fa_thumbs_o_up);
+        int drawableId = (isLike ? likedResId : likeResId);
         setCompoundDrawablesWithIntrinsicBounds(drawableId, 0, 0, 0);
         String currentText = getText().toString();
         try {

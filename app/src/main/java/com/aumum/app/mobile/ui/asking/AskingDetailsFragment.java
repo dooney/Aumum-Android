@@ -12,6 +12,7 @@ import android.widget.TextView;
 
 import com.aumum.app.mobile.Injector;
 import com.aumum.app.mobile.R;
+import com.aumum.app.mobile.core.Constants;
 import com.aumum.app.mobile.core.dao.AskingStore;
 import com.aumum.app.mobile.core.dao.UserStore;
 import com.aumum.app.mobile.core.model.Asking;
@@ -46,8 +47,10 @@ public class AskingDetailsFragment extends LoaderFragment<Asking>
     private View mainView;
     private TextView questionText;
     private TextView userNameText;
+    private TextView areaText;
     private TextView createdAtText;
 
+    private ViewGroup layoutAction;
     private ViewGroup layoutReplyBox;
     private TextView replyText;
     private boolean isReplyBoxShow;
@@ -81,8 +84,10 @@ public class AskingDetailsFragment extends LoaderFragment<Asking>
         mainView = view.findViewById(R.id.main_view);
         questionText = (TextView) view.findViewById(R.id.text_question);
         userNameText = (TextView) view.findViewById(R.id.text_user_name);
+        areaText = (TextView) view.findViewById(R.id.text_area);
         createdAtText = (TextView) view.findViewById(R.id.text_createdAt);
 
+        layoutAction = (ViewGroup) view.findViewById(R.id.layout_action);
         layoutReplyBox = (ViewGroup) view.findViewById(R.id.layout_reply_box);
         replyText = (TextView) view.findViewById(R.id.text_reply);
         replyText.setOnClickListener(new View.OnClickListener() {
@@ -150,6 +155,7 @@ public class AskingDetailsFragment extends LoaderFragment<Asking>
 
             userNameText.setText(asking.getUser().getScreenName());
             userNameText.setOnClickListener(new UserListener(getActivity(), asking.getUserId()));
+            areaText.setText(Constants.Options.AREA_OPTIONS[asking.getUser().getArea()]);
             questionText.setText(asking.getQuestion());
             createdAtText.setText(asking.getCreatedAtFormatted());
         } catch (Exception e) {
@@ -159,12 +165,24 @@ public class AskingDetailsFragment extends LoaderFragment<Asking>
 
     @Override
     public void onScrollUp() {
-
+        if (!isReplyBoxShow) {
+            Animation.animateIconBar(layoutAction, true);
+        }
     }
 
     @Override
     public void onScrollDown() {
+        if (isReplyBoxShow) {
+            return;
+        }
 
+        boolean canScrollDown = scrollView.canScrollDown();
+        boolean canScrollUp = scrollView.canScrollUp();
+        if (!canScrollDown) {
+            Animation.animateIconBar(layoutAction, true);
+        } else if (canScrollDown && canScrollUp) {
+            Animation.animateIconBar(layoutAction, false);
+        }
     }
 
     private void toggleReplyBox() {

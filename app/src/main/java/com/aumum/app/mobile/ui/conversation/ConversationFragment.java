@@ -121,7 +121,9 @@ public class ConversationFragment extends ItemListFragment<Conversation> {
         public void onReceive(Context context, Intent intent) {
             abortBroadcast();
 
-            getListAdapter().notifyDataSetChanged();
+            if (getListAdapter() != null) {
+                getListAdapter().notifyDataSetChanged();
+            }
         }
     }
 }

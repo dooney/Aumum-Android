@@ -179,7 +179,11 @@ public class PartyDetailsFragment extends LoaderFragment<Party>
             }
         });
         commentText = (TextView) view.findViewById(R.id.text_comment);
+
         likeText = (LikeTextView) view.findViewById(R.id.text_like);
+        likeText.setLikeResId(R.drawable.ic_fa_thumbs_o_up);
+        likeText.setLikedResId(R.drawable.ic_fa_thumbs_up);
+
         editReason = (EditText) view.findViewById(R.id.edit_reason);
         postReasonButton = (ImageView) view.findViewById(R.id.image_post_reason);
         postReasonButton.setOnClickListener(new View.OnClickListener() {

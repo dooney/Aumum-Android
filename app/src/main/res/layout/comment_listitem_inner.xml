@@ -36,7 +36,7 @@
         android:id="@+id/progress"
         style="@style/ProgressBar.Small"
         android:layout_alignParentRight="true"
-        android:layout_alignTop="@+id/image_avatar"
+        android:layout_alignParentTop="true"
         android:visibility="gone" />
 
 </RelativeLayout>

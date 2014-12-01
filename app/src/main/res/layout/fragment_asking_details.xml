@@ -2,63 +2,59 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
+    <RelativeLayout
+        android:id="@+id/main_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/card_background"
+        android:paddingTop="@dimen/margin_medium"
+        android:paddingBottom="@dimen/margin_medium"
+        android:paddingLeft="@dimen/margin_large"
+        android:paddingRight="@dimen/margin_large"
+        android:layout_alignParentTop="true"
+        android:visibility="gone" >
+
+        <TextView
+            android:id="@+id/text_question"
+            style="@style/TextView.AskingDetails.Question" />
+
+        <TextView
+            android:id="@+id/text_user_name"
+            style="@style/TextView.Asking.UserName"
+            android:paddingRight="@dimen/margin_medium"
+            android:layout_below="@+id/text_question"
+            android:layout_alignParentLeft="true"/>
+
+        <TextView
+            android:id="@+id/text_area"
+            style="@style/TextView.Asking.Area"
+            android:layout_toRightOf="@+id/text_user_name"
+            android:layout_alignBaseline="@+id/text_user_name"/>
+
+        <TextView
+            android:id="@+id/text_createdAt"
+            style="@style/TextView.Asking.CreatedAt"
+            android:layout_alignParentRight="true"
+            android:layout_alignBaseline="@+id/text_user_name"/>
+
+    </RelativeLayout>
+
+    <View
+        android:id="@+id/divider"
+        style="@style/Divider"
+        android:background="@color/grey_light"
+        android:layout_below="@+id/main_view"/>
+
     <com.aumum.app.mobile.ui.view.QuickReturnScrollView
         android:id="@+id/scroll_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_below="@+id/divider"
         android:fillViewport="true">
 
-        <LinearLayout
-            android:orientation="vertical"
+        <fragment android:name="com.aumum.app.mobile.ui.asking.AskingRepliesFragment"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" >
-
-            <LinearLayout
-                android:orientation="vertical"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-                <RelativeLayout
-                    android:id="@+id/main_view"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="@color/card_background"
-                    android:paddingTop="@dimen/margin_medium"
-                    android:paddingBottom="@dimen/margin_medium"
-                    android:paddingLeft="@dimen/margin_large"
-                    android:paddingRight="@dimen/margin_large"
-                    android:visibility="gone" >
-
-                    <TextView
-                        android:id="@+id/text_question"
-                        style="@style/TextView.AskingDetails.Question" />
-
-                    <TextView
-                        android:id="@+id/text_user_name"
-                        style="@style/TextView.Asking.UserName"
-                        android:paddingRight="@dimen/margin_large"
-                        android:layout_below="@+id/text_question"
-                        android:layout_alignParentLeft="true"/>
-
-                    <TextView
-                        android:id="@+id/text_createdAt"
-                        style="@style/TextView.Asking.CreatedAt"
-                        android:layout_toRightOf="@+id/text_user_name"
-                        android:layout_alignBaseline="@+id/text_user_name"/>
-
-                </RelativeLayout>
-
-                <View
-                    style="@style/Divider"
-                    android:background="@color/grey_light"/>
-
-                <fragment android:name="com.aumum.app.mobile.ui.asking.AskingRepliesFragment"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent" />
-
-            </LinearLayout>
-
-        </LinearLayout>
+            android:layout_height="match_parent" />
 
     </com.aumum.app.mobile.ui.view.QuickReturnScrollView>
 
@@ -85,7 +81,7 @@
 
             <TextView
                 android:id="@+id/text_reply"
-                style="@style/TextView.Asking.Reply"/>
+                style="@style/TextView.AskingDetails.Reply"/>
 
         </LinearLayout>
 

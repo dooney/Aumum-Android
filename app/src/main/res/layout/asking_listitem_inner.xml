@@ -16,19 +16,26 @@
     <TextView
         android:id="@+id/text_user_name"
         style="@style/TextView.Asking.UserName"
-        android:paddingRight="@dimen/margin_large"
+        android:paddingRight="@dimen/margin_medium"
         android:layout_below="@+id/text_question"
         android:layout_alignParentLeft="true"/>
 
     <TextView
-        android:id="@+id/text_createdAt"
-        style="@style/TextView.Asking.CreatedAt"
+        android:id="@+id/text_area"
+        style="@style/TextView.Asking.Area"
         android:layout_toRightOf="@+id/text_user_name"
         android:layout_alignBaseline="@+id/text_user_name"/>
 
     <TextView
         android:id="@+id/text_reply"
         style="@style/TextView.Asking.Reply"
+        android:layout_toLeftOf="@+id/text_createdAt"
+        android:layout_alignBaseline="@+id/text_user_name"/>
+
+    <TextView
+        android:id="@+id/text_createdAt"
+        style="@style/TextView.Asking.CreatedAt"
+        android:paddingLeft="@dimen/margin_medium"
         android:layout_alignParentRight="true"
         android:layout_alignBaseline="@+id/text_user_name"/>
 
