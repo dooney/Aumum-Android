@@ -281,7 +281,7 @@ public class PartyCommentsFragment extends ItemListFragment<Comment>
                         Ln.e(e.getCause(), cause.getMessage());
                     }
                 }
-                Toaster.showLong(getActivity(), R.string.error_delete_comment);
+                Toaster.showShort(getActivity(), R.string.error_delete_comment);
             }
 
             @Override
@@ -338,7 +338,7 @@ public class PartyCommentsFragment extends ItemListFragment<Comment>
         } catch (Exception e) {
             Ln.d(e);
         }
-        Toaster.showLong(getActivity(), R.string.error_delete_comment);
+        Toaster.showShort(getActivity(), R.string.error_delete_comment);
     }
 
     @Override

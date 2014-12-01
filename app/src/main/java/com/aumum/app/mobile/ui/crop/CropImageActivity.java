@@ -44,7 +44,7 @@ public class CropImageActivity extends ProgressDialogActivity {
             @Override
             public void onLoadingFailed() {
                 hideProgress();
-                Toaster.showLong(CropImageActivity.this, R.string.error_load_image);
+                Toaster.showShort(CropImageActivity.this, R.string.error_load_image);
             }
 
             @Override

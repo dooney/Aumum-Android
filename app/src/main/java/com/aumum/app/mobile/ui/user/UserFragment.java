@@ -193,6 +193,6 @@ public class UserFragment extends LoaderFragment<User>
 
     @Override
     public void onDeleteContactFailed() {
-        Toaster.showLong(getActivity(), R.string.error_delete_contact);
+        Toaster.showShort(getActivity(), R.string.error_delete_contact);
     }
 }

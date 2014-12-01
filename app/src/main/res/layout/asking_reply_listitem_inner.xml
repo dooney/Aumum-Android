@@ -32,6 +32,12 @@
         android:layout_below="@+id/text_createdAt"
         android:layout_alignLeft="@+id/text_user_name" />
 
+    <TextView
+        android:id="@+id/text_reply"
+        style="@style/TextView.Asking.Reply"
+        android:layout_alignParentRight="true"
+        android:layout_alignBaseline="@+id/text_user_name"/>
+
     <ProgressBar
         android:id="@+id/progress"
         style="@style/ProgressBar.Small"

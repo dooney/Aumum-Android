@@ -84,7 +84,7 @@ public class AddContactActivity extends ProgressDialogActivity {
                 if(!(e instanceof RetrofitError)) {
                     final Throwable cause = e.getCause() != null ? e.getCause() : e;
                     if(cause != null) {
-                        Toaster.showLong(AddContactActivity.this, cause.getMessage());
+                        Toaster.showShort(AddContactActivity.this, cause.getMessage());
                     }
                 }
             }
@@ -92,11 +92,11 @@ public class AddContactActivity extends ProgressDialogActivity {
             @Override
             public void onSuccess(final Boolean success) {
                 if (success) {
-                    Toaster.showLong(AddContactActivity.this, R.string.info_add_contact_sent);
+                    Toaster.showShort(AddContactActivity.this, R.string.info_add_contact_sent);
                     setResult(RESULT_OK);
                     finish();
                 } else {
-                    Toaster.showLong(AddContactActivity.this, R.string.error_add_contact);
+                    Toaster.showShort(AddContactActivity.this, R.string.error_add_contact);
                 }
             }
 

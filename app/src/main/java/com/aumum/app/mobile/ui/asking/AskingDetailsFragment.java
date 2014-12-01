@@ -17,12 +17,15 @@ import com.aumum.app.mobile.core.dao.UserStore;
 import com.aumum.app.mobile.core.model.Asking;
 import com.aumum.app.mobile.core.model.User;
 import com.aumum.app.mobile.events.AddAskingReplyEvent;
+import com.aumum.app.mobile.events.AddAskingReplyFinishedEvent;
 import com.aumum.app.mobile.ui.base.LoaderFragment;
+import com.aumum.app.mobile.ui.user.UserListener;
 import com.aumum.app.mobile.ui.view.Animation;
 import com.aumum.app.mobile.ui.view.QuickReturnScrollView;
 import com.aumum.app.mobile.utils.EditTextUtils;
 import com.aumum.app.mobile.utils.Ln;
 import com.squareup.otto.Bus;
+import com.squareup.otto.Subscribe;
 
 import javax.inject.Inject;
 
@@ -146,6 +149,7 @@ public class AskingDetailsFragment extends LoaderFragment<Asking>
             setData(asking);
 
             userNameText.setText(asking.getUser().getScreenName());
+            userNameText.setOnClickListener(new UserListener(getActivity(), asking.getUserId()));
             questionText.setText(asking.getQuestion());
             createdAtText.setText(asking.getCreatedAtFormatted());
         } catch (Exception e) {
@@ -198,5 +202,10 @@ public class AskingDetailsFragment extends LoaderFragment<Asking>
 
         hideReplyBox();
         disableSubmit();
+    }
+
+    @Subscribe
+    public void onAddAskingReplyFinishedEvent(AddAskingReplyFinishedEvent event) {
+        enableSubmit();
     }
 }

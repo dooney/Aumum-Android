@@ -502,4 +502,11 @@ public class RestService {
         String where = whereJson.toString();
         return getAskingService().getList("-createdAt", where, Integer.MAX_VALUE).getResults();
     }
+
+    public JsonObject deleteAsking(String askingId) {
+        final JsonObject data = new JsonObject();
+        DateTime now = DateTime.now(DateTimeZone.UTC);
+        data.addProperty("deletedAt", now.toString(Constants.DateTime.FORMAT));
+        return getAskingService().updateById(askingId, data);
+    }
 }

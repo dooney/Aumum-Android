@@ -185,7 +185,7 @@ public class LoginActivity extends ProgressDialogActivity {
     @Subscribe
     public void onUnAuthorizedErrorEvent(UnAuthorizedErrorEvent unAuthorizedErrorEvent) {
         // Could not authorize for some reason.
-        Toaster.showLong(LoginActivity.this, R.string.error_bad_credentials);
+        Toaster.showShort(LoginActivity.this, R.string.error_bad_credentials);
     }
 
     /**
@@ -224,7 +224,7 @@ public class LoginActivity extends ProgressDialogActivity {
                 if(!(e instanceof RetrofitError)) {
                     final Throwable cause = e.getCause() != null ? e.getCause() : e;
                     if(cause != null) {
-                        Toaster.showLong(LoginActivity.this, cause.getMessage());
+                        Toaster.showShort(LoginActivity.this, cause.getMessage());
                     }
                 }
             }
@@ -237,7 +237,7 @@ public class LoginActivity extends ProgressDialogActivity {
                     chatService.authenticate(chatId, password);
                     finishLogin();
                 } else {
-                    Toaster.showLong(LoginActivity.this,
+                    Toaster.showShort(LoginActivity.this,
                             R.string.error_authentication);
                 }
             }

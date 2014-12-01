@@ -1,5 +1,6 @@
 package com.aumum.app.mobile.ui.asking;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -16,9 +17,11 @@ import com.aumum.app.mobile.core.dao.AskingStore;
 import com.aumum.app.mobile.core.dao.UserStore;
 import com.aumum.app.mobile.core.model.Asking;
 import com.aumum.app.mobile.ui.base.ItemListFragment;
+import com.aumum.app.mobile.utils.Ln;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Iterator;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -90,6 +93,17 @@ public class AskingListFragment extends ItemListFragment<Asking> {
     }
 
     @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == Constants.RequestCode.GET_ASKING_DETAILS_REQ_CODE && resultCode == Activity.RESULT_OK) {
+            String askingId = data.getStringExtra(AskingDetailsActivity.INTENT_ASKING_ID);
+            if (askingId != null) {
+                onAskingDeleted(askingId);
+            }
+        }
+    }
+
+    @Override
     protected ArrayAdapter<Asking> createAdapter(List<Asking> items) {
         return new AskingListAdapter(getActivity(), items);
     }
@@ -124,5 +138,27 @@ public class AskingListFragment extends ItemListFragment<Asking> {
 
     protected List<Asking> onGetUpwardsList(String time) throws Exception {
         return dataStore.getUpwardsList(category, time);
+    }
+
+    private void onAskingDeleted(String askingId) {
+        try {
+            List<Asking> askingList = getData();
+            for (Iterator<Asking> it = askingList.iterator(); it.hasNext();) {
+                Asking asking = it.next();
+                if (asking.getObjectId().equals(askingId)) {
+                    dataSet.remove(asking);
+                    it.remove();
+                    getActivity().runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            getListAdapter().notifyDataSetChanged();
+                        }
+                    });
+                    return;
+                }
+            }
+        } catch (Exception e) {
+            Ln.d(e);
+        }
     }
 }

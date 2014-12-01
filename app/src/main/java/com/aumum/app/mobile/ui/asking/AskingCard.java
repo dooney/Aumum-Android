@@ -6,6 +6,7 @@ import android.widget.TextView;
 
 import com.aumum.app.mobile.R;
 import com.aumum.app.mobile.core.model.Asking;
+import com.aumum.app.mobile.ui.user.UserListener;
 
 /**
  * Created by Administrator on 27/11/2014.
@@ -28,12 +29,13 @@ public class AskingCard {
 
     public void refresh(Asking asking) {
         userNameText.setText(asking.getUser().getScreenName());
+        userNameText.setOnClickListener(new UserListener(context, asking.getUserId()));
         createdAtText.setText(asking.getCreatedAtFormatted());
         questionText.setText(asking.getQuestion());
         if (asking.getRepliesCount() > 0) {
             replyText.setText(String.valueOf(asking.getRepliesCount()));
         } else {
-            replyText.setText(context.getString(R.string.label_reply));
+            replyText.setVisibility(View.GONE);
         }
     }
 }

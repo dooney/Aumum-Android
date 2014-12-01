@@ -172,7 +172,7 @@ public class RegisterActivity extends ProgressDialogActivity
         if (result) {
             finishRegistration();
         } else {
-            Toaster.showLong(RegisterActivity.this, R.string.error_authentication);
+            Toaster.showShort(RegisterActivity.this, R.string.error_authentication);
         }
     }
 
@@ -226,7 +226,7 @@ public class RegisterActivity extends ProgressDialogActivity
                 if(!(e instanceof RetrofitError)) {
                     final Throwable cause = e.getCause() != null ? e.getCause() : e;
                     if(cause != null) {
-                        Toaster.showLong(RegisterActivity.this, cause.getMessage());
+                        Toaster.showShort(RegisterActivity.this, cause.getMessage());
                     }
                 }
             }
@@ -253,7 +253,7 @@ public class RegisterActivity extends ProgressDialogActivity
     @Override
     public void onUploadFailure(Exception e) {
         hideProgress();
-        Toaster.showLong(RegisterActivity.this, R.string.error_upload_profile_image);
+        Toaster.showShort(RegisterActivity.this, R.string.error_upload_profile_image);
         Ln.d(e);
     }
 
@@ -280,7 +280,7 @@ public class RegisterActivity extends ProgressDialogActivity
                 if(!(e instanceof RetrofitError)) {
                     final Throwable cause = e.getCause() != null ? e.getCause() : e;
                     if(cause != null) {
-                        Toaster.showLong(RegisterActivity.this, cause.getMessage());
+                        Toaster.showShort(RegisterActivity.this, cause.getMessage());
                     }
                 }
             }

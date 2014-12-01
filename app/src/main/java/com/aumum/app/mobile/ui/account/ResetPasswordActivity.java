@@ -129,7 +129,7 @@ public class ResetPasswordActivity extends ProgressDialogActivity {
                 if(!(e instanceof RetrofitError)) {
                     final Throwable cause = e.getCause() != null ? e.getCause() : e;
                     if(cause != null) {
-                        Toaster.showLong(ResetPasswordActivity.this, cause.getMessage());
+                        Toaster.showShort(ResetPasswordActivity.this, cause.getMessage());
                     }
                 }
             }
@@ -159,7 +159,7 @@ public class ResetPasswordActivity extends ProgressDialogActivity {
         if (result) {
             finishSubmit();
         } else {
-            Toaster.showLong(ResetPasswordActivity.this,
+            Toaster.showShort(ResetPasswordActivity.this,
                     R.string.error_reset_password);
         }
     }

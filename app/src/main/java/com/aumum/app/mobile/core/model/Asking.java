@@ -65,4 +65,8 @@ public class Asking extends AggregateRoot {
     public int getRepliesCount() {
         return replies.size();
     }
+
+    public boolean isOwner(String userId) {
+        return userId.equals(this.userId);
+    }
 }

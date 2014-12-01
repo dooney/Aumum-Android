@@ -32,6 +32,7 @@ public class AskingReplyCard {
         avatarImage.getFromUrl(askingReply.getUser().getAvatarUrl());
         avatarImage.setOnClickListener(new UserListener(avatarImage.getContext(), askingReply.getUserId()));
         userNameText.setText(askingReply.getUser().getScreenName());
+        userNameText.setOnClickListener(new UserListener(userNameText.getContext(), askingReply.getUserId()));
         replyText.setText(askingReply.getContent());
         if (askingReply.getObjectId() == null) {
             createdAtText.setVisibility(View.GONE);

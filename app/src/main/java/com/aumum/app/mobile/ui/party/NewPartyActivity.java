@@ -260,7 +260,7 @@ public class NewPartyActivity extends ProgressDialogActivity
                 if(!(e instanceof RetrofitError)) {
                     final Throwable cause = e.getCause() != null ? e.getCause() : e;
                     if(cause != null) {
-                        Toaster.showLong(NewPartyActivity.this, cause.getMessage());
+                        Toaster.showShort(NewPartyActivity.this, cause.getMessage());
                     }
                 }
             }
@@ -271,7 +271,7 @@ public class NewPartyActivity extends ProgressDialogActivity
                     setResult(RESULT_OK);
                     finish();
                 } else {
-                    Toaster.showLong(NewPartyActivity.this, R.string.error_submit_new_party);
+                    Toaster.showShort(NewPartyActivity.this, R.string.error_submit_new_party);
                 }
             }
 

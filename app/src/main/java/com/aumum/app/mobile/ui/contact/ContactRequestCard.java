@@ -68,7 +68,7 @@ public class ContactRequestCard implements AcceptContactListener.OnActionListene
     @Override
     public void onAcceptContactFailed() {
         Animation.fadeIn(acceptButton, Animation.Duration.SHORT);
-        Toaster.showLong(activity, R.string.error_accept_contact);
+        Toaster.showShort(activity, R.string.error_accept_contact);
     }
 
     @Override

@@ -96,7 +96,7 @@ public abstract class LoaderFragment<E> extends Fragment
     }
 
     protected void showError(final int message) {
-        Toaster.showLong(getActivity(), message);
+        Toaster.showShort(getActivity(), message);
     }
 
     private Exception getException(final Loader<E> loader) {

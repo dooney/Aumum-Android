@@ -124,7 +124,7 @@ public class NewAskingActivity extends ProgressDialogActivity {
                 if(!(e instanceof RetrofitError)) {
                     final Throwable cause = e.getCause() != null ? e.getCause() : e;
                     if(cause != null) {
-                        Toaster.showLong(NewAskingActivity.this, cause.getMessage());
+                        Toaster.showShort(NewAskingActivity.this, cause.getMessage());
                     }
                 }
             }
@@ -135,7 +135,7 @@ public class NewAskingActivity extends ProgressDialogActivity {
                     setResult(RESULT_OK);
                     finish();
                 } else {
-                    Toaster.showLong(NewAskingActivity.this, R.string.error_submit_new_asking);
+                    Toaster.showShort(NewAskingActivity.this, R.string.error_submit_new_asking);
                 }
             }
 

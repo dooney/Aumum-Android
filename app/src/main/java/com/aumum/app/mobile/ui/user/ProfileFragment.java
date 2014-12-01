@@ -135,7 +135,7 @@ public class ProfileFragment extends LoaderFragment<User>
                     if(!(e instanceof RetrofitError)) {
                         final Throwable cause = e.getCause() != null ? e.getCause() : e;
                         if(cause != null) {
-                            Toaster.showLong(getActivity(), cause.getMessage());
+                            Toaster.showShort(getActivity(), cause.getMessage());
                         }
                     }
                 }
@@ -251,7 +251,7 @@ public class ProfileFragment extends LoaderFragment<User>
                 if(!(e instanceof RetrofitError)) {
                     final Throwable cause = e.getCause() != null ? e.getCause() : e;
                     if(cause != null) {
-                        Toaster.showLong(getActivity(), cause.getMessage());
+                        Toaster.showShort(getActivity(), cause.getMessage());
                     }
                 }
             }
@@ -273,7 +273,7 @@ public class ProfileFragment extends LoaderFragment<User>
     @Override
     public void onUploadFailure(Exception e) {
         progressListener.hideProgress();
-        Toaster.showLong(getActivity(), R.string.error_upload_profile_image);
+        Toaster.showShort(getActivity(), R.string.error_upload_profile_image);
         Ln.d(e);
     }
 }
