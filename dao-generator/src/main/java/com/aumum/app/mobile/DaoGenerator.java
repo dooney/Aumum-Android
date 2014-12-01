@@ -77,5 +77,6 @@ public class DaoGenerator {
         asking.addIntProperty("category");
         asking.addStringProperty("question");
         asking.addStringProperty("replies");
+        asking.addDateProperty("updatedAt").notNull();
     }
 }

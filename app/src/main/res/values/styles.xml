@@ -261,7 +261,7 @@
     <style name="TextView.Asking.Area" parent="TextView.Subtitle">
         <item name="android:textSize">@dimen/text_sz_small</item>
     </style>
-    <style name="TextView.Asking.CreatedAt" parent="TextView.Subtitle" >
+    <style name="TextView.Asking.UpdatedAt" parent="TextView.Subtitle" >
         <item name="android:textSize">@dimen/text_sz_small</item>
     </style>
     <style name="TextView.Asking.Question" parent="TextView.Content.Text">

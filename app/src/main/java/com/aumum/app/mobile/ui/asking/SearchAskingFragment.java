@@ -6,10 +6,12 @@ import android.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 
 import com.aumum.app.mobile.Injector;
 import com.aumum.app.mobile.R;
+import com.aumum.app.mobile.core.Constants;
 import com.aumum.app.mobile.core.dao.AskingStore;
 import com.aumum.app.mobile.core.dao.UserStore;
 import com.aumum.app.mobile.core.model.Asking;
@@ -44,6 +46,23 @@ public class SearchAskingFragment extends ItemListFragment<Asking> {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         return inflater.inflate(R.layout.fragment_search_asking, null);
+    }
+
+    @Override
+    public void onViewCreated(View view, Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
+        getListView().setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
+                Asking asking = getData().get(position);
+                final Intent intent = new Intent(getActivity(), AskingDetailsActivity.class);
+                intent.putExtra(AskingDetailsActivity.INTENT_ASKING_ID, asking.getObjectId());
+                String pages[] = getResources().getStringArray(R.array.label_asking_pages);
+                intent.putExtra(AskingDetailsActivity.INTENT_TITLE, pages[asking.getCategory()]);
+                startActivityForResult(intent, Constants.RequestCode.GET_ASKING_DETAILS_REQ_CODE);
+            }
+        });
     }
 
     @Override

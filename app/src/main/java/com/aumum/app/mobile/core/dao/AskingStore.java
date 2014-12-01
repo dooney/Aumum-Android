@@ -55,18 +55,21 @@ public class AskingStore {
                 askingEntity.getUserId(),
                 askingEntity.getCategory(),
                 askingEntity.getQuestion(),
-                getList(askingEntity.getReplies()));
+                getList(askingEntity.getReplies()),
+                DateUtils.dateToString(askingEntity.getUpdatedAt(), Constants.DateTime.FORMAT));
     }
 
     private AskingEntity map(Asking asking) throws Exception {
         Date createdAt = DateUtils.stringToDate(asking.getCreatedAt(), Constants.DateTime.FORMAT);
+        Date updatedAt = DateUtils.stringToDate(asking.getUpdatedAt(), Constants.DateTime.FORMAT);
         return new AskingEntity(
                 asking.getObjectId(),
                 createdAt,
                 asking.getUserId(),
                 asking.getCategory(),
                 asking.getQuestion(),
-                gson.toJson(asking.getReplies()));
+                gson.toJson(asking.getReplies()),
+                updatedAt);
     }
 
     private void updateOrInsert(List<Asking> askingList) throws Exception {
@@ -82,12 +85,12 @@ public class AskingStore {
     public List<Asking> getUpwardsList(int category, String time) throws Exception {
         QueryBuilder<AskingEntity> query = askingEntityDao.queryBuilder();
         if (time != null) {
-            Date createdAt = DateUtils.stringToDate(time, Constants.DateTime.FORMAT);
-            query = query.where(AskingEntityDao.Properties.CreatedAt.gt(createdAt));
+            Date updatedAt = DateUtils.stringToDate(time, Constants.DateTime.FORMAT);
+            query = query.where(AskingEntityDao.Properties.UpdatedAt.gt(updatedAt));
         }
         List<AskingEntity> records = query
                 .where(AskingEntityDao.Properties.Category.eq(category))
-                .orderDesc(AskingEntityDao.Properties.CreatedAt)
+                .orderDesc(AskingEntityDao.Properties.UpdatedAt)
                 .limit(LIMIT_PER_LOAD)
                 .list();
         if (records.size() > 0) {

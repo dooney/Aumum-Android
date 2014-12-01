@@ -428,13 +428,13 @@ public class RestService {
 
     private List<Asking> getAskingListAfterCore(JsonObject whereJson, String after, int limit) {
         if (after != null) {
-            whereJson.add("createdAt", buildDateTimeAfterJson(after));
+            whereJson.add("updatedAt", buildDateTimeAfterJson(after));
         }
         final JsonObject liveJson = new JsonObject();
         liveJson.addProperty("$exists", false);
         whereJson.add("deletedAt" ,liveJson);
         String where = whereJson.toString();
-        return getAskingService().getList("-createdAt", where, limit).getResults();
+        return getAskingService().getList("-updatedAt", where, limit).getResults();
     }
 
     public List<Asking> getAskingListAfter(int category, String after, int limit) {
@@ -500,7 +500,7 @@ public class RestService {
         final JsonObject whereJson = new JsonObject();
         whereJson.add("objectId", buildIdListJson(idList));
         String where = whereJson.toString();
-        return getAskingService().getList("-createdAt", where, Integer.MAX_VALUE).getResults();
+        return getAskingService().getList("-updatedAt", where, Integer.MAX_VALUE).getResults();
     }
 
     public JsonObject deleteAsking(String askingId) {

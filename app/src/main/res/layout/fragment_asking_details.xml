@@ -32,8 +32,8 @@
             android:layout_alignBaseline="@+id/text_user_name"/>
 
         <TextView
-            android:id="@+id/text_createdAt"
-            style="@style/TextView.Asking.CreatedAt"
+            android:id="@+id/text_updatedAt"
+            style="@style/TextView.Asking.UpdatedAt"
             android:layout_alignParentRight="true"
             android:layout_alignBaseline="@+id/text_user_name"/>
 

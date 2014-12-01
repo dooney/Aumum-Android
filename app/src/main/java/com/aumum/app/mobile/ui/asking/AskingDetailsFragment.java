@@ -48,7 +48,7 @@ public class AskingDetailsFragment extends LoaderFragment<Asking>
     private TextView questionText;
     private TextView userNameText;
     private TextView areaText;
-    private TextView createdAtText;
+    private TextView updatedAtText;
 
     private ViewGroup layoutAction;
     private ViewGroup layoutReplyBox;
@@ -85,7 +85,7 @@ public class AskingDetailsFragment extends LoaderFragment<Asking>
         questionText = (TextView) view.findViewById(R.id.text_question);
         userNameText = (TextView) view.findViewById(R.id.text_user_name);
         areaText = (TextView) view.findViewById(R.id.text_area);
-        createdAtText = (TextView) view.findViewById(R.id.text_createdAt);
+        updatedAtText = (TextView) view.findViewById(R.id.text_updatedAt);
 
         layoutAction = (ViewGroup) view.findViewById(R.id.layout_action);
         layoutReplyBox = (ViewGroup) view.findViewById(R.id.layout_reply_box);
@@ -157,7 +157,7 @@ public class AskingDetailsFragment extends LoaderFragment<Asking>
             userNameText.setOnClickListener(new UserListener(getActivity(), asking.getUserId()));
             areaText.setText(Constants.Options.AREA_OPTIONS[asking.getUser().getArea()]);
             questionText.setText(asking.getQuestion());
-            createdAtText.setText(asking.getCreatedAtFormatted());
+            updatedAtText.setText(asking.getUpdatedAtFormatted());
         } catch (Exception e) {
             Ln.e(e);
         }

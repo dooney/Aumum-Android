@@ -17,7 +17,7 @@ public class AskingCard {
     private Context context;
     private TextView userNameText;
     private TextView areaText;
-    private TextView createdAtText;
+    private TextView updatedAtText;
     private TextView questionText;
     private TextView replyText;
 
@@ -25,7 +25,7 @@ public class AskingCard {
         this.context = context;
         this.userNameText = (TextView) view.findViewById(R.id.text_user_name);
         this.areaText = (TextView) view.findViewById(R.id.text_area);
-        this.createdAtText = (TextView) view.findViewById(R.id.text_createdAt);
+        this.updatedAtText = (TextView) view.findViewById(R.id.text_updatedAt);
         this.questionText = (TextView) view.findViewById(R.id.text_question);
         this.replyText = (TextView) view.findViewById(R.id.text_reply);
     }
@@ -34,7 +34,7 @@ public class AskingCard {
         userNameText.setText(asking.getUser().getScreenName());
         userNameText.setOnClickListener(new UserListener(context, asking.getUserId()));
         areaText.setText(Constants.Options.AREA_OPTIONS[asking.getUser().getArea()]);
-        createdAtText.setText(asking.getCreatedAtFormatted());
+        updatedAtText.setText(asking.getUpdatedAtFormatted());
         questionText.setText(asking.getQuestion());
         replyText.setText(String.valueOf(asking.getRepliesCount()));
     }
