@@ -8,9 +8,13 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.aumum.app.mobile.Injector;
 import com.aumum.app.mobile.R;
+import com.aumum.app.mobile.core.infra.security.ApiKeyProvider;
 import com.aumum.app.mobile.ui.chat.ChatActivity;
 import com.easemob.chat.EMGroup;
+
+import javax.inject.Inject;
 
 /**
  * Created by Administrator on 10/11/2014.
@@ -18,19 +22,20 @@ import com.easemob.chat.EMGroup;
 public class GroupCard  implements GroupJoinListener.OnProgressListener,
                                    GroupQuitListener.OnProgressListener {
 
+    @Inject ApiKeyProvider apiKeyProvide;
+
     private Activity activity;
     private View view;
-    private String currentUserId;
     private ImageView avatarImage;
     private TextView screenNameText;
     private TextView currentSizeText;
     private Button actionButton;
     private ProgressBar progressBar;
 
-    public GroupCard(Activity activity, View view, String currentUserId) {
+    public GroupCard(Activity activity, View view) {
+        Injector.inject(this);
         this.activity = activity;
         this.view = view;
-        this.currentUserId = currentUserId;
         this.avatarImage = (ImageView) view.findViewById(R.id.image_avatar);
         this.screenNameText = (TextView) view.findViewById(R.id.text_screen_name);
         this.currentSizeText = (TextView) view.findViewById(R.id.text_current_size);
@@ -39,6 +44,8 @@ public class GroupCard  implements GroupJoinListener.OnProgressListener,
     }
 
     public void refresh(final EMGroup group) {
+        final String currentUserId = apiKeyProvide.getAuthUserId();
+
         view.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

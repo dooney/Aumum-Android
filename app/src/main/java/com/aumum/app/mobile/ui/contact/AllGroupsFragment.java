@@ -34,7 +34,7 @@ public class AllGroupsFragment extends ItemListFragment<EMGroup> {
 
     @Override
     protected ArrayAdapter<EMGroup> createAdapter(List<EMGroup> items) {
-        return new GroupsAdapter(getActivity(), items, chatService.getCurrentUser());
+        return new GroupsAdapter(getActivity(), items);
     }
 
     @Override

@@ -71,7 +71,7 @@ public class PartyStore {
                 gson.fromJson(partyEntity.getPlace(), Place.class),
                 partyEntity.getDetails(),
                 getList(partyEntity.getMembers()),
-                getList(partyEntity.getFans()),
+                getList(partyEntity.getLikes()),
                 getList(partyEntity.getComments()),
                 getList(partyEntity.getReasons()),
                 getList(partyEntity.getFavorites()));
@@ -91,7 +91,7 @@ public class PartyStore {
                 gson.toJson(party.getPlace()),
                 party.getDetails(),
                 gson.toJson(party.getMembers()),
-                gson.toJson(party.getFans()),
+                gson.toJson(party.getLikes()),
                 gson.toJson(party.getComments()),
                 gson.toJson(party.getReasons()),
                 gson.toJson(party.getFavorites()));
@@ -202,8 +202,8 @@ public class PartyStore {
                     party.getComments().clear();
                     party.getComments().addAll(result.getComments());
 
-                    party.getFans().clear();
-                    party.getFans().addAll(result.getFans());
+                    party.getLikes().clear();
+                    party.getLikes().addAll(result.getLikes());
 
                     updateOrInsert(party);
                 }

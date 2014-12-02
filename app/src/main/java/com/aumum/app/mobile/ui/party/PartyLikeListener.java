@@ -19,7 +19,7 @@ import retrofit.RetrofitError;
 /**
  * Created by Administrator on 10/10/2014.
  */
-public class LikeListener implements LikeTextView.OnLikeListener {
+public class PartyLikeListener implements LikeTextView.OnLikeListener {
     private SafeAsyncTask<Boolean> task;
 
     private Party party;
@@ -39,7 +39,7 @@ public class LikeListener implements LikeTextView.OnLikeListener {
         public void OnUnLikeFinished(Party party);
     }
 
-    public LikeListener(Party party) {
+    public PartyLikeListener(Party party) {
         this.party = party;
         Injector.inject(this);
     }
@@ -49,8 +49,8 @@ public class LikeListener implements LikeTextView.OnLikeListener {
         task = new SafeAsyncTask<Boolean>() {
             public Boolean call() throws Exception {
                 User currentUser = userStore.getCurrentUser();
-                service.removePartyFan(party.getObjectId(), currentUser.getObjectId());
-                party.getFans().remove(currentUser.getObjectId());
+                service.removePartyLike(party.getObjectId(), currentUser.getObjectId());
+                party.getLikes().remove(currentUser.getObjectId());
 
                 return true;
             }
@@ -87,8 +87,8 @@ public class LikeListener implements LikeTextView.OnLikeListener {
         task = new SafeAsyncTask<Boolean>() {
             public Boolean call() throws Exception {
                 User currentUser = userStore.getCurrentUser();
-                service.addPartyFan(party.getObjectId(), currentUser.getObjectId());
-                party.getFans().add(currentUser.getObjectId());
+                service.addPartyLike(party.getObjectId(), currentUser.getObjectId());
+                party.getLikes().add(currentUser.getObjectId());
 
                 String content = view.getResources().getString(R.string.label_like_party_message, party.getTitle());
                 Message message = new Message(Message.Type.PARTY_LIKE,

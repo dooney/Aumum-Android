@@ -22,7 +22,7 @@ public class Party extends AggregateRoot {
     protected Place place;
     protected String details;
     protected List<String> members = new ArrayList<String>();
-    protected List<String> fans = new ArrayList<String>();
+    protected List<String> likes = new ArrayList<String>();
     protected List<String> comments = new ArrayList<String>();
     protected List<String> reasons = new ArrayList<String>();
     protected List<String> favorites = new ArrayList<String>();
@@ -67,7 +67,7 @@ public class Party extends AggregateRoot {
                  Place place,
                  String details,
                  List<String> members,
-                 List<String> fans,
+                 List<String> likes,
                  List<String> comments,
                  List<String> reasons,
                  List<String> favorites) {
@@ -83,8 +83,8 @@ public class Party extends AggregateRoot {
         this.details = details;
         this.members.clear();
         this.members.addAll(members);
-        this.fans.clear();
-        this.fans.addAll(fans);
+        this.likes.clear();
+        this.likes.addAll(likes);
         this.comments.clear();
         this.comments.addAll(comments);
         this.reasons.clear();
@@ -134,8 +134,8 @@ public class Party extends AggregateRoot {
         return members;
     }
 
-    public List<String> getFans() {
-        return fans;
+    public List<String> getLikes() {
+        return likes;
     }
 
     public List<String> getComments() { return comments; }
@@ -194,15 +194,15 @@ public class Party extends AggregateRoot {
     }
 
     public boolean isLiked(String userId) {
-        if (fans != null) {
-            return fans.contains(userId);
+        if (likes != null) {
+            return likes.contains(userId);
         }
         return false;
     }
 
     public int getLikesCount() {
-        if (fans != null) {
-            return fans.size();
+        if (likes != null) {
+            return likes.size();
         }
         return 0;
     }

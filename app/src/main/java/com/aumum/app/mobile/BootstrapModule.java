@@ -17,11 +17,14 @@ import com.aumum.app.mobile.ui.asking.AskingDetailsFragment;
 import com.aumum.app.mobile.ui.asking.AskingFavoriteListener;
 import com.aumum.app.mobile.ui.asking.AskingListFragment;
 import com.aumum.app.mobile.ui.asking.AskingRepliesFragment;
+import com.aumum.app.mobile.ui.asking.AskingReplyCard;
+import com.aumum.app.mobile.ui.asking.AskingReplyLikeListener;
 import com.aumum.app.mobile.ui.asking.NewAskingActivity;
 import com.aumum.app.mobile.ui.asking.SearchAskingFragment;
 import com.aumum.app.mobile.ui.chat.ChatFragment;
 import com.aumum.app.mobile.ui.chat.SendMessageListener;
 import com.aumum.app.mobile.ui.chat.TextMessageCard;
+import com.aumum.app.mobile.ui.contact.GroupCard;
 import com.aumum.app.mobile.ui.contact.MyGroupsFragment;
 import com.aumum.app.mobile.ui.conversation.ConversationFragment;
 import com.aumum.app.mobile.ui.contact.AllGroupsFragment;
@@ -36,6 +39,7 @@ import com.aumum.app.mobile.ui.main.MainFragment;
 import com.aumum.app.mobile.ui.party.PartyFavoriteListener;
 import com.aumum.app.mobile.ui.party.LikesLayoutListener;
 import com.aumum.app.mobile.ui.party.MembersLayoutListener;
+import com.aumum.app.mobile.ui.party.PartyLikeListener;
 import com.aumum.app.mobile.ui.party.PartyListFragment;
 import com.aumum.app.mobile.ui.party.PartyReasonsFragment;
 import com.aumum.app.mobile.ui.party.NewPartyActivity;
@@ -56,7 +60,6 @@ import com.aumum.app.mobile.core.api.RestAdapterRequestInterceptor;
 import com.aumum.app.mobile.core.api.RestErrorHandler;
 import com.aumum.app.mobile.core.api.UserAgentProvider;
 import com.aumum.app.mobile.core.dao.UserStore;
-import com.aumum.app.mobile.ui.party.LikeListener;
 import com.aumum.app.mobile.ui.main.MainActivity;
 import com.aumum.app.mobile.ui.party.PartyCommentsFragment;
 import com.aumum.app.mobile.ui.party.PartyDetailsFragment;
@@ -87,13 +90,14 @@ import retrofit.converter.GsonConverter;
                 ResetPasswordActivity.class,
                 MainActivity.class,
                 NewPartyActivity.class,
-                LikeListener.class,
+                PartyLikeListener.class,
                 PartyCommentsFragment.class,
                 UserFragment.class,
                 PartyDetailsFragment.class,
                 PartyReasonsFragment.class,
                 ConversationFragment.class,
                 AllGroupsFragment.class,
+                GroupCard.class,
                 GroupJoinListener.class,
                 GroupQuitListener.class,
                 ChatFragment.class,
@@ -119,7 +123,9 @@ import retrofit.converter.GsonConverter;
                 AskingRepliesFragment.class,
                 SearchAskingFragment.class,
                 PartyFavoriteListener.class,
-                AskingFavoriteListener.class
+                AskingFavoriteListener.class,
+                AskingReplyLikeListener.class,
+                AskingReplyCard.class
         }
 )
 public class BootstrapModule {

@@ -102,6 +102,11 @@ public final class Constants {
         public static final String URL_ASKING_REPLIES_FRAG = "/1/classes/AskingReplies";
 
         /**
+         * Asking Reply By Id URL
+         */
+        public static final String URL_ASKING_REPLY_BY_ID_FRAG = "/1/classes/AskingReplies/{id}";
+
+        /**
          * PARAMS for auth
          */
         public static final String PARAM_USERNAME = "username";
@@ -122,7 +127,7 @@ public final class Constants {
 
         public static final class Party {
             public static final String PARAM_MEMBERS = "members";
-            public static final String PARAM_FANS = "fans";
+            public static final String PARAM_LIKES = "likes";
             public static final String PARAM_COMMENTS = "comments";
             public static final String PARAM_REASONS = "reasons";
             public static final String PARAM_FAVORITES = "favorites";
@@ -142,6 +147,10 @@ public final class Constants {
         public static final class Asking {
             public static final String PARAM_REPLIES = "replies";
             public static final String PARAM_FAVORITES = "favorites";
+        }
+
+        public static final class AskingReply {
+            public static final String PARAM_LIKES = "likes";
         }
     }
 

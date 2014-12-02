@@ -12,10 +12,15 @@ import com.aumum.app.mobile.R;
 public class LikeTextView extends AnimateTextView {
 
     private boolean isLike;
+    private int textResId;
     private int likeResId;
     private int likedResId;
 
     private OnLikeListener likeListener;
+
+    public void setTextResId(int textResId) {
+        this.textResId = textResId;
+    }
 
     public void setLikeResId(int likeResId) {
         this.likeResId = likeResId;
@@ -47,9 +52,13 @@ public class LikeTextView extends AnimateTextView {
     }
 
     public void init(int likes, boolean isLike) {
-        setText(likes > 0 ?
-                String.valueOf(likes) :
-                getResources().getString(R.string.label_like));
+        if (likes > 0) {
+            setText(String.valueOf(likes));
+        } else if (textResId > 0) {
+            setText(getResources().getString(textResId));
+        } else {
+            setText(null);
+        }
         int drawableId = (isLike ? likedResId : likeResId);
         setCompoundDrawablesWithIntrinsicBounds(drawableId, 0, 0, 0);
     }
@@ -86,8 +95,10 @@ public class LikeTextView extends AnimateTextView {
             }
             if (currentLikes > 0) {
                 setText(currentLikes.toString());
+            } else if (textResId > 0) {
+                setText(getResources().getString(textResId));
             } else {
-                setText(getResources().getString(R.string.label_like));
+                setText(null);
             }
         } catch (NumberFormatException e) {
             setText("1");

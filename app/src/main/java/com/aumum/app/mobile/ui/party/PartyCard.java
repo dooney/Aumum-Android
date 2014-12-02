@@ -25,7 +25,7 @@ public class PartyCard extends Card {
     private Activity activity;
     private Party party;
     private String currentUserId;
-    private LikeListener likeListener;
+    private PartyLikeListener likeListener;
     private MembersLayoutListener membersLayoutListener;
 
     public Party getParty() {
@@ -37,7 +37,7 @@ public class PartyCard extends Card {
         this.activity = activity;
         this.party = party;
         this.currentUserId = currentUserId;
-        this.likeListener = new LikeListener(party);
+        this.likeListener = new PartyLikeListener(party);
         this.membersLayoutListener = new MembersLayoutListener(activity, currentUserId);
     }
 
@@ -110,6 +110,7 @@ public class PartyCard extends Card {
         });
 
         LikeTextView likeText = (LikeTextView) view.findViewById(R.id.text_like);
+        likeText.setTextResId(R.string.label_like);
         likeText.setLikeResId(R.drawable.ic_fa_thumbs_o_up);
         likeText.setLikedResId(R.drawable.ic_fa_thumbs_up);
         likeText.init(party.getLikesCount(), party.isLiked(currentUserId));

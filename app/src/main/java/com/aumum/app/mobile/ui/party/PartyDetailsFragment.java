@@ -183,6 +183,7 @@ public class PartyDetailsFragment extends LoaderFragment<Party>
         commentText = (TextView) view.findViewById(R.id.text_comment);
 
         likeText = (LikeTextView) view.findViewById(R.id.text_like);
+        likeText.setTextResId(R.string.label_like);
         likeText.setLikeResId(R.drawable.ic_fa_thumbs_o_up);
         likeText.setLikedResId(R.drawable.ic_fa_thumbs_up);
 
@@ -283,18 +284,16 @@ public class PartyDetailsFragment extends LoaderFragment<Party>
                 });
 
                 likeText.init(party.getLikesCount(), party.isLiked(currentUserId));
-                likeText.setLikeResId(R.drawable.ic_fa_thumbs_o_up);
-                likeText.setLikedResId(R.drawable.ic_fa_thumbs_up);
-                LikeListener likeListener = new LikeListener(party);
-                likeListener.setOnLikeFinishedListener(new LikeListener.LikeFinishedListener() {
+                PartyLikeListener likeListener = new PartyLikeListener(party);
+                likeListener.setOnLikeFinishedListener(new PartyLikeListener.LikeFinishedListener() {
                     @Override
                     public void OnLikeFinished(Party party) {
-                        updateLikesLayout(party.getFans());
+                        updateLikesLayout(party.getLikes());
                     }
 
                     @Override
                     public void OnUnLikeFinished(Party party) {
-                        updateLikesLayout(party.getFans());
+                        updateLikesLayout(party.getLikes());
                     }
                 });
                 likeText.setLikeListener(likeListener);
@@ -304,7 +303,7 @@ public class PartyDetailsFragment extends LoaderFragment<Party>
 
                 membersLayoutListener.update(membersLayout, party.getMembers());
 
-                updateLikesLayout(party.getFans());
+                updateLikesLayout(party.getLikes());
             }
         } catch (Exception e) {
             Ln.d(e);

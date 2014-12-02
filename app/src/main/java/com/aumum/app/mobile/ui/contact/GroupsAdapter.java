@@ -19,13 +19,11 @@ public class GroupsAdapter extends ArrayAdapter<EMGroup> {
 
     private Activity activity;
     private List<EMGroup> dataSet;
-    private String currentUserId;
 
-    public GroupsAdapter(Activity activity, List<EMGroup> objects, String currentUserId) {
+    public GroupsAdapter(Activity activity, List<EMGroup> objects) {
         super(activity, 0, objects);
         this.activity = activity;
         this.dataSet = objects;
-        this.currentUserId = currentUserId;
     }
 
     @Override
@@ -35,7 +33,7 @@ public class GroupsAdapter extends ArrayAdapter<EMGroup> {
         if (convertView == null) {
             LayoutInflater inflater = (LayoutInflater) activity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             convertView = inflater.inflate(R.layout.group_listitem_inner, parent, false);
-            card = new GroupCard(activity, convertView, currentUserId);
+            card = new GroupCard(activity, convertView);
             convertView.setTag(card);
         } else {
             card = (GroupCard) convertView.getTag();

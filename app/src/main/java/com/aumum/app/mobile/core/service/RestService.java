@@ -300,31 +300,31 @@ public class RestService {
         return getUserService().updateById(userId, data);
     }
 
-    public JsonObject addPartyFan(String partyId, String userId) {
+    public JsonObject addPartyLike(String partyId, String userId) {
         final JsonObject op = new JsonObject();
         op.addProperty("__op", "AddUnique");
-        return updatePartyFans(op, partyId, userId);
+        return updatePartyLikes(op, partyId, userId);
     }
 
-    public JsonObject removePartyFan(String partyId, String userId) {
+    public JsonObject removePartyLike(String partyId, String userId) {
         final JsonObject op = new JsonObject();
         op.addProperty("__op", "Remove");
-        return updatePartyFans(op, partyId, userId);
+        return updatePartyLikes(op, partyId, userId);
     }
 
-    private JsonObject updatePartyFans(JsonObject op, String partyId, String userId) {
+    private JsonObject updatePartyLikes(JsonObject op, String partyId, String userId) {
         final JsonObject data = new JsonObject();
-        final JsonArray partyFans = new JsonArray();
-        partyFans.add(new JsonPrimitive(userId));
-        op.add("objects", partyFans);
-        data.add(Constants.Http.Party.PARAM_FANS, op);
+        final JsonArray partyLikes = new JsonArray();
+        partyLikes.add(new JsonPrimitive(userId));
+        op.add("objects", partyLikes);
+        data.add(Constants.Http.Party.PARAM_LIKES, op);
         return getPartyService().updateById(partyId, data);
     }
 
     public List<Party> refreshParties(List<String> idList) {
         String keys = Constants.Http.Party.PARAM_MEMBERS + "," +
                 Constants.Http.Party.PARAM_COMMENTS + "," +
-                Constants.Http.Party.PARAM_FANS;
+                Constants.Http.Party.PARAM_LIKES;
         final JsonObject whereJson = new JsonObject();
         whereJson.add("objectId", buildIdListJson(idList));
         String where = whereJson.toString();
@@ -592,5 +592,26 @@ public class RestService {
         op.add("objects", userAskingFavorites);
         data.add(Constants.Http.User.PARAM_ASKING_FAVORITES, op);
         return getUserService().updateById(userId, data);
+    }
+
+    public JsonObject addAskingReplyLike(String askingReplyId, String userId) {
+        final JsonObject op = new JsonObject();
+        op.addProperty("__op", "AddUnique");
+        return updateAskingReplyLikes(op, askingReplyId, userId);
+    }
+
+    public JsonObject removeAskingReplyLike(String askingReplyId, String userId) {
+        final JsonObject op = new JsonObject();
+        op.addProperty("__op", "Remove");
+        return updateAskingReplyLikes(op, askingReplyId, userId);
+    }
+
+    private JsonObject updateAskingReplyLikes(JsonObject op, String askingReplyId, String userId) {
+        final JsonObject data = new JsonObject();
+        final JsonArray askingReplyLikes = new JsonArray();
+        askingReplyLikes.add(new JsonPrimitive(userId));
+        op.add("objects", askingReplyLikes);
+        data.add(Constants.Http.AskingReply.PARAM_LIKES, op);
+        return getAskingReplyService().updateById(askingReplyId, data);
     }
 }
