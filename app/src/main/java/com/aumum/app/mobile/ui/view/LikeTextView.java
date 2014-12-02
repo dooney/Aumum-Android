@@ -17,10 +17,6 @@ public class LikeTextView extends AnimateTextView {
 
     private OnLikeListener likeListener;
 
-    public void setLike(boolean isLike) {
-        this.isLike = isLike;
-    }
-
     public void setLikeResId(int likeResId) {
         this.likeResId = likeResId;
     }
@@ -48,6 +44,14 @@ public class LikeTextView extends AnimateTextView {
 
     public LikeTextView(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
+    }
+
+    public void init(int likes, boolean isLike) {
+        setText(likes > 0 ?
+                String.valueOf(likes) :
+                getResources().getString(R.string.label_like));
+        int drawableId = (isLike ? likedResId : likeResId);
+        setCompoundDrawablesWithIntrinsicBounds(drawableId, 0, 0, 0);
     }
 
     @Override

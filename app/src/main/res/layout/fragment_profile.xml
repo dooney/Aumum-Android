@@ -163,6 +163,29 @@
 
             </RelativeLayout>
 
+            <View style="@style/Divider"/>
+
+            <RelativeLayout
+                android:id="@+id/layout_my_favorites"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/margin_large">
+
+                <ImageView
+                    android:id="@+id/image_my_favorites"
+                    style="@style/ImageView.Avatar.Small"
+                    android:layout_marginRight="@dimen/margin_large"
+                    android:src="@drawable/ic_avatar"/>
+
+                <TextView
+                    android:id="@+id/text_my_favorites"
+                    style="@style/TextView.Profile"
+                    android:layout_toRightOf="@+id/image_my_favorites"
+                    android:layout_centerVertical="true"
+                    android:text="@string/label_my_favorites"/>
+
+            </RelativeLayout>
+
         </LinearLayout>
 
         <LinearLayout

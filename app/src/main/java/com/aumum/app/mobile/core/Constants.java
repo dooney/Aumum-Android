@@ -125,6 +125,7 @@ public final class Constants {
             public static final String PARAM_FANS = "fans";
             public static final String PARAM_COMMENTS = "comments";
             public static final String PARAM_REASONS = "reasons";
+            public static final String PARAM_FAVORITES = "favorites";
         }
 
         public static final class User {

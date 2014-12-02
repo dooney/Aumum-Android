@@ -1,6 +1,7 @@
 package com.aumum.app.mobile.ui.user;
 
 import android.app.Activity;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -27,6 +28,7 @@ import com.aumum.app.mobile.ui.crop.CropImageActivity;
 import com.aumum.app.mobile.ui.party.SearchPartyActivity;
 import com.aumum.app.mobile.ui.settings.SettingsActivity;
 import com.aumum.app.mobile.ui.view.AvatarImageView;
+import com.aumum.app.mobile.utils.DialogUtils;
 import com.aumum.app.mobile.utils.ImageUtils;
 import com.aumum.app.mobile.utils.Ln;
 import com.aumum.app.mobile.utils.SafeAsyncTask;
@@ -61,6 +63,7 @@ public class ProfileFragment extends LoaderFragment<User>
     private TextView aboutText;
     private ViewGroup partiesLayout;
     private ViewGroup askingsLayout;
+    private ViewGroup favoritesLayout;
     private ViewGroup settingsLayout;
 
     @Override
@@ -92,6 +95,7 @@ public class ProfileFragment extends LoaderFragment<User>
         aboutText = (TextView) view.findViewById(R.id.text_about);
         partiesLayout = (ViewGroup) view.findViewById(R.id.layout_my_parties);
         askingsLayout = (ViewGroup) view.findViewById(R.id.layout_my_askings);
+        favoritesLayout = (ViewGroup) view.findViewById(R.id.layout_my_favorites);
         settingsLayout = (ViewGroup) view.findViewById(R.id.layout_settings);
         settingsLayout.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -195,19 +199,35 @@ public class ProfileFragment extends LoaderFragment<User>
             partiesLayout.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    final Intent intent = new Intent(getActivity(), SearchPartyActivity.class);
-                    intent.putExtra(SearchPartyActivity.INTENT_TITLE, getString(R.string.label_my_parties));
-                    intent.putExtra(SearchPartyActivity.INTENT_USER_ID, user.getObjectId());
-                    startActivity(intent);
+                    startMyPartiesActivity(user);
                 }
             });
             askingsLayout.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    final Intent intent = new Intent(getActivity(), SearchAskingActivity.class);
-                    intent.putExtra(SearchAskingActivity.INTENT_TITLE, getString(R.string.label_my_askings));
-                    intent.putExtra(SearchAskingActivity.INTENT_USER_ID, user.getObjectId());
-                    startActivity(intent);
+                    startMyAskingsActivity(user);
+                }
+            });
+            favoritesLayout.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    String options[] = getResources().getStringArray(R.array.label_favorite_types);
+                    DialogUtils.showDialog(getActivity(), options,
+                            new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialogInterface, int i) {
+                                    switch (i) {
+                                        case 0:
+                                            startMyFavoritePartiesActivity(user);
+                                            break;
+                                        case 1:
+                                            startMyFavoriteAskingsActivity(user);
+                                            break;
+                                        default:
+                                            break;
+                                    }
+                                }
+                            });
                 }
             });
         } catch (Exception e) {
@@ -275,5 +295,35 @@ public class ProfileFragment extends LoaderFragment<User>
         progressListener.hideProgress();
         Toaster.showShort(getActivity(), R.string.error_upload_profile_image);
         Ln.d(e);
+    }
+
+    private void startMyPartiesActivity(User user) {
+        final Intent intent = new Intent(getActivity(), SearchPartyActivity.class);
+        intent.putExtra(SearchPartyActivity.INTENT_TITLE, getString(R.string.label_my_parties));
+        intent.putExtra(SearchPartyActivity.INTENT_USER_ID, user.getObjectId());
+        startActivity(intent);
+    }
+
+    private void startMyFavoritePartiesActivity(User user) {
+        final Intent intent = new Intent(getActivity(), SearchPartyActivity.class);
+        intent.putExtra(SearchPartyActivity.INTENT_TITLE, getString(R.string.label_my_favorites));
+        intent.putExtra(SearchPartyActivity.INTENT_USER_ID, user.getObjectId());
+        intent.putExtra(SearchPartyActivity.INTENT_IS_FAVORITE, true);
+        startActivity(intent);
+    }
+
+    private void startMyAskingsActivity(User user) {
+        final Intent intent = new Intent(getActivity(), SearchAskingActivity.class);
+        intent.putExtra(SearchAskingActivity.INTENT_TITLE, getString(R.string.label_my_askings));
+        intent.putExtra(SearchAskingActivity.INTENT_USER_ID, user.getObjectId());
+        startActivity(intent);
+    }
+
+    private void startMyFavoriteAskingsActivity(User user) {
+        final Intent intent = new Intent(getActivity(), SearchAskingActivity.class);
+        intent.putExtra(SearchAskingActivity.INTENT_TITLE, getString(R.string.label_my_askings));
+        intent.putExtra(SearchAskingActivity.INTENT_USER_ID, user.getObjectId());
+        intent.putExtra(SearchAskingActivity.INTENT_IS_FAVORITE, true);
+        startActivity(intent);
     }
 }

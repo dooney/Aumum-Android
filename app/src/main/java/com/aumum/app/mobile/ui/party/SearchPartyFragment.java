@@ -39,6 +39,7 @@ public class SearchPartyFragment extends ItemListFragment<Card> {
     private String userId;
     private final int NEARBY_PARTIES = 0;
     private final int USER_PARTIES = 1;
+    private final int FAVORITE_PARTIES = 2;
 
     @Override
     public void onCreate(final Bundle savedInstanceState) {
@@ -56,6 +57,10 @@ public class SearchPartyFragment extends ItemListFragment<Card> {
         userId = intent.getStringExtra(SearchPartyActivity.INTENT_USER_ID);
         if (userId != null) {
             mode = USER_PARTIES;
+        }
+        boolean isFavorite = intent.getBooleanExtra(SearchPartyActivity.INTENT_IS_FAVORITE, false);
+        if (isFavorite) {
+            mode = FAVORITE_PARTIES;
         }
     }
 
@@ -95,6 +100,8 @@ public class SearchPartyFragment extends ItemListFragment<Card> {
             case USER_PARTIES:
                 partyList = getUserParties();
                 break;
+            case FAVORITE_PARTIES:
+                partyList = getUserFavoriteParties();
             default:
                 break;
         }
@@ -119,6 +126,12 @@ public class SearchPartyFragment extends ItemListFragment<Card> {
     private List<Party> getUserParties() throws Exception {
         User user = userStore.getUserById(userId);
         List<Party> partyList = dataStore.getList(user.getParties());
+        return partyList;
+    }
+
+    private List<Party> getUserFavoriteParties() throws Exception {
+        User user = userStore.getUserById(userId);
+        List<Party> partyList = dataStore.getList(user.getFavParties());
         return partyList;
     }
 

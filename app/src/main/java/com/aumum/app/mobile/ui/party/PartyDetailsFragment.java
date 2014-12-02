@@ -276,12 +276,9 @@ public class PartyDetailsFragment extends LoaderFragment<Party>
                     }
                 });
 
-                boolean isLike = party.isLike(currentUserId);
-                likeText.setLike(isLike);
-                int likeDrawableId = (isLike ? R.drawable.ic_fa_thumbs_up : R.drawable.ic_fa_thumbs_o_up);
-                likeText.setCompoundDrawablesWithIntrinsicBounds(likeDrawableId, 0, 0, 0);
-                int likes = party.getLikesCount();
-                likeText.setText(likes > 0 ? String.valueOf(likes) : getString(R.string.label_like));
+                likeText.init(party.getLikesCount(), party.isLiked(currentUserId));
+                likeText.setLikeResId(R.drawable.ic_fa_thumbs_o_up);
+                likeText.setLikedResId(R.drawable.ic_fa_thumbs_up);
                 LikeListener likeListener = new LikeListener(party);
                 likeListener.setOnLikeFinishedListener(new LikeListener.LikeFinishedListener() {
                     @Override

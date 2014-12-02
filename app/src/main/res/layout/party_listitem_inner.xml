@@ -154,7 +154,19 @@
                 android:id="@+id/text_like"
                 style="@style/TextView.Like" />
 
-            </LinearLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:layout_weight="1">
+
+            <com.aumum.app.mobile.ui.view.FavoriteTextView
+                android:id="@+id/text_favorite"
+                style="@style/TextView.Favorite" />
+
+        </LinearLayout>
 
     </LinearLayout>
 

@@ -40,6 +40,8 @@ public class DaoGenerator {
         user.addStringProperty("messages");
         user.addStringProperty("parties");
         user.addStringProperty("askings");
+        user.addStringProperty("favParties");
+        user.addStringProperty("favAskings");
     }
 
     private static void addParty(Schema schema) {
@@ -59,6 +61,7 @@ public class DaoGenerator {
         party.addStringProperty("fans");
         party.addStringProperty("comments");
         party.addStringProperty("reasons");
+        party.addStringProperty("favorites");
     }
 
     private static void addContactRequest(Schema schema) {

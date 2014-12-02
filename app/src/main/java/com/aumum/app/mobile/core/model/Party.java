@@ -25,6 +25,7 @@ public class Party extends AggregateRoot {
     protected List<String> fans = new ArrayList<String>();
     protected List<String> comments = new ArrayList<String>();
     protected List<String> reasons = new ArrayList<String>();
+    protected List<String> favorites = new ArrayList<String>();
 
     protected String distance;
     protected User user;
@@ -68,7 +69,8 @@ public class Party extends AggregateRoot {
                  List<String> members,
                  List<String> fans,
                  List<String> comments,
-                 List<String> reasons) {
+                 List<String> reasons,
+                 List<String> favorites) {
         this.objectId = objectId;
         this.createdAt = createdAt;
         this.userId = userId;
@@ -87,6 +89,8 @@ public class Party extends AggregateRoot {
         this.comments.addAll(comments);
         this.reasons.clear();
         this.reasons.addAll(reasons);
+        this.favorites.clear();
+        this.favorites.addAll(favorites);
     }
 
     public String getUserId() {
@@ -140,6 +144,10 @@ public class Party extends AggregateRoot {
         return reasons;
     }
 
+    public List<String> getFavorites() {
+        return favorites;
+    }
+
     public String getDistance() {
         return distance;
     }
@@ -185,7 +193,7 @@ public class Party extends AggregateRoot {
         return 0;
     }
 
-    public boolean isLike(String userId) {
+    public boolean isLiked(String userId) {
         if (fans != null) {
             return fans.contains(userId);
         }
@@ -195,6 +203,20 @@ public class Party extends AggregateRoot {
     public int getLikesCount() {
         if (fans != null) {
             return fans.size();
+        }
+        return 0;
+    }
+
+    public boolean isFavorited(String userId) {
+        if (favorites != null) {
+            return favorites.contains(userId);
+        }
+        return false;
+    }
+
+    public int getFavoritesCount() {
+        if (favorites != null) {
+            return favorites.size();
         }
         return 0;
     }

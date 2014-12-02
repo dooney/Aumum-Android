@@ -117,10 +117,6 @@
         <item name="android:gravity">center_vertical</item>
     </style>
     <style name="ButtonTextView" parent="TextView.Subtitle">
-        <item name="android:paddingTop">@dimen/margin_small</item>
-        <item name="android:paddingBottom">@dimen/margin_small</item>
-        <item name="android:paddingRight">@dimen/margin_medium</item>
-        <item name="android:drawablePadding">0dp</item>
     </style>
     <style name="TextView.Date" parent="ButtonTextView">
         <item name="android:drawableLeft">@drawable/ic_fa_calendar</item>
@@ -144,6 +140,10 @@
     <style name="TextView.Like" parent="ButtonTextView">
         <item name="android:drawableLeft">@drawable/ic_fa_thumbs_o_up</item>
         <item name="android:text">@string/label_like</item>
+    </style>
+    <style name="TextView.Favorite" parent="ButtonTextView">
+        <item name="android:drawableLeft">@drawable/ic_fa_star_o</item>
+        <item name="android:text">@string/label_favorite</item>
     </style>
     <style name="TextView.UserName" parent="TextView">
         <item name="android:layout_width">wrap_content</item>
@@ -173,7 +173,6 @@
     <style name="TextView.Party.Distance" parent="ButtonTextView" >
         <item name="android:drawableLeft">@drawable/ic_fa_map_marker</item>
         <item name="android:textColor">@color/text_light</item>
-        <item name="android:padding">0dp</item>
     </style>
     <style name="TextView.Party.Details" parent="TextView">
         <item name="android:layout_width">match_parent</item>
@@ -270,7 +269,6 @@
     <style name="TextView.Asking.Reply" parent="ButtonTextView">
         <item name="android:drawableLeft">@drawable/ic_fa_comments_o_s</item>
         <item name="android:textSize">@dimen/text_sz_small</item>
-        <item name="android:padding">0dp</item>
     </style>
     <style name="TextView.AskingDetails.Question" parent="TextView.Content.Text">
         <item name="android:textColor">@color/text_light</item>
@@ -288,7 +286,6 @@
     <style name="TextView.AskingReply.Like" parent="TextView.Like">
         <item name="android:drawableLeft">@drawable/ic_fa_thumbs_o_up_s</item>
         <item name="android:textSize">@dimen/text_sz_small</item>
-        <item name="android:padding">0dp</item>
     </style>
 
     <!-- Conversation -->

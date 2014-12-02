@@ -31,7 +31,10 @@ public class SearchAskingFragment extends ItemListFragment<Asking> {
     @Inject UserStore userStore;
     @Inject AskingStore askingStore;
 
+    private int mode;
     private String userId;
+    private final int USER_ASKINGS = 0;
+    private final int FAVORITE_ASKINGS = 1;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -40,6 +43,13 @@ public class SearchAskingFragment extends ItemListFragment<Asking> {
 
         final Intent intent = getActivity().getIntent();
         userId = intent.getStringExtra(SearchAskingActivity.INTENT_USER_ID);
+        if (userId != null) {
+            mode = USER_ASKINGS;
+        }
+        boolean isFavorite = intent.getBooleanExtra(SearchAskingActivity.INTENT_IS_FAVORITE, false);
+        if (isFavorite) {
+            mode = FAVORITE_ASKINGS;
+        }
     }
 
     @Override
@@ -77,13 +87,32 @@ public class SearchAskingFragment extends ItemListFragment<Asking> {
 
     @Override
     protected List<Asking> loadDataCore(Bundle bundle) throws Exception {
-        User user = userStore.getUserById(userId);
-        List<Asking> askingList = askingStore.getList(user.getAskings());
+        List<Asking> askingList = null;
+        switch (mode) {
+            case USER_ASKINGS:
+                askingList = getUserAskings();
+                break;
+            case FAVORITE_ASKINGS:
+                askingList = getUserFavoriteAskings();
+                break;
+            default:
+                break;
+        }
         for (Asking asking: askingList) {
             if (asking.getUser() == null) {
                 asking.setUser(userStore.getUserById(asking.getUserId()));
             }
         }
         return askingList;
+    }
+
+    private List<Asking> getUserAskings() throws Exception {
+        User user = userStore.getUserById(userId);
+        return askingStore.getList(user.getAskings());
+    }
+
+    private List<Asking> getUserFavoriteAskings() throws Exception {
+        User user = userStore.getUserById(userId);
+        return askingStore.getList(user.getFavAskings());
     }
 }

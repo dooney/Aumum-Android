@@ -15,6 +15,8 @@ public class User extends AggregateRoot {
     protected List<String> messages = new ArrayList<String>();
     protected List<String> parties = new ArrayList<String>();
     protected List<String> askings = new ArrayList<String>();
+    protected List<String> favParties = new ArrayList<String>();
+    protected List<String> favAskings = new ArrayList<String>();
 
     public User() {
 
@@ -30,7 +32,9 @@ public class User extends AggregateRoot {
                 List<String> contacts,
                 List<String> messages,
                 List<String> parties,
-                List<String> askings) {
+                List<String> askings,
+                List<String> favParties,
+                List<String> favAskings) {
         this.objectId = objectId;
         this.chatId = chatId;
         this.createdAt = createdAt;
@@ -46,6 +50,10 @@ public class User extends AggregateRoot {
         this.parties.addAll(parties);
         this.askings.clear();
         this.askings.addAll(askings);
+        this.favParties.clear();
+        this.favParties.addAll(favParties);
+        this.favAskings.clear();
+        this.favAskings.addAll(favAskings);
     }
 
     public String getChatId() {
@@ -94,5 +102,13 @@ public class User extends AggregateRoot {
 
     public List<String> getAskings() {
         return askings;
+    }
+
+    public List<String> getFavParties() {
+        return favParties;
+    }
+
+    public List<String> getFavAskings() {
+        return favAskings;
     }
 }

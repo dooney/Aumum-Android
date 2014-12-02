@@ -19,6 +19,7 @@ public class PartyEntity extends BaseEntity {
     private String fans;
     private String comments;
     private String reasons;
+    private String favorites;
 
     public PartyEntity() {
     }
@@ -40,7 +41,8 @@ public class PartyEntity extends BaseEntity {
                        String members,
                        String fans,
                        String comments,
-                       String reasons) {
+                       String reasons,
+                       String favorites) {
         this.objectId = objectId;
         this.createdAt = createdAt;
         this.userId = userId;
@@ -55,6 +57,7 @@ public class PartyEntity extends BaseEntity {
         this.fans = fans;
         this.comments = comments;
         this.reasons = reasons;
+        this.favorites = favorites;
     }
 
     public String getUserId() {
@@ -151,5 +154,13 @@ public class PartyEntity extends BaseEntity {
 
     public void setReasons(String reasons) {
         this.reasons = reasons;
+    }
+
+    public String getFavorites() {
+        return favorites;
+    }
+
+    public void setFavorites(String favorites) {
+        this.favorites = favorites;
     }
 }

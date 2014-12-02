@@ -9,6 +9,7 @@ public class SearchAskingActivity extends ActionBarActivity {
 
     public static final String INTENT_TITLE = "title";
     public static final String INTENT_USER_ID = "userId";
+    public static final String INTENT_IS_FAVORITE = "isFavorite";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

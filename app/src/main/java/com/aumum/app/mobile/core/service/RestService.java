@@ -509,4 +509,25 @@ public class RestService {
         data.addProperty("deletedAt", now.toString(Constants.DateTime.FORMAT));
         return getAskingService().updateById(askingId, data);
     }
+
+    public JsonObject addPartyFavorite(String partyId, String userId) {
+        final JsonObject op = new JsonObject();
+        op.addProperty("__op", "AddUnique");
+        return updatePartyFavorites(op, partyId, userId);
+    }
+
+    public JsonObject removePartyFavorite(String partyId, String userId) {
+        final JsonObject op = new JsonObject();
+        op.addProperty("__op", "Remove");
+        return updatePartyFavorites(op, partyId, userId);
+    }
+
+    private JsonObject updatePartyFavorites(JsonObject op, String partyId, String userId) {
+        final JsonObject data = new JsonObject();
+        final JsonArray partyFavorites = new JsonArray();
+        partyFavorites.add(new JsonPrimitive(userId));
+        op.add("objects", partyFavorites);
+        data.add(Constants.Http.Party.PARAM_FAVORITES, op);
+        return getPartyService().updateById(partyId, data);
+    }
 }
