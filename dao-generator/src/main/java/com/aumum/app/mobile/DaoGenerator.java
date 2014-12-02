@@ -76,10 +76,11 @@ public class DaoGenerator {
         asking.setSuperclass("BaseEntity");
         asking.addStringProperty("objectId").notNull().primaryKey();
         asking.addDateProperty("createdAt").notNull();
+        asking.addDateProperty("updatedAt").notNull();
         asking.addStringProperty("userId");
         asking.addIntProperty("category");
         asking.addStringProperty("question");
         asking.addStringProperty("replies");
-        asking.addDateProperty("updatedAt").notNull();
+        asking.addStringProperty("favorites");
     }
 }

@@ -6,11 +6,12 @@ package com.aumum.app.mobile.core.dao.entity;
  */
 public class AskingEntity extends BaseEntity  {
 
+    private java.util.Date updatedAt;
     private String userId;
     private Integer category;
     private String question;
     private String replies;
-    private java.util.Date updatedAt;
+    private String favorites;
 
     public AskingEntity() {
     }
@@ -19,13 +20,29 @@ public class AskingEntity extends BaseEntity  {
         this.objectId = objectId;
     }
 
-    public AskingEntity(String objectId, java.util.Date createdAt, String userId, Integer category, String question, String replies, java.util.Date updatedAt) {
+    public AskingEntity(String objectId,
+                        java.util.Date createdAt,
+                        java.util.Date updatedAt,
+                        String userId,
+                        Integer category,
+                        String question,
+                        String replies,
+                        String favorites) {
         this.objectId = objectId;
         this.createdAt = createdAt;
+        this.updatedAt = updatedAt;
         this.userId = userId;
         this.category = category;
         this.question = question;
         this.replies = replies;
+        this.favorites = favorites;
+    }
+
+    public java.util.Date getUpdatedAt() {
+        return updatedAt;
+    }
+
+    public void setUpdatedAt(java.util.Date updatedAt) {
         this.updatedAt = updatedAt;
     }
 
@@ -61,11 +78,11 @@ public class AskingEntity extends BaseEntity  {
         this.replies = replies;
     }
 
-    public java.util.Date getUpdatedAt() {
-        return updatedAt;
+    public String getFavorites() {
+        return favorites;
     }
 
-    public void setUpdatedAt(java.util.Date updatedAt) {
-        this.updatedAt = updatedAt;
+    public void setFavorites(String favorites) {
+        this.favorites = favorites;
     }
 }

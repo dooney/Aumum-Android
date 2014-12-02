@@ -14,6 +14,7 @@ import com.aumum.app.mobile.core.service.NotificationService;
 import com.aumum.app.mobile.core.service.RestService;
 import com.aumum.app.mobile.ui.LaunchActivity;
 import com.aumum.app.mobile.ui.asking.AskingDetailsFragment;
+import com.aumum.app.mobile.ui.asking.AskingFavoriteListener;
 import com.aumum.app.mobile.ui.asking.AskingListFragment;
 import com.aumum.app.mobile.ui.asking.AskingRepliesFragment;
 import com.aumum.app.mobile.ui.asking.NewAskingActivity;
@@ -32,7 +33,7 @@ import com.aumum.app.mobile.ui.contact.ContactListener;
 import com.aumum.app.mobile.ui.contact.ContactRequestsFragment;
 import com.aumum.app.mobile.ui.contact.DeleteContactListener;
 import com.aumum.app.mobile.ui.main.MainFragment;
-import com.aumum.app.mobile.ui.party.FavoriteListener;
+import com.aumum.app.mobile.ui.party.PartyFavoriteListener;
 import com.aumum.app.mobile.ui.party.LikesLayoutListener;
 import com.aumum.app.mobile.ui.party.MembersLayoutListener;
 import com.aumum.app.mobile.ui.party.PartyListFragment;
@@ -117,7 +118,8 @@ import retrofit.converter.GsonConverter;
                 AskingDetailsFragment.class,
                 AskingRepliesFragment.class,
                 SearchAskingFragment.class,
-                FavoriteListener.class
+                PartyFavoriteListener.class,
+                AskingFavoriteListener.class
         }
 )
 public class BootstrapModule {

@@ -32,6 +32,7 @@ import com.aumum.app.mobile.ui.base.LoaderFragment;
 import com.aumum.app.mobile.ui.user.UserListener;
 import com.aumum.app.mobile.ui.view.Animation;
 import com.aumum.app.mobile.ui.view.AvatarImageView;
+import com.aumum.app.mobile.ui.view.FavoriteTextView;
 import com.aumum.app.mobile.ui.view.JoinTextView;
 import com.aumum.app.mobile.ui.view.LikeTextView;
 import com.aumum.app.mobile.ui.view.QuickReturnScrollView;
@@ -91,6 +92,7 @@ public class PartyDetailsFragment extends LoaderFragment<Party>
     private JoinTextView joinText;
     private TextView commentText;
     private LikeTextView likeText;
+    private FavoriteTextView favoriteText;
     private EditText editReason;
     private ImageView postReasonButton;
     private boolean isJoinBoxShow;
@@ -183,6 +185,10 @@ public class PartyDetailsFragment extends LoaderFragment<Party>
         likeText = (LikeTextView) view.findViewById(R.id.text_like);
         likeText.setLikeResId(R.drawable.ic_fa_thumbs_o_up);
         likeText.setLikedResId(R.drawable.ic_fa_thumbs_up);
+
+        favoriteText = (FavoriteTextView) view.findViewById(R.id.text_favorite);
+        favoriteText.setFavoriteResId(R.drawable.ic_fa_star_o);
+        favoriteText.setFavoritedResId(R.drawable.ic_fa_star);
 
         editReason = (EditText) view.findViewById(R.id.edit_reason);
         postReasonButton = (ImageView) view.findViewById(R.id.image_post_reason);
@@ -292,6 +298,9 @@ public class PartyDetailsFragment extends LoaderFragment<Party>
                     }
                 });
                 likeText.setLikeListener(likeListener);
+
+                favoriteText.init(party.getFavoritesCount(), party.isFavorited(currentUserId));
+                favoriteText.setFavoriteListener(new PartyFavoriteListener(party));
 
                 membersLayoutListener.update(membersLayout, party.getMembers());
 

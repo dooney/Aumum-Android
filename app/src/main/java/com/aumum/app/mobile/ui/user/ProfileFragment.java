@@ -12,6 +12,7 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.aumum.app.mobile.Injector;
@@ -56,6 +57,7 @@ public class ProfileFragment extends LoaderFragment<User>
     private FileUploadService fileUploadService;
     private ProgressListener progressListener;
 
+    private ScrollView scrollView;
     private View mainView;
     private AvatarImageView avatarImage;
     private TextView screenNameText;
@@ -88,6 +90,10 @@ public class ProfileFragment extends LoaderFragment<User>
     public void onViewCreated(final View view, final Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        scrollView = (ScrollView) view.findViewById(R.id.scroll_view);
+        scrollView.setHorizontalScrollBarEnabled(false);
+        scrollView.setVerticalScrollBarEnabled(false);
+        
         mainView = view.findViewById(R.id.main_view);
         avatarImage = (AvatarImageView) view.findViewById(R.id.image_avatar);
         screenNameText = (TextView) view.findViewById(R.id.text_screen_name);
@@ -306,7 +312,7 @@ public class ProfileFragment extends LoaderFragment<User>
 
     private void startMyFavoritePartiesActivity(User user) {
         final Intent intent = new Intent(getActivity(), SearchPartyActivity.class);
-        intent.putExtra(SearchPartyActivity.INTENT_TITLE, getString(R.string.label_my_favorites));
+        intent.putExtra(SearchPartyActivity.INTENT_TITLE, getString(R.string.label_favorite_parties));
         intent.putExtra(SearchPartyActivity.INTENT_USER_ID, user.getObjectId());
         intent.putExtra(SearchPartyActivity.INTENT_IS_FAVORITE, true);
         startActivity(intent);
@@ -321,7 +327,7 @@ public class ProfileFragment extends LoaderFragment<User>
 
     private void startMyFavoriteAskingsActivity(User user) {
         final Intent intent = new Intent(getActivity(), SearchAskingActivity.class);
-        intent.putExtra(SearchAskingActivity.INTENT_TITLE, getString(R.string.label_my_askings));
+        intent.putExtra(SearchAskingActivity.INTENT_TITLE, getString(R.string.label_favorite_askings));
         intent.putExtra(SearchAskingActivity.INTENT_USER_ID, user.getObjectId());
         intent.putExtra(SearchAskingActivity.INTENT_IS_FAVORITE, true);
         startActivity(intent);

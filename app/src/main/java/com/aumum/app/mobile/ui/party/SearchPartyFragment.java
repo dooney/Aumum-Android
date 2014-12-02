@@ -105,6 +105,10 @@ public class SearchPartyFragment extends ItemListFragment<Card> {
             default:
                 break;
         }
+        gpsTracker.getLocation();
+        for (Party party: partyList) {
+            party.setDistance(gpsTracker.getLatitude(), gpsTracker.getLongitude());
+        }
         return buildCards(partyList);
     }
 

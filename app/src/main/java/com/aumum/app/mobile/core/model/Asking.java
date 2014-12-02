@@ -13,11 +13,12 @@ import java.util.List;
  */
 public class Asking extends AggregateRoot {
 
+    private String updatedAt;
     private String userId;
     private int category;
     private String question;
     private List<String> replies = new ArrayList<String>();
-    private String updatedAt;
+    private List<String> favorites = new ArrayList<String>();
 
     private User user;
 
@@ -31,19 +32,26 @@ public class Asking extends AggregateRoot {
 
     public Asking(String objectId,
                   String createdAt,
+                  String updatedAt,
                   String userId,
                   int category,
                   String question,
                   List<String> replies,
-                  String updatedAt) {
+                  List<String> favorites) {
         this.objectId = objectId;
         this.createdAt = createdAt;
+        this.updatedAt = updatedAt;
         this.userId = userId;
         this.category = category;
         this.question = question;
         this.replies.clear();
         this.replies.addAll(replies);
-        this.updatedAt = updatedAt;
+        this.favorites.clear();
+        this.favorites.addAll(favorites);
+    }
+
+    public String getUpdatedAt() {
+        return updatedAt;
     }
 
     public String getUserId() {
@@ -62,8 +70,8 @@ public class Asking extends AggregateRoot {
         return replies;
     }
 
-    public String getUpdatedAt() {
-        return updatedAt;
+    public List<String> getFavorites() {
+        return favorites;
     }
 
     public User getUser() {
@@ -75,11 +83,28 @@ public class Asking extends AggregateRoot {
     }
 
     public int getRepliesCount() {
-        return replies.size();
+        if (replies != null) {
+            return replies.size();
+        }
+        return 0;
+    }
+
+    public int getFavoritesCount() {
+        if (favorites != null) {
+            return favorites.size();
+        }
+        return 0;
     }
 
     public boolean isOwner(String userId) {
         return userId.equals(this.userId);
+    }
+
+    public boolean isFavorited(String userId) {
+        if (favorites != null) {
+            return favorites.contains(userId);
+        }
+        return false;
     }
 
     public String getUpdatedAtFormatted() {

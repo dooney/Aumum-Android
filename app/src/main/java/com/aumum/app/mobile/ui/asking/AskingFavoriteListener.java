@@ -1,8 +1,8 @@
-package com.aumum.app.mobile.ui.party;
+package com.aumum.app.mobile.ui.asking;
 
 import com.aumum.app.mobile.Injector;
 import com.aumum.app.mobile.core.dao.UserStore;
-import com.aumum.app.mobile.core.model.Party;
+import com.aumum.app.mobile.core.model.Asking;
 import com.aumum.app.mobile.core.model.User;
 import com.aumum.app.mobile.core.service.RestService;
 import com.aumum.app.mobile.ui.view.FavoriteTextView;
@@ -16,27 +16,26 @@ import retrofit.RetrofitError;
 /**
  * Created by Administrator on 2/12/2014.
  */
-public class FavoriteListener implements FavoriteTextView.OnFavoriteListener {
+public class AskingFavoriteListener implements FavoriteTextView.OnFavoriteListener {
 
     private SafeAsyncTask<Boolean> task;
 
-    private Party party;
+    private Asking asking;
 
     @Inject RestService service;
     @Inject UserStore userStore;
 
-    public FavoriteListener(Party party) {
-        this.party = party;
+    public AskingFavoriteListener(Asking asking) {
+        this.asking = asking;
         Injector.inject(this);
     }
-
     @Override
     public void onUnFavorite(FavoriteTextView view) {
         task = new SafeAsyncTask<Boolean>() {
             public Boolean call() throws Exception {
                 User currentUser = userStore.getCurrentUser();
-                service.removePartyFavorite(party.getObjectId(), currentUser.getObjectId());
-                party.getFavorites().remove(currentUser.getObjectId());
+                service.removeAskingFavorite(asking.getObjectId(), currentUser.getObjectId());
+                service.removeUserAskingFavorite(currentUser.getObjectId(), asking.getObjectId());
 
                 return true;
             }
@@ -64,8 +63,8 @@ public class FavoriteListener implements FavoriteTextView.OnFavoriteListener {
         task = new SafeAsyncTask<Boolean>() {
             public Boolean call() throws Exception {
                 User currentUser = userStore.getCurrentUser();
-                service.addPartyFavorite(party.getObjectId(), currentUser.getObjectId());
-                party.getFavorites().add(currentUser.getObjectId());
+                service.addAskingFavorite(asking.getObjectId(), currentUser.getObjectId());
+                service.addUserAskingFavorite(currentUser.getObjectId(), asking.getObjectId());
 
                 return true;
             }

@@ -530,4 +530,67 @@ public class RestService {
         data.add(Constants.Http.Party.PARAM_FAVORITES, op);
         return getPartyService().updateById(partyId, data);
     }
+
+    public JsonObject addUserPartyFavorite(String userId, String partyId) {
+        final JsonObject op = new JsonObject();
+        op.addProperty("__op", "AddUnique");
+        return updateUserPartyFavorites(op, userId, partyId);
+    }
+
+    public JsonObject removeUserPartyFavorite(String userId, String partyId) {
+        final JsonObject op = new JsonObject();
+        op.addProperty("__op", "Remove");
+        return updateUserPartyFavorites(op, userId, partyId);
+    }
+
+    private JsonObject updateUserPartyFavorites(JsonObject op, String userId, String partyId) {
+        final JsonObject data = new JsonObject();
+        final JsonArray userPartyFavorites = new JsonArray();
+        userPartyFavorites.add(new JsonPrimitive(partyId));
+        op.add("objects", userPartyFavorites);
+        data.add(Constants.Http.User.PARAM_PARTY_FAVORITES, op);
+        return getUserService().updateById(userId, data);
+    }
+
+    public JsonObject addAskingFavorite(String askingId, String userId) {
+        final JsonObject op = new JsonObject();
+        op.addProperty("__op", "AddUnique");
+        return updateAskingFavorites(op, askingId, userId);
+    }
+
+    public JsonObject removeAskingFavorite(String askingId, String userId) {
+        final JsonObject op = new JsonObject();
+        op.addProperty("__op", "Remove");
+        return updateAskingFavorites(op, askingId, userId);
+    }
+
+    private JsonObject updateAskingFavorites(JsonObject op, String askingId, String userId) {
+        final JsonObject data = new JsonObject();
+        final JsonArray askingFavorites = new JsonArray();
+        askingFavorites.add(new JsonPrimitive(userId));
+        op.add("objects", askingFavorites);
+        data.add(Constants.Http.Asking.PARAM_FAVORITES, op);
+        return getAskingService().updateById(askingId, data);
+    }
+
+    public JsonObject addUserAskingFavorite(String userId, String askingId) {
+        final JsonObject op = new JsonObject();
+        op.addProperty("__op", "AddUnique");
+        return updateUserAskingFavorites(op, userId, askingId);
+    }
+
+    public JsonObject removeUserAskingFavorite(String userId, String askingId) {
+        final JsonObject op = new JsonObject();
+        op.addProperty("__op", "Remove");
+        return updateUserAskingFavorites(op, userId, askingId);
+    }
+
+    private JsonObject updateUserAskingFavorites(JsonObject op, String userId, String askingId) {
+        final JsonObject data = new JsonObject();
+        final JsonArray userAskingFavorites = new JsonArray();
+        userAskingFavorites.add(new JsonPrimitive(askingId));
+        op.add("objects", userAskingFavorites);
+        data.add(Constants.Http.User.PARAM_ASKING_FAVORITES, op);
+        return getUserService().updateById(userId, data);
+    }
 }

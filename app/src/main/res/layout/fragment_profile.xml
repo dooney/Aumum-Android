@@ -3,224 +3,232 @@
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:paddingTop="@dimen/margin_extra_large">
+    android:layout_height="match_parent">
 
-    <LinearLayout
-        android:id="@+id/main_view"
+    <ScrollView
+        android:id="@+id/scroll_view"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:visibility="gone">
+        android:layout_height="match_parent"
+        android:fillViewport="true">
 
         <LinearLayout
+            android:id="@+id/main_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:background="@color/card_background"
-            android:layout_marginBottom="@dimen/margin_extra_large">
+            android:paddingTop="@dimen/margin_extra_large"
+            android:visibility="gone">
 
-            <RelativeLayout
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:padding="@dimen/margin_large">
+                android:orientation="vertical"
+                android:background="@color/card_background"
+                android:layout_marginBottom="@dimen/margin_extra_large">
 
-                <TextView
-                    android:id="@+id/text_label_avatar"
-                    style="@style/TextView.Profile"
-                    android:layout_centerVertical="true"
-                    android:text="@string/label_avatar"/>
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="@dimen/margin_large">
 
-                <com.aumum.app.mobile.ui.view.AvatarImageView
-                    android:id="@+id/image_avatar"
-                    style="@style/ImageView.Avatar.Large"
-                    android:src="@drawable/ic_avatar"
-                    android:layout_alignParentRight="true"/>
+                    <TextView
+                        android:id="@+id/text_label_avatar"
+                        style="@style/TextView.Profile"
+                        android:layout_centerVertical="true"
+                        android:text="@string/label_avatar"/>
 
-            </RelativeLayout>
+                    <com.aumum.app.mobile.ui.view.AvatarImageView
+                        android:id="@+id/image_avatar"
+                        style="@style/ImageView.Avatar.Large"
+                        android:src="@drawable/ic_avatar"
+                        android:layout_alignParentRight="true"/>
 
-            <View style="@style/Divider"/>
+                </RelativeLayout>
 
-            <RelativeLayout
+                <View style="@style/Divider"/>
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="@dimen/margin_large">
+
+                    <TextView
+                        android:id="@+id/text_label_screen_name"
+                        style="@style/TextView.Profile"
+                        android:layout_alignBaseline="@+id/text_screen_name"
+                        android:text="@string/label_screen_name"/>
+
+                    <TextView
+                        android:id="@+id/text_screen_name"
+                        style="@style/TextView.Profile.About"
+                        android:layout_centerVertical="true"
+                        android:layout_alignParentRight="true"/>
+
+                </RelativeLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:padding="@dimen/margin_large">
+                android:orientation="vertical"
+                android:background="@color/card_background"
+                android:layout_marginBottom="@dimen/margin_extra_large">
 
-                <TextView
-                    android:id="@+id/text_label_screen_name"
-                    style="@style/TextView.Profile"
-                    android:layout_alignBaseline="@+id/text_screen_name"
-                    android:text="@string/label_screen_name"/>
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="@dimen/margin_large">
 
-                <TextView
-                    android:id="@+id/text_screen_name"
-                    style="@style/TextView.Profile.About"
-                    android:layout_centerVertical="true"
-                    android:layout_alignParentRight="true"/>
+                    <TextView
+                        android:id="@+id/text_label_area"
+                        style="@style/TextView.Profile"
+                        android:layout_centerVertical="true"
+                        android:layout_marginRight="@dimen/margin_large"
+                        android:text="@string/label_area"/>
 
-            </RelativeLayout>
+                    <TextView
+                        android:id="@+id/text_area"
+                        style="@style/TextView.Subtitle"
+                        android:layout_toRightOf="@+id/text_label_area"
+                        android:layout_alignBaseline="@+id/text_label_area"/>
+
+                </RelativeLayout>
+
+                <View style="@style/Divider"/>
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="@dimen/margin_large">
+
+                    <TextView
+                        android:id="@+id/text_label_about"
+                        style="@style/TextView.Profile"
+                        android:layout_centerVertical="true"
+                        android:layout_marginRight="@dimen/margin_large"
+                        android:text="@string/label_about"/>
+
+                    <TextView
+                        android:id="@+id/text_about"
+                        style="@style/TextView.Profile.About"
+                        android:layout_toRightOf="@+id/text_label_about"
+                        android:layout_alignBaseline="@+id/text_label_about"/>
+
+                </RelativeLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:background="@color/card_background"
+                android:layout_marginBottom="@dimen/margin_extra_large">
+
+                <RelativeLayout
+                    android:id="@+id/layout_my_parties"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="@dimen/margin_large">
+
+                    <ImageView
+                        android:id="@+id/image_my_parties"
+                        style="@style/ImageView.Avatar.Small"
+                        android:layout_marginRight="@dimen/margin_large"
+                        android:src="@drawable/ic_avatar"/>
+
+                    <TextView
+                        style="@style/TextView.Profile"
+                        android:layout_toRightOf="@+id/image_my_parties"
+                        android:layout_centerVertical="true"
+                        android:text="@string/label_my_parties"/>
+
+                </RelativeLayout>
+
+                <View style="@style/Divider"/>
+
+                <RelativeLayout
+                    android:id="@+id/layout_my_askings"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="@dimen/margin_large">
+
+                    <ImageView
+                        android:id="@+id/image_my_askings"
+                        style="@style/ImageView.Avatar.Small"
+                        android:layout_marginRight="@dimen/margin_large"
+                        android:src="@drawable/ic_avatar"/>
+
+                    <TextView
+                        android:id="@+id/text_my_askings"
+                        style="@style/TextView.Profile"
+                        android:layout_toRightOf="@+id/image_my_askings"
+                        android:layout_centerVertical="true"
+                        android:text="@string/label_my_askings"/>
+
+                </RelativeLayout>
+
+                <View style="@style/Divider"/>
+
+                <RelativeLayout
+                    android:id="@+id/layout_my_favorites"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="@dimen/margin_large">
+
+                    <ImageView
+                        android:id="@+id/image_my_favorites"
+                        style="@style/ImageView.Avatar.Small"
+                        android:layout_marginRight="@dimen/margin_large"
+                        android:src="@drawable/ic_avatar"/>
+
+                    <TextView
+                        android:id="@+id/text_my_favorites"
+                        style="@style/TextView.Profile"
+                        android:layout_toRightOf="@+id/image_my_favorites"
+                        android:layout_centerVertical="true"
+                        android:text="@string/label_my_favorites"/>
+
+                </RelativeLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/layout_settings"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:background="@color/card_background"
+                android:layout_marginBottom="@dimen/margin_extra_large">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="@dimen/margin_large">
+
+                    <ImageView
+                        android:id="@+id/image_settings"
+                        style="@style/ImageView.Avatar.Small"
+                        android:layout_marginRight="@dimen/margin_large"
+                        android:src="@drawable/ic_avatar"/>
+
+                    <TextView
+                        android:id="@+id/text_settings"
+                        style="@style/TextView.Profile"
+                        android:layout_toRightOf="@+id/image_settings"
+                        android:layout_centerVertical="true"
+                        android:text="@string/label_settings"/>
+
+                </RelativeLayout>
+
+                <View style="@style/Divider"/>
+
+            </LinearLayout>
 
         </LinearLayout>
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:background="@color/card_background"
-            android:layout_marginBottom="@dimen/margin_extra_large">
-
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:padding="@dimen/margin_large">
-
-                <TextView
-                    android:id="@+id/text_label_area"
-                    style="@style/TextView.Profile"
-                    android:layout_centerVertical="true"
-                    android:layout_marginRight="@dimen/margin_large"
-                    android:text="@string/label_area"/>
-
-                <TextView
-                    android:id="@+id/text_area"
-                    style="@style/TextView.Subtitle"
-                    android:layout_toRightOf="@+id/text_label_area"
-                    android:layout_alignBaseline="@+id/text_label_area"/>
-
-            </RelativeLayout>
-
-            <View style="@style/Divider"/>
-
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:padding="@dimen/margin_large">
-
-                <TextView
-                    android:id="@+id/text_label_about"
-                    style="@style/TextView.Profile"
-                    android:layout_centerVertical="true"
-                    android:layout_marginRight="@dimen/margin_large"
-                    android:text="@string/label_about"/>
-
-                <TextView
-                    android:id="@+id/text_about"
-                    style="@style/TextView.Profile.About"
-                    android:layout_toRightOf="@+id/text_label_about"
-                    android:layout_alignBaseline="@+id/text_label_about"/>
-
-            </RelativeLayout>
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:background="@color/card_background"
-            android:layout_marginBottom="@dimen/margin_extra_large">
-
-            <RelativeLayout
-                android:id="@+id/layout_my_parties"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:padding="@dimen/margin_large">
-
-                <ImageView
-                    android:id="@+id/image_my_parties"
-                    style="@style/ImageView.Avatar.Small"
-                    android:layout_marginRight="@dimen/margin_large"
-                    android:src="@drawable/ic_avatar"/>
-
-                <TextView
-                    style="@style/TextView.Profile"
-                    android:layout_toRightOf="@+id/image_my_parties"
-                    android:layout_centerVertical="true"
-                    android:text="@string/label_my_parties"/>
-
-            </RelativeLayout>
-
-            <View style="@style/Divider"/>
-
-            <RelativeLayout
-                android:id="@+id/layout_my_askings"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:padding="@dimen/margin_large">
-
-                <ImageView
-                    android:id="@+id/image_my_askings"
-                    style="@style/ImageView.Avatar.Small"
-                    android:layout_marginRight="@dimen/margin_large"
-                    android:src="@drawable/ic_avatar"/>
-
-                <TextView
-                    android:id="@+id/text_my_askings"
-                    style="@style/TextView.Profile"
-                    android:layout_toRightOf="@+id/image_my_askings"
-                    android:layout_centerVertical="true"
-                    android:text="@string/label_my_askings"/>
-
-            </RelativeLayout>
-
-            <View style="@style/Divider"/>
-
-            <RelativeLayout
-                android:id="@+id/layout_my_favorites"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:padding="@dimen/margin_large">
-
-                <ImageView
-                    android:id="@+id/image_my_favorites"
-                    style="@style/ImageView.Avatar.Small"
-                    android:layout_marginRight="@dimen/margin_large"
-                    android:src="@drawable/ic_avatar"/>
-
-                <TextView
-                    android:id="@+id/text_my_favorites"
-                    style="@style/TextView.Profile"
-                    android:layout_toRightOf="@+id/image_my_favorites"
-                    android:layout_centerVertical="true"
-                    android:text="@string/label_my_favorites"/>
-
-            </RelativeLayout>
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/layout_settings"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:background="@color/card_background"
-            android:layout_marginBottom="@dimen/margin_extra_large">
-
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:padding="@dimen/margin_large">
-
-                <ImageView
-                    android:id="@+id/image_settings"
-                    style="@style/ImageView.Avatar.Small"
-                    android:layout_marginRight="@dimen/margin_large"
-                    android:src="@drawable/ic_avatar"/>
-
-                <TextView
-                    android:id="@+id/text_settings"
-                    style="@style/TextView.Profile"
-                    android:layout_toRightOf="@+id/image_settings"
-                    android:layout_centerVertical="true"
-                    android:text="@string/label_settings"/>
-
-            </RelativeLayout>
-
-            <View style="@style/Divider"/>
-
-        </LinearLayout>
-
-    </LinearLayout>
+    </ScrollView>
 
     <ProgressBar
         android:id="@+id/pb_loading"

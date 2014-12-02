@@ -135,10 +135,13 @@ public final class Constants {
             public static final String PARAM_AVATAR_URL = "avatarUrl";
             public static final String PARAM_CHAT_ID = "chatId";
             public static final String PARAM_ASKINGS = "askings";
+            public static final String PARAM_PARTY_FAVORITES = "favParties";
+            public static final String PARAM_ASKING_FAVORITES = "favAskings";
         }
 
         public static final class Asking {
             public static final String PARAM_REPLIES = "replies";
+            public static final String PARAM_FAVORITES = "favorites";
         }
     }
 

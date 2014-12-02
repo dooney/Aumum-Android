@@ -52,11 +52,12 @@ public class AskingStore {
         return new Asking(
                 askingEntity.getObjectId(),
                 DateUtils.dateToString(askingEntity.getCreatedAt(), Constants.DateTime.FORMAT),
+                DateUtils.dateToString(askingEntity.getUpdatedAt(), Constants.DateTime.FORMAT),
                 askingEntity.getUserId(),
                 askingEntity.getCategory(),
                 askingEntity.getQuestion(),
                 getList(askingEntity.getReplies()),
-                DateUtils.dateToString(askingEntity.getUpdatedAt(), Constants.DateTime.FORMAT));
+                getList(askingEntity.getFavorites()));
     }
 
     private AskingEntity map(Asking asking) throws Exception {
@@ -65,11 +66,12 @@ public class AskingStore {
         return new AskingEntity(
                 asking.getObjectId(),
                 createdAt,
+                updatedAt,
                 asking.getUserId(),
                 asking.getCategory(),
                 asking.getQuestion(),
                 gson.toJson(asking.getReplies()),
-                updatedAt);
+                gson.toJson(asking.getFavorites()));
     }
 
     private void updateOrInsert(List<Asking> askingList) throws Exception {

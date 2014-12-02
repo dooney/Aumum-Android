@@ -12,7 +12,6 @@ import com.aumum.app.mobile.core.model.Party;
 import com.aumum.app.mobile.ui.user.UserListener;
 import com.aumum.app.mobile.ui.view.Animation;
 import com.aumum.app.mobile.ui.view.AvatarImageView;
-import com.aumum.app.mobile.ui.view.FavoriteTextView;
 import com.aumum.app.mobile.ui.view.JoinTextView;
 import com.aumum.app.mobile.ui.view.LikeTextView;
 import com.aumum.app.mobile.utils.Ln;
@@ -27,7 +26,6 @@ public class PartyCard extends Card {
     private Party party;
     private String currentUserId;
     private LikeListener likeListener;
-    private FavoriteListener favoriteListener;
     private MembersLayoutListener membersLayoutListener;
 
     public Party getParty() {
@@ -40,7 +38,6 @@ public class PartyCard extends Card {
         this.party = party;
         this.currentUserId = currentUserId;
         this.likeListener = new LikeListener(party);
-        this.favoriteListener = new FavoriteListener(party);
         this.membersLayoutListener = new MembersLayoutListener(activity, currentUserId);
     }
 
@@ -117,12 +114,6 @@ public class PartyCard extends Card {
         likeText.setLikedResId(R.drawable.ic_fa_thumbs_up);
         likeText.init(party.getLikesCount(), party.isLiked(currentUserId));
         likeText.setLikeListener(likeListener);
-
-        FavoriteTextView favoriteText = (FavoriteTextView) view.findViewById(R.id.text_favorite);
-        favoriteText.setFavoriteResId(R.drawable.ic_fa_star_o);
-        favoriteText.setFavoritedResId(R.drawable.ic_fa_star);
-        favoriteText.init(party.getFavoritesCount(), party.isFavorited(currentUserId));
-        favoriteText.setFavoriteListener(favoriteListener);
 
         try {
             ViewGroup membersLayout = (ViewGroup) view.findViewById(R.id.layout_members);

@@ -15,6 +15,7 @@ import com.aumum.app.mobile.R;
 import com.aumum.app.mobile.core.Constants;
 import com.aumum.app.mobile.core.dao.AskingStore;
 import com.aumum.app.mobile.core.dao.UserStore;
+import com.aumum.app.mobile.core.infra.security.ApiKeyProvider;
 import com.aumum.app.mobile.core.model.Asking;
 import com.aumum.app.mobile.core.model.User;
 import com.aumum.app.mobile.events.AddAskingReplyEvent;
@@ -22,6 +23,7 @@ import com.aumum.app.mobile.events.AddAskingReplyFinishedEvent;
 import com.aumum.app.mobile.ui.base.LoaderFragment;
 import com.aumum.app.mobile.ui.user.UserListener;
 import com.aumum.app.mobile.ui.view.Animation;
+import com.aumum.app.mobile.ui.view.FavoriteTextView;
 import com.aumum.app.mobile.ui.view.QuickReturnScrollView;
 import com.aumum.app.mobile.utils.EditTextUtils;
 import com.aumum.app.mobile.utils.Ln;
@@ -40,8 +42,10 @@ public class AskingDetailsFragment extends LoaderFragment<Asking>
     @Inject UserStore userStore;
     @Inject AskingStore askingStore;
     @Inject Bus bus;
+    @Inject ApiKeyProvider apiKeyProvider;
 
     private String askingId;
+    private String currentUserId;
 
     private QuickReturnScrollView scrollView;
     private View mainView;
@@ -49,6 +53,7 @@ public class AskingDetailsFragment extends LoaderFragment<Asking>
     private TextView userNameText;
     private TextView areaText;
     private TextView updatedAtText;
+    private FavoriteTextView favoriteText;
 
     private ViewGroup layoutAction;
     private ViewGroup layoutReplyBox;
@@ -86,6 +91,10 @@ public class AskingDetailsFragment extends LoaderFragment<Asking>
         userNameText = (TextView) view.findViewById(R.id.text_user_name);
         areaText = (TextView) view.findViewById(R.id.text_area);
         updatedAtText = (TextView) view.findViewById(R.id.text_updatedAt);
+
+        favoriteText = (FavoriteTextView) view.findViewById(R.id.text_favorite);
+        favoriteText.setFavoriteResId(R.drawable.ic_fa_star_o_s);
+        favoriteText.setFavoritedResId(R.drawable.ic_fa_star_s);
 
         layoutAction = (ViewGroup) view.findViewById(R.id.layout_action);
         layoutReplyBox = (ViewGroup) view.findViewById(R.id.layout_reply_box);
@@ -142,6 +151,7 @@ public class AskingDetailsFragment extends LoaderFragment<Asking>
 
     @Override
     protected Asking loadDataCore(Bundle bundle) throws Exception {
+        currentUserId = apiKeyProvider.getAuthUserId();
         Asking asking = askingStore.getAskingByIdFromServer(askingId);
         User user = userStore.getUserById(asking.getUserId());
         asking.setUser(user);
@@ -158,6 +168,8 @@ public class AskingDetailsFragment extends LoaderFragment<Asking>
             areaText.setText(Constants.Options.AREA_OPTIONS[asking.getUser().getArea()]);
             questionText.setText(asking.getQuestion());
             updatedAtText.setText(asking.getUpdatedAtFormatted());
+            favoriteText.init(asking.getFavoritesCount(), asking.isFavorited(currentUserId));
+            favoriteText.setFavoriteListener(new AskingFavoriteListener(asking));
         } catch (Exception e) {
             Ln.e(e);
         }
