@@ -1,15 +1,12 @@
 package com.aumum.app.mobile.ui.asking;
 
-import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 
 import com.aumum.app.mobile.Injector;
@@ -19,10 +16,13 @@ import com.aumum.app.mobile.core.dao.AskingStore;
 import com.aumum.app.mobile.core.dao.UserStore;
 import com.aumum.app.mobile.core.model.Asking;
 import com.aumum.app.mobile.core.model.AskingReply;
+import com.aumum.app.mobile.core.model.Message;
 import com.aumum.app.mobile.core.model.User;
+import com.aumum.app.mobile.core.service.MessageDeliveryService;
 import com.aumum.app.mobile.core.service.RestService;
 import com.aumum.app.mobile.events.AddAskingReplyEvent;
 import com.aumum.app.mobile.events.AddAskingReplyFinishedEvent;
+import com.aumum.app.mobile.events.ReplyAskingReplyEvent;
 import com.aumum.app.mobile.ui.base.ItemListFragment;
 import com.aumum.app.mobile.utils.DialogUtils;
 import com.aumum.app.mobile.utils.Ln;
@@ -31,7 +31,7 @@ import com.github.kevinsawicki.wishlist.Toaster;
 import com.squareup.otto.Bus;
 import com.squareup.otto.Subscribe;
 
-import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -44,11 +44,13 @@ public class AskingRepliesFragment extends ItemListFragment<AskingReply> {
     @Inject AskingStore askingStore;
     @Inject AskingReplyStore askingReplyStore;
     @Inject UserStore userStore;
+    @Inject MessageDeliveryService messageDeliveryService;
     @Inject Bus bus;
 
     private String askingId;
     private Asking asking;
     private User currentUser;
+    private AskingReply replied;
 
     private ViewGroup mainView;
 
@@ -65,28 +67,6 @@ public class AskingRepliesFragment extends ItemListFragment<AskingReply> {
     }
 
     @Override
-    public void onCreateOptionsMenu(final Menu menu, final MenuInflater inflater) {
-        menu.add(Menu.NONE, 0, Menu.NONE, "MORE")
-                .setIcon(R.drawable.ic_fa_ellipsis_v)
-                .setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(final MenuItem item) {
-        if (!isUsable() || asking == null) {
-            return false;
-        }
-        switch (item.getItemId()) {
-            case 0:
-                showActionDialog(asking.isOwner(currentUser.getObjectId()));
-                break;
-            default:
-                break;
-        }
-        return super.onOptionsItemSelected(item);
-    }
-
-    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         return inflater.inflate(R.layout.fragment_asking_replies, null);
@@ -97,6 +77,18 @@ public class AskingRepliesFragment extends ItemListFragment<AskingReply> {
         super.onViewCreated(view, savedInstanceState);
 
         mainView = (ViewGroup) view.findViewById(R.id.main_view);
+        getListView().setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
+                AskingReply askingReply = getData().get(position);
+                if (asking.isOwner(currentUser.getObjectId()) ||
+                    askingReply.isOwner(currentUser.getObjectId())) {
+                    showActionDialog(view);
+                } else {
+                    reply(askingReply);
+                }
+            }
+        });
     }
 
     @Override
@@ -144,7 +136,8 @@ public class AskingRepliesFragment extends ItemListFragment<AskingReply> {
         }
 
         // update UI first
-        AskingReply askingReply = new AskingReply(currentUser.getObjectId(), event.getReply());
+        final AskingReply askingReply = new AskingReply(currentUser.getObjectId(),
+                event.getReply(), replied.getObjectId());
         askingReply.setUser(currentUser);
         getData().add(0, askingReply);
         getListAdapter().notifyDataSetChanged();
@@ -155,13 +148,23 @@ public class AskingRepliesFragment extends ItemListFragment<AskingReply> {
         task = new SafeAsyncTask<Boolean>() {
             public Boolean call() throws Exception {
                 AskingReply reply = getData().get(0);
-                final AskingReply newReply = new AskingReply(reply.getUserId(), reply.getContent());
+                final AskingReply newReply = new AskingReply(reply.getUserId(),
+                        reply.getContent(), replied.getObjectId());
 
                 // asking reply
                 AskingReply response = restService.newAskingReply(newReply);
                 restService.addAskingReplies(askingId, response.getObjectId());
                 reply.setObjectId(response.getObjectId());
                 reply.setCreatedAt(response.getCreatedAt());
+
+                Message message = new Message(Message.Type.ASKING_REPLY_NEW,
+                        currentUser.getObjectId(), asking.getUserId(), reply.getContent(), askingId);
+                messageDeliveryService.send(message);
+                if (replied != null) {
+                    Message repliedMessage = new Message(Message.Type.ASKING_REPLY_REPLY,
+                            currentUser.getObjectId(), replied.getUserId(), askingReply.getContent(), askingId);
+                    messageDeliveryService.send(repliedMessage);
+                }
 
                 return true;
             }
@@ -179,6 +182,7 @@ public class AskingRepliesFragment extends ItemListFragment<AskingReply> {
             @Override
             protected void onFinally() throws RuntimeException {
                 task = null;
+                replied = null;
                 getListAdapter().notifyDataSetChanged();
                 show();
                 bus.post(new AddAskingReplyFinishedEvent());
@@ -187,35 +191,43 @@ public class AskingRepliesFragment extends ItemListFragment<AskingReply> {
         task.execute();
     }
 
-    private void showActionDialog(boolean isOwner) {
-        List<String> options = new ArrayList<String>();
-        options.add(getString(R.string.label_favorite));
-        if (isOwner) {
-            options.add(getString(R.string.label_delete));
-        }
-        DialogUtils.showDialog(getActivity(), options.toArray(new CharSequence[options.size()]),
-                new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        switch (i) {
-                            case 0:
-                                break;
-                            case 1:
-                                deleteAsking();
-                                break;
-                            default:
-                                break;
-                        }
-                    }
-                });
+    private void showActionDialog(View view) {
+        final AskingReplyCard card = (AskingReplyCard) view.getTag();
+        final String options[] = getResources().getStringArray(R.array.label_asking_reply_actions);
+        DialogUtils.showDialog(getActivity(), options, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                switch (i) {
+                    case 0:
+                        reply(card.getAskingReply());
+                        break;
+                    case 1:
+                        break;
+                    case 2:
+                        deleteAskingReply(card);
+                        break;
+                    default:
+                        break;
+                }
+            }
+        });
     }
 
-    private void deleteAsking() {
-        showProgress();
+    private void reply(AskingReply askingReply) {
+        replied = askingReply;
+        String replyHint = getString(R.string.hint_reply_asking_reply,
+                askingReply.getUser().getScreenName(), askingReply.getContent());
+        bus.post(new ReplyAskingReplyEvent(replyHint));
+    }
 
+    private void deleteAskingReply(final AskingReplyCard card) {
+        final AskingReply askingReply = card.getAskingReply();
+
+        card.onActionStart();
         task = new SafeAsyncTask<Boolean>() {
             public Boolean call() throws Exception {
-                restService.deleteAsking(asking.getObjectId());
+                restService.deleteAskingReply(askingReply.getObjectId());
+                restService.removeAskingReplies(askingId, askingReply.getObjectId());
                 return true;
             }
 
@@ -226,26 +238,44 @@ public class AskingRepliesFragment extends ItemListFragment<AskingReply> {
                     if(cause != null) {
                         Ln.e(e.getCause(), cause.getMessage());
                     }
-                    Toaster.showShort(getActivity(), R.string.error_delete_asking);
                 }
+                Toaster.showShort(getActivity(), R.string.error_delete_asking_reply);
             }
 
             @Override
             public void onSuccess(final Boolean success) {
-                Toaster.showShort(getActivity(), R.string.info_asking_deleted);
-
-                final Intent intent = new Intent();
-                intent.putExtra(AskingDetailsActivity.INTENT_ASKING_ID, askingId);
-                getActivity().setResult(Activity.RESULT_OK, intent);
-                getActivity().finish();
+                onAskingReplyDeletedSuccess(askingReply.getObjectId());
             }
 
             @Override
             protected void onFinally() throws RuntimeException {
-                hideProgress();
+                card.onActionFinish();
                 task = null;
             }
         };
         task.execute();
+    }
+
+    private void onAskingReplyDeletedSuccess(String askingReplyId) {
+        try {
+            List<AskingReply> askingReplies = getData();
+            for (Iterator<AskingReply> it = askingReplies.iterator(); it.hasNext();) {
+                AskingReply askingReply = it.next();
+                if (askingReply.getObjectId().equals(askingReplyId)) {
+                    it.remove();
+                    getActivity().runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            getListAdapter().notifyDataSetChanged();
+                        }
+                    });
+                    Toaster.showShort(getActivity(), R.string.info_asking_reply_deleted);
+                    return;
+                }
+            }
+        } catch (Exception e) {
+            Ln.d(e);
+        }
+        Toaster.showShort(getActivity(), R.string.error_delete_asking_reply);
     }
 }

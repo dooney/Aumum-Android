@@ -487,6 +487,12 @@ public class RestService {
         return updateAskingReplies(op, askingId, replyId);
     }
 
+    public JsonObject removeAskingReplies(String askingId, String replyId) {
+        final JsonObject op = new JsonObject();
+        op.addProperty("__op", "Remove");
+        return updateAskingReplies(op, askingId, replyId);
+    }
+
     private JsonObject updateAskingReplies(JsonObject op, String askingId, String replyId) {
         final JsonObject data = new JsonObject();
         final JsonArray askingReplies = new JsonArray();
@@ -612,6 +618,13 @@ public class RestService {
         askingReplyLikes.add(new JsonPrimitive(userId));
         op.add("objects", askingReplyLikes);
         data.add(Constants.Http.AskingReply.PARAM_LIKES, op);
+        return getAskingReplyService().updateById(askingReplyId, data);
+    }
+
+    public JsonObject deleteAskingReply(String askingReplyId) {
+        final JsonObject data = new JsonObject();
+        DateTime now = DateTime.now(DateTimeZone.UTC);
+        data.addProperty("deletedAt", now.toString(Constants.DateTime.FORMAT));
         return getAskingReplyService().updateById(askingReplyId, data);
     }
 }

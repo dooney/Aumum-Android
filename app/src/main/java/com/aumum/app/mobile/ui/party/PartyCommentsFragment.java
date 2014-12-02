@@ -92,7 +92,6 @@ public class PartyCommentsFragment extends ItemListFragment<Comment>
             @Override
             public void onClick(View view) {
                 toggleCommentBox();
-                repliedComment = null;
             }
         });
 
@@ -247,6 +246,7 @@ public class PartyCommentsFragment extends ItemListFragment<Comment>
             @Override
             protected void onFinally() throws RuntimeException {
                 task = null;
+                repliedComment = null;
                 getListAdapter().notifyDataSetChanged();
                 show();
                 enableSubmit();
@@ -309,6 +309,8 @@ public class PartyCommentsFragment extends ItemListFragment<Comment>
                         reply(card.getComment());
                         break;
                     case 1:
+                        break;
+                    case 2:
                         deleteComment(card);
                         break;
                     default:

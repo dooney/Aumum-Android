@@ -8,6 +8,7 @@ import com.aumum.app.mobile.Injector;
 import com.aumum.app.mobile.R;
 import com.aumum.app.mobile.core.infra.security.ApiKeyProvider;
 import com.aumum.app.mobile.core.model.AskingReply;
+import com.aumum.app.mobile.ui.delegate.ActionListener;
 import com.aumum.app.mobile.ui.user.UserListener;
 import com.aumum.app.mobile.ui.view.AvatarImageView;
 import com.aumum.app.mobile.ui.view.LikeTextView;
@@ -17,9 +18,11 @@ import javax.inject.Inject;
 /**
  * Created by Administrator on 30/11/2014.
  */
-public class AskingReplyCard {
+public class AskingReplyCard implements ActionListener {
 
     @Inject ApiKeyProvider apiKeyProvider;
+
+    private AskingReply askingReply;
 
     private AvatarImageView avatarImage;
     private TextView userNameText;
@@ -38,7 +41,13 @@ public class AskingReplyCard {
         this.progressBar = (ProgressBar) view.findViewById(R.id.progress);
     }
 
+    public AskingReply getAskingReply() {
+        return askingReply;
+    }
+
     public void refresh(AskingReply askingReply) {
+        this.askingReply = askingReply;
+
         avatarImage.getFromUrl(askingReply.getUser().getAvatarUrl());
         avatarImage.setOnClickListener(new UserListener(avatarImage.getContext(), askingReply.getUserId()));
         userNameText.setText(askingReply.getUser().getScreenName());
@@ -60,5 +69,17 @@ public class AskingReplyCard {
             createdAtText.setText(askingReply.getCreatedAtFormatted());
             createdAtText.setVisibility(View.VISIBLE);
         }
+    }
+
+    @Override
+    public void onActionStart() {
+        likeText.setVisibility(View.GONE);
+        progressBar.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void onActionFinish() {
+        progressBar.setVisibility(View.GONE);
+        likeText.setVisibility(View.VISIBLE);
     }
 }

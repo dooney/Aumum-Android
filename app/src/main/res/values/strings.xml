@@ -25,6 +25,12 @@
     </string-array>
     <string-array name="label_comment_actions">
         <item>回复</item>
+        <item>举报</item>
+        <item>删除</item>
+    </string-array>
+    <string-array name="label_asking_reply_actions">
+        <item>回复</item>
+        <item>举报</item>
         <item>删除</item>
     </string-array>
     <string-array name="label_favorite_types">
@@ -39,6 +45,7 @@
     <string name="label_send">发送</string>
     <string name="label_delete">删除</string>
     <string name="label_favorite">收藏</string>
+    <string name="label_report">举报</string>
 
     <!-- Info Message -->
     <string name="info_authenticating">正在验证您的账号信息，请稍候…</string>
@@ -61,6 +68,7 @@
     <string name="info_confirm_logout">您确定要退出登录？</string>
     <string name="info_submitting_asking">正在提交您的提问，请稍候</string>
     <string name="info_asking_deleted">该问问已成功删除</string>
+    <string name="info_asking_reply_deleted">该回复已成功删除</string>
 
     <!-- Error Message -->
     <string name="error_load_parties">获取聚会列表失败</string>
@@ -93,6 +101,7 @@
     <string name="error_load_asking">获取问题详情失败</string>
     <string name="error_load_asking_reply_list">获取回复列表失败</string>
     <string name="error_delete_asking">删除问问失败</string>
+    <string name="error_delete_asking_reply">删除回复失败</string>
 
     <!-- Title -->
     <string name="title_activity_login">用户登录</string>
@@ -199,6 +208,7 @@
     <string name="label_new_asking_message">发布了提问：%1$s</string>
     <string name="label_reply">回复</string>
     <string name="hint_new_reply">写下您的回复</string>
+    <string name="hint_reply_asking_reply">回复@%1$s：%2$s</string>
 
     <!-- Contact -->
     <string name="label_group_current_size">%,d人</string>

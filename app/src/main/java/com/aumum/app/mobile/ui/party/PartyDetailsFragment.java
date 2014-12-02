@@ -312,7 +312,7 @@ public class PartyDetailsFragment extends LoaderFragment<Party>
 
     private void showActionDialog(boolean isOwner) {
         List<String> options = new ArrayList<String>();
-        options.add(getString(R.string.label_favorite));
+        options.add(getString(R.string.label_report));
         if (isOwner) {
             options.add(getString(R.string.label_delete));
         }

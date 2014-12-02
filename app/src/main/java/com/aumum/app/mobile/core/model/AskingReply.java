@@ -10,14 +10,17 @@ public class AskingReply extends AggregateRoot {
 
     private String userId;
     private String content;
+    private String repliedId;
     private List<String> likes = new ArrayList<String>();
 
     private User user;
 
     public AskingReply(String userId,
-                       String content) {
+                       String content,
+                       String repliedId) {
         this.userId = userId;
         this.content = content;
+        this.repliedId = repliedId;
     }
 
     public String getUserId() {
@@ -26,6 +29,10 @@ public class AskingReply extends AggregateRoot {
 
     public String getContent() {
         return content;
+    }
+
+    public String getRepliedId() {
+        return repliedId;
     }
 
     public int getLikesCount() {
@@ -40,6 +47,10 @@ public class AskingReply extends AggregateRoot {
             return likes.contains(userId);
         }
         return false;
+    }
+
+    public boolean isOwner(String userId) {
+        return userId.equals(this.userId);
     }
 
     public User getUser() {

@@ -1,4 +1,4 @@
-package com.aumum.app.mobile.ui.comment;
+package com.aumum.app.mobile.ui.delegate;
 
 /**
  * Created by Administrator on 22/10/2014.

@@ -90,5 +90,7 @@ public class Message extends AggregateRoot {
         public static final int PARTY_REPLY = 6;
         public static final int PARTY_DELETE = 7;
         public static final int ASKING_NEW = 8;
+        public static final int ASKING_REPLY_NEW = 9;
+        public static final int ASKING_REPLY_REPLY = 10;
     }
 }
