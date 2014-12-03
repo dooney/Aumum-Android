@@ -42,6 +42,7 @@ public class PartyListFragment extends RefreshItemListFragment<Card> {
     @Inject UserStore userStore;
     @Inject PartyStore dataStore;
 
+    protected User currentUser;
     protected List<Party> dataSet = new ArrayList<Party>();
 
     protected GPSTracker gpsTracker;
@@ -91,9 +92,14 @@ public class PartyListFragment extends RefreshItemListFragment<Card> {
             doRefresh(UPWARDS_REFRESH);
         } else if (requestCode == Constants.RequestCode.GET_PARTY_DETAILS_REQ_CODE && resultCode == Activity.RESULT_OK) {
             String partyId = data.getStringExtra(PartyDetailsActivity.INTENT_PARTY_ID);
-            if (partyId != null) {
+            if (data.hasExtra(PartyDetailsActivity.INTENT_DELETED)) {
                 onPartyDeleted(partyId);
+            } else {
+                onPartyRefresh(partyId);
             }
+        } else if (requestCode == Constants.RequestCode.GET_PARTY_COMMENTS_REQ_CODE && resultCode == Activity.RESULT_OK) {
+            String partyId = data.getStringExtra(PartyCommentsActivity.INTENT_PARTY_ID);
+            onPartyRefresh(partyId);
         }
     }
 
@@ -114,10 +120,6 @@ public class PartyListFragment extends RefreshItemListFragment<Card> {
             default:
                 throw new Exception("Invalid refresh mode: " + mode);
         }
-        gpsTracker.getLocation();
-        for (Party party: dataSet) {
-            party.setDistance(gpsTracker.getLatitude(), gpsTracker.getLongitude());
-        }
         return buildCards();
     }
 
@@ -128,7 +130,6 @@ public class PartyListFragment extends RefreshItemListFragment<Card> {
 
     private void getUpwardsList() throws Exception {
         dataStore.getUnreadList().clear();
-        dataStore.refresh(dataSet);
         String after = null;
         if (dataSet.size() > 0) {
             after = dataSet.get(0).getCreatedAt();
@@ -153,24 +154,31 @@ public class PartyListFragment extends RefreshItemListFragment<Card> {
         }
     }
 
+    private Card buildCard(Party party, String currentUserId) throws Exception {
+        if (party.getUser() == null) {
+            party.setUser(userStore.getUserById(party.getUserId()));
+        }
+        gpsTracker.getLocation();
+        party.setDistance(gpsTracker.getLatitude(), gpsTracker.getLongitude());
+        Card card = new PartyCard(PartyListFragment.this, party, currentUserId);
+        card.setOnClickListener(new Card.OnCardClickListener() {
+            @Override
+            public void onClick(Card card, View view) {
+                PartyCard partyCard = (PartyCard) card;
+                final Intent intent = new Intent(getActivity(), PartyDetailsActivity.class);
+                intent.putExtra(PartyDetailsActivity.INTENT_PARTY_ID, partyCard.getParty().getObjectId());
+                startActivityForResult(intent, Constants.RequestCode.GET_PARTY_DETAILS_REQ_CODE);
+            }
+        });
+        return card;
+    }
+
     private List<Card> buildCards() throws Exception {
+        currentUser = userStore.getCurrentUser();
         List<Card> cards = new ArrayList<Card>();
         if (dataSet.size() > 0) {
-            User currentUser = userStore.getCurrentUser();
             for (Party party : dataSet) {
-                if (party.getUser() == null) {
-                    party.setUser(userStore.getUserById(party.getUserId()));
-                }
-                Card card = new PartyCard(getActivity(), party, currentUser.getObjectId());
-                card.setOnClickListener(new Card.OnCardClickListener() {
-                    @Override
-                    public void onClick(Card card, View view) {
-                        PartyCard partyCard = (PartyCard) card;
-                        final Intent intent = new Intent(getActivity(), PartyDetailsActivity.class);
-                        intent.putExtra(PartyDetailsActivity.INTENT_PARTY_ID, partyCard.getParty().getObjectId());
-                        startActivityForResult(intent, Constants.RequestCode.GET_PARTY_DETAILS_REQ_CODE);
-                    }
-                });
+                Card card = buildCard(party, currentUser.getObjectId());
                 cards.add(card);
             }
         }
@@ -199,6 +207,28 @@ public class PartyListFragment extends RefreshItemListFragment<Card> {
                 if (party.getObjectId().equals(partyId)) {
                     dataSet.remove(party);
                     it.remove();
+                    getActivity().runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            getListAdapter().notifyDataSetChanged();
+                        }
+                    });
+                    return;
+                }
+            }
+        } catch (Exception e) {
+            Ln.d(e);
+        }
+    }
+
+    private void onPartyRefresh(String partyId) {
+        try {
+            for (int i = 0; i < dataSet.size(); i++) {
+                Party item = dataSet.get(i);
+                if (item.getObjectId().equals(partyId)) {
+                    Party party = dataStore.getPartyById(partyId);
+                    getData().set(i, buildCard(party, currentUser.getObjectId()));
+                    dataSet.set(i, party);
                     getActivity().runOnUiThread(new Runnable() {
                         @Override
                         public void run() {

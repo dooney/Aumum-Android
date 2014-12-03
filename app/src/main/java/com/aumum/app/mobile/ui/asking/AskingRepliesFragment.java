@@ -136,8 +136,9 @@ public class AskingRepliesFragment extends ItemListFragment<AskingReply> {
         }
 
         // update UI first
+        final String repliedId = (replied != null) ? replied.getObjectId() : null;
         final AskingReply askingReply = new AskingReply(currentUser.getObjectId(),
-                event.getReply(), replied.getObjectId());
+                event.getReply(), repliedId);
         askingReply.setUser(currentUser);
         getData().add(0, askingReply);
         getListAdapter().notifyDataSetChanged();
@@ -149,7 +150,7 @@ public class AskingRepliesFragment extends ItemListFragment<AskingReply> {
             public Boolean call() throws Exception {
                 AskingReply reply = getData().get(0);
                 final AskingReply newReply = new AskingReply(reply.getUserId(),
-                        reply.getContent(), replied.getObjectId());
+                        reply.getContent(), repliedId);
 
                 // asking reply
                 AskingReply response = restService.newAskingReply(newReply);

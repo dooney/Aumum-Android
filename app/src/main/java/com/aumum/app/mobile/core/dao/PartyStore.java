@@ -16,7 +16,6 @@ import org.joda.time.DateTimeZone;
 
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
 
 import de.greenrobot.dao.query.QueryBuilder;
@@ -98,13 +97,13 @@ public class PartyStore {
         return partyEntity;
     }
 
-    private void updateOrInsert(List<Party> partyList) throws Exception {
+    public void updateOrInsert(List<Party> partyList) throws Exception {
         for (Party party: partyList) {
             updateOrInsert(party);
         }
     }
 
-    private void updateOrInsert(Party party) throws Exception {
+    public void updateOrInsert(Party party) throws Exception {
         partyEntityDao.insertOrReplace(map(party));
     }
 
@@ -123,27 +122,6 @@ public class PartyStore {
         } else {
             int limit = time != null ? Integer.MAX_VALUE : LIMIT_PER_LOAD;
             List<Party> partyList = restService.getPartiesAfter(time, limit);
-            updateOrInsert(partyList);
-            return partyList;
-        }
-    }
-
-    public List<Party> getUpwardsList(List<String> idList, String time) throws Exception {
-        QueryBuilder<PartyEntity> query = partyEntityDao.queryBuilder()
-                .where(PartyEntityDao.Properties.ObjectId.in(idList));
-        if (time != null) {
-            Date createdAt = DateUtils.stringToDate(time, Constants.DateTime.FORMAT);
-            query = query.where(PartyEntityDao.Properties.CreatedAt.gt(createdAt));
-        }
-        List<PartyEntity> records = query
-                .orderDesc(PartyEntityDao.Properties.CreatedAt)
-                .limit(LIMIT_PER_LOAD)
-                .list();
-        if (records.size() > 0) {
-            return map(records);
-        } else {
-            int limit = time != null ? Integer.MAX_VALUE : LIMIT_PER_LOAD;
-            List<Party> partyList = restService.getPartiesAfter(idList, time, limit);
             updateOrInsert(partyList);
             return partyList;
         }
@@ -179,35 +157,6 @@ public class PartyStore {
             List<Party> partyList = restService.getPartiesBefore(idList, time, LIMIT_PER_LOAD);
             updateOrInsert(partyList);
             return partyList;
-        }
-    }
-
-    public void refresh(List<Party> partyList) throws Exception {
-        if (partyList != null && partyList.size() > 0) {
-            List<String> partyIds = new ArrayList<String>();
-            for (Party party : partyList) {
-                partyIds.add(party.getObjectId());
-            }
-            List<Party> resultList = restService.refreshParties(partyIds);
-            HashMap<String, Party> hashMap = new HashMap<String, Party>();
-            for (Party party : resultList) {
-                hashMap.put(party.getObjectId(), party);
-            }
-            for (Party party: partyList) {
-                Party result = hashMap.get(party.getObjectId());
-                if (result != null) {
-                    party.getMembers().clear();
-                    party.getMembers().addAll(result.getMembers());
-
-                    party.getComments().clear();
-                    party.getComments().addAll(result.getComments());
-
-                    party.getLikes().clear();
-                    party.getLikes().addAll(result.getLikes());
-
-                    updateOrInsert(party);
-                }
-            }
         }
     }
 

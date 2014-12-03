@@ -59,6 +59,7 @@ public class LikeTextView extends AnimateTextView {
         } else {
             setText(null);
         }
+        this.isLike = isLike;
         int drawableId = (isLike ? likedResId : likeResId);
         setCompoundDrawablesWithIntrinsicBounds(drawableId, 0, 0, 0);
     }

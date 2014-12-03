@@ -141,6 +141,13 @@ public class AskingListFragment extends RefreshItemListFragment<Asking> {
         List<Asking> askingList = onGetUpwardsList(after);
         Collections.reverse(askingList);
         for(Asking asking: askingList) {
+            for (Iterator<Asking> it = dataSet.iterator(); it.hasNext();) {
+                Asking item = it.next();
+                if (asking.getObjectId().equals(item.getObjectId())) {
+                    it.remove();
+                    break;
+                }
+            }
             dataSet.add(0, asking);
         }
     }
@@ -168,11 +175,9 @@ public class AskingListFragment extends RefreshItemListFragment<Asking> {
 
     private void onAskingDeleted(String askingId) {
         try {
-            List<Asking> askingList = getData();
-            for (Iterator<Asking> it = askingList.iterator(); it.hasNext();) {
+            for (Iterator<Asking> it = dataSet.iterator(); it.hasNext();) {
                 Asking asking = it.next();
                 if (asking.getObjectId().equals(askingId)) {
-                    dataSet.remove(asking);
                     it.remove();
                     getActivity().runOnUiThread(new Runnable() {
                         @Override

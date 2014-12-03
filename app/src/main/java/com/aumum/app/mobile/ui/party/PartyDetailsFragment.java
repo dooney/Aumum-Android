@@ -221,6 +221,14 @@ public class PartyDetailsFragment extends LoaderFragment<Party>
     }
 
     @Override
+    public void onActivityResult (int requestCode, int resultCode, Intent data) {
+        if (requestCode == Constants.RequestCode.GET_PARTY_COMMENTS_REQ_CODE && resultCode == Activity.RESULT_OK) {
+            String partyId = data.getStringExtra(PartyCommentsActivity.INTENT_PARTY_ID);
+            onPartyRefresh(partyId);
+        }
+    }
+
+    @Override
     protected int getErrorMessage(Exception exception) {
         return R.string.error_load_party_details;
     }
@@ -238,7 +246,6 @@ public class PartyDetailsFragment extends LoaderFragment<Party>
     @Override
     protected Party loadDataCore(Bundle bundle) throws Exception {
         party = partyStore.getPartyByIdFromServer(partyId);
-        party.setDistance(gpsTracker.getLatitude(), gpsTracker.getLongitude());
         return party;
     }
 
@@ -247,66 +254,82 @@ public class PartyDetailsFragment extends LoaderFragment<Party>
         try {
             if (party != null) {
                 setData(party);
-
-                User user = userStore.getUserById(party.getUserId());
-                avatarImage.getFromUrl(user.getAvatarUrl());
-                avatarImage.setOnClickListener(new UserListener(avatarImage.getContext(), party.getUserId()));
-
-                userNameText.setText(user.getScreenName());
-                userNameText.setOnClickListener(new UserListener(userNameText.getContext(), party.getUserId()));
-                titleText.setText(party.getTitle());
-                distanceText.setText(getString(R.string.label_distance, party.getDistance()));
-                areaText.setText(Constants.Options.AREA_OPTIONS[user.getArea()]);
-                createdAtText.setText(party.getCreatedAtFormatted());
-                timeText.setText(party.getDateTimeText());
-                locationText.setText(party.getPlace().getLocation());
-                ageText.setText(Constants.Options.AGE_OPTIONS[party.getAge()]);
-                genderText.setText(Constants.Options.GENDER_OPTIONS[party.getGender()]);
-                detailsText.setText(party.getDetails());
-
-                showAction = false;
-                if (!party.isExpired() && !party.isOwner(currentUserId)) {
-                    showAction = true;
-                    actionLayout.setVisibility(View.VISIBLE);
-                    joinText.update(party.isMember(currentUserId));
-                }
-
-                int comments = party.getCommentsCount();
-                commentText.setText(comments > 0 ? String.valueOf(comments) : getString(R.string.label_comment));
-                commentText.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        Animation.animateTextView(view);
-                        final Intent intent = new Intent(getActivity(), PartyCommentsActivity.class);
-                        intent.putExtra(PartyCommentsActivity.INTENT_PARTY_ID, party.getObjectId());
-                        getActivity().startActivity(intent);
-                    }
-                });
-
-                likeText.init(party.getLikesCount(), party.isLiked(currentUserId));
-                PartyLikeListener likeListener = new PartyLikeListener(party);
-                likeListener.setOnLikeFinishedListener(new PartyLikeListener.LikeFinishedListener() {
-                    @Override
-                    public void OnLikeFinished(Party party) {
-                        updateLikesLayout(party.getLikes());
-                    }
-
-                    @Override
-                    public void OnUnLikeFinished(Party party) {
-                        updateLikesLayout(party.getLikes());
-                    }
-                });
-                likeText.setLikeListener(likeListener);
-
-                favoriteText.init(party.getFavoritesCount(), party.isFavorited(currentUserId));
-                favoriteText.setFavoriteListener(new PartyFavoriteListener(party));
-
-                membersLayoutListener.update(membersLayout, party.getMembers());
-
-                updateLikesLayout(party.getLikes());
+                updateParty(party);
             }
         } catch (Exception e) {
             Ln.d(e);
+        }
+    }
+
+    private void updateParty(Party party) throws Exception {
+        User user = userStore.getUserById(party.getUserId());
+        avatarImage.getFromUrl(user.getAvatarUrl());
+        avatarImage.setOnClickListener(new UserListener(avatarImage.getContext(), party.getUserId()));
+
+        userNameText.setText(user.getScreenName());
+        userNameText.setOnClickListener(new UserListener(userNameText.getContext(), party.getUserId()));
+        titleText.setText(party.getTitle());
+
+        gpsTracker.getLocation();
+        party.setDistance(gpsTracker.getLatitude(), gpsTracker.getLongitude());
+        distanceText.setText(getString(R.string.label_distance, party.getDistance()));
+
+        areaText.setText(Constants.Options.AREA_OPTIONS[user.getArea()]);
+        createdAtText.setText(party.getCreatedAtFormatted());
+        timeText.setText(party.getDateTimeText());
+        locationText.setText(party.getPlace().getLocation());
+        ageText.setText(Constants.Options.AGE_OPTIONS[party.getAge()]);
+        genderText.setText(Constants.Options.GENDER_OPTIONS[party.getGender()]);
+        detailsText.setText(party.getDetails());
+
+        showAction = false;
+        if (!party.isExpired() && !party.isOwner(currentUserId)) {
+            showAction = true;
+            actionLayout.setVisibility(View.VISIBLE);
+            joinText.update(party.isMember(currentUserId));
+        }
+
+        int comments = party.getCommentsCount();
+        commentText.setText(comments > 0 ? String.valueOf(comments) : getString(R.string.label_comment));
+        commentText.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Animation.animateTextView(view);
+                final Intent intent = new Intent(getActivity(), PartyCommentsActivity.class);
+                intent.putExtra(PartyCommentsActivity.INTENT_PARTY_ID, partyId);
+                startActivityForResult(intent, Constants.RequestCode.GET_PARTY_COMMENTS_REQ_CODE);
+            }
+        });
+
+        likeText.init(party.getLikesCount(), party.isLiked(currentUserId));
+        PartyLikeListener likeListener = new PartyLikeListener(party);
+        likeListener.setOnLikeFinishedListener(new PartyLikeListener.LikeFinishedListener() {
+            @Override
+            public void OnLikeFinished(Party party) {
+                updateLikesLayout(party.getLikes());
+            }
+
+            @Override
+            public void OnUnLikeFinished(Party party) {
+                updateLikesLayout(party.getLikes());
+            }
+        });
+        likeText.setLikeListener(likeListener);
+
+        favoriteText.init(party.getFavoritesCount(), party.isFavorited(currentUserId));
+        favoriteText.setFavoriteListener(new PartyFavoriteListener(party));
+
+        membersLayoutListener.update(membersLayout, party.getMembers());
+
+        updateLikesLayout(party.getLikes());
+    }
+
+    private void onPartyRefresh(String partyId) {
+        try {
+            party = partyStore.getPartyById(partyId);
+            updateParty(party);
+        } catch (Exception e) {
+            Ln.e(e);
         }
     }
 
@@ -367,6 +390,7 @@ public class PartyDetailsFragment extends LoaderFragment<Party>
 
                 final Intent intent = new Intent();
                 intent.putExtra(PartyDetailsActivity.INTENT_PARTY_ID, partyId);
+                intent.putExtra(PartyDetailsActivity.INTENT_DELETED, true);
                 getActivity().setResult(Activity.RESULT_OK, intent);
                 getActivity().finish();
             }

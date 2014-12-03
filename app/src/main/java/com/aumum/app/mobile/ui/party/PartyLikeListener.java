@@ -2,6 +2,7 @@ package com.aumum.app.mobile.ui.party;
 
 import com.aumum.app.mobile.Injector;
 import com.aumum.app.mobile.R;
+import com.aumum.app.mobile.core.dao.PartyStore;
 import com.aumum.app.mobile.core.model.Message;
 import com.aumum.app.mobile.core.model.User;
 import com.aumum.app.mobile.core.service.MessageDeliveryService;
@@ -27,6 +28,7 @@ public class PartyLikeListener implements LikeTextView.OnLikeListener {
     @Inject RestService service;
     @Inject MessageDeliveryService messageDeliveryService;
     @Inject UserStore userStore;
+    @Inject PartyStore partyStore;
 
     private LikeFinishedListener likeFinishedListener;
 
@@ -51,6 +53,7 @@ public class PartyLikeListener implements LikeTextView.OnLikeListener {
                 User currentUser = userStore.getCurrentUser();
                 service.removePartyLike(party.getObjectId(), currentUser.getObjectId());
                 party.getLikes().remove(currentUser.getObjectId());
+                partyStore.updateOrInsert(party);
 
                 return true;
             }
@@ -89,6 +92,7 @@ public class PartyLikeListener implements LikeTextView.OnLikeListener {
                 User currentUser = userStore.getCurrentUser();
                 service.addPartyLike(party.getObjectId(), currentUser.getObjectId());
                 party.getLikes().add(currentUser.getObjectId());
+                partyStore.updateOrInsert(party);
 
                 String content = view.getResources().getString(R.string.label_like_party_message, party.getTitle());
                 Message message = new Message(Message.Type.PARTY_LIKE,

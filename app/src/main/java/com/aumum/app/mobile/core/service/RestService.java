@@ -155,12 +155,6 @@ public class RestService {
         return getPartiesAfterCore(whereJson, after, limit);
     }
 
-    public List<Party> getPartiesAfter(List<String> idList, String after, int limit) {
-        final JsonObject whereJson = new JsonObject();
-        whereJson.add("objectId", buildIdListJson(idList));
-        return getPartiesAfterCore(whereJson, after, limit);
-    }
-
     private List<Party> getPartiesBeforeCore(JsonObject whereJson, String before, int limit) {
         whereJson.add("createdAt", buildDateTimeBeforeJson(before));
         final JsonObject liveJson = new JsonObject();
@@ -319,16 +313,6 @@ public class RestService {
         op.add("objects", partyLikes);
         data.add(Constants.Http.Party.PARAM_LIKES, op);
         return getPartyService().updateById(partyId, data);
-    }
-
-    public List<Party> refreshParties(List<String> idList) {
-        String keys = Constants.Http.Party.PARAM_MEMBERS + "," +
-                Constants.Http.Party.PARAM_COMMENTS + "," +
-                Constants.Http.Party.PARAM_LIKES;
-        final JsonObject whereJson = new JsonObject();
-        whereJson.add("objectId", buildIdListJson(idList));
-        String where = whereJson.toString();
-        return getPartyService().refresh(keys, where).getResults();
     }
 
     public List<Comment> getPartyComments(List<String> idList) {

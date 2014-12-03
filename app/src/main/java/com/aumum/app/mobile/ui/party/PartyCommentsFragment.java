@@ -144,7 +144,7 @@ public class PartyCommentsFragment extends ItemListFragment<Comment>
     @Override
     protected List<Comment> loadDataCore(Bundle bundle) throws Exception {
         currentUser = userStore.getCurrentUser();
-        party = partyStore.getPartyById(partyId);
+        party = partyStore.getPartyByIdFromServer(partyId);
         List<Comment> result = partyCommentStore.getPartyComments(party.getComments());
         for (Comment comment : result) {
             comment.setUser(userStore.getUserById(comment.getUserId()));
@@ -221,6 +221,8 @@ public class PartyCommentsFragment extends ItemListFragment<Comment>
                 service.addPartyComment(partyId, response.getObjectId());
                 comment.setObjectId(response.getObjectId());
                 comment.setCreatedAt(response.getCreatedAt());
+                party.getComments().add(response.getObjectId());
+                partyStore.updateOrInsert(party);
 
                 Message message = new Message(Message.Type.PARTY_COMMENT,
                         currentUser.getObjectId(), party.getUserId(), comment.getContent(), party.getObjectId());
@@ -270,6 +272,8 @@ public class PartyCommentsFragment extends ItemListFragment<Comment>
             public Boolean call() throws Exception {
                 service.deletePartyComment(comment.getObjectId());
                 service.removePartyComment(comment.getParentId(), comment.getObjectId());
+                party.getComments().remove(comment.getObjectId());
+                partyStore.updateOrInsert(party);
                 return true;
             }
 

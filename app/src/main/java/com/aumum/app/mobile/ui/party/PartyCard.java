@@ -2,6 +2,7 @@ package com.aumum.app.mobile.ui.party;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.support.v4.app.Fragment;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
@@ -23,6 +24,7 @@ import it.gmariotti.cardslib.library.internal.Card;
  */
 public class PartyCard extends Card {
     private Activity activity;
+    private Fragment fragment;
     private Party party;
     private String currentUserId;
     private PartyLikeListener likeListener;
@@ -32,9 +34,10 @@ public class PartyCard extends Card {
         return party;
     }
 
-    public PartyCard(final Activity activity, final Party party, String currentUserId) {
-        super(activity, R.layout.party_listitem_inner);
-        this.activity = activity;
+    public PartyCard(final Fragment fragment, Party party, String currentUserId) {
+        super(fragment.getActivity(), R.layout.party_listitem_inner);
+        this.activity = fragment.getActivity();
+        this.fragment = fragment;
         this.party = party;
         this.currentUserId = currentUserId;
         this.likeListener = new PartyLikeListener(party);
@@ -105,7 +108,7 @@ public class PartyCard extends Card {
                 Animation.animateTextView(view);
                 final Intent intent = new Intent(activity, PartyCommentsActivity.class);
                 intent.putExtra(PartyCommentsActivity.INTENT_PARTY_ID, party.getObjectId());
-                activity.startActivity(intent);
+                fragment.startActivityForResult(intent, Constants.RequestCode.GET_PARTY_COMMENTS_REQ_CODE);
             }
         });
 

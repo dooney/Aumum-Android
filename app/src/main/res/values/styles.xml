@@ -50,8 +50,6 @@
         <item name="android:gravity">left|top</item>
         <item name="android:imeOptions">actionSend</item>
         <item name="android:inputType">text|textCapSentences|textMultiLine</item>
-        <item name="android:maxLines">4</item>
-        <item name="android:minLines">2</item>
         <item name="android:paddingTop">@dimen/margin_extra_small</item>
         <item name="android:paddingBottom">@dimen/margin_extra_small</item>
         <item name="android:paddingLeft">@dimen/margin_large</item>

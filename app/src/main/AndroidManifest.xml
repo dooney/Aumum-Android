@@ -126,10 +126,7 @@
 
         <activity
             android:name="com.aumum.app.mobile.ui.party.PartyCommentsActivity"
-            android:excludeFromRecents="true"
-            android:label="@string/title_activity_party_comments"
-            android:launchMode="singleTask"
-            android:taskAffinity="" >
+            android:label="@string/title_activity_party_comments" >
         </activity>
         <activity
             android:name="com.aumum.app.mobile.ui.party.PartyDetailsActivity"

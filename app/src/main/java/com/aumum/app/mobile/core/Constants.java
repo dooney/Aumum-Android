@@ -204,6 +204,7 @@ public final class Constants {
         public static final int CROP_PROFILE_IMAGE_REQ_CODE = 34;
         public static final int NEW_ASKING_REQ_CODE = 35;
         public static final int GET_ASKING_DETAILS_REQ_CODE = 36;
+        public static final int GET_PARTY_COMMENTS_REQ_CODE = 37;
     }
 }
 

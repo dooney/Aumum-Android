@@ -33,6 +33,7 @@ public class SearchPartyFragment extends ItemListFragment<Card> {
     @Inject UserStore userStore;
     @Inject PartyStore dataStore;
 
+    private User currentUser;
     private GPSTracker gpsTracker;
 
     private int mode;
@@ -79,9 +80,14 @@ public class SearchPartyFragment extends ItemListFragment<Card> {
     public void onActivityResult (int requestCode, int resultCode, Intent data) {
         if (requestCode == Constants.RequestCode.GET_PARTY_DETAILS_REQ_CODE && resultCode == Activity.RESULT_OK) {
             String partyId = data.getStringExtra(PartyDetailsActivity.INTENT_PARTY_ID);
-            if (partyId != null) {
+            if (data.hasExtra(PartyDetailsActivity.INTENT_DELETED)) {
                 onPartyDeleted(partyId);
+            } else {
+                onPartyRefresh(partyId);
             }
+        } else if (requestCode == Constants.RequestCode.GET_PARTY_COMMENTS_REQ_CODE && resultCode == Activity.RESULT_OK) {
+            String partyId = data.getStringExtra(PartyCommentsActivity.INTENT_PARTY_ID);
+            onPartyRefresh(partyId);
         }
     }
 
@@ -92,7 +98,7 @@ public class SearchPartyFragment extends ItemListFragment<Card> {
 
     @Override
     protected List<Card> loadDataCore(Bundle bundle) throws Exception {
-        List<Party> partyList = null;
+        List<Party> partyList;
         switch (mode) {
             case NEARBY_PARTIES:
                 partyList = getNearByParties();
@@ -102,12 +108,9 @@ public class SearchPartyFragment extends ItemListFragment<Card> {
                 break;
             case FAVORITE_PARTIES:
                 partyList = getUserFavoriteParties();
-            default:
                 break;
-        }
-        gpsTracker.getLocation();
-        for (Party party: partyList) {
-            party.setDistance(gpsTracker.getLatitude(), gpsTracker.getLongitude());
+            default:
+                throw new Exception("Invalid mode: " + mode);
         }
         return buildCards(partyList);
     }
@@ -139,24 +142,31 @@ public class SearchPartyFragment extends ItemListFragment<Card> {
         return partyList;
     }
 
+    private Card buildCard(Party party, String currentUserId) throws Exception {
+        if (party.getUser() == null) {
+            party.setUser(userStore.getUserById(party.getUserId()));
+        }
+        gpsTracker.getLocation();
+        party.setDistance(gpsTracker.getLatitude(), gpsTracker.getLongitude());
+        Card card = new PartyCard(SearchPartyFragment.this, party, currentUserId);
+        card.setOnClickListener(new Card.OnCardClickListener() {
+            @Override
+            public void onClick(Card card, View view) {
+                PartyCard partyCard = (PartyCard) card;
+                final Intent intent = new Intent(getActivity(), PartyDetailsActivity.class);
+                intent.putExtra(PartyDetailsActivity.INTENT_PARTY_ID, partyCard.getParty().getObjectId());
+                startActivityForResult(intent, Constants.RequestCode.GET_PARTY_DETAILS_REQ_CODE);
+            }
+        });
+        return card;
+    }
+
     private List<Card> buildCards(List<Party> partyList) throws Exception {
+        currentUser = userStore.getCurrentUser();
         List<Card> cards = new ArrayList<Card>();
         if (partyList.size() > 0) {
-            User currentUser = userStore.getCurrentUser();
             for (Party party : partyList) {
-                if (party.getUser() == null) {
-                    party.setUser(userStore.getUserById(party.getUserId()));
-                }
-                Card card = new PartyCard(getActivity(), party, currentUser.getObjectId());
-                card.setOnClickListener(new Card.OnCardClickListener() {
-                    @Override
-                    public void onClick(Card card, View view) {
-                        PartyCard partyCard = (PartyCard) card;
-                        final Intent intent = new Intent(getActivity(), PartyDetailsActivity.class);
-                        intent.putExtra(PartyDetailsActivity.INTENT_PARTY_ID, partyCard.getParty().getObjectId());
-                        startActivityForResult(intent, Constants.RequestCode.GET_PARTY_DETAILS_REQ_CODE);
-                    }
-                });
+                Card card = buildCard(party, currentUser.getObjectId());
                 cards.add(card);
             }
         }
@@ -171,6 +181,28 @@ public class SearchPartyFragment extends ItemListFragment<Card> {
                 Party party = ((PartyCard) card).getParty();
                 if (party.getObjectId().equals(partyId)) {
                     it.remove();
+                    getActivity().runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            getListAdapter().notifyDataSetChanged();
+                        }
+                    });
+                    return;
+                }
+            }
+        } catch (Exception e) {
+            Ln.d(e);
+        }
+    }
+
+    private void onPartyRefresh(String partyId) {
+        try {
+            for (int i = 0; i < getData().size(); i++) {
+                Card card = getData().get(i);
+                Party item = ((PartyCard) card).getParty();
+                if (item.getObjectId().equals(partyId)) {
+                    Party party = dataStore.getPartyById(partyId);
+                    getData().set(i, buildCard(party, currentUser.getObjectId()));
                     getActivity().runOnUiThread(new Runnable() {
                         @Override
                         public void run() {

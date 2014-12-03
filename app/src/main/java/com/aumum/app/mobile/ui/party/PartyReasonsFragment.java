@@ -142,6 +142,7 @@ public class PartyReasonsFragment extends ItemListFragment<PartyReason> {
                     service.addPartyMember(partyId, currentUser.getObjectId());
                     service.addUserParty(currentUser.getObjectId(), partyId);
                     party.getMembers().add(currentUser.getObjectId());
+                    partyStore.updateOrInsert(party);
 
                     Message message = new Message(Message.Type.PARTY_JOIN,
                             currentUser.getObjectId(), party.getUserId(), reason.getContent(), party.getObjectId());
@@ -150,6 +151,7 @@ public class PartyReasonsFragment extends ItemListFragment<PartyReason> {
                     service.removePartyMember(partyId, currentUser.getObjectId());
                     service.removeUserParty(currentUser.getObjectId(), partyId);
                     party.getMembers().remove(currentUser.getObjectId());
+                    partyStore.updateOrInsert(party);
 
                     Message message = new Message(Message.Type.PARTY_QUIT,
                             currentUser.getObjectId(), party.getUserId(), reason.getContent(), party.getObjectId());
