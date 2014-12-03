@@ -16,7 +16,7 @@ import com.aumum.app.mobile.core.Constants;
 import com.aumum.app.mobile.core.dao.AskingStore;
 import com.aumum.app.mobile.core.dao.UserStore;
 import com.aumum.app.mobile.core.model.Asking;
-import com.aumum.app.mobile.ui.base.ItemListFragment;
+import com.aumum.app.mobile.ui.base.RefreshItemListFragment;
 import com.aumum.app.mobile.utils.Ln;
 
 import java.util.ArrayList;
@@ -30,7 +30,7 @@ import javax.inject.Inject;
  * A simple {@link Fragment} subclass.
  *
  */
-public class AskingListFragment extends ItemListFragment<Asking> {
+public class AskingListFragment extends RefreshItemListFragment<Asking> {
 
     @Inject AskingStore dataStore;
     @Inject UserStore userStore;
@@ -114,8 +114,17 @@ public class AskingListFragment extends ItemListFragment<Asking> {
     }
 
     @Override
-    protected List<Asking> loadDataCore(Bundle bundle) throws Exception {
-        getUpwardsList();
+    protected List<Asking> loadByMode(int mode) throws Exception {
+        switch (mode) {
+            case UPWARDS_REFRESH:
+                getUpwardsList();
+                break;
+            case BACKWARDS_REFRESH:
+                getBackwardsList();
+                break;
+            default:
+                throw new Exception("Invalid refresh mode: " + mode);
+        }
         for (Asking asking: dataSet) {
             if (asking.getUser() == null) {
                 asking.setUser(userStore.getUserById(asking.getUserId()));
@@ -127,7 +136,7 @@ public class AskingListFragment extends ItemListFragment<Asking> {
     private void getUpwardsList() throws Exception {
         String after = null;
         if (dataSet.size() > 0) {
-            after = dataSet.get(0).getCreatedAt();
+            after = dataSet.get(0).getUpdatedAt();
         }
         List<Asking> askingList = onGetUpwardsList(after);
         Collections.reverse(askingList);
@@ -136,8 +145,25 @@ public class AskingListFragment extends ItemListFragment<Asking> {
         }
     }
 
-    protected List<Asking> onGetUpwardsList(String time) throws Exception {
+    private void getBackwardsList() throws Exception {
+        if (dataSet.size() > 0) {
+            Asking last = dataSet.get(dataSet.size() - 1);
+            List<Asking> askingList = onGetBackwardsList(last.getUpdatedAt());
+            dataSet.addAll(askingList);
+            if (askingList.size() > 0) {
+                setLoadMore(true);
+            } else {
+                setLoadMore(false);
+            }
+        }
+    }
+
+    private List<Asking> onGetUpwardsList(String time) throws Exception {
         return dataStore.getUpwardsList(category, time);
+    }
+
+    private List<Asking> onGetBackwardsList(String time) throws Exception {
+        return dataStore.getBackwardsList(category, time);
     }
 
     private void onAskingDeleted(String askingId) {

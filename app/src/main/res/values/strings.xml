@@ -114,7 +114,6 @@
     <string name="title_activity_contact_requests">好友请求</string>
     <string name="title_activity_settings">设置</string>
     <string name="title_activity_party_details">聚会详情</string>
-    <string name="title_activity_parties">我的聚会</string>
     <string name="title_activity_search_party">搜索聚会</string>
     <string name="title_activity_new_party">发起聚会</string>
     <string name="title_activity_add_contact">添加好友</string>

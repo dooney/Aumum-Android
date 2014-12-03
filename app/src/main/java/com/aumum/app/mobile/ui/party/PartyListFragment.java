@@ -9,6 +9,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ArrayAdapter;
 
 import com.aumum.app.mobile.Injector;
 import com.aumum.app.mobile.R;
@@ -17,7 +18,7 @@ import com.aumum.app.mobile.core.dao.PartyStore;
 import com.aumum.app.mobile.core.dao.UserStore;
 import com.aumum.app.mobile.core.model.Party;
 import com.aumum.app.mobile.core.model.User;
-import com.aumum.app.mobile.ui.base.CardListFragment;
+import com.aumum.app.mobile.ui.base.RefreshItemListFragment;
 import com.aumum.app.mobile.utils.DialogUtils;
 import com.aumum.app.mobile.utils.GPSTracker;
 import com.aumum.app.mobile.utils.Ln;
@@ -30,12 +31,13 @@ import java.util.List;
 import javax.inject.Inject;
 
 import it.gmariotti.cardslib.library.internal.Card;
+import it.gmariotti.cardslib.library.internal.CardArrayAdapter;
 
 /**
  * A simple {@link Fragment} subclass.
  *
  */
-public class PartyListFragment extends CardListFragment {
+public class PartyListFragment extends RefreshItemListFragment<Card> {
 
     @Inject UserStore userStore;
     @Inject PartyStore dataStore;
@@ -101,7 +103,7 @@ public class PartyListFragment extends CardListFragment {
     }
 
     @Override
-    protected List<Card> loadCards(int mode) throws Exception {
+    protected List<Card> loadByMode(int mode) throws Exception {
         switch (mode) {
             case UPWARDS_REFRESH:
                 getUpwardsList();
@@ -117,6 +119,11 @@ public class PartyListFragment extends CardListFragment {
             party.setDistance(gpsTracker.getLatitude(), gpsTracker.getLongitude());
         }
         return buildCards();
+    }
+
+    @Override
+    protected ArrayAdapter<Card> createAdapter(List<Card> items) {
+        return new CardArrayAdapter(getActivity(), items);
     }
 
     private void getUpwardsList() throws Exception {
@@ -206,11 +213,11 @@ public class PartyListFragment extends CardListFragment {
         }
     }
 
-    protected List<Party> onGetUpwardsList(String after) throws Exception {
+    private List<Party> onGetUpwardsList(String after) throws Exception {
         return dataStore.getUpwardsList(after);
     }
 
-    protected List<Party> onGetBackwardsList(String before) throws Exception {
+    private List<Party> onGetBackwardsList(String before) throws Exception {
         return dataStore.getBackwardsList(before);
     }
 }

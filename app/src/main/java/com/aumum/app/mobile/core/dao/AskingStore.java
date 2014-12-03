@@ -105,6 +105,23 @@ public class AskingStore {
         }
     }
 
+    public List<Asking> getBackwardsList(int category, String time) throws Exception {
+        Date date = DateUtils.stringToDate(time, Constants.DateTime.FORMAT);
+        List<AskingEntity> records = askingEntityDao.queryBuilder()
+                .where(AskingEntityDao.Properties.Category.eq(category))
+                .where(AskingEntityDao.Properties.UpdatedAt.lt(date))
+                .orderDesc(AskingEntityDao.Properties.UpdatedAt)
+                .limit(LIMIT_PER_LOAD)
+                .list();
+        if (records.size() > 0) {
+            return map(records);
+        } else {
+            List<Asking> askingList = restService.getAskingListBefore(category, time, LIMIT_PER_LOAD);
+            updateOrInsert(askingList);
+            return askingList;
+        }
+    }
+
     public Asking getAskingByIdFromServer(String id) throws Exception {
         Asking asking = restService.getAskingById(id);
         updateOrInsert(asking);

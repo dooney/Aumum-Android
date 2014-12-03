@@ -426,7 +426,9 @@ public class RestService {
         return getUserService().updateById(userId, data);
     }
 
-    private List<Asking> getAskingListAfterCore(JsonObject whereJson, String after, int limit) {
+    public List<Asking> getAskingListAfter(int category, String after, int limit) {
+        final JsonObject whereJson = new JsonObject();
+        whereJson.addProperty("category", category);
         if (after != null) {
             whereJson.add("updatedAt", buildDateTimeAfterJson(after));
         }
@@ -437,10 +439,15 @@ public class RestService {
         return getAskingService().getList("-updatedAt", where, limit).getResults();
     }
 
-    public List<Asking> getAskingListAfter(int category, String after, int limit) {
+    public List<Asking> getAskingListBefore(int category, String before, int limit) {
         final JsonObject whereJson = new JsonObject();
         whereJson.addProperty("category", category);
-        return getAskingListAfterCore(whereJson, after, limit);
+        whereJson.add("updatedAt", buildDateTimeBeforeJson(before));
+        final JsonObject liveJson = new JsonObject();
+        liveJson.addProperty("$exists", false);
+        whereJson.add("deletedAt" ,liveJson);
+        String where = whereJson.toString();
+        return getAskingService().getList("-updatedAt", where, limit).getResults();
     }
 
     public Asking newAsking(Asking asking) {

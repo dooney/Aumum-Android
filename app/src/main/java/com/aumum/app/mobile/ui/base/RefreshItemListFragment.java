@@ -6,14 +6,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
-import android.widget.ArrayAdapter;
 
 import com.aumum.app.mobile.R;
 
 import java.util.List;
 
-import it.gmariotti.cardslib.library.internal.Card;
-import it.gmariotti.cardslib.library.internal.CardArrayAdapter;
 import it.gmariotti.cardslib.library.view.listener.SwipeOnScrollListener;
 import uk.co.senab.actionbarpulltorefresh.extras.actionbarcompat.PullToRefreshLayout;
 import uk.co.senab.actionbarpulltorefresh.library.ActionBarPullToRefresh;
@@ -22,15 +19,13 @@ import uk.co.senab.actionbarpulltorefresh.library.listeners.OnRefreshListener;
 /**
  * Created by Administrator on 28/09/2014.
  */
-public abstract class CardListFragment extends ItemListFragment<Card> {
+public abstract class RefreshItemListFragment<E> extends ItemListFragment<E> {
 
     private final String REFRESH_MODE = "refreshMode";
     protected final int UPWARDS_REFRESH = 1;
     protected final int BACKWARDS_REFRESH = 2;
     private boolean isLoading = false;
     private boolean loadMore = true;
-
-    private PullToRefreshLayout pullToRefreshLayout;
 
     protected void setLoadMore(boolean loadMore) {
         this.loadMore = loadMore;
@@ -46,7 +41,7 @@ public abstract class CardListFragment extends ItemListFragment<Card> {
     public void onViewCreated(final View view, final Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        pullToRefreshLayout = (PullToRefreshLayout) view.findViewById(R.id.ptr_layout);
+        final PullToRefreshLayout pullToRefreshLayout = (PullToRefreshLayout) view.findViewById(R.id.ptr_layout);
         ActionBarPullToRefresh.from(getActivity()).allChildrenArePullable().listener(new OnRefreshListener() {
             @Override
             public void onRefreshStarted(View view) {
@@ -77,19 +72,14 @@ public abstract class CardListFragment extends ItemListFragment<Card> {
     }
 
     @Override
-    protected ArrayAdapter<Card> createAdapter(List<Card> items) {
-        return new CardArrayAdapter(getActivity(), items);
-    }
-
-    @Override
-    protected List<Card> loadDataCore(final Bundle bundle) throws Exception {
+    protected List<E> loadDataCore(final Bundle bundle) throws Exception {
         try {
             int mode = UPWARDS_REFRESH;
             if (bundle != null) {
                 mode = bundle.getInt(REFRESH_MODE);
             }
             isLoading = true;
-            return loadCards(mode);
+            return loadByMode(mode);
         } catch (final OperationCanceledException e) {
             return getData();
         } finally {
@@ -104,10 +94,10 @@ public abstract class CardListFragment extends ItemListFragment<Card> {
     }
 
     @Override
-    protected void handleLoadResult(final List<Card> result) {
+    protected void handleLoadResult(final List<E> result) {
         super.handleLoadResult(result);
         isLoading = false;
     }
 
-    protected abstract List<Card> loadCards(int mode) throws Exception;
+    protected abstract List<E> loadByMode(int mode) throws Exception;
 }
