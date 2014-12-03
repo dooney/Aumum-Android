@@ -118,9 +118,6 @@
     </style>
     <style name="ButtonTextView" parent="TextView.Subtitle">
     </style>
-    <style name="TextView.Date" parent="ButtonTextView">
-        <item name="android:drawableLeft">@drawable/ic_fa_calendar</item>
-    </style>
     <style name="TextView.Time" parent="ButtonTextView">
         <item name="android:drawableLeft">@drawable/ic_fa_clock_o</item>
     </style>
@@ -163,7 +160,10 @@
     <style name="TextView.Party.UserName" parent="TextView.UserName" >
         <item name="android:textSize">@dimen/text_sz_large</item>
     </style>
-    <style name="TextView.Party.CreatedAt" parent="TextView.Subtitle" />
+    <style name="TextView.Party.Area" parent="TextView.Subtitle" />
+    <style name="TextView.Party.CreatedAt" parent="TextView.Subtitle">
+        <item name="android:textSize">@dimen/text_sz_small</item>
+    </style>
     <style name="TextView.Party.Title" parent="TextView">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
@@ -177,6 +177,7 @@
     <style name="TextView.Party.Details" parent="TextView">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
+        <item name="android:textSize">@dimen/text_sz_large</item>
         <item name="android:lineSpacingMultiplier">1.1</item>
         <item name="android:maxLines">4</item>
         <item name="android:ellipsize">end</item>

@@ -53,6 +53,9 @@ public class PartyCard extends Card {
         userNameText.setText(party.getUser().getScreenName());
         userNameText.setOnClickListener(new UserListener(userNameText.getContext(), party.getUserId()));
 
+        TextView areaText = (TextView) view.findViewById(R.id.text_area);
+        areaText.setText(Constants.Options.AREA_OPTIONS[party.getUser().getArea()]);
+
         TextView titleText = (TextView) view.findViewById(R.id.text_title);
         titleText.setText(party.getTitle());
 
@@ -62,11 +65,8 @@ public class PartyCard extends Card {
         TextView createdAtText = (TextView) view.findViewById(R.id.text_createdAt);
         createdAtText.setText(party.getCreatedAtFormatted());
 
-        TextView dateText = (TextView) view.findViewById(R.id.text_date);
-        dateText.setText(party.getDate().getDateText());
-
         TextView timeText = (TextView) view.findViewById(R.id.text_time);
-        timeText.setText(party.getTime().getTimeText());
+        timeText.setText(party.getDateTimeText());
 
         TextView locationText = (TextView) view.findViewById(R.id.text_location);
         locationText.setText(party.getPlace().getLocation());

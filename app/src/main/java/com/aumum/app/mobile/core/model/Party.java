@@ -110,6 +110,10 @@ public class Party extends AggregateRoot {
         return dt.toDateTime(DateTimeZone.UTC).toString(Constants.DateTime.FORMAT);
     }
 
+    public String getDateTimeText() {
+        return date.getDateText() + " " + time.getTimeText();
+    }
+
     public int getAge() {
         return age;
     }

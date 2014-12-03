@@ -76,8 +76,8 @@ public class PartyDetailsFragment extends LoaderFragment<Party>
     private TextView userNameText;
     private TextView titleText;
     private TextView distanceText;
+    private TextView areaText;
     private TextView createdAtText;
-    private TextView dateText;
     private TextView timeText;
     private TextView locationText;
     private TextView ageText;
@@ -160,8 +160,8 @@ public class PartyDetailsFragment extends LoaderFragment<Party>
         userNameText = (TextView) view.findViewById(R.id.text_user_name);
         titleText = (TextView) view.findViewById(R.id.text_title);
         distanceText = (TextView) view.findViewById(R.id.text_distance);
+        areaText = (TextView) view.findViewById(R.id.text_area);
         createdAtText = (TextView) view.findViewById(R.id.text_createdAt);
-        dateText = (TextView) view.findViewById(R.id.text_date);
         timeText = (TextView) view.findViewById(R.id.text_time);
         locationText = (TextView) view.findViewById(R.id.text_location);
         ageText = (TextView) view.findViewById(R.id.text_age);
@@ -256,9 +256,9 @@ public class PartyDetailsFragment extends LoaderFragment<Party>
                 userNameText.setOnClickListener(new UserListener(userNameText.getContext(), party.getUserId()));
                 titleText.setText(party.getTitle());
                 distanceText.setText(getString(R.string.label_distance, party.getDistance()));
+                areaText.setText(Constants.Options.AREA_OPTIONS[user.getArea()]);
                 createdAtText.setText(party.getCreatedAtFormatted());
-                dateText.setText(party.getDate().getDateText());
-                timeText.setText(party.getTime().getTimeText());
+                timeText.setText(party.getDateTimeText());
                 locationText.setText(party.getPlace().getLocation());
                 ageText.setText(Constants.Options.AGE_OPTIONS[party.getAge()]);
                 genderText.setText(Constants.Options.GENDER_OPTIONS[party.getGender()]);

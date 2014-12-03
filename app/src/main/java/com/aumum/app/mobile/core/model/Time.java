@@ -47,6 +47,6 @@ public class Time implements Serializable {
             h -= 12;
             prefix = "晚上";
         }
-        return prefix + h + "点" + getHeadingZeroString(minute) + "分";
+        return prefix + h + "点" + getHeadingZeroString(minute);
     }
 }
