@@ -16,8 +16,9 @@ import com.aumum.app.mobile.core.dao.AskingStore;
 import com.aumum.app.mobile.core.dao.UserStore;
 import com.aumum.app.mobile.core.model.Asking;
 import com.aumum.app.mobile.core.model.User;
-import com.aumum.app.mobile.ui.base.ItemListFragment;
+import com.aumum.app.mobile.ui.base.RefreshItemListFragment;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -26,13 +27,16 @@ import javax.inject.Inject;
  * A simple {@link Fragment} subclass.
  *
  */
-public class SearchAskingFragment extends ItemListFragment<Asking> {
+public class SearchAskingFragment extends RefreshItemListFragment<Asking> {
 
     @Inject UserStore userStore;
     @Inject AskingStore askingStore;
 
     private int mode;
     private String userId;
+    private User user;
+    private List<Asking> dataSet;
+
     private final int USER_ASKINGS = 0;
     private final int FAVORITE_ASKINGS = 1;
 
@@ -50,6 +54,8 @@ public class SearchAskingFragment extends ItemListFragment<Asking> {
         if (isFavorite) {
             mode = FAVORITE_ASKINGS;
         }
+
+        dataSet = new ArrayList<Asking>();
     }
 
     @Override
@@ -87,32 +93,80 @@ public class SearchAskingFragment extends ItemListFragment<Asking> {
 
     @Override
     protected List<Asking> loadDataCore(Bundle bundle) throws Exception {
-        List<Asking> askingList = null;
+        user = userStore.getUserById(userId);
+        return super.loadDataCore(bundle);
+    }
+
+    @Override
+    protected void getUpwardsList() throws Exception {
         switch (mode) {
             case USER_ASKINGS:
-                askingList = getUserAskings();
+                getUserAskings();
                 break;
             case FAVORITE_ASKINGS:
-                askingList = getUserFavoriteAskings();
+                getUserFavoriteAskings();
                 break;
             default:
-                break;
+                throw new Exception("Invalid mode: " + mode);
         }
-        for (Asking asking: askingList) {
-            if (asking.getUser() == null) {
-                asking.setUser(userStore.getUserById(asking.getUserId()));
+    }
+
+    @Override
+    protected void getBackwardsList() throws Exception {
+        if (dataSet.size() > 0) {
+            Asking last = dataSet.get(dataSet.size() - 1);
+            switch (mode) {
+                case USER_ASKINGS:
+                    getUserAskingsBefore(last.getUpdatedAt());
+                    break;
+                case FAVORITE_ASKINGS:
+                    getUserFavoriteAskingsBefore(last.getUpdatedAt());
+                    break;
+                default:
+                    throw new Exception("Invalid mode: " + mode);
             }
         }
-        return askingList;
     }
 
-    private List<Asking> getUserAskings() throws Exception {
-        User user = userStore.getUserById(userId);
-        return askingStore.getList(user.getAskings());
+    @Override
+    protected List<Asking> buildCards() throws Exception {
+        List<Asking> cards = new ArrayList<Asking>();
+        if (dataSet.size() > 0) {
+            for (Asking asking : dataSet) {
+                if (asking.getUser() == null) {
+                    asking.setUser(userStore.getUserById(asking.getUserId()));
+                }
+                cards.add(asking);
+            }
+        }
+        return cards;
     }
 
-    private List<Asking> getUserFavoriteAskings() throws Exception {
-        User user = userStore.getUserById(userId);
-        return askingStore.getList(user.getFavAskings());
+    private void getUserAskings() throws Exception {
+        List<Asking> askingList = askingStore.getList(user.getAskings());
+        dataSet.addAll(askingList);
+    }
+
+    private void getUserAskingsBefore(String time) throws Exception {
+        getAskingsBefore(user.getAskings(), time);
+    }
+
+    private void getUserFavoriteAskings() throws Exception {
+        List<Asking> askingList = askingStore.getList(user.getFavAskings());
+        dataSet.addAll(askingList);
+    }
+
+    private void getUserFavoriteAskingsBefore(String time) throws Exception {
+        getAskingsBefore(user.getFavAskings(), time);
+    }
+
+    private void getAskingsBefore(List<String> idList, String time) throws Exception {
+        List<Asking> askingList = askingStore.getBackwardsList(idList, time);
+        if (askingList.size() > 0) {
+            dataSet.addAll(askingList);
+            setMore(true);
+        } else {
+            setMore(false);
+        }
     }
 }

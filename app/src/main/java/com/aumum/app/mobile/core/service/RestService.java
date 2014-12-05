@@ -434,6 +434,17 @@ public class RestService {
         return getAskingService().getList("-updatedAt", where, limit).getResults();
     }
 
+    public List<Asking> getAskingListBefore(List<String> idList, String before, int limit) {
+        final JsonObject whereJson = new JsonObject();
+        whereJson.add("objectId", buildIdListJson(idList));
+        whereJson.add("updatedAt", buildDateTimeBeforeJson(before));
+        final JsonObject liveJson = new JsonObject();
+        liveJson.addProperty("$exists", false);
+        whereJson.add("deletedAt" ,liveJson);
+        String where = whereJson.toString();
+        return getAskingService().getList("-updatedAt", where, limit).getResults();
+    }
+
     public Asking newAsking(Asking asking) {
         Gson gson = new Gson();
         JsonObject data = gson.toJsonTree(asking).getAsJsonObject();
@@ -504,11 +515,11 @@ public class RestService {
         return getAskingService().updateById(askingId, data);
     }
 
-    public List<Asking> getAskingList(List<String> idList) {
+    public List<Asking> getAskingList(List<String> idList, int limit) {
         final JsonObject whereJson = new JsonObject();
         whereJson.add("objectId", buildIdListJson(idList));
         String where = whereJson.toString();
-        return getAskingService().getList("-updatedAt", where, Integer.MAX_VALUE).getResults();
+        return getAskingService().getList("-updatedAt", where, limit).getResults();
     }
 
     public JsonObject deleteAsking(String askingId) {
