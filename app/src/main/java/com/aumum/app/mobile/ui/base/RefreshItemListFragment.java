@@ -48,7 +48,6 @@ public abstract class RefreshItemListFragment<E> extends ItemListFragment<E> {
             }).setup(pullToRefreshLayout);
         }
 
-
         LayoutInflater inflater = getActivity().getLayoutInflater();
         View footerView = inflater.inflate(R.layout.listview_footer, null);
         getListView().addFooterView(footerView, null, false);

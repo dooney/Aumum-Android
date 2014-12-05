@@ -203,7 +203,7 @@ public class PartyStore {
     }
 
     public List<Party> getList(List<String> idList) throws Exception {
-        List<Party> partyList = restService.getParties(idList);
+        List<Party> partyList = restService.getParties(idList, LIMIT_PER_LOAD);
         for (Party party: partyList) {
             partyEntityDao.insertOrReplace(map(party));
         }

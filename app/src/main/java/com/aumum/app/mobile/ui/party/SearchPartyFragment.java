@@ -16,6 +16,7 @@ import com.aumum.app.mobile.core.dao.UserStore;
 import com.aumum.app.mobile.core.model.Party;
 import com.aumum.app.mobile.core.model.User;
 import com.aumum.app.mobile.ui.base.ItemListFragment;
+import com.aumum.app.mobile.ui.base.RefreshItemListFragment;
 import com.aumum.app.mobile.utils.GPSTracker;
 import com.aumum.app.mobile.utils.Ln;
 
@@ -28,13 +29,15 @@ import javax.inject.Inject;
 import it.gmariotti.cardslib.library.internal.Card;
 import it.gmariotti.cardslib.library.internal.CardArrayAdapter;
 
-public class SearchPartyFragment extends ItemListFragment<Card> {
+public class SearchPartyFragment extends RefreshItemListFragment<Card> {
 
     @Inject UserStore userStore;
     @Inject PartyStore dataStore;
 
+    private User user;
     private User currentUser;
     private GPSTracker gpsTracker;
+    private List<Party> dataSet;
 
     private int mode;
     private String userId;
@@ -63,6 +66,8 @@ public class SearchPartyFragment extends ItemListFragment<Card> {
         if (isFavorite) {
             mode = FAVORITE_PARTIES;
         }
+
+        dataSet = new ArrayList<Party>();
     }
 
     @Override
@@ -98,24 +103,50 @@ public class SearchPartyFragment extends ItemListFragment<Card> {
 
     @Override
     protected List<Card> loadDataCore(Bundle bundle) throws Exception {
-        List<Party> partyList;
+        if (userId != null) {
+            user = userStore.getUserById(userId);
+        }
+        currentUser = userStore.getCurrentUser();
+        return super.loadDataCore(bundle);
+    }
+
+    @Override
+    protected void getUpwardsList() throws Exception {
         switch (mode) {
             case NEARBY_PARTIES:
-                partyList = getNearByParties();
+                getNearByParties();
                 break;
             case USER_PARTIES:
-                partyList = getUserParties();
+                getUserParties();
                 break;
             case FAVORITE_PARTIES:
-                partyList = getUserFavoriteParties();
+                getUserFavoriteParties();
                 break;
             default:
                 throw new Exception("Invalid mode: " + mode);
         }
-        return buildCards(partyList);
     }
 
-    private List<Party> getNearByParties() throws Exception {
+    @Override
+    protected void getBackwardsList() throws Exception {
+        if (dataSet.size() > 0) {
+            Party last = dataSet.get(dataSet.size() - 1);
+            switch (mode) {
+                case NEARBY_PARTIES:
+                    break;
+                case USER_PARTIES:
+                    getUserPartiesBefore(last.getCreatedAt());
+                    break;
+                case FAVORITE_PARTIES:
+                    getUserFavoritePartiesBefore(last.getCreatedAt());
+                    break;
+                default:
+                    throw new Exception("Invalid mode: " + mode);
+            }
+        }
+    }
+
+    private void getNearByParties() throws Exception {
         List<Party> partyList = dataStore.getLiveListFromServer();
         if (partyList != null) {
             gpsTracker.getLocation();
@@ -127,19 +158,36 @@ public class SearchPartyFragment extends ItemListFragment<Card> {
                 }
             }
         }
-        return partyList;
+        dataSet.addAll(partyList);
+        setMore(false);
     }
 
-    private List<Party> getUserParties() throws Exception {
-        User user = userStore.getUserById(userId);
+    private void getUserParties() throws Exception {
         List<Party> partyList = dataStore.getList(user.getParties());
-        return partyList;
+        dataSet.addAll(partyList);
     }
 
-    private List<Party> getUserFavoriteParties() throws Exception {
-        User user = userStore.getUserById(userId);
+    private void getUserPartiesBefore(String time) throws Exception {
+        getPartiesBefore(user.getParties(), time);
+    }
+
+    private void getUserFavoriteParties() throws Exception {
         List<Party> partyList = dataStore.getList(user.getFavParties());
-        return partyList;
+        dataSet.addAll(partyList);
+    }
+
+    private void getUserFavoritePartiesBefore(String time) throws Exception {
+        getPartiesBefore(user.getFavParties(), time);
+    }
+
+    private void getPartiesBefore(List<String> idList, String time) throws Exception {
+        List<Party> partyList = dataStore.getBackwardsList(idList, time);
+        if (partyList.size() > 0) {
+            dataSet.addAll(partyList);
+            setMore(true);
+        } else {
+            setMore(false);
+        }
     }
 
     private Card buildCard(Party party, String currentUserId) throws Exception {
@@ -161,11 +209,11 @@ public class SearchPartyFragment extends ItemListFragment<Card> {
         return card;
     }
 
-    private List<Card> buildCards(List<Party> partyList) throws Exception {
-        currentUser = userStore.getCurrentUser();
+    @Override
+    protected List<Card> buildCards() throws Exception {
         List<Card> cards = new ArrayList<Card>();
-        if (partyList.size() > 0) {
-            for (Party party : partyList) {
+        if (dataSet.size() > 0) {
+            for (Party party : dataSet) {
                 Card card = buildCard(party, currentUser.getObjectId());
                 cards.add(card);
             }

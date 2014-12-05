@@ -175,11 +175,11 @@ public class RestService {
         return getPartiesBeforeCore(whereJson, before, limit);
     }
 
-    public List<Party> getParties(List<String> idList) {
+    public List<Party> getParties(List<String> idList, int limit) {
         final JsonObject whereJson = new JsonObject();
         whereJson.add("objectId", buildIdListJson(idList));
         String where = whereJson.toString();
-        return getPartyService().getList("-createdAt", where, Integer.MAX_VALUE).getResults();
+        return getPartyService().getList("-createdAt", where, limit).getResults();
     }
 
     private JsonObject updateContact(JsonObject op, String userId, String contactId) {
