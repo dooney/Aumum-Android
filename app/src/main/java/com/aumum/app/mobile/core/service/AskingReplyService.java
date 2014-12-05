@@ -19,7 +19,8 @@ public interface AskingReplyService {
 
     @GET(Constants.Http.URL_ASKING_REPLIES_FRAG)
     ListWrapper<AskingReply> getList(@Query("order") String order,
-                                     @Query("where") String where);
+                                     @Query("where") String where,
+                                     @Query("limit") int limit);
 
     @POST(Constants.Http.URL_ASKING_REPLIES_FRAG)
     AskingReply newAskingReply(@Body JsonObject data);

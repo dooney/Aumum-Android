@@ -23,7 +23,7 @@ import com.aumum.app.mobile.core.service.RestService;
 import com.aumum.app.mobile.events.AddAskingReplyEvent;
 import com.aumum.app.mobile.events.AddAskingReplyFinishedEvent;
 import com.aumum.app.mobile.events.ReplyAskingReplyEvent;
-import com.aumum.app.mobile.ui.base.ItemListFragment;
+import com.aumum.app.mobile.ui.base.RefreshItemListFragment;
 import com.aumum.app.mobile.utils.DialogUtils;
 import com.aumum.app.mobile.utils.Ln;
 import com.aumum.app.mobile.utils.SafeAsyncTask;
@@ -31,6 +31,7 @@ import com.github.kevinsawicki.wishlist.Toaster;
 import com.squareup.otto.Bus;
 import com.squareup.otto.Subscribe;
 
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
@@ -38,11 +39,11 @@ import javax.inject.Inject;
 
 import retrofit.RetrofitError;
 
-public class AskingRepliesFragment extends ItemListFragment<AskingReply> {
+public class AskingRepliesFragment extends RefreshItemListFragment<AskingReply> {
 
     @Inject RestService restService;
     @Inject AskingStore askingStore;
-    @Inject AskingReplyStore askingReplyStore;
+    @Inject AskingReplyStore dataStore;
     @Inject UserStore userStore;
     @Inject MessageDeliveryService messageDeliveryService;
     @Inject Bus bus;
@@ -51,6 +52,7 @@ public class AskingRepliesFragment extends ItemListFragment<AskingReply> {
     private Asking asking;
     private User currentUser;
     private AskingReply replied;
+    private List<AskingReply> dataSet;
 
     private ViewGroup mainView;
 
@@ -64,6 +66,8 @@ public class AskingRepliesFragment extends ItemListFragment<AskingReply> {
 
         final Intent intent = getActivity().getIntent();
         askingId = intent.getStringExtra(AskingDetailsActivity.INTENT_ASKING_ID);
+
+        dataSet = new ArrayList<AskingReply>();
     }
 
     @Override
@@ -82,7 +86,7 @@ public class AskingRepliesFragment extends ItemListFragment<AskingReply> {
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
                 AskingReply askingReply = getData().get(position);
                 if (asking.isOwner(currentUser.getObjectId()) ||
-                    askingReply.isOwner(currentUser.getObjectId())) {
+                        askingReply.isOwner(currentUser.getObjectId())) {
                     showActionDialog(view);
                 } else {
                     reply(askingReply);
@@ -117,16 +121,46 @@ public class AskingRepliesFragment extends ItemListFragment<AskingReply> {
     protected List<AskingReply> loadDataCore(Bundle bundle) throws Exception {
         currentUser = userStore.getCurrentUser();
         asking = askingStore.getAskingByIdFromServer(askingId);
-        List<AskingReply> result = askingReplyStore.getAskingReplies(asking.getReplies());
-        for (AskingReply askingReply: result) {
-            askingReply.setUser(userStore.getUserById(askingReply.getUserId()));
-        }
-        return result;
+        return super.loadDataCore(bundle);
     }
 
     @Override
     protected View getMainView() {
         return mainView;
+    }
+
+    @Override
+    protected void getUpwardsList() {
+        List<AskingReply> askingReplies = dataStore.getUpwardsList(asking.getReplies());
+        dataSet.addAll(askingReplies);
+    }
+
+    @Override
+    protected void getBackwardsList() {
+        if (dataSet.size() > 0) {
+            AskingReply last = dataSet.get(dataSet.size() - 1);
+            List<AskingReply> askingReplies = dataStore.getBackwardsList(asking.getReplies(), last.getCreatedAt());
+            dataSet.addAll(askingReplies);
+            if (askingReplies.size() > 0) {
+                setMore(true);
+            } else {
+                setMore(false);
+            }
+        }
+    }
+
+    @Override
+    protected List<AskingReply> buildCards() throws Exception {
+        List<AskingReply> cards = new ArrayList<AskingReply>();
+        if (dataSet.size() > 0) {
+            for (AskingReply askingReply : dataSet) {
+                if (askingReply.getUser() == null) {
+                    askingReply.setUser(userStore.getUserById(askingReply.getUserId()));
+                }
+                cards.add(askingReply);
+            }
+        }
+        return cards;
     }
 
     @Subscribe

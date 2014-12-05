@@ -459,11 +459,22 @@ public class RestService {
         return getAskingService().getById(id);
     }
 
-    public List<AskingReply> getAskingReplies(List<String> idList) {
+    public List<AskingReply> getAskingReplies(List<String> idList, int limit) {
         final JsonObject whereJson = new JsonObject();
         whereJson.add("objectId", buildIdListJson(idList));
         String where = whereJson.toString();
-        return getAskingReplyService().getList("-createdAt", where).getResults();
+        return getAskingReplyService().getList("-createdAt", where, limit).getResults();
+    }
+
+    public List<AskingReply> getAskingRepliesBefore(List<String> idList, String before, int limit) {
+        final JsonObject whereJson = new JsonObject();
+        whereJson.add("objectId", buildIdListJson(idList));
+        whereJson.add("createdAt", buildDateTimeBeforeJson(before));
+        final JsonObject liveJson = new JsonObject();
+        liveJson.addProperty("$exists", false);
+        whereJson.add("deletedAt" ,liveJson);
+        String where = whereJson.toString();
+        return getAskingReplyService().getList("-createdAt", where, limit).getResults();
     }
 
     public AskingReply newAskingReply(AskingReply askingReply) {

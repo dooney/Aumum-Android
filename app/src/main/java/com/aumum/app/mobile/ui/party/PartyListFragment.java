@@ -117,26 +117,12 @@ public class PartyListFragment extends RefreshItemListFragment<Card> {
     }
 
     @Override
-    protected List<Card> loadByMode(int mode) throws Exception {
-        switch (mode) {
-            case UPWARDS_REFRESH:
-                getUpwardsList();
-                break;
-            case BACKWARDS_REFRESH:
-                getBackwardsList();
-                break;
-            default:
-                throw new Exception("Invalid refresh mode: " + mode);
-        }
-        return buildCards();
-    }
-
-    @Override
     protected ArrayAdapter<Card> createAdapter(List<Card> items) {
         return new CardArrayAdapter(getActivity(), items);
     }
 
-    private void getUpwardsList() throws Exception {
+    @Override
+    protected void getUpwardsList() throws Exception {
         dataStore.getUnreadList().clear();
         String after = null;
         if (dataSet.size() > 0) {
@@ -149,7 +135,8 @@ public class PartyListFragment extends RefreshItemListFragment<Card> {
         }
     }
 
-    private void getBackwardsList() throws Exception {
+    @Override
+    protected void getBackwardsList() throws Exception {
         if (dataSet.size() > 0) {
             Party last = dataSet.get(dataSet.size() - 1);
             List<Party> partyList = onGetBackwardsList(last.getCreatedAt());
@@ -181,7 +168,8 @@ public class PartyListFragment extends RefreshItemListFragment<Card> {
         return card;
     }
 
-    private List<Card> buildCards() throws Exception {
+    @Override
+    protected List<Card> buildCards() throws Exception {
         currentUser = userStore.getCurrentUser();
         List<Card> cards = new ArrayList<Card>();
         if (dataSet.size() > 0) {

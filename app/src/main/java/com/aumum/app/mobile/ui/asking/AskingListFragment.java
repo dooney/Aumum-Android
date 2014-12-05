@@ -114,21 +114,7 @@ public class AskingListFragment extends RefreshItemListFragment<Asking> {
     }
 
     @Override
-    protected List<Asking> loadByMode(int mode) throws Exception {
-        switch (mode) {
-            case UPWARDS_REFRESH:
-                getUpwardsList();
-                break;
-            case BACKWARDS_REFRESH:
-                getBackwardsList();
-                break;
-            default:
-                throw new Exception("Invalid refresh mode: " + mode);
-        }
-        return buildCards();
-    }
-
-    private List<Asking> buildCards() throws Exception {
+    protected List<Asking> buildCards() throws Exception {
         List<Asking> cards = new ArrayList<Asking>();
         if (dataSet.size() > 0) {
             for (Asking asking : dataSet) {
@@ -141,12 +127,13 @@ public class AskingListFragment extends RefreshItemListFragment<Asking> {
         return cards;
     }
 
-    private void getUpwardsList() throws Exception {
+    @Override
+    protected void getUpwardsList() throws Exception {
         String after = null;
         if (dataSet.size() > 0) {
             after = dataSet.get(0).getUpdatedAt();
         }
-        List<Asking> askingList = onGetUpwardsList(after);
+        List<Asking> askingList = dataStore.getUpwardsList(category, after);
         Collections.reverse(askingList);
         for(Asking asking: askingList) {
             for (Iterator<Asking> it = dataSet.iterator(); it.hasNext();) {
@@ -160,10 +147,11 @@ public class AskingListFragment extends RefreshItemListFragment<Asking> {
         }
     }
 
-    private void getBackwardsList() throws Exception {
+    @Override
+    protected void getBackwardsList() throws Exception {
         if (dataSet.size() > 0) {
             Asking last = dataSet.get(dataSet.size() - 1);
-            List<Asking> askingList = onGetBackwardsList(last.getUpdatedAt());
+            List<Asking> askingList = dataStore.getBackwardsList(category, last.getUpdatedAt());
             dataSet.addAll(askingList);
             if (askingList.size() > 0) {
                 setMore(true);
@@ -171,14 +159,6 @@ public class AskingListFragment extends RefreshItemListFragment<Asking> {
                 setMore(false);
             }
         }
-    }
-
-    private List<Asking> onGetUpwardsList(String time) throws Exception {
-        return dataStore.getUpwardsList(category, time);
-    }
-
-    private List<Asking> onGetBackwardsList(String time) throws Exception {
-        return dataStore.getBackwardsList(category, time);
     }
 
     private void onAskingDeleted(String askingId) {

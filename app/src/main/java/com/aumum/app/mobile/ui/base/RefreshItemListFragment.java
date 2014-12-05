@@ -37,14 +37,16 @@ public abstract class RefreshItemListFragment<E> extends ItemListFragment<E> {
         super.onViewCreated(view, savedInstanceState);
 
         pullToRefreshLayout = (PullToRefreshLayout) view.findViewById(R.id.ptr_layout);
-        ActionBarPullToRefresh.from(getActivity()).allChildrenArePullable().listener(new OnRefreshListener() {
-            @Override
-            public void onRefreshStarted(View view) {
-                if (!isLoading) {
-                    doRefresh(UPWARDS_REFRESH);
+        if (pullToRefreshLayout != null) {
+            ActionBarPullToRefresh.from(getActivity()).allChildrenArePullable().listener(new OnRefreshListener() {
+                @Override
+                public void onRefreshStarted(View view) {
+                    if (!isLoading) {
+                        doRefresh(UPWARDS_REFRESH);
+                    }
                 }
-            }
-        }).setup(pullToRefreshLayout);
+            }).setup(pullToRefreshLayout);
+        }
 
 
         LayoutInflater inflater = getActivity().getLayoutInflater();
@@ -100,7 +102,9 @@ public abstract class RefreshItemListFragment<E> extends ItemListFragment<E> {
     protected void handleLoadResult(final List<E> result) {
         super.handleLoadResult(result);
         isLoading = false;
-        pullToRefreshLayout.setRefreshComplete();
+        if (pullToRefreshLayout != null) {
+            pullToRefreshLayout.setRefreshComplete();
+        }
     }
 
     protected void doRefresh(int mode) {
@@ -129,5 +133,23 @@ public abstract class RefreshItemListFragment<E> extends ItemListFragment<E> {
         });
     }
 
-    protected abstract List<E> loadByMode(int mode) throws Exception;
+    private List<E> loadByMode(int mode) throws Exception {
+        switch (mode) {
+            case UPWARDS_REFRESH:
+                getUpwardsList();
+                break;
+            case BACKWARDS_REFRESH:
+                getBackwardsList();
+                break;
+            default:
+                throw new Exception("Invalid refresh mode: " + mode);
+        }
+        return buildCards();
+    }
+
+    protected abstract void getUpwardsList() throws Exception;
+
+    protected abstract void getBackwardsList() throws Exception;
+
+    protected abstract List<E> buildCards() throws Exception;
 }

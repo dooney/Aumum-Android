@@ -29,7 +29,7 @@ public class PartyStore {
     private Gson gson = new Gson();
     private List<Party> unreadList = new ArrayList<Party>();
 
-    private int LIMIT_PER_LOAD = 15;
+    private int LIMIT_PER_LOAD = 10;
 
     public PartyStore(RestService restService, Repository repository) {
         this.restService = restService;

@@ -12,11 +12,17 @@ public class AskingReplyStore {
 
     private RestService restService;
 
+    private int LIMIT_PER_LOAD = 15;
+
     public AskingReplyStore(RestService restService) {
         this.restService = restService;
     }
 
-    public List<AskingReply> getAskingReplies(List<String> idList) {
-        return restService.getAskingReplies(idList);
+    public List<AskingReply> getUpwardsList(List<String> idList) {
+        return restService.getAskingReplies(idList, LIMIT_PER_LOAD);
+    }
+
+    public List<AskingReply> getBackwardsList(List<String> idList, String time) {
+        return restService.getAskingRepliesBefore(idList, time, LIMIT_PER_LOAD);
     }
 }
