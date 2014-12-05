@@ -36,6 +36,7 @@ import com.aumum.app.mobile.ui.view.FavoriteTextView;
 import com.aumum.app.mobile.ui.view.JoinTextView;
 import com.aumum.app.mobile.ui.view.LikeTextView;
 import com.aumum.app.mobile.ui.view.QuickReturnScrollView;
+import com.aumum.app.mobile.ui.view.SpannableTextView;
 import com.aumum.app.mobile.utils.DialogUtils;
 import com.aumum.app.mobile.utils.EditTextUtils;
 import com.aumum.app.mobile.utils.GPSTracker;
@@ -74,7 +75,7 @@ public class PartyDetailsFragment extends LoaderFragment<Party>
     private View mainView;
     private AvatarImageView avatarImage;
     private TextView userNameText;
-    private TextView titleText;
+    private SpannableTextView titleText;
     private TextView distanceText;
     private TextView areaText;
     private TextView createdAtText;
@@ -82,7 +83,7 @@ public class PartyDetailsFragment extends LoaderFragment<Party>
     private TextView locationText;
     private TextView ageText;
     private TextView genderText;
-    private TextView detailsText;
+    private SpannableTextView detailsText;
     private ViewGroup membersLayout;
     private ViewGroup likesLayout;
 
@@ -158,7 +159,7 @@ public class PartyDetailsFragment extends LoaderFragment<Party>
         mainView = view.findViewById(R.id.main_view);
         avatarImage = (AvatarImageView) view.findViewById(R.id.image_avatar);
         userNameText = (TextView) view.findViewById(R.id.text_user_name);
-        titleText = (TextView) view.findViewById(R.id.text_title);
+        titleText = (SpannableTextView) view.findViewById(R.id.text_title);
         distanceText = (TextView) view.findViewById(R.id.text_distance);
         areaText = (TextView) view.findViewById(R.id.text_area);
         createdAtText = (TextView) view.findViewById(R.id.text_createdAt);
@@ -166,7 +167,7 @@ public class PartyDetailsFragment extends LoaderFragment<Party>
         locationText = (TextView) view.findViewById(R.id.text_location);
         ageText = (TextView) view.findViewById(R.id.text_age);
         genderText = (TextView) view.findViewById(R.id.text_gender);
-        detailsText = (TextView) view.findViewById(R.id.text_details);
+        detailsText = (SpannableTextView) view.findViewById(R.id.text_details);
 
         membersLayout = (ViewGroup) view.findViewById(R.id.layout_members);
         likesLayout = (ViewGroup) view.findViewById(R.id.layout_likes);
@@ -268,7 +269,7 @@ public class PartyDetailsFragment extends LoaderFragment<Party>
 
         userNameText.setText(user.getScreenName());
         userNameText.setOnClickListener(new UserListener(userNameText.getContext(), party.getUserId()));
-        titleText.setText(party.getTitle());
+        titleText.setSpannableText(party.getTitle());
 
         gpsTracker.getLocation();
         party.setDistance(gpsTracker.getLatitude(), gpsTracker.getLongitude());
@@ -280,7 +281,7 @@ public class PartyDetailsFragment extends LoaderFragment<Party>
         locationText.setText(party.getPlace().getLocation());
         ageText.setText(Constants.Options.AGE_OPTIONS[party.getAge()]);
         genderText.setText(Constants.Options.GENDER_OPTIONS[party.getGender()]);
-        detailsText.setText(party.getDetails());
+        detailsText.setSpannableText(party.getDetails());
 
         showAction = false;
         if (!party.isExpired() && !party.isOwner(currentUserId)) {

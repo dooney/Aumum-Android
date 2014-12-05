@@ -32,6 +32,7 @@ import com.aumum.app.mobile.ui.user.UserListener;
 import com.aumum.app.mobile.ui.view.Animation;
 import com.aumum.app.mobile.ui.view.FavoriteTextView;
 import com.aumum.app.mobile.ui.view.QuickReturnScrollView;
+import com.aumum.app.mobile.ui.view.SpannableTextView;
 import com.aumum.app.mobile.utils.DialogUtils;
 import com.aumum.app.mobile.utils.EditTextUtils;
 import com.aumum.app.mobile.utils.Ln;
@@ -66,7 +67,7 @@ public class AskingDetailsFragment extends LoaderFragment<Asking>
 
     private QuickReturnScrollView scrollView;
     private View mainView;
-    private TextView questionText;
+    private SpannableTextView questionText;
     private TextView userNameText;
     private TextView areaText;
     private TextView updatedAtText;
@@ -128,7 +129,7 @@ public class AskingDetailsFragment extends LoaderFragment<Asking>
         scrollView.setOnScrollDirectionListener(this);
 
         mainView = view.findViewById(R.id.main_view);
-        questionText = (TextView) view.findViewById(R.id.text_question);
+        questionText = (SpannableTextView) view.findViewById(R.id.text_question);
         userNameText = (TextView) view.findViewById(R.id.text_user_name);
         areaText = (TextView) view.findViewById(R.id.text_area);
         updatedAtText = (TextView) view.findViewById(R.id.text_updatedAt);
@@ -207,7 +208,7 @@ public class AskingDetailsFragment extends LoaderFragment<Asking>
             userNameText.setText(asking.getUser().getScreenName());
             userNameText.setOnClickListener(new UserListener(getActivity(), asking.getUserId()));
             areaText.setText(Constants.Options.AREA_OPTIONS[asking.getUser().getArea()]);
-            questionText.setText(asking.getQuestion());
+            questionText.setSpannableText(asking.getQuestion());
             updatedAtText.setText(asking.getUpdatedAtFormatted());
             favoriteText.init(asking.getFavoritesCount(), asking.isFavorited(currentUserId));
             favoriteText.setFavoriteListener(new AskingFavoriteListener(asking));

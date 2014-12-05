@@ -72,7 +72,7 @@
                         android:paddingTop="@dimen/margin_medium"
                         android:paddingBottom="@dimen/margin_medium">
 
-                        <TextView
+                        <com.aumum.app.mobile.ui.view.SpannableTextView
                             android:id="@+id/text_title"
                             style="@style/TextView.Party.Title" />
 
@@ -116,7 +116,7 @@
 
                     </LinearLayout>
 
-                    <TextView
+                    <com.aumum.app.mobile.ui.view.SpannableTextView
                         android:id="@+id/text_details"
                         style="@style/TextView.Party.Details"
                         android:paddingBottom="@dimen/margin_small"/>

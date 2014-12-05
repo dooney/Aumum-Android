@@ -30,6 +30,7 @@ import com.aumum.app.mobile.ui.base.ProgressDialogActivity;
 import com.aumum.app.mobile.ui.helper.TextWatcherAdapter;
 import com.aumum.app.mobile.ui.view.Animation;
 import com.aumum.app.mobile.utils.DialogUtils;
+import com.aumum.app.mobile.utils.EditTextUtils;
 import com.aumum.app.mobile.utils.GooglePlaceUtils;
 import com.aumum.app.mobile.utils.SafeAsyncTask;
 import com.doomonafireball.betterpickers.calendardatepicker.CalendarDatePickerDialog;
@@ -226,6 +227,10 @@ public class NewPartyActivity extends ProgressDialogActivity
         if (task != null) {
             return;
         }
+
+        EditTextUtils.hideSoftInput(titleText);
+        EditTextUtils.hideSoftInput(locationText);
+        EditTextUtils.hideSoftInput(detailsText);
 
         showProgress();
 

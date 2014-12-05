@@ -207,6 +207,13 @@ public class RestService {
         return getUserService().getById(id);
     }
 
+    public User getUserByScreenName(String screenName) {
+        final JsonObject whereJson = new JsonObject();
+        whereJson.addProperty("screenName", screenName);
+        String where = whereJson.toString();
+        return getUserService().getByScreenName(where, 1).getResults().get(0);
+    }
+
     public User getUserByChatId(String id) {
         final JsonObject whereJson = new JsonObject();
         whereJson.addProperty("chatId", id);

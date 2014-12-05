@@ -9,7 +9,7 @@
     android:paddingLeft="@dimen/margin_large"
     android:paddingRight="@dimen/margin_large">
 
-    <TextView
+    <com.aumum.app.mobile.ui.view.SpannableTextView
         android:id="@+id/text_question"
         style="@style/TextView.Asking.Question" />
 

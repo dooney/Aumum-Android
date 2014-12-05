@@ -38,7 +38,7 @@
                 android:layout_gravity="center_vertical"
                 android:visibility="invisible"/>
 
-            <TextView
+            <com.aumum.app.mobile.ui.view.SpannableTextView
                 android:id="@+id/text_text_body"
                 style="@style/TextView.ChatMessage.SentText"
                 android:text="消息内容"/>

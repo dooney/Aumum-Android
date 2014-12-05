@@ -9,6 +9,7 @@ import com.aumum.app.mobile.core.model.Comment;
 import com.aumum.app.mobile.ui.delegate.ActionListener;
 import com.aumum.app.mobile.ui.user.UserListener;
 import com.aumum.app.mobile.ui.view.AvatarImageView;
+import com.aumum.app.mobile.ui.view.SpannableTextView;
 
 /**
  * Created by Administrator on 13/10/2014.
@@ -19,7 +20,7 @@ public class CommentCard implements ActionListener {
 
     private AvatarImageView avatarImage;
     private TextView userNameText;
-    private TextView commentText;
+    private SpannableTextView commentText;
     private TextView createdAtText;
     private ProgressBar progressBar;
 
@@ -30,7 +31,7 @@ public class CommentCard implements ActionListener {
     public CommentCard(View view) {
         this.avatarImage = (AvatarImageView) view.findViewById(R.id.image_avatar);
         this.userNameText = (TextView) view.findViewById(R.id.text_user_name);
-        this.commentText = (TextView) view.findViewById(R.id.text_content);
+        this.commentText = (SpannableTextView) view.findViewById(R.id.text_content);
         this.createdAtText = (TextView) view.findViewById(R.id.text_createdAt);
         this.progressBar = (ProgressBar) view.findViewById(R.id.progress);
     }
@@ -41,7 +42,8 @@ public class CommentCard implements ActionListener {
         avatarImage.getFromUrl(comment.getUser().getAvatarUrl());
         avatarImage.setOnClickListener(new UserListener(avatarImage.getContext(), comment.getUserId()));
         userNameText.setText(comment.getUser().getScreenName());
-        commentText.setText(comment.getContent());
+        userNameText.setOnClickListener(new UserListener(userNameText.getContext(), comment.getUserId()));
+        commentText.setSpannableText(comment.getContent());
         if (comment.getObjectId() == null) {
             createdAtText.setVisibility(View.GONE);
             progressBar.setVisibility(View.VISIBLE);

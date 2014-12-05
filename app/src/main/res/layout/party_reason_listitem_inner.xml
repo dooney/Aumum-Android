@@ -30,7 +30,7 @@
         android:layout_toRightOf="@+id/text_createdAt"
         android:paddingLeft="@dimen/margin_medium" />
 
-    <TextView
+    <com.aumum.app.mobile.ui.view.SpannableTextView
         android:id="@+id/text_content"
         style="@style/TextView.PartyReason.Text"
         android:layout_below="@+id/text_createdAt"

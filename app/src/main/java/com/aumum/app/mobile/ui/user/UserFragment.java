@@ -1,6 +1,7 @@
 package com.aumum.app.mobile.ui.user;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -35,6 +36,7 @@ public class UserFragment extends LoaderFragment<User>
     @Inject UserStore dataStore;
 
     private String userId;
+    private String screenName;
     private User currentUser;
 
     private View mainView;
@@ -55,6 +57,12 @@ public class UserFragment extends LoaderFragment<User>
         Injector.inject(this);
         final Intent intent = getActivity().getIntent();
         userId = intent.getStringExtra(UserActivity.INTENT_USER_ID);
+        Uri data = intent.getData();
+        if (data != null) {
+            String d = data.toString();
+            int index = d.lastIndexOf("@");
+            screenName = d.substring(index + 1);
+        }
     }
 
     @Override
@@ -105,15 +113,20 @@ public class UserFragment extends LoaderFragment<User>
     @Override
     protected User loadDataCore(Bundle bundle) throws Exception {
         currentUser = dataStore.getCurrentUser();
-        if (userId.equals(currentUser.getObjectId())) {
-            return currentUser;
-        } else {
-            User user = dataStore.getUserByIdFromServer(userId);
-            if (user == null) {
-                throw new Exception(getString(R.string.error_load_user));
+        User user = null;
+        if (userId != null) {
+            if (userId.equals(currentUser.getObjectId())) {
+                return currentUser;
             }
-            return user;
+            user = dataStore.getUserByIdFromServer(userId);
+        } else if (screenName != null) {
+            user = dataStore.getUserByScreenNameFromServer(screenName);
+            userId = user.getObjectId();
         }
+        if (user == null) {
+            throw new Exception(getString(R.string.error_load_user));
+        }
+        return user;
     }
 
     @Override

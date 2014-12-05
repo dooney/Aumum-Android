@@ -12,6 +12,7 @@ import com.aumum.app.mobile.ui.delegate.ActionListener;
 import com.aumum.app.mobile.ui.user.UserListener;
 import com.aumum.app.mobile.ui.view.AvatarImageView;
 import com.aumum.app.mobile.ui.view.LikeTextView;
+import com.aumum.app.mobile.ui.view.SpannableTextView;
 
 import javax.inject.Inject;
 
@@ -26,7 +27,7 @@ public class AskingReplyCard implements ActionListener {
 
     private AvatarImageView avatarImage;
     private TextView userNameText;
-    private TextView replyText;
+    private SpannableTextView replyText;
     private TextView createdAtText;
     private LikeTextView likeText;
     private ProgressBar progressBar;
@@ -35,7 +36,7 @@ public class AskingReplyCard implements ActionListener {
         Injector.inject(this);
         this.avatarImage = (AvatarImageView) view.findViewById(R.id.image_avatar);
         this.userNameText = (TextView) view.findViewById(R.id.text_user_name);
-        this.replyText = (TextView) view.findViewById(R.id.text_content);
+        this.replyText = (SpannableTextView) view.findViewById(R.id.text_content);
         this.createdAtText = (TextView) view.findViewById(R.id.text_createdAt);
         this.likeText = (LikeTextView) view.findViewById(R.id.text_like);
         this.progressBar = (ProgressBar) view.findViewById(R.id.progress);
@@ -58,7 +59,7 @@ public class AskingReplyCard implements ActionListener {
         likeText.init(askingReply.getLikesCount(), askingReply.isLiked(apiKeyProvider.getAuthUserId()));
         likeText.setLikeListener(new AskingReplyLikeListener(askingReply));
 
-        replyText.setText(askingReply.getContent());
+        replyText.setSpannableText(askingReply.getContent());
         if (askingReply.getObjectId() == null) {
             createdAtText.setVisibility(View.GONE);
             likeText.setVisibility(View.GONE);

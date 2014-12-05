@@ -28,7 +28,7 @@
         android:layout_toRightOf="@+id/image_avatar"
         android:layout_alignBaseline="@+id/image_avatar">
 
-        <TextView
+        <com.aumum.app.mobile.ui.view.SpannableTextView
             android:id="@+id/text_text_body"
             style="@style/TextView.ChatMessage.ReceivedText"
             android:text="消息内容"/>

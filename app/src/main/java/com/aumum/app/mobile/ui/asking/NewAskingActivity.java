@@ -21,6 +21,7 @@ import com.aumum.app.mobile.core.service.RestService;
 import com.aumum.app.mobile.ui.base.ProgressDialogActivity;
 import com.aumum.app.mobile.ui.helper.TextWatcherAdapter;
 import com.aumum.app.mobile.ui.view.Animation;
+import com.aumum.app.mobile.utils.EditTextUtils;
 import com.aumum.app.mobile.utils.SafeAsyncTask;
 import com.github.kevinsawicki.wishlist.Toaster;
 
@@ -100,6 +101,8 @@ public class NewAskingActivity extends ProgressDialogActivity {
     }
 
     private void submitNewAsking() {
+        EditTextUtils.hideSoftInput(questionText);
+
         showProgress();
 
         task = new SafeAsyncTask<Boolean>() {

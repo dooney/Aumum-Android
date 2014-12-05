@@ -15,6 +15,7 @@ import com.aumum.app.mobile.ui.view.Animation;
 import com.aumum.app.mobile.ui.view.AvatarImageView;
 import com.aumum.app.mobile.ui.view.JoinTextView;
 import com.aumum.app.mobile.ui.view.LikeTextView;
+import com.aumum.app.mobile.ui.view.SpannableTextView;
 import com.aumum.app.mobile.utils.Ln;
 
 import it.gmariotti.cardslib.library.internal.Card;
@@ -59,8 +60,8 @@ public class PartyCard extends Card {
         TextView areaText = (TextView) view.findViewById(R.id.text_area);
         areaText.setText(Constants.Options.AREA_OPTIONS[party.getUser().getArea()]);
 
-        TextView titleText = (TextView) view.findViewById(R.id.text_title);
-        titleText.setText(party.getTitle());
+        SpannableTextView titleText = (SpannableTextView) view.findViewById(R.id.text_title);
+        titleText.setSpannableText(party.getTitle());
 
         TextView distanceText = (TextView) view.findViewById(R.id.text_distance);
         distanceText.setText(view.getResources().getString(R.string.label_distance, party.getDistance()));

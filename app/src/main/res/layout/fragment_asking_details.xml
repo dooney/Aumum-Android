@@ -14,7 +14,7 @@
         android:layout_alignParentTop="true"
         android:visibility="gone" >
 
-        <TextView
+        <com.aumum.app.mobile.ui.view.SpannableTextView
             android:id="@+id/text_question"
             style="@style/TextView.AskingDetails.Question" />
 
