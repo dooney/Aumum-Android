@@ -5,10 +5,12 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 
 import com.aumum.app.mobile.Injector;
@@ -56,6 +58,12 @@ public class PartyListFragment extends RefreshItemListFragment<Card> {
         if (!gpsTracker.canGetLocation()) {
             gpsTracker.showSettingsAlert();
         }
+    }
+
+    @Override
+    public View onCreateView(final LayoutInflater inflater, final ViewGroup container,
+                             final Bundle savedInstanceState) {
+        return inflater.inflate(R.layout.fragment_party_list, null);
     }
 
     @Override
@@ -147,9 +155,9 @@ public class PartyListFragment extends RefreshItemListFragment<Card> {
             List<Party> partyList = onGetBackwardsList(last.getCreatedAt());
             dataSet.addAll(partyList);
             if (partyList.size() > 0) {
-                setLoadMore(true);
+                setMore(true);
             } else {
-                setLoadMore(false);
+                setMore(false);
             }
         }
     }

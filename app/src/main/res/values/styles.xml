@@ -147,6 +147,18 @@
         <item name="android:maxLines">1</item>
         <item name="android:ellipsize">end</item>
     </style>
+    <style name="TextView.NoMore" parent="TextView">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:text">@string/info_no_more</item>
+        <item name="android:textColor">@color/bbutton_danger</item>
+    </style>
+    <style name="TextView.Loading" parent="TextView">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:text">@string/info_loading</item>
+        <item name="android:textColor">@color/bbutton_danger</item>
+    </style>
     <style name="TextView.Content.Text" parent="TextView">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>

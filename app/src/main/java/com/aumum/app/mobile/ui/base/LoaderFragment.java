@@ -69,8 +69,6 @@ public abstract class LoaderFragment<E> extends Fragment
 
     @Override
     public void onLoadFinished(Loader<E> loader, E data) {
-        hideProgress();
-
         final Exception exception = getException(loader);
         if (exception != null) {
             showError(getErrorMessage(exception));
@@ -91,7 +89,6 @@ public abstract class LoaderFragment<E> extends Fragment
         if (!isUsable()) {
             return;
         }
-        showProgress();
         getLoaderManager().restartLoader(0, args, this);
     }
 

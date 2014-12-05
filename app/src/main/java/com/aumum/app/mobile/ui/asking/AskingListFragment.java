@@ -86,7 +86,7 @@ public class AskingListFragment extends RefreshItemListFragment<Asking> {
         if (container.getTag() != null) {
             int category = (Integer) container.getTag();
             if (this.category == category) {
-                refresh(null);
+                doRefresh(UPWARDS_REFRESH);
                 container.setTag(null);
             }
         }
@@ -125,12 +125,20 @@ public class AskingListFragment extends RefreshItemListFragment<Asking> {
             default:
                 throw new Exception("Invalid refresh mode: " + mode);
         }
-        for (Asking asking: dataSet) {
-            if (asking.getUser() == null) {
-                asking.setUser(userStore.getUserById(asking.getUserId()));
+        return buildCards();
+    }
+
+    private List<Asking> buildCards() throws Exception {
+        List<Asking> cards = new ArrayList<Asking>();
+        if (dataSet.size() > 0) {
+            for (Asking asking : dataSet) {
+                if (asking.getUser() == null) {
+                    asking.setUser(userStore.getUserById(asking.getUserId()));
+                }
+                cards.add(asking);
             }
         }
-        return dataSet;
+        return cards;
     }
 
     private void getUpwardsList() throws Exception {
@@ -158,9 +166,9 @@ public class AskingListFragment extends RefreshItemListFragment<Asking> {
             List<Asking> askingList = onGetBackwardsList(last.getUpdatedAt());
             dataSet.addAll(askingList);
             if (askingList.size() > 0) {
-                setLoadMore(true);
+                setMore(true);
             } else {
-                setLoadMore(false);
+                setMore(false);
             }
         }
     }

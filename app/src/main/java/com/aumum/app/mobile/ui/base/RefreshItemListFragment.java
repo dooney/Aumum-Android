@@ -4,8 +4,9 @@ import android.accounts.OperationCanceledException;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.AbsListView;
+import android.widget.ArrayAdapter;
+import android.widget.HeaderViewListAdapter;
 
 import com.aumum.app.mobile.R;
 
@@ -25,32 +26,34 @@ public abstract class RefreshItemListFragment<E> extends ItemListFragment<E> {
     protected final int UPWARDS_REFRESH = 1;
     protected final int BACKWARDS_REFRESH = 2;
     private boolean isLoading = false;
-    private boolean loadMore = true;
+    private boolean isMore = true;
 
-    protected void setLoadMore(boolean loadMore) {
-        this.loadMore = loadMore;
-    }
-
-    @Override
-    public View onCreateView(final LayoutInflater inflater, final ViewGroup container,
-                             final Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.card_list, null);
-    }
+    private PullToRefreshLayout pullToRefreshLayout;
+    private View noMoreLayout;
+    private View loadingLayout;
 
     @Override
     public void onViewCreated(final View view, final Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        final PullToRefreshLayout pullToRefreshLayout = (PullToRefreshLayout) view.findViewById(R.id.ptr_layout);
+        pullToRefreshLayout = (PullToRefreshLayout) view.findViewById(R.id.ptr_layout);
         ActionBarPullToRefresh.from(getActivity()).allChildrenArePullable().listener(new OnRefreshListener() {
             @Override
             public void onRefreshStarted(View view) {
                 if (!isLoading) {
                     doRefresh(UPWARDS_REFRESH);
-                    pullToRefreshLayout.setRefreshComplete();
                 }
             }
         }).setup(pullToRefreshLayout);
+
+
+        LayoutInflater inflater = getActivity().getLayoutInflater();
+        View footerView = inflater.inflate(R.layout.listview_footer, null);
+        getListView().addFooterView(footerView, null, false);
+        getListView().setFooterDividersEnabled(false);
+        noMoreLayout = footerView.findViewById(R.id.layout_no_more);
+        loadingLayout = footerView.findViewById(R.id.layout_loading);
+        toggleLoadingView();
 
         getListView().setOnScrollListener(
                 new SwipeOnScrollListener() {
@@ -63,12 +66,18 @@ public abstract class RefreshItemListFragment<E> extends ItemListFragment<E> {
                     public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
                         int lastInScreen = firstVisibleItem + visibleItemCount;
                         if (visibleItemCount > 0 && lastInScreen == totalItemCount) {
-                            if (!isLoading && loadMore) {
+                            if (!isLoading && isMore) {
                                 doRefresh(BACKWARDS_REFRESH);
                             }
                         }
                     }
                 });
+    }
+
+    @Override
+    protected ArrayAdapter<E> getListAdapter() {
+        HeaderViewListAdapter adapter = (HeaderViewListAdapter)getListView().getAdapter();
+        return (ArrayAdapter<E>)adapter.getWrappedAdapter();
     }
 
     @Override
@@ -87,16 +96,37 @@ public abstract class RefreshItemListFragment<E> extends ItemListFragment<E> {
         }
     }
 
+    @Override
+    protected void handleLoadResult(final List<E> result) {
+        super.handleLoadResult(result);
+        isLoading = false;
+        pullToRefreshLayout.setRefreshComplete();
+    }
+
     protected void doRefresh(int mode) {
         final Bundle bundle = new Bundle();
         bundle.putInt(REFRESH_MODE, mode);
         refresh(bundle);
     }
 
-    @Override
-    protected void handleLoadResult(final List<E> result) {
-        super.handleLoadResult(result);
-        isLoading = false;
+    private void toggleLoadingView() {
+        if (isMore) {
+            noMoreLayout.setVisibility(View.GONE);
+            loadingLayout.setVisibility(View.VISIBLE);
+        } else {
+            loadingLayout.setVisibility(View.GONE);
+            noMoreLayout.setVisibility(View.VISIBLE);
+        }
+    }
+
+    public void setMore(final boolean isMore) {
+        this.isMore = isMore;
+        getActivity().runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                toggleLoadingView();
+            }
+        });
     }
 
     protected abstract List<E> loadByMode(int mode) throws Exception;

@@ -48,17 +48,17 @@
     <string name="label_report">举报</string>
 
     <!-- Info Message -->
-    <string name="info_authenticating">正在验证您的账号信息，请稍候…</string>
-    <string name="info_processing_registration">正在处理您的注册信息，请稍候…</string>
-    <string name="info_submitting_password_reset">正在提交您的重置密码请求，请稍候…</string>
-    <string name="info_submitting_party">正在提交您的聚会，请稍候…</string>
-    <string name="info_loading_image">正在加载图片，请稍候…</string>
-    <string name="info_uploading_profile_image">正在上传头像图片，请稍候…</string>
+    <string name="info_authenticating">正在验证您的账号信息，请稍候</string>
+    <string name="info_processing_registration">正在处理您的注册信息，请稍候</string>
+    <string name="info_submitting_password_reset">正在提交您的重置密码请求，请稍候</string>
+    <string name="info_submitting_party">正在提交您的聚会，请稍候</string>
+    <string name="info_loading_image">正在加载图片，请稍候</string>
+    <string name="info_uploading_profile_image">正在上传头像图片，请稍候</string>
     <string name="info_party_deleted">该聚会已成功删除</string>
     <string name="info_comment_deleted">该评论已成功删除</string>
     <string name="info_click_back_again">再按一次返回桌面</string>
-    <string name="info_submitting_add_contact">正在提交您的添加好友请求，请稍候…</string>
-    <string name="info_submitting_delete_contact">正在提交您的移除好友请求，请稍候…</string>
+    <string name="info_submitting_add_contact">正在提交您的添加好友请求，请稍候</string>
+    <string name="info_submitting_delete_contact">正在提交您的移除好友请求，请稍候</string>
     <string name="info_add_contact_sent">发送添加好友请求成功，等待对方验证</string>
     <string name="info_contact_deleted">该好友已成功移除</string>
     <string name="info_group_joint">您已成功加入了%1$s</string>
@@ -69,6 +69,8 @@
     <string name="info_submitting_asking">正在提交您的提问，请稍候</string>
     <string name="info_asking_deleted">该问问已成功删除</string>
     <string name="info_asking_reply_deleted">该回复已成功删除</string>
+    <string name="info_loading">正在加载</string>
+    <string name="info_no_more">已加载所有项</string>
 
     <!-- Error Message -->
     <string name="error_load_parties">获取聚会列表失败</string>
@@ -221,9 +223,9 @@
     <string name="label_mobile_contacts">手机联系人</string>
 
     <!-- Widgets -->
-    <string name="pull_to_refresh_pull_label">下拉刷新…</string>
-    <string name="pull_to_refresh_release_label">放开以刷新…</string>
-    <string name="pull_to_refresh_refreshing_label">正在载入…</string>
+    <string name="pull_to_refresh_pull_label">下拉刷新</string>
+    <string name="pull_to_refresh_release_label">放开以刷新</string>
+    <string name="pull_to_refresh_refreshing_label">正在加载</string>
     <string name="title_gps_alert_dialog">GPS设置</string>
     <string name="info_gps_alert_dialog">GPS未开启，点击确定去设置菜单开启该功能。</string>
 
