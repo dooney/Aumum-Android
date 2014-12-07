@@ -13,7 +13,9 @@ import com.easemob.chat.EMGroupManager;
 import com.easemob.chat.EMMessage;
 import com.easemob.chat.GroupChangeListener;
 import com.easemob.chat.TextMessageBody;
+import com.easemob.chat.VoiceMessageBody;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -159,6 +161,18 @@ public class ChatService {
     public void sendSystemMessage(String receipt, boolean isGroup, String text, EMCallBack callBack) {
         EMMessage message = addTextMessage(receipt, isGroup, true, text);
         EMChatManager.getInstance().sendMessage(message, callBack);
+    }
+
+    public void addVoiceMessage(String receipt, boolean isGroup, String filePath, int length) {
+        final EMMessage message = EMMessage.createSendMessage(EMMessage.Type.VOICE);
+        if (isGroup) {
+            message.setChatType(EMMessage.ChatType.GroupChat);
+        }
+        VoiceMessageBody body = new VoiceMessageBody(new File(filePath), length);
+        message.addBody(body);
+        message.setReceipt(receipt);
+        EMConversation conversation = EMChatManager.getInstance().getConversation(receipt);
+        conversation.addMessage(message);
     }
 
     public EMConversation getConversation(String id) {

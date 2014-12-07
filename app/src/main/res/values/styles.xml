@@ -56,15 +56,16 @@
     </style>
 
     <style name="EditText.Box.Send" parent="ImageView">
-        <item name="android:layout_width">wrap_content</item>
-        <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_alignParentRight">true</item>
         <item name="android:layout_centerVertical">true</item>
         <item name="android:paddingRight">@dimen/margin_medium</item>
         <item name="android:src">@drawable/ic_fa_send_o</item>
     </style>
 
-    <style name="ImageView" />
+    <style name="ImageView">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+    </style>
     <style name="ImageView.Avatar" parent="ImageView">
         <item name="android:layout_width">@dimen/avatar_sz_medium</item>
         <item name="android:layout_height">@dimen/avatar_sz_medium</item>
@@ -77,45 +78,32 @@
         <item name="android:layout_width">@dimen/avatar_sz_large</item>
         <item name="android:layout_height">@dimen/avatar_sz_large</item>
     </style>
-    <style name="ImageView.Dropdown" parent="ImageView">
-        <item name="android:layout_width">wrap_content</item>
-        <item name="android:layout_height">wrap_content</item>
-        <item name="android:src">@drawable/ic_fa_chevron_down</item>
-    </style>
-    <style name="ImageView.Delete.ExtraSmall" parent="ImageView">
-        <item name="android:layout_width">@dimen/image_sz_extra_small</item>
-        <item name="android:layout_height">@dimen/image_sz_extra_small</item>
-        <item name="android:src">@drawable/ic_fa_trash_o</item>
-    </style>
     <style name="ImageView.Unread.Small" parent="ImageView">
-        <item name="android:layout_width">wrap_content</item>
-        <item name="android:layout_height">wrap_content</item>
         <item name="android:src">@drawable/image_unread_background</item>
     </style>
 
-    <style name="TextView" parent="android:Widget.TextView"/>
-    <style name="LinkTextView" parent="TextView">
+    <style name="TextView" parent="android:Widget.TextView">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
+    </style>
+    <style name="LinkTextView" parent="TextView">
         <item name="android:textColor">@color/text_link</item>
         <item name="android:gravity">center_vertical</item>
     </style>
     <style name="TextView.Title" parent="TextView">
-        <item name="android:layout_width">wrap_content</item>
-        <item name="android:layout_height">wrap_content</item>
         <item name="android:textSize">@dimen/text_sz_large</item>
         <item name="android:textColor">@color/black</item>
         <item name="android:maxLines">1</item>
         <item name="android:ellipsize">end</item>
     </style>
     <style name="TextView.Subtitle" parent="TextView">
-        <item name="android:layout_height">wrap_content</item>
-        <item name="android:layout_width">wrap_content</item>
         <item name="android:textColor">@color/text_light</item>
-        <item name="android:gravity">center_vertical</item>
     </style>
-    <style name="ButtonTextView" parent="TextView.Subtitle">
+    <style name="TextView.Subtitle.Small" parent="TextView.Subtitle">
+        <item name="android:textSize">@dimen/text_sz_small</item>
+        <item name="android:textColor">@color/text_light</item>
     </style>
+    <style name="ButtonTextView" parent="TextView.Subtitle" />
     <style name="TextView.Time" parent="ButtonTextView">
         <item name="android:drawableLeft">@drawable/ic_fa_clock_o</item>
     </style>
@@ -141,21 +129,15 @@
         <item name="android:text">@string/label_favorite</item>
     </style>
     <style name="TextView.UserName" parent="TextView">
-        <item name="android:layout_width">wrap_content</item>
-        <item name="android:layout_height">wrap_content</item>
         <item name="android:textColor">@color/text_link</item>
         <item name="android:maxLines">1</item>
         <item name="android:ellipsize">end</item>
     </style>
     <style name="TextView.NoMore" parent="TextView">
-        <item name="android:layout_width">wrap_content</item>
-        <item name="android:layout_height">wrap_content</item>
         <item name="android:text">@string/info_no_more</item>
         <item name="android:textColor">@color/bbutton_danger</item>
     </style>
     <style name="TextView.Loading" parent="TextView">
-        <item name="android:layout_width">wrap_content</item>
-        <item name="android:layout_height">wrap_content</item>
         <item name="android:text">@string/info_loading</item>
         <item name="android:textColor">@color/bbutton_danger</item>
     </style>
@@ -171,12 +153,8 @@
         <item name="android:textSize">@dimen/text_sz_large</item>
     </style>
     <style name="TextView.Party.Area" parent="TextView.Subtitle" />
-    <style name="TextView.Party.CreatedAt" parent="TextView.Subtitle">
-        <item name="android:textSize">@dimen/text_sz_small</item>
-    </style>
+    <style name="TextView.Party.CreatedAt" parent="TextView.Subtitle.Small" />
     <style name="TextView.Party.Title" parent="TextView">
-        <item name="android:layout_width">wrap_content</item>
-        <item name="android:layout_height">wrap_content</item>
         <item name="android:textSize">@dimen/text_sz_large</item>
         <item name="android:maxLines">3</item>
     </style>
@@ -248,12 +226,8 @@
         <item name="android:hint">@string/hint_party_details</item>
     </style>
     <style name="TextView.PartyReason.UserName" parent="TextView.UserName" />
-    <style name="TextView.PartyReason.CreatedAt" parent="TextView.Subtitle" >
-        <item name="android:textSize">@dimen/text_sz_small</item>
-    </style>
-    <style name="TextView.PartyReason.Action" parent="TextView.Subtitle" >
-        <item name="android:textSize">@dimen/text_sz_small</item>
-    </style>
+    <style name="TextView.PartyReason.CreatedAt" parent="TextView.Subtitle.Small" />
+    <style name="TextView.PartyReason.Action" parent="TextView.Subtitle.Small" />
     <style name="TextView.PartyReason.Text" parent="TextView.Content.Text" />
 
     <!-- Asking -->
@@ -268,12 +242,8 @@
     <style name="TextView.Asking.UserName" parent="TextView.UserName">
         <item name="android:textSize">@dimen/text_sz_small</item>
     </style>
-    <style name="TextView.Asking.Area" parent="TextView.Subtitle">
-        <item name="android:textSize">@dimen/text_sz_small</item>
-    </style>
-    <style name="TextView.Asking.UpdatedAt" parent="TextView.Subtitle" >
-        <item name="android:textSize">@dimen/text_sz_small</item>
-    </style>
+    <style name="TextView.Asking.Area" parent="TextView.Subtitle.Small" />
+    <style name="TextView.Asking.UpdatedAt" parent="TextView.Subtitle.Small" />
     <style name="TextView.Asking.Question" parent="TextView.Content.Text">
         <item name="android:paddingBottom">@dimen/margin_medium</item>
     </style>
@@ -295,9 +265,7 @@
     </style>
     <style name="TextView.AskingReply.Content" parent="TextView.Content.Text" />
     <style name="TextView.AskingReply.UserName" parent="TextView.UserName" />
-    <style name="TextView.AskingReply.CreatedAt" parent="TextView.Subtitle" >
-        <item name="android:textSize">@dimen/text_sz_small</item>
-    </style>
+    <style name="TextView.AskingReply.CreatedAt" parent="TextView.Subtitle.Small" />
     <style name="TextView.AskingReply.Like" parent="TextView.Like">
         <item name="android:drawableLeft">@drawable/ic_fa_thumbs_o_up_s</item>
         <item name="android:textSize">@dimen/text_sz_small</item>
@@ -313,6 +281,7 @@
         <item name="android:maxLines">1</item>
         <item name="android:ellipsize">end</item>
     </style>
+    <style name="TextView.Conversation.TimeStamp" parent="TextView.Subtitle.Small" />
 
     <!-- Chat -->
     <style name="Button.Chat.VoiceMode" parent="Button">
@@ -320,13 +289,26 @@
         <item name="android:layout_height">@dimen/image_sz_small</item>
         <item name="android:background">@drawable/button_set_voice_mode</item>
     </style>
+    <style name="Button.Chat.Keyboard" parent="Button">
+        <item name="android:layout_width">@dimen/image_sz_small</item>
+        <item name="android:layout_height">@dimen/image_sz_small</item>
+        <item name="android:background">@drawable/button_set_keyboard_mode</item>
+    </style>
     <style name="EditText.Chat.Text" parent="EditText">
-        <item name="android:layout_width">0dp</item>
-        <item name="android:layout_weight">1</item>
         <item name="android:minHeight">40dp</item>
         <item name="android:singleLine">false</item>
         <item name="android:paddingLeft">@dimen/margin_medium</item>
         <item name="android:paddingRight">@dimen/margin_medium</item>
+    </style>
+    <style name="TextView.Chat.PressToTalk" parent="TextView.Title">
+        <item name="android:textColor">@color/grey_medium</item>
+        <item name="android:text">@string/label_press_to_talk</item>
+    </style>
+    <style name="TextView.Chat.RecordingHint" parent="TextView">
+        <item name="android:padding">@dimen/margin_small</item>
+        <item name="android:textColor">@color/text</item>
+        <item name="android:textSize">@dimen/text_sz_small</item>
+        <item name="android:text">@string/label_move_up_to_cancel</item>
     </style>
     <style name="Button.Chat.TypeSelect" parent="Button">
         <item name="android:layout_width">@dimen/image_sz_small</item>
@@ -342,18 +324,16 @@
         <item name="android:textSize">@dimen/text_sz_medium</item>
         <item name="android:layout_margin">@dimen/margin_medium</item>
     </style>
-    <style name="TextView.ChatMessage.TimeStamp" parent="TextView.Subtitle">
+    <style name="TextView.ChatMessage.TimeStamp" parent="TextView">
         <item name="android:textColor">@color/text</item>
         <item name="android:textSize">@dimen/text_sz_small</item>
         <item name="android:padding">@dimen/margin_small</item>
         <item name="android:background">@drawable/chat_msg_background</item>
     </style>
-    <style name="TextView.ChatMessage.UserName" parent="TextView.Subtitle">
+    <style name="TextView.ChatMessage.UserName" parent="TextView">
         <item name="android:textColor">@color/text_link</item>
     </style>
     <style name="TextView.ChatMessage.Text" parent="TextView">
-        <item name="android:layout_width">wrap_content</item>
-        <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_marginTop">@dimen/margin_medium</item>
         <item name="android:padding">@dimen/margin_medium</item>
         <item name="android:gravity">left|center</item>
@@ -361,17 +341,27 @@
         <item name="android:maxWidth">225dp</item>
     </style>
     <style name="TextView.ChatMessage.SentText" parent="TextView.ChatMessage.Text">
-        <item name="android:textColor">@color/text</item>
         <item name="android:background">@drawable/chat_sent_text_background</item>
     </style>
     <style name="TextView.ChatMessage.ReceivedText" parent="TextView.ChatMessage.Text">
         <item name="android:background">@drawable/chat_received_text_background</item>
     </style>
-    <style name="TextView.ChatMessage.System" parent="TextView.Subtitle">
+    <style name="TextView.ChatMessage.System" parent="TextView">
         <item name="android:textColor">@color/text</item>
         <item name="android:textSize">@dimen/text_sz_small</item>
         <item name="android:padding">@dimen/margin_small</item>
         <item name="android:background">@drawable/chat_msg_background</item>
+    </style>
+    <style name="TextView.ChatMessage.Type" parent="TextView">
+        <item name="android:textColor">@color/grey_medium</item>
+        <item name="android:textSize">@dimen/text_sz_small</item>
+        <item name="android:padding">@dimen/margin_small</item>
+        <item name="android:layout_gravity">center</item>
+    </style>
+    <style name="TextView.ChatMessage.VoiceLength" parent="TextView.Subtitle.Small" />
+    <style name="ImageView.ChatMessage.SentVoice" parent="ImageView">
+        <item name="android:src">@drawable/chat_sent_voice_playing</item>
+        <item name="android:background">@drawable/chat_sent_voice_background</item>
     </style>
 
     <!-- Contact -->

@@ -12,10 +12,11 @@
         android:layout_above="@+id/layout_action"
         android:transcriptMode="normal" />
 
-    <RelativeLayout
+    <LinearLayout
         android:id="@+id/layout_action"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:orientation="vertical"
         android:background="@color/card_background"
         android:layout_alignParentBottom="true"
         android:focusable="true"
@@ -32,9 +33,32 @@
                 android:id="@+id/b_set_voice_mode"
                 style="@style/Button.Chat.VoiceMode"/>
 
+            <Button
+                android:id="@+id/b_set_keyboard_mode"
+                style="@style/Button.Chat.Keyboard"
+                android:visibility="gone"/>
+
             <EditText
                 android:id="@+id/et_text"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
                 style="@style/EditText.Chat.Text" />
+
+            <FrameLayout
+                android:id="@+id/layout_press_to_talk"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@drawable/content_box_background"
+                android:padding="@dimen/margin_medium"
+                android:visibility="gone">
+
+                <TextView
+                    style="@style/TextView.Chat.PressToTalk"
+                    android:layout_gravity="center"/>
+
+            </FrameLayout>
 
             <Button
                 android:id="@+id/b_type_select"
@@ -46,6 +70,66 @@
                 android:visibility="gone"/>
 
         </LinearLayout>
+
+        <View style="@style/Divider" />
+
+        <RelativeLayout
+            android:id="@+id/layout_type_selection"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/margin_large"
+            android:visibility="gone">
+
+            <LinearLayout
+                android:id="@+id/layout_image"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <FrameLayout
+                    android:layout_width="@dimen/image_sz_medium"
+                    android:layout_height="@dimen/image_sz_medium"
+                    android:background="@drawable/content_box_background">
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/ic_fa_image"
+                        android:layout_gravity="center"/>
+
+                </FrameLayout>
+
+                <TextView
+                    style="@style/TextView.ChatMessage.Type"
+                    android:text="@string/label_image"/>
+
+            </LinearLayout>
+
+        </RelativeLayout>
+
+    </LinearLayout>
+
+    <RelativeLayout
+        android:id="@+id/layout_recording"
+        android:layout_width="128dp"
+        android:layout_height="128dp"
+        android:padding="@dimen/margin_large"
+        android:layout_centerInParent="true"
+        android:background="@drawable/recording_background"
+        android:visibility="gone">
+
+        <ImageView
+            android:id="@+id/image_mic"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:src="@drawable/record_animate_01" />
+        
+        <TextView
+            android:id="@+id/text_recording_hint"
+            style="@style/TextView.Chat.RecordingHint"
+            android:layout_below="@id/image_mic"
+            android:layout_centerHorizontal="true"/>
 
     </RelativeLayout>
 

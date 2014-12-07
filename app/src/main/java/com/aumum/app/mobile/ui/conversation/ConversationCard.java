@@ -69,12 +69,15 @@ public class ConversationCard {
         screenNameText.setText(screenName);
 
         if (conversation.getEmConversation().getMsgCount() != 0) {
-            // 把最后一条消息的内容作为item的message内容
             EMMessage lastMessage = conversation.getEmConversation().getLastMessage();
             timeStampText.setText(DateUtils.getTimestampString(new Date(lastMessage.getMsgTime())));
 
-            TextMessageBody messageBody = (TextMessageBody) lastMessage.getBody();
-            messageBodyText.setText(messageBody.getMessage());
+            if (lastMessage.getType() == EMMessage.Type.TXT) {
+                TextMessageBody messageBody = (TextMessageBody) lastMessage.getBody();
+                messageBodyText.setText(messageBody.getMessage());
+            } else if (lastMessage.getType() == EMMessage.Type.VOICE) {
+                messageBodyText.setText("[" + context.getString(R.string.label_voice) + "]");
+            }
         }
 
         if (conversation.getEmConversation().getUnreadMsgCount() > 0) {

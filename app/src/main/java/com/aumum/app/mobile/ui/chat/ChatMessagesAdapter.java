@@ -23,6 +23,8 @@ public class ChatMessagesAdapter extends BaseAdapter {
     private static final int MESSAGE_TYPE_SYSTEM = 0;
     private static final int MESSAGE_TYPE_RECV_TXT = 1;
     private static final int MESSAGE_TYPE_SENT_TXT = 2;
+    private static final int MESSAGE_TYPE_RECV_VOICE = 3;
+    private static final int MESSAGE_TYPE_SENT_VOICE = 4;
 
     public ChatMessagesAdapter(Activity activity, EMConversation conversation) {
         this.activity = activity;
@@ -36,13 +38,15 @@ public class ChatMessagesAdapter extends BaseAdapter {
             return MESSAGE_TYPE_SYSTEM;
         } else if (message.getType() == EMMessage.Type.TXT) {
             return message.direct == EMMessage.Direct.RECEIVE ? MESSAGE_TYPE_RECV_TXT : MESSAGE_TYPE_SENT_TXT;
+        } else if (message.getType() == EMMessage.Type.VOICE) {
+            return message.direct == EMMessage.Direct.RECEIVE ? MESSAGE_TYPE_RECV_VOICE : MESSAGE_TYPE_SENT_VOICE;
         }
         return -1;
     }
 
     @Override
     public int getViewTypeCount() {
-        return 3;
+        return 5;
     }
 
     @Override
@@ -88,6 +92,20 @@ public class ChatMessagesAdapter extends BaseAdapter {
                     convertView = inflater.inflate(viewId, parent, false);
                     card = new TextMessageCard(activity, convertView);
                     break;
+                case MESSAGE_TYPE_RECV_VOICE:
+                    if (conversation.isGroup()) {
+                        viewId = R.layout.group_chat_voice_received_listitem_inner;
+                    } else {
+                        viewId = R.layout.chat_voice_received_listitem_inner;
+                    }
+                    convertView = inflater.inflate(viewId, parent, false);
+                    card = new VoiceMessageCard(activity, convertView);
+                    break;
+                case MESSAGE_TYPE_SENT_VOICE:
+                    viewId = R.layout.chat_voice_sent_listitem_inner;
+                    convertView = inflater.inflate(viewId, parent, false);
+                    card = new VoiceMessageCard(activity, convertView);
+                    break;
                 default:
                     Ln.e(String.format("Invalid type: %d", type));
                     return null;
@@ -99,10 +117,12 @@ public class ChatMessagesAdapter extends BaseAdapter {
                     card = (SystemMessageCard) convertView.getTag();
                     break;
                 case MESSAGE_TYPE_RECV_TXT:
-                    card = (TextMessageCard) convertView.getTag();
-                    break;
                 case MESSAGE_TYPE_SENT_TXT:
                     card = (TextMessageCard) convertView.getTag();
+                    break;
+                case MESSAGE_TYPE_RECV_VOICE:
+                case MESSAGE_TYPE_SENT_VOICE:
+                    card = (VoiceMessageCard) convertView.getTag();
                     break;
                 default:
                     Ln.e(String.format("Invalid type: %d", type));

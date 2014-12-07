@@ -46,6 +46,8 @@
     <string name="label_delete">删除</string>
     <string name="label_favorite">收藏</string>
     <string name="label_report">举报</string>
+    <string name="label_image">图片</string>
+    <string name="label_voice">语音</string>
 
     <!-- Info Message -->
     <string name="info_authenticating">正在验证您的账号信息，请稍候</string>
@@ -104,6 +106,10 @@
     <string name="error_load_asking_reply_list">获取回复列表失败</string>
     <string name="error_delete_asking">删除问问失败</string>
     <string name="error_delete_asking_reply">删除回复失败</string>
+    <string name="error_sdcard_needed_for_voice">发送语音需要SD卡支持</string>
+    <string name="error_recoding_failed">录音失败</string>
+    <string name="error_recoding_too_short">录音太短</string>
+    <string name="error_send_recoding_failed">发送录音失败</string>
 
     <!-- Title -->
     <string name="title_activity_login">用户登录</string>
@@ -221,6 +227,11 @@
     <string name="label_contact_requests">好友请求</string>
     <string name="label_my_groups">我的圈子</string>
     <string name="label_mobile_contacts">手机联系人</string>
+
+    <!-- Chat -->
+    <string name="label_press_to_talk">按住说话</string>
+    <string name="label_move_up_to_cancel">上滑取消录音</string>
+    <string name="label_release_to_cancel">松开取消录音</string>
 
     <!-- Widgets -->
     <string name="pull_to_refresh_pull_label">下拉刷新</string>
