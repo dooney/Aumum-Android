@@ -18,12 +18,14 @@ public class VoiceMessageCard extends ChatMessageCard {
     private Activity activity;
     private View view;
     private TextView voiceLengthText;
+    private ImageView unreadImage;
 
     public VoiceMessageCard(Activity activity, View view) {
         super(activity, view);
         this.activity = activity;
         this.view = view;
         this.voiceLengthText = (TextView) view.findViewById(R.id.text_voice_length);
+        this.unreadImage = (ImageView) view.findViewById(R.id.image_unread);
     }
 
     @Override
@@ -31,6 +33,14 @@ public class VoiceMessageCard extends ChatMessageCard {
         final EMMessage message = conversation.getMessage(position);
         VoiceMessageBody textBody = (VoiceMessageBody) message.getBody();
         voiceLengthText.setText(String.valueOf(textBody.getLength()) + "\"");
+
+        if (unreadImage != null) {
+            if (message.isListened()) {
+                unreadImage.setVisibility(View.GONE);
+            } else {
+                unreadImage.setVisibility(View.VISIBLE);
+            }
+        }
 
         view.setOnClickListener(new View.OnClickListener() {
             @Override

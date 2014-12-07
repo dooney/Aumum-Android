@@ -31,7 +31,7 @@ public class VoicePlayClickListener {
     private ImageView voiceImage;
     private AnimationDrawable voiceAnimation;
     private MediaPlayer mediaPlayer;
-    private ImageView sentFailedImage;
+    private ImageView unreadImage;
 
     private static VoicePlayClickListener listener;
     private VoicePlayClickListener(Activity activity) {
@@ -49,10 +49,12 @@ public class VoicePlayClickListener {
         if (voiceAnimation != null) {
             voiceAnimation.stop();
         }
-        if (voiceImage != null && message.direct == EMMessage.Direct.RECEIVE) {
-            voiceImage.setImageResource(R.drawable.chat_received_voice_playing);
-        } else {
-            voiceImage.setImageResource(R.drawable.chat_sent_voice_playing);
+        if (voiceImage != null) {
+            if (message.direct == EMMessage.Direct.RECEIVE) {
+                voiceImage.setImageResource(R.drawable.chat_received_voice_playing);
+            } else {
+                voiceImage.setImageResource(R.drawable.chat_sent_voice_playing);
+            }
         }
         // stop play voice
         if (mediaPlayer != null) {
@@ -109,9 +111,9 @@ public class VoicePlayClickListener {
                 } catch (Exception e) {
                     message.isAcked = false;
                 }
-                if (!message.isListened() && sentFailedImage != null && sentFailedImage.getVisibility() == View.VISIBLE) {
+                if (!message.isListened() && unreadImage != null && unreadImage.getVisibility() == View.VISIBLE) {
                     // 隐藏自己未播放这条语音消息的标志
-                    sentFailedImage.setVisibility(View.INVISIBLE);
+                    unreadImage.setVisibility(View.INVISIBLE);
                     EMChatManager.getInstance().setMessageListened(message);
                 }
             }
@@ -141,7 +143,7 @@ public class VoicePlayClickListener {
         }
         this.message = emMessage;
         this.voiceImage = (ImageView) view.findViewById(R.id.image_voice);
-        this.sentFailedImage = (ImageView) view.findViewById(R.id.image_sent_failed);
+        this.unreadImage = (ImageView) view.findViewById(R.id.image_unread);
 
         VoiceMessageBody voiceBody = (VoiceMessageBody) message.getBody();
         if (message.direct == EMMessage.Direct.SEND) {

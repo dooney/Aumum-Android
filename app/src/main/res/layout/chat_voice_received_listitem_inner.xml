@@ -1,6 +1,62 @@
 <?xml version="1.0" encoding="utf-8"?>
+
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:paddingTop="@dimen/margin_small"
+    android:paddingBottom="@dimen/margin_small"
+    android:paddingLeft="@dimen/margin_medium"
+    android:paddingRight="@dimen/margin_medium">
+
+    <TextView
+        android:id="@+id/text_time_stamp"
+        style="@style/TextView.ChatMessage.TimeStamp"
+        android:layout_gravity="center"
+        android:text="时间戳"/>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <com.aumum.app.mobile.ui.view.AvatarImageView
+            android:id="@+id/image_avatar"
+            style="@style/ImageView.Avatar"
+            android:layout_marginRight="@dimen/margin_medium"
+            android:layout_alignParentLeft="true"
+            android:src="@drawable/ic_avatar"/>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@+id/image_avatar"
+            android:layout_centerVertical="true">
+
+            <ImageView
+                android:id="@+id/image_voice"
+                style="@style/ImageView.ChatMessage.ReceivedVoice"
+                android:layout_width="@dimen/image_sz_large"
+                android:padding="@dimen/margin_medium" />
+
+            <TextView
+                android:id="@+id/text_voice_length"
+                style="@style/TextView.ChatMessage.VoiceLength"
+                android:layout_gravity="center_vertical"
+                android:padding="@dimen/margin_medium"/>
+
+            <ImageView
+                android:id="@+id/image_unread"
+                style="@style/ImageView.ChatMessage.VoiceUnread"
+                android:layout_gravity="center_vertical"/>
+
+            <ProgressBar
+                android:id="@+id/progress"
+                style="@style/ProgressBar.Small"
+                android:layout_gravity="center_vertical"
+                android:visibility="invisible"/>
+
+        </LinearLayout>
+
+    </RelativeLayout>
 
 </LinearLayout>
