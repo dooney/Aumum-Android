@@ -7,7 +7,7 @@
                 android:width="1dp"
                 android:color="@color/grey_light" />
             <solid
-                android:color="#8DC52F" />
+                android:color="@color/bbutton_danger_pressed" />
             <corners android:radius="@dimen/bbuton_rounded_corner_radius"/>
         </shape>
     </item>
@@ -17,7 +17,7 @@
                 android:width="1dp"
                 android:color="@color/grey_light" />
             <solid
-                android:color="#98CF38" />
+                android:color="@color/bbutton_danger" />
             <corners android:radius="@dimen/bbuton_rounded_corner_radius"/>
         </shape>
     </item>

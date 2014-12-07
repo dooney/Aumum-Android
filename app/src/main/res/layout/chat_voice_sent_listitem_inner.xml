@@ -37,6 +37,11 @@
                 style="@style/ProgressBar.Small"
                 android:layout_gravity="center_vertical"
                 android:visibility="invisible"/>
+
+            <ImageView
+                android:id="@+id/image_sent_failed"
+                style="@style/ImageView.ChatMessage.SentFailed"
+                android:visibility="gone"/>
             
             <TextView
                 android:id="@+id/text_voice_length"
@@ -45,6 +50,7 @@
                 android:padding="@dimen/margin_medium"/>
 
             <ImageView
+                android:id="@+id/image_voice"
                 android:layout_width="@dimen/image_sz_large"
                 android:padding="@dimen/margin_medium"
                 style="@style/ImageView.ChatMessage.SentVoice" />

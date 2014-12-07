@@ -1,4 +1,3 @@
-/*
 package com.aumum.app.mobile.ui.chat;
 
 import android.app.Activity;
@@ -6,78 +5,75 @@ import android.content.Context;
 import android.graphics.drawable.AnimationDrawable;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
-import android.os.AsyncTask;
 import android.view.View;
-import android.widget.BaseAdapter;
 import android.widget.ImageView;
-import android.widget.Toast;
 
+import com.aumum.app.mobile.R;
+import com.aumum.app.mobile.utils.Ln;
+import com.aumum.app.mobile.utils.SafeAsyncTask;
 import com.easemob.chat.EMChatManager;
 import com.easemob.chat.EMMessage;
 import com.easemob.chat.VoiceMessageBody;
+import com.github.kevinsawicki.wishlist.Toaster;
 
 import java.io.File;
 
-*/
+import retrofit.RetrofitError;
+
 /**
  * Created by Administrator on 6/12/2014.
- *//*
+ */
 
-public class VoicePlayClickListener implements View.OnClickListener {
+public class VoicePlayClickListener {
 
-    EMMessage message;
-    VoiceMessageBody voiceBody;
-    ImageView voiceIconView;
+    private Activity activity;
+    private EMMessage message;
+    private ImageView voiceImage;
+    private AnimationDrawable voiceAnimation;
+    private MediaPlayer mediaPlayer;
+    private ImageView sentFailedImage;
 
-    private AnimationDrawable voiceAnimation = null;
-    MediaPlayer mediaPlayer = null;
-    ImageView iv_read_status;
-    Activity activity;
-    private EMMessage.ChatType chatType;
-    private BaseAdapter adapter;
-
-    public static boolean isPlaying = false;
-    public static VoicePlayClickListener currentPlayListener = null;
-
-    public VoicePlayClickListener(EMMessage message, ImageView v, ImageView iv_read_status, BaseAdapter adapter, Activity activity) {
-        this.message = message;
-        voiceBody = (VoiceMessageBody) message.getBody();
-        this.iv_read_status = iv_read_status;
-        this.adapter = adapter;
-        voiceIconView = v;
+    private static VoicePlayClickListener listener;
+    private VoicePlayClickListener(Activity activity) {
         this.activity = activity;
-        this.chatType = message.getChatType();
+    }
+
+    public static VoicePlayClickListener getInstance(Activity activity) {
+        if (listener == null) {
+            listener = new VoicePlayClickListener(activity);
+        }
+        return listener;
     }
 
     public void stopPlayVoice() {
-        voiceAnimation.stop();
-        if (message.direct == EMMessage.Direct.RECEIVE) {
-            voiceIconView.setImageResource(R.drawable.chatfrom_voice_playing);
+        if (voiceAnimation != null) {
+            voiceAnimation.stop();
+        }
+        if (voiceImage != null && message.direct == EMMessage.Direct.RECEIVE) {
+            voiceImage.setImageResource(R.drawable.chat_received_voice_playing);
         } else {
-            voiceIconView.setImageResource(R.drawable.chatto_voice_playing);
+            voiceImage.setImageResource(R.drawable.chat_sent_voice_playing);
         }
         // stop play voice
         if (mediaPlayer != null) {
             mediaPlayer.stop();
+            mediaPlayer.reset();
             mediaPlayer.release();
+            mediaPlayer = null;
         }
-        isPlaying = false;
-        ((ChatActivity) activity).playMsgId = null;
-        adapter.notifyDataSetChanged();
     }
 
-    public void playVoice(String filePath) {
+    private void playVoice(String filePath) {
         if (!(new File(filePath).exists())) {
             return;
         }
-        ((ChatActivity) activity).playMsgId = message.getMsgId();
         AudioManager audioManager = (AudioManager) activity.getSystemService(Context.AUDIO_SERVICE);
 
         mediaPlayer = new MediaPlayer();
         if (EMChatManager.getInstance().getChatOptions().getUseSpeaker()) {
             audioManager.setMode(AudioManager.MODE_NORMAL);
             audioManager.setSpeakerphoneOn(true);
-            mediaPlayer.setAudioStreamType(AudioManager.STREAM_RING);
+            mediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
         } else {
             audioManager.setSpeakerphoneOn(false);// 关闭扬声器
             // 把声音设定成Earpiece（听筒）出来，设定为正在通话中
@@ -91,15 +87,12 @@ public class VoicePlayClickListener implements View.OnClickListener {
 
                 @Override
                 public void onCompletion(MediaPlayer mp) {
-                    // TODO Auto-generated method stub
                     mediaPlayer.release();
                     mediaPlayer = null;
                     stopPlayVoice(); // stop animation
                 }
 
             });
-            isPlaying = true;
-            currentPlayListener = this;
             mediaPlayer.start();
             showAnimation();
 
@@ -109,21 +102,21 @@ public class VoicePlayClickListener implements View.OnClickListener {
                     if (!message.isAcked) {
                         message.isAcked = true;
                         // 告知对方已读这条消息
-                        if (chatType != EMMessage.ChatType.GroupChat)
+                        if (message.getChatType() != EMMessage.ChatType.GroupChat) {
                             EMChatManager.getInstance().ackMessageRead(message.getFrom(), message.getMsgId());
+                        }
                     }
                 } catch (Exception e) {
                     message.isAcked = false;
                 }
-                if (!message.isListened() && iv_read_status != null && iv_read_status.getVisibility() == View.VISIBLE) {
+                if (!message.isListened() && sentFailedImage != null && sentFailedImage.getVisibility() == View.VISIBLE) {
                     // 隐藏自己未播放这条语音消息的标志
-                    iv_read_status.setVisibility(View.INVISIBLE);
+                    sentFailedImage.setVisibility(View.INVISIBLE);
                     EMChatManager.getInstance().setMessageListened(message);
                 }
-
             }
-
         } catch (Exception e) {
+            Ln.e(e);
         }
     }
 
@@ -131,58 +124,63 @@ public class VoicePlayClickListener implements View.OnClickListener {
     private void showAnimation() {
         // play voice, and start animation
         if (message.direct == EMMessage.Direct.RECEIVE) {
-            voiceIconView.setImageResource(R.anim.voice_from_icon);
+            voiceImage.setImageResource(R.anim.voice_received);
         } else {
-            voiceIconView.setImageResource(R.anim.voice_to_icon);
+            voiceImage.setImageResource(R.anim.voice_sent);
         }
-        voiceAnimation = (AnimationDrawable) voiceIconView.getDrawable();
+        voiceAnimation = (AnimationDrawable) voiceImage.getDrawable();
         voiceAnimation.start();
     }
 
-    @Override
-    public void onClick(View v) {
-        if (isPlaying) {
-            if (((ChatActivity) activity).playMsgId != null && ((ChatActivity) activity).playMsgId.equals(message.getMsgId())) {
-                currentPlayListener.stopPlayVoice();
+    public void onPlay(EMMessage emMessage, View view) {
+        if (mediaPlayer != null) {
+            stopPlayVoice();
+            if (message == emMessage) {
                 return;
             }
-            currentPlayListener.stopPlayVoice();
         }
+        this.message = emMessage;
+        this.voiceImage = (ImageView) view.findViewById(R.id.image_voice);
+        this.sentFailedImage = (ImageView) view.findViewById(R.id.image_sent_failed);
 
+        VoiceMessageBody voiceBody = (VoiceMessageBody) message.getBody();
         if (message.direct == EMMessage.Direct.SEND) {
             // for sent msg, we will try to play the voice file directly
             playVoice(voiceBody.getLocalUrl());
         } else {
             if (message.status == EMMessage.Status.SUCCESS) {
                 File file = new File(voiceBody.getLocalUrl());
-                if (file.exists() && file.isFile())
+                if (file.exists() && file.isFile()) {
                     playVoice(voiceBody.getLocalUrl());
-                else
-                    System.err.println("file not exist");
-
+                } else {
+                    Ln.e("file not exist");
+                }
             } else if (message.status == EMMessage.Status.INPROGRESS) {
-                Toast.makeText(activity, "正在下载语音，稍后点击", Toast.LENGTH_SHORT).show();
+                Toaster.showShort(activity, R.string.info_downloading_voice);
             } else if (message.status == EMMessage.Status.FAIL) {
-                Toast.makeText(activity, "正在下载语音，稍后点击", Toast.LENGTH_SHORT).show();
-                new AsyncTask<Void, Void, Void>() {
-
-                    @Override
-                    protected Void doInBackground(Void... params) {
+                Toaster.showShort(activity, R.string.info_downloading_voice);
+                SafeAsyncTask<Boolean> task = new SafeAsyncTask<Boolean>() {
+                    public Boolean call() throws Exception {
                         EMChatManager.getInstance().asyncFetchMessage(message);
-                        return null;
+                        return true;
                     }
 
                     @Override
-                    protected void onPostExecute(Void result) {
-                        super.onPostExecute(result);
-                        adapter.notifyDataSetChanged();
+                    protected void onException(final Exception e) throws RuntimeException {
+                        if(!(e instanceof RetrofitError)) {
+                            final Throwable cause = e.getCause() != null ? e.getCause() : e;
+                            if(cause != null) {
+                                Toaster.showShort(activity, cause.getMessage());
+                            }
+                        }
                     }
 
-                }.execute();
-
+                    @Override
+                    public void onSuccess(final Boolean success) {
+                    }
+                };
+                task.execute();
             }
-
         }
     }
 }
-*/

@@ -211,10 +211,7 @@ public class ChatFragment extends Fragment
         if (wakeLock.isHeld()) {
             wakeLock.release();
         }
-        /*if (VoicePlayClickListener.isPlaying &&
-            VoicePlayClickListener.currentPlayListener != null) {
-            VoicePlayClickListener.currentPlayListener.stopPlayVoice();
-        }*/
+        VoicePlayClickListener.getInstance(getActivity()).stopPlayVoice();
 
         try {
             if (voiceRecorder.isRecording()) {
@@ -279,11 +276,10 @@ public class ChatFragment extends Fragment
                         String beforeId = adapter.getItem(0).getMsgId();
                         if (type == ChatActivity.TYPE_SINGLE) {
                             messages = conversation.loadMoreMsgFromDB(beforeId, LIMIT_PER_LOAD);
-                        }
-                        else {
+                        } else {
                             messages = conversation.loadMoreGroupMsgFromDB(beforeId, LIMIT_PER_LOAD);
                         }
-                    } catch (Exception e1) {
+                    } catch (Exception e) {
                         return;
                     }
                     if (messages.size() > 0) {
@@ -339,9 +335,7 @@ public class ChatFragment extends Fragment
                     try {
                         view.setPressed(true);
                         wakeLock.acquire();
-                        /*if (VoicePlayClickListener.isPlaying) {
-                            VoicePlayClickListener.currentPlayListener.stopPlayVoice();
-                        }*/
+                        VoicePlayClickListener.getInstance(getActivity()).stopPlayVoice();
                         recordingLayout.setVisibility(View.VISIBLE);
                         recordingHintText.setText(getString(R.string.label_move_up_to_cancel));
                         voiceRecorder.startRecording(null, id, getActivity());

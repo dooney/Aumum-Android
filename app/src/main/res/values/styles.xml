@@ -342,6 +342,7 @@
     </style>
     <style name="TextView.ChatMessage.SentText" parent="TextView.ChatMessage.Text">
         <item name="android:background">@drawable/chat_sent_text_background</item>
+        <item name="android:textColor">@color/text</item>
     </style>
     <style name="TextView.ChatMessage.ReceivedText" parent="TextView.ChatMessage.Text">
         <item name="android:background">@drawable/chat_received_text_background</item>
@@ -362,6 +363,9 @@
     <style name="ImageView.ChatMessage.SentVoice" parent="ImageView">
         <item name="android:src">@drawable/chat_sent_voice_playing</item>
         <item name="android:background">@drawable/chat_sent_voice_background</item>
+    </style>
+    <style name="ImageView.ChatMessage.SentFailed" parent="ImageView">
+        <item name="android:src">@drawable/chat_msg_sent_failed_icon</item>
     </style>
 
     <!-- Contact -->

@@ -73,6 +73,7 @@
     <string name="info_asking_reply_deleted">该回复已成功删除</string>
     <string name="info_loading">正在加载</string>
     <string name="info_no_more">已加载所有项</string>
+    <string name="info_downloading_voice">正在下载语音，请稍候</string>
 
     <!-- Error Message -->
     <string name="error_load_parties">获取聚会列表失败</string>
