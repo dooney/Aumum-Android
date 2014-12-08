@@ -26,6 +26,7 @@ import com.aumum.app.mobile.Injector;
 import com.aumum.app.mobile.R;
 import com.aumum.app.mobile.core.service.ChatService;
 import com.aumum.app.mobile.ui.helper.TextWatcherAdapter;
+import com.aumum.app.mobile.ui.image.ImagePickerActivity;
 import com.aumum.app.mobile.utils.EditTextUtils;
 import com.aumum.app.mobile.utils.Ln;
 import com.aumum.app.mobile.utils.StorageUtils;
@@ -196,7 +197,9 @@ public class ChatFragment extends Fragment
         imageLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                final Intent intent = new Intent(getActivity(), ImagePickerActivity.class);
+                intent.putExtra(ImagePickerActivity.INTENT_ACTION, ImagePickerActivity.ACTION_MULTIPLE_PICK);
+                startActivity(intent);
             }
         });
 

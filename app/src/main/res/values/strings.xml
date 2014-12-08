@@ -134,6 +134,7 @@
     <string name="title_user_askings">%1$s的问问</string>
     <string name="title_activity_new_asking">发布提问</string>
     <string name="title_activity_asking_details">问题详情</string>
+    <string name="title_activity_image_picker">添加图片</string>
 
     <!-- Register -->
     <string name="hint_screen_name">昵称</string>

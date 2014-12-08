@@ -92,9 +92,11 @@
             android:name="com.aumum.app.mobile.ui.user.UserActivity"
             android:label="@string/title_activity_user" >
             <intent-filter>
-                <category android:name="android.intent.category.DEFAULT"/>
-                <action android:name="android.intent.action.VIEW"/>
-                <data android:scheme="com.aumum.app.mobile.user"/>
+                <category android:name="android.intent.category.DEFAULT" />
+
+                <action android:name="android.intent.action.VIEW" />
+
+                <data android:scheme="com.aumum.app.mobile.user" />
             </intent-filter>
         </activity>
 
@@ -194,6 +196,10 @@
         </activity>
         <activity android:name="com.aumum.app.mobile.ui.asking.AskingDetailsActivity" />
         <activity android:name="com.aumum.app.mobile.ui.asking.SearchAskingActivity" />
+        <activity
+            android:name="com.aumum.app.mobile.ui.image.ImagePickerActivity"
+            android:label="@string/title_activity_image_picker" >
+        </activity>
     </application>
 
 </manifest>
