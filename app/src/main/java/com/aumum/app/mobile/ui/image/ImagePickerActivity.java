@@ -44,6 +44,8 @@ public class ImagePickerActivity extends ActionBarActivity {
     int action;
     private ImageLoader imageLoader;
 
+    public static final String INTENT_ALL_PATH = "allPath";
+    public static final String INTENT_SINGLE_PATH = "singlePath";
     public static final String INTENT_ACTION = "action";
     public static final int ACTION_PICK = 1;
     public static final int ACTION_MULTIPLE_PICK = 2;
@@ -54,8 +56,16 @@ public class ImagePickerActivity extends ActionBarActivity {
         setContentView(R.layout.activity_image_picker);
 
         action = getIntent().getIntExtra(INTENT_ACTION, 0);
-        if (action == 0) {
-            finish();
+        switch (action) {
+            case ACTION_PICK:
+                setTitle(R.string.title_activity_choose_image);
+                break;
+            case ACTION_MULTIPLE_PICK:
+                setTitle(R.string.title_activity_add_image);
+                break;
+            default:
+                finish();
+                break;
         }
         initImageLoader();
         init();
@@ -63,13 +73,15 @@ public class ImagePickerActivity extends ActionBarActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        MenuItem menuItem = menu.add(Menu.NONE, 0, Menu.NONE, getString(R.string.label_ok));
-        menuItem.setActionView(R.layout.menuitem_button_ok);
-        menuItem.setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
-        View view = menuItem.getActionView();
-        confirmButton = (Button) view.findViewById(R.id.b_ok);
-        confirmButton.setOnClickListener(mOkClickListener);
-        confirmButton.setEnabled(false);
+        if (action == ACTION_MULTIPLE_PICK) {
+            MenuItem menuItem = menu.add(Menu.NONE, 0, Menu.NONE, getString(R.string.label_ok));
+            menuItem.setActionView(R.layout.menuitem_button_ok);
+            menuItem.setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
+            View view = menuItem.getActionView();
+            confirmButton = (Button) view.findViewById(R.id.b_ok);
+            confirmButton.setOnClickListener(mOkClickListener);
+            confirmButton.setEnabled(false);
+        }
         return true;
     }
 
@@ -159,7 +171,7 @@ public class ImagePickerActivity extends ActionBarActivity {
                 allPath[i] = selected.get(i).sdCardPath;
             }
 
-            Intent data = new Intent().putExtra("all_path", allPath);
+            Intent data = new Intent().putExtra(INTENT_ALL_PATH, allPath);
             setResult(RESULT_OK, data);
             finish();
 
@@ -179,7 +191,8 @@ public class ImagePickerActivity extends ActionBarActivity {
         @Override
         public void onItemClick(AdapterView<?> l, View v, int position, long id) {
             CustomGallery item = adapter.getItem(position);
-            Intent data = new Intent().putExtra("single_path", item.sdCardPath);
+            String ImageUri = "file://" + item.sdCardPath;
+            Intent data = new Intent().putExtra(INTENT_SINGLE_PATH, ImageUri);
             setResult(RESULT_OK, data);
             finish();
         }

@@ -196,10 +196,7 @@
         </activity>
         <activity android:name="com.aumum.app.mobile.ui.asking.AskingDetailsActivity" />
         <activity android:name="com.aumum.app.mobile.ui.asking.SearchAskingActivity" />
-        <activity
-            android:name="com.aumum.app.mobile.ui.image.ImagePickerActivity"
-            android:label="@string/title_activity_image_picker" >
-        </activity>
+        <activity android:name="com.aumum.app.mobile.ui.image.ImagePickerActivity" />
     </application>
 
 </manifest>

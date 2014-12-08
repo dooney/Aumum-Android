@@ -5,8 +5,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -26,6 +24,7 @@ import com.aumum.app.mobile.core.Constants;
 import com.aumum.app.mobile.ui.base.ProgressDialogActivity;
 import com.aumum.app.mobile.ui.crop.CropImageActivity;
 import com.aumum.app.mobile.ui.helper.TextWatcherAdapter;
+import com.aumum.app.mobile.ui.image.ImagePickerActivity;
 import com.aumum.app.mobile.ui.view.Animation;
 import com.aumum.app.mobile.utils.DialogUtils;
 import com.aumum.app.mobile.utils.ImageUtils;
@@ -101,7 +100,7 @@ public class RegisterActivity extends ProgressDialogActivity
         avatarImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startImageSelectionActivity();
+                startImagePickerActivity();
             }
         });
 
@@ -179,11 +178,11 @@ public class RegisterActivity extends ProgressDialogActivity
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == Constants.RequestCode.GALLERY_INTENT_REQ_CODE &&
-                resultCode == Activity.RESULT_OK) {
-            Uri originalUri = data.getData();
-            if (originalUri != null) {
-                startCropImageActivity(originalUri.toString());
+        if (requestCode == Constants.RequestCode.IMAGE_PICKER_IMAGE_REQ_CODE &&
+            resultCode == Activity.RESULT_OK) {
+            String imageUri = data.getStringExtra(ImagePickerActivity.INTENT_SINGLE_PATH);
+            if (imageUri != null) {
+                startCropImageActivity(imageUri);
             }
         } else if (requestCode == Constants.RequestCode.CROP_PROFILE_IMAGE_REQ_CODE &&
                 resultCode == Activity.RESULT_OK) {
@@ -193,18 +192,10 @@ public class RegisterActivity extends ProgressDialogActivity
         }
     }
 
-    private void startImageSelectionActivity() {
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.KITKAT) {
-            Intent intent = new Intent();
-            intent.setType("image/*");
-            intent.setAction(Intent.ACTION_GET_CONTENT);
-            startActivityForResult(intent, Constants.RequestCode.GALLERY_INTENT_REQ_CODE);
-        } else {
-            Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
-            intent.addCategory(Intent.CATEGORY_OPENABLE);
-            intent.setType("image/*");
-            startActivityForResult(intent, Constants.RequestCode.GALLERY_INTENT_REQ_CODE);
-        }
+    private void startImagePickerActivity() {
+        final Intent intent = new Intent(this, ImagePickerActivity.class);
+        intent.putExtra(ImagePickerActivity.INTENT_ACTION, ImagePickerActivity.ACTION_PICK);
+        startActivityForResult(intent, Constants.RequestCode.IMAGE_PICKER_IMAGE_REQ_CODE);
     }
 
     private void startCropImageActivity(String imageUri) {

@@ -200,7 +200,7 @@ public final class Constants {
         public static final int NEW_PARTY_REQ_CODE = 30;
         public static final int GET_PARTY_DETAILS_REQ_CODE = 31;
         public static final int SETTINGS_REQ_CODE = 32;
-        public static final int GALLERY_INTENT_REQ_CODE = 33;
+        public static final int IMAGE_PICKER_IMAGE_REQ_CODE = 33;
         public static final int CROP_PROFILE_IMAGE_REQ_CODE = 34;
         public static final int NEW_ASKING_REQ_CODE = 35;
         public static final int GET_ASKING_DETAILS_REQ_CODE = 36;
