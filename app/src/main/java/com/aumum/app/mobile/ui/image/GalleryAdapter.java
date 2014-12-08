@@ -148,21 +148,11 @@ public class GalleryAdapter extends BaseAdapter {
         holder.imgQueue.setTag(position);
 
         try {
-
-            imageLoader.displayImage("file://" + data.get(position).sdCardPath,
-                    holder.imgQueue, new SimpleImageLoadingListener() {
-                        @Override
-                        public void onLoadingStarted(String imageUri, View view) {
-                            holder.imgQueue.setImageResource(R.drawable.image_placeholder);
-                            super.onLoadingStarted(imageUri, view);
-                        }
-                    });
+            imageLoader.displayImage("file://" + data.get(position).sdCardPath, holder.imgQueue);
 
             if (isActionMultiplePick) {
-
                 holder.imgQueueMultiSelected
                         .setSelected(data.get(position).isSeleted);
-
             }
 
         } catch (Exception e) {

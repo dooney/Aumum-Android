@@ -40,10 +40,10 @@
             android:layout_below="@+id/text_user_name"
             android:gravity="center_vertical">
 
-            <com.aumum.app.mobile.ui.view.SpannableTextView
-                android:id="@+id/text_text_body"
-                style="@style/TextView.ChatMessage.ReceivedText"
-                android:text="消息内容"/>
+            <ImageView
+                android:id="@+id/image_sent"
+                style="@style/ImageView.ChatMessage.ReceivedImage"
+                android:src="@drawable/image_placeholder"/>
 
             <ProgressBar
                 android:id="@+id/progress"

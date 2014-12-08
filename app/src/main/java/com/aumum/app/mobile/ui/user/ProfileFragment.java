@@ -123,7 +123,7 @@ public class ProfileFragment extends LoaderFragment<User>
         super.onActivityResult(requestCode, resultCode, data);
 
         if (requestCode == Constants.RequestCode.IMAGE_PICKER_IMAGE_REQ_CODE &&
-            resultCode == Activity.RESULT_OK) {
+                resultCode == Activity.RESULT_OK) {
             String imageUri = data.getStringExtra(ImagePickerActivity.INTENT_SINGLE_PATH);
             if (imageUri != null) {
                 startCropImageActivity(imageUri);

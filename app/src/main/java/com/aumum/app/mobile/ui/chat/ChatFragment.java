@@ -1,5 +1,6 @@
 package com.aumum.app.mobile.ui.chat;
 
+import android.app.Activity;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -24,6 +25,7 @@ import android.widget.TextView;
 
 import com.aumum.app.mobile.Injector;
 import com.aumum.app.mobile.R;
+import com.aumum.app.mobile.core.Constants;
 import com.aumum.app.mobile.core.service.ChatService;
 import com.aumum.app.mobile.ui.helper.TextWatcherAdapter;
 import com.aumum.app.mobile.ui.image.ImagePickerActivity;
@@ -199,7 +201,7 @@ public class ChatFragment extends Fragment
             public void onClick(View view) {
                 final Intent intent = new Intent(getActivity(), ImagePickerActivity.class);
                 intent.putExtra(ImagePickerActivity.INTENT_ACTION, ImagePickerActivity.ACTION_MULTIPLE_PICK);
-                startActivity(intent);
+                startActivityForResult(intent, Constants.RequestCode.IMAGE_PICKER_IMAGE_REQ_CODE);
             }
         });
 
@@ -222,6 +224,7 @@ public class ChatFragment extends Fragment
                 recordingLayout.setVisibility(View.GONE);
             }
         } catch (Exception e) {
+            Ln.e(e);
         }
     }
 
@@ -229,6 +232,23 @@ public class ChatFragment extends Fragment
     public void onDestroy() {
         super.onDestroy();
         getActivity().unregisterReceiver(newMessageBroadcastReceiver);
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == Constants.RequestCode.IMAGE_PICKER_IMAGE_REQ_CODE) {
+            toggleTypeSelectionLayout();
+            if (resultCode == Activity.RESULT_OK) {
+                String imagePath[] = data.getStringArrayExtra(ImagePickerActivity.INTENT_ALL_PATH);
+                if (imagePath != null) {
+                    for (String path : imagePath) {
+                        sendImage(path);
+                    }
+                }
+            }
+        }
     }
 
     private TextWatcher validationTextWatcher() {
@@ -267,6 +287,15 @@ public class ChatFragment extends Fragment
         chatService.addVoiceMessage(id, type == ChatActivity.TYPE_GROUP, filePath, length);
         adapter.notifyDataSetChanged();
         listView.setSelection(listView.getCount() - 1);
+    }
+
+    private void sendImage(String imagePath) {
+        if (imagePath != null) {
+            imagePath = imagePath.replace("file://", "");
+            chatService.addImageMessage(id, type == ChatActivity.TYPE_GROUP, imagePath);
+            adapter.notifyDataSetChanged();
+            listView.setSelection(listView.getCount() - 1);
+        }
     }
 
     @Override

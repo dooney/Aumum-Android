@@ -15,36 +15,27 @@
         android:layout_gravity="center"
         android:text="时间戳"/>
 
-    <RelativeLayout
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical">
 
         <com.aumum.app.mobile.ui.view.AvatarImageView
             android:id="@+id/image_avatar"
             style="@style/ImageView.Avatar"
             android:layout_marginRight="@dimen/margin_medium"
-            android:layout_alignParentLeft="true"
             android:src="@drawable/ic_avatar"/>
 
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_toRightOf="@+id/image_avatar"
-            android:layout_alignBaseline="@+id/image_avatar">
+        <com.aumum.app.mobile.ui.view.SpannableTextView
+            android:id="@+id/text_text_body"
+            style="@style/TextView.ChatMessage.ReceivedText"
+            android:text="消息内容"/>
 
-            <com.aumum.app.mobile.ui.view.SpannableTextView
-                android:id="@+id/text_text_body"
-                style="@style/TextView.ChatMessage.ReceivedText"
-                android:text="消息内容"/>
+        <ProgressBar
+            android:id="@+id/progress"
+            style="@style/ProgressBar.Small"
+            android:visibility="invisible"/>
 
-            <ProgressBar
-                android:id="@+id/progress"
-                style="@style/ProgressBar.Small"
-                android:layout_gravity="center_vertical"
-                android:visibility="invisible"/>
-
-        </LinearLayout>
-
-    </RelativeLayout>
+    </LinearLayout>
 
 </LinearLayout>

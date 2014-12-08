@@ -12,6 +12,7 @@ import com.easemob.chat.EMGroupInfo;
 import com.easemob.chat.EMGroupManager;
 import com.easemob.chat.EMMessage;
 import com.easemob.chat.GroupChangeListener;
+import com.easemob.chat.ImageMessageBody;
 import com.easemob.chat.TextMessageBody;
 import com.easemob.chat.VoiceMessageBody;
 
@@ -169,6 +170,18 @@ public class ChatService {
             message.setChatType(EMMessage.ChatType.GroupChat);
         }
         VoiceMessageBody body = new VoiceMessageBody(new File(filePath), length);
+        message.addBody(body);
+        message.setReceipt(receipt);
+        EMConversation conversation = EMChatManager.getInstance().getConversation(receipt);
+        conversation.addMessage(message);
+    }
+
+    public void addImageMessage(String receipt, boolean isGroup, String imagePath) {
+        final EMMessage message = EMMessage.createSendMessage(EMMessage.Type.IMAGE);
+        if (isGroup) {
+            message.setChatType(EMMessage.ChatType.GroupChat);
+        }
+        ImageMessageBody body = new ImageMessageBody(new File(imagePath));
         message.addBody(body);
         message.setReceipt(receipt);
         EMConversation conversation = EMChatManager.getInstance().getConversation(receipt);

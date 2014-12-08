@@ -87,26 +87,27 @@ public class ImagePickerActivity extends ActionBarActivity {
 
     private void initImageLoader() {
         try {
-            String CACHE_DIR = Environment.getExternalStorageDirectory()
-                    .getAbsolutePath() + "/.temp_tmp";
-            new File(CACHE_DIR).mkdirs();
-
-            File cacheDir = StorageUtils.getOwnCacheDirectory(getBaseContext(),
-                    CACHE_DIR);
-
-            DisplayImageOptions defaultOptions = new DisplayImageOptions.Builder()
-                    .cacheOnDisk(true).imageScaleType(ImageScaleType.EXACTLY)
-                    .bitmapConfig(Bitmap.Config.RGB_565).build();
-            ImageLoaderConfiguration.Builder builder = new ImageLoaderConfiguration.Builder(
-                    getBaseContext())
-                    .defaultDisplayImageOptions(defaultOptions)
-                    .diskCache(new UnlimitedDiscCache(cacheDir))
-                    .memoryCache(new WeakMemoryCache());
-
-            ImageLoaderConfiguration config = builder.build();
             imageLoader = ImageLoader.getInstance();
-            imageLoader.init(config);
+            if (!imageLoader.isInited()) {
+                String CACHE_DIR = Environment.getExternalStorageDirectory()
+                        .getAbsolutePath() + "/.temp_tmp";
+                new File(CACHE_DIR).mkdirs();
 
+                File cacheDir = StorageUtils.getOwnCacheDirectory(getBaseContext(),
+                        CACHE_DIR);
+
+                DisplayImageOptions defaultOptions = new DisplayImageOptions.Builder()
+                        .cacheOnDisk(true).imageScaleType(ImageScaleType.EXACTLY)
+                        .bitmapConfig(Bitmap.Config.RGB_565).build();
+                ImageLoaderConfiguration.Builder builder = new ImageLoaderConfiguration.Builder(
+                        getBaseContext())
+                        .defaultDisplayImageOptions(defaultOptions)
+                        .diskCache(new UnlimitedDiscCache(cacheDir))
+                        .memoryCache(new WeakMemoryCache());
+
+                ImageLoaderConfiguration config = builder.build();
+                imageLoader.init(config);
+            }
         } catch (Exception e) {
             Ln.e(e);
         }
@@ -160,6 +161,10 @@ public class ImagePickerActivity extends ActionBarActivity {
         }
     }
 
+    private String getImageUri(String imagePath) {
+        return "file://" + imagePath;
+    }
+
     View.OnClickListener mOkClickListener = new View.OnClickListener() {
 
         @Override
@@ -168,13 +173,12 @@ public class ImagePickerActivity extends ActionBarActivity {
 
             String[] allPath = new String[selected.size()];
             for (int i = 0; i < allPath.length; i++) {
-                allPath[i] = selected.get(i).sdCardPath;
+                allPath[i] = getImageUri(selected.get(i).sdCardPath);
             }
 
             Intent data = new Intent().putExtra(INTENT_ALL_PATH, allPath);
             setResult(RESULT_OK, data);
             finish();
-
         }
     };
     AdapterView.OnItemClickListener mItemMulClickListener = new AdapterView.OnItemClickListener() {
@@ -191,7 +195,7 @@ public class ImagePickerActivity extends ActionBarActivity {
         @Override
         public void onItemClick(AdapterView<?> l, View v, int position, long id) {
             CustomGallery item = adapter.getItem(position);
-            String ImageUri = "file://" + item.sdCardPath;
+            String ImageUri = getImageUri(item.sdCardPath);
             Intent data = new Intent().putExtra(INTENT_SINGLE_PATH, ImageUri);
             setResult(RESULT_OK, data);
             finish();

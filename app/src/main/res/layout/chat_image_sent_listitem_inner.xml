@@ -18,27 +18,18 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="right|center_vertical">
+        android:gravity="right">
 
         <ProgressBar
             android:id="@+id/progress"
             style="@style/ProgressBar.Small"
+            android:layout_gravity="center_vertical"
             android:visibility="invisible"/>
 
         <ImageView
-            android:id="@+id/image_sent_failed"
-            style="@style/ImageView.ChatMessage.SentFailed"
-            android:visibility="invisible"/>
-
-        <TextView
-            android:id="@+id/text_voice_length"
-            style="@style/TextView.ChatMessage.VoiceLength"
-            android:padding="@dimen/margin_medium"/>
-
-        <ImageView
-            android:id="@+id/image_voice"
-            android:layout_width="@dimen/image_sz_large"
-            style="@style/ImageView.ChatMessage.SentVoice" />
+            android:id="@+id/image_sent"
+            style="@style/ImageView.ChatMessage.SentImage"
+            android:src="@drawable/image_placeholder"/>
 
         <com.aumum.app.mobile.ui.view.AvatarImageView
             android:id="@+id/image_avatar"

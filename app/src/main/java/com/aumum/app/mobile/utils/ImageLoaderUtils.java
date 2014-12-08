@@ -44,6 +44,7 @@ public class ImageLoaderUtils {
     }
 
     private static final DisplayImageOptions UIL_DEFAULT_DISPLAY_OPTIONS = new DisplayImageOptions.Builder()
+            .showImageOnLoading(R.drawable.image_placeholder)
             .considerExifParams(true)
             .imageScaleType(ImageScaleType.IN_SAMPLE_POWER_OF_2)
             .bitmapConfig(Bitmap.Config.RGB_565)
@@ -186,6 +187,10 @@ public class ImageLoaderUtils {
                 }
             }
         });
+    }
+
+    public static void displayImage(String imageUri, ImageView imageView) {
+        displayImage(imageUri, imageView, null);
     }
 
     public static void displayImage(int resId, ImageView imageView) {
