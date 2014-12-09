@@ -2,27 +2,66 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="@dimen/margin_large"
     tools:context="com.aumum.app.mobile.ui.asking.NewAskingActivity">
 
     <ScrollView
         android:id="@+id/v_scroll"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" >
+        android:layout_height="match_parent">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:focusable="true"
-            android:focusableInTouchMode="true">
+            android:padding="@dimen/margin_large">
 
             <EditText
                 android:id="@+id/et_question"
                 style="@style/EditText.NewAsking.Question" />
 
+            <GridView
+                android:id="@+id/grid_gallery"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="top"
+                android:paddingTop="@dimen/margin_large"
+                android:paddingBottom="@dimen/margin_large"
+                android:numColumns="4"
+                tools:listitem="@layout/gallery_item" >
+            </GridView>
+
         </LinearLayout>
 
     </ScrollView>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/layout_type_selection"
+        android:layout_alignWithParentIfMissing="true"
+        android:background="@color/card_background">
+
+        <View style="@style/Divider" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/margin_medium"
+            android:gravity="center">
+
+            <TextView
+                android:id="@+id/text_add_more"
+                style="@style/TextView.NewAsking.AddMore"/>
+
+        </LinearLayout>
+
+    </RelativeLayout>
+
+    <include
+        android:id="@+id/layout_type_selection"
+        layout="@layout/asking_include_type_selection"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true" />
 
 </RelativeLayout>

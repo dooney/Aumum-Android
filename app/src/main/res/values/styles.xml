@@ -241,6 +241,16 @@
         <item name="android:maxLines">4</item>
         <item name="android:hint">@string/hint_asking_question</item>
     </style>
+    <style name="TextView.NewAsking.AddMore" parent="TextView.Subtitle">
+        <item name="android:textSize">@dimen/text_sz_large</item>
+        <item name="android:text">@string/label_add_more</item>
+    </style>
+    <style name="TextView.NewAsking.Type" parent="TextView">
+        <item name="android:textColor">@color/grey_medium</item>
+        <item name="android:textSize">@dimen/text_sz_small</item>
+        <item name="android:padding">@dimen/margin_small</item>
+        <item name="android:layout_gravity">center</item>
+    </style>
     <style name="TextView.Asking.UserName" parent="TextView.UserName">
         <item name="android:textSize">@dimen/text_sz_small</item>
     </style>

@@ -18,7 +18,6 @@ import android.widget.ImageView;
 import com.aumum.app.mobile.R;
 import com.aumum.app.mobile.utils.ImageLoaderUtils;
 import com.aumum.app.mobile.utils.Ln;
-import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.listener.PauseOnScrollListener;
 
 import java.util.ArrayList;
@@ -34,7 +33,6 @@ public class ImagePickerActivity extends ActionBarActivity {
     Button confirmButton;
 
     int action;
-    private ImageLoader imageLoader;
 
     public static final String INTENT_ALL_PATH = "allPath";
     public static final String INTENT_SINGLE_PATH = "singlePath";
@@ -59,7 +57,6 @@ public class ImagePickerActivity extends ActionBarActivity {
                 finish();
                 break;
         }
-        initImageLoader();
         init();
     }
 
@@ -77,16 +74,13 @@ public class ImagePickerActivity extends ActionBarActivity {
         return true;
     }
 
-    private void initImageLoader() {
-        imageLoader = ImageLoaderUtils.getInstance();
-    }
-
     private void init() {
 
         handler = new Handler();
         gridGallery = (GridView) findViewById(R.id.grid_gallery);
-        adapter = new GalleryAdapter(getApplicationContext(), imageLoader);
-        PauseOnScrollListener listener = new PauseOnScrollListener(imageLoader, true, true);
+        adapter = new GalleryAdapter(getApplicationContext(),
+                R.layout.gallery_listitem_inner, ImageLoaderUtils.getInstance());
+        PauseOnScrollListener listener = new PauseOnScrollListener(ImageLoaderUtils.getInstance(), true, true);
         gridGallery.setOnScrollListener(listener);
 
         if (action == ACTION_MULTIPLE_PICK) {
@@ -129,10 +123,6 @@ public class ImagePickerActivity extends ActionBarActivity {
         }
     }
 
-    private String getImageUri(String imagePath) {
-        return "file://" + imagePath;
-    }
-
     View.OnClickListener mOkClickListener = new View.OnClickListener() {
 
         @Override
@@ -141,7 +131,7 @@ public class ImagePickerActivity extends ActionBarActivity {
 
             String[] allPath = new String[selected.size()];
             for (int i = 0; i < allPath.length; i++) {
-                allPath[i] = getImageUri(selected.get(i).sdCardPath);
+                allPath[i] = selected.get(i).sdCardPath;
             }
 
             Intent data = new Intent().putExtra(INTENT_ALL_PATH, allPath);
@@ -163,7 +153,7 @@ public class ImagePickerActivity extends ActionBarActivity {
         @Override
         public void onItemClick(AdapterView<?> l, View v, int position, long id) {
             CustomGallery item = adapter.getItem(position);
-            String ImageUri = getImageUri(item.sdCardPath);
+            String ImageUri = item.sdCardPath;
             Intent data = new Intent().putExtra(INTENT_SINGLE_PATH, ImageUri);
             setResult(RESULT_OK, data);
             finish();

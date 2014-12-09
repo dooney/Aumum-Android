@@ -217,6 +217,7 @@
     <string name="label_reply">回复</string>
     <string name="hint_new_reply">写下您的回复</string>
     <string name="hint_reply_asking_reply">回复@%1$s：%2$s</string>
+    <string name="label_add_more">添加更多</string>
 
     <!-- Contact -->
     <string name="label_group_current_size">%,d人</string>

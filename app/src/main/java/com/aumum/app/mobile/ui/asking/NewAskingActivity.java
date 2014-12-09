@@ -1,17 +1,23 @@
 package com.aumum.app.mobile.ui.asking;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.GridView;
 import android.widget.ScrollView;
+import android.widget.TextView;
 
 import com.aumum.app.mobile.Injector;
 import com.aumum.app.mobile.R;
+import com.aumum.app.mobile.core.Constants;
 import com.aumum.app.mobile.core.dao.UserStore;
 import com.aumum.app.mobile.core.model.Asking;
 import com.aumum.app.mobile.core.model.Message;
@@ -20,10 +26,16 @@ import com.aumum.app.mobile.core.service.MessageDeliveryService;
 import com.aumum.app.mobile.core.service.RestService;
 import com.aumum.app.mobile.ui.base.ProgressDialogActivity;
 import com.aumum.app.mobile.ui.helper.TextWatcherAdapter;
+import com.aumum.app.mobile.ui.image.CustomGallery;
+import com.aumum.app.mobile.ui.image.GalleryAdapter;
+import com.aumum.app.mobile.ui.image.ImagePickerActivity;
 import com.aumum.app.mobile.ui.view.Animation;
 import com.aumum.app.mobile.utils.EditTextUtils;
+import com.aumum.app.mobile.utils.ImageLoaderUtils;
 import com.aumum.app.mobile.utils.SafeAsyncTask;
 import com.github.kevinsawicki.wishlist.Toaster;
+
+import java.util.ArrayList;
 
 import javax.inject.Inject;
 
@@ -39,11 +51,17 @@ public class NewAskingActivity extends ProgressDialogActivity {
 
     private int category;
     private SafeAsyncTask<Boolean> task;
+    GalleryAdapter adapter;
+
     public static final String INTENT_CATEGORY = "category";
 
     private Button submitButton;
     @InjectView(R.id.v_scroll) protected ScrollView scrollView;
     @InjectView(R.id.et_question) protected EditText questionText;
+    @InjectView(R.id.text_add_more) protected TextView addMoreText;
+    @InjectView(R.id.layout_type_selection) protected ViewGroup typeSelectionLayout;
+    @InjectView(R.id.layout_image) protected ViewGroup imageLayout;
+    @InjectView(R.id.grid_gallery) protected GridView gridGallery;
 
     private final TextWatcher watcher = validationTextWatcher();
 
@@ -60,8 +78,23 @@ public class NewAskingActivity extends ProgressDialogActivity {
 
         scrollView.setHorizontalScrollBarEnabled(false);
         scrollView.setVerticalScrollBarEnabled(false);
-
         questionText.addTextChangedListener(watcher);
+        addMoreText.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                toggleTypeSelectionLayout();
+            }
+        });
+        imageLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                final Intent intent = new Intent(NewAskingActivity.this, ImagePickerActivity.class);
+                intent.putExtra(ImagePickerActivity.INTENT_ACTION, ImagePickerActivity.ACTION_MULTIPLE_PICK);
+                startActivityForResult(intent, Constants.RequestCode.IMAGE_PICKER_IMAGE_REQ_CODE);
+            }
+        });
+        adapter = new GalleryAdapter(this, R.layout.image_collection_listitem_inner, ImageLoaderUtils.getInstance());
+        gridGallery.setAdapter(adapter);
 
         Animation.flyIn(this);
     }
@@ -81,6 +114,27 @@ public class NewAskingActivity extends ProgressDialogActivity {
         });
         updateUIWithValidation();
         return true;
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == Constants.RequestCode.IMAGE_PICKER_IMAGE_REQ_CODE) {
+            toggleTypeSelectionLayout();
+            if (resultCode == Activity.RESULT_OK) {
+                String imagePath[] = data.getStringArrayExtra(ImagePickerActivity.INTENT_ALL_PATH);
+                if (imagePath != null) {
+                    ArrayList<CustomGallery> list = new ArrayList<CustomGallery>();
+                    for (String path : imagePath) {
+                        CustomGallery item = new CustomGallery();
+                        item.sdCardPath = path;
+                        list.add(item);
+                    }
+                    adapter.addAll(list);
+                }
+            }
+        }
     }
 
     private TextWatcher validationTextWatcher() {
@@ -149,5 +203,13 @@ public class NewAskingActivity extends ProgressDialogActivity {
             }
         };
         task.execute();
+    }
+
+    private void toggleTypeSelectionLayout() {
+        if (typeSelectionLayout.getVisibility() == View.GONE) {
+            Animation.flyIn(typeSelectionLayout);
+        } else {
+            Animation.flyOut(typeSelectionLayout);
+        }
     }
 }

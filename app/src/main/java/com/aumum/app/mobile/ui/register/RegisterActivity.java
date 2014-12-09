@@ -180,8 +180,9 @@ public class RegisterActivity extends ProgressDialogActivity
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == Constants.RequestCode.IMAGE_PICKER_IMAGE_REQ_CODE &&
             resultCode == Activity.RESULT_OK) {
-            String imageUri = data.getStringExtra(ImagePickerActivity.INTENT_SINGLE_PATH);
-            if (imageUri != null) {
+            String imagePath = data.getStringExtra(ImagePickerActivity.INTENT_SINGLE_PATH);
+            if (imagePath != null) {
+                String imageUri = "file://" + imagePath;
                 startCropImageActivity(imageUri);
             }
         } else if (requestCode == Constants.RequestCode.CROP_PROFILE_IMAGE_REQ_CODE &&

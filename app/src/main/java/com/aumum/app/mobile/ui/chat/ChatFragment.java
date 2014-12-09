@@ -287,7 +287,6 @@ public class ChatFragment extends Fragment
 
     private void sendImage(String imagePath) {
         if (imagePath != null) {
-            imagePath = imagePath.replace("file://", "");
             chatService.addImageMessage(id, type == ChatActivity.TYPE_GROUP, imagePath);
             adapter.notifyDataSetChanged();
         }

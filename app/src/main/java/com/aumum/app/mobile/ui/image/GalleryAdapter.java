@@ -24,10 +24,12 @@ public class GalleryAdapter extends BaseAdapter {
     ImageLoader imageLoader;
 
     private boolean isActionMultiplePick;
+    private int itemLayoutResId;
 
-    public GalleryAdapter(Context context, ImageLoader imageLoader) {
+    public GalleryAdapter(Context context, int itemLayoutResId, ImageLoader imageLoader) {
         inflater = (LayoutInflater) context
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        this.itemLayoutResId = itemLayoutResId;
         this.imageLoader = imageLoader;
     }
 
@@ -128,7 +130,7 @@ public class GalleryAdapter extends BaseAdapter {
         final ViewHolder holder;
         if (convertView == null) {
 
-            convertView = inflater.inflate(R.layout.gallery_listitem_inner, null);
+            convertView = inflater.inflate(itemLayoutResId, null);
             holder = new ViewHolder();
             holder.imgQueue = (ImageView) convertView.findViewById(R.id.image_queue);
             holder.imgQueueMultiSelected = (ImageView) convertView
