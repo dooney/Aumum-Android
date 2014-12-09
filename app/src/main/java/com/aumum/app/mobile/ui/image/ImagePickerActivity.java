@@ -2,9 +2,7 @@ package com.aumum.app.mobile.ui.image;
 
 import android.content.Intent;
 import android.database.Cursor;
-import android.graphics.Bitmap;
 import android.os.Bundle;
-import android.os.Environment;
 import android.os.Handler;
 import android.os.Looper;
 import android.provider.MediaStore;
@@ -18,17 +16,11 @@ import android.widget.GridView;
 import android.widget.ImageView;
 
 import com.aumum.app.mobile.R;
+import com.aumum.app.mobile.utils.ImageLoaderUtils;
 import com.aumum.app.mobile.utils.Ln;
-import com.nostra13.universalimageloader.cache.disc.impl.UnlimitedDiscCache;
-import com.nostra13.universalimageloader.cache.memory.impl.WeakMemoryCache;
-import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
-import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
-import com.nostra13.universalimageloader.core.assist.ImageScaleType;
 import com.nostra13.universalimageloader.core.listener.PauseOnScrollListener;
-import com.nostra13.universalimageloader.utils.StorageUtils;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.Collections;
 
@@ -86,31 +78,7 @@ public class ImagePickerActivity extends ActionBarActivity {
     }
 
     private void initImageLoader() {
-        try {
-            imageLoader = ImageLoader.getInstance();
-            if (!imageLoader.isInited()) {
-                String CACHE_DIR = Environment.getExternalStorageDirectory()
-                        .getAbsolutePath() + "/.temp_tmp";
-                new File(CACHE_DIR).mkdirs();
-
-                File cacheDir = StorageUtils.getOwnCacheDirectory(getBaseContext(),
-                        CACHE_DIR);
-
-                DisplayImageOptions defaultOptions = new DisplayImageOptions.Builder()
-                        .cacheOnDisk(true).imageScaleType(ImageScaleType.EXACTLY)
-                        .bitmapConfig(Bitmap.Config.RGB_565).build();
-                ImageLoaderConfiguration.Builder builder = new ImageLoaderConfiguration.Builder(
-                        getBaseContext())
-                        .defaultDisplayImageOptions(defaultOptions)
-                        .diskCache(new UnlimitedDiscCache(cacheDir))
-                        .memoryCache(new WeakMemoryCache());
-
-                ImageLoaderConfiguration config = builder.build();
-                imageLoader.init(config);
-            }
-        } catch (Exception e) {
-            Ln.e(e);
-        }
+        imageLoader = ImageLoaderUtils.getInstance();
     }
 
     private void init() {

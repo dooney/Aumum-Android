@@ -26,9 +26,11 @@
             android:layout_gravity="center_vertical"
             android:visibility="invisible"/>
 
-        <ImageView
-            android:id="@+id/image_sent"
-            style="@style/ImageView.ChatMessage.SentImage"
+        <com.makeramen.RoundedImageView
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            android:id="@+id/image_body"
+            style="@style/ImageView.ChatMessage.Image"
+            app:riv_corner_radius="5dp"
             android:src="@drawable/image_placeholder"/>
 
         <com.aumum.app.mobile.ui.view.AvatarImageView

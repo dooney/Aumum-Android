@@ -15,11 +15,11 @@ import com.easemob.chat.ImageMessageBody;
  */
 public class ImageMessageCard extends ChatMessageCard {
 
-    private ImageView sentImage;
+    private ImageView image;
 
     public ImageMessageCard(Activity activity, View view) {
         super(activity, view);
-        this.sentImage = (ImageView) view.findViewById(R.id.image_sent);
+        this.image = (ImageView) view.findViewById(R.id.image_body);
     }
 
     @Override
@@ -33,7 +33,7 @@ public class ImageMessageCard extends ChatMessageCard {
         } else {
             imagePath = "file:/" + imageBody.getLocalUrl();
         }
-        ImageLoaderUtils.displayImage(imagePath, sentImage);
+        ImageLoaderUtils.displayImage(imagePath, image);
 
         super.refresh(conversation, position);
     }

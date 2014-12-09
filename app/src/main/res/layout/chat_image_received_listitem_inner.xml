@@ -22,12 +22,14 @@
         <com.aumum.app.mobile.ui.view.AvatarImageView
             android:id="@+id/image_avatar"
             style="@style/ImageView.Avatar"
-            android:layout_marginLeft="@dimen/margin_medium"
+            android:layout_marginRight="@dimen/margin_medium"
             android:src="@drawable/ic_avatar"/>
 
-        <ImageView
-            android:id="@+id/image_sent"
-            style="@style/ImageView.ChatMessage.ReceivedImage"
+        <com.makeramen.RoundedImageView
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            android:id="@+id/image_body"
+            style="@style/ImageView.ChatMessage.Image"
+            app:riv_corner_radius="5dp"
             android:src="@drawable/image_placeholder"/>
 
         <ProgressBar

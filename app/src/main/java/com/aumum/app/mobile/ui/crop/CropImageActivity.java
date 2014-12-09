@@ -12,7 +12,6 @@ import com.aumum.app.mobile.ui.base.ProgressDialogActivity;
 import com.aumum.app.mobile.utils.ImageLoaderUtils;
 import com.aumum.app.mobile.utils.ImageUtils;
 import com.aumum.app.mobile.utils.Ln;
-import com.github.kevinsawicki.wishlist.Toaster;
 
 import java.io.File;
 
@@ -33,30 +32,7 @@ public class CropImageActivity extends ProgressDialogActivity {
 
         String imageUri = getIntent().getStringExtra(INTENT_IMAGE_URI);
         cropImage = (CropImageView) findViewById(R.id.image_crop);
-        ImageLoaderUtils.displayImage(imageUri, cropImage,
-                new ImageLoaderUtils.ImageLoadingListener() {
-            @Override
-            public void onLoadingStarted() {
-                progress.setMessageId(R.string.info_loading_image);
-                showProgress();
-            }
-
-            @Override
-            public void onLoadingFailed() {
-                hideProgress();
-                Toaster.showShort(CropImageActivity.this, R.string.error_load_image);
-            }
-
-            @Override
-            public void onLoadingComplete() {
-                hideProgress();
-            }
-
-            @Override
-            public void onLoadingCancelled() {
-                hideProgress();
-            }
-        });
+        ImageLoaderUtils.displayImage(imageUri, cropImage);
     }
 
     @Override

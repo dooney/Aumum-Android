@@ -40,9 +40,11 @@
             android:layout_below="@+id/text_user_name"
             android:gravity="center_vertical">
 
-            <ImageView
-                android:id="@+id/image_sent"
-                style="@style/ImageView.ChatMessage.ReceivedImage"
+            <com.makeramen.RoundedImageView
+                xmlns:app="http://schemas.android.com/apk/res-auto"
+                android:id="@+id/image_body"
+                style="@style/ImageView.ChatMessage.Image"
+                app:riv_corner_radius="5dp"
                 android:src="@drawable/image_placeholder"/>
 
             <ProgressBar

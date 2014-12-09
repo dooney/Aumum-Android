@@ -54,7 +54,6 @@
     <string name="info_processing_registration">正在处理您的注册信息，请稍候</string>
     <string name="info_submitting_password_reset">正在提交您的重置密码请求，请稍候</string>
     <string name="info_submitting_party">正在提交您的聚会，请稍候</string>
-    <string name="info_loading_image">正在加载图片，请稍候</string>
     <string name="info_uploading_profile_image">正在上传头像图片，请稍候</string>
     <string name="info_party_deleted">该聚会已成功删除</string>
     <string name="info_comment_deleted">该评论已成功删除</string>
@@ -97,7 +96,6 @@
     <string name="error_accept_contact">同意添加好友失败</string>
     <string name="error_load_party_details">获取聚会详情失败</string>
     <string name="error_delete_contact">移除好友失败</string>
-    <string name="error_load_image">获取图片失败</string>
     <string name="error_load_contacts">获取好友列表失败</string>
     <string name="error_load_my_groups">获取圈子列表失败</string>
     <string name="error_load_profile">获取个人信息失败</string>
