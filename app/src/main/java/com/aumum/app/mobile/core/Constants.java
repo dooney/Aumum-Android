@@ -114,7 +114,6 @@ public final class Constants {
         public static final String PARAM_EMAIL = "email";
         public static final String PARAM_SCREEN_NAME = "screenName";
         public static final String PARAM_AREA = "area";
-        public static final String PARAM_AVATAR_URL = "avatarUrl";
 
         public static final String PARSE_APP_ID = "1CWTxIB11kQiHz7QAY1hZzA1PstlJ2TQuAmZ8Nc6";
         public static final String PARSE_CLIENT_KEY = "Cxo0Yu68VFoZSDyHVl43qMTfYb23AG9uBrbOqgFk";

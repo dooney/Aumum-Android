@@ -3,8 +3,6 @@ package com.aumum.app.mobile.ui.user;
 import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -18,18 +16,15 @@ import com.aumum.app.mobile.R;
 import com.aumum.app.mobile.core.Constants;
 import com.aumum.app.mobile.core.dao.UserStore;
 import com.aumum.app.mobile.core.model.User;
-import com.aumum.app.mobile.core.service.FileUploadService;
 import com.aumum.app.mobile.core.service.RestService;
 import com.aumum.app.mobile.ui.asking.SearchAskingActivity;
 import com.aumum.app.mobile.ui.base.LoaderFragment;
-import com.aumum.app.mobile.ui.base.ProgressListener;
 import com.aumum.app.mobile.ui.crop.CropImageActivity;
 import com.aumum.app.mobile.ui.image.ImagePickerActivity;
 import com.aumum.app.mobile.ui.party.SearchPartyActivity;
 import com.aumum.app.mobile.ui.settings.SettingsActivity;
 import com.aumum.app.mobile.ui.view.AvatarImageView;
 import com.aumum.app.mobile.utils.DialogUtils;
-import com.aumum.app.mobile.utils.ImageUtils;
 import com.aumum.app.mobile.utils.Ln;
 import com.aumum.app.mobile.utils.SafeAsyncTask;
 import com.github.kevinsawicki.wishlist.Toaster;
@@ -42,19 +37,13 @@ import retrofit.RetrofitError;
  * A simple {@link Fragment} subclass.
  *
  */
-public class ProfileFragment extends LoaderFragment<User>
-        implements FileUploadService.OnFileUploadListener {
+public class ProfileFragment extends LoaderFragment<User> {
 
     @Inject RestService restService;
     @Inject UserStore userStore;
 
     private User currentUser;
-
-    private Bitmap avatarBitmap;
-    private byte[] avatarData;
     private SafeAsyncTask<Boolean> task;
-    private FileUploadService fileUploadService;
-    private ProgressListener progressListener;
 
     private ScrollView scrollView;
     private View mainView;
@@ -71,12 +60,6 @@ public class ProfileFragment extends LoaderFragment<User>
     public void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Injector.inject(this);
-
-        fileUploadService = new FileUploadService();
-        fileUploadService.setOnFileUploadListener(this);
-
-        progressListener = (ProgressListener) getActivity();
-        progressListener.setMessage(R.string.info_uploading_profile_image);
     }
 
     @Override
@@ -131,38 +114,10 @@ public class ProfileFragment extends LoaderFragment<User>
             }
         } else if (requestCode == Constants.RequestCode.CROP_PROFILE_IMAGE_REQ_CODE &&
                    resultCode == Activity.RESULT_OK) {
-            String avatarImagePath = data.getStringExtra(CropImageActivity.INTENT_BITMAP);
-            avatarBitmap = BitmapFactory.decodeFile(avatarImagePath);
-
-            task = new SafeAsyncTask<Boolean>() {
-                public Boolean call() throws Exception {
-                    avatarData = ImageUtils.getBytesBitmap(avatarBitmap);
-                    return true;
-                }
-
-                @Override
-                protected void onException(final Exception e) throws RuntimeException {
-                    if(!(e instanceof RetrofitError)) {
-                        final Throwable cause = e.getCause() != null ? e.getCause() : e;
-                        if(cause != null) {
-                            Toaster.showShort(getActivity(), cause.getMessage());
-                        }
-                    }
-                }
-
-                @Override
-                public void onSuccess(final Boolean authSuccess) {
-                    progressListener.showProgress();
-                    String fileName = currentUser.getObjectId() + ".jpg";
-                    fileUploadService.upload(fileName, avatarData);
-                }
-
-                @Override
-                protected void onFinally() throws RuntimeException {
-                    task = null;
-                }
-            };
-            task.execute();
+            String imageUrl = data.getStringExtra(CropImageActivity.INTENT_IMAGE_URL);
+            if (imageUrl != null) {
+                updateAvatar(imageUrl);
+            }
         }
     }
 
@@ -254,8 +209,9 @@ public class ProfileFragment extends LoaderFragment<User>
         startActivityForResult(intent, Constants.RequestCode.CROP_PROFILE_IMAGE_REQ_CODE);
     }
 
-    @Override
-    public void onUploadSuccess(final String fileUrl) {
+    private void updateAvatar(final String fileUrl) {
+        avatarImage.getFromUrl(fileUrl);
+
         task = new SafeAsyncTask<Boolean>() {
             public Boolean call() throws Exception {
                 restService.updateUserAvatar(currentUser.getObjectId(), fileUrl);
@@ -275,24 +231,11 @@ public class ProfileFragment extends LoaderFragment<User>
             }
 
             @Override
-            public void onSuccess(final Boolean authSuccess) {
-                avatarImage.setImageBitmap(avatarBitmap);
-            }
-
-            @Override
             protected void onFinally() throws RuntimeException {
-                progressListener.hideProgress();
                 task = null;
             }
         };
         task.execute();
-    }
-
-    @Override
-    public void onUploadFailure(Exception e) {
-        progressListener.hideProgress();
-        Toaster.showShort(getActivity(), R.string.error_upload_profile_image);
-        Ln.d(e);
     }
 
     private void startMyPartiesActivity(User user) {

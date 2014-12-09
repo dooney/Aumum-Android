@@ -3,127 +3,119 @@ package com.aumum.app.mobile.utils;
 /**
  * Created by Administrator on 17/10/2014.
  */
-import android.app.Activity;
-import android.content.Context;
 import android.graphics.Bitmap;
-import android.graphics.Canvas;
-import android.graphics.Paint;
-import android.graphics.Rect;
-import android.util.DisplayMetrics;
-import android.util.TypedValue;
+import android.graphics.BitmapFactory;
 
 import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.FileOutputStream;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.io.OutputStream;
 
 public class ImageUtils {
 
-    private static final String TEMP_FILE_NAME = "temp.jpg";
-
-    private static final int ZERO_INT_VALUE = 0;
-
-    private static final int ATTACH_WIDTH = 200;
-    private static final int ATTACH_HEIGHT = 200;
-
-    private static final int FULL_QUALITY = 100;
-
-    private static void closeOutputStream(OutputStream outputStream) {
-        if (outputStream != null) {
-            try {
-                outputStream.close();
-            } catch (IOException e) {
-                Ln.d(e);
-            }
-        }
-    }
-
-    private static int dipToPixels(Context context, float dipValue) {
-        DisplayMetrics metrics = context.getResources().getDisplayMetrics();
-        return (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dipValue, metrics);
-    }
-
-    public static byte[] getBytesBitmap(Bitmap imageBitmap) {
+    public static byte[] getBytesBitmap(Bitmap bitmap) {
         ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-        if (imageBitmap != null) {
-            imageBitmap.compress(Bitmap.CompressFormat.JPEG, FULL_QUALITY, byteArrayOutputStream);
+        if (bitmap != null) {
+            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, byteArrayOutputStream);
             byte[] byteArray = byteArrayOutputStream.toByteArray();
-            closeOutputStream(byteArrayOutputStream);
+            if (byteArrayOutputStream != null) {
+                try {
+                    byteArrayOutputStream.close();
+                } catch (IOException e) {
+                    Ln.d(e);
+                }
+            }
             return byteArray;
         }
         return null;
     }
 
-    private static Bitmap createScaledBitmap(Bitmap unscaledBitmap, int dstWidth, int dstHeight,
-                                      ScalingLogic scalingLogic) {
-        Rect srcRect = calculateSrcRect(unscaledBitmap.getWidth(), unscaledBitmap.getHeight(), dstWidth,
-                dstHeight, scalingLogic);
-        Rect dstRect = calculateDstRect(unscaledBitmap.getWidth(), unscaledBitmap.getHeight(), dstWidth,
-                dstHeight, scalingLogic);
-        Bitmap scaledBitmap = Bitmap.createBitmap(dstRect.width(), dstRect.height(), Bitmap.Config.ARGB_8888);
-        Canvas canvas = new Canvas(scaledBitmap);
-        canvas.drawBitmap(unscaledBitmap, srcRect, dstRect, new Paint(Paint.FILTER_BITMAP_FLAG));
-        return scaledBitmap;
+    public static byte[] decodeBitmap(String path) {
+        BitmapFactory.Options opts = new BitmapFactory.Options();
+        opts.inJustDecodeBounds = true;
+        BitmapFactory.decodeFile(path, opts);
+        opts.inSampleSize = computeSampleSize(opts, -1, 1024 * 800);
+        opts.inJustDecodeBounds = false;
+        opts.inPurgeable = true;
+        opts.inInputShareable = true;
+        opts.inDither = false;
+        opts.inPurgeable = true;
+        opts.inTempStorage = new byte[16 * 1024];
+        FileInputStream is = null;
+        Bitmap bmp = null;
+        ByteArrayOutputStream baos = null;
+        try {
+            is = new FileInputStream(path);
+            bmp = BitmapFactory.decodeFileDescriptor(is.getFD(), null, opts);
+            double scale = getScaling(opts.outWidth * opts.outHeight,
+                    1024 * 600);
+            Bitmap bmp2 = Bitmap.createScaledBitmap(bmp,
+                    (int) (opts.outWidth * scale),
+                    (int) (opts.outHeight * scale), true);
+            bmp.recycle();
+            baos = new ByteArrayOutputStream();
+            bmp2.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+            bmp2.recycle();
+            return baos.toByteArray();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                is.close();
+                baos.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            System.gc();
+        }
+        return baos.toByteArray();
     }
 
-    private static Rect calculateSrcRect(int srcWidth, int srcHeight, int dstWidth, int dstHeight,
-                                  ScalingLogic scalingLogic) {
-        if (scalingLogic == ScalingLogic.CROP) {
-            final float srcAspect = (float) srcWidth / (float) srcHeight;
-            final float dstAspect = (float) dstWidth / (float) dstHeight;
+    private static double getScaling(int src, int des) {
+        double scale = Math.sqrt((double) des / (double) src);
+        return scale;
+    }
 
-            if (srcAspect > dstAspect) {
-                final int srcRectWidth = (int) (srcHeight * dstAspect);
-                final int srcRectLeft = (srcWidth - srcRectWidth) / 2;
-                return new Rect(srcRectLeft, ZERO_INT_VALUE, srcRectLeft + srcRectWidth, srcHeight);
-            } else {
-                final int srcRectHeight = (int) (srcWidth / dstAspect);
-                final int scrRectTop = (int) (srcHeight - srcRectHeight) / 2;
-                return new Rect(ZERO_INT_VALUE, scrRectTop, srcWidth, scrRectTop + srcRectHeight);
+    private static int computeSampleSize(BitmapFactory.Options options,
+                                         int minSideLength, int maxNumOfPixels) {
+        int initialSize = computeInitialSampleSize(options, minSideLength,
+                maxNumOfPixels);
+
+        int roundedSize;
+        if (initialSize <= 8) {
+            roundedSize = 1;
+            while (roundedSize < initialSize) {
+                roundedSize <<= 1;
             }
         } else {
-            return new Rect(ZERO_INT_VALUE, ZERO_INT_VALUE, srcWidth, srcHeight);
+            roundedSize = (initialSize + 7) / 8 * 8;
         }
+
+        return roundedSize;
     }
 
-    private static Rect calculateDstRect(int srcWidth, int srcHeight, int dstWidth, int dstHeight,
-                                 ScalingLogic scalingLogic) {
-        if (scalingLogic == ScalingLogic.FIT) {
-            final float srcAspect = (float) srcWidth / (float) srcHeight;
-            final float dstAspect = (float) dstWidth / (float) dstHeight;
+    private static int computeInitialSampleSize(BitmapFactory.Options options,
+                                                int minSideLength, int maxNumOfPixels) {
+        double w = options.outWidth;
+        double h = options.outHeight;
 
-            if (srcAspect > dstAspect) {
-                return new Rect(ZERO_INT_VALUE, ZERO_INT_VALUE, dstWidth,
-                        (int) (dstWidth / srcAspect));
-            } else {
-                return new Rect(ZERO_INT_VALUE, ZERO_INT_VALUE, (int) (dstHeight * srcAspect),
-                        dstHeight);
-            }
+        int lowerBound = (maxNumOfPixels == -1) ? 1 : (int) Math.ceil(Math
+                .sqrt(w * h / maxNumOfPixels));
+        int upperBound = (minSideLength == -1) ? 128 : (int) Math.min(
+                Math.floor(w / minSideLength), Math.floor(h / minSideLength));
+
+        if (upperBound < lowerBound) {
+            return lowerBound;
+        }
+
+        if ((maxNumOfPixels == -1) && (minSideLength == -1)) {
+            return 1;
+        } else if (minSideLength == -1) {
+            return lowerBound;
         } else {
-            return new Rect(ZERO_INT_VALUE, ZERO_INT_VALUE, dstWidth, dstHeight);
+            return upperBound;
         }
-    }
-
-    public static File getFileFromBitmap(Activity activity, Bitmap origBitmap) throws IOException {
-        int width = dipToPixels(activity, ATTACH_WIDTH);
-        int height = dipToPixels(activity, ATTACH_HEIGHT);
-        Bitmap bitmap = createScaledBitmap(origBitmap, width, height, ScalingLogic.FIT);
-        byte[] bitmapData = getBytesBitmap(bitmap);
-        File tempFile = createFile(activity, bitmapData);
-        return tempFile;
-    }
-
-    private static File createFile(Activity activity, byte[] bitmapData) throws IOException {
-        File tempFile = new File(activity.getCacheDir(), TEMP_FILE_NAME);
-        tempFile.createNewFile();
-        FileOutputStream fileOutputStream = new FileOutputStream(tempFile);
-        fileOutputStream.write(bitmapData);
-        closeOutputStream(fileOutputStream);
-        return tempFile;
-    }
-
-    private enum ScalingLogic {
-        CROP, FIT
     }
 }

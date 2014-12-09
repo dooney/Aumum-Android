@@ -31,24 +31,6 @@
         android:id="@+id/b_area"
         style="@style/ButtonTextView.Account.Area" />
 
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="@dimen/margin_large">
-
-        <TextView
-            android:id="@+id/t_avatar"
-            style="@style/ButtonTextView.Account.Avatar"
-            android:layout_centerVertical="true"/>
-
-        <com.aumum.app.mobile.ui.view.AvatarImageView
-            android:id="@+id/image_avatar"
-            style="@style/ImageView.Avatar.Large"
-            android:src="@drawable/ic_avatar"
-            android:layout_toRightOf="@+id/t_avatar" />
-
-    </RelativeLayout>
-
     <Button
         android:id="@+id/b_sign_up"
         style="@style/Button.Account.SignUp" />

@@ -19,15 +19,18 @@ public class Asking extends AggregateRoot {
     private String question;
     private List<String> replies = new ArrayList<String>();
     private List<String> favorites = new ArrayList<String>();
+    private List<String> images = new ArrayList<String>();
 
     private User user;
 
     public Asking(String userId,
                   int category,
-                  String question) {
+                  String question,
+                  List<String> images) {
         this.userId = userId;
         this.category = category;
         this.question = question;
+        this.images = images;
     }
 
     public Asking(String objectId,
@@ -37,7 +40,8 @@ public class Asking extends AggregateRoot {
                   int category,
                   String question,
                   List<String> replies,
-                  List<String> favorites) {
+                  List<String> favorites,
+                  List<String> images) {
         this.objectId = objectId;
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
@@ -48,6 +52,8 @@ public class Asking extends AggregateRoot {
         this.replies.addAll(replies);
         this.favorites.clear();
         this.favorites.addAll(favorites);
+        this.images.clear();
+        this.images.addAll(images);
     }
 
     public String getUpdatedAt() {
@@ -72,6 +78,10 @@ public class Asking extends AggregateRoot {
 
     public List<String> getFavorites() {
         return favorites;
+    }
+
+    public List<String> getImages() {
+        return images;
     }
 
     public User getUser() {

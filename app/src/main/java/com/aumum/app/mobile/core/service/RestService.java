@@ -108,14 +108,13 @@ public class RestService {
         return ltJson;
     }
 
-    public User register(String email, String password, String screenName, int area, String avatarUrl) {
+    public User register(String email, String password, String screenName, int area) {
         final JsonObject data = new JsonObject();
         data.addProperty(Constants.Http.PARAM_USERNAME, email);
         data.addProperty(Constants.Http.PARAM_PASSWORD, password);
         data.addProperty(Constants.Http.PARAM_EMAIL, email);
         data.addProperty(Constants.Http.PARAM_SCREEN_NAME, screenName);
         data.addProperty(Constants.Http.PARAM_AREA, area);
-        data.addProperty(Constants.Http.PARAM_AVATAR_URL, avatarUrl);
         return getUserService().register(data);
     }
     

@@ -22,6 +22,7 @@ import com.aumum.app.mobile.core.dao.UserStore;
 import com.aumum.app.mobile.core.model.Asking;
 import com.aumum.app.mobile.core.model.Message;
 import com.aumum.app.mobile.core.model.User;
+import com.aumum.app.mobile.core.service.FileUploadService;
 import com.aumum.app.mobile.core.service.MessageDeliveryService;
 import com.aumum.app.mobile.core.service.RestService;
 import com.aumum.app.mobile.ui.base.ProgressDialogActivity;
@@ -32,6 +33,7 @@ import com.aumum.app.mobile.ui.image.ImagePickerActivity;
 import com.aumum.app.mobile.ui.view.Animation;
 import com.aumum.app.mobile.utils.EditTextUtils;
 import com.aumum.app.mobile.utils.ImageLoaderUtils;
+import com.aumum.app.mobile.utils.ImageUtils;
 import com.aumum.app.mobile.utils.SafeAsyncTask;
 import com.github.kevinsawicki.wishlist.Toaster;
 
@@ -43,7 +45,8 @@ import butterknife.ButterKnife;
 import butterknife.InjectView;
 import retrofit.RetrofitError;
 
-public class NewAskingActivity extends ProgressDialogActivity {
+public class NewAskingActivity extends ProgressDialogActivity
+        implements FileUploadService.OnFileUploadListener {
 
     @Inject UserStore userStore;
     @Inject RestService restService;
@@ -52,6 +55,9 @@ public class NewAskingActivity extends ProgressDialogActivity {
     private int category;
     private SafeAsyncTask<Boolean> task;
     GalleryAdapter adapter;
+    String imagePathList[];
+    ArrayList<String> imageUrlList;
+    private FileUploadService fileUploadService;
 
     public static final String INTENT_CATEGORY = "category";
 
@@ -71,6 +77,10 @@ public class NewAskingActivity extends ProgressDialogActivity {
         Injector.inject(this);
         setContentView(R.layout.activity_new_asking);
         ButterKnife.inject(this);
+
+        imageUrlList = new ArrayList<String>();
+        fileUploadService = new FileUploadService();
+        fileUploadService.setOnFileUploadListener(this);
 
         category = getIntent().getIntExtra(INTENT_CATEGORY, 0);
 
@@ -109,7 +119,7 @@ public class NewAskingActivity extends ProgressDialogActivity {
         submitButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                submitNewAsking();
+                submit();
             }
         });
         updateUIWithValidation();
@@ -123,10 +133,10 @@ public class NewAskingActivity extends ProgressDialogActivity {
         if (requestCode == Constants.RequestCode.IMAGE_PICKER_IMAGE_REQ_CODE) {
             toggleTypeSelectionLayout();
             if (resultCode == Activity.RESULT_OK) {
-                String imagePath[] = data.getStringArrayExtra(ImagePickerActivity.INTENT_ALL_PATH);
-                if (imagePath != null) {
+                imagePathList = data.getStringArrayExtra(ImagePickerActivity.INTENT_ALL_PATH);
+                if (imagePathList != null) {
                     ArrayList<CustomGallery> list = new ArrayList<CustomGallery>();
-                    for (String path : imagePath) {
+                    for (String path : imagePathList) {
                         CustomGallery item = new CustomGallery();
                         item.sdCardPath = path;
                         list.add(item);
@@ -154,17 +164,50 @@ public class NewAskingActivity extends ProgressDialogActivity {
         return editText.length() > 0;
     }
 
-    private void submitNewAsking() {
+    private void submit() {
         EditTextUtils.hideSoftInput(questionText);
 
         showProgress();
 
+        imageUrlList.clear();
+        for (String path : imagePathList) {
+            uploadImage(path);
+        }
+    }
+
+    private void uploadImage(final String imagePath) {
+        SafeAsyncTask<Boolean> uploadTask = new SafeAsyncTask<Boolean>() {
+            public Boolean call() throws Exception {
+                byte avatarData[] = ImageUtils.decodeBitmap(imagePath);
+                String fileName = Math.abs(imagePath.hashCode()) + ".jpg";
+                fileUploadService.upload(fileName, avatarData);
+
+                return true;
+            }
+
+            @Override
+            protected void onException(final Exception e) throws RuntimeException {
+                if(!(e instanceof RetrofitError)) {
+                    final Throwable cause = e.getCause() != null ? e.getCause() : e;
+                    if(cause != null) {
+                        Toaster.showShort(NewAskingActivity.this, cause.getMessage());
+                    }
+                }
+                hideProgress();
+            }
+        };
+        uploadTask.execute();
+    }
+
+    private void submitNewAsking() {
         task = new SafeAsyncTask<Boolean>() {
             public Boolean call() throws Exception {
                 User user = userStore.getCurrentUser();
-                Asking asking = new Asking(user.getObjectId(),
-                                           category,
-                                           questionText.getEditableText().toString());
+                Asking asking = new Asking(
+                        user.getObjectId(),
+                        category,
+                        questionText.getEditableText().toString(),
+                        imageUrlList);
                 Asking response = restService.newAsking(asking);
                 restService.addUserAsking(user.getObjectId(), response.getObjectId());
                 for (String userId: user.getContacts()) {
@@ -211,5 +254,19 @@ public class NewAskingActivity extends ProgressDialogActivity {
         } else {
             Animation.flyOut(typeSelectionLayout);
         }
+    }
+
+    @Override
+    public void onUploadSuccess(String fileUrl) {
+        imageUrlList.add(fileUrl);
+        if (imageUrlList.size() == imagePathList.length) {
+            submitNewAsking();
+        }
+    }
+
+    @Override
+    public void onUploadFailure(Exception e) {
+        hideProgress();
+        Toaster.showShort(NewAskingActivity.this, R.string.error_submit_new_asking);
     }
 }

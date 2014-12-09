@@ -5,7 +5,7 @@ import android.graphics.Bitmap;
 import android.widget.ImageView;
 
 import com.nostra13.universalimageloader.cache.disc.naming.HashCodeFileNameGenerator;
-import com.nostra13.universalimageloader.cache.memory.impl.WeakMemoryCache;
+import com.nostra13.universalimageloader.cache.memory.impl.LruMemoryCache;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
@@ -18,6 +18,7 @@ public class ImageLoaderUtils {
 
     public static void init(Context context) {
         DisplayImageOptions defaultOptions = new DisplayImageOptions.Builder()
+                .considerExifParams(true)
                 .imageScaleType(ImageScaleType.EXACTLY)
                 .bitmapConfig(Bitmap.Config.RGB_565)
                 .cacheOnDisk(true)
@@ -25,8 +26,11 @@ public class ImageLoaderUtils {
                 .build();
         ImageLoaderConfiguration config = new ImageLoaderConfiguration.Builder(context)
                 .defaultDisplayImageOptions(defaultOptions)
+                .memoryCacheExtraOptions(480, 800)
+                .diskCacheExtraOptions(480, 800, null)
+                .memoryCache(new LruMemoryCache(2 * 1024 * 1024))
+                .diskCacheSize(50 * 1024 * 1024)
                 .diskCacheFileNameGenerator(new HashCodeFileNameGenerator())
-                .memoryCache(new WeakMemoryCache())
                 .build();
         ImageLoader.getInstance().init(config);
     }

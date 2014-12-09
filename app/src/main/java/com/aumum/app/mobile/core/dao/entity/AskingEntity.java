@@ -12,6 +12,7 @@ public class AskingEntity extends BaseEntity  {
     private String question;
     private String replies;
     private String favorites;
+    private String images;
 
     public AskingEntity() {
     }
@@ -27,7 +28,8 @@ public class AskingEntity extends BaseEntity  {
                         Integer category,
                         String question,
                         String replies,
-                        String favorites) {
+                        String favorites,
+                        String images) {
         this.objectId = objectId;
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
@@ -36,6 +38,7 @@ public class AskingEntity extends BaseEntity  {
         this.question = question;
         this.replies = replies;
         this.favorites = favorites;
+        this.images = images;
     }
 
     public java.util.Date getUpdatedAt() {
@@ -84,5 +87,13 @@ public class AskingEntity extends BaseEntity  {
 
     public void setFavorites(String favorites) {
         this.favorites = favorites;
+    }
+
+    public String getImages() {
+        return images;
+    }
+
+    public void setImages(String images) {
+        this.images = images;
     }
 }

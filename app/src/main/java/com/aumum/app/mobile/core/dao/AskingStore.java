@@ -57,7 +57,8 @@ public class AskingStore {
                 askingEntity.getCategory(),
                 askingEntity.getQuestion(),
                 getList(askingEntity.getReplies()),
-                getList(askingEntity.getFavorites()));
+                getList(askingEntity.getFavorites()),
+                getList(askingEntity.getImages()));
     }
 
     private AskingEntity map(Asking asking) throws Exception {
@@ -71,7 +72,8 @@ public class AskingStore {
                 asking.getCategory(),
                 asking.getQuestion(),
                 gson.toJson(asking.getReplies()),
-                gson.toJson(asking.getFavorites()));
+                gson.toJson(asking.getFavorites()),
+                gson.toJson(asking.getImages()));
     }
 
     private void updateOrInsert(List<Asking> askingList) throws Exception {
