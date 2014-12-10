@@ -16,6 +16,7 @@ import com.aumum.app.mobile.R;
 import com.aumum.app.mobile.core.dao.MessageStore;
 import com.aumum.app.mobile.core.dao.PartyStore;
 import com.aumum.app.mobile.core.dao.UserStore;
+import com.aumum.app.mobile.core.infra.security.ApiKeyProvider;
 import com.aumum.app.mobile.core.model.Message;
 import com.aumum.app.mobile.core.model.Party;
 import com.aumum.app.mobile.core.model.User;
@@ -26,6 +27,7 @@ import com.aumum.app.mobile.ui.contact.GroupListener;
 import com.aumum.app.mobile.ui.contact.ContactListener;
 import com.aumum.app.mobile.utils.Ln;
 import com.aumum.app.mobile.utils.SafeAsyncTask;
+import com.aumum.app.mobile.utils.UpYunUtils;
 import com.viewpagerindicator.TabPageIndicator;
 
 import java.util.List;
@@ -47,6 +49,7 @@ public class MainFragment extends Fragment
     @Inject PartyStore partyStore;
     @Inject NotificationService notificationService;
     @Inject ChatService chatService;
+    @Inject ApiKeyProvider apiKeyProvider;
 
     private ScheduleService scheduleService;
     private SafeAsyncTask<Boolean> task;
@@ -77,6 +80,11 @@ public class MainFragment extends Fragment
         chatService.setContactListener(new ContactListener());
         chatService.setGroupChangeListener(new GroupListener());
         chatService.setAppInitialized();
+        String currentUserId = apiKeyProvider.getAuthUserId();
+        String password = apiKeyProvider.getAuthPassword();
+        String chatId = currentUserId.toLowerCase();
+        chatService.authenticate(chatId, password);
+        UpYunUtils.setCurrentDir(currentUserId);
 
         scheduleService = new ScheduleService(this);
 

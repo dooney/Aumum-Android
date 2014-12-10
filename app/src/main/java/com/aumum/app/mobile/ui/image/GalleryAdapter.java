@@ -54,7 +54,7 @@ public class GalleryAdapter extends BaseAdapter {
 
     public void selectAll(boolean selection) {
         for (int i = 0; i < data.size(); i++) {
-            data.get(i).isSeleted = selection;
+            data.get(i).isSelected = selection;
 
         }
         notifyDataSetChanged();
@@ -64,7 +64,7 @@ public class GalleryAdapter extends BaseAdapter {
         boolean isAllSelected = true;
 
         for (int i = 0; i < data.size(); i++) {
-            if (!data.get(i).isSeleted) {
+            if (!data.get(i).isSelected) {
                 isAllSelected = false;
                 break;
             }
@@ -77,7 +77,7 @@ public class GalleryAdapter extends BaseAdapter {
         boolean isAnySelected = false;
 
         for (int i = 0; i < data.size(); i++) {
-            if (data.get(i).isSeleted) {
+            if (data.get(i).isSelected) {
                 isAnySelected = true;
                 break;
             }
@@ -90,7 +90,7 @@ public class GalleryAdapter extends BaseAdapter {
         ArrayList<CustomGallery> dataT = new ArrayList<CustomGallery>();
 
         for (int i = 0; i < data.size(); i++) {
-            if (data.get(i).isSeleted) {
+            if (data.get(i).isSelected) {
                 dataT.add(data.get(i));
             }
         }
@@ -113,14 +113,14 @@ public class GalleryAdapter extends BaseAdapter {
 
     public void changeSelection(View v, int position) {
 
-        if (data.get(position).isSeleted) {
-            data.get(position).isSeleted = false;
+        if (data.get(position).isSelected) {
+            data.get(position).isSelected = false;
         } else {
-            data.get(position).isSeleted = true;
+            data.get(position).isSelected = true;
         }
 
         ImageView imgQueueMultiSelected = ((ViewHolder) v.getTag()).imgQueueMultiSelected;
-        imgQueueMultiSelected.setSelected(data.get(position).isSeleted);
+        imgQueueMultiSelected.setSelected(data.get(position).isSelected);
         Animation.scaleIn(imgQueueMultiSelected, Animation.Duration.SHORT);
     }
 
@@ -150,7 +150,7 @@ public class GalleryAdapter extends BaseAdapter {
         holder.imgQueue.setTag(position);
 
         try {
-            imageLoader.displayImage("file://" + data.get(position).sdCardPath,
+            imageLoader.displayImage(data.get(position).getUri(),
                     holder.imgQueue, new SimpleImageLoadingListener() {
                         @Override
                         public void onLoadingStarted(String imageUri, View view) {
@@ -161,7 +161,7 @@ public class GalleryAdapter extends BaseAdapter {
 
             if (isActionMultiplePick) {
                 holder.imgQueueMultiSelected
-                        .setSelected(data.get(position).isSeleted);
+                        .setSelected(data.get(position).isSelected);
             }
 
         } catch (Exception e) {

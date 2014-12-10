@@ -131,7 +131,7 @@ public class ImagePickerActivity extends ActionBarActivity {
 
             String[] allPath = new String[selected.size()];
             for (int i = 0; i < allPath.length; i++) {
-                allPath[i] = selected.get(i).sdCardPath;
+                allPath[i] = selected.get(i).imageUri;
             }
 
             Intent data = new Intent().putExtra(INTENT_ALL_PATH, allPath);
@@ -153,7 +153,7 @@ public class ImagePickerActivity extends ActionBarActivity {
         @Override
         public void onItemClick(AdapterView<?> l, View v, int position, long id) {
             CustomGallery item = adapter.getItem(position);
-            String ImageUri = item.sdCardPath;
+            String ImageUri = item.imageUri;
             Intent data = new Intent().putExtra(INTENT_SINGLE_PATH, ImageUri);
             setResult(RESULT_OK, data);
             finish();
@@ -180,7 +180,8 @@ public class ImagePickerActivity extends ActionBarActivity {
                     int dataColumnIndex = imageCursor
                             .getColumnIndex(MediaStore.Images.Media.DATA);
 
-                    item.sdCardPath = imageCursor.getString(dataColumnIndex);
+                    item.imageUri = imageCursor.getString(dataColumnIndex);
+                    item.type = CustomGallery.FILE;
 
                     galleryList.add(item);
                 }

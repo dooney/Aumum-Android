@@ -137,7 +137,8 @@ public class NewAskingActivity extends ProgressDialogActivity
                     ArrayList<CustomGallery> list = new ArrayList<CustomGallery>();
                     for (String path : imagePathList) {
                         CustomGallery item = new CustomGallery();
-                        item.sdCardPath = path;
+                        item.type = CustomGallery.FILE;
+                        item.imageUri = path;
                         list.add(item);
                     }
                     adapter.addAll(list);

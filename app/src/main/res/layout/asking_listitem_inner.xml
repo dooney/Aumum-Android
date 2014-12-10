@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     android:background="@color/card_background"
     android:paddingTop="@dimen/margin_medium"
     android:paddingBottom="@dimen/margin_medium"
@@ -13,30 +14,48 @@
         android:id="@+id/text_question"
         style="@style/TextView.Asking.Question" />
 
-    <TextView
-        android:id="@+id/text_user_name"
-        style="@style/TextView.Asking.UserName"
-        android:paddingRight="@dimen/margin_medium"
-        android:layout_below="@+id/text_question"
-        android:layout_alignParentLeft="true"/>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical">
 
-    <TextView
-        android:id="@+id/text_area"
-        style="@style/TextView.Asking.Area"
-        android:layout_toRightOf="@+id/text_user_name"
-        android:layout_alignBaseline="@+id/text_user_name"/>
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
 
-    <TextView
-        android:id="@+id/text_reply"
-        style="@style/TextView.Asking.Reply"
-        android:layout_toLeftOf="@+id/text_updatedAt"
-        android:layout_alignBaseline="@+id/text_user_name"/>
+            <TextView
+                android:id="@+id/text_user_name"
+                style="@style/TextView.Asking.UserName"
+                android:paddingRight="@dimen/margin_medium"/>
 
-    <TextView
-        android:id="@+id/text_updatedAt"
-        style="@style/TextView.Asking.UpdatedAt"
-        android:paddingLeft="@dimen/margin_medium"
-        android:layout_alignParentRight="true"
-        android:layout_alignBaseline="@+id/text_user_name"/>
+            <TextView
+                android:id="@+id/text_area"
+                style="@style/TextView.Asking.Area"/>
 
-</RelativeLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="right">
+
+            <ImageView
+                android:id="@+id/image_has_pic"
+                style="@style/ImageView.Asking.HasPic" />
+
+            <TextView
+                android:id="@+id/text_reply"
+                style="@style/TextView.Asking.Reply"
+                android:paddingLeft="@dimen/margin_medium"/>
+
+            <TextView
+                android:id="@+id/text_updatedAt"
+                style="@style/TextView.Asking.UpdatedAt"
+                android:paddingLeft="@dimen/margin_medium"/>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</LinearLayout>

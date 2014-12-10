@@ -12,6 +12,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -28,6 +29,8 @@ import com.aumum.app.mobile.events.AddAskingReplyEvent;
 import com.aumum.app.mobile.events.AddAskingReplyFinishedEvent;
 import com.aumum.app.mobile.events.ReplyAskingReplyEvent;
 import com.aumum.app.mobile.ui.base.LoaderFragment;
+import com.aumum.app.mobile.ui.image.CustomGallery;
+import com.aumum.app.mobile.ui.image.GalleryAdapter;
 import com.aumum.app.mobile.ui.user.UserListener;
 import com.aumum.app.mobile.ui.view.Animation;
 import com.aumum.app.mobile.ui.view.FavoriteTextView;
@@ -35,8 +38,10 @@ import com.aumum.app.mobile.ui.view.QuickReturnScrollView;
 import com.aumum.app.mobile.ui.view.SpannableTextView;
 import com.aumum.app.mobile.utils.DialogUtils;
 import com.aumum.app.mobile.utils.EditTextUtils;
+import com.aumum.app.mobile.utils.ImageLoaderUtils;
 import com.aumum.app.mobile.utils.Ln;
 import com.aumum.app.mobile.utils.SafeAsyncTask;
+import com.aumum.app.mobile.utils.UpYunUtils;
 import com.github.kevinsawicki.wishlist.Toaster;
 import com.squareup.otto.Bus;
 import com.squareup.otto.Subscribe;
@@ -68,6 +73,7 @@ public class AskingDetailsFragment extends LoaderFragment<Asking>
     private QuickReturnScrollView scrollView;
     private View mainView;
     private SpannableTextView questionText;
+    private GridView gridGallery;
     private TextView userNameText;
     private TextView areaText;
     private TextView updatedAtText;
@@ -80,6 +86,7 @@ public class AskingDetailsFragment extends LoaderFragment<Asking>
     private EditText editReply;
     private ImageView postReplyButton;
 
+    GalleryAdapter adapter;
     private SafeAsyncTask<Boolean> task;
 
     @Override
@@ -130,6 +137,11 @@ public class AskingDetailsFragment extends LoaderFragment<Asking>
 
         mainView = view.findViewById(R.id.main_view);
         questionText = (SpannableTextView) view.findViewById(R.id.text_question);
+
+        adapter = new GalleryAdapter(getActivity(), R.layout.image_collection_listitem_inner, ImageLoaderUtils.getInstance());
+        gridGallery = (GridView) view.findViewById(R.id.grid_gallery);
+        gridGallery.setAdapter(adapter);
+
         userNameText = (TextView) view.findViewById(R.id.text_user_name);
         areaText = (TextView) view.findViewById(R.id.text_area);
         updatedAtText = (TextView) view.findViewById(R.id.text_updatedAt);
@@ -204,6 +216,15 @@ public class AskingDetailsFragment extends LoaderFragment<Asking>
     protected void handleLoadResult(Asking asking) {
         try {
             setData(asking);
+
+            ArrayList<CustomGallery> list = new ArrayList<CustomGallery>();
+            for (String imageUrl: asking.getImages()) {
+                CustomGallery item = new CustomGallery();
+                item.type = CustomGallery.HTTP;
+                item.imageUri = UpYunUtils.getThumbnailUrl(imageUrl);
+                list.add(item);
+            }
+            adapter.addAll(list);
 
             userNameText.setText(asking.getUser().getScreenName());
             userNameText.setOnClickListener(new UserListener(getActivity(), asking.getUserId()));

@@ -29,7 +29,6 @@ import com.aumum.app.mobile.R;
 import com.aumum.app.mobile.R.id;
 import com.aumum.app.mobile.R.layout;
 import com.aumum.app.mobile.core.dao.Repository;
-import com.aumum.app.mobile.core.service.ChatService;
 import com.aumum.app.mobile.core.service.RestService;
 import com.aumum.app.mobile.core.Constants;
 import com.aumum.app.mobile.core.model.User;
@@ -39,7 +38,6 @@ import com.aumum.app.mobile.ui.helper.TextWatcherAdapter;
 import com.aumum.app.mobile.ui.view.Animation;
 import com.aumum.app.mobile.utils.EditTextUtils;
 import com.aumum.app.mobile.utils.SafeAsyncTask;
-import com.aumum.app.mobile.utils.UpYunUtils;
 import com.github.kevinsawicki.wishlist.Toaster;
 import com.greenhalolabs.emailautocompletetextview.EmailAutoCompleteTextView;
 import com.squareup.otto.Bus;
@@ -58,7 +56,6 @@ public class LoginActivity extends ProgressDialogActivity {
     private AccountManager accountManager;
 
     @Inject RestService restService;
-    @Inject ChatService chatService;
     @Inject Bus bus;
     @Inject Repository repository;
 
@@ -234,9 +231,6 @@ public class LoginActivity extends ProgressDialogActivity {
             public void onSuccess(final Boolean authSuccess) {
                 if (authSuccess) {
                     repository.reset();
-                    String chatId = userId.toLowerCase();
-                    chatService.authenticate(chatId, password);
-                    UpYunUtils.setCurrentDir(userId);
                     finishLogin();
                 } else {
                     Toaster.showShort(LoginActivity.this,

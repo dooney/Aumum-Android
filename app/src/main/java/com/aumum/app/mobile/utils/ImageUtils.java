@@ -14,6 +14,7 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.util.Date;
 
 public class ImageUtils {
 
@@ -28,7 +29,8 @@ public class ImageUtils {
     }
 
     public static File createFile(Activity activity, byte[] bitmapData) throws IOException {
-        File tempFile = new File(activity.getCacheDir(), "temp.jpg");
+        String fileName = new Date().getTime() + ".jpg";
+        File tempFile = new File(activity.getCacheDir(), fileName);
         tempFile.createNewFile();
         FileOutputStream fileOutputStream = new FileOutputStream(tempFile);
         fileOutputStream.write(bitmapData);

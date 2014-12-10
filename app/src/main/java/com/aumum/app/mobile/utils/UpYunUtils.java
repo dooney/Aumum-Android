@@ -33,4 +33,8 @@ public class UpYunUtils {
     public static String getImageFullPath(String imagePath) {
         return "http://aumum.b0.upaiyun.com/" + getImageRemotePath(imagePath);
     }
+
+    public static String getThumbnailUrl(String imageUrl) {
+        return imageUrl + "!thumbnail";
+    }
 }

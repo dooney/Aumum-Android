@@ -2,6 +2,7 @@ package com.aumum.app.mobile.ui.asking;
 
 import android.content.Context;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.aumum.app.mobile.R;
@@ -16,6 +17,7 @@ import com.aumum.app.mobile.ui.view.SpannableTextView;
 public class AskingCard {
 
     private Context context;
+    private ImageView hasPicImage;
     private TextView userNameText;
     private TextView areaText;
     private TextView updatedAtText;
@@ -24,6 +26,7 @@ public class AskingCard {
 
     public AskingCard(Context context, View view) {
         this.context = context;
+        this.hasPicImage = (ImageView) view.findViewById(R.id.image_has_pic);
         this.userNameText = (TextView) view.findViewById(R.id.text_user_name);
         this.areaText = (TextView) view.findViewById(R.id.text_area);
         this.updatedAtText = (TextView) view.findViewById(R.id.text_updatedAt);
@@ -32,6 +35,11 @@ public class AskingCard {
     }
 
     public void refresh(Asking asking) {
+        if (asking.getImages().size() > 0) {
+            hasPicImage.setVisibility(View.VISIBLE);
+        } else {
+            hasPicImage.setVisibility(View.GONE);
+        }
         userNameText.setText(asking.getUser().getScreenName());
         userNameText.setOnClickListener(new UserListener(context, asking.getUserId()));
         areaText.setText(Constants.Options.AREA_OPTIONS[asking.getUser().getArea()]);

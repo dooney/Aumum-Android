@@ -259,6 +259,9 @@
     <style name="TextView.Asking.Question" parent="TextView.Content.Text">
         <item name="android:paddingBottom">@dimen/margin_medium</item>
     </style>
+    <style name="ImageView.Asking.HasPic" parent="ImageView">
+        <item name="android:src">@drawable/ic_fa_image_s</item>
+    </style>
     <style name="TextView.Asking.Reply" parent="ButtonTextView">
         <item name="android:drawableLeft">@drawable/ic_fa_comments_o_s</item>
         <item name="android:textSize">@dimen/text_sz_small</item>
