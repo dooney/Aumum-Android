@@ -1,6 +1,8 @@
 package com.aumum.app.mobile.ui.party;
 
+import android.app.Activity;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.text.Editable;
@@ -9,9 +11,11 @@ import android.text.format.DateFormat;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.GridView;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
@@ -24,14 +28,20 @@ import com.aumum.app.mobile.core.model.Message;
 import com.aumum.app.mobile.core.model.Party;
 import com.aumum.app.mobile.core.model.Time;
 import com.aumum.app.mobile.core.model.User;
+import com.aumum.app.mobile.core.service.FileUploadService;
 import com.aumum.app.mobile.core.service.MessageDeliveryService;
 import com.aumum.app.mobile.core.service.RestService;
 import com.aumum.app.mobile.ui.base.ProgressDialogActivity;
 import com.aumum.app.mobile.ui.helper.TextWatcherAdapter;
+import com.aumum.app.mobile.ui.image.CustomGallery;
+import com.aumum.app.mobile.ui.image.GalleryAdapter;
+import com.aumum.app.mobile.ui.image.ImagePickerActivity;
 import com.aumum.app.mobile.ui.view.Animation;
 import com.aumum.app.mobile.utils.DialogUtils;
 import com.aumum.app.mobile.utils.EditTextUtils;
 import com.aumum.app.mobile.utils.GooglePlaceUtils;
+import com.aumum.app.mobile.utils.ImageLoaderUtils;
+import com.aumum.app.mobile.utils.ImageUtils;
 import com.aumum.app.mobile.utils.SafeAsyncTask;
 import com.doomonafireball.betterpickers.calendardatepicker.CalendarDatePickerDialog;
 import com.doomonafireball.betterpickers.radialtimepicker.RadialPickerLayout;
@@ -39,6 +49,8 @@ import com.doomonafireball.betterpickers.radialtimepicker.RadialTimePickerDialog
 import com.github.kevinsawicki.wishlist.Toaster;
 
 import org.joda.time.DateTime;
+
+import java.util.ArrayList;
 
 import javax.inject.Inject;
 
@@ -48,11 +60,13 @@ import retrofit.RetrofitError;
 
 public class NewPartyActivity extends ProgressDialogActivity
         implements CalendarDatePickerDialog.OnDateSetListener,
-                   RadialTimePickerDialog.OnTimeSetListener {
+                   RadialTimePickerDialog.OnTimeSetListener,
+                   FileUploadService.OnFileUploadListener {
 
     @Inject RestService restService;
     @Inject MessageDeliveryService messageDeliveryService;
     @Inject UserStore userStore;
+    @Inject FileUploadService fileUploadService;
 
     private Date date = new Date();
     private Time time = new Time();
@@ -71,10 +85,17 @@ public class NewPartyActivity extends ProgressDialogActivity
     @InjectView(R.id.et_title) protected EditText titleText;
     @InjectView(R.id.et_location) protected AutoCompleteTextView locationText;
     @InjectView(R.id.et_details) protected EditText detailsText;
+    @InjectView(R.id.text_add_more) protected TextView addMoreText;
+    @InjectView(R.id.layout_type_selection) protected ViewGroup typeSelectionLayout;
+    @InjectView(R.id.layout_image) protected ViewGroup imageLayout;
+    @InjectView(R.id.grid_gallery) protected GridView gridGallery;
 
     private final TextWatcher watcher = validationTextWatcher();
 
     private SafeAsyncTask<Boolean> task;
+    GalleryAdapter adapter;
+    String imagePathList[];
+    ArrayList<String> imageUrlList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -82,6 +103,9 @@ public class NewPartyActivity extends ProgressDialogActivity
         Injector.inject(this);
         setContentView(R.layout.activity_new_party);
         ButterKnife.inject(this);
+
+        imageUrlList = new ArrayList<String>();
+        fileUploadService.setOnFileUploadListener(this);
 
         progress.setMessageId(R.string.info_submitting_party);
 
@@ -146,6 +170,23 @@ public class NewPartyActivity extends ProgressDialogActivity
 
         detailsText.addTextChangedListener(watcher);
 
+        addMoreText.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                toggleTypeSelectionLayout();
+            }
+        });
+        imageLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                final Intent intent = new Intent(NewPartyActivity.this, ImagePickerActivity.class);
+                intent.putExtra(ImagePickerActivity.INTENT_ACTION, ImagePickerActivity.ACTION_MULTIPLE_PICK);
+                startActivityForResult(intent, Constants.RequestCode.IMAGE_PICKER_IMAGE_REQ_CODE);
+            }
+        });
+        adapter = new GalleryAdapter(this, R.layout.image_collection_listitem_inner, ImageLoaderUtils.getInstance());
+        gridGallery.setAdapter(adapter);
+
         Animation.flyIn(this);
     }
 
@@ -193,11 +234,33 @@ public class NewPartyActivity extends ProgressDialogActivity
         submitButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                submitNewParty();
+                submit();
             }
         });
         updateUIWithValidation();
         return true;
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == Constants.RequestCode.IMAGE_PICKER_IMAGE_REQ_CODE) {
+            toggleTypeSelectionLayout();
+            if (resultCode == Activity.RESULT_OK) {
+                imagePathList = data.getStringArrayExtra(ImagePickerActivity.INTENT_ALL_PATH);
+                if (imagePathList != null) {
+                    ArrayList<CustomGallery> list = new ArrayList<CustomGallery>();
+                    for (String path : imagePathList) {
+                        CustomGallery item = new CustomGallery();
+                        item.type = CustomGallery.FILE;
+                        item.imageUri = path;
+                        list.add(item);
+                    }
+                    adapter.addAll(list);
+                }
+            }
+        }
     }
 
     private TextWatcher validationTextWatcher() {
@@ -223,17 +286,42 @@ public class NewPartyActivity extends ProgressDialogActivity
         return editText.length() > 0;
     }
 
-    private void submitNewParty() {
-        if (task != null) {
-            return;
-        }
-
+    private void submit() {
         EditTextUtils.hideSoftInput(titleText);
         EditTextUtils.hideSoftInput(locationText);
         EditTextUtils.hideSoftInput(detailsText);
 
         showProgress();
 
+        imageUrlList.clear();
+        for (String path : imagePathList) {
+            uploadImage(path);
+        }
+    }
+
+    private void uploadImage(final String imagePath) {
+        SafeAsyncTask<Boolean> uploadTask = new SafeAsyncTask<Boolean>() {
+            public Boolean call() throws Exception {
+                byte avatarData[] = ImageUtils.decodeBitmap(imagePath);
+                fileUploadService.upload(imagePath, avatarData);
+                return true;
+            }
+
+            @Override
+            protected void onException(final Exception e) throws RuntimeException {
+                if(!(e instanceof RetrofitError)) {
+                    final Throwable cause = e.getCause() != null ? e.getCause() : e;
+                    if(cause != null) {
+                        Toaster.showShort(NewPartyActivity.this, cause.getMessage());
+                    }
+                }
+                hideProgress();
+            }
+        };
+        uploadTask.execute();
+    }
+
+    private void submitNewParty() {
         task = new SafeAsyncTask<Boolean>() {
             public Boolean call() throws Exception {
                 User user = userStore.getCurrentUser();
@@ -244,7 +332,8 @@ public class NewPartyActivity extends ProgressDialogActivity
                                         age,
                                         gender,
                                         locationText.getText().toString(),
-                                        detailsText.getText().toString());
+                                        detailsText.getText().toString(),
+                                        imageUrlList);
                 if (!GooglePlaceUtils.setPlaceLatLong(party.getPlace())) {
                     throw new Exception(getString(R.string.error_validate_party_location, party.getPlace().getLocation()));
                 }
@@ -287,5 +376,27 @@ public class NewPartyActivity extends ProgressDialogActivity
             }
         };
         task.execute();
+    }
+
+    private void toggleTypeSelectionLayout() {
+        if (typeSelectionLayout.getVisibility() == View.GONE) {
+            Animation.flyIn(typeSelectionLayout);
+        } else {
+            Animation.flyOut(typeSelectionLayout);
+        }
+    }
+
+    @Override
+    public void onUploadSuccess(String fileUrl) {
+        imageUrlList.add(fileUrl);
+        if (imageUrlList.size() == imagePathList.length) {
+            submitNewParty();
+        }
+    }
+
+    @Override
+    public void onUploadFailure(Exception e) {
+        hideProgress();
+        Toaster.showShort(NewPartyActivity.this, R.string.error_submit_new_party);
     }
 }

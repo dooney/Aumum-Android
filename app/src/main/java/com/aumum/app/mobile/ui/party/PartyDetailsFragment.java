@@ -11,6 +11,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -29,6 +30,8 @@ import com.aumum.app.mobile.core.service.RestService;
 import com.aumum.app.mobile.events.AddPartyReasonEvent;
 import com.aumum.app.mobile.events.AddPartyReasonFinishedEvent;
 import com.aumum.app.mobile.ui.base.LoaderFragment;
+import com.aumum.app.mobile.ui.image.CustomGallery;
+import com.aumum.app.mobile.ui.image.GalleryAdapter;
 import com.aumum.app.mobile.ui.user.UserListener;
 import com.aumum.app.mobile.ui.view.Animation;
 import com.aumum.app.mobile.ui.view.AvatarImageView;
@@ -40,8 +43,10 @@ import com.aumum.app.mobile.ui.view.SpannableTextView;
 import com.aumum.app.mobile.utils.DialogUtils;
 import com.aumum.app.mobile.utils.EditTextUtils;
 import com.aumum.app.mobile.utils.GPSTracker;
+import com.aumum.app.mobile.utils.ImageLoaderUtils;
 import com.aumum.app.mobile.utils.Ln;
 import com.aumum.app.mobile.utils.SafeAsyncTask;
+import com.aumum.app.mobile.utils.UpYunUtils;
 import com.github.kevinsawicki.wishlist.Toaster;
 import com.squareup.otto.Bus;
 import com.squareup.otto.Subscribe;
@@ -84,6 +89,7 @@ public class PartyDetailsFragment extends LoaderFragment<Party>
     private TextView ageText;
     private TextView genderText;
     private SpannableTextView detailsText;
+    private GridView gridGallery;
     private ViewGroup membersLayout;
     private ViewGroup likesLayout;
 
@@ -101,6 +107,7 @@ public class PartyDetailsFragment extends LoaderFragment<Party>
     private MembersLayoutListener membersLayoutListener;
     private LikesLayoutListener likesLayoutListener;
 
+    GalleryAdapter adapter;
     private SafeAsyncTask<Boolean> task;
 
     @Override
@@ -168,6 +175,10 @@ public class PartyDetailsFragment extends LoaderFragment<Party>
         ageText = (TextView) view.findViewById(R.id.text_age);
         genderText = (TextView) view.findViewById(R.id.text_gender);
         detailsText = (SpannableTextView) view.findViewById(R.id.text_details);
+
+        adapter = new GalleryAdapter(getActivity(), R.layout.image_collection_listitem_inner, ImageLoaderUtils.getInstance());
+        gridGallery = (GridView) view.findViewById(R.id.grid_gallery);
+        gridGallery.setAdapter(adapter);
 
         membersLayout = (ViewGroup) view.findViewById(R.id.layout_members);
         likesLayout = (ViewGroup) view.findViewById(R.id.layout_likes);
@@ -282,6 +293,15 @@ public class PartyDetailsFragment extends LoaderFragment<Party>
         ageText.setText(Constants.Options.AGE_OPTIONS[party.getAge()]);
         genderText.setText(Constants.Options.GENDER_OPTIONS[party.getGender()]);
         detailsText.setSpannableText(party.getDetails());
+
+        ArrayList<CustomGallery> list = new ArrayList<CustomGallery>();
+        for (String imageUrl: party.getImages()) {
+            CustomGallery item = new CustomGallery();
+            item.type = CustomGallery.HTTP;
+            item.imageUri = UpYunUtils.getThumbnailUrl(imageUrl);
+            list.add(item);
+        }
+        adapter.addAll(list);
 
         showAction = false;
         if (!party.isExpired() && !party.isOwner(currentUserId)) {

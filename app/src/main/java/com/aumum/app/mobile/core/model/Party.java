@@ -26,6 +26,7 @@ public class Party extends AggregateRoot {
     protected List<String> comments = new ArrayList<String>();
     protected List<String> reasons = new ArrayList<String>();
     protected List<String> favorites = new ArrayList<String>();
+    protected List<String> images = new ArrayList<String>();
 
     protected String distance;
     protected User user;
@@ -45,7 +46,8 @@ public class Party extends AggregateRoot {
                  int age,
                  int gender,
                  String place,
-                 String details) {
+                 String details,
+                 List<String> images) {
         this.userId = userId;
         this.title = title;
         this.date = date;
@@ -54,6 +56,8 @@ public class Party extends AggregateRoot {
         this.gender = gender;
         this.place = new Place(place);
         this.details = details;
+        this.images.clear();
+        this.images.addAll(images);
     }
 
     public Party(String objectId,
@@ -70,7 +74,8 @@ public class Party extends AggregateRoot {
                  List<String> likes,
                  List<String> comments,
                  List<String> reasons,
-                 List<String> favorites) {
+                 List<String> favorites,
+                 List<String> images) {
         this.objectId = objectId;
         this.createdAt = createdAt;
         this.userId = userId;
@@ -91,6 +96,8 @@ public class Party extends AggregateRoot {
         this.reasons.addAll(reasons);
         this.favorites.clear();
         this.favorites.addAll(favorites);
+        this.images.clear();
+        this.images.addAll(images);
     }
 
     public String getUserId() {
@@ -150,6 +157,10 @@ public class Party extends AggregateRoot {
 
     public List<String> getFavorites() {
         return favorites;
+    }
+
+    public List<String> getImages() {
+        return images;
     }
 
     public String getDistance() {

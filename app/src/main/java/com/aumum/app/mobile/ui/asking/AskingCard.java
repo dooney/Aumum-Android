@@ -35,7 +35,7 @@ public class AskingCard {
     }
 
     public void refresh(Asking asking) {
-        if (asking.getImages().size() > 0) {
+        if (asking.getImagesCount() > 0) {
             hasPicImage.setVisibility(View.VISIBLE);
         } else {
             hasPicImage.setVisibility(View.GONE);

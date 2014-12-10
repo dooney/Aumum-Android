@@ -30,7 +30,8 @@ public class Asking extends AggregateRoot {
         this.userId = userId;
         this.category = category;
         this.question = question;
-        this.images = images;
+        this.images.clear();
+        this.images.addAll(images);
     }
 
     public Asking(String objectId,
@@ -102,6 +103,13 @@ public class Asking extends AggregateRoot {
     public int getFavoritesCount() {
         if (favorites != null) {
             return favorites.size();
+        }
+        return 0;
+    }
+
+    public int getImagesCount() {
+        if (images != null) {
+            return images.size();
         }
         return 0;
     }

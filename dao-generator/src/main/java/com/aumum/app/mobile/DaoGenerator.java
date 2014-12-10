@@ -62,6 +62,7 @@ public class DaoGenerator {
         party.addStringProperty("comments");
         party.addStringProperty("reasons");
         party.addStringProperty("favorites");
+        party.addStringProperty("images");
     }
 
     private static void addContactRequest(Schema schema) {

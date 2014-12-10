@@ -227,6 +227,10 @@
         <item name="android:maxLines">4</item>
         <item name="android:hint">@string/hint_party_details</item>
     </style>
+    <style name="TextView.NewParty.AddMore" parent="TextView.Subtitle">
+        <item name="android:textSize">@dimen/text_sz_large</item>
+        <item name="android:text">@string/label_add_more</item>
+    </style>
     <style name="TextView.PartyReason.UserName" parent="TextView.UserName" />
     <style name="TextView.PartyReason.CreatedAt" parent="TextView.Subtitle.Small" />
     <style name="TextView.PartyReason.Action" parent="TextView.Subtitle.Small" />

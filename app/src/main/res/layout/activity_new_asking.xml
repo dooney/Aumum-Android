@@ -26,8 +26,7 @@
                 android:layout_gravity="top"
                 android:paddingTop="@dimen/margin_large"
                 android:paddingBottom="@dimen/margin_large"
-                android:numColumns="4"
-                tools:listitem="@layout/gallery_item" >
+                android:numColumns="4" >
             </GridView>
 
         </LinearLayout>

@@ -93,6 +93,15 @@
 
     </LinearLayout>
 
+    <GridView
+        android:id="@+id/grid_gallery"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="top"
+        android:paddingBottom="@dimen/margin_medium"
+        android:numColumns="4" >
+    </GridView>
+
     <RelativeLayout
         android:id="@+id/layout_members"
         android:layout_width="match_parent"
