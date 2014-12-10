@@ -416,10 +416,14 @@ public class CropImageView extends ImageView
     /**
      * @return
      */
-    public Bitmap clip(){
+    public Bitmap clip(int width, int height){
         Bitmap bitmap = Bitmap.createBitmap(getWidth(), getHeight(), Bitmap.Config.ARGB_8888);
         Canvas canvas = new Canvas(bitmap);
         draw(canvas);
-        return Bitmap.createBitmap(bitmap, (getWidth() - borderlength) / 2, (getHeight() - borderlength) / 2, borderlength, borderlength);
+        Bitmap cropped = Bitmap.createBitmap(bitmap, (getWidth() - borderlength) / 2, (getHeight() - borderlength) / 2, borderlength, borderlength);
+        bitmap.recycle();
+        Bitmap result = Bitmap.createScaledBitmap(cropped, width, height, true);
+        cropped.recycle();
+        return result;
     }
 }

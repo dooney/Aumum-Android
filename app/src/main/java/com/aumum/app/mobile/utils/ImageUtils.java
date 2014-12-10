@@ -3,28 +3,45 @@ package com.aumum.app.mobile.utils;
 /**
  * Created by Administrator on 17/10/2014.
  */
+import android.app.Activity;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 
 import java.io.ByteArrayOutputStream;
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.OutputStream;
 
 public class ImageUtils {
+
+    private static void closeOutputStream(OutputStream outputStream) {
+        if (outputStream != null) {
+            try {
+                outputStream.close();
+            } catch (IOException e) {
+                Ln.d(e);
+            }
+        }
+    }
+
+    public static File createFile(Activity activity, byte[] bitmapData) throws IOException {
+        File tempFile = new File(activity.getCacheDir(), "temp.jpg");
+        tempFile.createNewFile();
+        FileOutputStream fileOutputStream = new FileOutputStream(tempFile);
+        fileOutputStream.write(bitmapData);
+        closeOutputStream(fileOutputStream);
+        return tempFile;
+    }
 
     public static byte[] getBytesBitmap(Bitmap bitmap) {
         ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
         if (bitmap != null) {
             bitmap.compress(Bitmap.CompressFormat.JPEG, 100, byteArrayOutputStream);
             byte[] byteArray = byteArrayOutputStream.toByteArray();
-            if (byteArrayOutputStream != null) {
-                try {
-                    byteArrayOutputStream.close();
-                } catch (IOException e) {
-                    Ln.d(e);
-                }
-            }
+            closeOutputStream(byteArrayOutputStream);
             return byteArray;
         }
         return null;
@@ -34,28 +51,32 @@ public class ImageUtils {
         BitmapFactory.Options opts = new BitmapFactory.Options();
         opts.inJustDecodeBounds = true;
         BitmapFactory.decodeFile(path, opts);
-        opts.inSampleSize = computeSampleSize(opts, -1, 1024 * 800);
+        opts.inSampleSize = computeSampleSize(opts, -1, 800 * 480);
         opts.inJustDecodeBounds = false;
         opts.inPurgeable = true;
         opts.inInputShareable = true;
         opts.inDither = false;
         opts.inPurgeable = true;
-        opts.inTempStorage = new byte[16 * 1024];
+        opts.inTempStorage = new byte[16 * 640];
         FileInputStream is = null;
         Bitmap bmp = null;
         ByteArrayOutputStream baos = null;
         try {
             is = new FileInputStream(path);
             bmp = BitmapFactory.decodeFileDescriptor(is.getFD(), null, opts);
-            double scale = getScaling(opts.outWidth * opts.outHeight,
-                    1024 * 600);
-            Bitmap bmp2 = Bitmap.createScaledBitmap(bmp,
+            double scale = getScaling(opts.outWidth * opts.outHeight, 800 * 480);
+            Bitmap bitmap;
+            if (scale > 1) {
+                bitmap = bmp;
+            } else {
+                bitmap = Bitmap.createScaledBitmap(bmp,
                     (int) (opts.outWidth * scale),
                     (int) (opts.outHeight * scale), true);
-            bmp.recycle();
+                bmp.recycle();
+            }
             baos = new ByteArrayOutputStream();
-            bmp2.compress(Bitmap.CompressFormat.JPEG, 100, baos);
-            bmp2.recycle();
+            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+            bitmap.recycle();
             return baos.toByteArray();
         } catch (FileNotFoundException e) {
             e.printStackTrace();

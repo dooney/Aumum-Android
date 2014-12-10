@@ -19,12 +19,12 @@ import com.aumum.app.mobile.core.model.User;
 import com.aumum.app.mobile.core.service.RestService;
 import com.aumum.app.mobile.ui.asking.SearchAskingActivity;
 import com.aumum.app.mobile.ui.base.LoaderFragment;
-import com.aumum.app.mobile.ui.crop.CropImageActivity;
 import com.aumum.app.mobile.ui.image.ImagePickerActivity;
 import com.aumum.app.mobile.ui.party.SearchPartyActivity;
 import com.aumum.app.mobile.ui.settings.SettingsActivity;
 import com.aumum.app.mobile.ui.view.AvatarImageView;
 import com.aumum.app.mobile.utils.DialogUtils;
+import com.aumum.app.mobile.utils.ImageLoaderUtils;
 import com.aumum.app.mobile.utils.Ln;
 import com.aumum.app.mobile.utils.SafeAsyncTask;
 import com.github.kevinsawicki.wishlist.Toaster;
@@ -114,9 +114,14 @@ public class ProfileFragment extends LoaderFragment<User> {
             }
         } else if (requestCode == Constants.RequestCode.CROP_PROFILE_IMAGE_REQ_CODE &&
                    resultCode == Activity.RESULT_OK) {
-            String imageUrl = data.getStringExtra(CropImageActivity.INTENT_IMAGE_URL);
+            String imageUrl = data.getStringExtra(UpdateAvatarActivity.INTENT_IMAGE_URL);
             if (imageUrl != null) {
                 updateAvatar(imageUrl);
+            }
+            String imagePath = data.getStringExtra(UpdateAvatarActivity.INTENT_IMAGE_PATH);
+            if (imagePath != null) {
+                String imageUri = "file://" + imagePath;
+                ImageLoaderUtils.displayImage(imageUri, avatarImage);
             }
         }
     }
@@ -203,15 +208,13 @@ public class ProfileFragment extends LoaderFragment<User> {
     }
 
     private void startCropImageActivity(String imageUri) {
-        final Intent intent = new Intent(getActivity(), CropImageActivity.class);
-        intent.putExtra(CropImageActivity.INTENT_TITLE, getString(R.string.title_activity_change_avatar));
-        intent.putExtra(CropImageActivity.INTENT_IMAGE_URI, imageUri);
+        final Intent intent = new Intent(getActivity(), UpdateAvatarActivity.class);
+        intent.putExtra(UpdateAvatarActivity.INTENT_TITLE, getString(R.string.title_activity_change_avatar));
+        intent.putExtra(UpdateAvatarActivity.INTENT_IMAGE_URI, imageUri);
         startActivityForResult(intent, Constants.RequestCode.CROP_PROFILE_IMAGE_REQ_CODE);
     }
 
     private void updateAvatar(final String fileUrl) {
-        avatarImage.getFromUrl(fileUrl);
-
         task = new SafeAsyncTask<Boolean>() {
             public Boolean call() throws Exception {
                 restService.updateUserAvatar(currentUser.getObjectId(), fileUrl);

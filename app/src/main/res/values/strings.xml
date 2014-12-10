@@ -54,7 +54,7 @@
     <string name="info_processing_registration">正在处理您的注册信息，请稍候</string>
     <string name="info_submitting_password_reset">正在提交您的重置密码请求，请稍候</string>
     <string name="info_submitting_party">正在提交您的聚会，请稍候</string>
-    <string name="info_uploading_image">正在上传图片，请稍候</string>
+    <string name="info_uploading_avatar">正在上传头像图片，请稍候</string>
     <string name="info_party_deleted">该聚会已成功删除</string>
     <string name="info_comment_deleted">该评论已成功删除</string>
     <string name="info_click_back_again">再按一次返回桌面</string>
@@ -78,7 +78,7 @@
     <string name="error_load_parties">获取聚会列表失败</string>
     <string name="error_load_party_comments">获取聚会评论失败</string>
     <string name="error_load_user">获取用户信息失败</string>
-    <string name="error_upload_image">上传图片失败</string>
+    <string name="error_upload_avatar">上传头像图片失败</string>
     <string name="error_bad_credentials">您的账号验证失败，请重新输入正确的用户名/密码</string>
     <string name="error_authentication">您的账号验证失败</string>
     <string name="error_authentication_email_not_verified">您的邮箱地址还未验证，请验证后重新登录</string>

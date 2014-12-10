@@ -140,7 +140,7 @@
             android:name="com.aumum.app.mobile.ui.party.PartyDetailsActivity"
             android:label="@string/title_activity_party_details" >
         </activity>
-        <activity android:name="com.aumum.app.mobile.ui.crop.CropImageActivity" />
+        <activity android:name=".ui.user.UpdateAvatarActivity" />
         <activity
             android:name="com.aumum.app.mobile.ui.party.NewPartyActivity"
             android:label="@string/title_activity_new_party" >

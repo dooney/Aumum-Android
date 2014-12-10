@@ -39,6 +39,7 @@ import com.aumum.app.mobile.ui.helper.TextWatcherAdapter;
 import com.aumum.app.mobile.ui.view.Animation;
 import com.aumum.app.mobile.utils.EditTextUtils;
 import com.aumum.app.mobile.utils.SafeAsyncTask;
+import com.aumum.app.mobile.utils.UpYunUtils;
 import com.github.kevinsawicki.wishlist.Toaster;
 import com.greenhalolabs.emailautocompletetextview.EmailAutoCompleteTextView;
 import com.squareup.otto.Bus;
@@ -235,6 +236,7 @@ public class LoginActivity extends ProgressDialogActivity {
                     repository.reset();
                     String chatId = userId.toLowerCase();
                     chatService.authenticate(chatId, password);
+                    UpYunUtils.setCurrentDir(userId);
                     finishLogin();
                 } else {
                     Toaster.showShort(LoginActivity.this,

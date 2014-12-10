@@ -51,13 +51,13 @@ public class NewAskingActivity extends ProgressDialogActivity
     @Inject UserStore userStore;
     @Inject RestService restService;
     @Inject MessageDeliveryService messageDeliveryService;
+    @Inject FileUploadService fileUploadService;
 
     private int category;
     private SafeAsyncTask<Boolean> task;
     GalleryAdapter adapter;
     String imagePathList[];
     ArrayList<String> imageUrlList;
-    private FileUploadService fileUploadService;
 
     public static final String INTENT_CATEGORY = "category";
 
@@ -79,7 +79,6 @@ public class NewAskingActivity extends ProgressDialogActivity
         ButterKnife.inject(this);
 
         imageUrlList = new ArrayList<String>();
-        fileUploadService = new FileUploadService();
         fileUploadService.setOnFileUploadListener(this);
 
         category = getIntent().getIntExtra(INTENT_CATEGORY, 0);
@@ -179,9 +178,7 @@ public class NewAskingActivity extends ProgressDialogActivity
         SafeAsyncTask<Boolean> uploadTask = new SafeAsyncTask<Boolean>() {
             public Boolean call() throws Exception {
                 byte avatarData[] = ImageUtils.decodeBitmap(imagePath);
-                String fileName = Math.abs(imagePath.hashCode()) + ".jpg";
-                fileUploadService.upload(fileName, avatarData);
-
+                fileUploadService.upload(imagePath, avatarData);
                 return true;
             }
 

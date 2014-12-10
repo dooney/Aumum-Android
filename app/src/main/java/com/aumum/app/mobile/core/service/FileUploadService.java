@@ -1,8 +1,7 @@
 package com.aumum.app.mobile.core.service;
 
-import com.parse.ParseException;
-import com.parse.ParseFile;
-import com.parse.SaveCallback;
+import com.aumum.app.mobile.utils.SafeAsyncTask;
+import com.aumum.app.mobile.utils.UpYunUtils;
 
 /**
  * Created by Administrator on 18/10/2014.
@@ -19,21 +18,30 @@ public class FileUploadService {
         public void onUploadFailure(Exception e);
     }
 
-    public void upload(String fileName, byte[] data) {
-        final ParseFile file = new ParseFile(fileName, data);
-        file.saveInBackground(new SaveCallback() {
+    public void upload(final String fileName, final byte[] data) {
+        SafeAsyncTask<Boolean> uploadTask = new SafeAsyncTask<Boolean>() {
+            public Boolean call() throws Exception {
+                boolean result = UpYunUtils.uploadImage(fileName, data);
+                if (!result) {
+                    throw new Exception();
+                }
+                return true;
+            }
+
             @Override
-            public void done(ParseException e) {
-                if (e == null) {
-                    if (onFileUploadListener != null) {
-                        onFileUploadListener.onUploadSuccess(file.getUrl());
-                    }
-                } else {
-                    if (onFileUploadListener != null) {
-                        onFileUploadListener.onUploadFailure(e);
-                    }
+            protected void onSuccess(Boolean success) throws Exception {
+                if (onFileUploadListener != null) {
+                    onFileUploadListener.onUploadSuccess(UpYunUtils.getImageFullPath(fileName));
                 }
             }
-        });
+
+            @Override
+            protected void onException(final Exception e) throws RuntimeException {
+                if (onFileUploadListener != null) {
+                    onFileUploadListener.onUploadFailure(e);
+                }
+            }
+        };
+        uploadTask.execute();
     }
 }

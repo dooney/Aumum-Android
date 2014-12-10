@@ -9,6 +9,7 @@ import com.aumum.app.mobile.core.dao.PartyReasonStore;
 import com.aumum.app.mobile.core.dao.Repository;
 import com.aumum.app.mobile.core.infra.security.ApiKeyProvider;
 import com.aumum.app.mobile.core.service.ChatService;
+import com.aumum.app.mobile.core.service.FileUploadService;
 import com.aumum.app.mobile.core.service.MessageDeliveryService;
 import com.aumum.app.mobile.core.service.NotificationService;
 import com.aumum.app.mobile.core.service.RestService;
@@ -37,6 +38,7 @@ import com.aumum.app.mobile.ui.contact.ContactFragment;
 import com.aumum.app.mobile.ui.contact.ContactListener;
 import com.aumum.app.mobile.ui.contact.ContactRequestsFragment;
 import com.aumum.app.mobile.ui.contact.DeleteContactListener;
+import com.aumum.app.mobile.ui.user.UpdateAvatarActivity;
 import com.aumum.app.mobile.ui.main.MainFragment;
 import com.aumum.app.mobile.ui.party.PartyFavoriteListener;
 import com.aumum.app.mobile.ui.party.LikesLayoutListener;
@@ -129,7 +131,8 @@ import retrofit.converter.GsonConverter;
                 AskingReplyLikeListener.class,
                 AskingReplyCard.class,
                 VoiceMessageCard.class,
-                ImageMessageCard.class
+                ImageMessageCard.class,
+                UpdateAvatarActivity.class
         }
 )
 public class BootstrapModule {
@@ -161,6 +164,10 @@ public class BootstrapModule {
     @Provides
     @Singleton
     ChatService provideChatService() { return new ChatService(); }
+
+    @Provides
+    @Singleton
+    FileUploadService provideFileUploadService() { return new FileUploadService(); }
 
     @Provides
     @Singleton
