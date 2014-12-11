@@ -132,8 +132,10 @@ public class ChatFragment extends Fragment
         listView.setSelector(android.R.color.transparent);
         listView.setAdapter(adapter);
         listView.setOnScrollListener(this);
-        listView.setStackFromBottom(true);
-        listView.setTranscriptMode(AbsListView.TRANSCRIPT_MODE_ALWAYS_SCROLL);
+        int count = listView.getCount();
+        if (count > 0) {
+            listView.setSelection(count - 1);
+        }
 
         voiceButton = (Button) view.findViewById(R.id.b_set_voice_mode);
         voiceButton.setOnClickListener(new View.OnClickListener() {
@@ -274,6 +276,7 @@ public class ChatFragment extends Fragment
             chatText.setText(null);
             chatService.addTextMessage(id, type == ChatActivity.TYPE_GROUP, text);
             adapter.notifyDataSetChanged();
+            listView.setSelection(listView.getCount() - 1);
         }
     }
 
@@ -283,12 +286,14 @@ public class ChatFragment extends Fragment
         }
         chatService.addVoiceMessage(id, type == ChatActivity.TYPE_GROUP, filePath, length);
         adapter.notifyDataSetChanged();
+        listView.setSelection(listView.getCount() - 1);
     }
 
     private void sendImage(String imagePath) {
         if (imagePath != null) {
             chatService.addImageMessage(id, type == ChatActivity.TYPE_GROUP, imagePath);
             adapter.notifyDataSetChanged();
+            listView.setSelection(listView.getCount() - 1);
         }
     }
 
@@ -336,6 +341,7 @@ public class ChatFragment extends Fragment
             abortBroadcast();
 
             adapter.notifyDataSetChanged();
+            listView.setSelection(listView.getCount() - 1);
         }
     }
 

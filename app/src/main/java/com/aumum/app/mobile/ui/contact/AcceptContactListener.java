@@ -67,7 +67,9 @@ public class AcceptContactListener implements View.OnClickListener {
                 chatService.acceptInvitation(userId);
                 String currentUserId = apiKeyProvider.getAuthUserId();
                 restService.addContact(currentUserId, userId);
-                userStore.addContact(userId);
+                userStore.addContact(currentUserId, userId);
+                restService.addContact(userId, currentUserId);
+                userStore.addContact(userId, currentUserId);
                 return true;
             }
 

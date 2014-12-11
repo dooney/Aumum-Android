@@ -82,7 +82,9 @@ public class DeleteContactListener implements View.OnClickListener,
                 chatService.deleteContact(userId);
                 String currentUserId = apiKeyProvider.getAuthUserId();
                 restService.removeContact(currentUserId, userId);
-                userStore.removeContact(userId);
+                userStore.removeContact(currentUserId, userId);
+                restService.removeContact(userId, currentUserId);
+                userStore.removeContact(userId, currentUserId);
                 return true;
             }
 

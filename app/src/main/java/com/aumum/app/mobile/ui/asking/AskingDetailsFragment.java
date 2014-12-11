@@ -25,6 +25,7 @@ import com.aumum.app.mobile.core.infra.security.ApiKeyProvider;
 import com.aumum.app.mobile.core.model.Asking;
 import com.aumum.app.mobile.core.model.User;
 import com.aumum.app.mobile.core.service.RestService;
+import com.aumum.app.mobile.core.service.ShareService;
 import com.aumum.app.mobile.events.AddAskingReplyEvent;
 import com.aumum.app.mobile.events.AddAskingReplyFinishedEvent;
 import com.aumum.app.mobile.events.ReplyAskingReplyEvent;
@@ -65,6 +66,7 @@ public class AskingDetailsFragment extends LoaderFragment<Asking>
     @Inject AskingStore askingStore;
     @Inject Bus bus;
     @Inject ApiKeyProvider apiKeyProvider;
+    private ShareService shareService;
 
     private Asking asking;
     private String askingId;
@@ -92,10 +94,13 @@ public class AskingDetailsFragment extends LoaderFragment<Asking>
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setHasOptionsMenu(true);
         Injector.inject(this);
 
         final Intent intent = getActivity().getIntent();
         askingId = intent.getStringExtra(AskingDetailsActivity.INTENT_ASKING_ID);
+
+        shareService = new ShareService(getActivity());
     }
 
     @Override
@@ -310,6 +315,7 @@ public class AskingDetailsFragment extends LoaderFragment<Asking>
 
     private void showActionDialog(boolean isOwner) {
         List<String> options = new ArrayList<String>();
+        options.add(getString(R.string.label_share));
         options.add(getString(R.string.label_report));
         if (isOwner) {
             options.add(getString(R.string.label_delete));
@@ -320,8 +326,11 @@ public class AskingDetailsFragment extends LoaderFragment<Asking>
                     public void onClick(DialogInterface dialogInterface, int i) {
                         switch (i) {
                             case 0:
+                                showShare();
                                 break;
                             case 1:
+                                break;
+                            case 2:
                                 deleteAsking();
                                 break;
                             default:
@@ -329,6 +338,10 @@ public class AskingDetailsFragment extends LoaderFragment<Asking>
                         }
                     }
                 });
+    }
+
+    private void showShare() {
+        shareService.show(getActivity());
     }
 
     private void deleteAsking() {

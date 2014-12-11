@@ -171,16 +171,20 @@ public class UserStore {
         return result;
     }
 
-    public void addContact(String userId) throws Exception {
-        User user = getCurrentUser();
-        user.getContacts().add(userId);
-        update(user);
+    public void addContact(String userId, String contactId) throws Exception {
+        User user = getUserById(userId);
+        if (user != null) {
+            user.getContacts().add(contactId);
+            update(user);
+        }
     }
 
-    public void removeContact(String userId) throws Exception {
-        User user = getCurrentUser();
-        user.getContacts().remove(userId);
-        update(user);
+    public void removeContact(String userId, String contactId) throws Exception {
+        User user = getUserById(userId);
+        if (user != null) {
+            user.getContacts().remove(contactId);
+            update(user);
+        }
     }
 
     public void update(User user) throws Exception {
