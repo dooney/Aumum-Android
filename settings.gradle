@@ -1,2 +1,4 @@
 include ':app', ':dao-generator'
 // include ':integration-tests'
+
+include ':social-sdk'

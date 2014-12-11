@@ -27,6 +27,7 @@ import com.aumum.app.mobile.core.dao.UserStore;
 import com.aumum.app.mobile.core.model.User;
 import com.aumum.app.mobile.core.service.MessageDeliveryService;
 import com.aumum.app.mobile.core.service.RestService;
+import com.aumum.app.mobile.core.service.ShareService;
 import com.aumum.app.mobile.events.AddPartyReasonEvent;
 import com.aumum.app.mobile.events.AddPartyReasonFinishedEvent;
 import com.aumum.app.mobile.ui.base.LoaderFragment;
@@ -69,6 +70,7 @@ public class PartyDetailsFragment extends LoaderFragment<Party>
     @Inject PartyStore partyStore;
     @Inject RestService restService;
     @Inject MessageDeliveryService messageDeliveryService;
+    private ShareService shareService;
 
     private Party party;
     private String partyId;
@@ -124,6 +126,7 @@ public class PartyDetailsFragment extends LoaderFragment<Party>
         if (!gpsTracker.canGetLocation()) {
             gpsTracker.showSettingsAlert();
         }
+        shareService = new ShareService(getActivity());
     }
 
     @Override
@@ -356,6 +359,7 @@ public class PartyDetailsFragment extends LoaderFragment<Party>
 
     private void showActionDialog(boolean isOwner) {
         List<String> options = new ArrayList<String>();
+        options.add(getString(R.string.label_share));
         options.add(getString(R.string.label_report));
         if (isOwner) {
             options.add(getString(R.string.label_delete));
@@ -366,8 +370,11 @@ public class PartyDetailsFragment extends LoaderFragment<Party>
                     public void onClick(DialogInterface dialogInterface, int i) {
                         switch (i) {
                             case 0:
+                                showShare();
                                 break;
                             case 1:
+                                break;
+                            case 2:
                                 deleteParty();
                                 break;
                             default:
@@ -375,6 +382,10 @@ public class PartyDetailsFragment extends LoaderFragment<Party>
                         }
                     }
                 });
+    }
+
+    private void showShare() {
+        shareService.show(getActivity());
     }
 
     private void deleteParty() {

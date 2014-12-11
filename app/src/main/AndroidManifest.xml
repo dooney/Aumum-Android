@@ -18,6 +18,7 @@
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.VIBRATE" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
     <uses-permission android:name="android.permission.WAKE_LOCK" />
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
     <uses-permission android:name="com.google.android.c2dm.permission.RECEIVE" />
@@ -197,6 +198,19 @@
         <activity android:name="com.aumum.app.mobile.ui.asking.AskingDetailsActivity" />
         <activity android:name="com.aumum.app.mobile.ui.asking.SearchAskingActivity" />
         <activity android:name="com.aumum.app.mobile.ui.image.ImagePickerActivity" />
+
+        <meta-data
+            android:name="UMENG_APPKEY"
+            android:value="548989a7fd98c57e73000956" >
+        </meta-data>
+        <activity
+            android:name="com.umeng.socialize.view.ShareActivity"
+            android:configChanges="orientation|keyboard"
+            android:launchMode="singleTask"
+            android:noHistory="true"
+            android:theme="@style/Theme.UMDialog"
+            android:windowSoftInputMode="stateVisible|adjustResize" >
+        </activity>
     </application>
 
 </manifest>

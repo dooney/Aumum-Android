@@ -8,6 +8,8 @@ package com.aumum.app.mobile.core;
 public final class Constants {
     private Constants() {}
 
+    public static final String APP_NAME = "com.aumum.app.mobile";
+
     public static final class Auth {
         private Auth() {}
 

@@ -48,6 +48,7 @@
     <string name="label_report">举报</string>
     <string name="label_image">图片</string>
     <string name="label_voice">语音</string>
+    <string name="label_share">分享</string>
 
     <!-- Info Message -->
     <string name="info_authenticating">正在验证您的账号信息，请稍候</string>
