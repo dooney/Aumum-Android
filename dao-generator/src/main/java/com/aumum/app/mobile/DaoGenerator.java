@@ -22,6 +22,7 @@ public class DaoGenerator {
     private static void addMessage(Schema schema) {
         Entity message = schema.addEntity("MessageEntity");
         message.setSuperclass("BaseEntity");
+        message.addStringProperty("context").notNull();
         message.addStringProperty("objectId").notNull().primaryKey();
         message.addDateProperty("createdAt").notNull();
     }
@@ -29,6 +30,7 @@ public class DaoGenerator {
     private static void addUser(Schema schema) {
         Entity user = schema.addEntity("UserEntity");
         user.setSuperclass("BaseEntity");
+        user.addStringProperty("context").notNull();
         user.addStringProperty("objectId").notNull().primaryKey();
         user.addStringProperty("chatId").notNull();
         user.addDateProperty("createdAt").notNull();
@@ -47,6 +49,7 @@ public class DaoGenerator {
     private static void addParty(Schema schema) {
         Entity party = schema.addEntity("PartyEntity");
         party.setSuperclass("BaseEntity");
+        party.addStringProperty("context").notNull();
         party.addStringProperty("objectId").notNull().primaryKey();
         party.addDateProperty("createdAt").notNull();
         party.addStringProperty("userId");
@@ -68,6 +71,7 @@ public class DaoGenerator {
     private static void addContactRequest(Schema schema) {
         Entity request = schema.addEntity("ContactRequestEntity");
         request.addIdProperty();
+        request.addStringProperty("context").notNull();
         request.addStringProperty("userId").notNull();
         request.addStringProperty("intro");
     }
@@ -75,6 +79,7 @@ public class DaoGenerator {
     private static void addAsking(Schema schema) {
         Entity asking = schema.addEntity("AskingEntity");
         asking.setSuperclass("BaseEntity");
+        asking.addStringProperty("context").notNull();
         asking.addStringProperty("objectId").notNull().primaryKey();
         asking.addDateProperty("createdAt").notNull();
         asking.addDateProperty("updatedAt").notNull();

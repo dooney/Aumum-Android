@@ -28,7 +28,8 @@ public class UserEntity extends BaseEntity {
         this.objectId = objectId;
     }
 
-    public UserEntity(String objectId,
+    public UserEntity(String context,
+                      String objectId,
                       String chatId,
                       Date createdAt,
                       String screenName,
@@ -41,6 +42,7 @@ public class UserEntity extends BaseEntity {
                       String askings,
                       String favParties,
                       String favAskings) {
+        this.context = context;
         this.objectId = objectId;
         this.chatId = chatId;
         this.createdAt = createdAt;

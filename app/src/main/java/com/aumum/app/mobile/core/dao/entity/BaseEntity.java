@@ -6,9 +6,21 @@ package com.aumum.app.mobile.core.dao.entity;
 public class BaseEntity {
 
     /** Not-null value. */
+    protected String context;
+    /** Not-null value. */
     protected String objectId;
     /** Not-null value. */
     protected java.util.Date createdAt;
+
+    /** Not-null value. */
+    public String getContext() {
+        return context;
+    }
+
+    /** Not-null value; ensure this value is available before it is saved to the database. */
+    public void setContext(String context) {
+        this.context = context;
+    }
 
     /** Not-null value. */
     public String getObjectId() {

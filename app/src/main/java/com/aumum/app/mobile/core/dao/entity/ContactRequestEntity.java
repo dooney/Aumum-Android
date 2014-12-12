@@ -7,6 +7,7 @@ package com.aumum.app.mobile.core.dao.entity;
 public class ContactRequestEntity {
 
     private Long id;
+    private String context;
     /** Not-null value. */
     private String userId;
     private String intro;
@@ -18,10 +19,22 @@ public class ContactRequestEntity {
         this.id = id;
     }
 
-    public ContactRequestEntity(Long id, String userId, String intro) {
+    public ContactRequestEntity(Long id,
+                                String context,
+                                String userId,
+                                String intro) {
         this.id = id;
+        this.context = context;
         this.userId = userId;
         this.intro = intro;
+    }
+
+    public String getContext() {
+        return context;
+    }
+
+    public void setContext(String context) {
+        this.context = context;
     }
 
     public Long getId() {

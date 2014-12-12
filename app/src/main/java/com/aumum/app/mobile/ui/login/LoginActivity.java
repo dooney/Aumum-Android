@@ -28,7 +28,6 @@ import com.aumum.app.mobile.Injector;
 import com.aumum.app.mobile.R;
 import com.aumum.app.mobile.R.id;
 import com.aumum.app.mobile.R.layout;
-import com.aumum.app.mobile.core.dao.Repository;
 import com.aumum.app.mobile.core.service.RestService;
 import com.aumum.app.mobile.core.Constants;
 import com.aumum.app.mobile.core.model.User;
@@ -57,7 +56,6 @@ public class LoginActivity extends ProgressDialogActivity {
 
     @Inject RestService restService;
     @Inject Bus bus;
-    @Inject Repository repository;
 
     @InjectView(id.et_username) protected EmailAutoCompleteTextView usernameText;
     @InjectView(id.et_password) protected EditText passwordText;
@@ -230,7 +228,6 @@ public class LoginActivity extends ProgressDialogActivity {
             @Override
             public void onSuccess(final Boolean authSuccess) {
                 if (authSuccess) {
-                    repository.reset();
                     finishLogin();
                 } else {
                     Toaster.showShort(LoginActivity.this,

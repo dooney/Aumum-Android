@@ -21,7 +21,8 @@ public class AskingEntity extends BaseEntity  {
         this.objectId = objectId;
     }
 
-    public AskingEntity(String objectId,
+    public AskingEntity(String context,
+                        String objectId,
                         java.util.Date createdAt,
                         java.util.Date updatedAt,
                         String userId,
@@ -30,6 +31,7 @@ public class AskingEntity extends BaseEntity  {
                         String replies,
                         String favorites,
                         String images) {
+        this.context = context;
         this.objectId = objectId;
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;

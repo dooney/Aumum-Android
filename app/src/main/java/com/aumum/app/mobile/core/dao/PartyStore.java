@@ -3,6 +3,7 @@ package com.aumum.app.mobile.core.dao;
 import com.aumum.app.mobile.core.Constants;
 import com.aumum.app.mobile.core.dao.entity.PartyEntity;
 import com.aumum.app.mobile.core.dao.gen.PartyEntityDao;
+import com.aumum.app.mobile.core.infra.security.ApiKeyProvider;
 import com.aumum.app.mobile.core.model.Party;
 import com.aumum.app.mobile.core.model.Place;
 import com.aumum.app.mobile.core.model.Time;
@@ -25,14 +26,16 @@ import de.greenrobot.dao.query.QueryBuilder;
  */
 public class PartyStore {
     private RestService restService;
+    private ApiKeyProvider apiKeyProvider;
     private PartyEntityDao partyEntityDao;
     private Gson gson = new Gson();
     private List<Party> unreadList = new ArrayList<Party>();
 
     private int LIMIT_PER_LOAD = 10;
 
-    public PartyStore(RestService restService, Repository repository) {
+    public PartyStore(RestService restService, ApiKeyProvider apiKeyProvider, Repository repository) {
         this.restService = restService;
+        this.apiKeyProvider = apiKeyProvider;
         this.partyEntityDao = repository.getPartyEntityDao();
     }
 
@@ -78,8 +81,10 @@ public class PartyStore {
     }
 
     private PartyEntity map(Party party) throws Exception {
+        String context = apiKeyProvider.getAuthUserId();
         Date createdAt = DateUtils.stringToDate(party.getCreatedAt(), Constants.DateTime.FORMAT);
         PartyEntity partyEntity = new PartyEntity(
+                context,
                 party.getObjectId(),
                 createdAt,
                 party.getUserId(),
@@ -110,7 +115,9 @@ public class PartyStore {
     }
 
     public List<Party> getUpwardsList(String time) throws Exception {
-        QueryBuilder<PartyEntity> query = partyEntityDao.queryBuilder();
+        String context = apiKeyProvider.getAuthUserId();
+        QueryBuilder<PartyEntity> query = partyEntityDao.queryBuilder()
+                .where(PartyEntityDao.Properties.Context.eq(context));
         if (time != null) {
             Date createdAt = DateUtils.stringToDate(time, Constants.DateTime.FORMAT);
             query = query.where(PartyEntityDao.Properties.CreatedAt.gt(createdAt));
@@ -130,8 +137,10 @@ public class PartyStore {
     }
 
     public List<Party> getBackwardsList(String time) throws Exception {
+        String context = apiKeyProvider.getAuthUserId();
         Date date = DateUtils.stringToDate(time, Constants.DateTime.FORMAT);
         List<PartyEntity> records = partyEntityDao.queryBuilder()
+                .where(PartyEntityDao.Properties.Context.eq(context))
                 .where(PartyEntityDao.Properties.CreatedAt.lt(date))
                 .orderDesc(PartyEntityDao.Properties.CreatedAt)
                 .limit(LIMIT_PER_LOAD)
@@ -146,8 +155,10 @@ public class PartyStore {
     }
 
     public List<Party> getBackwardsList(List<String> idList, String time) throws Exception {
+        String context = apiKeyProvider.getAuthUserId();
         Date date = DateUtils.stringToDate(time, Constants.DateTime.FORMAT);
         List<PartyEntity> records = partyEntityDao.queryBuilder()
+                .where(PartyEntityDao.Properties.Context.eq(context))
                 .where(PartyEntityDao.Properties.ObjectId.in(idList))
                 .where(PartyEntityDao.Properties.CreatedAt.lt(date))
                 .orderDesc(PartyEntityDao.Properties.CreatedAt)
@@ -192,7 +203,9 @@ public class PartyStore {
     }
 
     private String getLastUpdateTime() {
+        String context = apiKeyProvider.getAuthUserId();
         PartyEntity partyEntity = partyEntityDao.queryBuilder()
+                .where(PartyEntityDao.Properties.Context.eq(context))
                 .orderDesc(PartyEntityDao.Properties.CreatedAt)
                 .limit(1)
                 .unique();
