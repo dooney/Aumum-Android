@@ -135,6 +135,7 @@
     <string name="title_activity_asking_details">问题详情</string>
     <string name="title_activity_choose_image">选择图片</string>
     <string name="title_activity_add_image">添加图片</string>
+    <string name="title_activity_complete_profile">完善个人信息</string>
 
     <!-- Register -->
     <string name="hint_screen_name">昵称</string>

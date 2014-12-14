@@ -24,8 +24,6 @@ import static com.aumum.app.mobile.ui.splash.SplashActivity.PARAM_AUTHTOKEN_TYPE
 
 class AccountAuthenticator extends AbstractAccountAuthenticator {
 
-    private static final String DESCRIPTION_CLIENT = "Bootstrap for Android";
-
     private final Context context;
 
     public AccountAuthenticator(final Context context) {

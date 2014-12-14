@@ -220,6 +220,15 @@ public class RestService {
         return getUserService().getByChatId(where, 1).getResults().get(0);
     }
 
+    public boolean getUserProfileCompleted(String id) {
+        String key = Constants.Http.User.PARAM_PROFILE_COMPLETED;
+        JsonObject response = getUserService().getFields(id, key);
+        if (response.has(key)) {
+            return response.get(key).getAsBoolean();
+        }
+        return false;
+    }
+
     public Message newMessage(Message message) {
         return getMessageService().newMessage(message);
     }

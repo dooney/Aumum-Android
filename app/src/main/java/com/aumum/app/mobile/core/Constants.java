@@ -143,6 +143,7 @@ public final class Constants {
             public static final String PARAM_ASKINGS = "askings";
             public static final String PARAM_PARTY_FAVORITES = "favParties";
             public static final String PARAM_ASKING_FAVORITES = "favAskings";
+            public static final String PARAM_PROFILE_COMPLETED = "profileCompleted";
         }
 
         public static final class Asking {

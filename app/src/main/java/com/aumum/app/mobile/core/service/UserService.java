@@ -50,4 +50,8 @@ public interface UserService {
     @GET(Constants.Http.URL_USERS_FRAG)
     ListWrapper<User> getByScreenName(@Query("where") String where,
                                       @Query("limit") int limit);
+
+    @GET(Constants.Http.URL_USER_BY_ID_FRAG)
+    JsonObject getFields(@Path("id") String id,
+                         @Query("keys") String keys);
 }

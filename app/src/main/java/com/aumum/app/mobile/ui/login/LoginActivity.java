@@ -72,6 +72,7 @@ public class LoginActivity extends ProgressDialogActivity {
     private String username;
     private String password;
     private String userId;
+    private boolean profileCompleted;
 
     /**
      * In this instance the token is simply the sessionId returned from Parse.com. This could be a
@@ -79,6 +80,8 @@ public class LoginActivity extends ProgressDialogActivity {
      * sessionId to prove the example of how to utilize a token.
      */
     private String token;
+
+    private final int COMPLETE_ACTIVITY_REQ_CODE = 100;
 
     @Override
     public void onCreate(Bundle bundle) {
@@ -169,6 +172,15 @@ public class LoginActivity extends ProgressDialogActivity {
         bus.unregister(this);
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == COMPLETE_ACTIVITY_REQ_CODE) {
+            finishLogin();
+        }
+    }
+
     private void updateUIWithValidation() {
         final boolean populated = populated(usernameText) && populated(passwordText);
         signInButton.setEnabled(populated);
@@ -211,6 +223,7 @@ public class LoginActivity extends ProgressDialogActivity {
                 }
                 token = response.getSessionToken();
                 userId = response.getObjectId();
+                profileCompleted = restService.getUserProfileCompleted(userId);
 
                 return true;
             }
@@ -228,6 +241,10 @@ public class LoginActivity extends ProgressDialogActivity {
             @Override
             public void onSuccess(final Boolean authSuccess) {
                 if (authSuccess) {
+                    if (!profileCompleted) {
+                        startCompleteProfileActivity(userId);
+                        return;
+                    }
                     finishLogin();
                 } else {
                     Toaster.showShort(LoginActivity.this,
@@ -268,5 +285,11 @@ public class LoginActivity extends ProgressDialogActivity {
 
         setResult(RESULT_OK, intent);
         finish();
+    }
+
+    private void startCompleteProfileActivity(String userId) {
+        final Intent intent = new Intent(this, CompleteProfileActivity.class);
+        intent.putExtra(CompleteProfileActivity.INTENT_USER_ID, userId);
+        startActivityForResult(intent, COMPLETE_ACTIVITY_REQ_CODE);
     }
 }
