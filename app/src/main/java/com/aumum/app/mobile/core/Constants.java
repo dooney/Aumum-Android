@@ -164,6 +164,12 @@ public final class Constants {
         private Options() {
         }
 
+        public static final String COUNTRY_OPTIONS[] = {
+                "澳大利亚",
+                "新西兰",
+                "中国"
+        };
+
         public static final String AREA_OPTIONS[] = {
             "悉尼",
             "墨尔本",

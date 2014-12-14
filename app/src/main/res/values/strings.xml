@@ -138,6 +138,7 @@
     <string name="title_activity_complete_profile">完善个人信息</string>
 
     <!-- Register -->
+    <string name="hint_phone">请输入您的手机号码</string>
     <string name="hint_screen_name">昵称</string>
     <string name="hint_email_address">邮箱</string>
     <string name="hint_password">密码</string>
@@ -152,6 +153,9 @@
     <string name="label_forgot_password">忘记密码？</string>
     <string name="label_join_now">注册新用户</string>
     <string name="label_prompt_sign_in">已有账户？登录</string>
+    <string name="label_country">国家</string>
+    <string name="label_confirm_phone">确认手机号码</string>
+    <string name="label_will_send_verification_code"><Data>&lt;font color=#d9534f>验证码短信&lt;/font>将被发送到这个号码:</Data></string>
     <string name="hello_world">Hello world!</string>
     <string name="hello_blank_fragment">Hello blank fragment</string>
 

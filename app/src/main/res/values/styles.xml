@@ -467,6 +467,21 @@
     <style name="Button.Splash.SignIn" parent="Button.Primary" />
 
     <!-- Account -->
+    <style name="TextView.Account" parent="TextView">
+        <item name="android:textColor">@color/black</item>
+        <item name="android:textSize">@dimen/text_sz_large</item>
+    </style>
+    <style name="ButtonTextView.Account.Country" parent="ButtonTextView.Account">
+        <item name="android:drawableLeft">@drawable/ic_fa_country</item>
+        <item name="android:text">@string/label_country</item>
+    </style>
+    <style name="TextView.Account.Country" parent="TextView.Account" />
+    <style name="TextView.Account.CountryCode" parent="TextView.Account" />
+    <style name="EditText.Phone" parent="EditText">
+        <item name="android:drawableLeft">@drawable/ic_fa_mobile</item>
+        <item name="android:hint">@string/hint_phone</item>
+        <item name="android:inputType">phone</item>
+    </style>
     <style name="EditText.Email" parent="EditText">
         <item name="android:drawableLeft">@drawable/ic_fa_envelope</item>
         <item name="android:hint">@string/hint_email_address</item>

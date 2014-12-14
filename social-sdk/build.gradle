@@ -5,14 +5,13 @@ android {
     buildToolsVersion "19.1.0"
 
     defaultConfig {
-        applicationId "com.umeng_social_sdk_res_lib"
         minSdkVersion 8
         targetSdkVersion 10
     }
 
     buildTypes {
         release {
-            runProguard false
+            minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.txt'
         }
     }

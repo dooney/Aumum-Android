@@ -8,28 +8,48 @@
     android:focusable="true"
     android:focusableInTouchMode="true" >
 
-    <com.greenhalolabs.emailautocompletetextview.EmailAutoCompleteTextView
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        android:id="@+id/et_email"
-        style="@style/EditText.Email"
-        app:clearButtonDrawable="@drawable/ic_fa_times"
-        android:imeOptions="actionNext"
-        android:nextFocusDown="@+id/et_password" />
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
 
-    <EditText
+        <TextView
+            android:layout_width="wrap_content"
+            style="@style/ButtonTextView.Account.Country" />
+
+        <TextView
+            android:id="@+id/text_country"
+            style="@style/TextView.Account.Country"
+            android:layout_centerVertical="true"
+            android:layout_alignParentRight="true"
+            android:paddingRight="@dimen/margin_medium"
+            android:text="澳大利亚"/>
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/text_country_code"
+            style="@style/TextView.Account.CountryCode"
+            android:paddingLeft="@dimen/margin_extra_large"
+            android:paddingRight="@dimen/margin_extra_large"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:text="0061"/>
+
+        <com.aumum.app.mobile.ui.view.ClearEditText
+            android:id="@+id/et_phone"
+            style="@style/EditText.Phone"
+            android:layout_toRightOf="@+id/text_country_code"/>
+
+    </RelativeLayout>
+
+    <com.aumum.app.mobile.ui.view.ClearEditText
         android:id="@+id/et_password"
         style="@style/EditText.Password"
-        android:imeOptions="actionNext"
-        android:nextFocusDown="@+id/et_screen_name" />
-
-    <EditText
-        android:id="@+id/et_screen_name"
-        style="@style/EditText.ScreenName"
         android:imeOptions="actionDone" />
-
-    <TextView
-        android:id="@+id/b_area"
-        style="@style/ButtonTextView.Account.Area" />
 
     <Button
         android:id="@+id/b_sign_up"

@@ -68,7 +68,7 @@ android {
 
     buildTypes {
         debug {
-            runProguard false
+            minifyEnabled false
             // zipAlign false // this is default for debug
         }
         release {
