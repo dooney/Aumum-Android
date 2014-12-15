@@ -516,6 +516,16 @@
     <style name="Button.Account.ResetPassword" parent="Button.Primary">
         <item name="android:text">@string/label_submit</item>
     </style>
+    <style name="EditText.VerificationCode" parent="EditText">
+        <item name="android:hint">@string/hint_verification_code</item>
+        <item name="android:inputType">phone</item>
+    </style>
+    <style name="Button.Verify.Confirm" parent="Button.Primary">
+        <item name="android:text">@string/label_ok</item>
+    </style>
+    <style name="Button.Verify.Resend" parent="Button.Danger">
+        <item name="android:textSize">@dimen/text_sz_medium</item>
+    </style>
 
     <!-- Widgets -->
     <style name="Spinner">

@@ -74,6 +74,9 @@
     <string name="info_loading">正在加载</string>
     <string name="info_no_more">已加载所有项</string>
     <string name="info_downloading_voice">正在下载语音，请稍候</string>
+    <string name="info_sending_verification_sms">正在发送验证码短信，请稍候</string>
+    <string name="info_will_receive_verification_code">将会收到一条包含4位数字验证码的短信</string>
+    <string name="info_will_receive_sms_within"><Data>接收短信大约需要&lt;font color=#000000>%s&lt;/font>秒</Data></string>
 
     <!-- Error Message -->
     <string name="error_load_parties">获取聚会列表失败</string>
@@ -110,6 +113,7 @@
     <string name="error_recoding_failed">录音失败</string>
     <string name="error_recoding_too_short">录音太短</string>
     <string name="error_send_recoding_failed">发送录音失败</string>
+    <string name="error_send_verification_sms">发送验证码短信失败</string>
 
     <!-- Title -->
     <string name="title_activity_login">用户登录</string>
@@ -136,6 +140,7 @@
     <string name="title_activity_choose_image">选择图片</string>
     <string name="title_activity_add_image">添加图片</string>
     <string name="title_activity_complete_profile">完善个人信息</string>
+    <string name="title_activity_verify">验证码</string>
 
     <!-- Register -->
     <string name="hint_phone">请输入您的手机号码</string>
@@ -156,6 +161,9 @@
     <string name="label_country">国家</string>
     <string name="label_confirm_phone">确认手机号码</string>
     <string name="label_will_send_verification_code"><Data>&lt;font color=#d9534f>验证码短信&lt;/font>将被发送到这个号码:</Data></string>
+    <string name="label_your_phone">您的手机号%1$s %2$s</string>
+    <string name="hint_verification_code">请输入4位数字验证码</string>
+    <string name="label_resend_verification_code">重新发送验证码</string>
     <string name="hello_world">Hello world!</string>
     <string name="hello_blank_fragment">Hello blank fragment</string>
 

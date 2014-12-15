@@ -194,4 +194,7 @@ public class Strings {
         return namedFormat(str, map);
     }
 
+    public static String removeLeadingZeros(String str) {
+        return str.replaceFirst("^0+(?!$)", "");
+    }
 }

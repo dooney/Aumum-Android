@@ -1,0 +1,32 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="@dimen/margin_large"
+    android:orientation="vertical" >
+
+    <TextView
+        android:id="@+id/text_phone"
+        style="@style/TextView.Subtitle"
+        android:paddingLeft="@dimen/margin_large"
+        android:paddingBottom="@dimen/margin_medium"
+        android:text="您的手机号0061 451271020"/>
+
+    <TextView
+        style="@style/TextView.Subtitle"
+        android:paddingLeft="@dimen/margin_large"
+        android:paddingBottom="@dimen/margin_large"
+        android:text="@string/info_will_receive_verification_code"/>
+
+    <EditText
+        android:id="@+id/et_verification_code"
+        style="@style/EditText.VerificationCode"/>
+
+    <Button
+        android:id="@+id/b_confirm"
+        style="@style/Button.Verify.Confirm" />
+
+    <Button
+        android:id="@+id/b_resend"
+        style="@style/Button.Verify.Resend" />
+
+</LinearLayout>

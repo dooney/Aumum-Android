@@ -34,12 +34,12 @@
     <uses-permission android:name="com.aumum.app.mobile.permission.C2D_MESSAGE" />
 
     <application
-        android:name="com.aumum.app.mobile.BootstrapApplication"
+        android:name=".BootstrapApplication"
         android:icon="@drawable/icon"
         android:label="@string/app_name"
         android:theme="@style/Theme.Aumum.Light" >
         <activity
-            android:name="com.aumum.app.mobile.ui.LaunchActivity"
+            android:name=".ui.LaunchActivity"
             android:theme="@style/Theme.Aumum.Light.NoTitle" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -49,12 +49,12 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="com.aumum.app.mobile.ui.main.MainActivity"
+            android:name=".ui.main.MainActivity"
             android:label="@string/app_name" >
         </activity>
 
         <service
-            android:name="com.aumum.app.mobile.core.infra.security.AccountAuthenticatorService"
+            android:name=".core.infra.security.AccountAuthenticatorService"
             android:process=":auth" >
             <intent-filter>
                 <action android:name="android.accounts.AccountAuthenticator" />
@@ -66,31 +66,31 @@
         </service>
 
         <activity
-            android:name="com.aumum.app.mobile.ui.splash.SplashActivity"
+            android:name=".ui.splash.SplashActivity"
             android:theme="@style/Theme.Aumum.Light.NoTitle" >
         </activity>
         <activity
-            android:name="com.aumum.app.mobile.ui.login.LoginActivity"
+            android:name=".ui.login.LoginActivity"
             android:label="@string/title_activity_login" >
         </activity>
         <activity
-            android:name="com.aumum.app.mobile.ui.register.RegisterActivity"
+            android:name=".ui.register.RegisterActivity"
             android:label="@string/title_activity_register" >
         </activity>
         <activity
-            android:name="com.aumum.app.mobile.ui.register.RegistrationSuccessActivity"
+            android:name=".ui.register.RegistrationSuccessActivity"
             android:label="@string/title_activity_registration_success" >
         </activity>
         <activity
-            android:name="com.aumum.app.mobile.ui.account.ResetPasswordActivity"
+            android:name=".ui.account.ResetPasswordActivity"
             android:label="@string/title_activity_reset_password" >
         </activity>
         <activity
-            android:name="com.aumum.app.mobile.ui.account.ResetPasswordSuccessActivity"
+            android:name=".ui.account.ResetPasswordSuccessActivity"
             android:label="@string/title_activity_reset_password_success" >
         </activity>
         <activity
-            android:name="com.aumum.app.mobile.ui.user.UserActivity"
+            android:name=".ui.user.UserActivity"
             android:label="@string/title_activity_user" >
             <intent-filter>
                 <category android:name="android.intent.category.DEFAULT" />
@@ -110,7 +110,7 @@
             </intent-filter>
         </receiver>
         <receiver
-            android:name="com.aumum.app.mobile.ui.notification.NotificationReceiver"
+            android:name=".ui.notification.NotificationReceiver"
             android:exported="false" >
             <intent-filter>
                 <action android:name="com.parse.push.intent.RECEIVE" />
@@ -134,20 +134,20 @@
             android:resource="@drawable/icon" />
 
         <activity
-            android:name="com.aumum.app.mobile.ui.party.PartyCommentsActivity"
+            android:name=".ui.party.PartyCommentsActivity"
             android:label="@string/title_activity_party_comments" >
         </activity>
         <activity
-            android:name="com.aumum.app.mobile.ui.party.PartyDetailsActivity"
+            android:name=".ui.party.PartyDetailsActivity"
             android:label="@string/title_activity_party_details" >
         </activity>
-        <activity android:name="com.aumum.app.mobile.ui.user.UpdateAvatarActivity" />
+        <activity android:name=".ui.user.UpdateAvatarActivity" />
         <activity
-            android:name="com.aumum.app.mobile.ui.party.NewPartyActivity"
+            android:name=".ui.party.NewPartyActivity"
             android:label="@string/title_activity_new_party" >
         </activity>
         <activity
-            android:name="com.aumum.app.mobile.ui.party.SearchPartyActivity"
+            android:name=".ui.party.SearchPartyActivity"
             android:label="@string/title_activity_search_party" >
         </activity>
 
@@ -158,46 +158,46 @@
         <service android:name="com.easemob.chat.EMChatService" />
 
         <activity
-            android:name="com.aumum.app.mobile.ui.contact.AllGroupsActivity"
+            android:name=".ui.contact.AllGroupsActivity"
             android:label="@string/title_activity_all_groups" >
         </activity>
         <activity
-            android:name="com.aumum.app.mobile.ui.chat.ChatActivity"
+            android:name=".ui.chat.ChatActivity"
             android:excludeFromRecents="true"
             android:launchMode="singleTask"
             android:taskAffinity=""
             android:windowSoftInputMode="adjustResize" >
         </activity>
         <activity
-            android:name="com.aumum.app.mobile.ui.contact.AddContactActivity"
+            android:name=".ui.contact.AddContactActivity"
             android:label="@string/title_activity_add_contact" >
         </activity>
         <activity
-            android:name="com.aumum.app.mobile.ui.contact.ContactRequestsActivity"
+            android:name=".ui.contact.ContactRequestsActivity"
             android:excludeFromRecents="true"
             android:label="@string/title_activity_contact_requests"
             android:launchMode="singleTask"
             android:taskAffinity="" >
         </activity>
         <activity
-            android:name="com.aumum.app.mobile.ui.contact.MyGroupsActivity"
+            android:name=".ui.contact.MyGroupsActivity"
             android:label="@string/title_activity_my_groups" >
         </activity>
         <activity
-            android:name="com.aumum.app.mobile.ui.contact.InviteFriendsActivity"
+            android:name=".ui.contact.InviteFriendsActivity"
             android:label="@string/title_activity_invite_friends" >
         </activity>
         <activity
-            android:name="com.aumum.app.mobile.ui.settings.SettingsActivity"
+            android:name=".ui.settings.SettingsActivity"
             android:label="@string/title_activity_settings" >
         </activity>
         <activity
-            android:name="com.aumum.app.mobile.ui.asking.NewAskingActivity"
+            android:name=".ui.asking.NewAskingActivity"
             android:label="@string/title_activity_new_asking" >
         </activity>
-        <activity android:name="com.aumum.app.mobile.ui.asking.AskingDetailsActivity" />
-        <activity android:name="com.aumum.app.mobile.ui.asking.SearchAskingActivity" />
-        <activity android:name="com.aumum.app.mobile.ui.image.ImagePickerActivity" />
+        <activity android:name=".ui.asking.AskingDetailsActivity" />
+        <activity android:name=".ui.asking.SearchAskingActivity" />
+        <activity android:name=".ui.image.ImagePickerActivity" />
 
         <meta-data
             android:name="UMENG_APPKEY"
@@ -213,8 +213,12 @@
             android:windowSoftInputMode="stateVisible|adjustResize" >
         </activity>
         <activity
-            android:name="com.aumum.app.mobile.ui.login.CompleteProfileActivity"
+            android:name=".ui.login.CompleteProfileActivity"
             android:label="@string/title_activity_complete_profile" >
+        </activity>
+        <activity
+            android:name=".ui.register.VerifyActivity"
+            android:label="@string/title_activity_verify" >
         </activity>
     </application>
 

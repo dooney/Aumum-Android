@@ -1,11 +1,9 @@
 package com.aumum.app.mobile.ui.register;
 
-import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
-import android.text.InputType;
 import android.text.TextWatcher;
 import android.view.View;
 import android.widget.Button;
@@ -22,15 +20,20 @@ import com.aumum.app.mobile.ui.helper.TextWatcherAdapter;
 import com.aumum.app.mobile.ui.view.Animation;
 import com.aumum.app.mobile.utils.DialogUtils;
 import com.aumum.app.mobile.utils.SafeAsyncTask;
+import com.aumum.app.mobile.utils.Strings;
+import com.github.kevinsawicki.wishlist.Toaster;
 
 import javax.inject.Inject;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
+import cn.smssdk.EventHandler;
+import cn.smssdk.SMSSDK;
 
 import static com.aumum.app.mobile.ui.splash.SplashActivity.SHOW_SIGN_IN;
 
-public class RegisterActivity extends ProgressDialogActivity {
+public class RegisterActivity extends ProgressDialogActivity
+    implements ConfirmPhoneDialog.OnConfirmListener {
     @Inject RestService restService;
     @Inject ChatService chatService;
 
@@ -43,8 +46,11 @@ public class RegisterActivity extends ProgressDialogActivity {
 
     private final TextWatcher watcher = validationTextWatcher();
 
+    private EventHandler handler;
     private SafeAsyncTask<Boolean> task;
 
+    private String countryCode;
+    private String phone;
     private String password;
 
     @Override
@@ -81,9 +87,11 @@ public class RegisterActivity extends ProgressDialogActivity {
         signUpButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                ConfirmPhoneDialog dialog = new ConfirmPhoneDialog(RegisterActivity.this);
-                String phone = countryCodeText.getText() + " " + phoneText.getText().toString();
-                dialog.setPhone(phone);
+                ConfirmPhoneDialog dialog = new ConfirmPhoneDialog(RegisterActivity.this, RegisterActivity.this);
+                countryCode = countryCodeText.getText().toString().trim();
+                phone = phoneText.getText().toString().trim();
+                password = passwordText.getText().toString();
+                dialog.setPhone(countryCode, phone);
                 dialog.show();
             }
         });
@@ -97,7 +105,37 @@ public class RegisterActivity extends ProgressDialogActivity {
             }
         });
 
+        handler = new EventHandler() {
+            public void afterEvent(final int event, final int result, final Object data) {
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        hideProgress();
+                        if (result == SMSSDK.RESULT_COMPLETE) {
+                            startVerifyActivity();
+                        } else {
+                            Toaster.showShort(RegisterActivity.this,
+                                    R.string.error_send_verification_sms);
+                        }
+                    }
+                });
+            }
+        };
+
         Animation.flyIn(this);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        updateUIWithValidation();
+        SMSSDK.registerEventHandler(handler);
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        SMSSDK.unregisterEventHandler(handler);
     }
 
     private TextWatcher validationTextWatcher() {
@@ -109,12 +147,6 @@ public class RegisterActivity extends ProgressDialogActivity {
         };
     }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-        updateUIWithValidation();
-    }
-
     private void updateUIWithValidation() {
         final boolean populated = populated(phoneText) &&
                 populated(passwordText);
@@ -123,5 +155,21 @@ public class RegisterActivity extends ProgressDialogActivity {
 
     private boolean populated(final EditText editText) {
         return editText.length() > 0;
+    }
+
+    @Override
+    public void onConfirmPhone() {
+        progress.setMessageId(R.string.info_sending_verification_sms);
+        showProgress();
+        SMSSDK.getVerificationCode(Strings.removeLeadingZeros(countryCode), phone);
+    }
+
+    private void startVerifyActivity() {
+        final Intent intent = new Intent(this, VerifyActivity.class);
+        intent.putExtra(VerifyActivity.INTENT_COUNTRY_CODE, countryCode);
+        intent.putExtra(VerifyActivity.INTENT_PHONE, phone);
+        intent.putExtra(VerifyActivity.INTENT_PASSWORD, password);
+        startActivity(intent);
+        finish();
     }
 }

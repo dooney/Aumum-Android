@@ -9,6 +9,7 @@ import android.content.Context;
 import com.aumum.app.mobile.utils.EMChatUtils;
 import com.aumum.app.mobile.utils.ImageLoaderUtils;
 import com.aumum.app.mobile.utils.NotificationUtils;
+import com.aumum.app.mobile.utils.SmsSdkUtils;
 import com.aumum.app.mobile.utils.UpYunUtils;
 
 /**
@@ -47,6 +48,7 @@ public class BootstrapApplication extends Application {
         ImageLoaderUtils.init(this);
         EMChatUtils.init(this);
         UpYunUtils.init();
+        SmsSdkUtils.init(this);
     }
 
     private Object getRootModule() {
