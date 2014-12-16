@@ -6,6 +6,7 @@ import static android.view.inputmethod.EditorInfo.IME_ACTION_DONE;
 import static com.aumum.app.mobile.ui.splash.SplashActivity.SHOW_SIGN_UP;
 import static com.aumum.app.mobile.ui.splash.SplashActivity.SHOW_RESET_PASSWORD;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
@@ -22,16 +23,17 @@ import com.aumum.app.mobile.Injector;
 import com.aumum.app.mobile.R;
 import com.aumum.app.mobile.R.id;
 import com.aumum.app.mobile.R.layout;
+import com.aumum.app.mobile.core.Constants;
 import com.aumum.app.mobile.core.service.RestService;
 import com.aumum.app.mobile.core.model.User;
 import com.aumum.app.mobile.events.UnAuthorizedErrorEvent;
 import com.aumum.app.mobile.ui.base.AuthenticateActivity;
 import com.aumum.app.mobile.ui.helper.TextWatcherAdapter;
 import com.aumum.app.mobile.ui.view.Animation;
+import com.aumum.app.mobile.utils.DialogUtils;
 import com.aumum.app.mobile.utils.EditTextUtils;
 import com.aumum.app.mobile.utils.SafeAsyncTask;
 import com.github.kevinsawicki.wishlist.Toaster;
-import com.greenhalolabs.emailautocompletetextview.EmailAutoCompleteTextView;
 import com.squareup.otto.Bus;
 import com.squareup.otto.Subscribe;
 
@@ -49,7 +51,9 @@ public class LoginActivity extends AuthenticateActivity {
     @Inject RestService restService;
     @Inject Bus bus;
 
-    @InjectView(id.et_username) protected EmailAutoCompleteTextView usernameText;
+    @InjectView(R.id.text_country) protected TextView countryText;
+    @InjectView(R.id.text_country_code) protected TextView countryCodeText;
+    @InjectView(R.id.et_phone) protected EditText phoneText;
     @InjectView(id.et_password) protected EditText passwordText;
     @InjectView(id.b_sign_in) protected Button signInButton;
     @InjectView(id.t_forgot_password) protected TextView forgotPasswordText;
@@ -71,6 +75,30 @@ public class LoginActivity extends AuthenticateActivity {
 
         progress.setMessageId(R.string.info_authenticating);
 
+        countryText.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                final String countryOptions[] = Constants.Options.COUNTRY_OPTIONS;
+                DialogUtils.showDialog(LoginActivity.this, countryOptions, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        countryText.setText(countryOptions[i]);
+                        switch (i) {
+                            case 1:
+                                countryCodeText.setText("0064");
+                                break;
+                            case 2:
+                                countryCodeText.setText("0086");
+                                break;
+                            default:
+                                countryCodeText.setText("0061");
+                                break;
+                        }
+                    }
+                });
+            }
+        });
+        phoneText.addTextChangedListener(watcher);
         passwordText.setOnKeyListener(new OnKeyListener() {
 
             public boolean onKey(final View v, final int keyCode, final KeyEvent event) {
@@ -93,7 +121,6 @@ public class LoginActivity extends AuthenticateActivity {
                 return false;
             }
         });
-        usernameText.addTextChangedListener(watcher);
         passwordText.addTextChangedListener(watcher);
         signInButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -146,7 +173,7 @@ public class LoginActivity extends AuthenticateActivity {
     }
 
     private void updateUIWithValidation() {
-        final boolean populated = populated(usernameText) && populated(passwordText);
+        final boolean populated = populated(phoneText) && populated(passwordText);
         signInButton.setEnabled(populated);
     }
 
@@ -165,17 +192,17 @@ public class LoginActivity extends AuthenticateActivity {
             return;
         }
 
-        final String username = usernameText.getText().toString();
-        EditTextUtils.hideSoftInput(usernameText);
+        final String mobile = countryCodeText.getText() + phoneText.getText().toString();
+        EditTextUtils.hideSoftInput(phoneText);
         password = passwordText.getText().toString();
         EditTextUtils.hideSoftInput(passwordText);
         showProgress();
 
         task = new SafeAsyncTask<Boolean>() {
             public Boolean call() throws Exception {
-                User response = restService.authenticate(username, password);
-                token = response.getSessionToken();
+                User response = restService.authenticate(mobile, password);
                 userId = response.getObjectId();
+                token = response.getSessionToken();
                 return true;
             }
 

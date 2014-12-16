@@ -41,14 +41,14 @@
 
         <com.aumum.app.mobile.ui.view.ClearEditText
             android:id="@+id/et_phone"
-            style="@style/EditText.Phone"
+            style="@style/EditText.Register.Phone"
             android:layout_toRightOf="@+id/text_country_code"/>
 
     </RelativeLayout>
 
     <com.aumum.app.mobile.ui.view.ClearEditText
         android:id="@+id/et_password"
-        style="@style/EditText.Password"
+        style="@style/EditText.Register.Password"
         android:imeOptions="actionDone" />
 
     <Button

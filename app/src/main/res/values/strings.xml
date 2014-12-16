@@ -84,7 +84,7 @@
     <string name="error_load_party_comments">获取聚会评论失败</string>
     <string name="error_load_user">获取用户信息失败</string>
     <string name="error_upload_avatar">上传头像图片失败</string>
-    <string name="error_bad_credentials">您的账号验证失败，请重新输入正确的用户名/密码</string>
+    <string name="error_bad_credentials">您的账号验证失败，请重新输入正确的手机号/密码</string>
     <string name="error_authentication">您的账号验证失败</string>
     <string name="error_registration">注册失败</string>
     <string name="error_reset_password">您的密码重置失败</string>
@@ -143,11 +143,13 @@
     <string name="title_activity_complete_profile">完善个人信息</string>
     <string name="title_activity_verify">验证码</string>
 
-    <!-- Register -->
-    <string name="hint_phone">请输入您的手机号码</string>
+    <!-- Account -->
+    <string name="hint_login_phone">手机号</string>
+    <string name="hint_login_password">密码</string>
+    <string name="hint_register_phone">请输入要注册的手机号</string>
+    <string name="hint_register_password">请输入密码，6-16位字母或数字</string>
     <string name="hint_screen_name">昵称</string>
     <string name="hint_email_address">邮箱</string>
-    <string name="hint_password">密码</string>
     <string name="hint_area">所在城市</string>
     <string name="hint_avatar">头像图片</string>
     <string name="hint_about">个人简介</string>

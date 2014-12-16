@@ -477,20 +477,30 @@
     </style>
     <style name="TextView.Account.Country" parent="TextView.Account" />
     <style name="TextView.Account.CountryCode" parent="TextView.Account" />
-    <style name="EditText.Phone" parent="EditText">
+    <style name="EditText.Login.Phone" parent="EditText">
         <item name="android:drawableLeft">@drawable/ic_fa_mobile</item>
-        <item name="android:hint">@string/hint_phone</item>
+        <item name="android:hint">@string/hint_login_phone</item>
         <item name="android:inputType">phone</item>
+    </style>
+    <style name="EditText.Login.Password" parent="EditText">
+        <item name="android:drawableLeft">@drawable/ic_fa_lock</item>
+        <item name="android:hint">@string/hint_login_password</item>
+        <item name="android:inputType">textPassword</item>
+    </style>
+    <style name="EditText.Register.Phone" parent="EditText">
+        <item name="android:drawableLeft">@drawable/ic_fa_mobile</item>
+        <item name="android:hint">@string/hint_register_phone</item>
+        <item name="android:inputType">phone</item>
+    </style>
+    <style name="EditText.Register.Password" parent="EditText">
+        <item name="android:drawableLeft">@drawable/ic_fa_lock</item>
+        <item name="android:hint">@string/hint_register_password</item>
+        <item name="android:inputType">textPassword</item>
     </style>
     <style name="EditText.Email" parent="EditText">
         <item name="android:drawableLeft">@drawable/ic_fa_envelope</item>
         <item name="android:hint">@string/hint_email_address</item>
         <item name="android:inputType">textEmailAddress</item>
-    </style>
-    <style name="EditText.Password" parent="EditText">
-        <item name="android:drawableLeft">@drawable/ic_fa_lock</item>
-        <item name="android:hint">@string/hint_password</item>
-        <item name="android:inputType">textPassword</item>
     </style>
     <style name="EditText.ScreenName" parent="EditText">
         <item name="android:drawableLeft">@drawable/ic_fa_user_l</item>
