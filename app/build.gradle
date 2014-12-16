@@ -33,6 +33,7 @@ dependencies {
     compile files('src/main/libs/java-sdk-3.0.jar')
     compile project(':social-sdk')
     compile files('src/main/libs/SMSSDK-1.1.6.jar')
+    compile 'com.mobsandgeeks:android-saripaar:2.0-SNAPSHOT'
 }
 
 android {

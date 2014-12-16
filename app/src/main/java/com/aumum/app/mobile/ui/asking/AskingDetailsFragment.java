@@ -345,8 +345,10 @@ public class AskingDetailsFragment extends LoaderFragment<Asking>
     }
 
     private void deleteAsking() {
+        if (task != null) {
+            return;
+        }
         showProgress();
-
         task = new SafeAsyncTask<Boolean>() {
             public Boolean call() throws Exception {
                 restService.deleteAsking(askingId);

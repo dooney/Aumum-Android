@@ -59,6 +59,9 @@ public class AcceptContactListener implements View.OnClickListener {
     }
 
     private void acceptContact() {
+        if (task != null) {
+            return;
+        }
         if (onProgressListener != null) {
             onProgressListener.onAcceptContactStart();
         }

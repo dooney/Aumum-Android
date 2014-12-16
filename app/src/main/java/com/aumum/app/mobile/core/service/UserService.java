@@ -44,8 +44,8 @@ public interface UserService {
     User getById(@Path("id") String id);
 
     @GET(Constants.Http.URL_USERS_FRAG)
-    ListWrapper<User> getByChatId(@Query("where") String where,
-                                  @Query("limit") int limit);
+    ListWrapper<User> getList(@Query("where") String where,
+                              @Query("limit") int limit);
 
     @GET(Constants.Http.URL_USERS_FRAG)
     ListWrapper<User> getByScreenName(@Query("where") String where,

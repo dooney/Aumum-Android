@@ -191,13 +191,11 @@ public class LoginActivity extends AuthenticateActivity {
         if (task != null) {
             return;
         }
-
         final String mobile = countryCodeText.getText() + phoneText.getText().toString();
         EditTextUtils.hideSoftInput(phoneText);
         password = passwordText.getText().toString();
         EditTextUtils.hideSoftInput(passwordText);
         showProgress();
-
         task = new SafeAsyncTask<Boolean>() {
             public Boolean call() throws Exception {
                 User response = restService.authenticate(mobile, password);

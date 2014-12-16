@@ -389,8 +389,10 @@ public class PartyDetailsFragment extends LoaderFragment<Party>
     }
 
     private void deleteParty() {
+        if (task != null) {
+            return;
+        }
         showProgress();
-
         task = new SafeAsyncTask<Boolean>() {
             public Boolean call() throws Exception {
                 restService.deleteParty(party.getObjectId());

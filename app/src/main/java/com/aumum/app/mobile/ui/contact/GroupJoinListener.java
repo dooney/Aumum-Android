@@ -50,6 +50,9 @@ public class GroupJoinListener implements View.OnClickListener {
 
     @Override
     public void onClick(final View view) {
+        if (task != null) {
+            return;
+        }
         if (onProgressListener != null) {
             onProgressListener.onJoinStart();
         }

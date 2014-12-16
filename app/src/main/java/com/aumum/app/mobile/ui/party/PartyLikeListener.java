@@ -48,6 +48,9 @@ public class PartyLikeListener implements LikeTextView.OnLikeListener {
 
     @Override
     public void onUnLike(LikeTextView view) {
+        if (task != null) {
+            return;
+        }
         task = new SafeAsyncTask<Boolean>() {
             public Boolean call() throws Exception {
                 User currentUser = userStore.getCurrentUser();
@@ -87,6 +90,9 @@ public class PartyLikeListener implements LikeTextView.OnLikeListener {
 
     @Override
     public void onLike(final LikeTextView view) {
+        if (task != null) {
+            return;
+        }
         task = new SafeAsyncTask<Boolean>() {
             public Boolean call() throws Exception {
                 User currentUser = userStore.getCurrentUser();

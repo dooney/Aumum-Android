@@ -78,6 +78,7 @@
     <string name="info_will_receive_verification_code">将会收到一条包含4位数字验证码的短信</string>
     <string name="info_will_receive_sms_within"><Data>接收短信大约需要&lt;font color=#000000>%s&lt;/font>秒</Data></string>
     <string name="info_submitting_verification_code">正在提交验证码，请稍候</string>
+    <string name="info_verifying_mobile">正在验证手机号，请稍候</string>
 
     <!-- Error Message -->
     <string name="error_load_parties">获取聚会列表失败</string>
@@ -116,6 +117,9 @@
     <string name="error_send_recoding_failed">发送录音失败</string>
     <string name="error_send_verification_sms">发送验证码短信失败</string>
     <string name="error_verify_code">验证码错误，请确认后重新输入</string>
+    <string name="error_incorrect_phone">手机号必须全为数字</string>
+    <string name="error_incorrect_password_length">密码长度必须为6-16位</string>
+    <string name="error_mobile_registered">该手机号已被注册</string>
 
     <!-- Title -->
     <string name="title_activity_login">用户登录</string>
@@ -147,7 +151,7 @@
     <string name="hint_login_phone">手机号</string>
     <string name="hint_login_password">密码</string>
     <string name="hint_register_phone">请输入要注册的手机号</string>
-    <string name="hint_register_password">请输入密码，6-16位字母或数字</string>
+    <string name="hint_register_password">请输入6-16位密码</string>
     <string name="hint_screen_name">昵称</string>
     <string name="hint_email_address">邮箱</string>
     <string name="hint_area">所在城市</string>

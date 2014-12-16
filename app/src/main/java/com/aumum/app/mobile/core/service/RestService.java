@@ -108,6 +108,13 @@ public class RestService {
         return ltJson;
     }
 
+    public boolean getMobileRegistered(String mobile) {
+        final JsonObject whereJson = new JsonObject();
+        whereJson.addProperty(Constants.Http.PARAM_USERNAME, mobile);
+        String where = whereJson.toString();
+        return getUserService().getList(where, 1).getResults().size() > 0;
+    }
+
     public User register(String mobile, String password) {
         final JsonObject data = new JsonObject();
         data.addProperty(Constants.Http.PARAM_USERNAME, mobile);
@@ -214,7 +221,7 @@ public class RestService {
         final JsonObject whereJson = new JsonObject();
         whereJson.addProperty("chatId", id);
         String where = whereJson.toString();
-        return getUserService().getByChatId(where, 1).getResults().get(0);
+        return getUserService().getList(where, 1).getResults().get(0);
     }
 
     public Message newMessage(Message message) {

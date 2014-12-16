@@ -215,6 +215,9 @@ public class ProfileFragment extends LoaderFragment<User> {
     }
 
     private void updateAvatar(final String fileUrl) {
+        if (task != null) {
+            return;
+        }
         task = new SafeAsyncTask<Boolean>() {
             public Boolean call() throws Exception {
                 restService.updateUserAvatar(currentUser.getObjectId(), fileUrl);

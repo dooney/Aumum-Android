@@ -13,15 +13,22 @@ import android.widget.TextView;
 import com.aumum.app.mobile.Injector;
 import com.aumum.app.mobile.R;
 import com.aumum.app.mobile.core.Constants;
-import com.aumum.app.mobile.core.service.ChatService;
 import com.aumum.app.mobile.core.service.RestService;
 import com.aumum.app.mobile.ui.base.AuthenticateActivity;
 import com.aumum.app.mobile.ui.helper.TextWatcherAdapter;
 import com.aumum.app.mobile.ui.view.Animation;
 import com.aumum.app.mobile.utils.DialogUtils;
+import com.aumum.app.mobile.utils.EditTextUtils;
 import com.aumum.app.mobile.utils.SafeAsyncTask;
 import com.aumum.app.mobile.utils.Strings;
 import com.github.kevinsawicki.wishlist.Toaster;
+import com.mobsandgeeks.saripaar.ValidationError;
+import com.mobsandgeeks.saripaar.Validator;
+import com.mobsandgeeks.saripaar.annotation.Order;
+import com.mobsandgeeks.saripaar.annotation.Pattern;
+import com.mobsandgeeks.saripaar.annotation.Size;
+
+import java.util.List;
 
 import javax.inject.Inject;
 
@@ -29,23 +36,34 @@ import butterknife.ButterKnife;
 import butterknife.InjectView;
 import cn.smssdk.EventHandler;
 import cn.smssdk.SMSSDK;
+import retrofit.RetrofitError;
 
 import static com.aumum.app.mobile.ui.splash.SplashActivity.SHOW_SIGN_IN;
 
 public class RegisterActivity extends AuthenticateActivity
-    implements ConfirmPhoneDialog.OnConfirmListener {
+    implements ConfirmPhoneDialog.OnConfirmListener,
+               Validator.ValidationListener {
     @Inject RestService restService;
-    @Inject ChatService chatService;
 
     @InjectView(R.id.text_country) protected TextView countryText;
     @InjectView(R.id.text_country_code) protected TextView countryCodeText;
-    @InjectView(R.id.et_phone) protected EditText phoneText;
-    @InjectView(R.id.et_password) protected EditText passwordText;
+
+    @InjectView(R.id.et_phone)
+    @Pattern(regex = "^\\d+$", messageResId = R.string.error_incorrect_phone)
+    @Order(0)
+    protected EditText phoneText;
+
+    @InjectView(R.id.et_password)
+    @Size(min = 6, max = 16, messageResId = R.string.error_incorrect_password_length)
+    @Order(1)
+    protected EditText passwordText;
+
     @InjectView(R.id.b_sign_up) protected Button signUpButton;
     @InjectView(R.id.t_prompt_sign_in) protected TextView promptSignInText;
 
     private final TextWatcher watcher = validationTextWatcher();
 
+    private Validator validator;
     private EventHandler handler;
     private SafeAsyncTask<Boolean> task;
 
@@ -91,12 +109,12 @@ public class RegisterActivity extends AuthenticateActivity
         signUpButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                ConfirmPhoneDialog dialog = new ConfirmPhoneDialog(RegisterActivity.this, RegisterActivity.this);
+                EditTextUtils.hideSoftInput(phoneText);
+                EditTextUtils.hideSoftInput(passwordText);
                 countryCode = countryCodeText.getText().toString().trim();
                 phone = phoneText.getText().toString().trim();
                 password = passwordText.getText().toString();
-                dialog.setPhone(countryCode, phone);
-                dialog.show();
+                validator.validate();
             }
         });
         promptSignInText.setOnClickListener(new View.OnClickListener() {
@@ -125,6 +143,8 @@ public class RegisterActivity extends AuthenticateActivity
                 });
             }
         };
+        validator = new Validator(this);
+        validator.setValidationListener(this);
 
         Animation.flyIn(this);
     }
@@ -187,5 +207,54 @@ public class RegisterActivity extends AuthenticateActivity
         intent.putExtra(VerifyActivity.INTENT_PHONE, phone);
         intent.putExtra(VerifyActivity.INTENT_PASSWORD, password);
         startActivityForResult(intent, VERIFY_ACTIVITY_REQ_CODE);
+    }
+
+    @Override
+    public void onValidationSucceeded() {
+        if (task != null) {
+            return;
+        }
+        progress.setMessageId(R.string.info_verifying_mobile);
+        showProgress();
+        task = new SafeAsyncTask<Boolean>() {
+            public Boolean call() throws Exception {
+                String mobile = countryCode + phone;
+                if (restService.getMobileRegistered(mobile)) {
+                    throw new Exception(getString(R.string.error_mobile_registered));
+                }
+                return true;
+            }
+
+            @Override
+            protected void onException(final Exception e) throws RuntimeException {
+                if(!(e instanceof RetrofitError)) {
+                    final Throwable cause = e.getCause() != null ? e.getCause() : e;
+                    if(cause != null) {
+                        Toaster.showShort(RegisterActivity.this, cause.getMessage());
+                    }
+                }
+            }
+
+            @Override
+            public void onSuccess(final Boolean success) {
+                ConfirmPhoneDialog dialog = new ConfirmPhoneDialog(RegisterActivity.this, RegisterActivity.this);
+                dialog.setPhone(countryCode, phone);
+                dialog.show();
+            }
+
+            @Override
+            protected void onFinally() throws RuntimeException {
+                hideProgress();
+                task = null;
+            }
+        };
+        task.execute();
+    }
+
+    @Override
+    public void onValidationFailed(List<ValidationError> errors) {
+        for (ValidationError error : errors) {
+            Toaster.showShort(this, error.getFailedRules().get(0).getMessage(this));
+        }
     }
 }

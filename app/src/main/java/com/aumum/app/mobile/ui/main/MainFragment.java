@@ -118,6 +118,9 @@ public class MainFragment extends Fragment
 
     @Override
     public void onAction() {
+        if (task != null) {
+            return;
+        }
         task = new SafeAsyncTask<Boolean>() {
             public Boolean call() throws Exception {
                 User currentUser = userStore.getCurrentUserFromServer();

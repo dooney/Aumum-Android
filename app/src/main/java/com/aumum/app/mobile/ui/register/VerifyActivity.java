@@ -191,10 +191,8 @@ public class VerifyActivity extends ProgressDialogActivity {
         if (task != null) {
             return;
         }
-
         progress.setMessageId(R.string.info_submitting_registration);
         showProgress();
-
         task = new SafeAsyncTask<Boolean>() {
             public Boolean call() throws Exception {
                 String mobile = countryCode + phone;

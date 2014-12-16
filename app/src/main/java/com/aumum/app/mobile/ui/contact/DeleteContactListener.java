@@ -74,6 +74,9 @@ public class DeleteContactListener implements View.OnClickListener,
 
     @Override
     public void onClick(DialogInterface dialogInterface, int i) {
+        if (task != null) {
+            return;
+        }
         if (onProgressListener != null) {
             onProgressListener.onDeleteContactStart();
         }

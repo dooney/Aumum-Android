@@ -265,8 +265,10 @@ public class PartyCommentsFragment extends ItemListFragment<Comment>
     }
 
     private void deleteComment(final CommentCard card) {
+        if (task != null) {
+            return;
+        }
         final Comment comment = card.getComment();
-
         card.onActionStart();
         task = new SafeAsyncTask<Boolean>() {
             public Boolean call() throws Exception {

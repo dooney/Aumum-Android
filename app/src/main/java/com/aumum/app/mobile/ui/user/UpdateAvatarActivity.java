@@ -76,6 +76,9 @@ public class UpdateAvatarActivity extends ProgressDialogActivity
     }
 
     private void save() {
+        if (task != null) {
+            return;
+        }
         task = new SafeAsyncTask<Boolean>() {
             public Boolean call() throws Exception {
                 byte bytes[] = ImageUtils.getBytesBitmap(cropImage.clip(AVATAR_MAX_WIDTH, AVATAR_MAX_HEIGHT));

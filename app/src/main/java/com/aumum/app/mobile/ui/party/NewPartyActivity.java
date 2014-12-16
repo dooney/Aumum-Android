@@ -324,6 +324,9 @@ public class NewPartyActivity extends ProgressDialogActivity
     }
 
     private void submitNewParty() {
+        if (task != null) {
+            return;
+        }
         task = new SafeAsyncTask<Boolean>() {
             public Boolean call() throws Exception {
                 User user = userStore.getCurrentUser();

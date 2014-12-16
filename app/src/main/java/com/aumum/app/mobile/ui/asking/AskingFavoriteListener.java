@@ -31,6 +31,9 @@ public class AskingFavoriteListener implements FavoriteTextView.OnFavoriteListen
     }
     @Override
     public void onUnFavorite(FavoriteTextView view) {
+        if (task != null) {
+            return;
+        }
         task = new SafeAsyncTask<Boolean>() {
             public Boolean call() throws Exception {
                 User currentUser = userStore.getCurrentUser();
@@ -60,6 +63,9 @@ public class AskingFavoriteListener implements FavoriteTextView.OnFavoriteListen
 
     @Override
     public void onFavorite(FavoriteTextView view) {
+        if (task != null) {
+            return;
+        }
         task = new SafeAsyncTask<Boolean>() {
             public Boolean call() throws Exception {
                 User currentUser = userStore.getCurrentUser();

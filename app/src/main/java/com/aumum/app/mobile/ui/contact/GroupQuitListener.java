@@ -59,6 +59,9 @@ public class GroupQuitListener implements View.OnClickListener {
             chatService.sendSystemMessage(group.getGroupId(), true, text, new EMCallBack() {
                 @Override
                 public void onSuccess() {
+                    if (task != null) {
+                        return;
+                    }
                     task = new SafeAsyncTask<Boolean>() {
                         public Boolean call() throws Exception {
                             chatService.quitGroup(group.getGroupId());

@@ -200,6 +200,9 @@ public class NewAskingActivity extends ProgressDialogActivity
     }
 
     private void submitNewAsking() {
+        if (task != null) {
+            return;
+        }
         task = new SafeAsyncTask<Boolean>() {
             public Boolean call() throws Exception {
                 User user = userStore.getCurrentUser();

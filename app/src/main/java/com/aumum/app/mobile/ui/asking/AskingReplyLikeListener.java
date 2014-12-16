@@ -31,6 +31,9 @@ public class AskingReplyLikeListener implements LikeTextView.OnLikeListener {
 
     @Override
     public void onUnLike(LikeTextView view) {
+        if (task != null) {
+            return;
+        }
         task = new SafeAsyncTask<Boolean>() {
             public Boolean call() throws Exception {
                 String currentUserId = apiKeyProvider.getAuthUserId();
@@ -58,6 +61,9 @@ public class AskingReplyLikeListener implements LikeTextView.OnLikeListener {
 
     @Override
     public void onLike(final LikeTextView view) {
+        if (task != null) {
+            return;
+        }
         task = new SafeAsyncTask<Boolean>() {
             public Boolean call() throws Exception {
                 String currentUserId = apiKeyProvider.getAuthUserId();

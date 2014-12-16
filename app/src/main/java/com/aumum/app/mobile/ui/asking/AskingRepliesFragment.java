@@ -256,8 +256,10 @@ public class AskingRepliesFragment extends RefreshItemListFragment<AskingReply> 
     }
 
     private void deleteAskingReply(final AskingReplyCard card) {
+        if (task != null) {
+            return;
+        }
         final AskingReply askingReply = card.getAskingReply();
-
         card.onActionStart();
         task = new SafeAsyncTask<Boolean>() {
             public Boolean call() throws Exception {

@@ -67,8 +67,10 @@ public class AddContactActivity extends ProgressDialogActivity {
     }
 
     private void addContact() {
+        if (task != null) {
+            return;
+        }
         showProgress();
-
         task = new SafeAsyncTask<Boolean>() {
             public Boolean call() throws Exception {
                 String intro = "";
