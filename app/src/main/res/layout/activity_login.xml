@@ -23,7 +23,6 @@
 
     <Button
         android:id="@+id/b_sign_in"
-        android:onClick="handleLogin"
         style="@style/Button.Account.SignIn" />
 
     <RelativeLayout

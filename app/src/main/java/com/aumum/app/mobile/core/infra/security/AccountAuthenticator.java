@@ -20,7 +20,6 @@ import static android.accounts.AccountManager.KEY_ACCOUNT_TYPE;
 import static android.accounts.AccountManager.KEY_AUTHTOKEN;
 import static android.accounts.AccountManager.KEY_BOOLEAN_RESULT;
 import static android.accounts.AccountManager.KEY_INTENT;
-import static com.aumum.app.mobile.ui.splash.SplashActivity.PARAM_AUTHTOKEN_TYPE;
 
 class AccountAuthenticator extends AbstractAccountAuthenticator {
 
@@ -42,7 +41,7 @@ class AccountAuthenticator extends AbstractAccountAuthenticator {
                              final String authTokenType, final String[] requiredFeatures,
                              final Bundle options) throws NetworkErrorException {
         final Intent intent = new Intent(context, SplashActivity.class);
-        intent.putExtra(PARAM_AUTHTOKEN_TYPE, authTokenType);
+        intent.putExtra(KEY_ACCOUNT_TYPE, authTokenType);
         intent.putExtra(KEY_ACCOUNT_AUTHENTICATOR_RESPONSE, response);
 
         final Bundle bundle = new Bundle();

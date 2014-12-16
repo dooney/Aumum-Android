@@ -108,13 +108,10 @@ public class RestService {
         return ltJson;
     }
 
-    public User register(String email, String password, String screenName, int area) {
+    public User register(String mobile, String password) {
         final JsonObject data = new JsonObject();
-        data.addProperty(Constants.Http.PARAM_USERNAME, email);
+        data.addProperty(Constants.Http.PARAM_USERNAME, mobile);
         data.addProperty(Constants.Http.PARAM_PASSWORD, password);
-        data.addProperty(Constants.Http.PARAM_EMAIL, email);
-        data.addProperty(Constants.Http.PARAM_SCREEN_NAME, screenName);
-        data.addProperty(Constants.Http.PARAM_AREA, area);
         return getUserService().register(data);
     }
     
@@ -218,15 +215,6 @@ public class RestService {
         whereJson.addProperty("chatId", id);
         String where = whereJson.toString();
         return getUserService().getByChatId(where, 1).getResults().get(0);
-    }
-
-    public boolean getUserProfileCompleted(String id) {
-        String key = Constants.Http.User.PARAM_PROFILE_COMPLETED;
-        JsonObject response = getUserService().getFields(id, key);
-        if (response.has(key)) {
-            return response.get(key).getAsBoolean();
-        }
-        return false;
     }
 
     public Message newMessage(Message message) {

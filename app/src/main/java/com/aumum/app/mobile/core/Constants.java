@@ -114,8 +114,6 @@ public final class Constants {
         public static final String PARAM_USERNAME = "username";
         public static final String PARAM_PASSWORD = "password";
         public static final String PARAM_EMAIL = "email";
-        public static final String PARAM_SCREEN_NAME = "screenName";
-        public static final String PARAM_AREA = "area";
 
         public static final String PARSE_APP_ID = "1CWTxIB11kQiHz7QAY1hZzA1PstlJ2TQuAmZ8Nc6";
         public static final String PARSE_CLIENT_KEY = "Cxo0Yu68VFoZSDyHVl43qMTfYb23AG9uBrbOqgFk";
@@ -143,7 +141,6 @@ public final class Constants {
             public static final String PARAM_ASKINGS = "askings";
             public static final String PARAM_PARTY_FAVORITES = "favParties";
             public static final String PARAM_ASKING_FAVORITES = "favAskings";
-            public static final String PARAM_PROFILE_COMPLETED = "profileCompleted";
         }
 
         public static final class Asking {

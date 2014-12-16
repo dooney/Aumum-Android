@@ -294,8 +294,10 @@ public class NewPartyActivity extends ProgressDialogActivity
         showProgress();
 
         imageUrlList.clear();
-        for (String path : imagePathList) {
-            uploadImage(path);
+        if (imagePathList != null) {
+            for (String path : imagePathList) {
+                uploadImage(path);
+            }
         }
     }
 

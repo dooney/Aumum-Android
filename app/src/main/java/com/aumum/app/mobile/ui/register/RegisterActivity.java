@@ -15,7 +15,7 @@ import com.aumum.app.mobile.R;
 import com.aumum.app.mobile.core.Constants;
 import com.aumum.app.mobile.core.service.ChatService;
 import com.aumum.app.mobile.core.service.RestService;
-import com.aumum.app.mobile.ui.base.ProgressDialogActivity;
+import com.aumum.app.mobile.ui.base.AuthenticateActivity;
 import com.aumum.app.mobile.ui.helper.TextWatcherAdapter;
 import com.aumum.app.mobile.ui.view.Animation;
 import com.aumum.app.mobile.utils.DialogUtils;
@@ -32,7 +32,7 @@ import cn.smssdk.SMSSDK;
 
 import static com.aumum.app.mobile.ui.splash.SplashActivity.SHOW_SIGN_IN;
 
-public class RegisterActivity extends ProgressDialogActivity
+public class RegisterActivity extends AuthenticateActivity
     implements ConfirmPhoneDialog.OnConfirmListener {
     @Inject RestService restService;
     @Inject ChatService chatService;
@@ -51,7 +51,11 @@ public class RegisterActivity extends ProgressDialogActivity
 
     private String countryCode;
     private String phone;
+    private String userId;
     private String password;
+    private String token;
+
+    private final int VERIFY_ACTIVITY_REQ_CODE = 100;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -133,9 +137,22 @@ public class RegisterActivity extends ProgressDialogActivity
     }
 
     @Override
-    public void onPause() {
+    protected void onPause() {
         super.onPause();
         SMSSDK.unregisterEventHandler(handler);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == VERIFY_ACTIVITY_REQ_CODE && resultCode == RESULT_OK) {
+            if (data != null) {
+                userId = data.getStringExtra(VerifyActivity.INTENT_USER_ID);
+                token = data.getStringExtra(VerifyActivity.INTENT_TOKEN);
+                finishAuthentication(userId, password, token);
+            }
+        }
     }
 
     private TextWatcher validationTextWatcher() {
@@ -169,7 +186,6 @@ public class RegisterActivity extends ProgressDialogActivity
         intent.putExtra(VerifyActivity.INTENT_COUNTRY_CODE, countryCode);
         intent.putExtra(VerifyActivity.INTENT_PHONE, phone);
         intent.putExtra(VerifyActivity.INTENT_PASSWORD, password);
-        startActivity(intent);
-        finish();
+        startActivityForResult(intent, VERIFY_ACTIVITY_REQ_CODE);
     }
 }

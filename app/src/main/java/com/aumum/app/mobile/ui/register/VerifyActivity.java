@@ -1,35 +1,62 @@
 package com.aumum.app.mobile.ui.register;
 
 import android.content.Intent;
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.Html;
 import android.text.TextWatcher;
+import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.aumum.app.mobile.Injector;
 import com.aumum.app.mobile.R;
+import com.aumum.app.mobile.core.model.User;
+import com.aumum.app.mobile.core.service.ChatService;
+import com.aumum.app.mobile.core.service.RestService;
+import com.aumum.app.mobile.ui.base.ProgressDialogActivity;
 import com.aumum.app.mobile.ui.helper.TextWatcherAdapter;
+import com.aumum.app.mobile.ui.login.CompleteProfileActivity;
+import com.aumum.app.mobile.utils.EditTextUtils;
 import com.aumum.app.mobile.utils.Ln;
+import com.aumum.app.mobile.utils.SafeAsyncTask;
+import com.aumum.app.mobile.utils.Strings;
+import com.github.kevinsawicki.wishlist.Toaster;
+
+import javax.inject.Inject;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
+import cn.smssdk.EventHandler;
+import cn.smssdk.SMSSDK;
+import retrofit.RetrofitError;
 
-public class VerifyActivity extends ActionBarActivity {
+public class VerifyActivity extends ProgressDialogActivity {
+
+    @Inject RestService restService;
+    @Inject ChatService chatService;
 
     public static final String INTENT_COUNTRY_CODE = "countryCode";
     public static final String INTENT_PHONE = "phone";
+    public static final String INTENT_USER_ID = "userId";
     public static final String INTENT_PASSWORD = "password";
+    public static final String INTENT_TOKEN = "token";
+
+    private final int COMPLETE_ACTIVITY_REQ_CODE = 100;
 
     private final long RETRY_INTERVAL = 60;
     private final long INTERVAL = 1;
     private long total = RETRY_INTERVAL;
     private String countryCode;
     private String phone;
+    private String verificationCode;
+    private String userId;
     private String password;
+    private String token;
 
+    private EventHandler handler;
+    private SafeAsyncTask<Boolean> task;
     private final TextWatcher watcher = validationTextWatcher();
 
     @InjectView(R.id.text_phone) protected TextView phoneText;
@@ -40,6 +67,7 @@ public class VerifyActivity extends ActionBarActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Injector.inject(this);
         setContentView(R.layout.activity_verify);
         ButterKnife.inject(this);
 
@@ -51,8 +79,37 @@ public class VerifyActivity extends ActionBarActivity {
         phoneText.setText(getString(R.string.label_your_phone, countryCode, phone));
         verificationCodeText.addTextChangedListener(watcher);
         String text = getString(R.string.info_will_receive_sms_within, total);
+        confirmButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                EditTextUtils.hideSoftInput(verificationCodeText);
+                progress.setMessageId(R.string.info_submitting_verification_code);
+                showProgress();
+                verificationCode = verificationCodeText.getText().toString();
+                SMSSDK.submitVerificationCode(Strings.removeLeadingZeros(countryCode), phone, verificationCode);
+            }
+        });
         resendButton.setText(Html.fromHtml(text));
         resendButton.setEnabled(false);
+
+        handler = new EventHandler() {
+            public void afterEvent(final int event, final int result, final Object data) {
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        hideProgress();
+                        if (event == SMSSDK.EVENT_SUBMIT_VERIFICATION_CODE) {
+                            if (result == SMSSDK.RESULT_COMPLETE) {
+                                register();
+                            } else {
+                                Toaster.showShort(VerifyActivity.this,
+                                        R.string.error_verify_code);
+                            }
+                        }
+                    }
+                });
+            }
+        };
 
         countDown();
     }
@@ -61,6 +118,26 @@ public class VerifyActivity extends ActionBarActivity {
     protected void onResume() {
         super.onResume();
         updateUIWithValidation();
+        SMSSDK.registerEventHandler(handler);
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        SMSSDK.unregisterEventHandler(handler);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == COMPLETE_ACTIVITY_REQ_CODE) {
+            final Intent intent = new Intent();
+            intent.putExtra(INTENT_USER_ID, userId);
+            intent.putExtra(INTENT_TOKEN, token);
+            setResult(RESULT_OK, intent);
+            finish();
+        }
     }
 
     private TextWatcher validationTextWatcher() {
@@ -68,7 +145,6 @@ public class VerifyActivity extends ActionBarActivity {
             public void afterTextChanged(final Editable gitDirEditText) {
                 updateUIWithValidation();
             }
-
         };
     }
 
@@ -109,5 +185,63 @@ public class VerifyActivity extends ActionBarActivity {
                 }
             }
         }.start();
+    }
+
+    private void register() {
+        if (task != null) {
+            return;
+        }
+
+        progress.setMessageId(R.string.info_submitting_registration);
+        showProgress();
+
+        task = new SafeAsyncTask<Boolean>() {
+            public Boolean call() throws Exception {
+                String mobile = countryCode + phone;
+                User response = restService.register(mobile, password);
+                userId = response.getObjectId();
+                token = response.getSessionToken();
+                String chatId = userId.toLowerCase();
+                restService.updateUserChatId(response.getObjectId(), chatId);
+                chatService.createAccount(chatId, password);
+                return true;
+            }
+
+            @Override
+            protected void onException(final Exception e) throws RuntimeException {
+                if(!(e instanceof RetrofitError)) {
+                    final Throwable cause = e.getCause() != null ? e.getCause() : e;
+                    if(cause != null) {
+                        Toaster.showShort(VerifyActivity.this, cause.getMessage());
+                    }
+                }
+            }
+
+            @Override
+            public void onSuccess(final Boolean success) {
+                onRegistrationResult(success);
+            }
+
+            @Override
+            protected void onFinally() throws RuntimeException {
+                hideProgress();
+                task = null;
+            }
+        };
+        task.execute();
+    }
+
+    private void onRegistrationResult(final Boolean result) {
+        if (result) {
+            startCompleteProfileActivity(userId);
+        } else {
+            Toaster.showShort(VerifyActivity.this, R.string.error_registration);
+        }
+    }
+
+    private void startCompleteProfileActivity(String userId) {
+        final Intent intent = new Intent(this, CompleteProfileActivity.class);
+        intent.putExtra(CompleteProfileActivity.INTENT_USER_ID, userId);
+        startActivityForResult(intent, COMPLETE_ACTIVITY_REQ_CODE);
     }
 }

@@ -52,7 +52,7 @@
 
     <!-- Info Message -->
     <string name="info_authenticating">正在验证您的账号信息，请稍候</string>
-    <string name="info_processing_registration">正在处理您的注册信息，请稍候</string>
+    <string name="info_submitting_registration">正在提交您的注册请求，请稍候</string>
     <string name="info_submitting_password_reset">正在提交您的重置密码请求，请稍候</string>
     <string name="info_submitting_party">正在提交您的聚会，请稍候</string>
     <string name="info_uploading_avatar">正在上传头像图片，请稍候</string>
@@ -77,6 +77,7 @@
     <string name="info_sending_verification_sms">正在发送验证码短信，请稍候</string>
     <string name="info_will_receive_verification_code">将会收到一条包含4位数字验证码的短信</string>
     <string name="info_will_receive_sms_within"><Data>接收短信大约需要&lt;font color=#000000>%s&lt;/font>秒</Data></string>
+    <string name="info_submitting_verification_code">正在提交验证码，请稍候</string>
 
     <!-- Error Message -->
     <string name="error_load_parties">获取聚会列表失败</string>
@@ -85,7 +86,7 @@
     <string name="error_upload_avatar">上传头像图片失败</string>
     <string name="error_bad_credentials">您的账号验证失败，请重新输入正确的用户名/密码</string>
     <string name="error_authentication">您的账号验证失败</string>
-    <string name="error_authentication_email_not_verified">您的邮箱地址还未验证，请验证后重新登录</string>
+    <string name="error_registration">注册失败</string>
     <string name="error_reset_password">您的密码重置失败</string>
     <string name="error_submit_new_party">发起聚会失败</string>
     <string name="error_validate_party_location">验证聚会地点失败：%1$s 不是一个有效的Google地图地址</string>
@@ -114,11 +115,11 @@
     <string name="error_recoding_too_short">录音太短</string>
     <string name="error_send_recoding_failed">发送录音失败</string>
     <string name="error_send_verification_sms">发送验证码短信失败</string>
+    <string name="error_verify_code">验证码错误，请确认后重新输入</string>
 
     <!-- Title -->
     <string name="title_activity_login">用户登录</string>
     <string name="title_activity_register">注册新用户</string>
-    <string name="title_activity_registration_success">注册成功</string>
     <string name="title_activity_reset_password">重置密码</string>
     <string name="title_activity_reset_password_success">重置密码成功</string>
     <string name="title_activity_user">用户详情</string>
@@ -163,7 +164,7 @@
     <string name="label_will_send_verification_code"><Data>&lt;font color=#d9534f>验证码短信&lt;/font>将被发送到这个号码:</Data></string>
     <string name="label_your_phone">您的手机号%1$s %2$s</string>
     <string name="hint_verification_code">请输入4位数字验证码</string>
-    <string name="label_resend_verification_code">重新发送验证码</string>
+    <string name="label_resend_verification_code">重新获取验证码</string>
     <string name="hello_world">Hello world!</string>
     <string name="hello_blank_fragment">Hello blank fragment</string>
 

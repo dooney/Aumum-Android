@@ -38,6 +38,7 @@ import com.aumum.app.mobile.ui.contact.ContactFragment;
 import com.aumum.app.mobile.ui.contact.ContactListener;
 import com.aumum.app.mobile.ui.contact.ContactRequestsFragment;
 import com.aumum.app.mobile.ui.contact.DeleteContactListener;
+import com.aumum.app.mobile.ui.register.VerifyActivity;
 import com.aumum.app.mobile.ui.user.UpdateAvatarActivity;
 import com.aumum.app.mobile.ui.main.MainFragment;
 import com.aumum.app.mobile.ui.party.PartyFavoriteListener;
@@ -132,7 +133,8 @@ import retrofit.converter.GsonConverter;
                 AskingReplyCard.class,
                 VoiceMessageCard.class,
                 ImageMessageCard.class,
-                UpdateAvatarActivity.class
+                UpdateAvatarActivity.class,
+                VerifyActivity.class
         }
 )
 public class BootstrapModule {

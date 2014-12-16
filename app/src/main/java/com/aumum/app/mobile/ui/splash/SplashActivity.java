@@ -13,7 +13,6 @@ import com.aumum.app.mobile.R;
 import com.aumum.app.mobile.ui.base.AccountAuthenticatorActivity;
 import com.aumum.app.mobile.ui.login.LoginActivity;
 import com.aumum.app.mobile.ui.register.RegisterActivity;
-import com.aumum.app.mobile.ui.register.RegistrationSuccessActivity;
 import com.aumum.app.mobile.ui.account.ResetPasswordActivity;
 import com.aumum.app.mobile.ui.account.ResetPasswordSuccessActivity;
 import com.aumum.app.mobile.utils.ImageLoaderUtils;
@@ -27,34 +26,19 @@ public class SplashActivity extends AccountAuthenticatorActivity {
     private ViewPager mPager;
     private CirclePageIndicator mIndicator;
 
-    private String authTokenType;
-
-    /**
-     * PARAM_AUTHTOKEN_TYPE
-     */
-    public static final String PARAM_AUTHTOKEN_TYPE = "authtokenType";
-
     public static final String KEY_ACCOUNT_EMAIL = "authEmail";
-
     public static final String SHOW_SIGN_IN = "showSignIn";
-
     public static final String SHOW_SIGN_UP = "showSignUp";
-
     public static final String SHOW_RESET_PASSWORD = "showResetPassword";
 
     private final int LOGIN_REQ_CODE = 1031;
-
     private final int REGISTER_REQ_CODE = 1032;
-
     private final int RESET_PASSWORD_REQ_CODE = 1033;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
-
-        final Intent intent = getIntent();
-        authTokenType = intent.getStringExtra(PARAM_AUTHTOKEN_TYPE);
 
         initSplashViews();
     }
@@ -80,13 +64,11 @@ public class SplashActivity extends AccountAuthenticatorActivity {
 
     public void showLogin(final View view) {
         final Intent intent = new Intent(this, LoginActivity.class);
-        intent.putExtra(PARAM_AUTHTOKEN_TYPE, authTokenType);
         startActivityForResult(intent, LOGIN_REQ_CODE);
     }
 
     public void showRegister(final View view) {
         final Intent intent = new Intent(this, RegisterActivity.class);
-        intent.putExtra(PARAM_AUTHTOKEN_TYPE, authTokenType);
         startActivityForResult(intent, REGISTER_REQ_CODE);
     }
 
@@ -131,10 +113,8 @@ public class SplashActivity extends AccountAuthenticatorActivity {
             if (data.getBooleanExtra(SHOW_SIGN_IN, false)) {
                 showLogin(null);
             } else {
-                String email = data.getStringExtra(KEY_ACCOUNT_EMAIL);
-                final Intent intent = new Intent(this, RegistrationSuccessActivity.class);
-                intent.putExtra(KEY_ACCOUNT_EMAIL, email);
-                startActivity(intent);
+                setAccountAuthenticatorResult(data.getExtras());
+                finish();
             }
         }
     }

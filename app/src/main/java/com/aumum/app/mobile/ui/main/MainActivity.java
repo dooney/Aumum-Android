@@ -4,6 +4,7 @@ import android.accounts.OperationCanceledException;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.v4.app.Fragment;
 import android.view.Window;
 
 import com.aumum.app.mobile.Injector;
@@ -19,6 +20,7 @@ import javax.inject.Inject;
 
 public class MainActivity extends BaseFragmentActivity {
     @Inject ServiceProvider serviceProvider;
+    private Fragment mainFragment;
 
     private boolean doubleBackToExitPressedOnce;
     private static final int DOUBLE_BACK_DELAY = 2000;
@@ -38,13 +40,21 @@ public class MainActivity extends BaseFragmentActivity {
         if (requestCode == Constants.RequestCode.SETTINGS_REQ_CODE && resultCode == RESULT_OK) {
             if (data.getBooleanExtra("logout", false)) {
                 checkAuth();
+                resetScreen();
             }
         }
     }
 
     private void initScreen() {
+        mainFragment = new MainFragment();
         getSupportFragmentManager().beginTransaction()
-                .replace(R.id.container, new MainFragment())
+                .replace(R.id.container, mainFragment)
+                .commit();
+    }
+
+    private void resetScreen() {
+        getSupportFragmentManager().beginTransaction()
+                .remove(mainFragment)
                 .commit();
     }
 

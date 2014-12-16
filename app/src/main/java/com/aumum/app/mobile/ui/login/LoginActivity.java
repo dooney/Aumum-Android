@@ -1,17 +1,11 @@
 package com.aumum.app.mobile.ui.login;
 
-import static android.accounts.AccountManager.KEY_ACCOUNT_NAME;
-import static android.accounts.AccountManager.KEY_ACCOUNT_TYPE;
-import static android.accounts.AccountManager.KEY_AUTHTOKEN;
 import static android.view.KeyEvent.ACTION_DOWN;
 import static android.view.KeyEvent.KEYCODE_ENTER;
 import static android.view.inputmethod.EditorInfo.IME_ACTION_DONE;
-import static com.aumum.app.mobile.ui.splash.SplashActivity.PARAM_AUTHTOKEN_TYPE;
 import static com.aumum.app.mobile.ui.splash.SplashActivity.SHOW_SIGN_UP;
 import static com.aumum.app.mobile.ui.splash.SplashActivity.SHOW_RESET_PASSWORD;
 
-import android.accounts.Account;
-import android.accounts.AccountManager;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
@@ -29,10 +23,9 @@ import com.aumum.app.mobile.R;
 import com.aumum.app.mobile.R.id;
 import com.aumum.app.mobile.R.layout;
 import com.aumum.app.mobile.core.service.RestService;
-import com.aumum.app.mobile.core.Constants;
 import com.aumum.app.mobile.core.model.User;
 import com.aumum.app.mobile.events.UnAuthorizedErrorEvent;
-import com.aumum.app.mobile.ui.base.ProgressDialogActivity;
+import com.aumum.app.mobile.ui.base.AuthenticateActivity;
 import com.aumum.app.mobile.ui.helper.TextWatcherAdapter;
 import com.aumum.app.mobile.ui.view.Animation;
 import com.aumum.app.mobile.utils.EditTextUtils;
@@ -51,8 +44,7 @@ import retrofit.RetrofitError;
 /**
  * Activity to authenticate the user against an API (example API on Parse.com)
  */
-public class LoginActivity extends ProgressDialogActivity {
-    private AccountManager accountManager;
+public class LoginActivity extends AuthenticateActivity {
 
     @Inject RestService restService;
     @Inject Bus bus;
@@ -65,37 +57,16 @@ public class LoginActivity extends ProgressDialogActivity {
 
     private final TextWatcher watcher = validationTextWatcher();
 
-    private SafeAsyncTask<Boolean> authenticationTask;
-    private String authToken;
-    private String authTokenType;
-
-    private String username;
-    private String password;
+    private SafeAsyncTask<Boolean> task;
     private String userId;
-    private boolean profileCompleted;
-
-    /**
-     * In this instance the token is simply the sessionId returned from Parse.com. This could be a
-     * oauth token or some other type of timed token that expires/etc. We're just using the parse.com
-     * sessionId to prove the example of how to utilize a token.
-     */
+    private String password;
     private String token;
-
-    private final int COMPLETE_ACTIVITY_REQ_CODE = 100;
 
     @Override
     public void onCreate(Bundle bundle) {
         super.onCreate(bundle);
-
         Injector.inject(this);
-
-        accountManager = AccountManager.get(this);
-
-        final Intent intent = getIntent();
-        authTokenType = intent.getStringExtra(PARAM_AUTHTOKEN_TYPE);
-
         setContentView(layout.activity_login);
-
         ButterKnife.inject(this);
 
         progress.setMessageId(R.string.info_authenticating);
@@ -105,28 +76,31 @@ public class LoginActivity extends ProgressDialogActivity {
             public boolean onKey(final View v, final int keyCode, final KeyEvent event) {
                 if (event != null && ACTION_DOWN == event.getAction()
                         && keyCode == KEYCODE_ENTER && signInButton.isEnabled()) {
-                    handleLogin(signInButton);
+                    login();
                     return true;
                 }
                 return false;
             }
         });
-
         passwordText.setOnEditorActionListener(new OnEditorActionListener() {
 
             public boolean onEditorAction(final TextView v, final int actionId,
                                           final KeyEvent event) {
                 if (actionId == IME_ACTION_DONE && signInButton.isEnabled()) {
-                    handleLogin(signInButton);
+                    login();
                     return true;
                 }
                 return false;
             }
         });
-
         usernameText.addTextChangedListener(watcher);
         passwordText.addTextChangedListener(watcher);
-
+        signInButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                login();
+            }
+        });
         forgotPasswordText.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -136,7 +110,6 @@ public class LoginActivity extends ProgressDialogActivity {
                 finish();
             }
         });
-
         joinNowText.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -172,15 +145,6 @@ public class LoginActivity extends ProgressDialogActivity {
         bus.unregister(this);
     }
 
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-
-        if (requestCode == COMPLETE_ACTIVITY_REQ_CODE) {
-            finishLogin();
-        }
-    }
-
     private void updateUIWithValidation() {
         final boolean populated = populated(usernameText) && populated(passwordText);
         signInButton.setEnabled(populated);
@@ -196,35 +160,22 @@ public class LoginActivity extends ProgressDialogActivity {
         Toaster.showShort(LoginActivity.this, R.string.error_bad_credentials);
     }
 
-    /**
-     * Handles onClick event on the Submit button. Sends username/password to
-     * the server for authentication.
-     * <p/>
-     * Specified by android:onClick="handleLogin" in the layout xml
-     *
-     * @param view
-     */
-    public void handleLogin(final View view) {
-        if (authenticationTask != null) {
+    public void login() {
+        if (task != null) {
             return;
         }
 
-        username = usernameText.getText().toString();
+        final String username = usernameText.getText().toString();
         EditTextUtils.hideSoftInput(usernameText);
         password = passwordText.getText().toString();
         EditTextUtils.hideSoftInput(passwordText);
         showProgress();
 
-        authenticationTask = new SafeAsyncTask<Boolean>() {
+        task = new SafeAsyncTask<Boolean>() {
             public Boolean call() throws Exception {
                 User response = restService.authenticate(username, password);
-                if (!response.getEmailVerified()) {
-                    throw new Exception(getString(R.string.error_authentication_email_not_verified));
-                }
                 token = response.getSessionToken();
                 userId = response.getObjectId();
-                profileCompleted = restService.getUserProfileCompleted(userId);
-
                 return true;
             }
 
@@ -241,11 +192,7 @@ public class LoginActivity extends ProgressDialogActivity {
             @Override
             public void onSuccess(final Boolean authSuccess) {
                 if (authSuccess) {
-                    if (!profileCompleted) {
-                        startCompleteProfileActivity(userId);
-                        return;
-                    }
-                    finishLogin();
+                    finishAuthentication(userId, password, token);
                 } else {
                     Toaster.showShort(LoginActivity.this,
                             R.string.error_authentication);
@@ -255,41 +202,9 @@ public class LoginActivity extends ProgressDialogActivity {
             @Override
             protected void onFinally() throws RuntimeException {
                 hideProgress();
-                authenticationTask = null;
+                task = null;
             }
         };
-        authenticationTask.execute();
-    }
-
-    /**
-     * Called when response is received from the server for authentication
-     * request. See onAuthenticationResult(). Sets the
-     * AccountAuthenticatorResult which is sent back to the caller. Also sets
-     * the authToken in AccountManager for this account.
-     */
-
-    protected void finishLogin() {
-        final Account account = new Account(userId, Constants.Auth.BOOTSTRAP_ACCOUNT_TYPE);
-        accountManager.addAccountExplicitly(account, password, null);
-        authToken = token;
-        accountManager.setAuthToken(account, Constants.Auth.AUTHTOKEN_TYPE, authToken);
-
-        final Intent intent = new Intent();
-        intent.putExtra(KEY_ACCOUNT_NAME, username);
-        intent.putExtra(KEY_ACCOUNT_TYPE, Constants.Auth.BOOTSTRAP_ACCOUNT_TYPE);
-
-        if (authTokenType != null
-                && authTokenType.equals(Constants.Auth.AUTHTOKEN_TYPE)) {
-            intent.putExtra(KEY_AUTHTOKEN, authToken);
-        }
-
-        setResult(RESULT_OK, intent);
-        finish();
-    }
-
-    private void startCompleteProfileActivity(String userId) {
-        final Intent intent = new Intent(this, CompleteProfileActivity.class);
-        intent.putExtra(CompleteProfileActivity.INTENT_USER_ID, userId);
-        startActivityForResult(intent, COMPLETE_ACTIVITY_REQ_CODE);
+        task.execute();
     }
 }
