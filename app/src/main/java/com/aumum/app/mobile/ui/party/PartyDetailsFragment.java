@@ -84,7 +84,7 @@ public class PartyDetailsFragment extends LoaderFragment<Party>
     private TextView userNameText;
     private SpannableTextView titleText;
     private TextView distanceText;
-    private TextView areaText;
+    private TextView cityText;
     private TextView createdAtText;
     private TextView timeText;
     private TextView locationText;
@@ -171,7 +171,7 @@ public class PartyDetailsFragment extends LoaderFragment<Party>
         userNameText = (TextView) view.findViewById(R.id.text_user_name);
         titleText = (SpannableTextView) view.findViewById(R.id.text_title);
         distanceText = (TextView) view.findViewById(R.id.text_distance);
-        areaText = (TextView) view.findViewById(R.id.text_area);
+        cityText = (TextView) view.findViewById(R.id.text_city);
         createdAtText = (TextView) view.findViewById(R.id.text_createdAt);
         timeText = (TextView) view.findViewById(R.id.text_time);
         locationText = (TextView) view.findViewById(R.id.text_location);
@@ -289,7 +289,7 @@ public class PartyDetailsFragment extends LoaderFragment<Party>
         party.setDistance(gpsTracker.getLatitude(), gpsTracker.getLongitude());
         distanceText.setText(getString(R.string.label_distance, party.getDistance()));
 
-        areaText.setText(Constants.Options.AREA_OPTIONS[user.getArea()]);
+        cityText.setText(Constants.Options.CITY_OPTIONS[user.getCity()]);
         createdAtText.setText(party.getCreatedAtFormatted());
         timeText.setText(party.getDateTimeText());
         locationText.setText(party.getPlace().getLocation());

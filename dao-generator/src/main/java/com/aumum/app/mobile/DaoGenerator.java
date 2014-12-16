@@ -35,6 +35,8 @@ public class DaoGenerator {
         user.addStringProperty("chatId").notNull();
         user.addDateProperty("createdAt").notNull();
         user.addStringProperty("screenName");
+        user.addStringProperty("email");
+        user.addIntProperty("city");
         user.addIntProperty("area");
         user.addStringProperty("avatarUrl");
         user.addStringProperty("about");

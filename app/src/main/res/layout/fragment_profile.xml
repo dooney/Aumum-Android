@@ -81,6 +81,28 @@
                     android:padding="@dimen/margin_large">
 
                     <TextView
+                        android:id="@+id/text_label_city"
+                        style="@style/TextView.Profile"
+                        android:layout_centerVertical="true"
+                        android:layout_marginRight="@dimen/margin_large"
+                        android:text="@string/label_city"/>
+
+                    <TextView
+                        android:id="@+id/text_city"
+                        style="@style/TextView.Subtitle"
+                        android:layout_toRightOf="@+id/text_label_city"
+                        android:layout_alignBaseline="@+id/text_label_city"/>
+
+                </RelativeLayout>
+
+                <View style="@style/Divider"/>
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="@dimen/margin_large">
+
+                    <TextView
                         android:id="@+id/text_label_area"
                         style="@style/TextView.Profile"
                         android:layout_centerVertical="true"

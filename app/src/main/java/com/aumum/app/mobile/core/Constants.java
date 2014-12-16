@@ -2,6 +2,8 @@
 
 package com.aumum.app.mobile.core;
 
+import java.util.HashMap;
+
 /**
  * Bootstrap constants
  */
@@ -137,6 +139,11 @@ public final class Constants {
             public static final String PARAM_MESSAGES = "messages";
             public static final String PARAM_PARTIES = "parties";
             public static final String PARAM_AVATAR_URL = "avatarUrl";
+            public static final String PARAM_SCREEN_NAME = "screenName";
+            public static final String PARAM_EMAIL = "email";
+            public static final String PARAM_CITY = "city";
+            public static final String PARAM_AREA = "area";
+            public static final String PARAM_ABOUT = "about";
             public static final String PARAM_CHAT_ID = "chatId";
             public static final String PARAM_ASKINGS = "askings";
             public static final String PARAM_PARTY_FAVORITES = "favParties";
@@ -162,12 +169,12 @@ public final class Constants {
         }
 
         public static final String COUNTRY_OPTIONS[] = {
-                "澳大利亚",
-                "新西兰",
-                "中国"
+            "澳大利亚",
+            "新西兰",
+            "中国"
         };
 
-        public static final String AREA_OPTIONS[] = {
+        public static final String CITY_OPTIONS[] = {
             "悉尼",
             "墨尔本",
             "布里斯班",
@@ -178,6 +185,22 @@ public final class Constants {
             "霍巴特",
             "奥克兰",
             "惠灵顿"
+        };
+
+        public static HashMap<Integer, String[]> AREA_OPTIONS = new HashMap<Integer, String[]>(){
+            {
+                put(1, new String[] {
+                        "City区",
+                        "东区",
+                        "南区",
+                        "西区",
+                        "北区",
+                        "东南区",
+                        "东北区",
+                        "西南区",
+                        "西北区"
+                });
+            }
         };
 
         public static final String AGE_OPTIONS[] = {

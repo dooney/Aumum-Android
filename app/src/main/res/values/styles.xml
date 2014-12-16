@@ -154,7 +154,7 @@
     <style name="TextView.Party.UserName" parent="TextView.UserName" >
         <item name="android:textSize">@dimen/text_sz_large</item>
     </style>
-    <style name="TextView.Party.Area" parent="TextView.Subtitle" />
+    <style name="TextView.Party.City" parent="TextView.Subtitle" />
     <style name="TextView.Party.CreatedAt" parent="TextView.Subtitle.Small" />
     <style name="TextView.Party.Title" parent="TextView">
         <item name="android:textSize">@dimen/text_sz_large</item>
@@ -258,7 +258,7 @@
     <style name="TextView.Asking.UserName" parent="TextView.UserName">
         <item name="android:textSize">@dimen/text_sz_small</item>
     </style>
-    <style name="TextView.Asking.Area" parent="TextView.Subtitle.Small" />
+    <style name="TextView.Asking.City" parent="TextView.Subtitle.Small" />
     <style name="TextView.Asking.UpdatedAt" parent="TextView.Subtitle.Small" />
     <style name="TextView.Asking.Question" parent="TextView.Content.Text">
         <item name="android:paddingBottom">@dimen/margin_medium</item>
@@ -502,6 +502,14 @@
         <item name="android:hint">@string/hint_email_address</item>
         <item name="android:inputType">textEmailAddress</item>
     </style>
+    <style name="EditText.About" parent="EditText">
+        <item name="android:drawableLeft">@drawable/ic_fa_tag</item>
+        <item name="android:hint">@string/hint_about</item>
+        <item name="android:imeOptions">actionDone</item>
+        <item name="android:inputType">text|textCapSentences|textMultiLine</item>
+        <item name="android:lineSpacingMultiplier">1.1</item>
+        <item name="android:maxLines">4</item>
+    </style>
     <style name="EditText.ScreenName" parent="EditText">
         <item name="android:drawableLeft">@drawable/ic_fa_user_l</item>
         <item name="android:hint">@string/hint_screen_name</item>
@@ -513,9 +521,18 @@
         <item name="android:textSize">@dimen/text_sz_large</item>
         <item name="android:padding">@dimen/margin_large</item>
     </style>
+    <style name="ButtonTextView.Account.City" parent="ButtonTextView.Account">
+        <item name="android:drawableLeft">@drawable/ic_fa_building_o</item>
+        <item name="android:hint">@string/hint_city</item>
+    </style>
     <style name="ButtonTextView.Account.Area" parent="ButtonTextView.Account">
         <item name="android:drawableLeft">@drawable/ic_fa_home_l</item>
         <item name="android:hint">@string/hint_area</item>
+    </style>
+    <style name="ButtonTextView.Account.Avatar" parent="ButtonTextView.Account">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:drawableLeft">@drawable/ic_fa_camera</item>
+        <item name="android:hint">@string/hint_avatar</item>
     </style>
     <style name="Button.Account.SignUp" parent="Button.Primary">
         <item name="android:text">@string/label_sign_up</item>

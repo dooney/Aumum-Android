@@ -363,6 +363,16 @@ public class RestService {
         return getUserService().updateById(userId, data);
     }
 
+    public JsonObject updateUserProfile(User user) {
+        final JsonObject data = new JsonObject();
+        data.addProperty(Constants.Http.User.PARAM_SCREEN_NAME, user.getScreenName());
+        data.addProperty(Constants.Http.User.PARAM_EMAIL, user.getEmail());
+        data.addProperty(Constants.Http.User.PARAM_CITY, user.getCity());
+        data.addProperty(Constants.Http.User.PARAM_AREA, user.getArea());
+        data.addProperty(Constants.Http.User.PARAM_ABOUT, user.getAbout());
+        return getUserService().updateById(user.getObjectId(), data);
+    }
+
     public JsonObject deleteParty(String partyId) {
         final JsonObject data = new JsonObject();
         DateTime now = DateTime.now(DateTimeZone.UTC);

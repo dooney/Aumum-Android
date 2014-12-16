@@ -1,4 +1,4 @@
-package com.aumum.app.mobile.ui.login;
+package com.aumum.app.mobile.ui.account;
 
 import static android.view.KeyEvent.ACTION_DOWN;
 import static android.view.KeyEvent.KEYCODE_ENTER;

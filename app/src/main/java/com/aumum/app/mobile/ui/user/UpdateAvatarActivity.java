@@ -67,8 +67,6 @@ public class UpdateAvatarActivity extends ProgressDialogActivity
         saveButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                progress.setMessageId(R.string.info_uploading_avatar);
-                showProgress();
                 save();
             }
         });
@@ -79,6 +77,8 @@ public class UpdateAvatarActivity extends ProgressDialogActivity
         if (task != null) {
             return;
         }
+        progress.setMessageId(R.string.info_uploading_avatar);
+        showProgress();
         task = new SafeAsyncTask<Boolean>() {
             public Boolean call() throws Exception {
                 byte bytes[] = ImageUtils.getBytesBitmap(cropImage.clip(AVATAR_MAX_WIDTH, AVATAR_MAX_HEIGHT));

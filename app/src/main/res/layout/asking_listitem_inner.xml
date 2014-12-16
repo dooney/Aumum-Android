@@ -29,8 +29,8 @@
                 android:paddingRight="@dimen/margin_medium"/>
 
             <TextView
-                android:id="@+id/text_area"
-                style="@style/TextView.Asking.Area"/>
+                android:id="@+id/text_city"
+                style="@style/TextView.Asking.City"/>
 
         </LinearLayout>
 

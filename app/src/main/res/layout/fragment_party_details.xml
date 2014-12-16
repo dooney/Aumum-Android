@@ -50,8 +50,8 @@
                             android:layout_alignTop="@+id/image_avatar" />
 
                         <TextView
-                            android:id="@+id/text_area"
-                            style="@style/TextView.Party.Area"
+                            android:id="@+id/text_city"
+                            style="@style/TextView.Party.City"
                             android:layout_alignLeft="@+id/text_user_name"
                             android:layout_alignBottom="@+id/image_avatar" />
 
@@ -59,8 +59,8 @@
                             android:id="@+id/text_createdAt"
                             style="@style/TextView.Party.CreatedAt"
                             android:paddingLeft="@dimen/margin_medium"
-                            android:layout_toRightOf="@+id/text_area"
-                            android:layout_alignBaseline="@+id/text_area"/>
+                            android:layout_toRightOf="@+id/text_city"
+                            android:layout_alignBaseline="@+id/text_city"/>
 
                     </RelativeLayout>
 

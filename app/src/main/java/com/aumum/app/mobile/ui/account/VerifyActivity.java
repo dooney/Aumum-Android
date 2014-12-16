@@ -1,4 +1,4 @@
-package com.aumum.app.mobile.ui.register;
+package com.aumum.app.mobile.ui.account;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -17,7 +17,6 @@ import com.aumum.app.mobile.core.service.ChatService;
 import com.aumum.app.mobile.core.service.RestService;
 import com.aumum.app.mobile.ui.base.ProgressDialogActivity;
 import com.aumum.app.mobile.ui.helper.TextWatcherAdapter;
-import com.aumum.app.mobile.ui.login.CompleteProfileActivity;
 import com.aumum.app.mobile.utils.EditTextUtils;
 import com.aumum.app.mobile.utils.Ln;
 import com.aumum.app.mobile.utils.SafeAsyncTask;
@@ -131,7 +130,7 @@ public class VerifyActivity extends ProgressDialogActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        if (requestCode == COMPLETE_ACTIVITY_REQ_CODE) {
+        if (requestCode == COMPLETE_ACTIVITY_REQ_CODE && resultCode == RESULT_OK) {
             final Intent intent = new Intent();
             intent.putExtra(INTENT_USER_ID, userId);
             intent.putExtra(INTENT_TOKEN, token);

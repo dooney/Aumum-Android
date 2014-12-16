@@ -14,6 +14,7 @@ import com.aumum.app.mobile.core.service.MessageDeliveryService;
 import com.aumum.app.mobile.core.service.NotificationService;
 import com.aumum.app.mobile.core.service.RestService;
 import com.aumum.app.mobile.ui.LaunchActivity;
+import com.aumum.app.mobile.ui.account.CompleteProfileActivity;
 import com.aumum.app.mobile.ui.asking.AskingDetailsFragment;
 import com.aumum.app.mobile.ui.asking.AskingFavoriteListener;
 import com.aumum.app.mobile.ui.asking.AskingListFragment;
@@ -38,7 +39,7 @@ import com.aumum.app.mobile.ui.contact.ContactFragment;
 import com.aumum.app.mobile.ui.contact.ContactListener;
 import com.aumum.app.mobile.ui.contact.ContactRequestsFragment;
 import com.aumum.app.mobile.ui.contact.DeleteContactListener;
-import com.aumum.app.mobile.ui.register.VerifyActivity;
+import com.aumum.app.mobile.ui.account.VerifyActivity;
 import com.aumum.app.mobile.ui.user.UpdateAvatarActivity;
 import com.aumum.app.mobile.ui.main.MainFragment;
 import com.aumum.app.mobile.ui.party.PartyFavoriteListener;
@@ -49,10 +50,10 @@ import com.aumum.app.mobile.ui.party.PartyListFragment;
 import com.aumum.app.mobile.ui.party.PartyReasonsFragment;
 import com.aumum.app.mobile.ui.party.NewPartyActivity;
 import com.aumum.app.mobile.ui.account.ResetPasswordActivity;
-import com.aumum.app.mobile.ui.login.LoginActivity;
+import com.aumum.app.mobile.ui.account.LoginActivity;
 import com.aumum.app.mobile.core.service.LogoutService;
 import com.aumum.app.mobile.ui.party.SearchPartyFragment;
-import com.aumum.app.mobile.ui.register.RegisterActivity;
+import com.aumum.app.mobile.ui.account.RegisterActivity;
 import com.aumum.app.mobile.core.Constants;
 import com.aumum.app.mobile.core.dao.MessageStore;
 import com.aumum.app.mobile.core.dao.PartyCommentStore;
@@ -134,7 +135,8 @@ import retrofit.converter.GsonConverter;
                 VoiceMessageCard.class,
                 ImageMessageCard.class,
                 UpdateAvatarActivity.class,
-                VerifyActivity.class
+                VerifyActivity.class,
+                CompleteProfileActivity.class
         }
 )
 public class BootstrapModule {

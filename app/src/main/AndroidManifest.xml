@@ -70,11 +70,11 @@
             android:theme="@style/Theme.Aumum.Light.NoTitle" >
         </activity>
         <activity
-            android:name=".ui.login.LoginActivity"
+            android:name=".ui.account.LoginActivity"
             android:label="@string/title_activity_login" >
         </activity>
         <activity
-            android:name=".ui.register.RegisterActivity"
+            android:name=".ui.account.RegisterActivity"
             android:label="@string/title_activity_register" >
         </activity>
         <activity
@@ -209,11 +209,11 @@
             android:windowSoftInputMode="stateVisible|adjustResize" >
         </activity>
         <activity
-            android:name=".ui.login.CompleteProfileActivity"
+            android:name=".ui.account.CompleteProfileActivity"
             android:label="@string/title_activity_complete_profile" >
         </activity>
         <activity
-            android:name=".ui.register.VerifyActivity"
+            android:name=".ui.account.VerifyActivity"
             android:label="@string/title_activity_verify" >
         </activity>
     </application>

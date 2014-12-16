@@ -77,7 +77,7 @@ public class AskingDetailsFragment extends LoaderFragment<Asking>
     private SpannableTextView questionText;
     private GridView gridGallery;
     private TextView userNameText;
-    private TextView areaText;
+    private TextView cityText;
     private TextView updatedAtText;
     private FavoriteTextView favoriteText;
 
@@ -148,7 +148,7 @@ public class AskingDetailsFragment extends LoaderFragment<Asking>
         gridGallery.setAdapter(adapter);
 
         userNameText = (TextView) view.findViewById(R.id.text_user_name);
-        areaText = (TextView) view.findViewById(R.id.text_area);
+        cityText = (TextView) view.findViewById(R.id.text_city);
         updatedAtText = (TextView) view.findViewById(R.id.text_updatedAt);
 
         favoriteText = (FavoriteTextView) view.findViewById(R.id.text_favorite);
@@ -233,7 +233,7 @@ public class AskingDetailsFragment extends LoaderFragment<Asking>
 
             userNameText.setText(asking.getUser().getScreenName());
             userNameText.setOnClickListener(new UserListener(getActivity(), asking.getUserId()));
-            areaText.setText(Constants.Options.AREA_OPTIONS[asking.getUser().getArea()]);
+            cityText.setText(Constants.Options.CITY_OPTIONS[asking.getUser().getCity()]);
             questionText.setSpannableText(asking.getQuestion());
             updatedAtText.setText(asking.getUpdatedAtFormatted());
             favoriteText.init(asking.getFavoritesCount(), asking.isFavorited(currentUserId));

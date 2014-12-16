@@ -1,10 +1,11 @@
-package com.aumum.app.mobile.ui.register;
+package com.aumum.app.mobile.ui.account;
 
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -38,6 +39,9 @@ import cn.smssdk.EventHandler;
 import cn.smssdk.SMSSDK;
 import retrofit.RetrofitError;
 
+import static android.view.KeyEvent.ACTION_DOWN;
+import static android.view.KeyEvent.KEYCODE_ENTER;
+import static android.view.inputmethod.EditorInfo.IME_ACTION_DONE;
 import static com.aumum.app.mobile.ui.splash.SplashActivity.SHOW_SIGN_IN;
 
 public class RegisterActivity extends AuthenticateActivity
@@ -106,15 +110,31 @@ public class RegisterActivity extends AuthenticateActivity
         });
         phoneText.addTextChangedListener(watcher);
         passwordText.addTextChangedListener(watcher);
+        passwordText.setOnKeyListener(new View.OnKeyListener() {
+            public boolean onKey(final View v, final int keyCode, final KeyEvent event) {
+                if (event != null && ACTION_DOWN == event.getAction()
+                        && keyCode == KEYCODE_ENTER && signUpButton.isEnabled()) {
+                    signUp();
+                    return true;
+                }
+                return false;
+            }
+        });
+        passwordText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+
+            public boolean onEditorAction(final TextView v, final int actionId,
+                                          final KeyEvent event) {
+                if (actionId == IME_ACTION_DONE && signUpButton.isEnabled()) {
+                    signUp();
+                    return true;
+                }
+                return false;
+            }
+        });
         signUpButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                EditTextUtils.hideSoftInput(phoneText);
-                EditTextUtils.hideSoftInput(passwordText);
-                countryCode = countryCodeText.getText().toString().trim();
-                phone = phoneText.getText().toString().trim();
-                password = passwordText.getText().toString();
-                validator.validate();
+                signUp();
             }
         });
         promptSignInText.setOnClickListener(new View.OnClickListener() {
@@ -199,6 +219,15 @@ public class RegisterActivity extends AuthenticateActivity
         progress.setMessageId(R.string.info_sending_verification_sms);
         showProgress();
         SMSSDK.getVerificationCode(Strings.removeLeadingZeros(countryCode), phone);
+    }
+
+    private void signUp() {
+        EditTextUtils.hideSoftInput(phoneText);
+        EditTextUtils.hideSoftInput(passwordText);
+        countryCode = countryCodeText.getText().toString().trim();
+        phone = phoneText.getText().toString().trim();
+        password = passwordText.getText().toString();
+        validator.validate();
     }
 
     private void startVerifyActivity() {

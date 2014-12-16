@@ -11,6 +11,8 @@ public class UserEntity extends BaseEntity {
 
     private String chatId;
     private String screenName;
+    private String email;
+    private Integer city;
     private Integer area;
     private String avatarUrl;
     private String about;
@@ -33,6 +35,8 @@ public class UserEntity extends BaseEntity {
                       String chatId,
                       Date createdAt,
                       String screenName,
+                      String email,
+                      Integer city,
                       Integer area,
                       String avatarUrl,
                       String about,
@@ -47,6 +51,8 @@ public class UserEntity extends BaseEntity {
         this.chatId = chatId;
         this.createdAt = createdAt;
         this.screenName = screenName;
+        this.email = email;
+        this.city = city;
         this.area = area;
         this.avatarUrl = avatarUrl;
         this.about = about;
@@ -72,6 +78,22 @@ public class UserEntity extends BaseEntity {
 
     public void setScreenName(String screenName) {
         this.screenName = screenName;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public Integer getCity() {
+        return city;
+    }
+
+    public void setCity(Integer city) {
+        this.city = city;
     }
 
     public Integer getArea() {

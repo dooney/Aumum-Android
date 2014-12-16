@@ -11,8 +11,8 @@ import android.widget.ImageView;
 
 import com.aumum.app.mobile.R;
 import com.aumum.app.mobile.ui.base.AccountAuthenticatorActivity;
-import com.aumum.app.mobile.ui.login.LoginActivity;
-import com.aumum.app.mobile.ui.register.RegisterActivity;
+import com.aumum.app.mobile.ui.account.LoginActivity;
+import com.aumum.app.mobile.ui.account.RegisterActivity;
 import com.aumum.app.mobile.ui.account.ResetPasswordActivity;
 import com.aumum.app.mobile.ui.account.ResetPasswordSuccessActivity;
 import com.aumum.app.mobile.utils.ImageLoaderUtils;

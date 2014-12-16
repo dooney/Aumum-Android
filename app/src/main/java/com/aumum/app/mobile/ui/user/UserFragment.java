@@ -42,6 +42,7 @@ public class UserFragment extends LoaderFragment<User>
     private View mainView;
     private AvatarImageView avatarImage;
     private TextView screenNameText;
+    private TextView cityText;
     private TextView areaText;
     private TextView aboutText;
     private ViewGroup partiesLayout;
@@ -78,6 +79,7 @@ public class UserFragment extends LoaderFragment<User>
         mainView = view.findViewById(R.id.main_view);
         avatarImage = (AvatarImageView) view.findViewById(R.id.image_avatar);
         screenNameText = (TextView) view.findViewById(R.id.text_screen_name);
+        cityText = (TextView) view.findViewById(R.id.text_city);
         areaText = (TextView) view.findViewById(R.id.text_area);
         aboutText = (TextView) view.findViewById(R.id.text_about);
         partiesLayout = (ViewGroup) view.findViewById(R.id.layout_her_parties);
@@ -137,7 +139,8 @@ public class UserFragment extends LoaderFragment<User>
 
                 avatarImage.getFromUrl(user.getAvatarUrl());
                 screenNameText.setText(user.getScreenName());
-                areaText.setText(Constants.Options.AREA_OPTIONS[user.getArea()]);
+                cityText.setText(Constants.Options.CITY_OPTIONS[user.getCity()]);
+                areaText.setText(Constants.Options.AREA_OPTIONS.get(user.getCity())[user.getArea()]);
                 aboutText.setText(user.getAbout());
                 partiesLayout.setOnClickListener(new View.OnClickListener() {
                     @Override

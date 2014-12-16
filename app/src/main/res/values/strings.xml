@@ -79,6 +79,8 @@
     <string name="info_will_receive_sms_within"><Data>接收短信大约需要&lt;font color=#000000>%s&lt;/font>秒</Data></string>
     <string name="info_submitting_verification_code">正在提交验证码，请稍候</string>
     <string name="info_verifying_mobile">正在验证手机号，请稍候</string>
+    <string name="info_submitting_profile">正在保存您的个人资料，请稍候</string>
+    <string name="info_save_profile_before_back">返回之前必须先保存个人资料</string>
 
     <!-- Error Message -->
     <string name="error_load_parties">获取聚会列表失败</string>
@@ -120,6 +122,7 @@
     <string name="error_incorrect_phone">手机号必须全为数字</string>
     <string name="error_incorrect_password_length">密码长度必须为6-16位</string>
     <string name="error_mobile_registered">该手机号已被注册</string>
+    <string name="error_city_first">请先选择城市</string>
 
     <!-- Title -->
     <string name="title_activity_login">用户登录</string>
@@ -144,7 +147,7 @@
     <string name="title_activity_asking_details">问题详情</string>
     <string name="title_activity_choose_image">选择图片</string>
     <string name="title_activity_add_image">添加图片</string>
-    <string name="title_activity_complete_profile">完善个人信息</string>
+    <string name="title_activity_complete_profile">完善个人资料</string>
     <string name="title_activity_verify">验证码</string>
 
     <!-- Account -->
@@ -152,12 +155,14 @@
     <string name="hint_login_password">密码</string>
     <string name="hint_register_phone">请输入要注册的手机号</string>
     <string name="hint_register_password">请输入6-16位密码</string>
-    <string name="hint_screen_name">昵称</string>
+    <string name="hint_screen_name">昵称 (必填)</string>
     <string name="hint_email_address">邮箱</string>
-    <string name="hint_area">所在城市</string>
+    <string name="hint_city">所在城市 (必填)</string>
+    <string name="hint_area">所在地区 (必填)</string>
     <string name="hint_avatar">头像图片</string>
-    <string name="hint_about">个人简介</string>
-    <string name="label_area">所在城市</string>
+    <string name="hint_about">个人简介 (不超过140字)</string>
+    <string name="label_city">所在城市</string>
+    <string name="label_area">所在地区</string>
     <string name="label_about">个人简介</string>
     <string name="label_sign_in">登录</string>
     <string name="label_sign_up">注册</string>
@@ -230,7 +235,7 @@
     <string name="label_time">具体时间</string>
     <string name="label_age">要求小孩年龄</string>
     <string name="label_gender">要求小孩性别</string>
-    <string name="hint_party_details">聚会内容（不超过140字）</string>
+    <string name="hint_party_details">聚会内容 (不超过140字)</string>
 
     <!-- Asking -->
     <string name="hint_asking_question">一句话描述您的问题</string>

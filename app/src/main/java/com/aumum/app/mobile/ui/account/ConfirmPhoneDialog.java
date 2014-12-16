@@ -1,4 +1,4 @@
-package com.aumum.app.mobile.ui.register;
+package com.aumum.app.mobile.ui.account;
 
 import android.app.Dialog;
 import android.content.Context;
