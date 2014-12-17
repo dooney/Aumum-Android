@@ -1,10 +1,14 @@
 package com.aumum.app.mobile.ui.user;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -22,6 +26,7 @@ import com.aumum.app.mobile.ui.contact.AddContactActivity;
 import com.aumum.app.mobile.ui.contact.DeleteContactListener;
 import com.aumum.app.mobile.ui.party.SearchPartyActivity;
 import com.aumum.app.mobile.ui.view.AvatarImageView;
+import com.aumum.app.mobile.utils.DialogUtils;
 import com.aumum.app.mobile.utils.Ln;
 import com.github.kevinsawicki.wishlist.Toaster;
 
@@ -38,6 +43,7 @@ public class UserFragment extends LoaderFragment<User>
     private String userId;
     private String screenName;
     private User currentUser;
+    private User user;
 
     private View mainView;
     private AvatarImageView avatarImage;
@@ -45,8 +51,6 @@ public class UserFragment extends LoaderFragment<User>
     private TextView cityText;
     private TextView areaText;
     private TextView aboutText;
-    private ViewGroup partiesLayout;
-    private ViewGroup askingsLayout;
     private Button addContactButton;
     private ViewGroup actionLayout;
     private Button sendMessageButton;
@@ -55,6 +59,7 @@ public class UserFragment extends LoaderFragment<User>
     @Override
     public void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setHasOptionsMenu(true);
         Injector.inject(this);
         final Intent intent = getActivity().getIntent();
         userId = intent.getStringExtra(UserActivity.INTENT_USER_ID);
@@ -64,6 +69,28 @@ public class UserFragment extends LoaderFragment<User>
             int index = d.lastIndexOf("@");
             screenName = d.substring(index + 1);
         }
+    }
+
+    @Override
+    public void onCreateOptionsMenu(final Menu menu, final MenuInflater inflater) {
+        menu.add(Menu.NONE, 0, Menu.NONE, "MORE")
+                .setIcon(R.drawable.ic_fa_ellipsis_v)
+                .setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(final MenuItem item) {
+        if (!isUsable()) {
+            return false;
+        }
+        switch (item.getItemId()) {
+            case 0:
+                showActionDialog();
+                break;
+            default:
+                break;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     @Override
@@ -82,8 +109,6 @@ public class UserFragment extends LoaderFragment<User>
         cityText = (TextView) view.findViewById(R.id.text_city);
         areaText = (TextView) view.findViewById(R.id.text_area);
         aboutText = (TextView) view.findViewById(R.id.text_about);
-        partiesLayout = (ViewGroup) view.findViewById(R.id.layout_her_parties);
-        askingsLayout = (ViewGroup) view.findViewById(R.id.layout_her_askings);
         addContactButton = (Button) view.findViewById(R.id.b_add_contact);
         actionLayout = (ViewGroup) view.findViewById(R.id.layout_action);
         sendMessageButton = (Button) view.findViewById(R.id.b_send_message);
@@ -115,7 +140,6 @@ public class UserFragment extends LoaderFragment<User>
     @Override
     protected User loadDataCore(Bundle bundle) throws Exception {
         currentUser = dataStore.getCurrentUser();
-        User user = null;
         if (userId != null) {
             if (userId.equals(currentUser.getObjectId())) {
                 return currentUser;
@@ -142,26 +166,6 @@ public class UserFragment extends LoaderFragment<User>
                 cityText.setText(Constants.Options.CITY_OPTIONS[user.getCity()]);
                 areaText.setText(Constants.Options.AREA_OPTIONS.get(user.getCity())[user.getArea()]);
                 aboutText.setText(user.getAbout());
-                partiesLayout.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        final Intent intent = new Intent(getActivity(), SearchPartyActivity.class);
-                        intent.putExtra(SearchPartyActivity.INTENT_TITLE,
-                                getString(R.string.title_user_parties, user.getScreenName()));
-                        intent.putExtra(SearchPartyActivity.INTENT_USER_ID, userId);
-                        startActivity(intent);
-                    }
-                });
-                askingsLayout.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        final Intent intent = new Intent(getActivity(), SearchAskingActivity.class);
-                        intent.putExtra(SearchAskingActivity.INTENT_TITLE,
-                                getString(R.string.title_user_askings, user.getScreenName()));
-                        intent.putExtra(SearchPartyActivity.INTENT_USER_ID, userId);
-                        startActivity(intent);
-                    }
-                });
                 addContactButton.setVisibility(View.GONE);
                 actionLayout.setVisibility(View.GONE);
                 if (currentUser.getObjectId().equals(userId)) {
@@ -201,6 +205,26 @@ public class UserFragment extends LoaderFragment<User>
         }
     }
 
+    private void showActionDialog() {
+        String options[] = getResources().getStringArray(R.array.label_user_actions);
+        DialogUtils.showDialog(getActivity(), options,
+                new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        switch (i) {
+                            case 0:
+                                startHerPartiesActivity(user);
+                                break;
+                            case 1:
+                                startHerAskingsActivity(user);
+                                break;
+                            default:
+                                break;
+                        }
+                    }
+                });
+    }
+
     @Override
     public void onDeleteContactSuccess(String contactId) {
         actionLayout.setVisibility(View.GONE);
@@ -210,5 +234,21 @@ public class UserFragment extends LoaderFragment<User>
     @Override
     public void onDeleteContactFailed() {
         Toaster.showShort(getActivity(), R.string.error_delete_contact);
+    }
+
+    private void startHerPartiesActivity(User user) {
+        final Intent intent = new Intent(getActivity(), SearchPartyActivity.class);
+        intent.putExtra(SearchPartyActivity.INTENT_TITLE,
+                getString(R.string.title_user_parties, user.getScreenName()));
+        intent.putExtra(SearchPartyActivity.INTENT_USER_ID, userId);
+        startActivity(intent);
+    }
+
+    private void startHerAskingsActivity(User user) {
+        final Intent intent = new Intent(getActivity(), SearchAskingActivity.class);
+        intent.putExtra(SearchAskingActivity.INTENT_TITLE,
+                getString(R.string.title_user_askings, user.getScreenName()));
+        intent.putExtra(SearchPartyActivity.INTENT_USER_ID, userId);
+        startActivity(intent);
     }
 }

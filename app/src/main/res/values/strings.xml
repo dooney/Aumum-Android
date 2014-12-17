@@ -33,6 +33,16 @@
         <item>举报</item>
         <item>删除</item>
     </string-array>
+    <string-array name="label_user_actions">
+        <item>她的聚会</item>
+        <item>她的问问</item>
+    </string-array>
+    <string-array name="label_profile_actions">
+        <item>我的聚会</item>
+        <item>我的问问</item>
+        <item>我的收藏</item>
+        <item>我的设置</item>
+    </string-array>
     <string-array name="label_favorite_types">
         <item>聚会</item>
         <item>问问</item>
@@ -136,7 +146,7 @@
     <string name="title_activity_user">用户详情</string>
     <string name="title_activity_party_comments">聚会评论</string>
     <string name="title_activity_contact_requests">好友请求</string>
-    <string name="title_activity_settings">设置</string>
+    <string name="title_activity_settings">我的设置</string>
     <string name="title_activity_party_details">聚会详情</string>
     <string name="title_activity_search_party">搜索聚会</string>
     <string name="title_activity_new_party">发起聚会</string>
@@ -196,21 +206,16 @@
     <string name="label_accept">同意</string>
     <string name="label_added">已添加</string>
     <string name="label_contact_agreed">已经同意您的添加好友请求</string>
-    <string name="label_her_parties">她的聚会</string>
-    <string name="label_her_askings">她的问问</string>
-
     <!-- Profile -->
     <string name="label_avatar">头像图片</string>
     <string name="label_screen_name">用户昵称</string>
     <string name="label_email_address">邮箱地址</string>
     <string name="label_my_parties">我的聚会</string>
     <string name="label_my_askings">我的问问</string>
-    <string name="label_my_favorites">我的收藏</string>
     <string name="label_favorite_parties">聚会收藏</string>
     <string name="label_favorite_askings">问问收藏</string>
 
     <!-- Settings -->
-    <string name="label_settings">设置</string>
     <string name="label_logout">退出登录</string>
 
     <!-- Comments -->

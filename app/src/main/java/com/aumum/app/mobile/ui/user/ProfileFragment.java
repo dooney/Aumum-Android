@@ -6,6 +6,9 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ScrollView;
@@ -53,15 +56,34 @@ public class ProfileFragment extends LoaderFragment<User> {
     private TextView cityText;
     private TextView areaText;
     private TextView aboutText;
-    private ViewGroup partiesLayout;
-    private ViewGroup askingsLayout;
-    private ViewGroup favoritesLayout;
-    private ViewGroup settingsLayout;
 
     @Override
     public void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setHasOptionsMenu(true);
         Injector.inject(this);
+    }
+
+    @Override
+    public void onCreateOptionsMenu(final Menu menu, final MenuInflater inflater) {
+        menu.add(Menu.NONE, 0, Menu.NONE, "MORE")
+                .setIcon(R.drawable.ic_fa_ellipsis_v)
+                .setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(final MenuItem item) {
+        if (!isUsable()) {
+            return false;
+        }
+        switch (item.getItemId()) {
+            case 0:
+                showActionDialog();
+                break;
+            default:
+                break;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     @Override
@@ -85,17 +107,6 @@ public class ProfileFragment extends LoaderFragment<User> {
         cityText = (TextView) view.findViewById(R.id.text_city);
         areaText = (TextView) view.findViewById(R.id.text_area);
         aboutText = (TextView) view.findViewById(R.id.text_about);
-        partiesLayout = (ViewGroup) view.findViewById(R.id.layout_my_parties);
-        askingsLayout = (ViewGroup) view.findViewById(R.id.layout_my_askings);
-        favoritesLayout = (ViewGroup) view.findViewById(R.id.layout_my_favorites);
-        settingsLayout = (ViewGroup) view.findViewById(R.id.layout_settings);
-        settingsLayout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                final Intent intent = new Intent(getActivity(), SettingsActivity.class);
-                getActivity().startActivityForResult(intent, Constants.RequestCode.SETTINGS_REQ_CODE);
-            }
-        });
     }
 
     @Override
@@ -168,43 +179,51 @@ public class ProfileFragment extends LoaderFragment<User> {
             cityText.setText(Constants.Options.CITY_OPTIONS[user.getCity()]);
             areaText.setText(Constants.Options.AREA_OPTIONS.get(user.getCity())[user.getArea()]);
             aboutText.setText(user.getAbout());
-            partiesLayout.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    startMyPartiesActivity(user);
-                }
-            });
-            askingsLayout.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    startMyAskingsActivity(user);
-                }
-            });
-            favoritesLayout.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    String options[] = getResources().getStringArray(R.array.label_favorite_types);
-                    DialogUtils.showDialog(getActivity(), options,
-                            new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialogInterface, int i) {
-                                    switch (i) {
-                                        case 0:
-                                            startMyFavoritePartiesActivity(user);
-                                            break;
-                                        case 1:
-                                            startMyFavoriteAskingsActivity(user);
-                                            break;
-                                        default:
-                                            break;
-                                    }
-                                }
-                            });
-                }
-            });
         } catch (Exception e) {
             Ln.e(e);
         }
+    }
+
+    private void showActionDialog() {
+        String options[] = getResources().getStringArray(R.array.label_profile_actions);
+        DialogUtils.showDialog(getActivity(), options,
+                new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        switch (i) {
+                            case 0:
+                                startMyPartiesActivity(currentUser);
+                                break;
+                            case 1:
+                                startMyAskingsActivity(currentUser);
+                                break;
+                            case 2:
+                                String options[] = getResources().getStringArray(R.array.label_favorite_types);
+                                DialogUtils.showDialog(getActivity(), options,
+                                        new DialogInterface.OnClickListener() {
+                                            @Override
+                                            public void onClick(DialogInterface dialogInterface, int i) {
+                                                switch (i) {
+                                                    case 0:
+                                                        startMyFavoritePartiesActivity(currentUser);
+                                                        break;
+                                                    case 1:
+                                                        startMyFavoriteAskingsActivity(currentUser);
+                                                        break;
+                                                    default:
+                                                        break;
+                                                }
+                                            }
+                                        });
+                                break;
+                            case 3:
+                                startSettingsActivity();
+                                break;
+                            default:
+                                break;
+                        }
+                    }
+                });
     }
 
     private void startImagePickerActivity() {
@@ -278,5 +297,10 @@ public class ProfileFragment extends LoaderFragment<User> {
         intent.putExtra(SearchAskingActivity.INTENT_USER_ID, user.getObjectId());
         intent.putExtra(SearchAskingActivity.INTENT_IS_FAVORITE, true);
         startActivity(intent);
+    }
+
+    private void startSettingsActivity() {
+        final Intent intent = new Intent(getActivity(), SettingsActivity.class);
+        getActivity().startActivityForResult(intent, Constants.RequestCode.SETTINGS_REQ_CODE);
     }
 }
