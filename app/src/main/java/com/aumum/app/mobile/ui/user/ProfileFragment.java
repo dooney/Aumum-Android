@@ -49,6 +49,7 @@ public class ProfileFragment extends LoaderFragment<User> {
     private View mainView;
     private AvatarImageView avatarImage;
     private TextView screenNameText;
+    private TextView emailText;
     private TextView cityText;
     private TextView areaText;
     private TextView aboutText;
@@ -80,6 +81,7 @@ public class ProfileFragment extends LoaderFragment<User> {
         mainView = view.findViewById(R.id.main_view);
         avatarImage = (AvatarImageView) view.findViewById(R.id.image_avatar);
         screenNameText = (TextView) view.findViewById(R.id.text_screen_name);
+        emailText = (TextView) view.findViewById(R.id.text_email);
         cityText = (TextView) view.findViewById(R.id.text_city);
         areaText = (TextView) view.findViewById(R.id.text_area);
         aboutText = (TextView) view.findViewById(R.id.text_about);
@@ -162,6 +164,7 @@ public class ProfileFragment extends LoaderFragment<User> {
                 }
             });
             screenNameText.setText(user.getScreenName());
+            emailText.setText(user.getEmail());
             cityText.setText(Constants.Options.CITY_OPTIONS[user.getCity()]);
             areaText.setText(Constants.Options.AREA_OPTIONS.get(user.getCity())[user.getArea()]);
             aboutText.setText(user.getAbout());

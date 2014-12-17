@@ -22,12 +22,18 @@ import com.aumum.app.mobile.ui.base.ProgressDialogActivity;
 import com.aumum.app.mobile.ui.helper.TextWatcherAdapter;
 import com.aumum.app.mobile.ui.image.ImagePickerActivity;
 import com.aumum.app.mobile.ui.user.UpdateAvatarActivity;
+import com.aumum.app.mobile.ui.view.Animation;
 import com.aumum.app.mobile.utils.DialogUtils;
 import com.aumum.app.mobile.utils.EditTextUtils;
 import com.aumum.app.mobile.utils.ImageLoaderUtils;
 import com.aumum.app.mobile.utils.SafeAsyncTask;
 import com.github.kevinsawicki.wishlist.Toaster;
 import com.greenhalolabs.emailautocompletetextview.EmailAutoCompleteTextView;
+import com.mobsandgeeks.saripaar.ValidationError;
+import com.mobsandgeeks.saripaar.Validator;
+import com.mobsandgeeks.saripaar.annotation.Email;
+
+import java.util.List;
 
 import javax.inject.Inject;
 
@@ -35,14 +41,19 @@ import butterknife.ButterKnife;
 import butterknife.InjectView;
 import retrofit.RetrofitError;
 
-public class CompleteProfileActivity extends ProgressDialogActivity {
+public class CompleteProfileActivity extends ProgressDialogActivity
+    implements Validator.ValidationListener {
 
     @Inject RestService restService;
 
     private Button saveButton;
     @InjectView(R.id.image_avatar) protected ImageView avatarImage;
     @InjectView(R.id.et_screen_name) protected EditText screenNameText;
-    @InjectView(R.id.et_email) protected EmailAutoCompleteTextView emailText;
+
+    @InjectView(R.id.et_email)
+    @Email(messageResId = R.string.error_incorrect_email_format)
+    protected EmailAutoCompleteTextView emailText;
+
     @InjectView(R.id.text_city) protected TextView cityButton;
     @InjectView(R.id.text_area) protected TextView areaButton;
     @InjectView(R.id.et_about) protected EditText aboutText;
@@ -54,6 +65,7 @@ public class CompleteProfileActivity extends ProgressDialogActivity {
     private int area;
     private String about;
 
+    private Validator validator;
     private SafeAsyncTask<Boolean> task;
     private final TextWatcher watcher = validationTextWatcher();
 
@@ -85,6 +97,7 @@ public class CompleteProfileActivity extends ProgressDialogActivity {
                         city = i;
                         cityButton.setText(Constants.Options.CITY_OPTIONS[i]);
                         cityButton.setTextColor(getResources().getColor(R.color.black));
+                        updateUIWithValidation();
                     }
                 });
             }
@@ -104,10 +117,15 @@ public class CompleteProfileActivity extends ProgressDialogActivity {
                                 area = i;
                                 areaButton.setText(areaOptions[i]);
                                 areaButton.setTextColor(getResources().getColor(R.color.black));
+                                updateUIWithValidation();
                             }
                         });
             }
         });
+        validator = new Validator(this);
+        validator.setValidationListener(this);
+
+        Animation.flyIn(this);
     }
 
     @Override
@@ -120,7 +138,11 @@ public class CompleteProfileActivity extends ProgressDialogActivity {
         saveButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                save();
+                if (emailText.getText().length() > 0) {
+                    validator.validate();
+                } else {
+                    save();
+                }
             }
         });
         updateUIWithValidation();
@@ -179,16 +201,22 @@ public class CompleteProfileActivity extends ProgressDialogActivity {
         showProgress();
         screenName = screenNameText.getText().toString();
         EditTextUtils.hideSoftInput(screenNameText);
-        if (emailText.getText() != null) {
+        if (emailText.getText().length() > 0) {
             email = emailText.getText().toString();
         }
         EditTextUtils.hideSoftInput(emailText);
-        if (aboutText.getText() != null) {
+        if (aboutText.getText().length() > 0) {
             about = aboutText.getText().toString();
         }
         EditTextUtils.hideSoftInput(aboutText);
         task = new SafeAsyncTask<Boolean>() {
             public Boolean call() throws Exception {
+                if (restService.getScreenNameRegistered(screenName)) {
+                    throw new Exception(getString(R.string.error_screen_name_registered));
+                }
+                if (email != null && restService.getEmailRegistered(email)) {
+                    throw new Exception(getString(R.string.error_email_registered));
+                }
                 User user = new User();
                 user.setObjectId(userId);
                 user.setScreenName(screenName);
@@ -269,5 +297,17 @@ public class CompleteProfileActivity extends ProgressDialogActivity {
     @Override
     public void onBackPressed() {
         Toaster.showShort(this, R.string.info_save_profile_before_back);
+    }
+
+    @Override
+    public void onValidationSucceeded() {
+        save();
+    }
+
+    @Override
+    public void onValidationFailed(List<ValidationError> errors) {
+        for (ValidationError error : errors) {
+            Toaster.showShort(this, error.getFailedRules().get(0).getMessage(this));
+        }
     }
 }

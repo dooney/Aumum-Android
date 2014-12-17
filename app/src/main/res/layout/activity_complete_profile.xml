@@ -1,58 +1,72 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:padding="@dimen/margin_large"
-    android:orientation="vertical"
-    android:focusable="true"
-    android:focusableInTouchMode="true" >
+    android:layout_height="match_parent" >
 
-    <RelativeLayout
+    <ScrollView
+        android:id="@+id/scroll_view"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="match_parent"
+        android:fillViewport="true">
 
-        <TextView
-            android:id="@+id/text_avatar"
-            style="@style/ButtonTextView.Account.Avatar"
-            android:layout_centerVertical="true"/>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:padding="@dimen/margin_large"
+            android:orientation="vertical"
+            android:focusable="true"
+            android:focusableInTouchMode="true" >
 
-        <com.aumum.app.mobile.ui.view.AvatarImageView
-            android:id="@+id/image_avatar"
-            style="@style/ImageView.Avatar.Large"
-            android:src="@drawable/ic_avatar"
-            android:layout_alignParentRight="true" />
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
 
-    </RelativeLayout>
+                <TextView
+                    android:id="@+id/text_avatar"
+                    style="@style/ButtonTextView.Account.Avatar"
+                    android:layout_centerVertical="true"/>
 
-    <com.aumum.app.mobile.ui.view.ClearEditText
-        android:id="@+id/et_screen_name"
-        style="@style/EditText.ScreenName"
-        android:imeOptions="actionNext"
-        android:nextFocusDown="@+id/et_email" />
+                <com.aumum.app.mobile.ui.view.AvatarImageView
+                    android:id="@+id/image_avatar"
+                    style="@style/ImageView.Avatar.Large"
+                    android:src="@drawable/ic_avatar"
+                    android:layout_alignParentRight="true" />
 
-    <com.greenhalolabs.emailautocompletetextview.EmailAutoCompleteTextView
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        android:id="@+id/et_email"
-        style="@style/EditText.Email"
-        app:clearButtonDrawable="@drawable/ic_fa_times"
-        android:imeOptions="actionNext"
-        android:nextFocusDown="@+id/text_city"/>
+            </RelativeLayout>
 
-    <TextView
-        android:id="@+id/text_city"
-        style="@style/ButtonTextView.Account.City"
-        android:imeOptions="actionNext"
-        android:nextFocusDown="@+id/text_area" />
+            <com.aumum.app.mobile.ui.view.ClearEditText
+                android:id="@+id/et_screen_name"
+                style="@style/EditText.ScreenName"
+                android:imeOptions="actionNext"
+                android:nextFocusDown="@+id/et_email" />
 
-    <TextView
-        android:id="@+id/text_area"
-        style="@style/ButtonTextView.Account.Area"
-        android:imeOptions="actionNext"
-        android:nextFocusDown="@+id/et_about"/>
+            <com.greenhalolabs.emailautocompletetextview.EmailAutoCompleteTextView
+                xmlns:app="http://schemas.android.com/apk/res-auto"
+                android:id="@+id/et_email"
+                style="@style/EditText.Email"
+                app:clearButtonDrawable="@drawable/ic_fa_times"
+                android:imeOptions="actionNext"
+                android:nextFocusDown="@+id/text_city"/>
 
-    <EditText
-        android:id="@+id/et_about"
-        style="@style/EditText.About" />
+            <TextView
+                android:id="@+id/text_city"
+                style="@style/ButtonTextView.Account.City"
+                android:imeOptions="actionNext"
+                android:nextFocusDown="@+id/text_area" />
 
-</LinearLayout>
+            <TextView
+                android:id="@+id/text_area"
+                style="@style/ButtonTextView.Account.Area"
+                android:imeOptions="actionNext"
+                android:nextFocusDown="@+id/et_about"/>
+
+            <EditText
+                android:id="@+id/et_about"
+                style="@style/EditText.About" />
+
+        </LinearLayout>
+
+    </ScrollView>
+
+</RelativeLayout>

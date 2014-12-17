@@ -115,6 +115,20 @@ public class RestService {
         return getUserService().getList(where, 1).getResults().size() > 0;
     }
 
+    public boolean getScreenNameRegistered(String screenName) {
+        final JsonObject whereJson = new JsonObject();
+        whereJson.addProperty(Constants.Http.User.PARAM_SCREEN_NAME, screenName);
+        String where = whereJson.toString();
+        return getUserService().getList(where, 1).getResults().size() > 0;
+    }
+
+    public boolean getEmailRegistered(String email) {
+        final JsonObject whereJson = new JsonObject();
+        whereJson.addProperty(Constants.Http.User.PARAM_EMAIL, email);
+        String where = whereJson.toString();
+        return getUserService().getList(where, 1).getResults().size() > 0;
+    }
+
     public User register(String mobile, String password) {
         final JsonObject data = new JsonObject();
         data.addProperty(Constants.Http.PARAM_USERNAME, mobile);

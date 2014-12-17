@@ -5,17 +5,16 @@
     android:orientation="vertical" >
 
     <TextView
-        android:id="@+id/text_phone"
+        android:id="@+id/text_label_phone"
         style="@style/TextView.Subtitle"
         android:paddingLeft="@dimen/margin_large"
-        android:paddingBottom="@dimen/margin_medium"
-        android:text="您的手机号0061 451271020"/>
+        android:paddingBottom="@dimen/margin_medium"/>
 
     <TextView
+        android:id="@+id/text_label_code_tip"
         style="@style/TextView.Subtitle"
         android:paddingLeft="@dimen/margin_large"
-        android:paddingBottom="@dimen/margin_large"
-        android:text="@string/info_will_receive_verification_code"/>
+        android:paddingBottom="@dimen/margin_large"/>
 
     <EditText
         android:id="@+id/et_verification_code"

@@ -114,7 +114,7 @@ public class RegisterActivity extends AuthenticateActivity
             public boolean onKey(final View v, final int keyCode, final KeyEvent event) {
                 if (event != null && ACTION_DOWN == event.getAction()
                         && keyCode == KEYCODE_ENTER && signUpButton.isEnabled()) {
-                    signUp();
+                    validator.validate();
                     return true;
                 }
                 return false;
@@ -125,7 +125,7 @@ public class RegisterActivity extends AuthenticateActivity
             public boolean onEditorAction(final TextView v, final int actionId,
                                           final KeyEvent event) {
                 if (actionId == IME_ACTION_DONE && signUpButton.isEnabled()) {
-                    signUp();
+                    validator.validate();
                     return true;
                 }
                 return false;
@@ -134,7 +134,7 @@ public class RegisterActivity extends AuthenticateActivity
         signUpButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                signUp();
+                validator.validate();
             }
         });
         promptSignInText.setOnClickListener(new View.OnClickListener() {
@@ -222,29 +222,18 @@ public class RegisterActivity extends AuthenticateActivity
     }
 
     private void signUp() {
-        EditTextUtils.hideSoftInput(phoneText);
-        EditTextUtils.hideSoftInput(passwordText);
-        countryCode = countryCodeText.getText().toString().trim();
-        phone = phoneText.getText().toString().trim();
-        password = passwordText.getText().toString();
-        validator.validate();
-    }
-
-    private void startVerifyActivity() {
-        final Intent intent = new Intent(this, VerifyActivity.class);
-        intent.putExtra(VerifyActivity.INTENT_COUNTRY_CODE, countryCode);
-        intent.putExtra(VerifyActivity.INTENT_PHONE, phone);
-        intent.putExtra(VerifyActivity.INTENT_PASSWORD, password);
-        startActivityForResult(intent, VERIFY_ACTIVITY_REQ_CODE);
-    }
-
-    @Override
-    public void onValidationSucceeded() {
         if (task != null) {
             return;
         }
+
         progress.setMessageId(R.string.info_verifying_mobile);
         showProgress();
+        countryCode = countryCodeText.getText().toString().trim();
+        phone = phoneText.getText().toString().trim();
+        EditTextUtils.hideSoftInput(phoneText);
+        password = passwordText.getText().toString();
+        EditTextUtils.hideSoftInput(passwordText);
+
         task = new SafeAsyncTask<Boolean>() {
             public Boolean call() throws Exception {
                 String mobile = countryCode + phone;
@@ -278,6 +267,19 @@ public class RegisterActivity extends AuthenticateActivity
             }
         };
         task.execute();
+    }
+
+    private void startVerifyActivity() {
+        final Intent intent = new Intent(this, VerifyActivity.class);
+        intent.putExtra(VerifyActivity.INTENT_COUNTRY_CODE, countryCode);
+        intent.putExtra(VerifyActivity.INTENT_PHONE, phone);
+        intent.putExtra(VerifyActivity.INTENT_PASSWORD, password);
+        startActivityForResult(intent, VERIFY_ACTIVITY_REQ_CODE);
+    }
+
+    @Override
+    public void onValidationSucceeded() {
+        signUp();
     }
 
     @Override

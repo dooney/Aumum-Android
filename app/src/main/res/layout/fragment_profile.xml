@@ -66,6 +66,27 @@
 
                 </RelativeLayout>
 
+                <View style="@style/Divider"/>
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="@dimen/margin_large">
+
+                    <TextView
+                        android:id="@+id/text_label_email"
+                        style="@style/TextView.Profile"
+                        android:layout_alignBaseline="@+id/text_email"
+                        android:text="@string/label_email_address"/>
+
+                    <TextView
+                        android:id="@+id/text_email"
+                        style="@style/TextView.Profile.About"
+                        android:layout_centerVertical="true"
+                        android:layout_alignParentRight="true"/>
+
+                </RelativeLayout>
+
             </LinearLayout>
 
             <LinearLayout

@@ -58,7 +58,8 @@ public class VerifyActivity extends ProgressDialogActivity {
     private SafeAsyncTask<Boolean> task;
     private final TextWatcher watcher = validationTextWatcher();
 
-    @InjectView(R.id.text_phone) protected TextView phoneText;
+    @InjectView(R.id.text_label_phone) protected TextView phoneLabelText;
+    @InjectView(R.id.text_label_code_tip) protected TextView codeTipLabelText;
     @InjectView(R.id.et_verification_code) protected EditText verificationCodeText;
     @InjectView(R.id.b_confirm) protected Button confirmButton;
     @InjectView(R.id.b_resend) protected Button resendButton;
@@ -75,14 +76,17 @@ public class VerifyActivity extends ProgressDialogActivity {
         phone = intent.getStringExtra(INTENT_PHONE);
         password = intent.getStringExtra(INTENT_PASSWORD);
 
-        phoneText.setText(getString(R.string.label_your_phone, countryCode, phone));
+        String phoneLabelHtmlText = getString(R.string.label_your_phone, countryCode, phone);
+        phoneLabelText.setText(Html.fromHtml(phoneLabelHtmlText));
+        String codeTipLabelHtmlText = getString(R.string.label_will_receive_verification_code);
+        codeTipLabelText.setText(Html.fromHtml(codeTipLabelHtmlText));
         verificationCodeText.addTextChangedListener(watcher);
-        String text = getString(R.string.info_will_receive_sms_within, total);
+        String text = getString(R.string.label_will_receive_sms_within, total);
         confirmButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 EditTextUtils.hideSoftInput(verificationCodeText);
-                progress.setMessageId(R.string.info_submitting_verification_code);
+                progress.setMessageId(R.string.info_submitting_registration);
                 showProgress();
                 verificationCode = verificationCodeText.getText().toString();
                 SMSSDK.submitVerificationCode(Strings.removeLeadingZeros(countryCode), phone, verificationCode);
@@ -90,19 +94,38 @@ public class VerifyActivity extends ProgressDialogActivity {
         });
         resendButton.setText(Html.fromHtml(text));
         resendButton.setEnabled(false);
+        resendButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                progress.setMessageId(R.string.info_sending_verification_sms);
+                showProgress();
+                SMSSDK.getVerificationCode(Strings.removeLeadingZeros(countryCode), phone);
+            }
+        });
 
         handler = new EventHandler() {
             public void afterEvent(final int event, final int result, final Object data) {
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        hideProgress();
                         if (event == SMSSDK.EVENT_SUBMIT_VERIFICATION_CODE) {
                             if (result == SMSSDK.RESULT_COMPLETE) {
                                 register();
                             } else {
+                                hideProgress();
                                 Toaster.showShort(VerifyActivity.this,
                                         R.string.error_verify_code);
+                            }
+                        } else if (event == SMSSDK.EVENT_GET_VERIFICATION_CODE) {
+                            hideProgress();
+                            if (result == SMSSDK.RESULT_COMPLETE) {
+                                Toaster.showShort(VerifyActivity.this,
+                                        R.string.info_verification_sms_sent);
+                                total = RETRY_INTERVAL;
+                                countDown();
+                            } else {
+                                Toaster.showShort(VerifyActivity.this,
+                                        R.string.error_send_verification_sms);
                             }
                         }
                     }
@@ -172,7 +195,7 @@ public class VerifyActivity extends ProgressDialogActivity {
                                     resendButton.setText(R.string.label_resend_verification_code);
                                     resendButton.setEnabled(true);
                                 } else {
-                                    String text = getString(R.string.info_will_receive_sms_within, total);
+                                    String text = getString(R.string.label_will_receive_sms_within, total);
                                     resendButton.setText(Html.fromHtml(text));
                                     resendButton.setEnabled(false);
                                 }
@@ -190,8 +213,6 @@ public class VerifyActivity extends ProgressDialogActivity {
         if (task != null) {
             return;
         }
-        progress.setMessageId(R.string.info_submitting_registration);
-        showProgress();
         task = new SafeAsyncTask<Boolean>() {
             public Boolean call() throws Exception {
                 String mobile = countryCode + phone;
