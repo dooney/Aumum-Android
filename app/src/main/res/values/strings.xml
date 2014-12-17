@@ -42,6 +42,7 @@
     <string name="label_ok">确定</string>
     <string name="label_cancel">取消</string>
     <string name="label_save">保存</string>
+    <string name="label_skip">跳过</string>
     <string name="label_send">发送</string>
     <string name="label_delete">删除</string>
     <string name="label_favorite">收藏</string>
@@ -79,6 +80,7 @@
     <string name="info_submitting_profile">正在保存您的个人资料，请稍候</string>
     <string name="info_save_profile_before_back">返回之前必须先保存个人资料</string>
     <string name="info_verification_sms_sent">验证码短信已成功发送，请注意查收</string>
+    <string name="info_invitation">我在【澳妈圈】等你！安卓版下载地址xxx iOS版下载地址xxx</string>
 
     <!-- Error Message -->
     <string name="error_load_parties">获取聚会列表失败</string>
@@ -124,6 +126,7 @@
     <string name="error_email_registered">该邮箱地址已被注册</string>
     <string name="error_city_first">请先选择城市</string>
     <string name="error_incorrect_email_format">邮箱地址格式无效</string>
+    <string name="error_load_mobile_contacts">获取手机通讯录失败</string>
 
     <!-- Title -->
     <string name="title_activity_login">用户登录</string>
@@ -150,6 +153,7 @@
     <string name="title_activity_add_image">添加图片</string>
     <string name="title_activity_complete_profile">完善个人资料</string>
     <string name="title_activity_verify">验证码</string>
+    <string name="title_activity_invite_contacts">邀请手机通讯录好友</string>
 
     <!-- Account -->
     <string name="hint_login_phone">手机号</string>
@@ -259,6 +263,7 @@
     <string name="label_contact_requests">好友请求</string>
     <string name="label_my_groups">我的圈子</string>
     <string name="label_mobile_contacts">手机联系人</string>
+    <string name="label_invite">邀请</string>
 
     <!-- Chat -->
     <string name="label_press_to_talk">按住说话</string>

@@ -1,7 +1,8 @@
 package com.aumum.app.mobile.ui.contact;
 
-import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.ActionBarActivity;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -11,7 +12,7 @@ import com.aumum.app.mobile.ui.view.Animation;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 
-public class InviteFriendsActivity extends Activity {
+public class InviteFriendsActivity extends ActionBarActivity {
 
     @InjectView(R.id.layout_mobile_contacts) protected ViewGroup mobileContactsLayout;
 
@@ -24,7 +25,8 @@ public class InviteFriendsActivity extends Activity {
         mobileContactsLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                final Intent intent = new Intent(InviteFriendsActivity.this, InviteContactsActivity.class);
+                startActivity(intent);
             }
         });
 

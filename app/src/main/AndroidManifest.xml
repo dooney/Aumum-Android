@@ -26,6 +26,7 @@
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.GET_TASKS" />
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
+    <uses-permission android:name="android.permission.READ_CONTACTS"/>
 
     <permission
         android:name="com.aumum.app.mobile.permission.C2D_MESSAGE"
@@ -215,6 +216,10 @@
         <activity
             android:name=".ui.account.VerifyActivity"
             android:label="@string/title_activity_verify" >
+        </activity>
+        <activity
+            android:name=".ui.contact.InviteContactsActivity"
+            android:label="@string/title_activity_invite_contacts" >
         </activity>
     </application>
 

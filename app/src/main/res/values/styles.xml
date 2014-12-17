@@ -419,6 +419,10 @@
     <style name="TextView.Group.ScreenName" parent="TextView.Title" />
     <style name="TextView.Group.CurrentSize" parent="TextView.Subtitle" />
     <style name="Button.Group.Action" parent="Button.Action" />
+    <style name="TextView.MobileContact.Invite" parent="LinkTextView">
+        <item name="android:textSize">@dimen/text_sz_large</item>
+        <item name="android:text">@string/label_invite</item>
+    </style>
 
     <!-- Comment -->
     <style name="TextView.Comment.UserName" parent="TextView.UserName" />

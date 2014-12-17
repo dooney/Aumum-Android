@@ -4,8 +4,10 @@ package com.aumum.app.mobile.utils;
  * Created by Administrator on 17/10/2014.
  */
 import android.app.Activity;
+import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.net.Uri;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -13,6 +15,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.Date;
 
@@ -140,5 +143,19 @@ public class ImageUtils {
         } else {
             return upperBound;
         }
+    }
+
+    public static Bitmap getContactBitmapFromURI(Context context, String uri) {
+        if (uri != null) {
+            try {
+                InputStream input = context.getContentResolver().openInputStream(Uri.parse(uri));
+                if (input != null) {
+                    return BitmapFactory.decodeStream(input);
+                }
+            } catch (FileNotFoundException e) {
+                Ln.e(e);
+            }
+        }
+        return null;
     }
 }

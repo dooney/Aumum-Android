@@ -19,6 +19,7 @@ import com.aumum.app.mobile.core.Constants;
 import com.aumum.app.mobile.core.model.User;
 import com.aumum.app.mobile.core.service.RestService;
 import com.aumum.app.mobile.ui.base.ProgressDialogActivity;
+import com.aumum.app.mobile.ui.contact.InviteContactsActivity;
 import com.aumum.app.mobile.ui.helper.TextWatcherAdapter;
 import com.aumum.app.mobile.ui.image.ImagePickerActivity;
 import com.aumum.app.mobile.ui.user.UpdateAvatarActivity;
@@ -70,6 +71,7 @@ public class CompleteProfileActivity extends ProgressDialogActivity
     private final TextWatcher watcher = validationTextWatcher();
 
     public static final String INTENT_USER_ID = "userId";
+    private static final int INVITE_CONTACTS_REQ_CODE = 100;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -171,6 +173,9 @@ public class CompleteProfileActivity extends ProgressDialogActivity
                 String imageUri = "file://" + imagePath;
                 ImageLoaderUtils.displayImage(imageUri, avatarImage);
             }
+        } else if (requestCode == INVITE_CONTACTS_REQ_CODE) {
+            setResult(RESULT_OK);
+            finish();
         }
     }
 
@@ -240,8 +245,7 @@ public class CompleteProfileActivity extends ProgressDialogActivity
 
             @Override
             protected void onSuccess(Boolean success) throws Exception {
-                setResult(RESULT_OK);
-                finish();
+                startInviteContactsActivity();
             }
 
             @Override
@@ -309,5 +313,11 @@ public class CompleteProfileActivity extends ProgressDialogActivity
         for (ValidationError error : errors) {
             Toaster.showShort(this, error.getFailedRules().get(0).getMessage(this));
         }
+    }
+
+    private void startInviteContactsActivity() {
+        final Intent intent = new Intent(this, InviteContactsActivity.class);
+        intent.putExtra(InviteContactsActivity.INTENT_SHOW_SKIP, true);
+        startActivityForResult(intent, INVITE_CONTACTS_REQ_CODE);
     }
 }

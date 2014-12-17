@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/layout_contact_request"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/card_background"
+    android:padding="@dimen/margin_large"
+    android:gravity="center_vertical">
+
+    <com.aumum.app.mobile.ui.view.AvatarImageView
+        android:id="@+id/image_avatar"
+        style="@style/ImageView.Avatar.Small"
+        android:layout_marginRight="@dimen/margin_large"
+        android:src="@drawable/ic_avatar"/>
+
+    <TextView
+        android:id="@+id/text_contact_name"
+        android:layout_width="0dp"
+        android:layout_weight="1"
+        style="@style/TextView"
+        android:text="Simpson Du"/>
+
+    <TextView
+        android:id="@+id/text_invite"
+        style="@style/TextView.MobileContact.Invite"
+        android:paddingRight="@dimen/margin_medium"/>
+
+</LinearLayout>
