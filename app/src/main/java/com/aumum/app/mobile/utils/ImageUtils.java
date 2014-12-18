@@ -7,6 +7,8 @@ import android.app.Activity;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Matrix;
+import android.media.ExifInterface;
 import android.net.Uri;
 
 import java.io.ByteArrayOutputStream;
@@ -79,6 +81,7 @@ public class ImageUtils {
                     (int) (opts.outHeight * scale), true);
                 bmp.recycle();
             }
+            bitmap = rotate(getExifOrientation(path), bitmap);
             baos = new ByteArrayOutputStream();
             bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
             bitmap.recycle();
@@ -143,6 +146,82 @@ public class ImageUtils {
         } else {
             return upperBound;
         }
+    }
+
+    private static int getExifOrientation(String imagePath) {
+        int degree = 0;
+        ExifInterface exif = null;
+        try {
+            exif = new ExifInterface(imagePath);
+        } catch (IOException ex) {
+        }
+        if (exif != null) {
+            int orientation = exif.getAttributeInt(ExifInterface.TAG_ORIENTATION, -1);
+            if (orientation != -1) {
+                switch(orientation) {
+                    case ExifInterface.ORIENTATION_ROTATE_90:
+                        degree = ExifInterface.ORIENTATION_ROTATE_90;
+                        break;
+                    case ExifInterface.ORIENTATION_ROTATE_180:
+                        degree = ExifInterface.ORIENTATION_ROTATE_180;
+                        break;
+                    case ExifInterface.ORIENTATION_ROTATE_270:
+                        degree = ExifInterface.ORIENTATION_ROTATE_270;
+                        break;
+                }
+
+            }
+        }
+        return degree;
+    }
+
+    public static Bitmap rotate(int value, Bitmap bm) {
+        if(bm == null) return null;
+        Bitmap result = bm;
+
+        if(value > 0) {
+            Matrix matrix = getRotateMatrix(value);
+            result = Bitmap.createBitmap(bm, 0, 0, bm.getWidth(), bm.getHeight(), matrix, true);
+            if(bm != result){
+                bm.recycle();
+            }
+        }
+        return result;
+    }
+
+    private static Matrix getRotateMatrix(int ori){
+
+        Matrix matrix = new Matrix();
+        switch (ori) {
+            case 0:
+                matrix.setRotate(90);
+                break;
+            case 2:
+                matrix.setScale(-1, 1);
+                break;
+            case 3:
+                matrix.setRotate(180);
+                break;
+            case 4:
+                matrix.setRotate(180);
+                matrix.postScale(-1, 1);
+                break;
+            case 5:
+                matrix.setRotate(90);
+                matrix.postScale(-1, 1);
+                break;
+            case 6:
+                matrix.setRotate(90);
+                break;
+            case 7:
+                matrix.setRotate(-90);
+                matrix.postScale(-1, 1);
+                break;
+            case 8:
+                matrix.setRotate(-90);
+                break;
+        }
+        return matrix;
     }
 
     public static Bitmap getContactBitmapFromURI(Context context, String uri) {
