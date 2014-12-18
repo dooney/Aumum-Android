@@ -23,7 +23,12 @@ public final class Constants {
         /**
          * Auth token type
          */
-        public static final String AUTHTOKEN_TYPE = BOOTSTRAP_ACCOUNT_TYPE;
+        public static final String AUTH_TOKEN_TYPE = BOOTSTRAP_ACCOUNT_TYPE;
+
+        /**
+         * Account email
+         */
+        public static final String KEY_ACCOUNT_EMAIL = "accountEmail";
     }
 
     /**

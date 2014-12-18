@@ -94,7 +94,7 @@ class AccountAuthenticator extends AbstractAccountAuthenticator {
 
     @Override
     public String getAuthTokenLabel(final String authTokenType) {
-        return authTokenType.equals(Constants.Auth.AUTHTOKEN_TYPE) ? authTokenType : null;
+        return authTokenType.equals(Constants.Auth.AUTH_TOKEN_TYPE) ? authTokenType : null;
     }
 
     @Override

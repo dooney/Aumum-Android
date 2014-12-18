@@ -12,7 +12,7 @@ import android.os.Bundle;
 import java.io.IOException;
 
 import static android.accounts.AccountManager.KEY_AUTHTOKEN;
-import static com.aumum.app.mobile.core.Constants.Auth.AUTHTOKEN_TYPE;
+import static com.aumum.app.mobile.core.Constants.Auth.AUTH_TOKEN_TYPE;
 import static com.aumum.app.mobile.core.Constants.Auth.BOOTSTRAP_ACCOUNT_TYPE;
 
 /**
@@ -45,7 +45,7 @@ public class ApiKeyProvider {
     public String getAuthKey(final Activity activity) throws AccountsException, IOException {
         final AccountManagerFuture<Bundle> accountManagerFuture
                 = accountManager.getAuthTokenByFeatures(BOOTSTRAP_ACCOUNT_TYPE,
-                AUTHTOKEN_TYPE, new String[0], activity, null, null, null, null);
+                AUTH_TOKEN_TYPE, new String[0], activity, null, null, null, null);
 
         return accountManagerFuture.getResult().getString(KEY_AUTHTOKEN);
     }
@@ -53,7 +53,7 @@ public class ApiKeyProvider {
     public String getAuthToken() {
         Account accounts[] = accountManager.getAccountsByType(BOOTSTRAP_ACCOUNT_TYPE);
         if (accounts.length > 0) {
-            return accountManager.peekAuthToken(accounts[0], AUTHTOKEN_TYPE);
+            return accountManager.peekAuthToken(accounts[0], AUTH_TOKEN_TYPE);
         }
         return null;
     }

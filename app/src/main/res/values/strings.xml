@@ -91,6 +91,9 @@
     <string name="info_save_profile_before_back">返回之前必须先保存个人资料</string>
     <string name="info_verification_sms_sent">验证码短信已成功发送，请注意查收</string>
     <string name="info_invitation">我在【澳妈圈】等你！安卓版下载地址xxx iOS版下载地址xxx</string>
+    <string name="info_reset_password_tip">验证邮件24小时内有效，请尽快登陆您的邮箱点击验证链接完成验证。若未收到邮件请先确认是否在垃圾邮件中。</string>
+    <string name="info_sending_reset_password_email">正在发送密码重置邮件，请稍候</string>
+    <string name="info_reset_password_email_sent">重置密码邮件发送成功</string>
 
     <!-- Error Message -->
     <string name="error_load_parties">获取聚会列表失败</string>
@@ -137,12 +140,12 @@
     <string name="error_city_first">请先选择城市</string>
     <string name="error_incorrect_email_format">邮箱地址格式无效</string>
     <string name="error_load_mobile_contacts">获取手机通讯录失败</string>
+    <string name="error_send_reset_password_email">发送密码重置邮件失败</string>
 
     <!-- Title -->
     <string name="title_activity_login">用户登录</string>
     <string name="title_activity_register">注册新用户</string>
-    <string name="title_activity_reset_password">重置密码</string>
-    <string name="title_activity_reset_password_success">重置密码成功</string>
+    <string name="title_activity_reset_password">找回密码</string>
     <string name="title_activity_user">用户详情</string>
     <string name="title_activity_party_comments">聚会评论</string>
     <string name="title_activity_contact_requests">好友请求</string>
@@ -171,7 +174,7 @@
     <string name="hint_register_phone">请输入要注册的手机号</string>
     <string name="hint_register_password">请输入6-16位密码</string>
     <string name="hint_screen_name">昵称 (必填)</string>
-    <string name="hint_email_address">邮箱</string>
+    <string name="hint_email">邮箱 (必填，用于找回密码)</string>
     <string name="hint_city">所在城市 (必填)</string>
     <string name="hint_area">所在地区 (必填)</string>
     <string name="hint_avatar">头像图片</string>
@@ -193,8 +196,10 @@
     <string name="label_will_receive_sms_within"><Data>接收短信大约需要&lt;font color=#000000>%s&lt;/font>秒</Data></string>
     <string name="hint_verification_code">请输入4位数字验证码</string>
     <string name="label_resend_verification_code">重新获取验证码</string>
-    <string name="hello_world">Hello world!</string>
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="hint_reset_password_email">请输入您注册的邮箱地址</string>
+    <string name="label_reset_password_success_tip">已发送密码重置邮件至</string>
+    <string name="label_open_email">登录邮箱</string>
+    <string name="label_resend_reset_password_email">再次发送邮件</string>
 
     <!-- User -->
     <string name="label_send_message">发送消息</string>
@@ -206,6 +211,7 @@
     <string name="label_accept">同意</string>
     <string name="label_added">已添加</string>
     <string name="label_contact_agreed">已经同意您的添加好友请求</string>
+
     <!-- Profile -->
     <string name="label_avatar">头像图片</string>
     <string name="label_screen_name">用户昵称</string>

@@ -84,7 +84,7 @@
         </activity>
         <activity
             android:name=".ui.account.ResetPasswordSuccessActivity"
-            android:label="@string/title_activity_reset_password_success" >
+            android:label="@string/title_activity_reset_password" >
         </activity>
         <activity
             android:name=".ui.user.UserActivity"

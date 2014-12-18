@@ -12,12 +12,19 @@ import android.widget.TextView;
 
 import com.aumum.app.mobile.Injector;
 import com.aumum.app.mobile.R;
+import com.aumum.app.mobile.core.Constants;
 import com.aumum.app.mobile.core.service.RestService;
 import com.aumum.app.mobile.ui.base.ProgressDialogActivity;
 import com.aumum.app.mobile.ui.helper.TextWatcherAdapter;
 import com.aumum.app.mobile.ui.view.Animation;
+import com.aumum.app.mobile.utils.EditTextUtils;
 import com.aumum.app.mobile.utils.SafeAsyncTask;
 import com.github.kevinsawicki.wishlist.Toaster;
+import com.mobsandgeeks.saripaar.ValidationError;
+import com.mobsandgeeks.saripaar.Validator;
+import com.mobsandgeeks.saripaar.annotation.Email;
+
+import java.util.List;
 
 import javax.inject.Inject;
 
@@ -28,30 +35,28 @@ import retrofit.RetrofitError;
 import static android.view.KeyEvent.ACTION_DOWN;
 import static android.view.KeyEvent.KEYCODE_ENTER;
 import static android.view.inputmethod.EditorInfo.IME_ACTION_DONE;
-import static com.aumum.app.mobile.ui.splash.SplashActivity.KEY_ACCOUNT_EMAIL;
 
-public class ResetPasswordActivity extends ProgressDialogActivity {
+public class ResetPasswordActivity extends ProgressDialogActivity
+    implements Validator.ValidationListener {
 
-    @Inject
-    RestService restService;
+    @Inject RestService restService;
 
-    @InjectView(R.id.et_email) protected EditText emailText;
+    @InjectView(R.id.et_email)
+    @Email(messageResId = R.string.error_incorrect_email_format)
+    protected EditText emailText;
+
     @InjectView(R.id.b_reset_password) protected Button submitButton;
 
+    private Validator validator;
     private final TextWatcher watcher = validationTextWatcher();
-
-    private SafeAsyncTask<Boolean> resetPasswordTask;
-
+    private SafeAsyncTask<Boolean> task;
     private String email;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         Injector.inject(this);
-
         setContentView(R.layout.activity_reset_password);
-
         ButterKnife.inject(this);
 
         progress.setMessageId(R.string.info_submitting_password_reset);
@@ -61,26 +66,33 @@ public class ResetPasswordActivity extends ProgressDialogActivity {
             public boolean onKey(final View v, final int keyCode, final KeyEvent event) {
                 if (event != null && ACTION_DOWN == event.getAction()
                         && keyCode == KEYCODE_ENTER && submitButton.isEnabled()) {
-                    handleSubmit(submitButton);
+                    validator.validate();
                     return true;
                 }
                 return false;
             }
         });
-
         emailText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
 
             public boolean onEditorAction(final TextView v, final int actionId,
                                           final KeyEvent event) {
                 if (actionId == IME_ACTION_DONE && submitButton.isEnabled()) {
-                    handleSubmit(submitButton);
+                    validator.validate();
                     return true;
                 }
                 return false;
             }
         });
-
         emailText.addTextChangedListener(watcher);
+        submitButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                validator.validate();
+            }
+        });
+
+        validator = new Validator(this);
+        validator.setValidationListener(this);
 
         Animation.flyIn(this);
     }
@@ -109,18 +121,16 @@ public class ResetPasswordActivity extends ProgressDialogActivity {
         return editText.length() > 0;
     }
 
-    public void handleSubmit(final View view) {
-        if (resetPasswordTask != null) {
+    private void resetPassword() {
+        if (task != null) {
             return;
         }
-
         email = emailText.getText().toString();
+        EditTextUtils.hideSoftInput(emailText);
         showProgress();
-
-        resetPasswordTask = new SafeAsyncTask<Boolean>() {
+        task = new SafeAsyncTask<Boolean>() {
             public Boolean call() throws Exception {
                 restService.resetPassword(email);
-
                 return true;
             }
 
@@ -142,15 +152,15 @@ public class ResetPasswordActivity extends ProgressDialogActivity {
             @Override
             protected void onFinally() throws RuntimeException {
                 hideProgress();
-                resetPasswordTask = null;
+                task = null;
             }
         };
-        resetPasswordTask.execute();
+        task.execute();
     }
 
     private void finishSubmit() {
         final Intent intent = new Intent();
-        intent.putExtra(KEY_ACCOUNT_EMAIL, email);
+        intent.putExtra(Constants.Auth.KEY_ACCOUNT_EMAIL, email);
         setResult(RESULT_OK, intent);
         finish();
     }
@@ -161,6 +171,18 @@ public class ResetPasswordActivity extends ProgressDialogActivity {
         } else {
             Toaster.showShort(ResetPasswordActivity.this,
                     R.string.error_reset_password);
+        }
+    }
+
+    @Override
+    public void onValidationSucceeded() {
+        resetPassword();
+    }
+
+    @Override
+    public void onValidationFailed(List<ValidationError> errors) {
+        for (ValidationError error : errors) {
+            Toaster.showShort(this, error.getFailedRules().get(0).getMessage(this));
         }
     }
 }

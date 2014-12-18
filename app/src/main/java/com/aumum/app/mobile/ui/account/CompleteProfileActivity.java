@@ -89,6 +89,7 @@ public class CompleteProfileActivity extends ProgressDialogActivity
             }
         });
         screenNameText.addTextChangedListener(watcher);
+        emailText.addTextChangedListener(watcher);
         cityButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -140,11 +141,7 @@ public class CompleteProfileActivity extends ProgressDialogActivity
         saveButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (emailText.getText().length() > 0) {
-                    validator.validate();
-                } else {
-                    save();
-                }
+                validator.validate();
             }
         });
         updateUIWithValidation();
@@ -189,6 +186,7 @@ public class CompleteProfileActivity extends ProgressDialogActivity
 
     private void updateUIWithValidation() {
         final boolean populated = populated(screenNameText) &&
+                populated(emailText) &&
                 cityButton.getText().length() > 0 &&
                 areaButton.getText().length() > 0;
         saveButton.setEnabled(populated);
@@ -206,9 +204,7 @@ public class CompleteProfileActivity extends ProgressDialogActivity
         showProgress();
         screenName = screenNameText.getText().toString();
         EditTextUtils.hideSoftInput(screenNameText);
-        if (emailText.getText().length() > 0) {
-            email = emailText.getText().toString();
-        }
+        email = emailText.getText().toString();
         EditTextUtils.hideSoftInput(emailText);
         if (aboutText.getText().length() > 0) {
             about = aboutText.getText().toString();
@@ -219,7 +215,7 @@ public class CompleteProfileActivity extends ProgressDialogActivity
                 if (restService.getScreenNameRegistered(screenName)) {
                     throw new Exception(getString(R.string.error_screen_name_registered));
                 }
-                if (email != null && restService.getEmailRegistered(email)) {
+                if (restService.getEmailRegistered(email)) {
                     throw new Exception(getString(R.string.error_email_registered));
                 }
                 User user = new User();

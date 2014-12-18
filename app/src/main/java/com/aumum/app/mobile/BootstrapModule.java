@@ -15,6 +15,7 @@ import com.aumum.app.mobile.core.service.NotificationService;
 import com.aumum.app.mobile.core.service.RestService;
 import com.aumum.app.mobile.ui.LaunchActivity;
 import com.aumum.app.mobile.ui.account.CompleteProfileActivity;
+import com.aumum.app.mobile.ui.account.ResetPasswordSuccessActivity;
 import com.aumum.app.mobile.ui.asking.AskingDetailsFragment;
 import com.aumum.app.mobile.ui.asking.AskingFavoriteListener;
 import com.aumum.app.mobile.ui.asking.AskingListFragment;
@@ -136,7 +137,8 @@ import retrofit.converter.GsonConverter;
                 ImageMessageCard.class,
                 UpdateAvatarActivity.class,
                 VerifyActivity.class,
-                CompleteProfileActivity.class
+                CompleteProfileActivity.class,
+                ResetPasswordSuccessActivity.class
         }
 )
 public class BootstrapModule {

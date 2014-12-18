@@ -27,7 +27,7 @@ public abstract class AuthenticateActivity extends ProgressDialogActivity {
     protected void finishAuthentication(String userId, String password, String token) {
         final Account account = new Account(userId, Constants.Auth.BOOTSTRAP_ACCOUNT_TYPE);
         accountManager.addAccountExplicitly(account, password, null);
-        accountManager.setAuthToken(account, Constants.Auth.AUTHTOKEN_TYPE, token);
+        accountManager.setAuthToken(account, Constants.Auth.AUTH_TOKEN_TYPE, token);
 
         final Intent intent = new Intent();
         intent.putExtra(KEY_ACCOUNT_NAME, userId);

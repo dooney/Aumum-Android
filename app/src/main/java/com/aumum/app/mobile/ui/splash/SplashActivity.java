@@ -10,6 +10,7 @@ import android.view.View;
 import android.widget.ImageView;
 
 import com.aumum.app.mobile.R;
+import com.aumum.app.mobile.core.Constants;
 import com.aumum.app.mobile.ui.base.AccountAuthenticatorActivity;
 import com.aumum.app.mobile.ui.account.LoginActivity;
 import com.aumum.app.mobile.ui.account.RegisterActivity;
@@ -26,7 +27,6 @@ public class SplashActivity extends AccountAuthenticatorActivity {
     private ViewPager mPager;
     private CirclePageIndicator mIndicator;
 
-    public static final String KEY_ACCOUNT_EMAIL = "authEmail";
     public static final String SHOW_SIGN_IN = "showSignIn";
     public static final String SHOW_SIGN_UP = "showSignUp";
     public static final String SHOW_RESET_PASSWORD = "showResetPassword";
@@ -121,9 +121,9 @@ public class SplashActivity extends AccountAuthenticatorActivity {
 
     private void onResetPasswordResult(int resultCode, Intent data) {
         if (resultCode == RESULT_OK) {
-            String email = data.getStringExtra(KEY_ACCOUNT_EMAIL);
+            String email = data.getStringExtra(Constants.Auth.KEY_ACCOUNT_EMAIL);
             final Intent intent = new Intent(this, ResetPasswordSuccessActivity.class);
-            intent.putExtra(KEY_ACCOUNT_EMAIL, email);
+            intent.putExtra(Constants.Auth.KEY_ACCOUNT_EMAIL, email);
             startActivity(intent);
         }
     }
