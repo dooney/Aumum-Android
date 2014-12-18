@@ -1,9 +1,12 @@
 package com.aumum.app.mobile.core.model;
 
+import com.aumum.app.mobile.ui.view.sort.Sortable;
+import com.aumum.app.mobile.utils.Strings;
+
 import java.util.ArrayList;
 import java.util.List;
 
-public class User extends AggregateRoot {
+public class User extends AggregateRoot implements Sortable {
     protected String chatId;
     protected String screenName;
     protected String email;
@@ -139,5 +142,16 @@ public class User extends AggregateRoot {
 
     public List<String> getFavAskings() {
         return favAskings;
+    }
+
+    @Override
+    public String getSortLetters() {
+        String pinyin = Strings.getSelling(screenName);
+        String sortString = pinyin.substring(0, 1).toUpperCase();
+        if(sortString.matches("[A-Z]")){
+            return sortString.toUpperCase();
+        }else{
+            return "#";
+        }
     }
 }

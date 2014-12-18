@@ -621,4 +621,9 @@
         <item name="android:layout_width">@dimen/image_sz_extra_small</item>
         <item name="android:layout_height">@dimen/image_sz_extra_small</item>
     </style>
+
+    <style name="SideBar">
+        <item name="android:layout_width">30dp</item>
+        <item name="android:layout_height">match_parent</item>
+    </style>
 </resources>

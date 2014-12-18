@@ -13,12 +13,14 @@ import com.aumum.app.mobile.ui.view.AvatarImageView;
  */
 public class ContactCard {
 
+    private TextView catalogText;
     private ViewGroup contactCardLayout;
     private AvatarImageView avatarImage;
     private TextView screenNameText;
     private ContactClickListener contactClickListener;
 
     public ContactCard(View view, ContactClickListener contactClickListener) {
+        catalogText = (TextView) view.findViewById(R.id.text_catalog);
         contactCardLayout = (ViewGroup) view.findViewById(R.id.layout_contact_card);
         avatarImage = (AvatarImageView) view.findViewById(R.id.image_avatar);
         screenNameText = (TextView) view.findViewById(R.id.text_screen_name);
@@ -37,5 +39,14 @@ public class ContactCard {
                 }
             }
         });
+    }
+
+    public void refreshCatalog(String catalog) {
+        if (catalog != null) {
+            catalogText.setText(catalog);
+            catalogText.setVisibility(View.VISIBLE);
+        } else {
+            catalogText.setVisibility(View.GONE);
+        }
     }
 }

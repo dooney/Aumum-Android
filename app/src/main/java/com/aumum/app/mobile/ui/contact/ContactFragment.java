@@ -18,9 +18,11 @@ import com.aumum.app.mobile.core.dao.UserStore;
 import com.aumum.app.mobile.core.model.User;
 import com.aumum.app.mobile.ui.base.ItemListFragment;
 import com.aumum.app.mobile.ui.user.UserActivity;
+import com.aumum.app.mobile.ui.view.sort.InitialComparator;
 import com.aumum.app.mobile.utils.DialogUtils;
 import com.aumum.app.mobile.utils.Ln;
 
+import java.util.Collections;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -34,11 +36,14 @@ public class ContactFragment extends ItemListFragment<User>
 
     @Inject UserStore userStore;
 
+    private InitialComparator initialComparator;
+
     @Override
     public void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
         Injector.inject(this);
+        initialComparator = new InitialComparator();
     }
 
     @Override
@@ -75,7 +80,7 @@ public class ContactFragment extends ItemListFragment<User>
 
         try {
             getData().clear();
-            getData().addAll(userStore.getContacts());
+            getData().addAll(getSortedContacts());
             getListAdapter().notifyDataSetChanged();
         } catch (Exception e) {
             Ln.e(e);
@@ -89,7 +94,7 @@ public class ContactFragment extends ItemListFragment<User>
 
     @Override
     protected List<User> loadDataCore(Bundle bundle) throws Exception {
-        return userStore.getContacts();
+        return getSortedContacts();
     }
 
     @Override
@@ -102,6 +107,12 @@ public class ContactFragment extends ItemListFragment<User>
         final Intent intent = new Intent(getActivity(), UserActivity.class);
         intent.putExtra(UserActivity.INTENT_USER_ID, contactId);
         startActivity(intent);
+    }
+
+    private List<User> getSortedContacts() throws Exception {
+        List<User> contacts = userStore.getContacts();
+        Collections.sort(contacts, initialComparator);
+        return contacts;
     }
 
     private void showActionDialog() {
