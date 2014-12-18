@@ -1,79 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<LinearLayout
+<RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:paddingTop="@dimen/margin_extra_large">
+    android:layout_height="match_parent">
 
-    <LinearLayout
+    <ListView
+        android:id="@android:id/list"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:background="@color/card_background"
-        android:layout_marginBottom="@dimen/margin_extra_large">
+        android:layout_height="match_parent"
+        android:visibility="gone" />
 
-        <RelativeLayout
-            android:id="@+id/layout_contact_requests"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+    <ProgressBar
+        android:id="@+id/pb_loading"
+        style="@style/ListSpinner"
+        android:layout_centerInParent="true" />
 
-            <ImageView
-                android:id="@+id/image_contact_requests"
-                style="@style/ImageView.Avatar.Small"
-                android:layout_margin="@dimen/margin_large"
-                android:src="@drawable/ic_avatar"/>
-
-            <TextView
-                style="@style/TextView.Contact"
-                android:layout_toRightOf="@+id/image_contact_requests"
-                android:layout_centerVertical="true"
-                android:text="@string/label_contact_requests"/>
-
-        </RelativeLayout>
-
-        <View style="@style/Divider"/>
-
-        <RelativeLayout
-            android:id="@+id/layout_my_groups"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <ImageView
-                android:id="@+id/image_my_groups"
-                style="@style/ImageView.Avatar.Small"
-                android:layout_margin="@dimen/margin_large"
-                android:src="@drawable/ic_avatar"/>
-
-            <TextView
-                style="@style/TextView.Contact"
-                android:layout_toRightOf="@+id/image_my_groups"
-                android:layout_centerVertical="true"
-                android:text="@string/label_my_groups"/>
-
-        </RelativeLayout>
-
-        <View style="@style/Divider"/>
-
-    </LinearLayout>
-
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1">
-
-        <ListView
-            android:id="@android:id/list"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:visibility="gone" />
-
-        <ProgressBar
-            android:id="@+id/pb_loading"
-            style="@style/ListSpinner"
-            android:layout_centerInParent="true" />
-
-    </RelativeLayout>
-
-</LinearLayout>
+</RelativeLayout>

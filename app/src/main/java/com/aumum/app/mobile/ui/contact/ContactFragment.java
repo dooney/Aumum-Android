@@ -43,12 +43,8 @@ public class ContactFragment extends ItemListFragment<User>
 
     @Override
     public void onCreateOptionsMenu(final Menu menu, final MenuInflater inflater) {
-        menu.add(Menu.NONE, 0, Menu.NONE, "SEARCH")
-                .setIcon(R.drawable.ic_fa_search)
-                .setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
-
-        menu.add(Menu.NONE, 1, Menu.NONE, "NEW")
-                .setIcon(R.drawable.ic_fa_plus)
+        menu.add(Menu.NONE, 0, Menu.NONE, "MORE")
+                .setIcon(R.drawable.ic_fa_ellipsis_v)
                 .setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
     }
 
@@ -59,11 +55,9 @@ public class ContactFragment extends ItemListFragment<User>
         }
         switch (item.getItemId()) {
             case 0:
-                showSearchContactDialog();
+                showActionDialog();
                 break;
-            case 1:
-                final Intent intent = new Intent(getActivity(), InviteFriendsActivity.class);
-                startActivity(intent);
+            default:
                 break;
         }
         return super.onOptionsItemSelected(item);
@@ -73,29 +67,6 @@ public class ContactFragment extends ItemListFragment<User>
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         return inflater.inflate(R.layout.fragment_contact, null);
-    }
-
-    @Override
-    public void onViewCreated(final View view, final Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-
-        ViewGroup contactRequestsLayout = (ViewGroup) view.findViewById(R.id.layout_contact_requests);
-        contactRequestsLayout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                final Intent intent = new Intent(getActivity(), ContactRequestsActivity.class);
-                startActivity(intent);
-            }
-        });
-
-        ViewGroup myGroupsLayout = (ViewGroup) view.findViewById(R.id.layout_my_groups);
-        myGroupsLayout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                final Intent intent = new Intent(getActivity(), MyGroupsActivity.class);
-                startActivity(intent);
-            }
-        });
     }
 
     @Override
@@ -133,22 +104,41 @@ public class ContactFragment extends ItemListFragment<User>
         startActivity(intent);
     }
 
-    private void showSearchContactDialog() {
-        String options[] = getResources().getStringArray(R.array.label_search_contact);
-        DialogUtils.showDialog(getActivity(), options, new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialogInterface, int i) {
-                switch (i) {
-                    case 0:
-                        final Intent intent = new Intent(getActivity(), AllGroupsActivity.class);
-                        startActivity(intent);
-                        break;
-                    case 1:
-                        break;
-                    default:
-                        break;
-                }
-            }
-        });
+    private void showActionDialog() {
+        String options[] = getResources().getStringArray(R.array.label_contact_actions);
+        DialogUtils.showDialog(getActivity(), options,
+                new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        switch (i) {
+                            case 0:
+                                startMyGroupsActivity();
+                                break;
+                            case 1:
+                                startAllGroupsActivity();
+                                break;
+                            case 2:
+                                startContactRequestActivity();
+                                break;
+                            default:
+                                break;
+                        }
+                    }
+                });
+    }
+
+    private void startMyGroupsActivity() {
+        final Intent intent = new Intent(getActivity(), MyGroupsActivity.class);
+        startActivity(intent);
+    }
+
+    private void startAllGroupsActivity() {
+        final Intent intent = new Intent(getActivity(), AllGroupsActivity.class);
+        startActivity(intent);
+    }
+
+    private void startContactRequestActivity() {
+        final Intent intent = new Intent(getActivity(), ContactRequestsActivity.class);
+        startActivity(intent);
     }
 }

@@ -20,9 +20,6 @@
         <item>搜索附近</item>
         <item>搜索地址</item>
     </string-array>
-    <string-array name="label_search_contact">
-        <item>所有圈子</item>
-    </string-array>
     <string-array name="label_comment_actions">
         <item>回复</item>
         <item>举报</item>
@@ -32,6 +29,11 @@
         <item>回复</item>
         <item>举报</item>
         <item>删除</item>
+    </string-array>
+    <string-array name="label_contact_actions">
+        <item>我的圈子</item>
+        <item>所有圈子</item>
+        <item>好友请求</item>
     </string-array>
     <string-array name="label_user_actions">
         <item>她的聚会</item>
@@ -271,8 +273,6 @@
     <string name="label_unknown_user">未知用户</string>
     <string name="label_group_joint">%1$s刚刚加入了圈子</string>
     <string name="label_group_quit">%1$s刚刚退出了圈子</string>
-    <string name="label_contact_requests">好友请求</string>
-    <string name="label_my_groups">我的圈子</string>
     <string name="label_mobile_contacts">手机联系人</string>
     <string name="label_invite">邀请</string>
 
