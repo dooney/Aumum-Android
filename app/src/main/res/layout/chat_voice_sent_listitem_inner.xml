@@ -28,7 +28,7 @@
         <ImageView
             android:id="@+id/image_sent_failed"
             style="@style/ImageView.ChatMessage.SentFailed"
-            android:visibility="invisible"/>
+            android:visibility="gone"/>
 
         <TextView
             android:id="@+id/text_voice_length"
