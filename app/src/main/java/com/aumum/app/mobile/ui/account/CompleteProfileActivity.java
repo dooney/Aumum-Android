@@ -19,7 +19,7 @@ import com.aumum.app.mobile.core.Constants;
 import com.aumum.app.mobile.core.model.User;
 import com.aumum.app.mobile.core.service.RestService;
 import com.aumum.app.mobile.ui.base.ProgressDialogActivity;
-import com.aumum.app.mobile.ui.contact.InviteContactsActivity;
+import com.aumum.app.mobile.ui.contact.MobileContactsActivity;
 import com.aumum.app.mobile.ui.helper.TextWatcherAdapter;
 import com.aumum.app.mobile.ui.image.ImagePickerActivity;
 import com.aumum.app.mobile.ui.user.UpdateAvatarActivity;
@@ -71,7 +71,7 @@ public class CompleteProfileActivity extends ProgressDialogActivity
     private final TextWatcher watcher = validationTextWatcher();
 
     public static final String INTENT_USER_ID = "userId";
-    private static final int INVITE_CONTACTS_REQ_CODE = 100;
+    private static final int MOBILE_CONTACTS_REQ_CODE = 100;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -170,7 +170,7 @@ public class CompleteProfileActivity extends ProgressDialogActivity
                 String imageUri = "file://" + imagePath;
                 ImageLoaderUtils.displayImage(imageUri, avatarImage);
             }
-        } else if (requestCode == INVITE_CONTACTS_REQ_CODE) {
+        } else if (requestCode == MOBILE_CONTACTS_REQ_CODE) {
             setResult(RESULT_OK);
             finish();
         }
@@ -241,7 +241,7 @@ public class CompleteProfileActivity extends ProgressDialogActivity
 
             @Override
             protected void onSuccess(Boolean success) throws Exception {
-                startInviteContactsActivity();
+                startMobileContactsActivity();
             }
 
             @Override
@@ -311,9 +311,9 @@ public class CompleteProfileActivity extends ProgressDialogActivity
         }
     }
 
-    private void startInviteContactsActivity() {
-        final Intent intent = new Intent(this, InviteContactsActivity.class);
-        intent.putExtra(InviteContactsActivity.INTENT_SHOW_SKIP, true);
-        startActivityForResult(intent, INVITE_CONTACTS_REQ_CODE);
+    private void startMobileContactsActivity() {
+        final Intent intent = new Intent(this, MobileContactsActivity.class);
+        intent.putExtra(MobileContactsActivity.INTENT_SHOW_SKIP, true);
+        startActivityForResult(intent, MOBILE_CONTACTS_REQ_CODE);
     }
 }

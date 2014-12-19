@@ -31,9 +31,10 @@
         <item>删除</item>
     </string-array>
     <string-array name="label_contact_actions">
+        <item>添加好友</item>
+        <item>好友请求</item>
         <item>我的圈子</item>
         <item>所有圈子</item>
-        <item>好友请求</item>
     </string-array>
     <string-array name="label_user_actions">
         <item>她的聚会</item>
@@ -156,7 +157,7 @@
     <string name="title_activity_search_party">搜索聚会</string>
     <string name="title_activity_new_party">发起聚会</string>
     <string name="title_activity_add_contact">添加好友</string>
-    <string name="title_activity_invite_friends">邀请好友</string>
+    <string name="title_activity_add_contacts">添加好友</string>
     <string name="title_activity_all_groups">所有圈子</string>
     <string name="title_activity_my_groups">我的圈子</string>
     <string name="title_activity_change_avatar">更换头像</string>
@@ -168,7 +169,7 @@
     <string name="title_activity_add_image">添加图片</string>
     <string name="title_activity_complete_profile">完善个人资料</string>
     <string name="title_activity_verify">验证码</string>
-    <string name="title_activity_invite_contacts">邀请手机通讯录好友</string>
+    <string name="title_activity_mobile_contacts">邀请手机通讯录好友</string>
 
     <!-- Account -->
     <string name="hint_login_phone">手机号</string>

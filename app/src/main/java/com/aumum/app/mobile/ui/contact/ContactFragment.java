@@ -123,19 +123,27 @@ public class ContactFragment extends ItemListFragment<User>
                     public void onClick(DialogInterface dialogInterface, int i) {
                         switch (i) {
                             case 0:
-                                startMyGroupsActivity();
+                                startAddContactsActivity();
                                 break;
                             case 1:
-                                startAllGroupsActivity();
+                                startContactRequestActivity();
                                 break;
                             case 2:
-                                startContactRequestActivity();
+                                startMyGroupsActivity();
+                                break;
+                            case 3:
+                                startAllGroupsActivity();
                                 break;
                             default:
                                 break;
                         }
                     }
                 });
+    }
+
+    private void startAddContactsActivity() {
+        final Intent intent = new Intent(getActivity(), AddContactsActivity.class);
+        startActivity(intent);
     }
 
     private void startMyGroupsActivity() {

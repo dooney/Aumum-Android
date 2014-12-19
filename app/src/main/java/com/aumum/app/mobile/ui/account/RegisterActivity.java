@@ -95,13 +95,13 @@ public class RegisterActivity extends AuthenticateActivity
                         countryText.setText(countryOptions[i]);
                         switch (i) {
                             case 1:
-                                countryCodeText.setText("0064");
+                                countryCodeText.setText("+64");
                                 break;
                             case 2:
-                                countryCodeText.setText("0086");
+                                countryCodeText.setText("+86");
                                 break;
                             default:
-                                countryCodeText.setText("0061");
+                                countryCodeText.setText("+61");
                                 break;
                         }
                     }
@@ -218,7 +218,7 @@ public class RegisterActivity extends AuthenticateActivity
     public void onConfirmPhone() {
         progress.setMessageId(R.string.info_sending_verification_sms);
         showProgress();
-        SMSSDK.getVerificationCode(Strings.removeLeadingZeros(countryCode), phone);
+        SMSSDK.getVerificationCode(countryCode.replace("+", ""), phone);
     }
 
     private void signUp() {
@@ -229,7 +229,7 @@ public class RegisterActivity extends AuthenticateActivity
         progress.setMessageId(R.string.info_verifying_mobile);
         showProgress();
         countryCode = countryCodeText.getText().toString().trim();
-        phone = phoneText.getText().toString().trim();
+        phone = Strings.removeLeadingZeros(phoneText.getText().toString().trim());
         EditTextUtils.hideSoftInput(phoneText);
         password = passwordText.getText().toString();
         EditTextUtils.hideSoftInput(passwordText);

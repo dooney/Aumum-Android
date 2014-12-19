@@ -181,8 +181,8 @@
             android:label="@string/title_activity_my_groups" >
         </activity>
         <activity
-            android:name=".ui.contact.InviteFriendsActivity"
-            android:label="@string/title_activity_invite_friends" >
+            android:name=".ui.contact.AddContactsActivity"
+            android:label="@string/title_activity_add_contacts" >
         </activity>
         <activity
             android:name=".ui.settings.SettingsActivity"
@@ -218,8 +218,8 @@
             android:label="@string/title_activity_verify" >
         </activity>
         <activity
-            android:name=".ui.contact.InviteContactsActivity"
-            android:label="@string/title_activity_invite_contacts" >
+            android:name=".ui.contact.MobileContactsActivity"
+            android:label="@string/title_activity_mobile_contacts" >
         </activity>
     </application>
 

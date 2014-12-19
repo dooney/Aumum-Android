@@ -20,7 +20,6 @@ import com.aumum.app.mobile.ui.helper.TextWatcherAdapter;
 import com.aumum.app.mobile.utils.EditTextUtils;
 import com.aumum.app.mobile.utils.Ln;
 import com.aumum.app.mobile.utils.SafeAsyncTask;
-import com.aumum.app.mobile.utils.Strings;
 import com.github.kevinsawicki.wishlist.Toaster;
 
 import javax.inject.Inject;
@@ -89,7 +88,7 @@ public class VerifyActivity extends ProgressDialogActivity {
                 progress.setMessageId(R.string.info_submitting_registration);
                 showProgress();
                 verificationCode = verificationCodeText.getText().toString();
-                SMSSDK.submitVerificationCode(Strings.removeLeadingZeros(countryCode), phone, verificationCode);
+                SMSSDK.submitVerificationCode(countryCode.replace("+", ""), phone, verificationCode);
             }
         });
         resendButton.setText(Html.fromHtml(text));
@@ -99,7 +98,7 @@ public class VerifyActivity extends ProgressDialogActivity {
             public void onClick(View view) {
                 progress.setMessageId(R.string.info_sending_verification_sms);
                 showProgress();
-                SMSSDK.getVerificationCode(Strings.removeLeadingZeros(countryCode), phone);
+                SMSSDK.getVerificationCode(countryCode.replace("+", ""), phone);
             }
         });
 

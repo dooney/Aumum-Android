@@ -37,7 +37,7 @@
             android:paddingRight="@dimen/margin_extra_large"
             android:layout_alignParentLeft="true"
             android:layout_centerVertical="true"
-            android:text="0061"/>
+            android:text="+61"/>
 
         <com.aumum.app.mobile.ui.view.ClearEditText
             android:id="@+id/et_phone"

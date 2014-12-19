@@ -9,6 +9,8 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.TextView;
 
+import com.aumum.app.mobile.R;
+
 /**
  * Created by Administrator on 18/12/2014.
  */
@@ -50,7 +52,7 @@ public class SideBar extends View {
         for (int i = 0; i < b.length; i++) {
             paint.setColor(Color.parseColor("#000000"));
             paint.setAntiAlias(true);
-            paint.setTextSize(36);
+            paint.setTextSize(getContext().getResources().getDimension(R.dimen.text_sz_small));
             if (i == choose) {
                 paint.setColor(Color.parseColor("#3399ff"));
                 paint.setFakeBoldText(true);

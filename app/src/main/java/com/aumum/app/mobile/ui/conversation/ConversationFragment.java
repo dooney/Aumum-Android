@@ -19,7 +19,6 @@ import com.aumum.app.mobile.core.model.Group;
 import com.aumum.app.mobile.core.model.User;
 import com.aumum.app.mobile.core.service.ChatService;
 import com.aumum.app.mobile.ui.base.ItemListFragment;
-import com.aumum.app.mobile.utils.Ln;
 import com.easemob.chat.EMConversation;
 import com.easemob.chat.EMGroup;
 
@@ -45,9 +44,9 @@ public class ConversationFragment extends ItemListFragment<Conversation> {
         Injector.inject(this);
 
         newMessageBroadcastReceiver = new NewMessageBroadcastReceiver();
-        IntentFilter intentFilter = new IntentFilter(chatService.getNewMessageBroadcastAction());
-        intentFilter.setPriority(NewMessageBroadcastReceiver.PRIORITY);
-        getActivity().registerReceiver(newMessageBroadcastReceiver, intentFilter);
+        IntentFilter newMessageIntentFilter = new IntentFilter(chatService.getNewMessageBroadcastAction());
+        newMessageIntentFilter.setPriority(NewMessageBroadcastReceiver.PRIORITY);
+        getActivity().registerReceiver(newMessageBroadcastReceiver, newMessageIntentFilter);
     }
 
     @Override
@@ -59,14 +58,7 @@ public class ConversationFragment extends ItemListFragment<Conversation> {
     @Override
     public void onResume() {
         super.onResume();
-
-        try {
-            getData().clear();
-            getData().addAll(getAllConversations());
-            getListAdapter().notifyDataSetChanged();
-        } catch (Exception e) {
-            Ln.e(e);
-        }
+        refresh(null);
     }
 
     @Override
@@ -114,16 +106,12 @@ public class ConversationFragment extends ItemListFragment<Conversation> {
     }
 
     private class NewMessageBroadcastReceiver extends BroadcastReceiver {
-
         public static final int PRIORITY = 4;
 
         @Override
         public void onReceive(Context context, Intent intent) {
             abortBroadcast();
-
-            if (getListAdapter() != null) {
-                getListAdapter().notifyDataSetChanged();
-            }
+            refresh(null);
         }
     }
 }

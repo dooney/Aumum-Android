@@ -33,6 +33,7 @@ import com.aumum.app.mobile.ui.view.Animation;
 import com.aumum.app.mobile.utils.DialogUtils;
 import com.aumum.app.mobile.utils.EditTextUtils;
 import com.aumum.app.mobile.utils.SafeAsyncTask;
+import com.aumum.app.mobile.utils.Strings;
 import com.github.kevinsawicki.wishlist.Toaster;
 import com.squareup.otto.Bus;
 import com.squareup.otto.Subscribe;
@@ -85,13 +86,13 @@ public class LoginActivity extends AuthenticateActivity {
                         countryText.setText(countryOptions[i]);
                         switch (i) {
                             case 1:
-                                countryCodeText.setText("0064");
+                                countryCodeText.setText("+64");
                                 break;
                             case 2:
-                                countryCodeText.setText("0086");
+                                countryCodeText.setText("+86");
                                 break;
                             default:
-                                countryCodeText.setText("0061");
+                                countryCodeText.setText("+61");
                                 break;
                         }
                     }
@@ -191,7 +192,8 @@ public class LoginActivity extends AuthenticateActivity {
         if (task != null) {
             return;
         }
-        final String mobile = countryCodeText.getText() + phoneText.getText().toString();
+        final String mobile = countryCodeText.getText() +
+                Strings.removeLeadingZeros(phoneText.getText().toString());
         EditTextUtils.hideSoftInput(phoneText);
         password = passwordText.getText().toString();
         EditTextUtils.hideSoftInput(passwordText);

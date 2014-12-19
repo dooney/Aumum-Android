@@ -15,7 +15,7 @@ import android.widget.ListView;
 
 import com.aumum.app.mobile.R;
 
-public class InviteContactsActivity extends ActionBarActivity {
+public class MobileContactsActivity extends ActionBarActivity {
 
     private boolean showSkip;
     private MobileContactAdapter adapter;
@@ -26,7 +26,7 @@ public class InviteContactsActivity extends ActionBarActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_invite_contacts);
+        setContentView(R.layout.activity_mobile_contacts);
 
         showSkip = getIntent().getBooleanExtra(INTENT_SHOW_SKIP, false);
 
@@ -67,7 +67,7 @@ public class InviteContactsActivity extends ActionBarActivity {
                             ContactsContract.CommonDataKinds.Phone.HAS_PHONE_NUMBER,
                             ContactsContract.CommonDataKinds.Phone.NUMBER
                     };
-                    CursorLoader cursorLoader = new CursorLoader(InviteContactsActivity.this,
+                    CursorLoader cursorLoader = new CursorLoader(MobileContactsActivity.this,
                             ContactsContract.CommonDataKinds.Phone.CONTENT_URI,
                             projectionFields,
                             ContactsContract.CommonDataKinds.Phone.HAS_PHONE_NUMBER + " > 0",
