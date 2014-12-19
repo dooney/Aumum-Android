@@ -36,6 +36,12 @@
         <item>我的圈子</item>
         <item>所有圈子</item>
     </string-array>
+    <string-array name="label_add_contacts_actions">
+        <item>手机通讯录</item>
+        <item>微博好友</item>
+        <item>微信好友</item>
+        <item>Facebook好友</item>
+    </string-array>
     <string-array name="label_user_actions">
         <item>她的聚会</item>
         <item>她的问问</item>
@@ -63,6 +69,7 @@
     <string name="label_image">图片</string>
     <string name="label_voice">语音</string>
     <string name="label_share">分享</string>
+    <string name="label_add">添加</string>
 
     <!-- Info Message -->
     <string name="info_authenticating">正在验证您的账号信息，请稍候</string>
@@ -170,7 +177,7 @@
     <string name="title_activity_add_image">添加图片</string>
     <string name="title_activity_complete_profile">完善个人资料</string>
     <string name="title_activity_verify">验证码</string>
-    <string name="title_activity_mobile_contacts">邀请手机通讯录好友</string>
+    <string name="title_activity_mobile_contacts">手机通讯录</string>
 
     <!-- Account -->
     <string name="hint_login_phone">手机号</string>

@@ -228,8 +228,8 @@ public class RegisterActivity extends AuthenticateActivity
 
         progress.setMessageId(R.string.info_verifying_mobile);
         showProgress();
-        countryCode = countryCodeText.getText().toString().trim();
-        phone = Strings.removeLeadingZeros(phoneText.getText().toString().trim());
+        countryCode = countryCodeText.getText().toString().replace(" ", "");
+        phone = Strings.removeLeadingZeros(phoneText.getText().toString().replace(" ", ""));
         EditTextUtils.hideSoftInput(phoneText);
         password = passwordText.getText().toString();
         EditTextUtils.hideSoftInput(passwordText);

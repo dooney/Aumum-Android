@@ -26,4 +26,14 @@
         style="@style/TextView.MobileContact.Invite"
         android:paddingRight="@dimen/margin_medium"/>
 
+    <Button
+        android:id="@+id/b_add_contact"
+        style="@style/Button.MobileContact.Add"
+        android:layout_marginRight="@dimen/margin_medium" />
+
+    <TextView
+        android:id="@+id/text_added"
+        style="@style/TextView.MobileContact.Added"
+        android:paddingRight="@dimen/margin_medium"/>
+
 </LinearLayout>

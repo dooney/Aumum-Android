@@ -54,6 +54,7 @@ public class UserStore {
         String createdAt = DateUtils.dateToString(userEntity.getCreatedAt(), Constants.DateTime.FORMAT);
         return new User(
                 userEntity.getObjectId(),
+                userEntity.getUsername(),
                 userEntity.getChatId(),
                 createdAt,
                 userEntity.getScreenName(),
@@ -76,6 +77,7 @@ public class UserStore {
         UserEntity userEntity = new UserEntity(
                 context,
                 user.getObjectId(),
+                user.getUsername(),
                 user.getChatId(),
                 createdAt,
                 user.getScreenName(),

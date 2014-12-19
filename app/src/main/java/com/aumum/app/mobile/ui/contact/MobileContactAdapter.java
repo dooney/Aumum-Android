@@ -10,21 +10,32 @@ import android.support.v4.widget.CursorAdapter;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 
 import com.aumum.app.mobile.R;
+import com.aumum.app.mobile.core.model.User;
 import com.aumum.app.mobile.ui.view.Animation;
 import com.aumum.app.mobile.ui.view.AvatarImageView;
 import com.aumum.app.mobile.utils.ImageLoaderUtils;
 import com.aumum.app.mobile.utils.ImageUtils;
+
+import java.util.HashMap;
 
 /**
  * Created by Administrator on 17/12/2014.
  */
 public class MobileContactAdapter extends CursorAdapter {
 
-    public MobileContactAdapter(Context context) {
+    private Context context;
+    private User currentUser;
+    private HashMap<String, String> contactList;
+
+    public MobileContactAdapter(Context context, User currentUser, HashMap<String, String> contactList) {
         super(context, null, 0);
+        this.context = context;
+        this.currentUser = currentUser;
+        this.contactList = contactList;
     }
 
     @Override
@@ -48,15 +59,38 @@ public class MobileContactAdapter extends CursorAdapter {
                 ImageLoaderUtils.displayImage(R.drawable.ic_avatar, avatarImage);
             }
 
-            final String mobile = cursor.getString(cursor.getColumnIndexOrThrow(ContactsContract.CommonDataKinds.Phone.NUMBER));
+            final String number = cursor.getString(cursor.getColumnIndexOrThrow(ContactsContract.CommonDataKinds.Phone.NUMBER));
             TextView inviteButton = (TextView) view.findViewById(R.id.text_invite);
-            inviteButton.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    Animation.animateTextView(view);
-                    startSmsInvitationActivity(context, mobile);
+            Button addButton = (Button) view.findViewById(R.id.b_add_contact);
+            TextView addedText = (TextView) view.findViewById(R.id.text_added);
+            inviteButton.setVisibility(View.GONE);
+            addButton.setVisibility(View.GONE);
+            addedText.setVisibility(View.GONE);
+            final String userId = contactList.get(number.replace(" ", ""));
+            if (!currentUser.getObjectId().equals(userId)) {
+                if (number != null && userId != null) {
+                    if (currentUser.getContacts().contains(userId)) {
+                        addedText.setVisibility(View.VISIBLE);
+                    } else {
+                        addButton.setVisibility(View.VISIBLE);
+                        addButton.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                startAddContactActivity(userId);
+                            }
+                        });
+                    }
+                } else {
+                    inviteButton.setVisibility(View.VISIBLE);
+                    inviteButton.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            Animation.animateTextView(view);
+                            startSmsInvitationActivity(context, number);
+                        }
+                    });
                 }
-            });
+            }
         }
     }
 
@@ -64,6 +98,13 @@ public class MobileContactAdapter extends CursorAdapter {
         Uri uri = Uri.parse("smsto:" + mobile);
         Intent intent = new Intent(Intent.ACTION_SENDTO, uri);
         intent.putExtra("sms_body", context.getString(R.string.info_invitation));
+        context.startActivity(intent);
+    }
+
+    private void startAddContactActivity(String userId) {
+        final Intent intent = new Intent(context, AddContactActivity.class);
+        intent.putExtra(AddContactActivity.INTENT_TO_USER_ID, userId);
+        intent.putExtra(AddContactActivity.INTENT_FROM_USER_NAME, currentUser.getScreenName());
         context.startActivity(intent);
     }
 }

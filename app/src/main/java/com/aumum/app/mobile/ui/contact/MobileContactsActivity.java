@@ -12,27 +12,56 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 
+import com.aumum.app.mobile.Injector;
 import com.aumum.app.mobile.R;
+import com.aumum.app.mobile.core.dao.UserStore;
+import com.aumum.app.mobile.core.model.User;
+import com.aumum.app.mobile.core.service.RestService;
+import com.aumum.app.mobile.utils.SafeAsyncTask;
+import com.github.kevinsawicki.wishlist.Toaster;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+
+import javax.inject.Inject;
+
+import butterknife.ButterKnife;
+import butterknife.InjectView;
+import retrofit.RetrofitError;
 
 public class MobileContactsActivity extends ActionBarActivity {
 
+    @Inject UserStore userStore;
+    @Inject RestService restService;
+
+    @InjectView(android.R.id.list ) protected ListView listView;
+    @InjectView(R.id.pb_loading) protected ProgressBar progressBar;
+
+    private String userId;
     private boolean showSkip;
     private MobileContactAdapter adapter;
+    private User currentUser;
+    private HashMap<String, String> contactList;
 
     private static final int CONTACT_LOADER_ID = 78;
+    public static final String INTENT_USER_ID = "userId";
     public static final String INTENT_SHOW_SKIP = "showSkip";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Injector.inject(this);
         setContentView(R.layout.activity_mobile_contacts);
+        ButterKnife.inject(this);
 
+        userId = getIntent().getStringExtra(INTENT_USER_ID);
         showSkip = getIntent().getBooleanExtra(INTENT_SHOW_SKIP, false);
+        contactList = new HashMap<String, String>();
 
-        ListView listView = (ListView) findViewById(android.R.id.list);
-        adapter = new MobileContactAdapter(this);
-        listView.setAdapter(adapter);
+        listView.setVisibility(View.GONE);
+        progressBar.setVisibility(View.VISIBLE);
 
         getSupportLoaderManager().initLoader(CONTACT_LOADER_ID,
                 new Bundle(), contactsLoader);
@@ -78,8 +107,42 @@ public class MobileContactsActivity extends ActionBarActivity {
                 }
 
                 @Override
-                public void onLoadFinished(Loader<Cursor> loader, Cursor cursor) {
-                    adapter.swapCursor(cursor);
+                public void onLoadFinished(Loader<Cursor> loader, final Cursor cursor) {
+                    new SafeAsyncTask<Boolean>() {
+                        public Boolean call() throws Exception {
+                            currentUser = userStore.getUserById(userId);
+                            getInAppContactList(cursor);
+                            return true;
+                        }
+
+                        @Override
+                        protected void onException(final Exception e) throws RuntimeException {
+                            if(!(e instanceof RetrofitError)) {
+                                final Throwable cause = e.getCause() != null ? e.getCause() : e;
+                                if(cause != null) {
+                                    Toaster.showShort(MobileContactsActivity.this, cause.getMessage());
+                                }
+                            }
+                        }
+
+                        @Override
+                        protected void onSuccess(Boolean success) throws Exception {
+                            runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    adapter = new MobileContactAdapter(MobileContactsActivity.this, currentUser, contactList);
+                                    listView.setAdapter(adapter);
+                                    adapter.swapCursor(cursor);
+                                }
+                            });
+                        }
+
+                        @Override
+                        protected void onFinally() throws RuntimeException {
+                            progressBar.setVisibility(View.GONE);
+                            listView.setVisibility(View.VISIBLE);
+                        }
+                    }.execute();
                 }
 
                 @Override
@@ -87,4 +150,15 @@ public class MobileContactsActivity extends ActionBarActivity {
                     adapter.swapCursor(null);
                 }
             };
+
+    private void getInAppContactList(Cursor cursor) {
+        ArrayList<String> numberList = new ArrayList<String>();
+        while (cursor.moveToNext()) {
+            String number = cursor.getString(cursor.getColumnIndexOrThrow(ContactsContract.CommonDataKinds.Phone.NUMBER));
+            if (number != null) {
+                numberList.add(number.replace(" ", ""));
+            }
+        }
+        contactList.putAll(restService.getInAppContactList(numberList));
+    }
 }

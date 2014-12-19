@@ -313,6 +313,7 @@ public class CompleteProfileActivity extends ProgressDialogActivity
 
     private void startMobileContactsActivity() {
         final Intent intent = new Intent(this, MobileContactsActivity.class);
+        intent.putExtra(MobileContactsActivity.INTENT_USER_ID, userId);
         intent.putExtra(MobileContactsActivity.INTENT_SHOW_SKIP, true);
         startActivityForResult(intent, MOBILE_CONTACTS_REQ_CODE);
     }

@@ -423,6 +423,12 @@
         <item name="android:textSize">@dimen/text_sz_large</item>
         <item name="android:text">@string/label_invite</item>
     </style>
+    <style name="Button.MobileContact.Add" parent="Button.Action">
+        <item name="android:text">@string/label_add</item>
+    </style>
+    <style name="TextView.MobileContact.Added" parent="TextView.Subtitle">
+        <item name="android:text">@string/label_added</item>
+    </style>
 
     <!-- Comment -->
     <style name="TextView.Comment.UserName" parent="TextView.UserName" />

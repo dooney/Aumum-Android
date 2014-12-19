@@ -17,6 +17,8 @@ import com.google.gson.JsonPrimitive;
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import retrofit.RestAdapter;
@@ -673,5 +675,20 @@ public class RestService {
         DateTime now = DateTime.now(DateTimeZone.UTC);
         data.addProperty("deletedAt", now.toString(Constants.DateTime.FORMAT));
         return getAskingReplyService().updateById(askingReplyId, data);
+    }
+
+    public HashMap<String, String> getInAppContactList(List<String> numberList) {
+        final JsonObject whereJson = new JsonObject();
+        whereJson.add(Constants.Http.PARAM_USERNAME, buildIdListJson(numberList));
+        String where = whereJson.toString();
+        String keys = Constants.Http.PARAM_USERNAME + ",objectId";
+        List<JsonObject> result = getUserService().getInAppContactList(keys, where).getResults();
+        HashMap<String, String> contactList = new HashMap<String, String>();
+        for (JsonObject jsonObject: result) {
+            String phone = jsonObject.get(Constants.Http.PARAM_USERNAME).getAsString();
+            String userId = jsonObject.get("objectId").getAsString();
+            contactList.put(phone, userId);
+        }
+        return contactList;
     }
 }

@@ -7,6 +7,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class User extends AggregateRoot implements Sortable {
+
+    protected String username;
     protected String chatId;
     protected String screenName;
     protected String email;
@@ -27,6 +29,7 @@ public class User extends AggregateRoot implements Sortable {
     }
 
     public User(String objectId,
+                String username,
                 String chatId,
                 String createdAt,
                 String screenName,
@@ -42,6 +45,7 @@ public class User extends AggregateRoot implements Sortable {
                 List<String> favParties,
                 List<String> favAskings) {
         this.objectId = objectId;
+        this.username = username;
         this.chatId = chatId;
         this.createdAt = createdAt;
         this.screenName = screenName;
@@ -62,6 +66,10 @@ public class User extends AggregateRoot implements Sortable {
         this.favParties.addAll(favParties);
         this.favAskings.clear();
         this.favAskings.addAll(favAskings);
+    }
+
+    public String getUsername() {
+        return username;
     }
 
     public String getChatId() {

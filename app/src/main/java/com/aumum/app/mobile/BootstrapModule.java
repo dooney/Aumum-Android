@@ -31,7 +31,9 @@ import com.aumum.app.mobile.ui.chat.NotificationClickListener;
 import com.aumum.app.mobile.ui.chat.SendMessageListener;
 import com.aumum.app.mobile.ui.chat.TextMessageCard;
 import com.aumum.app.mobile.ui.chat.VoiceMessageCard;
+import com.aumum.app.mobile.ui.contact.AddContactsActivity;
 import com.aumum.app.mobile.ui.contact.GroupCard;
+import com.aumum.app.mobile.ui.contact.MobileContactsActivity;
 import com.aumum.app.mobile.ui.contact.MyGroupsFragment;
 import com.aumum.app.mobile.ui.conversation.ConversationFragment;
 import com.aumum.app.mobile.ui.contact.AllGroupsFragment;
@@ -142,7 +144,9 @@ import retrofit.converter.GsonConverter;
                 CompleteProfileActivity.class,
                 ResetPasswordSuccessActivity.class,
                 MessageNotifyListener.class,
-                NotificationClickListener.class
+                NotificationClickListener.class,
+                MobileContactsActivity.class,
+                AddContactsActivity.class
         }
 )
 public class BootstrapModule {
