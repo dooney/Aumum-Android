@@ -23,6 +23,8 @@ import com.aumum.app.mobile.core.model.User;
 import com.aumum.app.mobile.core.service.ChatService;
 import com.aumum.app.mobile.core.service.NotificationService;
 import com.aumum.app.mobile.core.service.ScheduleService;
+import com.aumum.app.mobile.ui.chat.MessageNotifyListener;
+import com.aumum.app.mobile.ui.chat.NotificationClickListener;
 import com.aumum.app.mobile.ui.contact.GroupListener;
 import com.aumum.app.mobile.ui.contact.ContactListener;
 import com.aumum.app.mobile.utils.Ln;
@@ -77,6 +79,8 @@ public class MainFragment extends Fragment
         intentFilter.setPriority(NewMessageBroadcastReceiver.PRIORITY);
         getActivity().registerReceiver(newMessageBroadcastReceiver, intentFilter);
 
+        chatService.setMessageNotifyListener(new MessageNotifyListener(getActivity()));
+        chatService.setNotificationClickListener(new NotificationClickListener(getActivity()));
         chatService.setContactListener(new ContactListener());
         chatService.setGroupChangeListener(new GroupListener());
         chatService.setAppInitialized();

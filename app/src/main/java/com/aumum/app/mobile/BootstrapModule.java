@@ -26,6 +26,8 @@ import com.aumum.app.mobile.ui.asking.NewAskingActivity;
 import com.aumum.app.mobile.ui.asking.SearchAskingFragment;
 import com.aumum.app.mobile.ui.chat.ChatFragment;
 import com.aumum.app.mobile.ui.chat.ImageMessageCard;
+import com.aumum.app.mobile.ui.chat.MessageNotifyListener;
+import com.aumum.app.mobile.ui.chat.NotificationClickListener;
 import com.aumum.app.mobile.ui.chat.SendMessageListener;
 import com.aumum.app.mobile.ui.chat.TextMessageCard;
 import com.aumum.app.mobile.ui.chat.VoiceMessageCard;
@@ -138,7 +140,9 @@ import retrofit.converter.GsonConverter;
                 UpdateAvatarActivity.class,
                 VerifyActivity.class,
                 CompleteProfileActivity.class,
-                ResetPasswordSuccessActivity.class
+                ResetPasswordSuccessActivity.class,
+                MessageNotifyListener.class,
+                NotificationClickListener.class
         }
 )
 public class BootstrapModule {

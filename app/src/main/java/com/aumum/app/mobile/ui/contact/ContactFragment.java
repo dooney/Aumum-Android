@@ -20,7 +20,6 @@ import com.aumum.app.mobile.ui.base.ItemListFragment;
 import com.aumum.app.mobile.ui.user.UserActivity;
 import com.aumum.app.mobile.ui.view.sort.InitialComparator;
 import com.aumum.app.mobile.utils.DialogUtils;
-import com.aumum.app.mobile.utils.Ln;
 
 import java.util.Collections;
 import java.util.List;
@@ -77,14 +76,7 @@ public class ContactFragment extends ItemListFragment<User>
     @Override
     public void onResume() {
         super.onResume();
-
-        try {
-            getData().clear();
-            getData().addAll(getSortedContacts());
-            getListAdapter().notifyDataSetChanged();
-        } catch (Exception e) {
-            Ln.e(e);
-        }
+        refresh(null);
     }
 
     @Override

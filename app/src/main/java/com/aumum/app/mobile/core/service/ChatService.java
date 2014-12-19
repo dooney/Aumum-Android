@@ -1,9 +1,13 @@
 package com.aumum.app.mobile.core.service;
 
+import android.content.Context;
+
+import com.aumum.app.mobile.R;
 import com.aumum.app.mobile.utils.Ln;
 import com.easemob.EMCallBack;
 import com.easemob.chat.EMChat;
 import com.easemob.chat.EMChatManager;
+import com.easemob.chat.EMChatOptions;
 import com.easemob.chat.EMContactListener;
 import com.easemob.chat.EMContactManager;
 import com.easemob.chat.EMConversation;
@@ -13,6 +17,8 @@ import com.easemob.chat.EMGroupManager;
 import com.easemob.chat.EMMessage;
 import com.easemob.chat.GroupChangeListener;
 import com.easemob.chat.ImageMessageBody;
+import com.easemob.chat.OnMessageNotifyListener;
+import com.easemob.chat.OnNotificationClickListener;
 import com.easemob.chat.TextMessageBody;
 import com.easemob.chat.VoiceMessageBody;
 
@@ -226,5 +232,15 @@ public class ChatService {
 
     public void setGroupChangeListener(GroupChangeListener groupChangeListener) {
         EMGroupManager.getInstance().addGroupChangeListener(groupChangeListener);
+    }
+
+    public void setMessageNotifyListener(OnMessageNotifyListener messageNotifyListener) {
+        EMChatOptions options = EMChatManager.getInstance().getChatOptions();
+        options.setNotifyText(messageNotifyListener);
+    }
+
+    public void setNotificationClickListener(OnNotificationClickListener notificationClickListener) {
+        EMChatOptions options = EMChatManager.getInstance().getChatOptions();
+        options.setOnNotificationClickListener(notificationClickListener);
     }
 }
