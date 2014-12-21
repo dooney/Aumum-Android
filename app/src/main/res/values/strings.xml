@@ -33,8 +33,6 @@
     <string-array name="label_contact_actions">
         <item>添加好友</item>
         <item>好友请求</item>
-        <item>我的圈子</item>
-        <item>所有圈子</item>
     </string-array>
     <string-array name="label_add_contacts_actions">
         <item>手机通讯录</item>
@@ -129,7 +127,6 @@
     <string name="error_load_party_details">获取聚会详情失败</string>
     <string name="error_delete_contact">移除好友失败</string>
     <string name="error_load_contacts">获取好友列表失败</string>
-    <string name="error_load_my_groups">获取圈子列表失败</string>
     <string name="error_load_profile">获取个人信息失败</string>
     <string name="error_load_askings">获取问问列表失败</string>
     <string name="error_submit_new_asking">发布问题失败</string>
@@ -166,8 +163,6 @@
     <string name="title_activity_new_party">发起聚会</string>
     <string name="title_activity_add_contact">添加好友</string>
     <string name="title_activity_add_contacts">添加好友</string>
-    <string name="title_activity_all_groups">所有圈子</string>
-    <string name="title_activity_my_groups">我的圈子</string>
     <string name="title_activity_change_avatar">更换头像</string>
     <string name="title_user_parties">%1$s的聚会</string>
     <string name="title_user_askings">%1$s的问问</string>
@@ -258,7 +253,7 @@
     <string name="label_new_party_message">发起了聚会：%1$s</string>
     <string name="label_delete_party_message">取消了聚会：%1$s</string>
     <string name="label_like_party_message">支持了聚会：%1$s</string>
-    <string name="hint_party_title">给聚会起个标题吧</string>
+    <string name="hint_party_title">聚会标题</string>
     <string name="hint_party_location">聚会地点具体地址</string>
     <string name="label_date">聚会日期</string>
     <string name="label_time">具体时间</string>

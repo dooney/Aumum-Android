@@ -155,10 +155,6 @@
         <service android:name="com.easemob.chat.EMChatService" />
 
         <activity
-            android:name=".ui.contact.AllGroupsActivity"
-            android:label="@string/title_activity_all_groups" >
-        </activity>
-        <activity
             android:name=".ui.chat.ChatActivity"
             android:excludeFromRecents="true"
             android:launchMode="singleTask"
@@ -175,10 +171,6 @@
             android:label="@string/title_activity_contact_requests"
             android:launchMode="singleTask"
             android:taskAffinity="" >
-        </activity>
-        <activity
-            android:name=".ui.contact.MyGroupsActivity"
-            android:label="@string/title_activity_my_groups" >
         </activity>
         <activity
             android:name=".ui.contact.AddContactsActivity"

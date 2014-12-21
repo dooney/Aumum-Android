@@ -34,9 +34,7 @@ import com.aumum.app.mobile.ui.chat.VoiceMessageCard;
 import com.aumum.app.mobile.ui.contact.AddContactsActivity;
 import com.aumum.app.mobile.ui.contact.GroupCard;
 import com.aumum.app.mobile.ui.contact.MobileContactsActivity;
-import com.aumum.app.mobile.ui.contact.MyGroupsFragment;
 import com.aumum.app.mobile.ui.conversation.ConversationFragment;
-import com.aumum.app.mobile.ui.contact.AllGroupsFragment;
 import com.aumum.app.mobile.ui.contact.GroupJoinListener;
 import com.aumum.app.mobile.ui.contact.GroupQuitListener;
 import com.aumum.app.mobile.ui.contact.AcceptContactListener;
@@ -107,7 +105,6 @@ import retrofit.converter.GsonConverter;
                 PartyDetailsFragment.class,
                 PartyReasonsFragment.class,
                 ConversationFragment.class,
-                AllGroupsFragment.class,
                 GroupCard.class,
                 GroupJoinListener.class,
                 GroupQuitListener.class,
@@ -125,7 +122,6 @@ import retrofit.converter.GsonConverter;
                 DeleteContactListener.class,
                 ContactFragment.class,
                 TextMessageCard.class,
-                MyGroupsFragment.class,
                 ProfileFragment.class,
                 SettingsActivity.class,
                 AskingListFragment.class,

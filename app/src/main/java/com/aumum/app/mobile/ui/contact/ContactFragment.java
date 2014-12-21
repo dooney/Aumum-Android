@@ -120,12 +120,6 @@ public class ContactFragment extends ItemListFragment<User>
                             case 1:
                                 startContactRequestActivity();
                                 break;
-                            case 2:
-                                startMyGroupsActivity();
-                                break;
-                            case 3:
-                                startAllGroupsActivity();
-                                break;
                             default:
                                 break;
                         }
@@ -135,16 +129,6 @@ public class ContactFragment extends ItemListFragment<User>
 
     private void startAddContactsActivity() {
         final Intent intent = new Intent(getActivity(), AddContactsActivity.class);
-        startActivity(intent);
-    }
-
-    private void startMyGroupsActivity() {
-        final Intent intent = new Intent(getActivity(), MyGroupsActivity.class);
-        startActivity(intent);
-    }
-
-    private void startAllGroupsActivity() {
-        final Intent intent = new Intent(getActivity(), AllGroupsActivity.class);
         startActivity(intent);
     }
 
