@@ -1,8 +1,5 @@
 package com.aumum.app.mobile.core.service;
 
-import android.content.Context;
-
-import com.aumum.app.mobile.R;
 import com.aumum.app.mobile.utils.Ln;
 import com.easemob.EMCallBack;
 import com.easemob.chat.EMChat;

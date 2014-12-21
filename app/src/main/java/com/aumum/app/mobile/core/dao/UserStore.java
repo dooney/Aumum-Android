@@ -73,6 +73,9 @@ public class UserStore {
 
     private UserEntity map(User user) throws Exception {
         String context = apiKeyProvider.getAuthUserId();
+        if (context == null) {
+            context = user.getObjectId();
+        }
         Date createdAt = DateUtils.stringToDate(user.getCreatedAt(), Constants.DateTime.FORMAT);
         UserEntity userEntity = new UserEntity(
                 context,

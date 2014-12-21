@@ -147,7 +147,9 @@ public class MobileContactsActivity extends ActionBarActivity {
 
                 @Override
                 public void onLoaderReset(Loader<Cursor> loader) {
-                    adapter.swapCursor(null);
+                    if (adapter != null) {
+                        adapter.swapCursor(null);
+                    }
                 }
             };
 

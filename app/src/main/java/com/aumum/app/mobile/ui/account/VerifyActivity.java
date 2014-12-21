@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.text.Editable;
 import android.text.Html;
 import android.text.TextWatcher;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -29,6 +30,10 @@ import butterknife.InjectView;
 import cn.smssdk.EventHandler;
 import cn.smssdk.SMSSDK;
 import retrofit.RetrofitError;
+
+import static android.view.KeyEvent.ACTION_DOWN;
+import static android.view.KeyEvent.KEYCODE_ENTER;
+import static android.view.inputmethod.EditorInfo.IME_ACTION_DONE;
 
 public class VerifyActivity extends ProgressDialogActivity {
 
@@ -80,17 +85,34 @@ public class VerifyActivity extends ProgressDialogActivity {
         String codeTipLabelHtmlText = getString(R.string.label_will_receive_verification_code);
         codeTipLabelText.setText(Html.fromHtml(codeTipLabelHtmlText));
         verificationCodeText.addTextChangedListener(watcher);
-        String text = getString(R.string.label_will_receive_sms_within, total);
+        verificationCodeText.setOnKeyListener(new View.OnKeyListener() {
+            public boolean onKey(final View v, final int keyCode, final KeyEvent event) {
+                if (event != null && ACTION_DOWN == event.getAction()
+                        && keyCode == KEYCODE_ENTER && confirmButton.isEnabled()) {
+                    verify();
+                    return true;
+                }
+                return false;
+            }
+        });
+        verificationCodeText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+
+            public boolean onEditorAction(final TextView v, final int actionId,
+                                          final KeyEvent event) {
+                if (actionId == IME_ACTION_DONE && confirmButton.isEnabled()) {
+                    verify();
+                    return true;
+                }
+                return false;
+            }
+        });
         confirmButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                EditTextUtils.hideSoftInput(verificationCodeText);
-                progress.setMessageId(R.string.info_submitting_registration);
-                showProgress();
-                verificationCode = verificationCodeText.getText().toString();
-                SMSSDK.submitVerificationCode(countryCode.replace("+", ""), phone, verificationCode);
+                verify();
             }
         });
+        String text = getString(R.string.label_will_receive_sms_within, total);
         resendButton.setText(Html.fromHtml(text));
         resendButton.setEnabled(false);
         resendButton.setOnClickListener(new View.OnClickListener() {
@@ -206,6 +228,14 @@ public class VerifyActivity extends ProgressDialogActivity {
                 }
             }
         }.start();
+    }
+
+    private void verify() {
+        EditTextUtils.hideSoftInput(verificationCodeText);
+        progress.setMessageId(R.string.info_submitting_registration);
+        showProgress();
+        verificationCode = verificationCodeText.getText().toString();
+        SMSSDK.submitVerificationCode(countryCode.replace("+", ""), phone, verificationCode);
     }
 
     private void register() {

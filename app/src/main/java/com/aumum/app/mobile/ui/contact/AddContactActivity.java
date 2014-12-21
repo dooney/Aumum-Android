@@ -78,6 +78,7 @@ public class AddContactActivity extends ProgressDialogActivity {
                     intro = introEditText.getText().toString();
                 }
                 chatService.addContact(toUserId, intro);
+                Thread.sleep(1000);
                 return true;
             }
 
