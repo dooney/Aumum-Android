@@ -258,13 +258,10 @@
     <string name="label_new_party_message">发起了聚会：%1$s</string>
     <string name="label_delete_party_message">取消了聚会：%1$s</string>
     <string name="label_like_party_message">支持了聚会：%1$s</string>
-    <string name="label_unlimited">不限</string>
     <string name="hint_party_title">给聚会起个标题吧</string>
     <string name="hint_party_location">聚会地点具体地址</string>
     <string name="label_date">聚会日期</string>
     <string name="label_time">具体时间</string>
-    <string name="label_age">要求小孩年龄</string>
-    <string name="label_gender">要求小孩性别</string>
     <string name="hint_party_details">聚会内容 (不超过140字)</string>
 
     <!-- Asking -->

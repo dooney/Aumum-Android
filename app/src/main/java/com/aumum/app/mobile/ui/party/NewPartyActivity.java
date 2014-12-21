@@ -70,8 +70,6 @@ public class NewPartyActivity extends ProgressDialogActivity
 
     private Date date = new Date();
     private Time time = new Time();
-    private int age;
-    private int gender;
 
     private static final String FRAG_TAG_DATE_PICKER = "fragment_date_picker";
     private static final String FRAG_TAG_TIME_PICKER = "fragment_time_picker";
@@ -80,8 +78,6 @@ public class NewPartyActivity extends ProgressDialogActivity
     @InjectView(R.id.v_scroll) protected ScrollView scrollView;
     @InjectView(R.id.b_date) protected TextView dateButton;
     @InjectView(R.id.b_time) protected TextView timeButton;
-    @InjectView(R.id.b_age) protected TextView ageButton;
-    @InjectView(R.id.b_gender) protected TextView genderButton;
     @InjectView(R.id.et_title) protected EditText titleText;
     @InjectView(R.id.et_location) protected AutoCompleteTextView locationText;
     @InjectView(R.id.et_details) protected EditText detailsText;
@@ -132,34 +128,6 @@ public class NewPartyActivity extends ProgressDialogActivity
                         .newInstance(NewPartyActivity.this, now.getHourOfDay(), now.getMinuteOfHour(),
                                 DateFormat.is24HourFormat(NewPartyActivity.this));
                 timePickerDialog.show(getSupportFragmentManager(), FRAG_TAG_TIME_PICKER);
-            }
-        });
-
-        ageButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                DialogUtils.showDialog(NewPartyActivity.this, Constants.Options.AGE_OPTIONS, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        age = i;
-                        ageButton.setText(Constants.Options.AGE_OPTIONS[i]);
-                        ageButton.setTextColor(getResources().getColor(R.color.black));
-                    }
-                });
-            }
-        });
-
-        genderButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                DialogUtils.showDialog(NewPartyActivity.this, Constants.Options.GENDER_OPTIONS, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        gender = i;
-                        genderButton.setText(Constants.Options.GENDER_OPTIONS[i]);
-                        genderButton.setTextColor(getResources().getColor(R.color.black));
-                    }
-                });
             }
         });
 
@@ -276,9 +244,7 @@ public class NewPartyActivity extends ProgressDialogActivity
                                   populated(locationText) &&
                                   populated(detailsText) &&
                                   dateButton.getText().length() > 0 &&
-                                  timeButton.getText().length() > 0 &&
-                                  ageButton.getText().length() > 0 &&
-                                  genderButton.getText().length() > 0;
+                                  timeButton.getText().length() > 0;
         submitButton.setEnabled(populated);
     }
 
@@ -334,8 +300,6 @@ public class NewPartyActivity extends ProgressDialogActivity
                                         titleText.getText().toString(),
                                         date,
                                         time,
-                                        age,
-                                        gender,
                                         locationText.getText().toString(),
                                         detailsText.getText().toString(),
                                         imageUrlList);

@@ -5,25 +5,18 @@ import android.content.Intent;
 import android.support.v4.app.Fragment;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.GridView;
 import android.widget.TextView;
 
 import com.aumum.app.mobile.R;
 import com.aumum.app.mobile.core.Constants;
 import com.aumum.app.mobile.core.model.Party;
-import com.aumum.app.mobile.ui.image.CustomGallery;
-import com.aumum.app.mobile.ui.image.GalleryAdapter;
 import com.aumum.app.mobile.ui.user.UserListener;
 import com.aumum.app.mobile.ui.view.Animation;
 import com.aumum.app.mobile.ui.view.AvatarImageView;
 import com.aumum.app.mobile.ui.view.JoinTextView;
 import com.aumum.app.mobile.ui.view.LikeTextView;
 import com.aumum.app.mobile.ui.view.SpannableTextView;
-import com.aumum.app.mobile.utils.ImageLoaderUtils;
 import com.aumum.app.mobile.utils.Ln;
-import com.aumum.app.mobile.utils.UpYunUtils;
-
-import java.util.ArrayList;
 
 import it.gmariotti.cardslib.library.internal.Card;
 
@@ -37,7 +30,6 @@ public class PartyCard extends Card {
     private String currentUserId;
     private PartyLikeListener likeListener;
     private MembersLayoutListener membersLayoutListener;
-    private GalleryAdapter adapter;
 
     public Party getParty() {
         return party;
@@ -51,7 +43,6 @@ public class PartyCard extends Card {
         this.currentUserId = currentUserId;
         this.likeListener = new PartyLikeListener(party);
         this.membersLayoutListener = new MembersLayoutListener(activity, currentUserId);
-        this.adapter = new GalleryAdapter(activity, R.layout.image_collection_listitem_inner, ImageLoaderUtils.getInstance());
     }
 
     @Override
@@ -83,23 +74,6 @@ public class PartyCard extends Card {
 
         TextView locationText = (TextView) view.findViewById(R.id.text_location);
         locationText.setText(party.getPlace().getLocation());
-
-        TextView ageText = (TextView) view.findViewById(R.id.text_age);
-        ageText.setText(Constants.Options.AGE_OPTIONS[party.getAge()]);
-
-        TextView genderText = (TextView) view.findViewById(R.id.text_gender);
-        genderText.setText(Constants.Options.GENDER_OPTIONS[party.getGender()]);
-
-        GridView gridGallery = (GridView) view.findViewById(R.id.grid_gallery);
-        gridGallery.setAdapter(adapter);
-        ArrayList<CustomGallery> list = new ArrayList<CustomGallery>();
-        for (String imageUrl: party.getImages()) {
-            CustomGallery item = new CustomGallery();
-            item.type = CustomGallery.HTTP;
-            item.imageUri = UpYunUtils.getThumbnailUrl(imageUrl);
-            list.add(item);
-        }
-        adapter.addAll(list);
 
         ViewGroup joinLayout = (ViewGroup) view.findViewById(R.id.layout_join);
         JoinTextView joinText = (JoinTextView) view.findViewById(R.id.text_join);

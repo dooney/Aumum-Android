@@ -207,22 +207,6 @@ public final class Constants {
                 });
             }
         };
-
-        public static final String AGE_OPTIONS[] = {
-            "不限",
-            "备孕",
-            "怀孕",
-            "0 - 1岁",
-            "1 - 3岁",
-            "3 - 6岁",
-            "6岁以上"
-        };
-
-        public static final String GENDER_OPTIONS[] = {
-            "不限",
-            "仅女孩",
-            "仅男孩"
-        };
     }
 
     public static final class RequestCode {

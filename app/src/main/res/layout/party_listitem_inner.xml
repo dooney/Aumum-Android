@@ -63,7 +63,8 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:paddingBottom="@dimen/margin_medium">
 
         <TextView
             android:id="@+id/text_time"
@@ -72,35 +73,9 @@
 
         <TextView
             android:id="@+id/text_location"
-            style="@style/TextView.Location"
-            android:paddingBottom="@dimen/margin_small" />
-
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:paddingBottom="@dimen/margin_medium">
-
-            <TextView
-                android:id="@+id/text_age"
-                style="@style/TextView.Age" />
-
-            <TextView
-                android:id="@+id/text_gender"
-                style="@style/TextView.Gender"
-                android:layout_toRightOf="@+id/text_age" />
-
-        </RelativeLayout>
+            style="@style/TextView.Location" />
 
     </LinearLayout>
-
-    <GridView
-        android:id="@+id/grid_gallery"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="top"
-        android:paddingBottom="@dimen/margin_medium"
-        android:numColumns="4" >
-    </GridView>
 
     <RelativeLayout
         android:id="@+id/layout_members"

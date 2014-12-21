@@ -88,8 +88,6 @@ public class PartyDetailsFragment extends LoaderFragment<Party>
     private TextView createdAtText;
     private TextView timeText;
     private TextView locationText;
-    private TextView ageText;
-    private TextView genderText;
     private SpannableTextView detailsText;
     private GridView gridGallery;
     private ViewGroup membersLayout;
@@ -175,8 +173,6 @@ public class PartyDetailsFragment extends LoaderFragment<Party>
         createdAtText = (TextView) view.findViewById(R.id.text_createdAt);
         timeText = (TextView) view.findViewById(R.id.text_time);
         locationText = (TextView) view.findViewById(R.id.text_location);
-        ageText = (TextView) view.findViewById(R.id.text_age);
-        genderText = (TextView) view.findViewById(R.id.text_gender);
         detailsText = (SpannableTextView) view.findViewById(R.id.text_details);
 
         adapter = new GalleryAdapter(getActivity(), R.layout.image_collection_listitem_inner, ImageLoaderUtils.getInstance());
@@ -293,8 +289,6 @@ public class PartyDetailsFragment extends LoaderFragment<Party>
         createdAtText.setText(party.getCreatedAtFormatted());
         timeText.setText(party.getDateTimeText());
         locationText.setText(party.getPlace().getLocation());
-        ageText.setText(Constants.Options.AGE_OPTIONS[party.getAge()]);
-        genderText.setText(Constants.Options.GENDER_OPTIONS[party.getGender()]);
         detailsText.setSpannableText(party.getDetails());
 
         ArrayList<CustomGallery> list = new ArrayList<CustomGallery>();

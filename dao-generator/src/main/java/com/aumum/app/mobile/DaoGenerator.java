@@ -58,8 +58,6 @@ public class DaoGenerator {
         party.addStringProperty("userId");
         party.addStringProperty("date");
         party.addStringProperty("time");
-        party.addIntProperty("age");
-        party.addIntProperty("gender");
         party.addStringProperty("title");
         party.addStringProperty("place");
         party.addStringProperty("details");

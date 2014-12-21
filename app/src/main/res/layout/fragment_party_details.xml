@@ -98,22 +98,6 @@
                             style="@style/TextView.Location"
                             android:paddingBottom="@dimen/margin_small" />
 
-                        <RelativeLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:paddingBottom="@dimen/margin_medium">
-
-                            <TextView
-                                android:id="@+id/text_age"
-                                style="@style/TextView.Age" />
-
-                            <TextView
-                                android:id="@+id/text_gender"
-                                style="@style/TextView.Gender"
-                                android:layout_toRightOf="@+id/text_age" />
-
-                        </RelativeLayout>
-
                     </LinearLayout>
 
                     <com.aumum.app.mobile.ui.view.SpannableTextView

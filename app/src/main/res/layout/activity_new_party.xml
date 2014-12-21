@@ -39,20 +39,6 @@
                 android:id="@+id/et_location"
                 style="@style/EditText.NewParty.Location" />
 
-            <TextView
-                android:id="@+id/b_age"
-                style="@style/ButtonTextView.NewParty.Age" />
-            <View
-                style="@style/Divider"
-                android:background="@color/grey_light"/>
-
-            <TextView
-                android:id="@+id/b_gender"
-                style="@style/ButtonTextView.NewParty.Gender" />
-            <View
-                style="@style/Divider"
-                android:background="@color/grey_light"/>
-
             <EditText
                 android:id="@+id/et_details"
                 style="@style/EditText.NewParty.Details" />

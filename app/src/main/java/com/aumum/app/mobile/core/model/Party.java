@@ -16,8 +16,6 @@ public class Party extends AggregateRoot {
     protected String userId;
     protected Date date;
     protected Time time;
-    protected int age;
-    protected int gender;
     protected String title;
     protected Place place;
     protected String details;
@@ -43,8 +41,6 @@ public class Party extends AggregateRoot {
                  String title,
                  Date date,
                  Time time,
-                 int age,
-                 int gender,
                  String place,
                  String details,
                  List<String> images) {
@@ -52,8 +48,6 @@ public class Party extends AggregateRoot {
         this.title = title;
         this.date = date;
         this.time = time;
-        this.age = age;
-        this.gender = gender;
         this.place = new Place(place);
         this.details = details;
         this.images.clear();
@@ -65,8 +59,6 @@ public class Party extends AggregateRoot {
                  String userId,
                  Date date,
                  Time time,
-                 int age,
-                 int gender,
                  String title,
                  Place place,
                  String details,
@@ -81,8 +73,6 @@ public class Party extends AggregateRoot {
         this.userId = userId;
         this.date = date;
         this.time = time;
-        this.age = age;
-        this.gender = gender;
         this.title = title;
         this.place = place;
         this.details = details;
@@ -119,14 +109,6 @@ public class Party extends AggregateRoot {
 
     public String getDateTimeText() {
         return date.getDateText() + " " + time.getTimeText();
-    }
-
-    public int getAge() {
-        return age;
-    }
-
-    public int getGender() {
-        return gender;
     }
 
     public String getTitle() {

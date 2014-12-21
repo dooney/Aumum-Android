@@ -10,8 +10,6 @@ public class PartyEntity extends BaseEntity {
     private String userId;
     private String date;
     private String time;
-    private Integer age;
-    private Integer gender;
     private String title;
     private String place;
     private String details;
@@ -35,8 +33,6 @@ public class PartyEntity extends BaseEntity {
                        String userId,
                        String date,
                        String time,
-                       Integer age,
-                       Integer gender,
                        String title,
                        String place,
                        String details,
@@ -52,8 +48,6 @@ public class PartyEntity extends BaseEntity {
         this.userId = userId;
         this.date = date;
         this.time = time;
-        this.age = age;
-        this.gender = gender;
         this.title = title;
         this.place = place;
         this.details = details;
@@ -87,22 +81,6 @@ public class PartyEntity extends BaseEntity {
 
     public void setTime(String time) {
         this.time = time;
-    }
-
-    public Integer getAge() {
-        return age;
-    }
-
-    public void setAge(Integer age) {
-        this.age = age;
-    }
-
-    public Integer getGender() {
-        return gender;
-    }
-
-    public void setGender(Integer gender) {
-        this.gender = gender;
     }
 
     public String getTitle() {
