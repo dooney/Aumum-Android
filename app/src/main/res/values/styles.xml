@@ -401,9 +401,6 @@
     <style name="TextView.ContactRequest.Added" parent="TextView.Subtitle">
         <item name="android:text">@string/label_added</item>
     </style>
-    <style name="TextView.Group.ScreenName" parent="TextView.Title" />
-    <style name="TextView.Group.CurrentSize" parent="TextView.Subtitle" />
-    <style name="Button.Group.Action" parent="Button.Action" />
     <style name="TextView.MobileContact.Invite" parent="LinkTextView">
         <item name="android:textSize">@dimen/text_sz_large</item>
         <item name="android:text">@string/label_invite</item>

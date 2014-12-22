@@ -25,6 +25,7 @@ import com.aumum.app.mobile.ui.asking.AskingReplyLikeListener;
 import com.aumum.app.mobile.ui.asking.NewAskingActivity;
 import com.aumum.app.mobile.ui.asking.SearchAskingFragment;
 import com.aumum.app.mobile.ui.chat.ChatFragment;
+import com.aumum.app.mobile.ui.chat.GroupDetailsFragment;
 import com.aumum.app.mobile.ui.chat.ImageMessageCard;
 import com.aumum.app.mobile.ui.chat.MessageNotifyListener;
 import com.aumum.app.mobile.ui.chat.NotificationClickListener;
@@ -32,11 +33,8 @@ import com.aumum.app.mobile.ui.chat.SendMessageListener;
 import com.aumum.app.mobile.ui.chat.TextMessageCard;
 import com.aumum.app.mobile.ui.chat.VoiceMessageCard;
 import com.aumum.app.mobile.ui.contact.AddContactsActivity;
-import com.aumum.app.mobile.ui.contact.GroupCard;
 import com.aumum.app.mobile.ui.contact.MobileContactsActivity;
 import com.aumum.app.mobile.ui.conversation.ConversationFragment;
-import com.aumum.app.mobile.ui.contact.GroupJoinListener;
-import com.aumum.app.mobile.ui.contact.GroupQuitListener;
 import com.aumum.app.mobile.ui.contact.AcceptContactListener;
 import com.aumum.app.mobile.ui.contact.ContactFragment;
 import com.aumum.app.mobile.ui.contact.ContactListener;
@@ -105,9 +103,6 @@ import retrofit.converter.GsonConverter;
                 PartyDetailsFragment.class,
                 PartyReasonsFragment.class,
                 ConversationFragment.class,
-                GroupCard.class,
-                GroupJoinListener.class,
-                GroupQuitListener.class,
                 ChatFragment.class,
                 SendMessageListener.class,
                 PartyListFragment.class,
@@ -142,7 +137,8 @@ import retrofit.converter.GsonConverter;
                 MessageNotifyListener.class,
                 NotificationClickListener.class,
                 MobileContactsActivity.class,
-                AddContactsActivity.class
+                AddContactsActivity.class,
+                GroupDetailsFragment.class
         }
 )
 public class BootstrapModule {

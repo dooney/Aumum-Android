@@ -25,7 +25,6 @@ import com.aumum.app.mobile.core.service.NotificationService;
 import com.aumum.app.mobile.core.service.ScheduleService;
 import com.aumum.app.mobile.ui.chat.MessageNotifyListener;
 import com.aumum.app.mobile.ui.chat.NotificationClickListener;
-import com.aumum.app.mobile.ui.contact.GroupListener;
 import com.aumum.app.mobile.ui.contact.ContactListener;
 import com.aumum.app.mobile.utils.Ln;
 import com.aumum.app.mobile.utils.SafeAsyncTask;
@@ -82,7 +81,6 @@ public class MainFragment extends Fragment
         chatService.setMessageNotifyListener(new MessageNotifyListener(getActivity()));
         chatService.setNotificationClickListener(new NotificationClickListener(getActivity()));
         chatService.setContactListener(new ContactListener());
-        chatService.setGroupChangeListener(new GroupListener());
         chatService.setAppInitialized();
         String currentUserId = apiKeyProvider.getAuthUserId();
         String password = apiKeyProvider.getAuthPassword();

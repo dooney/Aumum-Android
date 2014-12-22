@@ -152,7 +152,7 @@ public class CompleteProfileActivity extends ProgressDialogActivity
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        if (requestCode == Constants.RequestCode.IMAGE_PICKER_IMAGE_REQ_CODE &&
+        if (requestCode == Constants.RequestCode.IMAGE_PICKER_REQ_CODE &&
                 resultCode == RESULT_OK) {
             String imagePath = data.getStringExtra(ImagePickerActivity.INTENT_SINGLE_PATH);
             if (imagePath != null) {
@@ -256,7 +256,7 @@ public class CompleteProfileActivity extends ProgressDialogActivity
     private void startImagePickerActivity() {
         final Intent intent = new Intent(this, ImagePickerActivity.class);
         intent.putExtra(ImagePickerActivity.INTENT_ACTION, ImagePickerActivity.ACTION_PICK);
-        startActivityForResult(intent, Constants.RequestCode.IMAGE_PICKER_IMAGE_REQ_CODE);
+        startActivityForResult(intent, Constants.RequestCode.IMAGE_PICKER_REQ_CODE);
     }
 
     private void startCropImageActivity(String imageUri) {

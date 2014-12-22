@@ -54,6 +54,10 @@
         <item>聚会</item>
         <item>问问</item>
     </string-array>
+    <string-array name="label_group_actions">
+        <item>举报</item>
+        <item>退出</item>
+    </string-array>
 
     <!-- General -->
     <string name="label_ok">确定</string>
@@ -82,9 +86,7 @@
     <string name="info_submitting_delete_contact">正在提交您的移除好友请求，请稍候</string>
     <string name="info_add_contact_sent">发送添加好友请求成功，等待对方验证</string>
     <string name="info_contact_deleted">该好友已成功移除</string>
-    <string name="info_group_joint">您已成功加入了%1$s</string>
-    <string name="info_group_quit">您已成功退出了%1$s</string>
-    <string name="info_group_application_sent">您的请求已发送成功，等待群主同意</string>
+    <string name="info_group_quit">您已成功退出了该圈子</string>
     <string name="info_confirm_delete_contact">您确定要移除该好友？</string>
     <string name="info_confirm_logout">您确定要退出登录？</string>
     <string name="info_submitting_asking">正在提交您的提问，请稍候</string>
@@ -119,7 +121,6 @@
     <string name="error_delete_comment">删除评论失败</string>
     <string name="error_load_join_details">获取聚会报名信息失败</string>
     <string name="error_load_conversations">获取聊天记录失败</string>
-    <string name="error_join_group">加入该圈子失败</string>
     <string name="error_quit_group">退出该圈子失败</string>
     <string name="error_add_contact">添加好友失败</string>
     <string name="error_load_contact_requests">获取好友请求列表失败</string>
@@ -149,6 +150,7 @@
     <string name="error_incorrect_email_format">邮箱地址格式无效</string>
     <string name="error_load_mobile_contacts">获取手机通讯录失败</string>
     <string name="error_send_reset_password_email">发送密码重置邮件失败</string>
+    <string name="error_load_group_details">获取圈子详情失败</string>
 
     <!-- Title -->
     <string name="title_activity_login">用户登录</string>
@@ -173,6 +175,7 @@
     <string name="title_activity_complete_profile">完善个人资料</string>
     <string name="title_activity_verify">验证码</string>
     <string name="title_activity_mobile_contacts">手机通讯录</string>
+    <string name="title_activity_group_details">圈子详情</string>
 
     <!-- Account -->
     <string name="hint_login_phone">手机号</string>
@@ -268,13 +271,6 @@
     <string name="label_add_more">添加更多</string>
 
     <!-- Contact -->
-    <string name="label_group_current_size">%,d人</string>
-    <string name="label_join_group">加入</string>
-    <string name="label_quit_group">退出</string>
-    <string name="label_unknown_user">未知用户</string>
-    <string name="label_group_created">%1$s刚刚创建了圈子</string>
-    <string name="label_group_joint">%1$s刚刚加入了圈子</string>
-    <string name="label_group_quit">%1$s刚刚退出了圈子</string>
     <string name="label_mobile_contacts">手机联系人</string>
     <string name="label_invite">邀请</string>
 
@@ -282,6 +278,10 @@
     <string name="label_press_to_talk">按住说话</string>
     <string name="label_move_up_to_cancel">上滑取消录音</string>
     <string name="label_release_to_cancel">松开取消录音</string>
+    <string name="label_unknown_user">未知用户</string>
+    <string name="label_group_created">%1$s刚刚创建了圈子</string>
+    <string name="label_group_joint">%1$s刚刚加入了圈子</string>
+    <string name="label_group_quit">%1$s刚刚退出了圈子</string>
 
     <!-- Widgets -->
     <string name="pull_to_refresh_pull_label">下拉刷新</string>

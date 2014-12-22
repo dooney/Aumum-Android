@@ -11,7 +11,6 @@ import com.easemob.chat.EMConversation;
 import com.easemob.chat.EMGroup;
 import com.easemob.chat.EMGroupManager;
 import com.easemob.chat.EMMessage;
-import com.easemob.chat.GroupChangeListener;
 import com.easemob.chat.ImageMessageBody;
 import com.easemob.chat.OnMessageNotifyListener;
 import com.easemob.chat.OnNotificationClickListener;
@@ -116,8 +115,9 @@ public class ChatService {
         return emGroup;
     }
 
-    public void applyJoinToGroup(String groupId) throws Exception {
-        EMGroupManager.getInstance().applyJoinToGroup(groupId, "求加入");
+    public EMGroup getGroupFromServer(String groupId) throws Exception {
+        EMGroup emGroup = EMGroupManager.getInstance().getGroupFromServer(groupId);
+        return EMGroupManager.getInstance().createOrUpdateLocalGroup(emGroup);
     }
 
     public void joinGroup(String groupId) throws Exception {
@@ -211,10 +211,6 @@ public class ChatService {
 
     public void acceptInvitation(String userId) throws Exception {
         EMChatManager.getInstance().acceptInvitation(userId);
-    }
-
-    public void setGroupChangeListener(GroupChangeListener groupChangeListener) {
-        EMGroupManager.getInstance().addGroupChangeListener(groupChangeListener);
     }
 
     public void setMessageNotifyListener(OnMessageNotifyListener messageNotifyListener) {

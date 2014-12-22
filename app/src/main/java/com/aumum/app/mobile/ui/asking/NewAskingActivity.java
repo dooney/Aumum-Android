@@ -97,7 +97,7 @@ public class NewAskingActivity extends ProgressDialogActivity
             public void onClick(View view) {
                 final Intent intent = new Intent(NewAskingActivity.this, ImagePickerActivity.class);
                 intent.putExtra(ImagePickerActivity.INTENT_ACTION, ImagePickerActivity.ACTION_MULTIPLE_PICK);
-                startActivityForResult(intent, Constants.RequestCode.IMAGE_PICKER_IMAGE_REQ_CODE);
+                startActivityForResult(intent, Constants.RequestCode.IMAGE_PICKER_REQ_CODE);
             }
         });
         adapter = new GalleryAdapter(this, R.layout.image_collection_listitem_inner, ImageLoaderUtils.getInstance());
@@ -127,7 +127,7 @@ public class NewAskingActivity extends ProgressDialogActivity
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        if (requestCode == Constants.RequestCode.IMAGE_PICKER_IMAGE_REQ_CODE) {
+        if (requestCode == Constants.RequestCode.IMAGE_PICKER_REQ_CODE) {
             toggleTypeSelectionLayout();
             if (resultCode == Activity.RESULT_OK) {
                 imagePathList = data.getStringArrayExtra(ImagePickerActivity.INTENT_ALL_PATH);

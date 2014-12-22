@@ -13,6 +13,9 @@ import android.support.v4.app.Fragment;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
@@ -91,6 +94,7 @@ public class ChatFragment extends Fragment
     @Override
     public void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setHasOptionsMenu(true);
         Injector.inject(this);
         final Intent intent = getActivity().getIntent();
         type = intent.getIntExtra(ChatActivity.INTENT_TYPE, ChatActivity.TYPE_SINGLE);
@@ -116,6 +120,22 @@ public class ChatFragment extends Fragment
         wakeLock = ((PowerManager) getActivity()
                 .getSystemService(Context.POWER_SERVICE))
                 .newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, "aumum");
+    }
+
+    @Override
+    public void onCreateOptionsMenu(final Menu menu, final MenuInflater inflater) {
+        if (type == ChatActivity.TYPE_SINGLE) {
+            return;
+        }
+        menu.add(Menu.NONE, 0, Menu.NONE, "MORE")
+                .setIcon(R.drawable.ic_fa_users_o)
+                .setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(final MenuItem item) {
+        startGroupDetailsActivity();
+        return super.onOptionsItemSelected(item);
     }
 
     @Override
@@ -201,7 +221,7 @@ public class ChatFragment extends Fragment
             public void onClick(View view) {
                 final Intent intent = new Intent(getActivity(), ImagePickerActivity.class);
                 intent.putExtra(ImagePickerActivity.INTENT_ACTION, ImagePickerActivity.ACTION_MULTIPLE_PICK);
-                startActivityForResult(intent, Constants.RequestCode.IMAGE_PICKER_IMAGE_REQ_CODE);
+                startActivityForResult(intent, Constants.RequestCode.IMAGE_PICKER_REQ_CODE);
             }
         });
 
@@ -238,7 +258,7 @@ public class ChatFragment extends Fragment
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        if (requestCode == Constants.RequestCode.IMAGE_PICKER_IMAGE_REQ_CODE) {
+        if (requestCode == Constants.RequestCode.IMAGE_PICKER_REQ_CODE) {
             toggleTypeSelectionLayout();
             if (resultCode == Activity.RESULT_OK) {
                 String imagePath[] = data.getStringArrayExtra(ImagePickerActivity.INTENT_ALL_PATH);
@@ -248,6 +268,9 @@ public class ChatFragment extends Fragment
                     }
                 }
             }
+        } else if (requestCode == Constants.RequestCode.GET_GROUP_DETAILS_REQ_CODE &&
+                resultCode == Activity.RESULT_OK) {
+            getActivity().finish();
         }
     }
 
@@ -427,5 +450,11 @@ public class ChatFragment extends Fragment
                     return false;
             }
         }
+    }
+
+    private void startGroupDetailsActivity() {
+        final Intent intent = new Intent(getActivity(), GroupDetailsActivity.class);
+        intent.putExtra(GroupDetailsActivity.INTENT_GROUP_ID, conversation.getUserName());
+        startActivityForResult(intent, Constants.RequestCode.GET_GROUP_DETAILS_REQ_CODE);
     }
 }
