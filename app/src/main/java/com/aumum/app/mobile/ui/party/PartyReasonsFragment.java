@@ -17,6 +17,7 @@ import com.aumum.app.mobile.core.model.Message;
 import com.aumum.app.mobile.core.model.Party;
 import com.aumum.app.mobile.core.model.PartyReason;
 import com.aumum.app.mobile.core.model.User;
+import com.aumum.app.mobile.core.service.ChatService;
 import com.aumum.app.mobile.core.service.MessageDeliveryService;
 import com.aumum.app.mobile.core.service.RestService;
 import com.aumum.app.mobile.events.AddPartyReasonEvent;
@@ -45,6 +46,7 @@ public class PartyReasonsFragment extends ItemListFragment<PartyReason> {
     @Inject UserStore userStore;
     @Inject PartyStore partyStore;
     @Inject PartyReasonStore partyReasonStore;
+    @Inject ChatService chatService;
 
     private SafeAsyncTask<Boolean> task;
 
@@ -143,6 +145,10 @@ public class PartyReasonsFragment extends ItemListFragment<PartyReason> {
                     service.addUserParty(currentUser.getObjectId(), partyId);
                     party.getMembers().add(currentUser.getObjectId());
                     partyStore.updateOrInsert(party);
+
+                    chatService.joinGroup(party.getGroupId());
+                    String text = getActivity().getString(R.string.label_group_joint, currentUser.getScreenName());
+                    chatService.sendSystemMessage(party.getGroupId(), true, text, null);
 
                     Message message = new Message(Message.Type.PARTY_JOIN,
                             currentUser.getObjectId(), party.getUserId(), reason.getContent(), party.getObjectId());

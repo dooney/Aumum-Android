@@ -90,7 +90,8 @@ public class ConversationFragment extends ItemListFragment<Conversation> {
             if (emConversation.isGroup()) {
                 EMGroup emGroup = chatService.getGroupById(emConversation.getUserName());
                 if (emGroup != null) {
-                    Group group = new Group(emGroup.getGroupId(), emGroup.getGroupName());
+                    User owner = userStore.getUserByChatId(emGroup.getOwner());
+                    Group group = new Group(emGroup.getGroupId(), emGroup.getGroupName(), owner.getAvatarUrl());
                     conversation.setGroup(group);
                     result.add(conversation);
                 }

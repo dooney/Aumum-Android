@@ -19,6 +19,7 @@ public class Party extends AggregateRoot {
     protected String title;
     protected Place place;
     protected String details;
+    protected String groupId;
     protected List<String> members = new ArrayList<String>();
     protected List<String> likes = new ArrayList<String>();
     protected List<String> comments = new ArrayList<String>();
@@ -62,6 +63,7 @@ public class Party extends AggregateRoot {
                  String title,
                  Place place,
                  String details,
+                 String groupId,
                  List<String> members,
                  List<String> likes,
                  List<String> comments,
@@ -76,6 +78,7 @@ public class Party extends AggregateRoot {
         this.title = title;
         this.place = place;
         this.details = details;
+        this.groupId = groupId;
         this.members.clear();
         this.members.addAll(members);
         this.likes.clear();
@@ -121,6 +124,10 @@ public class Party extends AggregateRoot {
 
     public String getDetails() {
         return details;
+    }
+
+    public String getGroupId() {
+        return groupId;
     }
 
     public List<String> getMembers() {

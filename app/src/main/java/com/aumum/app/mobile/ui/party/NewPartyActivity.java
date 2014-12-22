@@ -1,7 +1,6 @@
 package com.aumum.app.mobile.ui.party;
 
 import android.app.Activity;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
@@ -24,12 +23,11 @@ import com.aumum.app.mobile.R;
 import com.aumum.app.mobile.core.Constants;
 import com.aumum.app.mobile.core.dao.UserStore;
 import com.aumum.app.mobile.core.model.Date;
-import com.aumum.app.mobile.core.model.Message;
 import com.aumum.app.mobile.core.model.Party;
 import com.aumum.app.mobile.core.model.Time;
 import com.aumum.app.mobile.core.model.User;
+import com.aumum.app.mobile.core.service.ChatService;
 import com.aumum.app.mobile.core.service.FileUploadService;
-import com.aumum.app.mobile.core.service.MessageDeliveryService;
 import com.aumum.app.mobile.core.service.RestService;
 import com.aumum.app.mobile.ui.base.ProgressDialogActivity;
 import com.aumum.app.mobile.ui.helper.TextWatcherAdapter;
@@ -37,7 +35,6 @@ import com.aumum.app.mobile.ui.image.CustomGallery;
 import com.aumum.app.mobile.ui.image.GalleryAdapter;
 import com.aumum.app.mobile.ui.image.ImagePickerActivity;
 import com.aumum.app.mobile.ui.view.Animation;
-import com.aumum.app.mobile.utils.DialogUtils;
 import com.aumum.app.mobile.utils.EditTextUtils;
 import com.aumum.app.mobile.utils.GooglePlaceUtils;
 import com.aumum.app.mobile.utils.ImageLoaderUtils;
@@ -46,6 +43,7 @@ import com.aumum.app.mobile.utils.SafeAsyncTask;
 import com.doomonafireball.betterpickers.calendardatepicker.CalendarDatePickerDialog;
 import com.doomonafireball.betterpickers.radialtimepicker.RadialPickerLayout;
 import com.doomonafireball.betterpickers.radialtimepicker.RadialTimePickerDialog;
+import com.easemob.chat.EMGroup;
 import com.github.kevinsawicki.wishlist.Toaster;
 
 import org.joda.time.DateTime;
@@ -64,9 +62,9 @@ public class NewPartyActivity extends ProgressDialogActivity
                    FileUploadService.OnFileUploadListener {
 
     @Inject RestService restService;
-    @Inject MessageDeliveryService messageDeliveryService;
     @Inject UserStore userStore;
     @Inject FileUploadService fileUploadService;
+    @Inject ChatService chatService;
 
     private Date date = new Date();
     private Time time = new Time();
@@ -89,9 +87,10 @@ public class NewPartyActivity extends ProgressDialogActivity
     private final TextWatcher watcher = validationTextWatcher();
 
     private SafeAsyncTask<Boolean> task;
-    GalleryAdapter adapter;
-    String imagePathList[];
-    ArrayList<String> imageUrlList;
+    private SafeAsyncTask<Boolean> uploadTask;
+    private GalleryAdapter adapter;
+    private String imagePathList[];
+    private ArrayList<String> imageUrlList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -257,18 +256,22 @@ public class NewPartyActivity extends ProgressDialogActivity
         EditTextUtils.hideSoftInput(locationText);
         EditTextUtils.hideSoftInput(detailsText);
 
-        showProgress();
-
         imageUrlList.clear();
         if (imagePathList != null) {
             for (String path : imagePathList) {
                 uploadImage(path);
             }
+        } else {
+            submitNewParty();
         }
     }
 
     private void uploadImage(final String imagePath) {
-        SafeAsyncTask<Boolean> uploadTask = new SafeAsyncTask<Boolean>() {
+        if (uploadTask != null) {
+            return;
+        }
+        showProgress();
+        uploadTask = new SafeAsyncTask<Boolean>() {
             public Boolean call() throws Exception {
                 byte avatarData[] = ImageUtils.decodeBitmap(imagePath);
                 fileUploadService.upload(imagePath, avatarData);
@@ -283,7 +286,12 @@ public class NewPartyActivity extends ProgressDialogActivity
                         Toaster.showShort(NewPartyActivity.this, cause.getMessage());
                     }
                 }
+            }
+
+            @Override
+            protected void onFinally() throws RuntimeException {
                 hideProgress();
+                uploadTask = null;
             }
         };
         uploadTask.execute();
@@ -293,6 +301,7 @@ public class NewPartyActivity extends ProgressDialogActivity
         if (task != null) {
             return;
         }
+        showProgress();
         task = new SafeAsyncTask<Boolean>() {
             public Boolean call() throws Exception {
                 User user = userStore.getCurrentUser();
@@ -309,12 +318,10 @@ public class NewPartyActivity extends ProgressDialogActivity
                 Party response = restService.newParty(party);
                 restService.addPartyMember(response.getObjectId(), user.getObjectId());
                 restService.addUserParty(user.getObjectId(), response.getObjectId());
-                for (String userId: user.getContacts()) {
-                    String content = getString(R.string.label_new_party_message, party.getTitle());
-                    Message message = new Message(Message.Type.PARTY_NEW,
-                            user.getObjectId(), userId, content, party.getObjectId());
-                    messageDeliveryService.send(message);
-                }
+                EMGroup group = chatService.createGroup(party.getTitle());
+                restService.addPartyGroup(response.getObjectId(), group.getGroupId());
+                String text = getString(R.string.label_group_created, user.getScreenName());
+                chatService.sendSystemMessage(group.getGroupId(), true, text, null);
                 return true;
             }
 

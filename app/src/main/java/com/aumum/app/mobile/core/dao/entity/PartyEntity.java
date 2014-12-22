@@ -13,6 +13,7 @@ public class PartyEntity extends BaseEntity {
     private String title;
     private String place;
     private String details;
+    private String groupId;
     private String members;
     private String likes;
     private String comments;
@@ -36,6 +37,7 @@ public class PartyEntity extends BaseEntity {
                        String title,
                        String place,
                        String details,
+                       String groupId,
                        String members,
                        String likes,
                        String comments,
@@ -51,6 +53,7 @@ public class PartyEntity extends BaseEntity {
         this.title = title;
         this.place = place;
         this.details = details;
+        this.groupId = groupId;
         this.members = members;
         this.likes = likes;
         this.comments = comments;
@@ -105,6 +108,14 @@ public class PartyEntity extends BaseEntity {
 
     public void setDetails(String details) {
         this.details = details;
+    }
+
+    public String getGroupId() {
+        return groupId;
+    }
+
+    public void setGroupId(String groupId) {
+        this.groupId = groupId;
     }
 
     public String getMembers() {

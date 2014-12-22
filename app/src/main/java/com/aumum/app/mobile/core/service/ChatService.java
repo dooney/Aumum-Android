@@ -9,7 +9,6 @@ import com.easemob.chat.EMContactListener;
 import com.easemob.chat.EMContactManager;
 import com.easemob.chat.EMConversation;
 import com.easemob.chat.EMGroup;
-import com.easemob.chat.EMGroupInfo;
 import com.easemob.chat.EMGroupManager;
 import com.easemob.chat.EMMessage;
 import com.easemob.chat.GroupChangeListener;
@@ -108,8 +107,13 @@ public class ChatService {
         EMChatManager.getInstance().deleteConversation(groupId, true);
     }
 
-    public EMGroup getGroupById(String groupId) {
-        return EMGroupManager.getInstance().getGroup(groupId);
+    public EMGroup getGroupById(String groupId) throws Exception {
+        EMGroup emGroup = EMGroupManager.getInstance().getGroup(groupId);
+        if (emGroup == null) {
+            emGroup = EMGroupManager.getInstance().getGroupFromServer(groupId);
+            return EMGroupManager.getInstance().createOrUpdateLocalGroup(emGroup);
+        }
+        return emGroup;
     }
 
     public void applyJoinToGroup(String groupId) throws Exception {
@@ -221,5 +225,11 @@ public class ChatService {
     public void setNotificationClickListener(OnNotificationClickListener notificationClickListener) {
         EMChatOptions options = EMChatManager.getInstance().getChatOptions();
         options.setOnNotificationClickListener(notificationClickListener);
+    }
+
+    public EMGroup createGroup(String groupName) throws Exception {
+        String members[] = {};
+        EMGroup emGroup = EMGroupManager.getInstance().createPublicGroup(groupName, "", members, false);
+        return EMGroupManager.getInstance().createOrUpdateLocalGroup(emGroup);
     }
 }

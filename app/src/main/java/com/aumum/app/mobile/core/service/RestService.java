@@ -373,6 +373,12 @@ public class RestService {
         return getPartyService().updateById(partyId, data);
     }
 
+    public JsonObject addPartyGroup(String partyId, String groupId) {
+        final JsonObject data = new JsonObject();
+        data.addProperty(Constants.Http.Party.PARAM_GROUP_ID, groupId);
+        return getPartyService().updateById(partyId, data);
+    }
+
     public JsonObject updateUserAvatar(String userId, String avatarUrl) {
         final JsonObject data = new JsonObject();
         data.addProperty(Constants.Http.User.PARAM_AVATAR_URL, avatarUrl);

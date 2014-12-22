@@ -20,10 +20,8 @@ import com.aumum.app.mobile.R;
 import com.aumum.app.mobile.core.Constants;
 import com.aumum.app.mobile.core.dao.UserStore;
 import com.aumum.app.mobile.core.model.Asking;
-import com.aumum.app.mobile.core.model.Message;
 import com.aumum.app.mobile.core.model.User;
 import com.aumum.app.mobile.core.service.FileUploadService;
-import com.aumum.app.mobile.core.service.MessageDeliveryService;
 import com.aumum.app.mobile.core.service.RestService;
 import com.aumum.app.mobile.ui.base.ProgressDialogActivity;
 import com.aumum.app.mobile.ui.helper.TextWatcherAdapter;
@@ -50,14 +48,14 @@ public class NewAskingActivity extends ProgressDialogActivity
 
     @Inject UserStore userStore;
     @Inject RestService restService;
-    @Inject MessageDeliveryService messageDeliveryService;
     @Inject FileUploadService fileUploadService;
 
     private int category;
     private SafeAsyncTask<Boolean> task;
-    GalleryAdapter adapter;
-    String imagePathList[];
-    ArrayList<String> imageUrlList;
+    private SafeAsyncTask<Boolean> uploadTask;
+    private GalleryAdapter adapter;
+    private String imagePathList[];
+    private ArrayList<String> imageUrlList;
 
     public static final String INTENT_CATEGORY = "category";
 
@@ -167,18 +165,22 @@ public class NewAskingActivity extends ProgressDialogActivity
     private void submit() {
         EditTextUtils.hideSoftInput(questionText);
 
-        showProgress();
-
         imageUrlList.clear();
         if (imagePathList != null) {
             for (String path : imagePathList) {
                 uploadImage(path);
             }
+        } else {
+            submitNewAsking();
         }
     }
 
     private void uploadImage(final String imagePath) {
-        SafeAsyncTask<Boolean> uploadTask = new SafeAsyncTask<Boolean>() {
+        if (uploadTask != null) {
+            return;
+        }
+        showProgress();
+        uploadTask = new SafeAsyncTask<Boolean>() {
             public Boolean call() throws Exception {
                 byte avatarData[] = ImageUtils.decodeBitmap(imagePath);
                 fileUploadService.upload(imagePath, avatarData);
@@ -193,7 +195,12 @@ public class NewAskingActivity extends ProgressDialogActivity
                         Toaster.showShort(NewAskingActivity.this, cause.getMessage());
                     }
                 }
+            }
+
+            @Override
+            protected void onFinally() throws RuntimeException {
                 hideProgress();
+                uploadTask = null;
             }
         };
         uploadTask.execute();
@@ -203,6 +210,7 @@ public class NewAskingActivity extends ProgressDialogActivity
         if (task != null) {
             return;
         }
+        showProgress();
         task = new SafeAsyncTask<Boolean>() {
             public Boolean call() throws Exception {
                 User user = userStore.getCurrentUser();
@@ -213,12 +221,6 @@ public class NewAskingActivity extends ProgressDialogActivity
                         imageUrlList);
                 Asking response = restService.newAsking(asking);
                 restService.addUserAsking(user.getObjectId(), response.getObjectId());
-                for (String userId: user.getContacts()) {
-                    String content = getString(R.string.label_new_asking_message, asking.getQuestion());
-                    Message message = new Message(Message.Type.ASKING_NEW,
-                            user.getObjectId(), userId, content, asking.getObjectId());
-                    messageDeliveryService.send(message);
-                }
                 return true;
             }
 

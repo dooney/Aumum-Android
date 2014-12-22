@@ -137,6 +137,7 @@ public final class Constants {
             public static final String PARAM_COMMENTS = "comments";
             public static final String PARAM_REASONS = "reasons";
             public static final String PARAM_FAVORITES = "favorites";
+            public static final String PARAM_GROUP_ID = "groupId";
         }
 
         public static final class User {

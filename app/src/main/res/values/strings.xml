@@ -272,6 +272,7 @@
     <string name="label_join_group">加入</string>
     <string name="label_quit_group">退出</string>
     <string name="label_unknown_user">未知用户</string>
+    <string name="label_group_created">%1$s刚刚创建了圈子</string>
     <string name="label_group_joint">%1$s刚刚加入了圈子</string>
     <string name="label_group_quit">%1$s刚刚退出了圈子</string>
     <string name="label_mobile_contacts">手机联系人</string>

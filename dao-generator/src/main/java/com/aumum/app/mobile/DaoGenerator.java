@@ -61,6 +61,7 @@ public class DaoGenerator {
         party.addStringProperty("title");
         party.addStringProperty("place");
         party.addStringProperty("details");
+        party.addStringProperty("groupId");
         party.addStringProperty("members");
         party.addStringProperty("likes");
         party.addStringProperty("comments");
