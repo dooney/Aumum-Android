@@ -1,10 +1,13 @@
 package com.aumum.app.mobile.ui.contact;
 
+import android.content.Context;
 import android.view.View;
 
 import com.aumum.app.mobile.Injector;
+import com.aumum.app.mobile.R;
 import com.aumum.app.mobile.core.dao.UserStore;
 import com.aumum.app.mobile.core.infra.security.ApiKeyProvider;
+import com.aumum.app.mobile.core.model.User;
 import com.aumum.app.mobile.core.service.ChatService;
 import com.aumum.app.mobile.core.service.RestService;
 import com.aumum.app.mobile.utils.Ln;
@@ -55,10 +58,10 @@ public class AcceptContactListener implements View.OnClickListener {
 
     @Override
     public void onClick(View view) {
-        acceptContact();
+        acceptContact(view.getContext());
     }
 
-    private void acceptContact() {
+    private void acceptContact(final Context context) {
         if (task != null) {
             return;
         }
@@ -73,6 +76,10 @@ public class AcceptContactListener implements View.OnClickListener {
                 userStore.addContact(currentUserId, userId);
                 restService.addContact(userId, currentUserId);
                 userStore.addContact(userId, currentUserId);
+
+                String text = context.getString(R.string.info_invitation_accepted_and_start_chatting);
+                User user = userStore.getUserById(userId);
+                chatService.sendSystemMessage(user.getChatId(), false, text, null);
                 return true;
             }
 

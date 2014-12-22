@@ -6,9 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.aumum.app.mobile.Injector;
 import com.aumum.app.mobile.R;
-import com.aumum.app.mobile.core.dao.UserStore;
 import com.aumum.app.mobile.core.model.User;
 import com.aumum.app.mobile.ui.user.UserListener;
 import com.aumum.app.mobile.ui.view.Animation;
@@ -16,14 +14,10 @@ import com.aumum.app.mobile.ui.view.AvatarImageView;
 
 import java.util.List;
 
-import javax.inject.Inject;
-
 /**
  * Created by Administrator on 13/11/2014.
  */
 public class LikesLayoutListener {
-
-    @Inject UserStore userStore;
 
     private Activity activity;
     private String currentUserId;
@@ -31,27 +25,29 @@ public class LikesLayoutListener {
     public LikesLayoutListener(Activity activity, String currentUserId) {
         this.activity = activity;
         this.currentUserId = currentUserId;
-        Injector.inject(this);
     }
 
-    public void update(ViewGroup likesLayout, List<String> likes) throws Exception {
+    public void update(ViewGroup likesLayout, List<User> likes) throws Exception {
         int count = likes.size();
         if (count > 0) {
             ViewGroup layoutLikingAvatars = (ViewGroup) likesLayout.findViewById(R.id.layout_liking_avatars);
             layoutLikingAvatars.removeAllViews();
             LayoutInflater inflater = activity.getLayoutInflater();
-            for(String userId: likes) {
+            boolean hasCurrentUser = false;
+            for (User user: likes) {
+                String userId = user.getObjectId();
                 if (!userId.equals(currentUserId)) {
                     AvatarImageView imgAvatar = (AvatarImageView) inflater.inflate(R.layout.small_avatar, layoutLikingAvatars, false);
                     imgAvatar.setOnClickListener(new UserListener(activity, userId));
-                    User user = userStore.getUserById(userId);
                     imgAvatar.getFromUrl(user.getAvatarUrl());
                     layoutLikingAvatars.addView(imgAvatar);
+                } else {
+                    hasCurrentUser = true;
                 }
             }
 
             TextView likesCountText = (TextView) likesLayout.findViewById(R.id.text_likes_count);
-            if (likes.contains(currentUserId)) {
+            if (hasCurrentUser) {
                 if (count == 1) {
                     likesCountText.setText(activity.getString(R.string.label_you_like_the_party));
                     layoutLikingAvatars.setVisibility(View.GONE);

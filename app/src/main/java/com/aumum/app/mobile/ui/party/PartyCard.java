@@ -10,6 +10,7 @@ import android.widget.TextView;
 import com.aumum.app.mobile.R;
 import com.aumum.app.mobile.core.Constants;
 import com.aumum.app.mobile.core.model.Party;
+import com.aumum.app.mobile.core.model.User;
 import com.aumum.app.mobile.ui.user.UserListener;
 import com.aumum.app.mobile.ui.view.Animation;
 import com.aumum.app.mobile.ui.view.AvatarImageView;
@@ -17,6 +18,8 @@ import com.aumum.app.mobile.ui.view.JoinTextView;
 import com.aumum.app.mobile.ui.view.LikeTextView;
 import com.aumum.app.mobile.ui.view.SpannableTextView;
 import com.aumum.app.mobile.utils.Ln;
+
+import java.util.List;
 
 import it.gmariotti.cardslib.library.internal.Card;
 
@@ -30,12 +33,13 @@ public class PartyCard extends Card {
     private String currentUserId;
     private PartyLikeListener likeListener;
     private MembersLayoutListener membersLayoutListener;
+    private List<User> members;
 
     public Party getParty() {
         return party;
     }
 
-    public PartyCard(final Fragment fragment, Party party, String currentUserId) {
+    public PartyCard(final Fragment fragment, Party party, String currentUserId, List<User> members) {
         super(fragment.getActivity(), R.layout.party_listitem_inner);
         this.activity = fragment.getActivity();
         this.fragment = fragment;
@@ -43,6 +47,7 @@ public class PartyCard extends Card {
         this.currentUserId = currentUserId;
         this.likeListener = new PartyLikeListener(party);
         this.membersLayoutListener = new MembersLayoutListener(activity, currentUserId);
+        this.members = members;
     }
 
     @Override
@@ -116,7 +121,7 @@ public class PartyCard extends Card {
 
         try {
             ViewGroup membersLayout = (ViewGroup) view.findViewById(R.id.layout_members);
-            membersLayoutListener.update(membersLayout, party.getMembers());
+            membersLayoutListener.update(membersLayout, members);
         } catch (Exception e) {
             Ln.e(e);
         }

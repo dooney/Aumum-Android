@@ -6,9 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.aumum.app.mobile.Injector;
 import com.aumum.app.mobile.R;
-import com.aumum.app.mobile.core.dao.UserStore;
 import com.aumum.app.mobile.core.model.User;
 import com.aumum.app.mobile.ui.user.UserListener;
 import com.aumum.app.mobile.ui.view.Animation;
@@ -16,13 +14,10 @@ import com.aumum.app.mobile.ui.view.AvatarImageView;
 
 import java.util.List;
 
-import javax.inject.Inject;
-
 /**
  * Created by Administrator on 13/11/2014.
  */
 public class MembersLayoutListener {
-    @Inject UserStore userStore;
 
     private Activity activity;
     private String currentUserId;
@@ -30,28 +25,30 @@ public class MembersLayoutListener {
     public MembersLayoutListener(Activity activity, String currentUserId) {
         this.activity = activity;
         this.currentUserId = currentUserId;
-        Injector.inject(this);
     }
 
-    public void update(ViewGroup membersLayout, List<String> members) throws Exception {
+    public void update(ViewGroup membersLayout, List<User> members) throws Exception {
         int count = members.size();
         if (count > 0) {
             ViewGroup layoutMembersAvatars = (ViewGroup) membersLayout.findViewById(R.id.layout_members_avatars);
             layoutMembersAvatars.setVisibility(View.VISIBLE);
             layoutMembersAvatars.removeAllViews();
             LayoutInflater inflater = activity.getLayoutInflater();
-            for(String userId: members) {
+            boolean hasCurrentUser = false;
+            for (User user: members) {
+                String userId = user.getObjectId();
                 if (!userId.equals(currentUserId)) {
                     AvatarImageView imgAvatar = (AvatarImageView) inflater.inflate(R.layout.small_avatar, layoutMembersAvatars, false);
                     imgAvatar.setOnClickListener(new UserListener(activity, userId));
-                    User user = userStore.getUserById(userId);
                     imgAvatar.getFromUrl(user.getAvatarUrl());
                     layoutMembersAvatars.addView(imgAvatar);
+                } else {
+                    hasCurrentUser = true;
                 }
             }
 
             TextView membersCountText = (TextView) membersLayout.findViewById(R.id.text_members_count);
-            if (members.contains(currentUserId)) {
+            if (hasCurrentUser) {
                 if (count == 1) {
                     membersCountText.setText(activity.getString(R.string.label_you_join_the_party));
                     layoutMembersAvatars.setVisibility(View.GONE);

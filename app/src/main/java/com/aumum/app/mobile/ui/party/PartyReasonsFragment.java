@@ -28,6 +28,7 @@ import com.aumum.app.mobile.utils.SafeAsyncTask;
 import com.squareup.otto.Bus;
 import com.squareup.otto.Subscribe;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -125,6 +126,7 @@ public class PartyReasonsFragment extends ItemListFragment<PartyReason> {
         scrollToTop();
 
         // submit
+        final List<User> members = new ArrayList<User>();
         task = new SafeAsyncTask<Boolean>() {
             public Boolean call() throws Exception {
                 PartyReason reason = getData().get(0);
@@ -163,6 +165,9 @@ public class PartyReasonsFragment extends ItemListFragment<PartyReason> {
                             currentUser.getObjectId(), party.getUserId(), reason.getContent(), party.getObjectId());
                     messageDeliveryService.send(message);
                 }
+                for (String userId: party.getMembers()) {
+                    members.add(userStore.getUserById(userId));
+                }
 
                 return true;
             }
@@ -182,7 +187,7 @@ public class PartyReasonsFragment extends ItemListFragment<PartyReason> {
                 task = null;
                 getListAdapter().notifyDataSetChanged();
                 show();
-                bus.post(new AddPartyReasonFinishedEvent(event.getType(), party));
+                bus.post(new AddPartyReasonFinishedEvent(event.getType(), members));
             }
         };
         task.execute();

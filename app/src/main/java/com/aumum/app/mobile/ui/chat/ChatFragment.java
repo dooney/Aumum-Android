@@ -29,11 +29,13 @@ import android.widget.TextView;
 import com.aumum.app.mobile.Injector;
 import com.aumum.app.mobile.R;
 import com.aumum.app.mobile.core.Constants;
+import com.aumum.app.mobile.core.dao.UserStore;
 import com.aumum.app.mobile.core.service.ChatService;
 import com.aumum.app.mobile.ui.helper.TextWatcherAdapter;
 import com.aumum.app.mobile.ui.image.ImagePickerActivity;
 import com.aumum.app.mobile.utils.EditTextUtils;
 import com.aumum.app.mobile.utils.Ln;
+import com.aumum.app.mobile.utils.SafeAsyncTask;
 import com.aumum.app.mobile.utils.StorageUtils;
 import com.easemob.EMError;
 import com.easemob.chat.EMConversation;
@@ -54,6 +56,7 @@ public class ChatFragment extends Fragment
         implements AbsListView.OnScrollListener{
 
     @Inject ChatService chatService;
+    @Inject UserStore userStore;
 
     private int type;
     private String id;
@@ -363,8 +366,20 @@ public class ChatFragment extends Fragment
         public void onReceive(Context context, Intent intent) {
             abortBroadcast();
 
-            adapter.notifyDataSetChanged();
-            listView.setSelection(listView.getCount() - 1);
+            final String chatId = intent.getStringExtra("from");
+            new SafeAsyncTask<Boolean>() {
+                @Override
+                public Boolean call() throws Exception {
+                    userStore.getUserByChatId(chatId);
+                    return true;
+                }
+
+                @Override
+                protected void onSuccess(Boolean success) throws Exception {
+                    adapter.notifyDataSetChanged();
+                    listView.setSelection(listView.getCount() - 1);
+                }
+            }.execute();
         }
     }
 

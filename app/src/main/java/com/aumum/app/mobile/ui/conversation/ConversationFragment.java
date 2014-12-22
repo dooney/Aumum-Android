@@ -21,6 +21,7 @@ import com.aumum.app.mobile.core.service.ChatService;
 import com.aumum.app.mobile.ui.base.ItemListFragment;
 import com.easemob.chat.EMConversation;
 import com.easemob.chat.EMGroup;
+import com.easemob.chat.EMMessage;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -90,6 +91,9 @@ public class ConversationFragment extends ItemListFragment<Conversation> {
             if (emConversation.isGroup()) {
                 EMGroup emGroup = chatService.getGroupById(emConversation.getUserName());
                 if (emGroup != null) {
+                    for (EMMessage emMessage: emConversation.getAllMessages()) {
+                        userStore.getUserByChatId(emMessage.getFrom());
+                    }
                     User owner = userStore.getUserByChatId(emGroup.getOwner());
                     Group group = new Group(emGroup.getGroupId(), emGroup.getGroupName(), owner.getAvatarUrl());
                     conversation.setGroup(group);

@@ -323,13 +323,13 @@ public class PartyDetailsFragment extends LoaderFragment<Party>
         PartyLikeListener likeListener = new PartyLikeListener(party);
         likeListener.setOnLikeFinishedListener(new PartyLikeListener.LikeFinishedListener() {
             @Override
-            public void OnLikeFinished(Party party) {
-                updateLikesLayout(party.getLikes());
+            public void OnLikeFinished(List<User> likes) {
+                updateLikesLayout(likes);
             }
 
             @Override
-            public void OnUnLikeFinished(Party party) {
-                updateLikesLayout(party.getLikes());
+            public void OnUnLikeFinished(List<User> likes) {
+                updateLikesLayout(likes);
             }
         });
         likeText.setLikeListener(likeListener);
@@ -337,9 +337,17 @@ public class PartyDetailsFragment extends LoaderFragment<Party>
         favoriteText.init(party.getFavoritesCount(), party.isFavorited(currentUserId));
         favoriteText.setFavoriteListener(new PartyFavoriteListener(party));
 
-        membersLayoutListener.update(membersLayout, party.getMembers());
+        List<User> members = new ArrayList<User>();
+        for (String userId: party.getMembers()) {
+            members.add(userStore.getUserById(userId));
+        }
+        membersLayoutListener.update(membersLayout, members);
 
-        updateLikesLayout(party.getLikes());
+        List<User> likes = new ArrayList<User>();
+        for (String userId: party.getLikes()) {
+            likes.add(userStore.getUserById(userId));
+        }
+        updateLikesLayout(likes);
     }
 
     private void onPartyRefresh(String partyId) {
@@ -432,7 +440,7 @@ public class PartyDetailsFragment extends LoaderFragment<Party>
         task.execute();
     }
 
-    private void updateLikesLayout(List<String> likes) {
+    private void updateLikesLayout(List<User> likes) {
         try {
             likesLayoutListener.update(likesLayout, likes);
         } catch (Exception e) {
@@ -494,7 +502,7 @@ public class PartyDetailsFragment extends LoaderFragment<Party>
         }
 
         try {
-            membersLayoutListener.update(membersLayout, event.getParty().getMembers());
+            membersLayoutListener.update(membersLayout, event.getMembers());
         } catch (Exception e) {
             Ln.e(e);
         }

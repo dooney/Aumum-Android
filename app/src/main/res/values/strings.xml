@@ -105,6 +105,7 @@
     <string name="info_sending_reset_password_email">正在发送密码重置邮件，请稍候</string>
     <string name="info_reset_password_email_sent">重置密码邮件发送成功</string>
     <string name="info_chat_messages_arrived">您有来自%1$d位好友的%2$d条消息</string>
+    <string name="info_invitation_accepted_and_start_chatting">你们已经是好友了，开始聊天吧！</string>
 
     <!-- Error Message -->
     <string name="error_load_parties">获取聚会列表失败</string>
