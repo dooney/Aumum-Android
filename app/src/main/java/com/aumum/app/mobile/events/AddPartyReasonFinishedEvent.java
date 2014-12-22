@@ -1,28 +1,24 @@
 package com.aumum.app.mobile.events;
 
-import com.aumum.app.mobile.core.model.User;
-
-import java.util.ArrayList;
-import java.util.List;
+import com.aumum.app.mobile.core.model.Party;
 
 /**
  * Created by Administrator on 28/10/2014.
  */
 public class AddPartyReasonFinishedEvent {
     private int type;
-    private List<User> members;
+    private Party party;
 
-    public AddPartyReasonFinishedEvent(int type, List<User> members) {
+    public AddPartyReasonFinishedEvent(int type, Party party) {
         this.type = type;
-        this.members = new ArrayList<User>();
-        this.members.addAll(members);
+        this.party = party;
     }
 
     public int getType() {
         return type;
     }
 
-    public List<User> getMembers() {
-        return members;
+    public Party getParty() {
+        return party;
     }
 }

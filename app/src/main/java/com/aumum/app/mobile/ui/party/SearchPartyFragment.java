@@ -15,6 +15,7 @@ import com.aumum.app.mobile.core.dao.PartyStore;
 import com.aumum.app.mobile.core.dao.UserStore;
 import com.aumum.app.mobile.core.model.Party;
 import com.aumum.app.mobile.core.model.User;
+import com.aumum.app.mobile.ui.base.ItemListFragment;
 import com.aumum.app.mobile.ui.base.RefreshItemListFragment;
 import com.aumum.app.mobile.utils.GPSTracker;
 import com.aumum.app.mobile.utils.Ln;
@@ -195,11 +196,7 @@ public class SearchPartyFragment extends RefreshItemListFragment<Card> {
         }
         gpsTracker.getLocation();
         party.setDistance(gpsTracker.getLatitude(), gpsTracker.getLongitude());
-        List<User> members = new ArrayList<User>();
-        for (String userId: party.getMembers()) {
-            members.add(userStore.getUserById(userId));
-        }
-        Card card = new PartyCard(SearchPartyFragment.this, party, currentUserId, members);
+        Card card = new PartyCard(SearchPartyFragment.this, party, currentUserId);
         card.setOnClickListener(new Card.OnCardClickListener() {
             @Override
             public void onClick(Card card, View view) {

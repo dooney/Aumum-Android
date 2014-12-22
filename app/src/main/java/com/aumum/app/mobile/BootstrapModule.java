@@ -44,6 +44,8 @@ import com.aumum.app.mobile.ui.account.VerifyActivity;
 import com.aumum.app.mobile.ui.user.UpdateAvatarActivity;
 import com.aumum.app.mobile.ui.main.MainFragment;
 import com.aumum.app.mobile.ui.party.PartyFavoriteListener;
+import com.aumum.app.mobile.ui.party.LikesLayoutListener;
+import com.aumum.app.mobile.ui.party.MembersLayoutListener;
 import com.aumum.app.mobile.ui.party.PartyLikeListener;
 import com.aumum.app.mobile.ui.party.PartyListFragment;
 import com.aumum.app.mobile.ui.party.PartyReasonsFragment;
@@ -105,6 +107,8 @@ import retrofit.converter.GsonConverter;
                 SendMessageListener.class,
                 PartyListFragment.class,
                 SearchPartyFragment.class,
+                MembersLayoutListener.class,
+                LikesLayoutListener.class,
                 MainFragment.class,
                 AddContactActivity.class,
                 ContactListener.class,

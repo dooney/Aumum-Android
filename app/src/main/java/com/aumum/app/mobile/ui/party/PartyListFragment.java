@@ -155,11 +155,7 @@ public class PartyListFragment extends RefreshItemListFragment<Card> {
         }
         gpsTracker.getLocation();
         party.setDistance(gpsTracker.getLatitude(), gpsTracker.getLongitude());
-        List<User> members = new ArrayList<User>();
-        for (String userId: party.getMembers()) {
-            members.add(userStore.getUserById(userId));
-        }
-        Card card = new PartyCard(PartyListFragment.this, party, currentUserId, members);
+        Card card = new PartyCard(PartyListFragment.this, party, currentUserId);
         card.setOnClickListener(new Card.OnCardClickListener() {
             @Override
             public void onClick(Card card, View view) {

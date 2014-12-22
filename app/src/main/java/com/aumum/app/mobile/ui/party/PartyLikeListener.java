@@ -13,9 +13,6 @@ import com.aumum.app.mobile.ui.view.LikeTextView;
 import com.aumum.app.mobile.utils.Ln;
 import com.aumum.app.mobile.utils.SafeAsyncTask;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import javax.inject.Inject;
 
 import retrofit.RetrofitError;
@@ -40,8 +37,8 @@ public class PartyLikeListener implements LikeTextView.OnLikeListener {
     }
 
     public static interface LikeFinishedListener {
-        public void OnLikeFinished(List<User> likes);
-        public void OnUnLikeFinished(List<User> likes);
+        public void OnLikeFinished(Party party);
+        public void OnUnLikeFinished(Party party);
     }
 
     public PartyLikeListener(Party party) {
@@ -54,17 +51,12 @@ public class PartyLikeListener implements LikeTextView.OnLikeListener {
         if (task != null) {
             return;
         }
-        final List<User> likes = new ArrayList<User>();
         task = new SafeAsyncTask<Boolean>() {
             public Boolean call() throws Exception {
                 User currentUser = userStore.getCurrentUser();
                 service.removePartyLike(party.getObjectId(), currentUser.getObjectId());
                 party.getLikes().remove(currentUser.getObjectId());
                 partyStore.updateOrInsert(party);
-                for (String userId: party.getLikes()) {
-                    User user = userStore.getUserById(userId);
-                    likes.add(user);
-                }
 
                 return true;
             }
@@ -83,7 +75,7 @@ public class PartyLikeListener implements LikeTextView.OnLikeListener {
             public void onSuccess(final Boolean success) {
                 if (success) {
                     if (likeFinishedListener != null) {
-                        likeFinishedListener.OnUnLikeFinished(likes);
+                        likeFinishedListener.OnUnLikeFinished(party);
                     }
                 }
             }
@@ -101,17 +93,12 @@ public class PartyLikeListener implements LikeTextView.OnLikeListener {
         if (task != null) {
             return;
         }
-        final List<User> likes = new ArrayList<User>();
         task = new SafeAsyncTask<Boolean>() {
             public Boolean call() throws Exception {
                 User currentUser = userStore.getCurrentUser();
                 service.addPartyLike(party.getObjectId(), currentUser.getObjectId());
                 party.getLikes().add(currentUser.getObjectId());
                 partyStore.updateOrInsert(party);
-                for (String userId: party.getLikes()) {
-                    User user = userStore.getUserById(userId);
-                    likes.add(user);
-                }
 
                 String content = view.getResources().getString(R.string.label_like_party_message, party.getTitle());
                 Message message = new Message(Message.Type.PARTY_LIKE,
@@ -135,7 +122,7 @@ public class PartyLikeListener implements LikeTextView.OnLikeListener {
             public void onSuccess(final Boolean success) {
                 if (success) {
                     if (likeFinishedListener != null) {
-                        likeFinishedListener.OnLikeFinished(likes);
+                        likeFinishedListener.OnLikeFinished(party);
                     }
                 }
             }
