@@ -10,9 +10,9 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.GridView;
-import android.widget.ImageView;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
@@ -99,7 +99,7 @@ public class PartyDetailsFragment extends LoaderFragment<Party> {
     private LikeTextView likeText;
     private FavoriteTextView favoriteText;
     private EditText editReason;
-    private ImageView postReasonButton;
+    private Button postReasonButton;
     private boolean isJoinBoxShow;
 
     private MembersLayoutListener membersLayoutListener;
@@ -200,14 +200,13 @@ public class PartyDetailsFragment extends LoaderFragment<Party> {
         favoriteText.setFavoritedResId(R.drawable.ic_fa_star);
 
         editReason = (EditText) view.findViewById(R.id.edit_reason);
-        postReasonButton = (ImageView) view.findViewById(R.id.image_post_reason);
+        postReasonButton = (Button) view.findViewById(R.id.b_post_reason);
         postReasonButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 submit();
             }
         });
-        disableSubmit();
     }
 
     @Override
@@ -336,8 +335,6 @@ public class PartyDetailsFragment extends LoaderFragment<Party> {
         membersLayoutListener.update(membersLayout, party.getMembers());
 
         updateLikesLayout(party.getLikes());
-
-        enableSubmit();
     }
 
     private void onPartyRefresh(String partyId) {

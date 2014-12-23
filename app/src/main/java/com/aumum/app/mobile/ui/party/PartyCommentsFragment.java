@@ -4,6 +4,8 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.app.Fragment;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,8 +13,8 @@ import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.aumum.app.mobile.Injector;
@@ -29,6 +31,7 @@ import com.aumum.app.mobile.core.dao.UserStore;
 import com.aumum.app.mobile.ui.comment.CommentCard;
 import com.aumum.app.mobile.ui.comment.CommentsAdapter;
 import com.aumum.app.mobile.ui.base.ItemListFragment;
+import com.aumum.app.mobile.ui.helper.TextWatcherAdapter;
 import com.aumum.app.mobile.utils.DialogUtils;
 import com.aumum.app.mobile.utils.EditTextUtils;
 import com.aumum.app.mobile.utils.Ln;
@@ -61,7 +64,8 @@ public class PartyCommentsFragment extends ItemListFragment<Comment> {
     private Comment repliedComment;
 
     private EditText editComment;
-    private ImageView postCommentButton;
+    private Button postCommentButton;
+    private final TextWatcher watcher = validationTextWatcher();
 
     @Override
     public void onCreate(final Bundle savedInstanceState) {
@@ -85,15 +89,15 @@ public class PartyCommentsFragment extends ItemListFragment<Comment> {
                 return false;
             }
         });
+        editComment.addTextChangedListener(watcher);
 
-        postCommentButton = (ImageView) view.findViewById(R.id.image_post_comment);
+        postCommentButton = (Button) view.findViewById(R.id.b_post_comment);
         postCommentButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 submitComment();
             }
         });
-        disableSubmit();
 
         return view;
     }
@@ -117,6 +121,12 @@ public class PartyCommentsFragment extends ItemListFragment<Comment> {
     }
 
     @Override
+    public void onResume() {
+        super.onResume();
+        updateUIWithValidation();
+    }
+
+    @Override
     protected int getErrorMessage(Exception exception) {
         return R.string.error_load_party_comments;
     }
@@ -137,10 +147,21 @@ public class PartyCommentsFragment extends ItemListFragment<Comment> {
         return new CommentsAdapter(getActivity(), items);
     }
 
-    @Override
-    protected void handleLoadResult(List<Comment> result) {
-        super.handleLoadResult(result);
-        enableSubmit();
+    private TextWatcher validationTextWatcher() {
+        return new TextWatcherAdapter() {
+            public void afterTextChanged(final Editable gitDirEditText) {
+                updateUIWithValidation();
+            }
+        };
+    }
+
+    private void updateUIWithValidation() {
+        final boolean populated = populated(editComment);
+        postCommentButton.setEnabled(populated);
+    }
+
+    private boolean populated(final EditText editText) {
+        return editText.length() > 0;
     }
 
     private void enableSubmit() {

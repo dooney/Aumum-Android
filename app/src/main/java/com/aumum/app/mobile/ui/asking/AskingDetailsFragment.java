@@ -5,15 +5,17 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.GridView;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.aumum.app.mobile.Injector;
@@ -30,6 +32,7 @@ import com.aumum.app.mobile.events.AddAskingReplyEvent;
 import com.aumum.app.mobile.events.AddAskingReplyFinishedEvent;
 import com.aumum.app.mobile.events.ReplyAskingReplyEvent;
 import com.aumum.app.mobile.ui.base.LoaderFragment;
+import com.aumum.app.mobile.ui.helper.TextWatcherAdapter;
 import com.aumum.app.mobile.ui.image.CustomGallery;
 import com.aumum.app.mobile.ui.image.GalleryAdapter;
 import com.aumum.app.mobile.ui.user.UserListener;
@@ -79,10 +82,11 @@ public class AskingDetailsFragment extends LoaderFragment<Asking> {
     private FavoriteTextView favoriteText;
 
     private EditText editReply;
-    private ImageView postReplyButton;
+    private Button postReplyButton;
 
     GalleryAdapter adapter;
     private SafeAsyncTask<Boolean> task;
+    private final TextWatcher watcher = validationTextWatcher();
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -145,20 +149,21 @@ public class AskingDetailsFragment extends LoaderFragment<Asking> {
         favoriteText.setFavoritedResId(R.drawable.ic_fa_star_s);
 
         editReply = (EditText) view.findViewById(R.id.edit_reply);
-        postReplyButton = (ImageView) view.findViewById(R.id.image_post_reply);
+        editReply.addTextChangedListener(watcher);
+        postReplyButton = (Button) view.findViewById(R.id.b_post_reply);
         postReplyButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 submitReply();
             }
         });
-        disableSubmit();
     }
 
     @Override
     public void onResume() {
         super.onResume();
         bus.register(this);
+        updateUIWithValidation();
     }
 
     @Override
@@ -220,11 +225,26 @@ public class AskingDetailsFragment extends LoaderFragment<Asking> {
             updatedAtText.setText(asking.getUpdatedAtFormatted());
             favoriteText.init(asking.getFavoritesCount(), asking.isFavorited(currentUserId));
             favoriteText.setFavoriteListener(new AskingFavoriteListener(asking));
-
-            enableSubmit();
         } catch (Exception e) {
             Ln.e(e);
         }
+    }
+
+    private TextWatcher validationTextWatcher() {
+        return new TextWatcherAdapter() {
+            public void afterTextChanged(final Editable gitDirEditText) {
+                updateUIWithValidation();
+            }
+        };
+    }
+
+    private void updateUIWithValidation() {
+        final boolean populated = populated(editReply);
+        postReplyButton.setEnabled(populated);
+    }
+
+    private boolean populated(final EditText editText) {
+        return editText.length() > 0;
     }
 
     private void enableSubmit() {
