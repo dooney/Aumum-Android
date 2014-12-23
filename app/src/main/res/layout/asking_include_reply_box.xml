@@ -4,7 +4,8 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@color/card_background"
-    android:visibility="gone">
+    android:focusable="true"
+    android:focusableInTouchMode="true">
 
     <View
         style="@style/Divider"

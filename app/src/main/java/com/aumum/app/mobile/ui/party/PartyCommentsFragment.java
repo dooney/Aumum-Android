@@ -29,8 +29,6 @@ import com.aumum.app.mobile.core.dao.UserStore;
 import com.aumum.app.mobile.ui.comment.CommentCard;
 import com.aumum.app.mobile.ui.comment.CommentsAdapter;
 import com.aumum.app.mobile.ui.base.ItemListFragment;
-import com.aumum.app.mobile.ui.view.Animation;
-import com.aumum.app.mobile.ui.view.QuickReturnListView;
 import com.aumum.app.mobile.utils.DialogUtils;
 import com.aumum.app.mobile.utils.EditTextUtils;
 import com.aumum.app.mobile.utils.Ln;
@@ -48,8 +46,7 @@ import retrofit.RetrofitError;
  * A simple {@link Fragment} subclass.
  *
  */
-public class PartyCommentsFragment extends ItemListFragment<Comment>
-        implements QuickReturnListView.OnScrollDirectionListener {
+public class PartyCommentsFragment extends ItemListFragment<Comment> {
     @Inject RestService service;
     @Inject MessageDeliveryService messageDeliveryService;
     @Inject UserStore userStore;
@@ -63,11 +60,6 @@ public class PartyCommentsFragment extends ItemListFragment<Comment>
     private SafeAsyncTask<Boolean> task;
     private Comment repliedComment;
 
-    private QuickReturnListView quickReturnListView;
-    private ViewGroup layoutAction;
-    private ViewGroup layoutCommentBox;
-    private TextView commentText;
-    private boolean isCommentBoxShow;
     private EditText editComment;
     private ImageView postCommentButton;
 
@@ -83,17 +75,6 @@ public class PartyCommentsFragment extends ItemListFragment<Comment>
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_party_comments, null);
-
-        layoutAction = (ViewGroup) view.findViewById(R.id.layout_action);
-        layoutCommentBox = (ViewGroup) view.findViewById(R.id.layout_comment_box);
-
-        commentText = (TextView) view.findViewById(R.id.text_comment);
-        commentText.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                toggleCommentBox();
-            }
-        });
 
         editComment = (EditText) view.findViewById(R.id.edit_comment);
         editComment.setOnEditorActionListener(new TextView.OnEditorActionListener() {
@@ -112,6 +93,7 @@ public class PartyCommentsFragment extends ItemListFragment<Comment>
                 submitComment();
             }
         });
+        disableSubmit();
 
         return view;
     }
@@ -120,14 +102,12 @@ public class PartyCommentsFragment extends ItemListFragment<Comment>
     public void onViewCreated(final View view, final Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        quickReturnListView = (QuickReturnListView) getListView();
-        quickReturnListView.setOnScrollDirectionListener(this);
-        quickReturnListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        getListView().setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
                 Comment comment = getData().get(position);
                 if (party.isOwner(currentUser.getObjectId()) ||
-                    comment.isOwner(currentUser.getObjectId())) {
+                        comment.isOwner(currentUser.getObjectId())) {
                     showActionDialog(view);
                 } else {
                     reply(comment);
@@ -157,25 +137,10 @@ public class PartyCommentsFragment extends ItemListFragment<Comment>
         return new CommentsAdapter(getActivity(), items);
     }
 
-    private void toggleCommentBox() {
-        if (isCommentBoxShow) {
-            hideCommentBox();
-        } else {
-            editComment.setHint(R.string.hint_new_comment);
-            showCommentBox();
-        }
-        isCommentBoxShow = !isCommentBoxShow;
-    }
-
-    private void hideCommentBox() {
-        EditTextUtils.hideSoftInput(editComment);
-        editComment.setText(null);
-        Animation.flyOut(layoutCommentBox);
-    }
-
-    private void showCommentBox() {
-        Animation.flyIn(layoutCommentBox);
-        EditTextUtils.showSoftInput(editComment, true);
+    @Override
+    protected void handleLoadResult(List<Comment> result) {
+        super.handleLoadResult(result);
+        enableSubmit();
     }
 
     private void enableSubmit() {
@@ -184,6 +149,13 @@ public class PartyCommentsFragment extends ItemListFragment<Comment>
 
     private void disableSubmit() {
         postCommentButton.setEnabled(false);
+    }
+
+    private void resetCommentBox() {
+        EditTextUtils.hideSoftInput(editComment);
+        editComment.clearFocus();
+        editComment.setText(null);
+        editComment.setHint(R.string.hint_new_comment);
     }
 
     private void submitComment() {
@@ -205,8 +177,8 @@ public class PartyCommentsFragment extends ItemListFragment<Comment>
         getListAdapter().notifyDataSetChanged();
         show();
         scrollToTop();
-        hideCommentBox();
         disableSubmit();
+        resetCommentBox();
 
         // submit
         task = new SafeAsyncTask<Boolean>() {
@@ -258,7 +230,7 @@ public class PartyCommentsFragment extends ItemListFragment<Comment>
     }
 
     private void reply(Comment comment) {
-        showCommentBox();
+        EditTextUtils.showSoftInput(editComment, true);
         repliedComment = comment;
         editComment.setHint(getString(R.string.hint_reply_comment,
                 repliedComment.getUser().getScreenName(), repliedComment.getContent()));
@@ -347,28 +319,5 @@ public class PartyCommentsFragment extends ItemListFragment<Comment>
             Ln.d(e);
         }
         Toaster.showShort(getActivity(), R.string.error_delete_comment);
-    }
-
-    @Override
-    public void onScrollUp() {
-        if (!isCommentBoxShow) {
-            Animation.animateIconBar(layoutAction, true);
-        }
-    }
-
-    @Override
-    public void onScrollDown() {
-        if (isCommentBoxShow) {
-            return;
-        }
-
-        QuickReturnListView listView = (QuickReturnListView) getListView();
-        boolean canScrollDown = listView.canScrollDown();
-        boolean canScrollUp = listView.canScrollUp();
-        if (!canScrollDown) {
-            Animation.animateIconBar(layoutAction, true);
-        } else if (canScrollDown && canScrollUp) {
-            Animation.animateIconBar(layoutAction, false);
-        }
     }
 }

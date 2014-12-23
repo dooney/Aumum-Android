@@ -33,9 +33,7 @@ import com.aumum.app.mobile.ui.base.LoaderFragment;
 import com.aumum.app.mobile.ui.image.CustomGallery;
 import com.aumum.app.mobile.ui.image.GalleryAdapter;
 import com.aumum.app.mobile.ui.user.UserListener;
-import com.aumum.app.mobile.ui.view.Animation;
 import com.aumum.app.mobile.ui.view.FavoriteTextView;
-import com.aumum.app.mobile.ui.view.QuickReturnScrollView;
 import com.aumum.app.mobile.ui.view.SpannableTextView;
 import com.aumum.app.mobile.utils.DialogUtils;
 import com.aumum.app.mobile.utils.EditTextUtils;
@@ -58,8 +56,7 @@ import retrofit.RetrofitError;
  * A simple {@link Fragment} subclass.
  *
  */
-public class AskingDetailsFragment extends LoaderFragment<Asking>
-        implements QuickReturnScrollView.OnScrollDirectionListener {
+public class AskingDetailsFragment extends LoaderFragment<Asking> {
 
     @Inject RestService restService;
     @Inject UserStore userStore;
@@ -72,7 +69,6 @@ public class AskingDetailsFragment extends LoaderFragment<Asking>
     private String askingId;
     private String currentUserId;
 
-    private QuickReturnScrollView scrollView;
     private View mainView;
     private SpannableTextView titleText;
     private SpannableTextView detailsText;
@@ -82,10 +78,6 @@ public class AskingDetailsFragment extends LoaderFragment<Asking>
     private TextView updatedAtText;
     private FavoriteTextView favoriteText;
 
-    private ViewGroup layoutAction;
-    private ViewGroup layoutReplyBox;
-    private TextView replyText;
-    private boolean isReplyBoxShow;
     private EditText editReply;
     private ImageView postReplyButton;
 
@@ -136,11 +128,6 @@ public class AskingDetailsFragment extends LoaderFragment<Asking>
     public void onViewCreated(final View view, final Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        scrollView = (QuickReturnScrollView) view.findViewById(R.id.scroll_view);
-        scrollView.setHorizontalScrollBarEnabled(false);
-        scrollView.setVerticalScrollBarEnabled(false);
-        scrollView.setOnScrollDirectionListener(this);
-
         mainView = view.findViewById(R.id.main_view);
         titleText = (SpannableTextView) view.findViewById(R.id.text_title);
         detailsText = (SpannableTextView) view.findViewById(R.id.text_details);
@@ -157,15 +144,6 @@ public class AskingDetailsFragment extends LoaderFragment<Asking>
         favoriteText.setFavoriteResId(R.drawable.ic_fa_star_o_s);
         favoriteText.setFavoritedResId(R.drawable.ic_fa_star_s);
 
-        layoutAction = (ViewGroup) view.findViewById(R.id.layout_action);
-        layoutReplyBox = (ViewGroup) view.findViewById(R.id.layout_reply_box);
-        replyText = (TextView) view.findViewById(R.id.text_reply);
-        replyText.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                toggleReplyBox();
-            }
-        });
         editReply = (EditText) view.findViewById(R.id.edit_reply);
         postReplyButton = (ImageView) view.findViewById(R.id.image_post_reply);
         postReplyButton.setOnClickListener(new View.OnClickListener() {
@@ -174,6 +152,7 @@ public class AskingDetailsFragment extends LoaderFragment<Asking>
                 submitReply();
             }
         });
+        disableSubmit();
     }
 
     @Override
@@ -241,52 +220,11 @@ public class AskingDetailsFragment extends LoaderFragment<Asking>
             updatedAtText.setText(asking.getUpdatedAtFormatted());
             favoriteText.init(asking.getFavoritesCount(), asking.isFavorited(currentUserId));
             favoriteText.setFavoriteListener(new AskingFavoriteListener(asking));
+
+            enableSubmit();
         } catch (Exception e) {
             Ln.e(e);
         }
-    }
-
-    @Override
-    public void onScrollUp() {
-        if (!isReplyBoxShow) {
-            Animation.animateIconBar(layoutAction, true);
-        }
-    }
-
-    @Override
-    public void onScrollDown() {
-        if (isReplyBoxShow) {
-            return;
-        }
-
-        boolean canScrollDown = scrollView.canScrollDown();
-        boolean canScrollUp = scrollView.canScrollUp();
-        if (!canScrollDown) {
-            Animation.animateIconBar(layoutAction, true);
-        } else if (canScrollDown && canScrollUp) {
-            Animation.animateIconBar(layoutAction, false);
-        }
-    }
-
-    private void toggleReplyBox() {
-        if (isReplyBoxShow) {
-            hideReplyBox();
-        } else {
-            editReply.setHint(R.string.hint_new_reply);
-            showReplyBox();
-        }
-        isReplyBoxShow = !isReplyBoxShow;
-    }
-
-    private void showReplyBox() {
-        Animation.flyIn(layoutReplyBox);
-        EditTextUtils.showSoftInput(editReply, true);
-    }
-
-    private void hideReplyBox() {
-        EditTextUtils.hideSoftInput(editReply);
-        editReply.setText(null);
-        Animation.flyOut(layoutReplyBox);
     }
 
     private void enableSubmit() {
@@ -297,17 +235,24 @@ public class AskingDetailsFragment extends LoaderFragment<Asking>
         postReplyButton.setEnabled(false);
     }
 
+    private void resetReplyBox() {
+        EditTextUtils.hideSoftInput(editReply);
+        editReply.clearFocus();
+        editReply.setText(null);
+        editReply.setHint(R.string.hint_new_reply);
+    }
+
     private void submitReply() {
         String answer = editReply.getText().toString();
         bus.post(new AddAskingReplyEvent(answer));
 
-        hideReplyBox();
         disableSubmit();
+        resetReplyBox();
     }
 
     @Subscribe
     public void onReplyAskingReplyEvent(ReplyAskingReplyEvent event) {
-        showReplyBox();
+        EditTextUtils.showSoftInput(editReply, true);
         editReply.setHint(event.getReplyHint());
     }
 

@@ -132,7 +132,8 @@
 
         <activity
             android:name=".ui.party.PartyCommentsActivity"
-            android:label="@string/title_activity_party_comments" >
+            android:label="@string/title_activity_party_comments"
+            android:windowSoftInputMode="adjustResize">
         </activity>
         <activity
             android:name=".ui.party.PartyDetailsActivity"

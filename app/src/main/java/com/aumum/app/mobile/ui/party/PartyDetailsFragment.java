@@ -13,6 +13,7 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.GridView;
 import android.widget.ImageView;
+import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.aumum.app.mobile.Injector;
@@ -39,7 +40,6 @@ import com.aumum.app.mobile.ui.view.AvatarImageView;
 import com.aumum.app.mobile.ui.view.FavoriteTextView;
 import com.aumum.app.mobile.ui.view.JoinTextView;
 import com.aumum.app.mobile.ui.view.LikeTextView;
-import com.aumum.app.mobile.ui.view.QuickReturnScrollView;
 import com.aumum.app.mobile.ui.view.SpannableTextView;
 import com.aumum.app.mobile.utils.DialogUtils;
 import com.aumum.app.mobile.utils.EditTextUtils;
@@ -62,8 +62,7 @@ import retrofit.RetrofitError;
 /**
  * Created by Administrator on 16/10/2014.
  */
-public class PartyDetailsFragment extends LoaderFragment<Party>
-        implements QuickReturnScrollView.OnScrollDirectionListener {
+public class PartyDetailsFragment extends LoaderFragment<Party> {
     @Inject ApiKeyProvider apiKeyProvider;
     @Inject Bus bus;
     @Inject UserStore userStore;
@@ -78,7 +77,7 @@ public class PartyDetailsFragment extends LoaderFragment<Party>
 
     private GPSTracker gpsTracker;
 
-    private QuickReturnScrollView scrollView;
+    private ScrollView scrollView;
     private View mainView;
     private AvatarImageView avatarImage;
     private TextView userNameText;
@@ -94,7 +93,6 @@ public class PartyDetailsFragment extends LoaderFragment<Party>
     private ViewGroup likesLayout;
 
     private ViewGroup actionLayout;
-    private boolean showAction;
     private ViewGroup joinBoxLayout;
     private JoinTextView joinText;
     private TextView commentText;
@@ -159,10 +157,9 @@ public class PartyDetailsFragment extends LoaderFragment<Party>
     public void onViewCreated(final View view, final Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        scrollView = (QuickReturnScrollView) view.findViewById(R.id.scroll_view);
+        scrollView = (ScrollView) view.findViewById(R.id.scroll_view);
         scrollView.setHorizontalScrollBarEnabled(false);
         scrollView.setVerticalScrollBarEnabled(false);
-        scrollView.setOnScrollDirectionListener(this);
 
         mainView = view.findViewById(R.id.main_view);
         avatarImage = (AvatarImageView) view.findViewById(R.id.image_avatar);
@@ -210,6 +207,7 @@ public class PartyDetailsFragment extends LoaderFragment<Party>
                 submit();
             }
         });
+        disableSubmit();
     }
 
     @Override
@@ -300,9 +298,7 @@ public class PartyDetailsFragment extends LoaderFragment<Party>
         }
         adapter.addAll(list);
 
-        showAction = false;
         if (!party.isExpired() && !party.isOwner(currentUserId)) {
-            showAction = true;
             actionLayout.setVisibility(View.VISIBLE);
             joinText.update(party.isMember(currentUserId));
         }
@@ -340,6 +336,8 @@ public class PartyDetailsFragment extends LoaderFragment<Party>
         membersLayoutListener.update(membersLayout, party.getMembers());
 
         updateLikesLayout(party.getLikes());
+
+        enableSubmit();
     }
 
     private void onPartyRefresh(String partyId) {
@@ -500,27 +498,5 @@ public class PartyDetailsFragment extends LoaderFragment<Party>
         }
         
         enableSubmit();
-    }
-
-    @Override
-    public void onScrollUp() {
-        if (!isJoinBoxShow && showAction) {
-            Animation.animateIconBar(actionLayout, true);
-        }
-    }
-
-    @Override
-    public void onScrollDown() {
-        if (isJoinBoxShow || !showAction) {
-            return;
-        }
-
-        boolean canScrollDown = scrollView.canScrollDown();
-        boolean canScrollUp = scrollView.canScrollUp();
-        if (!canScrollDown) {
-            Animation.animateIconBar(actionLayout, true);
-        } else if (canScrollDown && canScrollUp) {
-            Animation.animateIconBar(actionLayout, false);
-        }
     }
 }

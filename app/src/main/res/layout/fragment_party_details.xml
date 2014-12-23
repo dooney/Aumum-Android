@@ -4,11 +4,12 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
-    <com.aumum.app.mobile.ui.view.QuickReturnScrollView
+    <ScrollView
         android:id="@+id/scroll_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:fillViewport="true">
+        android:fillViewport="true"
+        android:layout_above="@+id/layout_action">
 
         <LinearLayout
             android:orientation="vertical"
@@ -210,23 +211,24 @@
 
         </LinearLayout>
 
-    </com.aumum.app.mobile.ui.view.QuickReturnScrollView>
+    </ScrollView>
 
     <ProgressBar
         android:id="@+id/pb_loading"
         style="@style/ListSpinner"
         android:layout_centerInParent="true" />
 
-    <RelativeLayout
+    <LinearLayout
         android:id="@+id/layout_action"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_above="@+id/layout_join_box"
-        android:layout_alignWithParentIfMissing="true"
+        android:orientation="vertical"
         android:background="@color/card_background"
+        android:layout_alignParentBottom="true"
         android:visibility="gone">
 
-        <View style="@style/Divider" />
+        <View style="@style/Divider"
+            android:background="@color/grey_light" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -240,13 +242,13 @@
 
         </LinearLayout>
 
-    </RelativeLayout>
+        <include
+            android:id="@+id/layout_join_box"
+            layout="@layout/party_include_join_box"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true" />
 
-    <include
-        android:id="@+id/layout_join_box"
-        layout="@layout/party_include_join_box"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true" />
+    </LinearLayout>
 
 </RelativeLayout>

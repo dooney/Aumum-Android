@@ -34,7 +34,13 @@ public class ReasonCard {
         avatarImage.getFromUrl(reason.getUser().getAvatarUrl());
         avatarImage.setOnClickListener(new UserListener(avatarImage.getContext(), reason.getUserId()));
         userNameText.setText(reason.getUser().getScreenName());
-        reasonText.setSpannableText(reason.getContent());
+
+        if (reason.getContent().length() > 0) {
+            reasonText.setSpannableText(reason.getContent());
+            reasonText.setVisibility(View.VISIBLE);
+        } else {
+            reasonText.setVisibility(View.GONE);
+        }
         actionText.setText(reason.getActionText());
         if (reason.getObjectId() == null) {
             actionText.setVisibility(View.GONE);

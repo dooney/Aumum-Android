@@ -251,7 +251,7 @@
     <string name="label_you_and_others_like_the_party">你和其他%,d人支持了该聚会</string>
     <string name="label_others_like_the_party">%,d人支持了该聚会</string>
     <string name="label_join_party">报名</string>
-    <string name="label_quit_party">取消</string>
+    <string name="label_quit_party">取消报名</string>
     <string name="label_comment">评论</string>
     <string name="label_like">支持</string>
     <string name="label_createdAt">创建时间</string>
@@ -269,8 +269,7 @@
     <!-- Asking -->
     <string name="hint_asking_title">说说标题</string>
     <string name="hint_asking_details">说说内容 (不超过140字)</string>
-    <string name="label_reply">回复</string>
-    <string name="hint_new_reply">写下您的回复</string>
+    <string name="hint_new_reply">说两句</string>
     <string name="hint_reply_asking_reply">回复@%1$s：%2$s</string>
     <string name="label_add_more">添加更多</string>
 
