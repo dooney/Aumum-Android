@@ -74,7 +74,8 @@ public class AskingDetailsFragment extends LoaderFragment<Asking>
 
     private QuickReturnScrollView scrollView;
     private View mainView;
-    private SpannableTextView questionText;
+    private SpannableTextView titleText;
+    private SpannableTextView detailsText;
     private GridView gridGallery;
     private TextView userNameText;
     private TextView cityText;
@@ -141,7 +142,8 @@ public class AskingDetailsFragment extends LoaderFragment<Asking>
         scrollView.setOnScrollDirectionListener(this);
 
         mainView = view.findViewById(R.id.main_view);
-        questionText = (SpannableTextView) view.findViewById(R.id.text_question);
+        titleText = (SpannableTextView) view.findViewById(R.id.text_title);
+        detailsText = (SpannableTextView) view.findViewById(R.id.text_details);
 
         adapter = new GalleryAdapter(getActivity(), R.layout.image_collection_listitem_inner, ImageLoaderUtils.getInstance());
         gridGallery = (GridView) view.findViewById(R.id.grid_gallery);
@@ -234,7 +236,8 @@ public class AskingDetailsFragment extends LoaderFragment<Asking>
             userNameText.setText(asking.getUser().getScreenName());
             userNameText.setOnClickListener(new UserListener(getActivity(), asking.getUserId()));
             cityText.setText(Constants.Options.CITY_OPTIONS[asking.getUser().getCity()]);
-            questionText.setSpannableText(asking.getQuestion());
+            titleText.setSpannableText(asking.getTitle());
+            detailsText.setSpannableText(asking.getDetails());
             updatedAtText.setText(asking.getUpdatedAtFormatted());
             favoriteText.init(asking.getFavoritesCount(), asking.isFavorited(currentUserId));
             favoriteText.setFavoriteListener(new AskingFavoriteListener(asking));

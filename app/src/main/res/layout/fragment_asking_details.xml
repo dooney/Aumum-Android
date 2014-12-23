@@ -14,25 +14,38 @@
         android:layout_alignParentTop="true"
         android:visibility="gone" >
 
-        <com.aumum.app.mobile.ui.view.SpannableTextView
-            android:id="@+id/text_question"
-            style="@style/TextView.AskingDetails.Question" />
-
-        <GridView
-            android:id="@+id/grid_gallery"
+        <LinearLayout
+            android:id="@+id/layout_content"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="top"
-            android:paddingBottom="@dimen/margin_large"
-            android:numColumns="4"
-            android:layout_below="@+id/text_question" >
-        </GridView>
+            android:orientation="vertical">
+
+            <com.aumum.app.mobile.ui.view.SpannableTextView
+                android:id="@+id/text_title"
+                style="@style/TextView.AskingDetails.Title"
+                android:paddingBottom="@dimen/margin_small"/>
+
+            <com.aumum.app.mobile.ui.view.SpannableTextView
+                android:id="@+id/text_details"
+                style="@style/TextView.AskingDetails.Details"
+                android:paddingBottom="@dimen/margin_small"/>
+
+            <GridView
+                android:id="@+id/grid_gallery"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="top"
+                android:paddingBottom="@dimen/margin_large"
+                android:numColumns="4" >
+            </GridView>
+
+        </LinearLayout>
 
         <TextView
             android:id="@+id/text_user_name"
             style="@style/TextView.Asking.UserName"
             android:paddingRight="@dimen/margin_medium"
-            android:layout_below="@+id/grid_gallery"
+            android:layout_below="@+id/layout_content"
             android:layout_alignParentLeft="true"/>
 
         <TextView

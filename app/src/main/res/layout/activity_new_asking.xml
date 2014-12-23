@@ -16,8 +16,14 @@
             android:padding="@dimen/margin_large">
 
             <EditText
-                android:id="@+id/et_question"
-                style="@style/EditText.NewAsking.Question" />
+                android:id="@+id/et_title"
+                style="@style/EditText.NewAsking.Title"
+                android:imeOptions="actionNext"
+                android:nextFocusDown="@+id/et_details"/>
+
+            <EditText
+                android:id="@+id/et_details"
+                style="@style/EditText.NewAsking.Details" />
 
             <GridView
                 android:id="@+id/grid_gallery"

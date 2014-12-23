@@ -9,7 +9,8 @@ public class AskingEntity extends BaseEntity  {
     private java.util.Date updatedAt;
     private String userId;
     private Integer category;
-    private String question;
+    private String title;
+    private String details;
     private String replies;
     private String favorites;
     private String images;
@@ -27,7 +28,8 @@ public class AskingEntity extends BaseEntity  {
                         java.util.Date updatedAt,
                         String userId,
                         Integer category,
-                        String question,
+                        String title,
+                        String details,
                         String replies,
                         String favorites,
                         String images) {
@@ -37,7 +39,8 @@ public class AskingEntity extends BaseEntity  {
         this.updatedAt = updatedAt;
         this.userId = userId;
         this.category = category;
-        this.question = question;
+        this.title = title;
+        this.details = details;
         this.replies = replies;
         this.favorites = favorites;
         this.images = images;
@@ -67,12 +70,20 @@ public class AskingEntity extends BaseEntity  {
         this.category = category;
     }
 
-    public String getQuestion() {
-        return question;
+    public String getTitle() {
+        return title;
     }
 
-    public void setQuestion(String question) {
-        this.question = question;
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public String getDetails() {
+        return details;
+    }
+
+    public void setDetails(String details) {
+        this.details = details;
     }
 
     public String getReplies() {

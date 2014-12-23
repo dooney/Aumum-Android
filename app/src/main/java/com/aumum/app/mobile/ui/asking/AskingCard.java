@@ -21,7 +21,7 @@ public class AskingCard {
     private TextView userNameText;
     private TextView cityText;
     private TextView updatedAtText;
-    private SpannableTextView questionText;
+    private SpannableTextView titleText;
     private TextView replyText;
 
     public AskingCard(Context context, View view) {
@@ -30,7 +30,7 @@ public class AskingCard {
         this.userNameText = (TextView) view.findViewById(R.id.text_user_name);
         this.cityText = (TextView) view.findViewById(R.id.text_city);
         this.updatedAtText = (TextView) view.findViewById(R.id.text_updatedAt);
-        this.questionText = (SpannableTextView) view.findViewById(R.id.text_question);
+        this.titleText = (SpannableTextView) view.findViewById(R.id.text_title);
         this.replyText = (TextView) view.findViewById(R.id.text_reply);
     }
 
@@ -44,7 +44,7 @@ public class AskingCard {
         userNameText.setOnClickListener(new UserListener(context, asking.getUserId()));
         cityText.setText(Constants.Options.CITY_OPTIONS[asking.getUser().getCity()]);
         updatedAtText.setText(asking.getUpdatedAtFormatted());
-        questionText.setSpannableText(asking.getQuestion());
+        titleText.setSpannableText(asking.getTitle());
         replyText.setText(String.valueOf(asking.getRepliesCount()));
     }
 }

@@ -11,8 +11,8 @@
     android:paddingRight="@dimen/margin_large">
 
     <com.aumum.app.mobile.ui.view.SpannableTextView
-        android:id="@+id/text_question"
-        style="@style/TextView.Asking.Question" />
+        android:id="@+id/text_title"
+        style="@style/TextView.Asking.Title" />
 
     <LinearLayout
         android:layout_width="match_parent"

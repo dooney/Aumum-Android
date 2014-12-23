@@ -87,7 +87,8 @@ public class DaoGenerator {
         asking.addDateProperty("updatedAt").notNull();
         asking.addStringProperty("userId");
         asking.addIntProperty("category");
-        asking.addStringProperty("question");
+        asking.addStringProperty("title");
+        asking.addStringProperty("details");
         asking.addStringProperty("replies");
         asking.addStringProperty("favorites");
         asking.addStringProperty("images");

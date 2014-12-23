@@ -5,16 +5,19 @@
 
     <string-array name="label_main_pages">
         <item>聚会</item>
-        <item>问问</item>
+        <item>说说</item>
         <item>聊天</item>
         <item>好友</item>
         <item>个人</item>
     </string-array>
     <string-array name="label_asking_pages">
-        <item>亲子教育</item>
-        <item>生活服务</item>
-        <item>购房家装</item>
-        <item>投资理财</item>
+        <item>房产</item>
+        <item>装修</item>
+        <item>育儿</item>
+        <item>理财</item>
+        <item>血拼</item>
+        <item>时尚</item>
+        <item>八卦</item>
     </string-array>
     <string-array name="label_search_party">
         <item>搜索附近</item>
@@ -42,17 +45,17 @@
     </string-array>
     <string-array name="label_user_actions">
         <item>她的聚会</item>
-        <item>她的问问</item>
+        <item>她的说说</item>
     </string-array>
     <string-array name="label_profile_actions">
         <item>我的聚会</item>
-        <item>我的问问</item>
+        <item>我的说说</item>
         <item>我的收藏</item>
         <item>我的设置</item>
     </string-array>
     <string-array name="label_favorite_types">
         <item>聚会</item>
-        <item>问问</item>
+        <item>说说</item>
     </string-array>
     <string-array name="label_group_actions">
         <item>举报</item>
@@ -89,8 +92,8 @@
     <string name="info_group_quit">您已成功退出了该圈子</string>
     <string name="info_confirm_delete_contact">您确定要移除该好友？</string>
     <string name="info_confirm_logout">您确定要退出登录？</string>
-    <string name="info_submitting_asking">正在提交您的提问，请稍候</string>
-    <string name="info_asking_deleted">该问问已成功删除</string>
+    <string name="info_submitting_asking">正在提交您的说说，请稍候</string>
+    <string name="info_asking_deleted">该说说已成功删除</string>
     <string name="info_asking_reply_deleted">该回复已成功删除</string>
     <string name="info_loading">正在加载</string>
     <string name="info_no_more">已加载所有项</string>
@@ -130,11 +133,11 @@
     <string name="error_delete_contact">移除好友失败</string>
     <string name="error_load_contacts">获取好友列表失败</string>
     <string name="error_load_profile">获取个人信息失败</string>
-    <string name="error_load_askings">获取问问列表失败</string>
-    <string name="error_submit_new_asking">发布问题失败</string>
-    <string name="error_load_asking">获取问题详情失败</string>
+    <string name="error_load_askings">获取说说列表失败</string>
+    <string name="error_submit_new_asking">发布说说失败</string>
+    <string name="error_load_asking">获取说说详情失败</string>
     <string name="error_load_asking_reply_list">获取回复列表失败</string>
-    <string name="error_delete_asking">删除问问失败</string>
+    <string name="error_delete_asking">删除说说失败</string>
     <string name="error_delete_asking_reply">删除回复失败</string>
     <string name="error_sdcard_needed_for_voice">发送语音需要SD卡支持</string>
     <string name="error_recoding_failed">录音失败</string>
@@ -168,9 +171,9 @@
     <string name="title_activity_add_contacts">添加好友</string>
     <string name="title_activity_change_avatar">更换头像</string>
     <string name="title_user_parties">%1$s的聚会</string>
-    <string name="title_user_askings">%1$s的问问</string>
-    <string name="title_activity_new_asking">发布提问</string>
-    <string name="title_activity_asking_details">问题详情</string>
+    <string name="title_user_askings">%1$s的说说</string>
+    <string name="title_activity_new_asking">发布说说</string>
+    <string name="title_activity_asking_details">说说详情</string>
     <string name="title_activity_choose_image">选择图片</string>
     <string name="title_activity_add_image">添加图片</string>
     <string name="title_activity_complete_profile">完善个人资料</string>
@@ -227,9 +230,9 @@
     <string name="label_screen_name">用户昵称</string>
     <string name="label_email_address">邮箱地址</string>
     <string name="label_my_parties">我的聚会</string>
-    <string name="label_my_askings">我的问问</string>
+    <string name="label_my_askings">我的说说</string>
     <string name="label_favorite_parties">聚会收藏</string>
-    <string name="label_favorite_askings">问问收藏</string>
+    <string name="label_favorite_askings">说说收藏</string>
 
     <!-- Settings -->
     <string name="label_logout">退出登录</string>
@@ -264,8 +267,8 @@
     <string name="hint_party_details">聚会内容 (不超过140字)</string>
 
     <!-- Asking -->
-    <string name="hint_asking_question">一句话描述您的问题</string>
-    <string name="label_new_asking_message">发布了提问：%1$s</string>
+    <string name="hint_asking_title">说说标题</string>
+    <string name="hint_asking_details">说说内容 (不超过140字)</string>
     <string name="label_reply">回复</string>
     <string name="hint_new_reply">写下您的回复</string>
     <string name="hint_reply_asking_reply">回复@%1$s：%2$s</string>

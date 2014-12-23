@@ -87,7 +87,6 @@ public class NewPartyActivity extends ProgressDialogActivity
     private final TextWatcher watcher = validationTextWatcher();
 
     private SafeAsyncTask<Boolean> task;
-    private SafeAsyncTask<Boolean> uploadTask;
     private GalleryAdapter adapter;
     private String imagePathList[];
     private ArrayList<String> imageUrlList;
@@ -255,6 +254,7 @@ public class NewPartyActivity extends ProgressDialogActivity
         EditTextUtils.hideSoftInput(titleText);
         EditTextUtils.hideSoftInput(locationText);
         EditTextUtils.hideSoftInput(detailsText);
+        showProgress();
 
         imageUrlList.clear();
         if (imagePathList != null) {
@@ -267,11 +267,7 @@ public class NewPartyActivity extends ProgressDialogActivity
     }
 
     private void uploadImage(final String imagePath) {
-        if (uploadTask != null) {
-            return;
-        }
-        showProgress();
-        uploadTask = new SafeAsyncTask<Boolean>() {
+        new SafeAsyncTask<Boolean>() {
             public Boolean call() throws Exception {
                 byte avatarData[] = ImageUtils.decodeBitmap(imagePath);
                 fileUploadService.upload(imagePath, avatarData);
@@ -286,22 +282,15 @@ public class NewPartyActivity extends ProgressDialogActivity
                         Toaster.showShort(NewPartyActivity.this, cause.getMessage());
                     }
                 }
-            }
-
-            @Override
-            protected void onFinally() throws RuntimeException {
                 hideProgress();
-                uploadTask = null;
             }
-        };
-        uploadTask.execute();
+        }.execute();
     }
 
     private void submitNewParty() {
         if (task != null) {
             return;
         }
-        showProgress();
         task = new SafeAsyncTask<Boolean>() {
             public Boolean call() throws Exception {
                 User user = userStore.getCurrentUser();

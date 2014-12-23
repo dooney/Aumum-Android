@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -43,6 +44,10 @@ import butterknife.ButterKnife;
 import butterknife.InjectView;
 import retrofit.RetrofitError;
 
+import static android.view.KeyEvent.ACTION_DOWN;
+import static android.view.KeyEvent.KEYCODE_ENTER;
+import static android.view.inputmethod.EditorInfo.IME_ACTION_DONE;
+
 public class NewAskingActivity extends ProgressDialogActivity
         implements FileUploadService.OnFileUploadListener {
 
@@ -52,7 +57,6 @@ public class NewAskingActivity extends ProgressDialogActivity
 
     private int category;
     private SafeAsyncTask<Boolean> task;
-    private SafeAsyncTask<Boolean> uploadTask;
     private GalleryAdapter adapter;
     private String imagePathList[];
     private ArrayList<String> imageUrlList;
@@ -61,7 +65,8 @@ public class NewAskingActivity extends ProgressDialogActivity
 
     private Button submitButton;
     @InjectView(R.id.v_scroll) protected ScrollView scrollView;
-    @InjectView(R.id.et_question) protected EditText questionText;
+    @InjectView(R.id.et_title) protected EditText titleText;
+    @InjectView(R.id.et_details) protected EditText detailsText;
     @InjectView(R.id.text_add_more) protected TextView addMoreText;
     @InjectView(R.id.layout_type_selection) protected ViewGroup typeSelectionLayout;
     @InjectView(R.id.layout_image) protected ViewGroup imageLayout;
@@ -85,7 +90,27 @@ public class NewAskingActivity extends ProgressDialogActivity
 
         scrollView.setHorizontalScrollBarEnabled(false);
         scrollView.setVerticalScrollBarEnabled(false);
-        questionText.addTextChangedListener(watcher);
+        titleText.addTextChangedListener(watcher);
+        detailsText.setOnKeyListener(new View.OnKeyListener() {
+            public boolean onKey(final View v, final int keyCode, final KeyEvent event) {
+                if (event != null && ACTION_DOWN == event.getAction()
+                        && keyCode == KEYCODE_ENTER && submitButton.isEnabled()) {
+                    submit();
+                    return true;
+                }
+                return false;
+            }
+        });
+        detailsText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            public boolean onEditorAction(final TextView v, final int actionId,
+                                          final KeyEvent event) {
+                if (actionId == IME_ACTION_DONE && submitButton.isEnabled()) {
+                    submit();
+                    return true;
+                }
+                return false;
+            }
+        });
         addMoreText.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -154,7 +179,7 @@ public class NewAskingActivity extends ProgressDialogActivity
     }
 
     private void updateUIWithValidation() {
-        final boolean populated = populated(questionText);
+        final boolean populated = populated(titleText);
         submitButton.setEnabled(populated);
     }
 
@@ -163,7 +188,8 @@ public class NewAskingActivity extends ProgressDialogActivity
     }
 
     private void submit() {
-        EditTextUtils.hideSoftInput(questionText);
+        EditTextUtils.hideSoftInput(titleText);
+        showProgress();
 
         imageUrlList.clear();
         if (imagePathList != null) {
@@ -176,11 +202,7 @@ public class NewAskingActivity extends ProgressDialogActivity
     }
 
     private void uploadImage(final String imagePath) {
-        if (uploadTask != null) {
-            return;
-        }
-        showProgress();
-        uploadTask = new SafeAsyncTask<Boolean>() {
+        new SafeAsyncTask<Boolean>() {
             public Boolean call() throws Exception {
                 byte avatarData[] = ImageUtils.decodeBitmap(imagePath);
                 fileUploadService.upload(imagePath, avatarData);
@@ -195,29 +217,23 @@ public class NewAskingActivity extends ProgressDialogActivity
                         Toaster.showShort(NewAskingActivity.this, cause.getMessage());
                     }
                 }
-            }
-
-            @Override
-            protected void onFinally() throws RuntimeException {
                 hideProgress();
-                uploadTask = null;
             }
-        };
-        uploadTask.execute();
+        }.execute();
     }
 
     private void submitNewAsking() {
         if (task != null) {
             return;
         }
-        showProgress();
         task = new SafeAsyncTask<Boolean>() {
             public Boolean call() throws Exception {
                 User user = userStore.getCurrentUser();
                 Asking asking = new Asking(
                         user.getObjectId(),
                         category,
-                        questionText.getEditableText().toString(),
+                        titleText.getText().toString(),
+                        detailsText.getText().toString(),
                         imageUrlList);
                 Asking response = restService.newAsking(asking);
                 restService.addUserAsking(user.getObjectId(), response.getObjectId());

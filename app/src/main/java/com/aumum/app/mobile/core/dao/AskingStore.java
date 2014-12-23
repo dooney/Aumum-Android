@@ -58,7 +58,8 @@ public class AskingStore {
                 DateUtils.dateToString(askingEntity.getUpdatedAt(), Constants.DateTime.FORMAT),
                 askingEntity.getUserId(),
                 askingEntity.getCategory(),
-                askingEntity.getQuestion(),
+                askingEntity.getTitle(),
+                askingEntity.getDetails(),
                 getList(askingEntity.getReplies()),
                 getList(askingEntity.getFavorites()),
                 getList(askingEntity.getImages()));
@@ -75,7 +76,8 @@ public class AskingStore {
                 updatedAt,
                 asking.getUserId(),
                 asking.getCategory(),
-                asking.getQuestion(),
+                asking.getTitle(),
+                asking.getDetails(),
                 gson.toJson(asking.getReplies()),
                 gson.toJson(asking.getFavorites()),
                 gson.toJson(asking.getImages()));
