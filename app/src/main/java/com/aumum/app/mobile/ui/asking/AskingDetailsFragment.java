@@ -29,7 +29,6 @@ import com.aumum.app.mobile.core.model.User;
 import com.aumum.app.mobile.core.service.RestService;
 import com.aumum.app.mobile.core.service.ShareService;
 import com.aumum.app.mobile.events.AddAskingReplyEvent;
-import com.aumum.app.mobile.events.AddAskingReplyFinishedEvent;
 import com.aumum.app.mobile.events.ReplyAskingReplyEvent;
 import com.aumum.app.mobile.ui.base.LoaderFragment;
 import com.aumum.app.mobile.ui.helper.TextWatcherAdapter;
@@ -215,13 +214,21 @@ public class AskingDetailsFragment extends LoaderFragment<Asking> {
                 item.imageUri = UpYunUtils.getThumbnailUrl(imageUrl);
                 list.add(item);
             }
-            adapter.addAll(list);
+            if (list.size() > 0) {
+                adapter.addAll(list);
+            } else {
+                gridGallery.setVisibility(View.GONE);
+            }
 
             userNameText.setText(asking.getUser().getScreenName());
             userNameText.setOnClickListener(new UserListener(getActivity(), asking.getUserId()));
             cityText.setText(Constants.Options.CITY_OPTIONS[asking.getUser().getCity()]);
             titleText.setSpannableText(asking.getTitle());
-            detailsText.setSpannableText(asking.getDetails());
+            if (asking.getDetails() != null && asking.getDetails().length() > 0) {
+                detailsText.setSpannableText(asking.getDetails());
+            } else {
+                detailsText.setVisibility(View.GONE);
+            }
             updatedAtText.setText(asking.getUpdatedAtFormatted());
             favoriteText.init(asking.getFavoritesCount(), asking.isFavorited(currentUserId));
             favoriteText.setFavoriteListener(new AskingFavoriteListener(asking));
@@ -247,10 +254,6 @@ public class AskingDetailsFragment extends LoaderFragment<Asking> {
         return editText.length() > 0;
     }
 
-    private void enableSubmit() {
-        postReplyButton.setEnabled(true);
-    }
-
     private void disableSubmit() {
         postReplyButton.setEnabled(false);
     }
@@ -274,11 +277,6 @@ public class AskingDetailsFragment extends LoaderFragment<Asking> {
     public void onReplyAskingReplyEvent(ReplyAskingReplyEvent event) {
         EditTextUtils.showSoftInput(editReply, true);
         editReply.setHint(event.getReplyHint());
-    }
-
-    @Subscribe
-    public void onAddAskingReplyFinishedEvent(AddAskingReplyFinishedEvent event) {
-        enableSubmit();
     }
 
     private void showActionDialog(boolean isOwner) {

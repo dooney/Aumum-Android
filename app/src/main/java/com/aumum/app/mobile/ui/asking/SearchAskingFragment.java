@@ -130,16 +130,14 @@ public class SearchAskingFragment extends RefreshItemListFragment<Asking> {
 
     @Override
     protected List<Asking> buildCards() throws Exception {
-        List<Asking> cards = new ArrayList<Asking>();
         if (dataSet.size() > 0) {
             for (Asking asking : dataSet) {
                 if (asking.getUser() == null) {
                     asking.setUser(userStore.getUserById(asking.getUserId()));
                 }
-                cards.add(asking);
             }
         }
-        return cards;
+        return dataSet;
     }
 
     private void getUserAskings() throws Exception {

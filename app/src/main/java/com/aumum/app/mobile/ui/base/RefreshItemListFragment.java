@@ -109,7 +109,7 @@ public abstract class RefreshItemListFragment<E> extends ItemListFragment<E> {
     protected void doRefresh(int mode) {
         final Bundle bundle = new Bundle();
         bundle.putInt(REFRESH_MODE, mode);
-        if (mode == UPWARDS_REFRESH) {
+        if (mode == UPWARDS_REFRESH && pullToRefreshLayout != null) {
             pullToRefreshLayout.setRefreshing(true);
         }
         refresh(bundle);

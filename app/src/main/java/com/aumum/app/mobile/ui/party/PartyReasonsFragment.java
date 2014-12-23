@@ -132,12 +132,8 @@ public class PartyReasonsFragment extends ItemListFragment<PartyReason> {
                         reason.getType(),
                         reason.getContent(),
                         reason.getUserId());
-
-                // join reason
                 PartyReason response = service.newPartyReason(newReason);
                 service.addPartyReasons(partyId, response.getObjectId());
-                reason.setObjectId(response.getObjectId());
-                reason.setCreatedAt(response.getCreatedAt());
                 party.getReasons().add(response.getObjectId());
 
                 if (reason.getType() == PartyReason.JOIN) {
@@ -178,10 +174,13 @@ public class PartyReasonsFragment extends ItemListFragment<PartyReason> {
             }
 
             @Override
+            protected void onSuccess(Boolean success) throws Exception {
+                refresh(null);
+            }
+
+            @Override
             protected void onFinally() throws RuntimeException {
                 task = null;
-                getListAdapter().notifyDataSetChanged();
-                show();
                 bus.post(new AddPartyReasonFinishedEvent(event.getType(), party));
             }
         };

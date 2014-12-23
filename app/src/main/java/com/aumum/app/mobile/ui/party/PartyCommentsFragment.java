@@ -164,10 +164,6 @@ public class PartyCommentsFragment extends ItemListFragment<Comment> {
         return editText.length() > 0;
     }
 
-    private void enableSubmit() {
-        postCommentButton.setEnabled(true);
-    }
-
     private void disableSubmit() {
         postCommentButton.setEnabled(false);
     }
@@ -212,8 +208,6 @@ public class PartyCommentsFragment extends ItemListFragment<Comment> {
                         comment.getUserId());
                 Comment response = service.newPartyComment(newComment);
                 service.addPartyComment(partyId, response.getObjectId());
-                comment.setObjectId(response.getObjectId());
-                comment.setCreatedAt(response.getCreatedAt());
                 party.getComments().add(response.getObjectId());
                 partyStore.updateOrInsert(party);
 
@@ -239,12 +233,14 @@ public class PartyCommentsFragment extends ItemListFragment<Comment> {
             }
 
             @Override
+            protected void onSuccess(Boolean success) throws Exception {
+                refresh(null);
+            }
+
+            @Override
             protected void onFinally() throws RuntimeException {
                 task = null;
                 repliedComment = null;
-                getListAdapter().notifyDataSetChanged();
-                show();
-                enableSubmit();
             }
         };
         task.execute();

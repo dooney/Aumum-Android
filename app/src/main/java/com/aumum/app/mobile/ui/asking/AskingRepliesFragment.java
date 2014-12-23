@@ -21,7 +21,6 @@ import com.aumum.app.mobile.core.model.User;
 import com.aumum.app.mobile.core.service.MessageDeliveryService;
 import com.aumum.app.mobile.core.service.RestService;
 import com.aumum.app.mobile.events.AddAskingReplyEvent;
-import com.aumum.app.mobile.events.AddAskingReplyFinishedEvent;
 import com.aumum.app.mobile.events.ReplyAskingReplyEvent;
 import com.aumum.app.mobile.ui.base.RefreshItemListFragment;
 import com.aumum.app.mobile.utils.DialogUtils;
@@ -151,16 +150,14 @@ public class AskingRepliesFragment extends RefreshItemListFragment<AskingReply> 
 
     @Override
     protected List<AskingReply> buildCards() throws Exception {
-        List<AskingReply> cards = new ArrayList<AskingReply>();
         if (dataSet.size() > 0) {
             for (AskingReply askingReply : dataSet) {
                 if (askingReply.getUser() == null) {
                     askingReply.setUser(userStore.getUserById(askingReply.getUserId()));
                 }
-                cards.add(askingReply);
             }
         }
-        return cards;
+        return dataSet;
     }
 
     @Subscribe
@@ -185,12 +182,8 @@ public class AskingRepliesFragment extends RefreshItemListFragment<AskingReply> 
                 AskingReply reply = getData().get(0);
                 final AskingReply newReply = new AskingReply(reply.getUserId(),
                         reply.getContent(), repliedId);
-
-                // asking reply
                 AskingReply response = restService.newAskingReply(newReply);
                 restService.addAskingReplies(askingId, response.getObjectId());
-                reply.setObjectId(response.getObjectId());
-                reply.setCreatedAt(response.getCreatedAt());
 
                 Message message = new Message(Message.Type.ASKING_REPLY_NEW,
                         currentUser.getObjectId(), asking.getUserId(), reply.getContent(), askingId);
@@ -215,12 +208,14 @@ public class AskingRepliesFragment extends RefreshItemListFragment<AskingReply> 
             }
 
             @Override
+            protected void onSuccess(Boolean success) throws Exception {
+                refresh(null);
+            }
+
+            @Override
             protected void onFinally() throws RuntimeException {
                 task = null;
                 replied = null;
-                getListAdapter().notifyDataSetChanged();
-                show();
-                bus.post(new AddAskingReplyFinishedEvent());
             }
         };
         task.execute();
