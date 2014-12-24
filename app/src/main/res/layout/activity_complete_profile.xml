@@ -63,7 +63,8 @@
 
             <EditText
                 android:id="@+id/et_about"
-                style="@style/EditText.Register.About" />
+                style="@style/EditText.Register.About"
+                android:imeOptions="actionDone"/>
 
         </LinearLayout>
 

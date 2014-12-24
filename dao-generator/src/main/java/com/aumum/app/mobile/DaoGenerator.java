@@ -56,10 +56,11 @@ public class DaoGenerator {
         party.addStringProperty("objectId").notNull().primaryKey();
         party.addDateProperty("createdAt").notNull();
         party.addStringProperty("userId");
+        party.addStringProperty("title");
         party.addStringProperty("date");
         party.addStringProperty("time");
-        party.addStringProperty("title");
         party.addStringProperty("place");
+        party.addStringProperty("location");
         party.addStringProperty("details");
         party.addStringProperty("groupId");
         party.addStringProperty("members");

@@ -8,10 +8,11 @@ package com.aumum.app.mobile.core.dao.entity;
 public class PartyEntity extends BaseEntity {
 
     private String userId;
+    private String title;
     private String date;
     private String time;
-    private String title;
     private String place;
+    private String location;
     private String details;
     private String groupId;
     private String members;
@@ -32,10 +33,11 @@ public class PartyEntity extends BaseEntity {
                        String objectId,
                        java.util.Date createdAt,
                        String userId,
+                       String title,
                        String date,
                        String time,
-                       String title,
                        String place,
+                       String location,
                        String details,
                        String groupId,
                        String members,
@@ -48,10 +50,11 @@ public class PartyEntity extends BaseEntity {
         this.objectId = objectId;
         this.createdAt = createdAt;
         this.userId = userId;
+        this.title = title;
         this.date = date;
         this.time = time;
-        this.title = title;
         this.place = place;
+        this.location = location;
         this.details = details;
         this.groupId = groupId;
         this.members = members;
@@ -100,6 +103,14 @@ public class PartyEntity extends BaseEntity {
 
     public void setPlace(String place) {
         this.place = place;
+    }
+
+    public String getLocation() {
+        return location;
+    }
+
+    public void setLocation(String location) {
+        this.location = location;
     }
 
     public String getDetails() {

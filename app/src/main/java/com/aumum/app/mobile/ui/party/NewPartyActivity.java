@@ -7,6 +7,7 @@ import android.support.v4.app.FragmentManager;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.text.format.DateFormat;
+import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -56,6 +57,10 @@ import butterknife.ButterKnife;
 import butterknife.InjectView;
 import retrofit.RetrofitError;
 
+import static android.view.KeyEvent.ACTION_DOWN;
+import static android.view.KeyEvent.KEYCODE_ENTER;
+import static android.view.inputmethod.EditorInfo.IME_ACTION_DONE;
+
 public class NewPartyActivity extends ProgressDialogActivity
         implements CalendarDatePickerDialog.OnDateSetListener,
                    RadialTimePickerDialog.OnTimeSetListener,
@@ -74,10 +79,11 @@ public class NewPartyActivity extends ProgressDialogActivity
 
     private Button submitButton;
     @InjectView(R.id.v_scroll) protected ScrollView scrollView;
-    @InjectView(R.id.b_date) protected TextView dateButton;
-    @InjectView(R.id.b_time) protected TextView timeButton;
+    @InjectView(R.id.et_date) protected EditText dateText;
+    @InjectView(R.id.et_time) protected EditText timeText;
     @InjectView(R.id.et_title) protected EditText titleText;
     @InjectView(R.id.et_location) protected AutoCompleteTextView locationText;
+    @InjectView(R.id.et_location_description) protected EditText locationDescriptionText;
     @InjectView(R.id.et_details) protected EditText detailsText;
     @InjectView(R.id.text_add_more) protected TextView addMoreText;
     @InjectView(R.id.layout_type_selection) protected ViewGroup typeSelectionLayout;
@@ -106,7 +112,7 @@ public class NewPartyActivity extends ProgressDialogActivity
         scrollView.setHorizontalScrollBarEnabled(false);
         scrollView.setVerticalScrollBarEnabled(false);
 
-        dateButton.setOnClickListener(new View.OnClickListener() {
+        dateText.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 FragmentManager fm = getSupportFragmentManager();
@@ -117,8 +123,7 @@ public class NewPartyActivity extends ProgressDialogActivity
                 calendarDatePickerDialog.show(fm, FRAG_TAG_DATE_PICKER);
             }
         });
-
-        timeButton.setOnClickListener(new View.OnClickListener() {
+        timeText.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 DateTime now = DateTime.now();
@@ -128,14 +133,29 @@ public class NewPartyActivity extends ProgressDialogActivity
                 timePickerDialog.show(getSupportFragmentManager(), FRAG_TAG_TIME_PICKER);
             }
         });
-
         titleText.addTextChangedListener(watcher);
-
         locationText.setAdapter(new PlacesAutoCompleteAdapter(this, R.layout.place_autocomplete_listitem));
         locationText.addTextChangedListener(watcher);
-
-        detailsText.addTextChangedListener(watcher);
-
+        detailsText.setOnKeyListener(new View.OnKeyListener() {
+            public boolean onKey(final View v, final int keyCode, final KeyEvent event) {
+                if (event != null && ACTION_DOWN == event.getAction()
+                        && keyCode == KEYCODE_ENTER && submitButton.isEnabled()) {
+                    submit();
+                    return true;
+                }
+                return false;
+            }
+        });
+        detailsText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            public boolean onEditorAction(final TextView v, final int actionId,
+                                          final KeyEvent event) {
+                if (actionId == IME_ACTION_DONE && submitButton.isEnabled()) {
+                    submit();
+                    return true;
+                }
+                return false;
+            }
+        });
         addMoreText.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -161,16 +181,14 @@ public class NewPartyActivity extends ProgressDialogActivity
         date.setYear(year);
         date.setMonth(monthOfYear + 1);
         date.setDay(dayOfMonth);
-        dateButton.setText(date.getDateText());
-        dateButton.setTextColor(getResources().getColor(R.color.black));
+        dateText.setText(date.getDateText());
     }
 
     @Override
     public void onTimeSet(RadialPickerLayout radialPickerLayout, int hourOfDay, int minute) {
         time.setHour(hourOfDay);
         time.setMinute(minute);
-        timeButton.setText(time.getTimeText());
-        timeButton.setTextColor(getResources().getColor(R.color.black));
+        timeText.setText(time.getTimeText());
     }
 
     @Override
@@ -240,9 +258,8 @@ public class NewPartyActivity extends ProgressDialogActivity
     private void updateUIWithValidation() {
         final boolean populated = populated(titleText) &&
                                   populated(locationText) &&
-                                  populated(detailsText) &&
-                                  dateButton.getText().length() > 0 &&
-                                  timeButton.getText().length() > 0;
+                                  dateText.getText().length() > 0 &&
+                                  timeText.getText().length() > 0;
         submitButton.setEnabled(populated);
     }
 
@@ -253,6 +270,7 @@ public class NewPartyActivity extends ProgressDialogActivity
     private void submit() {
         EditTextUtils.hideSoftInput(titleText);
         EditTextUtils.hideSoftInput(locationText);
+        EditTextUtils.hideSoftInput(locationDescriptionText);
         EditTextUtils.hideSoftInput(detailsText);
         showProgress();
 
@@ -299,6 +317,7 @@ public class NewPartyActivity extends ProgressDialogActivity
                                         date,
                                         time,
                                         locationText.getText().toString(),
+                                        locationDescriptionText.getText().toString(),
                                         detailsText.getText().toString(),
                                         imageUrlList);
                 if (!GooglePlaceUtils.setPlaceLatLong(party.getPlace())) {

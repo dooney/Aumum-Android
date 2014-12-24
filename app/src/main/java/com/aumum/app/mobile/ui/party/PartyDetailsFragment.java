@@ -286,7 +286,11 @@ public class PartyDetailsFragment extends LoaderFragment<Party> {
         createdAtText.setText(party.getCreatedAtFormatted());
         timeText.setText(party.getDateTimeText());
         locationText.setText(party.getPlace().getLocation());
-        detailsText.setSpannableText(party.getDetails());
+        if (party.getDetails() != null && party.getDetails().length() > 0) {
+            detailsText.setSpannableText(party.getDetails());
+        } else {
+            detailsText.setVisibility(View.GONE);
+        }
 
         ArrayList<CustomGallery> list = new ArrayList<CustomGallery>();
         for (String imageUrl: party.getImages()) {
@@ -295,7 +299,11 @@ public class PartyDetailsFragment extends LoaderFragment<Party> {
             item.imageUri = UpYunUtils.getThumbnailUrl(imageUrl);
             list.add(item);
         }
-        adapter.addAll(list);
+        if (list.size() > 0) {
+            adapter.addAll(list);
+        } else {
+            gridGallery.setVisibility(View.GONE);
+        }
 
         if (!party.isExpired() && !party.isOwner(currentUserId)) {
             actionLayout.setVisibility(View.VISIBLE);

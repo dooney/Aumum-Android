@@ -47,6 +47,9 @@
         <item name="android:singleLine">true</item>
         <item name="android:padding">@dimen/margin_large</item>
     </style>
+    <style name="EditText.Mandatory" parent="EditText">
+        <item name="android:textColorHint">@color/bbutton_danger</item>
+    </style>
     <style name="EditText.Box">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
@@ -54,7 +57,7 @@
         <item name="android:background">@color/transparent</item>
         <item name="android:gravity">left|top</item>
         <item name="android:imeOptions">actionSend</item>
-        <item name="android:inputType">text|textCapSentences|textMultiLine</item>
+        <item name="android:inputType">textMultiLine</item>
     </style>
 
     <style name="ImageView">
@@ -173,32 +176,33 @@
         <item name="android:gravity">center_vertical</item>
         <item name="android:orientation">horizontal</item>
     </style>
-    <style name="ButtonTextView.NewParty">
-        <item name="android:layout_width">match_parent</item>
-        <item name="android:gravity">center_vertical</item>
-        <item name="android:textColor">@color/text_light</item>
-        <item name="android:textSize">@dimen/text_sz_large</item>
-        <item name="android:padding">@dimen/margin_large</item>
-    </style>
-    <style name="ButtonTextView.NewParty.Date" parent="ButtonTextView.NewParty">
-        <item name="android:drawableLeft">@drawable/ic_fa_calendar_l</item>
-        <item name="android:text">@string/label_date</item>
-    </style>
-    <style name="ButtonTextView.NewParty.Time" parent="ButtonTextView.NewParty">
-        <item name="android:drawableLeft">@drawable/ic_fa_clock_o_l</item>
-        <item name="android:text">@string/label_time</item>
-    </style>
-    <style name="EditText.NewParty.Location" parent="EditText">
-        <item name="android:drawableLeft">@drawable/ic_fa_home_l</item>
-        <item name="android:hint">@string/hint_party_location</item>
-    </style>
-    <style name="EditText.NewParty.Title" parent="EditText">
+    <style name="EditText.NewParty.Title" parent="EditText.Mandatory">
+        <item name="android:inputType">textMultiLine</item>
+        <item name="android:lineSpacingMultiplier">1.1</item>
+        <item name="android:maxLines">2</item>
         <item name="android:hint">@string/hint_party_title</item>
+    </style>
+    <style name="EditText.NewParty.Date" parent="EditText.Mandatory">
+        <item name="android:hint">@string/label_date</item>
+    </style>
+    <style name="EditText.NewParty.Time" parent="EditText.Mandatory">
+        <item name="android:hint">@string/label_time</item>
+    </style>
+    <style name="EditText.NewParty.Location" parent="EditText.Mandatory">
+        <item name="android:hint">@string/hint_party_location</item>
+        <item name="android:inputType">textMultiLine</item>
+        <item name="android:lineSpacingMultiplier">1.1</item>
+        <item name="android:maxLines">2</item>
+    </style>
+    <style name="EditText.NewParty.LocationDescription" parent="EditText">
+        <item name="android:hint">@string/hint_party_location_description</item>
+        <item name="android:inputType">textMultiLine</item>
+        <item name="android:lineSpacingMultiplier">1.1</item>
+        <item name="android:maxLines">2</item>
     </style>
     <style name="EditText.NewParty.Details" parent="EditText">
         <item name="android:background">@color/transparent</item>
-        <item name="android:imeOptions">actionSend</item>
-        <item name="android:inputType">text|textCapSentences|textMultiLine</item>
+        <item name="android:inputType">textMultiLine</item>
         <item name="android:lineSpacingMultiplier">1.1</item>
         <item name="android:maxLines">4</item>
         <item name="android:hint">@string/hint_party_details</item>
@@ -213,16 +217,15 @@
     <style name="TextView.PartyReason.Text" parent="TextView.Content.Text" />
 
     <!-- Asking -->
-    <style name="EditText.NewAsking.Title" parent="EditText">
-        <item name="android:inputType">text|textCapSentences|textMultiLine</item>
+    <style name="EditText.NewAsking.Title" parent="EditText.Mandatory">
+        <item name="android:inputType">textMultiLine</item>
         <item name="android:lineSpacingMultiplier">1.1</item>
         <item name="android:maxLines">2</item>
         <item name="android:hint">@string/hint_asking_title</item>
     </style>
     <style name="EditText.NewAsking.Details" parent="EditText">
         <item name="android:background">@color/transparent</item>
-        <item name="android:imeOptions">actionSend</item>
-        <item name="android:inputType">text|textCapSentences|textMultiLine</item>
+        <item name="android:inputType">textMultiLine</item>
         <item name="android:lineSpacingMultiplier">1.1</item>
         <item name="android:maxLines">4</item>
         <item name="android:hint">@string/hint_asking_details</item>
@@ -492,8 +495,7 @@
     <style name="EditText.Register.About" parent="EditText">
         <item name="android:drawableLeft">@drawable/ic_fa_tag</item>
         <item name="android:hint">@string/hint_about</item>
-        <item name="android:imeOptions">actionDone</item>
-        <item name="android:inputType">text|textCapSentences|textMultiLine</item>
+        <item name="android:inputType">textMultiLine</item>
         <item name="android:lineSpacingMultiplier">1.1</item>
         <item name="android:maxLines">4</item>
     </style>

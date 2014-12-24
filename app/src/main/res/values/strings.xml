@@ -260,10 +260,11 @@
     <string name="label_new_party_message">发起了聚会：%1$s</string>
     <string name="label_delete_party_message">取消了聚会：%1$s</string>
     <string name="label_like_party_message">支持了聚会：%1$s</string>
-    <string name="hint_party_title">聚会标题</string>
-    <string name="hint_party_location">聚会地点具体地址</string>
-    <string name="label_date">聚会日期</string>
-    <string name="label_time">具体时间</string>
+    <string name="hint_party_title">聚会名称</string>
+    <string name="hint_party_location">具体地址</string>
+    <string name="hint_party_location_description">地址说明</string>
+    <string name="label_date">日期</string>
+    <string name="label_time">时间</string>
     <string name="hint_party_details">聚会内容 (不超过140字)</string>
 
     <!-- Asking -->
@@ -292,5 +293,6 @@
     <string name="pull_to_refresh_refreshing_label">正在加载</string>
     <string name="title_gps_alert_dialog">GPS设置</string>
     <string name="info_gps_alert_dialog">GPS未开启，点击确定去设置菜单开启该功能。</string>
+    <string name="done_label">确定</string>
 
 </resources>

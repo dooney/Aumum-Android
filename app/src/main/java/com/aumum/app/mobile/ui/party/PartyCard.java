@@ -73,7 +73,11 @@ public class PartyCard extends Card {
         timeText.setText(party.getDateTimeText());
 
         TextView locationText = (TextView) view.findViewById(R.id.text_location);
-        locationText.setText(party.getPlace().getLocation());
+        String location = party.getPlace().getLocation();
+        if (party.getLocation() != null && party.getLocation().length() > 0) {
+            location += " (" + party.getLocation() + ")";
+        }
+        locationText.setText(location);
 
         ViewGroup joinLayout = (ViewGroup) view.findViewById(R.id.layout_join);
         JoinTextView joinText = (JoinTextView) view.findViewById(R.id.text_join);

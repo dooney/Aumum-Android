@@ -39,11 +39,7 @@ public class AskingFragment extends Fragment {
 
     @Override
     public void onCreateOptionsMenu(final Menu menu, final MenuInflater inflater) {
-        menu.add(Menu.NONE, 0, Menu.NONE, "SEARCH")
-                .setIcon(R.drawable.ic_fa_search)
-                .setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
-
-        menu.add(Menu.NONE, 1, Menu.NONE, "NEW")
+        menu.add(Menu.NONE, 0, Menu.NONE, "NEW")
                 .setIcon(R.drawable.ic_fa_plus)
                 .setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
     }
@@ -55,8 +51,6 @@ public class AskingFragment extends Fragment {
         }
         switch (item.getItemId()) {
             case 0:
-                break;
-            case 1:
                 final Intent intent = new Intent(getActivity(), NewAskingActivity.class);
                 intent.putExtra(NewAskingActivity.INTENT_CATEGORY, pager.getCurrentItem());
                 startActivityForResult(intent, Constants.RequestCode.NEW_ASKING_REQ_CODE);

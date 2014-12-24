@@ -14,10 +14,11 @@ import java.util.List;
  */
 public class Party extends AggregateRoot {
     protected String userId;
+    protected String title;
     protected Date date;
     protected Time time;
-    protected String title;
     protected Place place;
+    protected String location;
     protected String details;
     protected String groupId;
     protected List<String> members = new ArrayList<String>();
@@ -43,6 +44,7 @@ public class Party extends AggregateRoot {
                  Date date,
                  Time time,
                  String place,
+                 String location,
                  String details,
                  List<String> images) {
         this.userId = userId;
@@ -50,6 +52,7 @@ public class Party extends AggregateRoot {
         this.date = date;
         this.time = time;
         this.place = new Place(place);
+        this.location = location;
         this.details = details;
         this.images.clear();
         this.images.addAll(images);
@@ -58,10 +61,11 @@ public class Party extends AggregateRoot {
     public Party(String objectId,
                  String createdAt,
                  String userId,
+                 String title,
                  Date date,
                  Time time,
-                 String title,
                  Place place,
+                 String location,
                  String details,
                  String groupId,
                  List<String> members,
@@ -73,9 +77,10 @@ public class Party extends AggregateRoot {
         this.objectId = objectId;
         this.createdAt = createdAt;
         this.userId = userId;
+        this.title = title;
         this.date = date;
         this.time = time;
-        this.title = title;
+        this.location = location;
         this.place = place;
         this.details = details;
         this.groupId = groupId;
@@ -120,6 +125,10 @@ public class Party extends AggregateRoot {
 
     public Place getPlace() {
         return place;
+    }
+
+    public String getLocation() {
+        return location;
     }
 
     public String getDetails() {
