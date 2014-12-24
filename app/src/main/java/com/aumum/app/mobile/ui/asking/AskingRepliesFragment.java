@@ -150,7 +150,11 @@ public class AskingRepliesFragment extends RefreshItemListFragment<AskingReply> 
 
     @Override
     protected List<AskingReply> buildCards() throws Exception {
-        if (dataSet.size() > 0) {
+        int totalCount = dataSet.size();
+        if (totalCount < AskingReplyStore.LIMIT_PER_LOAD) {
+            setMore(false);
+        }
+        if (totalCount > 0) {
             for (AskingReply askingReply : dataSet) {
                 if (askingReply.getUser() == null) {
                     askingReply.setUser(userStore.getUserById(askingReply.getUserId()));

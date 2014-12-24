@@ -26,7 +26,7 @@ public class AskingStore {
     private AskingEntityDao askingEntityDao;
     private Gson gson = new Gson();
 
-    private int LIMIT_PER_LOAD = 15;
+    public static final int LIMIT_PER_LOAD = 15;
 
     public AskingStore(RestService restService, ApiKeyProvider apiKeyProvider, Repository repository) {
         this.restService = restService;

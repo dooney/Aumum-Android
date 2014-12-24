@@ -12,7 +12,7 @@ public class AskingReplyStore {
 
     private RestService restService;
 
-    private int LIMIT_PER_LOAD = 15;
+    public static final int LIMIT_PER_LOAD = 15;
 
     public AskingReplyStore(RestService restService) {
         this.restService = restService;
