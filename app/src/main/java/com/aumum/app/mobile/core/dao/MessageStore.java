@@ -3,7 +3,6 @@ package com.aumum.app.mobile.core.dao;
 import com.aumum.app.mobile.core.Constants;
 import com.aumum.app.mobile.core.dao.entity.MessageEntity;
 import com.aumum.app.mobile.core.dao.gen.MessageEntityDao;
-import com.aumum.app.mobile.core.infra.security.ApiKeyProvider;
 import com.aumum.app.mobile.core.model.Message;
 import com.aumum.app.mobile.core.service.RestService;
 import com.aumum.app.mobile.utils.DateUtils;
@@ -20,13 +19,11 @@ import java.util.List;
  */
 public class MessageStore {
     private RestService restService;
-    private ApiKeyProvider apiKeyProvider;
     private MessageEntityDao messageEntityDao;
     private List<Message> unreadList = new ArrayList<Message>();
 
-    public MessageStore(RestService restService, ApiKeyProvider apiKeyProvider, Repository repository) {
+    public MessageStore(RestService restService, Repository repository) {
         this.restService = restService;
-        this.apiKeyProvider = apiKeyProvider;
         this.messageEntityDao = repository.getMessageEntityDao();
     }
 
@@ -36,8 +33,7 @@ public class MessageStore {
 
     private MessageEntity map(Message message) throws Exception {
         Date createdAt = DateUtils.stringToDate(message.getCreatedAt(), Constants.DateTime.FORMAT);
-        String context = apiKeyProvider.getAuthUserId();
-        return new MessageEntity(context, message.getObjectId(), createdAt);
+        return new MessageEntity(message.getObjectId(), createdAt);
     }
 
     public List<Message> getUnreadListFromServer(List<String> idList) throws Exception {
@@ -50,9 +46,7 @@ public class MessageStore {
     }
 
     private String getLastUpdateTime() {
-        String context = apiKeyProvider.getAuthUserId();
         MessageEntity messageEntity = messageEntityDao.queryBuilder()
-                .where(MessageEntityDao.Properties.Context.eq(context))
                 .orderDesc(MessageEntityDao.Properties.CreatedAt)
                 .limit(1)
                 .unique();

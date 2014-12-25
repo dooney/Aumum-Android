@@ -132,7 +132,7 @@ public class MainFragment extends Fragment
                     notificationService.pushUserMessageNotification(fromName, message);
                     messageStore.getUnreadList().add(message);
                 }
-                List<Party> unreadPartyList = partyStore.getUnreadListFromServer();
+                List<Party> unreadPartyList = partyStore.getUnreadListFromServer(currentUser.getObjectId());
                 if (unreadPartyList.size() > 0) {
                     partyStore.getUnreadList().addAll(unreadPartyList);
                 }

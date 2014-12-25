@@ -3,7 +3,6 @@ package com.aumum.app.mobile.core.dao;
 import com.aumum.app.mobile.core.Constants;
 import com.aumum.app.mobile.core.dao.entity.AskingEntity;
 import com.aumum.app.mobile.core.dao.gen.AskingEntityDao;
-import com.aumum.app.mobile.core.infra.security.ApiKeyProvider;
 import com.aumum.app.mobile.core.model.Asking;
 import com.aumum.app.mobile.core.service.RestService;
 import com.aumum.app.mobile.utils.DateUtils;
@@ -22,15 +21,13 @@ import de.greenrobot.dao.query.QueryBuilder;
 public class AskingStore {
 
     private RestService restService;
-    private ApiKeyProvider apiKeyProvider;
     private AskingEntityDao askingEntityDao;
     private Gson gson = new Gson();
 
     public static final int LIMIT_PER_LOAD = 15;
 
-    public AskingStore(RestService restService, ApiKeyProvider apiKeyProvider, Repository repository) {
+    public AskingStore(RestService restService, Repository repository) {
         this.restService = restService;
-        this.apiKeyProvider = apiKeyProvider;
         this.askingEntityDao = repository.getAskingEntityDao();
     }
 
@@ -66,11 +63,9 @@ public class AskingStore {
     }
 
     private AskingEntity map(Asking asking) throws Exception {
-        String context = apiKeyProvider.getAuthUserId();
         Date createdAt = DateUtils.stringToDate(asking.getCreatedAt(), Constants.DateTime.FORMAT);
         Date updatedAt = DateUtils.stringToDate(asking.getUpdatedAt(), Constants.DateTime.FORMAT);
         return new AskingEntity(
-                context,
                 asking.getObjectId(),
                 createdAt,
                 updatedAt,
@@ -94,15 +89,13 @@ public class AskingStore {
     }
 
     public List<Asking> getUpwardsList(int category, String time) throws Exception {
-        String context = apiKeyProvider.getAuthUserId();
         QueryBuilder<AskingEntity> query = askingEntityDao.queryBuilder()
-                .where(AskingEntityDao.Properties.Context.eq(context));
+                .where(AskingEntityDao.Properties.Category.eq(category));
         if (time != null) {
             Date updatedAt = DateUtils.stringToDate(time, Constants.DateTime.FORMAT);
             query = query.where(AskingEntityDao.Properties.UpdatedAt.gt(updatedAt));
         }
         List<AskingEntity> records = query
-                .where(AskingEntityDao.Properties.Category.eq(category))
                 .orderDesc(AskingEntityDao.Properties.UpdatedAt)
                 .limit(LIMIT_PER_LOAD)
                 .list();
@@ -117,10 +110,8 @@ public class AskingStore {
     }
 
     public List<Asking> getBackwardsList(int category, String time) throws Exception {
-        String context = apiKeyProvider.getAuthUserId();
         Date date = DateUtils.stringToDate(time, Constants.DateTime.FORMAT);
         List<AskingEntity> records = askingEntityDao.queryBuilder()
-                .where(AskingEntityDao.Properties.Context.eq(context))
                 .where(AskingEntityDao.Properties.Category.eq(category))
                 .where(AskingEntityDao.Properties.UpdatedAt.lt(date))
                 .orderDesc(AskingEntityDao.Properties.UpdatedAt)
@@ -136,10 +127,8 @@ public class AskingStore {
     }
 
     public List<Asking> getBackwardsList(List<String> idList, String time) throws Exception {
-        String context = apiKeyProvider.getAuthUserId();
         Date date = DateUtils.stringToDate(time, Constants.DateTime.FORMAT);
         List<AskingEntity> records = askingEntityDao.queryBuilder()
-                .where(AskingEntityDao.Properties.Context.eq(context))
                 .where(AskingEntityDao.Properties.ObjectId.in(idList))
                 .where(AskingEntityDao.Properties.UpdatedAt.lt(date))
                 .orderDesc(AskingEntityDao.Properties.UpdatedAt)

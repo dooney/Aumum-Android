@@ -16,10 +16,8 @@ public class MessageEntity extends BaseEntity {
         this.objectId = objectId;
     }
 
-    public MessageEntity(String context,
-                         String objectId,
+    public MessageEntity(String objectId,
                          Date createdAt) {
-        this.context = context;
         this.objectId = objectId;
         this.createdAt = createdAt;
     }

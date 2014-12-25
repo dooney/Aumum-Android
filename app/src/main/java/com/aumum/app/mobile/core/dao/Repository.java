@@ -25,6 +25,14 @@ public class Repository {
         daoMaster = new DaoMaster(db);
     }
 
+    public void reset() {
+        getMessageEntityDao().deleteAll();
+        getUserEntityDao().deleteAll();
+        getPartyEntityDao().deleteAll();
+        getContactRequestEntityDao().deleteAll();
+        getAskingEntityDao().deleteAll();
+    }
+
     public MessageEntityDao getMessageEntityDao() {
         return daoMaster.newSession().getMessageEntityDao();
     }

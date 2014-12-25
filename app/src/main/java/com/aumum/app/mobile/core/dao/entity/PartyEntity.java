@@ -29,8 +29,7 @@ public class PartyEntity extends BaseEntity {
         this.objectId = objectId;
     }
 
-    public PartyEntity(String context,
-                       String objectId,
+    public PartyEntity(String objectId,
                        java.util.Date createdAt,
                        String userId,
                        String title,
@@ -46,7 +45,6 @@ public class PartyEntity extends BaseEntity {
                        String reasons,
                        String favorites,
                        String images) {
-        this.context = context;
         this.objectId = objectId;
         this.createdAt = createdAt;
         this.userId = userId;

@@ -24,6 +24,7 @@ import com.aumum.app.mobile.R;
 import com.aumum.app.mobile.R.id;
 import com.aumum.app.mobile.R.layout;
 import com.aumum.app.mobile.core.Constants;
+import com.aumum.app.mobile.core.dao.Repository;
 import com.aumum.app.mobile.core.service.RestService;
 import com.aumum.app.mobile.core.model.User;
 import com.aumum.app.mobile.events.UnAuthorizedErrorEvent;
@@ -50,6 +51,7 @@ import retrofit.RetrofitError;
 public class LoginActivity extends AuthenticateActivity {
 
     @Inject RestService restService;
+    @Inject Repository repository;
     @Inject Bus bus;
 
     @InjectView(R.id.text_country) protected TextView countryText;
@@ -203,6 +205,7 @@ public class LoginActivity extends AuthenticateActivity {
                 User response = restService.authenticate(mobile, password);
                 userId = response.getObjectId();
                 token = response.getSessionToken();
+                repository.reset();
                 return true;
             }
 

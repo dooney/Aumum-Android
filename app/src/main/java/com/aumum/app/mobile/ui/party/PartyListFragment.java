@@ -122,6 +122,12 @@ public class PartyListFragment extends RefreshItemListFragment<Card> {
     }
 
     @Override
+    protected List<Card> loadDataCore(final Bundle bundle) throws Exception {
+        currentUser = userStore.getCurrentUser();
+        return super.loadDataCore(bundle);
+    }
+
+    @Override
     protected void getUpwardsList() throws Exception {
         dataStore.getUnreadList().clear();
         String after = null;
@@ -174,7 +180,6 @@ public class PartyListFragment extends RefreshItemListFragment<Card> {
         if (totalCount < PartyStore.LIMIT_PER_LOAD) {
             setMore(false);
         }
-        currentUser = userStore.getCurrentUser();
         List<Card> cards = new ArrayList<Card>();
         if (totalCount > 0) {
             for (Party party : dataSet) {
@@ -244,10 +249,10 @@ public class PartyListFragment extends RefreshItemListFragment<Card> {
     }
 
     private List<Party> onGetUpwardsList(String after) throws Exception {
-        return dataStore.getUpwardsList(after);
+        return dataStore.getUpwardsList(currentUser.getObjectId(), after);
     }
 
     private List<Party> onGetBackwardsList(String before) throws Exception {
-        return dataStore.getBackwardsList(before);
+        return dataStore.getBackwardsList(currentUser.getObjectId(), before);
     }
 }

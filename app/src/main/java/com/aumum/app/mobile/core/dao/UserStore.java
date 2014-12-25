@@ -72,13 +72,8 @@ public class UserStore {
     }
 
     private UserEntity map(User user) throws Exception {
-        String context = apiKeyProvider.getAuthUserId();
-        if (context == null) {
-            context = user.getObjectId();
-        }
         Date createdAt = DateUtils.stringToDate(user.getCreatedAt(), Constants.DateTime.FORMAT);
         UserEntity userEntity = new UserEntity(
-                context,
                 user.getObjectId(),
                 user.getUsername(),
                 user.getChatId(),
@@ -136,9 +131,7 @@ public class UserStore {
     }
 
     public User getUserByChatId(String id) throws Exception {
-        String context = apiKeyProvider.getAuthUserId();
         UserEntity userEntity = userEntityDao.queryBuilder()
-                .where(UserEntityDao.Properties.Context.eq(context))
                 .where(UserEntityDao.Properties.ChatId.eq(id))
                 .unique();
         if (userEntity != null) {
@@ -149,23 +142,19 @@ public class UserStore {
     }
 
     public void addContactRequest(String userId, String intro) {
-        String context = apiKeyProvider.getAuthUserId();
         ContactRequestEntity contactRequestEntity = contactRequestEntityDao.queryBuilder()
-                .where(ContactRequestEntityDao.Properties.Context.eq(context))
                 .where(ContactRequestEntityDao.Properties.UserId.eq(userId))
                 .unique();
         if (contactRequestEntity != null) {
             contactRequestEntityDao.delete(contactRequestEntity);
         }
-        contactRequestEntity = new ContactRequestEntity(null, context, userId, intro);
+        contactRequestEntity = new ContactRequestEntity(null, userId, intro);
         contactRequestEntityDao.insert(contactRequestEntity);
     }
 
     public List<ContactRequest> getContactRequestList() throws Exception {
-        String context = apiKeyProvider.getAuthUserId();
         User currentUser = getCurrentUser();
         List<ContactRequestEntity> entities = contactRequestEntityDao.queryBuilder()
-                .where(ContactRequestEntityDao.Properties.Context.eq(context))
                 .orderDesc(ContactRequestEntityDao.Properties.Id)
                 .list();
         List<ContactRequest> result = new ArrayList<ContactRequest>();

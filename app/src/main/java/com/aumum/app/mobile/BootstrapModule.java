@@ -188,8 +188,8 @@ public class BootstrapModule {
 
     @Provides
     @Singleton
-    MessageStore provideMessageStore(RestService restService, ApiKeyProvider apiKeyProvider, Repository repository) {
-        return new MessageStore(restService, apiKeyProvider, repository);
+    MessageStore provideMessageStore(RestService restService, Repository repository) {
+        return new MessageStore(restService, repository);
     }
 
     @Provides
@@ -200,8 +200,8 @@ public class BootstrapModule {
 
     @Provides
     @Singleton
-    PartyStore providePartyStore(RestService restService, ApiKeyProvider apiKeyProvider, Repository repository) {
-        return new PartyStore(restService, apiKeyProvider, repository);
+    PartyStore providePartyStore(RestService restService, Repository repository) {
+        return new PartyStore(restService, repository);
     }
 
     @Provides
@@ -218,8 +218,8 @@ public class BootstrapModule {
 
     @Provides
     @Singleton
-    AskingStore provideAskingStore(RestService restService, ApiKeyProvider apiKeyProvider, Repository repository) {
-        return new AskingStore(restService, apiKeyProvider, repository);
+    AskingStore provideAskingStore(RestService restService, Repository repository) {
+        return new AskingStore(restService, repository);
     }
 
     @Provides
