@@ -23,8 +23,8 @@ import uk.co.senab.actionbarpulltorefresh.library.listeners.OnRefreshListener;
 public abstract class RefreshItemListFragment<E> extends ItemListFragment<E> {
 
     private final String REFRESH_MODE = "refreshMode";
-    protected final int UPWARDS_REFRESH = 1;
-    protected final int BACKWARDS_REFRESH = 2;
+    private final int UPWARDS_REFRESH = 1;
+    private final int BACKWARDS_REFRESH = 2;
     private boolean isLoading = false;
     private boolean isMore = true;
 
@@ -42,7 +42,9 @@ public abstract class RefreshItemListFragment<E> extends ItemListFragment<E> {
                 @Override
                 public void onRefreshStarted(View view) {
                     if (!isLoading) {
-                        doRefresh(UPWARDS_REFRESH);
+                        final Bundle bundle = new Bundle();
+                        bundle.putInt(REFRESH_MODE, UPWARDS_REFRESH);
+                        refresh(bundle);
                     }
                 }
             }).setup(pullToRefreshLayout);
@@ -68,7 +70,9 @@ public abstract class RefreshItemListFragment<E> extends ItemListFragment<E> {
                         int lastInScreen = firstVisibleItem + visibleItemCount;
                         if (visibleItemCount > 0 && lastInScreen == totalItemCount) {
                             if (!isLoading && isMore) {
-                                doRefresh(BACKWARDS_REFRESH);
+                                final Bundle bundle = new Bundle();
+                                bundle.putInt(REFRESH_MODE, BACKWARDS_REFRESH);
+                                refresh(bundle);
                             }
                         }
                     }
@@ -104,15 +108,6 @@ public abstract class RefreshItemListFragment<E> extends ItemListFragment<E> {
         if (pullToRefreshLayout != null) {
             pullToRefreshLayout.setRefreshComplete();
         }
-    }
-
-    protected void doRefresh(int mode) {
-        final Bundle bundle = new Bundle();
-        bundle.putInt(REFRESH_MODE, mode);
-        if (mode == UPWARDS_REFRESH && pullToRefreshLayout != null) {
-            pullToRefreshLayout.setRefreshing(true);
-        }
-        refresh(bundle);
     }
 
     private void toggleLoadingView() {

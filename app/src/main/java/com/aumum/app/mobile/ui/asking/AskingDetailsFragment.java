@@ -318,6 +318,7 @@ public class AskingDetailsFragment extends LoaderFragment<Asking> {
         task = new SafeAsyncTask<Boolean>() {
             public Boolean call() throws Exception {
                 restService.deleteAsking(askingId);
+                askingStore.deleteAsking(askingId);
                 return true;
             }
 

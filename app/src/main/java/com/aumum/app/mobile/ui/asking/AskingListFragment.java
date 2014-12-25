@@ -17,7 +17,6 @@ import com.aumum.app.mobile.core.dao.AskingStore;
 import com.aumum.app.mobile.core.dao.UserStore;
 import com.aumum.app.mobile.core.model.Asking;
 import com.aumum.app.mobile.ui.base.RefreshItemListFragment;
-import com.aumum.app.mobile.utils.Ln;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -86,7 +85,7 @@ public class AskingListFragment extends RefreshItemListFragment<Asking> {
         if (container.getTag() != null) {
             int category = (Integer) container.getTag();
             if (this.category == category) {
-                doRefresh(UPWARDS_REFRESH);
+                refresh(null);
                 container.setTag(null);
             }
         }
@@ -164,22 +163,24 @@ public class AskingListFragment extends RefreshItemListFragment<Asking> {
     }
 
     private void onAskingDeleted(String askingId) {
-        try {
-            for (Iterator<Asking> it = dataSet.iterator(); it.hasNext();) {
-                Asking asking = it.next();
-                if (asking.getObjectId().equals(askingId)) {
-                    it.remove();
-                    getActivity().runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            getListAdapter().notifyDataSetChanged();
-                        }
-                    });
-                    return;
-                }
+        for (Iterator<Asking> it = dataSet.iterator(); it.hasNext();) {
+            Asking asking = it.next();
+            if (asking.getObjectId().equals(askingId)) {
+                it.remove();
             }
-        } catch (Exception e) {
-            Ln.d(e);
+        }
+        for (Iterator<Asking> it = getData().iterator(); it.hasNext();) {
+            Asking asking = it.next();
+            if (asking.getObjectId().equals(askingId)) {
+                it.remove();
+                getActivity().runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        getListAdapter().notifyDataSetChanged();
+                    }
+                });
+                return;
+            }
         }
     }
 }

@@ -156,4 +156,8 @@ public class AskingStore {
         }
         return askingList;
     }
+
+    public void deleteAsking(String askingId) {
+        askingEntityDao.deleteByKey(askingId);
+    }
 }

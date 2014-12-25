@@ -211,4 +211,8 @@ public class PartyStore {
         }
         return partyList;
     }
+
+    public void deleteParty(String partyId) {
+        partyEntityDao.deleteByKey(partyId);
+    }
 }

@@ -393,6 +393,7 @@ public class PartyDetailsFragment extends LoaderFragment<Party> {
         task = new SafeAsyncTask<Boolean>() {
             public Boolean call() throws Exception {
                 restService.deleteParty(party.getObjectId());
+                partyStore.deleteParty(party.getObjectId());
                 for(String userId: party.getMembers()) {
                     restService.removeUserParty(userId, party.getObjectId());
 
