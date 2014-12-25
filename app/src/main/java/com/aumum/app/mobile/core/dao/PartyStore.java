@@ -130,7 +130,7 @@ public class PartyStore {
             return map(records);
         } else {
             int limit = time != null ? Integer.MAX_VALUE : LIMIT_PER_LOAD;
-            List<Party> partyList = restService.getPartiesAfter(time, limit);
+            List<Party> partyList = restService.getPartiesAfter(context, time, limit);
             updateOrInsert(partyList);
             return partyList;
         }
@@ -148,7 +148,7 @@ public class PartyStore {
         if (records.size() > 0) {
             return map(records);
         } else {
-            List<Party> partyList = restService.getPartiesBefore(time, LIMIT_PER_LOAD);
+            List<Party> partyList = restService.getPartiesBefore(context, time, LIMIT_PER_LOAD);
             updateOrInsert(partyList);
             return partyList;
         }
@@ -194,8 +194,9 @@ public class PartyStore {
     }
 
     public List<Party> getUnreadListFromServer() throws Exception {
+        String context = apiKeyProvider.getAuthUserId();
         String time = getLastUpdateTime();
-        List<Party> partyList = restService.getPartiesAfter(time, Integer.MAX_VALUE);
+        List<Party> partyList = restService.getPartiesAfter(context, time, Integer.MAX_VALUE);
         for (Party party: partyList) {
             partyEntityDao.insertOrReplace(map(party));
         }

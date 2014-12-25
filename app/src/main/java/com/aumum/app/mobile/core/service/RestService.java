@@ -11,6 +11,7 @@ import com.aumum.app.mobile.core.model.PartyReason;
 import com.aumum.app.mobile.core.model.User;
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonPrimitive;
 
@@ -169,8 +170,22 @@ public class RestService {
         return getPartyService().getList("-createdAt", where, limit).getResults();
     }
 
-    public List<Party> getPartiesAfter(String after, int limit) {
+    private JsonElement buildSubscriptionJson(String userId) {
+        JsonArray jsonArray = new JsonArray();
+        JsonObject liveJson = new JsonObject();
+        liveJson.addProperty("$exists", false);
+        JsonObject publicJson = new JsonObject();
+        publicJson.add("subscriptions", liveJson);
+        jsonArray.add(publicJson);
+        JsonObject inJson = new JsonObject();
+        inJson.addProperty("subscriptions", userId);
+        jsonArray.add(inJson);
+        return jsonArray;
+    }
+
+    public List<Party> getPartiesAfter(String userId, String after, int limit) {
         final JsonObject whereJson = new JsonObject();
+        whereJson.add("$or", buildSubscriptionJson(userId));
         return getPartiesAfterCore(whereJson, after, limit);
     }
 
@@ -183,8 +198,9 @@ public class RestService {
         return getPartyService().getList("-createdAt", where, limit).getResults();
     }
 
-    public List<Party> getPartiesBefore(String before, int limit) {
+    public List<Party> getPartiesBefore(String userId, String before, int limit) {
         final JsonObject whereJson = new JsonObject();
+        whereJson.add("$or", buildSubscriptionJson(userId));
         return getPartiesBeforeCore(whereJson, before, limit);
     }
 

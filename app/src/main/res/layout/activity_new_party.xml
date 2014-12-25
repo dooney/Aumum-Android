@@ -7,66 +7,122 @@
     <ScrollView
         android:id="@+id/v_scroll"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" >
+        android:layout_height="wrap_content" >
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:padding="@dimen/margin_large"
-            android:focusable="true"
-            android:focusableInTouchMode="true">
-
-            <EditText
-                android:id="@+id/et_title"
-                style="@style/EditText.NewParty.Title"
-                android:nextFocusDown="@+id/et_location"
-                android:imeOptions="actionNext"/>
+            android:orientation="vertical">
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="@dimen/margin_large"
+                android:background="@color/white"
+                android:focusable="true"
+                android:focusableInTouchMode="true">
 
                 <EditText
-                    android:id="@+id/et_date"
-                    style="@style/EditText.NewParty.Date"
-                    android:layout_weight="1"
-                    android:focusable="false"/>
+                    android:id="@+id/et_title"
+                    style="@style/EditText.NewParty.Title"
+                    android:nextFocusDown="@+id/et_location"
+                    android:imeOptions="actionNext"/>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <EditText
+                        android:id="@+id/et_date"
+                        style="@style/EditText.NewParty.Date"
+                        android:layout_weight="1"
+                        android:focusable="false"/>
+
+                    <EditText
+                        android:id="@+id/et_time"
+                        style="@style/EditText.NewParty.Time"
+                        android:layout_weight="1"
+                        android:focusable="false"/>
+
+                </LinearLayout>
+
+                <AutoCompleteTextView
+                    android:id="@+id/et_location"
+                    style="@style/EditText.NewParty.Location"
+                    android:nextFocusDown="@+id/et_location_description"
+                    android:imeOptions="actionNext"/>
 
                 <EditText
-                    android:id="@+id/et_time"
-                    style="@style/EditText.NewParty.Time"
-                    android:layout_weight="1"
-                    android:focusable="false"/>
+                    android:id="@+id/et_location_description"
+                    style="@style/EditText.NewParty.LocationDescription"
+                    android:nextFocusDown="@+id/et_details"
+                    android:imeOptions="actionNext"/>
+
+                <EditText
+                    android:id="@+id/et_details"
+                    style="@style/EditText.NewParty.Details"
+                    android:imeOptions="actionDone"/>
+
+                <GridView
+                    android:id="@+id/grid_gallery"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="top"
+                    android:numColumns="4" >
+                </GridView>
 
             </LinearLayout>
 
-            <AutoCompleteTextView
-                android:id="@+id/et_location"
-                style="@style/EditText.NewParty.Location"
-                android:nextFocusDown="@+id/et_location_description"
-                android:imeOptions="actionNext"/>
-
-            <EditText
-                android:id="@+id/et_location_description"
-                style="@style/EditText.NewParty.LocationDescription"
-                android:nextFocusDown="@+id/et_details"
-                android:imeOptions="actionNext"/>
-
-            <EditText
-                android:id="@+id/et_details"
-                style="@style/EditText.NewParty.Details"
-                android:imeOptions="actionDone"/>
-
-            <GridView
-                android:id="@+id/grid_gallery"
+            <FrameLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_gravity="top"
-                android:paddingTop="@dimen/margin_large"
-                android:paddingBottom="@dimen/margin_large"
-                android:numColumns="4" >
-            </GridView>
+                android:paddingTop="@dimen/margin_extra_large">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:background="@color/white">
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:paddingTop="@dimen/margin_large"
+                        android:paddingBottom="@dimen/margin_large"
+                        android:paddingLeft="@dimen/margin_extra_large"
+                        android:paddingRight="@dimen/margin_extra_large">
+
+                        <TextView
+                            style="@style/TextView.NewParty.PrivacyLabel"/>
+
+                        <TextView
+                            android:id="@+id/text_privacy"
+                            style="@style/TextView.NewParty.Privacy"
+                            android:layout_centerVertical="true"
+                            android:layout_alignParentRight="true"
+                            android:text="完全公开"/>
+
+                    </RelativeLayout>
+
+                    <View style="@style/Divider" />
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:paddingTop="@dimen/margin_large"
+                        android:paddingBottom="@dimen/margin_large"
+                        android:paddingLeft="@dimen/margin_extra_large"
+                        android:paddingRight="@dimen/margin_extra_large">
+
+                        <TextView
+                            style="@style/TextView.NewParty.NotifyLabel"/>
+
+                    </RelativeLayout>
+
+                </LinearLayout>
+
+            </FrameLayout>
 
         </LinearLayout>
 

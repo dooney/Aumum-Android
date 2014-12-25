@@ -61,6 +61,11 @@
         <item>举报</item>
         <item>退出</item>
     </string-array>
+    <string-array name="label_party_privacy">
+        <item>完全公开</item>
+        <item>仅好友可见</item>
+        <item>指定好友可见</item>
+    </string-array>
 
     <!-- General -->
     <string name="label_ok">确定</string>
@@ -266,6 +271,8 @@
     <string name="label_date">日期</string>
     <string name="label_time">时间</string>
     <string name="hint_party_details">聚会内容 (不超过140字)</string>
+    <string name="label_privacy">隐私设置</string>
+    <string name="label_notify">提醒好友</string>
 
     <!-- Asking -->
     <string name="hint_asking_title">说说标题</string>

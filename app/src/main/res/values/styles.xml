@@ -207,6 +207,19 @@
         <item name="android:maxLines">4</item>
         <item name="android:hint">@string/hint_party_details</item>
     </style>
+    <style name="TextView.NewParty.PrivacyLabel" parent="ButtonTextView">
+        <item name="android:drawableLeft">@drawable/ic_fa_eye</item>
+        <item name="android:text">@string/label_privacy</item>
+        <item name="android:textSize">@dimen/text_sz_large</item>
+    </style>
+    <style name="TextView.NewParty.Privacy" parent="TextView">
+        <item name="android:textSize">@dimen/text_sz_large</item>
+    </style>
+    <style name="TextView.NewParty.NotifyLabel" parent="ButtonTextView">
+        <item name="android:drawableLeft">@drawable/ic_fa_at</item>
+        <item name="android:text">@string/label_notify</item>
+        <item name="android:textSize">@dimen/text_sz_large</item>
+    </style>
     <style name="TextView.NewParty.AddMore" parent="TextView.Subtitle">
         <item name="android:textSize">@dimen/text_sz_large</item>
         <item name="android:text">@string/label_add_more</item>

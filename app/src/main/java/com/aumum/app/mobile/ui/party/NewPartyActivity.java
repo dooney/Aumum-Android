@@ -1,6 +1,7 @@
 package com.aumum.app.mobile.ui.party;
 
 import android.app.Activity;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
@@ -36,6 +37,7 @@ import com.aumum.app.mobile.ui.image.CustomGallery;
 import com.aumum.app.mobile.ui.image.GalleryAdapter;
 import com.aumum.app.mobile.ui.image.ImagePickerActivity;
 import com.aumum.app.mobile.ui.view.Animation;
+import com.aumum.app.mobile.utils.DialogUtils;
 import com.aumum.app.mobile.utils.EditTextUtils;
 import com.aumum.app.mobile.utils.GooglePlaceUtils;
 import com.aumum.app.mobile.utils.ImageLoaderUtils;
@@ -50,6 +52,7 @@ import com.github.kevinsawicki.wishlist.Toaster;
 import org.joda.time.DateTime;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import javax.inject.Inject;
 
@@ -85,6 +88,7 @@ public class NewPartyActivity extends ProgressDialogActivity
     @InjectView(R.id.et_location) protected AutoCompleteTextView locationText;
     @InjectView(R.id.et_location_description) protected EditText locationDescriptionText;
     @InjectView(R.id.et_details) protected EditText detailsText;
+    @InjectView(R.id.text_privacy) protected TextView privacyText;
     @InjectView(R.id.text_add_more) protected TextView addMoreText;
     @InjectView(R.id.layout_type_selection) protected ViewGroup typeSelectionLayout;
     @InjectView(R.id.layout_image) protected ViewGroup imageLayout;
@@ -96,6 +100,11 @@ public class NewPartyActivity extends ProgressDialogActivity
     private GalleryAdapter adapter;
     private String imagePathList[];
     private ArrayList<String> imageUrlList;
+
+    private int privacyType;
+    private final int PRIVACY_TYPE_PUBLIC = 0;
+    private final int PRIVACY_TYPE_CONTACTS = 1;
+    private final int PRIVACY_TYPE_SPECIFIED_CONTACTS = 2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -154,6 +163,12 @@ public class NewPartyActivity extends ProgressDialogActivity
                     return true;
                 }
                 return false;
+            }
+        });
+        privacyText.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                showPrivacyOptions();
             }
         });
         addMoreText.setOnClickListener(new View.OnClickListener() {
@@ -312,6 +327,7 @@ public class NewPartyActivity extends ProgressDialogActivity
         task = new SafeAsyncTask<Boolean>() {
             public Boolean call() throws Exception {
                 User user = userStore.getCurrentUser();
+                List<String> subscriptions = getSubscriptions(user);
                 Party party = new Party(user.getObjectId(),
                                         titleText.getText().toString(),
                                         date,
@@ -319,7 +335,8 @@ public class NewPartyActivity extends ProgressDialogActivity
                                         locationText.getText().toString(),
                                         locationDescriptionText.getText().toString(),
                                         detailsText.getText().toString(),
-                                        imageUrlList);
+                                        imageUrlList,
+                                        subscriptions);
                 if (!GooglePlaceUtils.setPlaceLatLong(party.getPlace())) {
                     throw new Exception(getString(R.string.error_validate_party_location, party.getPlace().getLocation()));
                 }
@@ -382,5 +399,39 @@ public class NewPartyActivity extends ProgressDialogActivity
     public void onUploadFailure(Exception e) {
         hideProgress();
         Toaster.showShort(NewPartyActivity.this, R.string.error_submit_new_party);
+    }
+
+    private void showPrivacyOptions() {
+        final String options[] = getResources().getStringArray(R.array.label_party_privacy);
+        DialogUtils.showDialog(this, options, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                privacyType = i;
+                switch (i) {
+                    case PRIVACY_TYPE_PUBLIC:
+                        privacyText.setText(options[i]);
+                        break;
+                    case PRIVACY_TYPE_CONTACTS:
+                        privacyText.setText(options[i]);
+                        break;
+                    case PRIVACY_TYPE_SPECIFIED_CONTACTS:
+                        break;
+                    default:
+                        break;
+                }
+            }
+        });
+    }
+
+    private List<String> getSubscriptions(User user) {
+        switch (privacyType) {
+            case PRIVACY_TYPE_PUBLIC:
+                return null;
+            case PRIVACY_TYPE_CONTACTS:
+                return user.getContacts();
+            case PRIVACY_TYPE_SPECIFIED_CONTACTS:
+            default:
+                return null;
+        }
     }
 }
