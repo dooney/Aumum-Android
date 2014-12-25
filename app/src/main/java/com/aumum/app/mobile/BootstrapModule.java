@@ -64,6 +64,7 @@ import com.aumum.app.mobile.core.dao.PartyStore;
 import com.aumum.app.mobile.ui.contact.AddContactActivity;
 import com.aumum.app.mobile.ui.settings.SettingsActivity;
 import com.aumum.app.mobile.ui.user.ProfileFragment;
+import com.aumum.app.mobile.ui.user.UserListFragment;
 import com.aumum.app.mobile.utils.PostFromAnyThreadBus;
 import com.aumum.app.mobile.core.api.RestAdapterRequestInterceptor;
 import com.aumum.app.mobile.core.api.RestErrorHandler;
@@ -141,7 +142,8 @@ import retrofit.converter.GsonConverter;
                 MobileContactsActivity.class,
                 AddContactsActivity.class,
                 GroupDetailsFragment.class,
-                ContactPickerFragment.class
+                ContactPickerFragment.class,
+                UserListFragment.class
         }
 )
 public class BootstrapModule {

@@ -222,6 +222,7 @@
             android:name=".ui.contact.ContactPickerActivity"
             android:label="@string/title_activity_contact_picker" >
         </activity>
+        <activity android:name=".ui.user.UserListActivity" />
     </application>
 
 </manifest>

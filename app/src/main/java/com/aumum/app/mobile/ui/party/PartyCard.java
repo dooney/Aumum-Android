@@ -16,7 +16,6 @@ import com.aumum.app.mobile.ui.view.AvatarImageView;
 import com.aumum.app.mobile.ui.view.JoinTextView;
 import com.aumum.app.mobile.ui.view.LikeTextView;
 import com.aumum.app.mobile.ui.view.SpannableTextView;
-import com.aumum.app.mobile.utils.Ln;
 
 import it.gmariotti.cardslib.library.internal.Card;
 
@@ -118,11 +117,7 @@ public class PartyCard extends Card {
         likeText.init(party.getLikesCount(), party.isLiked(currentUserId));
         likeText.setLikeListener(likeListener);
 
-        try {
-            ViewGroup membersLayout = (ViewGroup) view.findViewById(R.id.layout_members);
-            membersLayoutListener.update(membersLayout, party.getMembers());
-        } catch (Exception e) {
-            Ln.e(e);
-        }
+        ViewGroup membersLayout = (ViewGroup) view.findViewById(R.id.layout_members);
+        membersLayoutListener.update(membersLayout, party.getMembers());
     }
 }

@@ -327,12 +327,12 @@ public class PartyDetailsFragment extends LoaderFragment<Party> {
         likeListener.setOnLikeFinishedListener(new PartyLikeListener.LikeFinishedListener() {
             @Override
             public void OnLikeFinished(Party party) {
-                updateLikesLayout(party.getLikes());
+                likesLayoutListener.update(likesLayout, party.getLikes());
             }
 
             @Override
             public void OnUnLikeFinished(Party party) {
-                updateLikesLayout(party.getLikes());
+                likesLayoutListener.update(likesLayout, party.getLikes());
             }
         });
         likeText.setLikeListener(likeListener);
@@ -341,8 +341,7 @@ public class PartyDetailsFragment extends LoaderFragment<Party> {
         favoriteText.setFavoriteListener(new PartyFavoriteListener(party));
 
         membersLayoutListener.update(membersLayout, party.getMembers());
-
-        updateLikesLayout(party.getLikes());
+        likesLayoutListener.update(likesLayout, party.getLikes());
     }
 
     private void onPartyRefresh(String partyId) {
@@ -436,14 +435,6 @@ public class PartyDetailsFragment extends LoaderFragment<Party> {
         task.execute();
     }
 
-    private void updateLikesLayout(List<String> likes) {
-        try {
-            likesLayoutListener.update(likesLayout, likes);
-        } catch (Exception e) {
-            Ln.e(e);
-        }
-    }
-
     private void hideJoinBox() {
         EditTextUtils.hideSoftInput(editReason);
         editReason.setText(null);
@@ -496,13 +487,7 @@ public class PartyDetailsFragment extends LoaderFragment<Party> {
         } else if (event.getType() == PartyReason.QUIT) {
             joinText.update(false);
         }
-
-        try {
-            membersLayoutListener.update(membersLayout, event.getParty().getMembers());
-        } catch (Exception e) {
-            Ln.e(e);
-        }
-        
+        membersLayoutListener.update(membersLayout, event.getParty().getMembers());
         enableSubmit();
     }
 }

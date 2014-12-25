@@ -1,6 +1,7 @@
 package com.aumum.app.mobile.ui.party;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,12 +11,15 @@ import com.aumum.app.mobile.Injector;
 import com.aumum.app.mobile.R;
 import com.aumum.app.mobile.core.dao.UserStore;
 import com.aumum.app.mobile.core.model.User;
+import com.aumum.app.mobile.ui.user.UserListActivity;
 import com.aumum.app.mobile.ui.user.UserListener;
 import com.aumum.app.mobile.ui.view.Animation;
 import com.aumum.app.mobile.ui.view.AvatarImageView;
+import com.aumum.app.mobile.utils.DisplayUtils;
 import com.aumum.app.mobile.utils.SafeAsyncTask;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -38,20 +42,28 @@ public class MembersLayoutListener {
         Injector.inject(this);
     }
 
-    public void update(ViewGroup membersLayout, List<String> members) throws Exception {
-        int count = members.size();
-        if (count > 0) {
+    public void update(ViewGroup membersLayout, List<String> members) {
+        Collections.reverse(members);
+        int size = members.size();
+        if (size > 0) {
             ViewGroup layoutMembersAvatars = (ViewGroup) membersLayout.findViewById(R.id.layout_members_avatars);
             layoutMembersAvatars.setVisibility(View.VISIBLE);
             layoutMembersAvatars.removeAllViews();
             LayoutInflater inflater = activity.getLayoutInflater();
+            final int displayWidth = DisplayUtils.getDisplayPixelWidth(activity);
+            final float spaceForAvatars = displayWidth - (activity.getResources().getDimensionPixelSize(R.dimen.margin_large) * 2);
+            final float avatarSizeWithMargin = activity.getResources().getDimensionPixelSize(R.dimen.avatar_sz_small) +
+                    activity.getResources().getDimensionPixelSize(R.dimen.margin_small);
+            final int maxAvatars = (int)(spaceForAvatars / avatarSizeWithMargin);
+            int count = 0;
             final HashMap<String, AvatarImageView> avatarImages = new HashMap<String, AvatarImageView>();
             for(String userId: members) {
-                if (!userId.equals(currentUserId)) {
+                if (!userId.equals(currentUserId) && count < maxAvatars) {
                     AvatarImageView avatarImage = (AvatarImageView) inflater.inflate(R.layout.small_avatar, layoutMembersAvatars, false);
                     avatarImage.setOnClickListener(new UserListener(activity, userId));
                     avatarImages.put(userId, avatarImage);
                     layoutMembersAvatars.addView(avatarImage);
+                    count++;
                 }
             }
             final HashMap<String, String> avatarUrls = new HashMap<String, String>();
@@ -80,16 +92,24 @@ public class MembersLayoutListener {
                 }
             }.execute();
 
+            final ArrayList<String> userList = new ArrayList<String>();
+            userList.addAll(members);
             TextView membersCountText = (TextView) membersLayout.findViewById(R.id.text_members_count);
+            membersCountText.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    startUserListActivity(userList);
+                }
+            });
             if (members.contains(currentUserId)) {
-                if (count == 1) {
+                if (size == 1) {
                     membersCountText.setText(activity.getString(R.string.label_you_join_the_party));
                     layoutMembersAvatars.setVisibility(View.GONE);
                 } else {
-                    membersCountText.setText(activity.getString(R.string.label_you_and_others_join_the_party, count - 1));
+                    membersCountText.setText(activity.getString(R.string.label_you_and_others_join_the_party, size - 1));
                 }
             } else {
-                membersCountText.setText(activity.getString(R.string.label_others_join_the_party, count));
+                membersCountText.setText(activity.getString(R.string.label_others_join_the_party, size));
             }
 
             if (membersLayout.getVisibility() != View.VISIBLE) {
@@ -98,5 +118,13 @@ public class MembersLayoutListener {
         } else {
             Animation.fadeOut(membersLayout, Animation.Duration.SHORT);
         }
+    }
+
+    private void startUserListActivity(ArrayList<String> userList) {
+        final Intent intent = new Intent(activity, UserListActivity.class);
+        intent.putExtra(UserListActivity.INTENT_TITLE,
+                activity.getString(R.string.label_others_join_the_party, userList.size()));
+        intent.putStringArrayListExtra(UserListActivity.INTENT_USER_LIST, userList);
+        activity.startActivity(intent);
     }
 }

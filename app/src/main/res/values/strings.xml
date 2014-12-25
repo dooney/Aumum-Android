@@ -161,6 +161,7 @@
     <string name="error_send_reset_password_email">发送密码重置邮件失败</string>
     <string name="error_load_group_details">获取圈子详情失败</string>
     <string name="error_selection_no_more_than">最多只能选%,d项</string>
+    <string name="error_load_user_list">获取用户列表失败</string>
 
     <!-- Title -->
     <string name="title_activity_login">用户登录</string>
