@@ -201,6 +201,7 @@
         <item name="android:maxLines">2</item>
     </style>
     <style name="EditText.NewParty.Details" parent="EditText">
+        <item name="android:gravity">left|top</item>
         <item name="android:background">@color/transparent</item>
         <item name="android:inputType">textMultiLine</item>
         <item name="android:lineSpacingMultiplier">1.1</item>
@@ -421,6 +422,9 @@
     </style>
     <style name="TextView.MobileContact.Added" parent="TextView.Subtitle">
         <item name="android:text">@string/label_added</item>
+    </style>
+    <style name="ImageView.ContactPicker.Checkbox" parent="ImageView">
+        <item name="android:src">@drawable/checkbox_on_focus</item>
     </style>
 
     <!-- Comment -->

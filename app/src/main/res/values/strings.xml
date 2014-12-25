@@ -160,6 +160,7 @@
     <string name="error_load_mobile_contacts">获取手机通讯录失败</string>
     <string name="error_send_reset_password_email">发送密码重置邮件失败</string>
     <string name="error_load_group_details">获取圈子详情失败</string>
+    <string name="error_selection_no_more_than">最多只能选%,d项</string>
 
     <!-- Title -->
     <string name="title_activity_login">用户登录</string>
@@ -185,6 +186,7 @@
     <string name="title_activity_verify">验证码</string>
     <string name="title_activity_mobile_contacts">手机通讯录</string>
     <string name="title_activity_group_details">圈子详情</string>
+    <string name="title_activity_contact_picker">选择好友</string>
 
     <!-- Account -->
     <string name="hint_login_phone">手机号</string>
@@ -196,7 +198,7 @@
     <string name="hint_city">所在城市 (必填)</string>
     <string name="hint_area">所在地区 (必填)</string>
     <string name="hint_avatar">头像图片</string>
-    <string name="hint_about">个人简介 (不超过140字)</string>
+    <string name="hint_about">个人简介</string>
     <string name="label_city">所在城市</string>
     <string name="label_area">所在地区</string>
     <string name="label_about">个人简介</string>
@@ -270,13 +272,13 @@
     <string name="hint_party_location_description">地址说明</string>
     <string name="label_date">日期</string>
     <string name="label_time">时间</string>
-    <string name="hint_party_details">聚会内容 (不超过140字)</string>
+    <string name="hint_party_details">聚会内容</string>
     <string name="label_privacy">隐私设置</string>
     <string name="label_notify">提醒好友</string>
 
     <!-- Asking -->
     <string name="hint_asking_title">说说标题</string>
-    <string name="hint_asking_details">说说内容 (不超过140字)</string>
+    <string name="hint_asking_details">说说内容</string>
     <string name="hint_new_reply">说两句</string>
     <string name="hint_reply_asking_reply">回复@%1$s：%2$s</string>
     <string name="label_add_more">添加更多</string>

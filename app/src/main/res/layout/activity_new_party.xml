@@ -7,7 +7,9 @@
     <ScrollView
         android:id="@+id/v_scroll"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" >
+        android:layout_height="match_parent"
+        android:fillViewport="true"
+        android:layout_above="@+id/layout_action">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -62,6 +64,7 @@
                 <EditText
                     android:id="@+id/et_details"
                     style="@style/EditText.NewParty.Details"
+                    android:minHeight="120dp"
                     android:imeOptions="actionDone"/>
 
                 <GridView
@@ -128,14 +131,16 @@
 
     </ScrollView>
 
-    <RelativeLayout
+    <LinearLayout
+        android:id="@+id/layout_action"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_above="@+id/layout_type_selection"
-        android:layout_alignWithParentIfMissing="true"
-        android:background="@color/card_background">
+        android:orientation="vertical"
+        android:background="@color/card_background"
+        android:layout_alignParentBottom="true">
 
-        <View style="@style/Divider" />
+        <View style="@style/Divider"
+            android:background="@color/grey_light" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -149,13 +154,12 @@
 
         </LinearLayout>
 
-    </RelativeLayout>
+        <include
+            android:id="@+id/layout_type_selection"
+            layout="@layout/asking_include_type_selection"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
 
-    <include
-        android:id="@+id/layout_type_selection"
-        layout="@layout/asking_include_type_selection"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true" />
+    </LinearLayout>
 
 </RelativeLayout>

@@ -133,7 +133,7 @@
         <activity
             android:name=".ui.party.PartyCommentsActivity"
             android:label="@string/title_activity_party_comments"
-            android:windowSoftInputMode="adjustResize">
+            android:windowSoftInputMode="adjustResize" >
         </activity>
         <activity
             android:name=".ui.party.PartyDetailsActivity"
@@ -214,8 +214,13 @@
             android:name=".ui.contact.MobileContactsActivity"
             android:label="@string/title_activity_mobile_contacts" >
         </activity>
-        <activity android:name=".ui.chat.GroupDetailsActivity"
+        <activity
+            android:name=".ui.chat.GroupDetailsActivity"
             android:label="@string/title_activity_group_details" >
+        </activity>
+        <activity
+            android:name=".ui.contact.ContactPickerActivity"
+            android:label="@string/title_activity_contact_picker" >
         </activity>
     </application>
 

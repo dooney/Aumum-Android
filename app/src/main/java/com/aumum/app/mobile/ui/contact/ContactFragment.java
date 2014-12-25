@@ -95,10 +95,11 @@ public class ContactFragment extends ItemListFragment<User>
     }
 
     @Override
-    public void onContactClick(String contactId) {
+    public boolean onContactClick(String contactId) {
         final Intent intent = new Intent(getActivity(), UserActivity.class);
         intent.putExtra(UserActivity.INTENT_USER_ID, contactId);
         startActivity(intent);
+        return true;
     }
 
     private List<User> getSortedContacts() throws Exception {

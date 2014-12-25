@@ -32,6 +32,7 @@ import com.aumum.app.mobile.core.service.ChatService;
 import com.aumum.app.mobile.core.service.FileUploadService;
 import com.aumum.app.mobile.core.service.RestService;
 import com.aumum.app.mobile.ui.base.ProgressDialogActivity;
+import com.aumum.app.mobile.ui.contact.ContactPickerActivity;
 import com.aumum.app.mobile.ui.helper.TextWatcherAdapter;
 import com.aumum.app.mobile.ui.image.CustomGallery;
 import com.aumum.app.mobile.ui.image.GalleryAdapter;
@@ -105,6 +106,8 @@ public class NewPartyActivity extends ProgressDialogActivity
     private final int PRIVACY_TYPE_PUBLIC = 0;
     private final int PRIVACY_TYPE_CONTACTS = 1;
     private final int PRIVACY_TYPE_SPECIFIED_CONTACTS = 2;
+
+    private final int CONTACT_PICKER_REQ_CODE = 100;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -259,6 +262,9 @@ public class NewPartyActivity extends ProgressDialogActivity
                     adapter.addAll(list);
                 }
             }
+        } else if (requestCode == CONTACT_PICKER_REQ_CODE && resultCode == RESULT_OK) {
+            final ArrayList<String> selectedContacts =
+                    data.getStringArrayListExtra(ContactPickerActivity.INTENT_SELECTED_CONTACTS);
         }
     }
 
@@ -415,6 +421,7 @@ public class NewPartyActivity extends ProgressDialogActivity
                         privacyText.setText(options[i]);
                         break;
                     case PRIVACY_TYPE_SPECIFIED_CONTACTS:
+                        startContactPickerActivity();
                         break;
                     default:
                         break;
@@ -433,5 +440,10 @@ public class NewPartyActivity extends ProgressDialogActivity
             default:
                 return null;
         }
+    }
+
+    private void startContactPickerActivity() {
+        final Intent intent = new Intent(this, ContactPickerActivity.class);
+        startActivityForResult(intent, CONTACT_PICKER_REQ_CODE);
     }
 }

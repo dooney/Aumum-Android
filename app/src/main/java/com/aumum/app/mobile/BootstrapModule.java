@@ -33,6 +33,8 @@ import com.aumum.app.mobile.ui.chat.SendMessageListener;
 import com.aumum.app.mobile.ui.chat.TextMessageCard;
 import com.aumum.app.mobile.ui.chat.VoiceMessageCard;
 import com.aumum.app.mobile.ui.contact.AddContactsActivity;
+import com.aumum.app.mobile.ui.contact.ContactPickerActivity;
+import com.aumum.app.mobile.ui.contact.ContactPickerFragment;
 import com.aumum.app.mobile.ui.contact.MobileContactsActivity;
 import com.aumum.app.mobile.ui.conversation.ConversationFragment;
 import com.aumum.app.mobile.ui.contact.AcceptContactListener;
@@ -138,7 +140,8 @@ import retrofit.converter.GsonConverter;
                 NotificationClickListener.class,
                 MobileContactsActivity.class,
                 AddContactsActivity.class,
-                GroupDetailsFragment.class
+                GroupDetailsFragment.class,
+                ContactPickerFragment.class
         }
 )
 public class BootstrapModule {

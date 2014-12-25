@@ -5,5 +5,5 @@ package com.aumum.app.mobile.ui.contact;
  */
 public interface ContactClickListener {
 
-    void onContactClick(String contactId);
+    boolean onContactClick(String contactId);
 }

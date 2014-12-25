@@ -13,17 +13,17 @@ import com.aumum.app.mobile.core.model.User;
 import java.util.List;
 
 /**
- * Created by Administrator on 21/11/2014.
+ * Created by Administrator on 25/12/2014.
  */
-public class ContactAdapter extends ArrayAdapter<User>
+public class ContactPickerAdapter extends ArrayAdapter<User>
         implements SectionIndexer {
 
     private Context context;
     private List<User> dataSet;
     private ContactClickListener contactClickListener;
 
-    public ContactAdapter(Context context, List<User> objects,
-                          ContactClickListener contactClickListener) {
+    public ContactPickerAdapter(Context context, List<User> objects,
+                                ContactClickListener contactClickListener) {
         super(context, 0, objects);
         this.context = context;
         this.dataSet = objects;
@@ -32,15 +32,15 @@ public class ContactAdapter extends ArrayAdapter<User>
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        final ContactCard card;
+        final ContactPickerCard card;
 
         if (convertView == null) {
             LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            convertView = inflater.inflate(R.layout.contact_listitem_inner, parent, false);
-            card = new ContactCard(convertView, contactClickListener);
+            convertView = inflater.inflate(R.layout.contact_picker_listitem_inner, parent, false);
+            card = new ContactPickerCard(convertView, contactClickListener);
             convertView.setTag(card);
         } else {
-            card = (ContactCard) convertView.getTag();
+            card = (ContactPickerCard) convertView.getTag();
         }
 
         User user = dataSet.get(position);
