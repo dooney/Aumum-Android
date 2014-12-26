@@ -17,7 +17,7 @@ public class Patterns {
 
     public static final String WEB_SCHEME = "http://";
 
-    public static final String TOPIC_SCHEME = "com.aumum.app.mobile.topic://";
+    public static final String TOPIC_SCHEME = "com.aumum.app.mobile.party://";
 
     public static final String MENTION_SCHEME = "com.aumum.app.mobile.user://";
 }

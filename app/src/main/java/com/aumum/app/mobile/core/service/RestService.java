@@ -172,6 +172,9 @@ public class RestService {
 
     private JsonElement buildSubscriptionJson(String userId) {
         JsonArray jsonArray = new JsonArray();
+        JsonObject ownerJson = new JsonObject();
+        ownerJson.addProperty("userId", userId);
+        jsonArray.add(ownerJson);
         JsonObject liveJson = new JsonObject();
         liveJson.addProperty("$exists", false);
         JsonObject publicJson = new JsonObject();

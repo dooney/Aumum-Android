@@ -89,7 +89,11 @@ public class NewPartyActivity extends ProgressDialogActivity
     @InjectView(R.id.et_location) protected AutoCompleteTextView locationText;
     @InjectView(R.id.et_location_description) protected EditText locationDescriptionText;
     @InjectView(R.id.et_details) protected EditText detailsText;
+    @InjectView(R.id.layout_privacy) protected ViewGroup privacyLayout;
     @InjectView(R.id.text_privacy) protected TextView privacyText;
+    @InjectView(R.id.layout_group) protected ViewGroup groupLayout;
+    @InjectView(R.id.text_group) protected TextView groupText;
+    @InjectView(R.id.layout_notify) protected ViewGroup notifyLayout;
     @InjectView(R.id.text_add_more) protected TextView addMoreText;
     @InjectView(R.id.layout_type_selection) protected ViewGroup typeSelectionLayout;
     @InjectView(R.id.layout_image) protected ViewGroup imageLayout;
@@ -102,12 +106,16 @@ public class NewPartyActivity extends ProgressDialogActivity
     private String imagePathList[];
     private ArrayList<String> imageUrlList;
 
+    private int groupType;
     private int privacyType;
     private final int PRIVACY_TYPE_PUBLIC = 0;
     private final int PRIVACY_TYPE_CONTACTS = 1;
     private final int PRIVACY_TYPE_SPECIFIED_CONTACTS = 2;
+    private ArrayList<String> specifiedContacts;
+    private ArrayList<String> notifiedContacts;
 
-    private final int CONTACT_PICKER_REQ_CODE = 100;
+    private final int SPECIFIED_CONTACTS_REQ_CODE = 100;
+    private final int NOTIFIED_CONTACTS_REQ_CODE = 101;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -118,6 +126,8 @@ public class NewPartyActivity extends ProgressDialogActivity
 
         imageUrlList = new ArrayList<String>();
         fileUploadService.setOnFileUploadListener(this);
+        specifiedContacts = new ArrayList<String>();
+        notifiedContacts = new ArrayList<String>();
 
         progress.setMessageId(R.string.info_submitting_party);
 
@@ -168,10 +178,22 @@ public class NewPartyActivity extends ProgressDialogActivity
                 return false;
             }
         });
-        privacyText.setOnClickListener(new View.OnClickListener() {
+        privacyLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 showPrivacyOptions();
+            }
+        });
+        groupLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                showGroupOptions();
+            }
+        });
+        notifyLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startNotifiedContactsActivity();
             }
         });
         addMoreText.setOnClickListener(new View.OnClickListener() {
@@ -262,9 +284,17 @@ public class NewPartyActivity extends ProgressDialogActivity
                     adapter.addAll(list);
                 }
             }
-        } else if (requestCode == CONTACT_PICKER_REQ_CODE && resultCode == RESULT_OK) {
+        } else if (requestCode == SPECIFIED_CONTACTS_REQ_CODE && resultCode == RESULT_OK) {
             final ArrayList<String> selectedContacts =
                     data.getStringArrayListExtra(ContactPickerActivity.INTENT_SELECTED_CONTACTS);
+            specifiedContacts.clear();
+            specifiedContacts.addAll(selectedContacts);
+            privacyText.setText(R.string.label_visible_to_contacts);
+        } else if (requestCode == NOTIFIED_CONTACTS_REQ_CODE && resultCode == RESULT_OK) {
+            final ArrayList<String> selectedContacts =
+                    data.getStringArrayListExtra(ContactPickerActivity.INTENT_SELECTED_CONTACTS);
+            notifiedContacts.clear();
+            notifiedContacts.addAll(selectedContacts);
         }
     }
 
@@ -332,9 +362,9 @@ public class NewPartyActivity extends ProgressDialogActivity
         }
         task = new SafeAsyncTask<Boolean>() {
             public Boolean call() throws Exception {
-                User user = userStore.getCurrentUser();
-                List<String> subscriptions = getSubscriptions(user);
-                Party party = new Party(user.getObjectId(),
+                User currentUser = userStore.getCurrentUser();
+                List<String> subscriptions = getSubscriptions(currentUser);
+                Party party = new Party(currentUser.getObjectId(),
                                         titleText.getText().toString(),
                                         date,
                                         time,
@@ -347,12 +377,22 @@ public class NewPartyActivity extends ProgressDialogActivity
                     throw new Exception(getString(R.string.error_validate_party_location, party.getPlace().getLocation()));
                 }
                 Party response = restService.newParty(party);
-                restService.addPartyMember(response.getObjectId(), user.getObjectId());
-                restService.addUserParty(user.getObjectId(), response.getObjectId());
-                EMGroup group = chatService.createGroup(party.getTitle());
-                restService.addPartyGroup(response.getObjectId(), group.getGroupId());
-                String text = getString(R.string.label_group_created, user.getScreenName());
-                chatService.sendSystemMessage(group.getGroupId(), true, text, null);
+                restService.addPartyMember(response.getObjectId(), currentUser.getObjectId());
+                restService.addUserParty(currentUser.getObjectId(), response.getObjectId());
+                if (groupType == 0) {
+                    EMGroup group = chatService.createGroup(party.getTitle());
+                    restService.addPartyGroup(response.getObjectId(), group.getGroupId());
+                    String groupCreatedText = getString(R.string.label_group_created, currentUser.getScreenName());
+                    chatService.sendSystemMessage(group.getGroupId(), true, groupCreatedText, null);
+                }
+                if (notifiedContacts.size() > 0) {
+                    String partyCreatedText = getString(R.string.label_party_created,
+                            currentUser.getScreenName(), party.getTitle());
+                    for (String userId : notifiedContacts) {
+                        User user = userStore.getUserById(userId);
+                        chatService.sendSystemMessage(user.getChatId(), false, partyCreatedText, null);
+                    }
+                }
                 return true;
             }
 
@@ -421,7 +461,7 @@ public class NewPartyActivity extends ProgressDialogActivity
                         privacyText.setText(options[i]);
                         break;
                     case PRIVACY_TYPE_SPECIFIED_CONTACTS:
-                        startContactPickerActivity();
+                        startSpecifiedContactsActivity();
                         break;
                     default:
                         break;
@@ -437,13 +477,30 @@ public class NewPartyActivity extends ProgressDialogActivity
             case PRIVACY_TYPE_CONTACTS:
                 return user.getContacts();
             case PRIVACY_TYPE_SPECIFIED_CONTACTS:
+                return specifiedContacts;
             default:
                 return null;
         }
     }
 
-    private void startContactPickerActivity() {
+    private void showGroupOptions() {
+        final String options[] = getResources().getStringArray(R.array.label_party_group);
+        DialogUtils.showDialog(this, options, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                groupType = i;
+                groupText.setText(options[i]);
+            }
+        });
+    }
+
+    private void startSpecifiedContactsActivity() {
         final Intent intent = new Intent(this, ContactPickerActivity.class);
-        startActivityForResult(intent, CONTACT_PICKER_REQ_CODE);
+        startActivityForResult(intent, SPECIFIED_CONTACTS_REQ_CODE);
+    }
+
+    private void startNotifiedContactsActivity() {
+        final Intent intent = new Intent(this, ContactPickerActivity.class);
+        startActivityForResult(intent, NOTIFIED_CONTACTS_REQ_CODE);
     }
 }

@@ -52,7 +52,7 @@ public class ConversationCard {
             type = ChatActivity.TYPE_SINGLE;
         } else if (conversation.getGroup() != null) {
             id = conversation.getGroup().getChatId();
-            screenName = conversation.getGroup().getScreenName();
+            screenName = "#" + conversation.getGroup().getScreenName() + "#";
             avatarImage.getFromUrl(conversation.getGroup().getAvatarUrl());
             type = ChatActivity.TYPE_GROUP;
         }
