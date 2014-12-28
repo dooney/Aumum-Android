@@ -11,8 +11,6 @@ public class CmdMessage {
     private String content;
     private String payload;
 
-
-
     public CmdMessage(int type, String title, String content, String payload) {
         this.type = type;
         this.title = title;
@@ -49,7 +47,7 @@ public class CmdMessage {
         public static final int PARTY_LIKE = 4;
         public static final int PARTY_COMMENT = 5;
         public static final int PARTY_REPLY = 6;
-        public static final int PARTY_DELETE = 7;
+        public static final int PARTY_CANCEL = 7;
         public static final int ASKING_NEW = 8;
         public static final int ASKING_REPLY_NEW = 9;
         public static final int ASKING_REPLY_REPLY = 10;

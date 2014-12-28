@@ -21,10 +21,12 @@ import com.aumum.app.mobile.R;
 import com.aumum.app.mobile.core.infra.security.ApiKeyProvider;
 import com.aumum.app.mobile.core.Constants;
 import com.aumum.app.mobile.core.dao.PartyStore;
+import com.aumum.app.mobile.core.model.CmdMessage;
 import com.aumum.app.mobile.core.model.Party;
 import com.aumum.app.mobile.core.model.PartyReason;
 import com.aumum.app.mobile.core.dao.UserStore;
 import com.aumum.app.mobile.core.model.User;
+import com.aumum.app.mobile.core.service.ChatService;
 import com.aumum.app.mobile.core.service.RestService;
 import com.aumum.app.mobile.core.service.ShareService;
 import com.aumum.app.mobile.events.AddPartyReasonEvent;
@@ -66,6 +68,7 @@ public class PartyDetailsFragment extends LoaderFragment<Party> {
     @Inject UserStore userStore;
     @Inject PartyStore partyStore;
     @Inject RestService restService;
+    @Inject ChatService chatService;
     private ShareService shareService;
 
     private Party party;
@@ -393,6 +396,8 @@ public class PartyDetailsFragment extends LoaderFragment<Party> {
                 for(String userId: party.getMembers()) {
                     restService.removeUserParty(userId, party.getObjectId());
                 }
+
+                sendCancelMessage();
                 return true;
             }
 
@@ -481,5 +486,19 @@ public class PartyDetailsFragment extends LoaderFragment<Party> {
         }
         membersLayoutListener.update(membersLayout, event.getParty().getMembers());
         enableSubmit();
+    }
+
+    private void sendCancelMessage() throws Exception {
+        User partyOwner = userStore.getUserById(party.getUserId());
+        String title = getString(R.string.label_cancel_party_message,
+                partyOwner.getScreenName());
+        CmdMessage cmdMessage = new CmdMessage(CmdMessage.Type.PARTY_CANCEL,
+                title, party.getTitle(), partyId);
+        for (String memberId: party.getMembers()) {
+            User member = userStore.getUserById(memberId);
+            if (!memberId.equals(currentUserId)) {
+                chatService.sendCmdMessage(member.getChatId(), cmdMessage);
+            }
+        }
     }
 }

@@ -13,6 +13,7 @@ import com.aumum.app.mobile.R;
 import com.aumum.app.mobile.core.dao.PartyReasonStore;
 import com.aumum.app.mobile.core.dao.PartyStore;
 import com.aumum.app.mobile.core.dao.UserStore;
+import com.aumum.app.mobile.core.model.CmdMessage;
 import com.aumum.app.mobile.core.model.Party;
 import com.aumum.app.mobile.core.model.PartyReason;
 import com.aumum.app.mobile.core.model.User;
@@ -139,18 +140,16 @@ public class PartyReasonsFragment extends ItemListFragment<PartyReason> {
                     party.getMembers().add(currentUser.getObjectId());
                     partyStore.updateOrInsert(party);
 
-                    if (party.getGroupId() != null) {
-                        chatService.joinGroup(party.getGroupId());
-                        String text = getActivity().getString(R.string.label_group_joint, currentUser.getScreenName());
-                        chatService.sendSystemMessage(party.getGroupId(), true, text, null);
-                    }
+                    joinPartyGroup();
+                    sendJoinMessage();
                 } else if (reason.getType() == PartyReason.QUIT) {
                     service.removePartyMember(partyId, currentUser.getObjectId());
                     service.removeUserParty(currentUser.getObjectId(), partyId);
                     party.getMembers().remove(currentUser.getObjectId());
                     partyStore.updateOrInsert(party);
-                }
 
+                    sendQuitMessage();
+                }
                 return true;
             }
 
@@ -181,5 +180,35 @@ public class PartyReasonsFragment extends ItemListFragment<PartyReason> {
     @Override
     protected View getMainView() {
         return mainView;
+    }
+
+    private void joinPartyGroup() throws Exception {
+        if (party.getGroupId() != null) {
+            chatService.joinGroup(party.getGroupId());
+            String text = getActivity().getString(R.string.label_group_joint, currentUser.getScreenName());
+            chatService.sendSystemMessage(party.getGroupId(), true, text, null);
+        }
+    }
+
+    private void sendJoinMessage() throws Exception {
+        if (!partyId.equals(currentUser.getObjectId())) {
+            String title = getString(R.string.label_join_party_message,
+                    currentUser.getScreenName());
+            CmdMessage cmdMessage = new CmdMessage(CmdMessage.Type.PARTY_JOIN,
+                    title, party.getTitle(), partyId);
+            User partyOwner = userStore.getUserById(party.getUserId());
+            chatService.sendCmdMessage(partyOwner.getChatId(), cmdMessage);
+        }
+    }
+
+    private void sendQuitMessage() throws Exception {
+        if (!partyId.equals(currentUser.getObjectId())) {
+            String title = getString(R.string.label_quit_party_message,
+                    currentUser.getScreenName());
+            CmdMessage cmdMessage = new CmdMessage(CmdMessage.Type.PARTY_QUIT,
+                    title, party.getTitle(), partyId);
+            User partyOwner = userStore.getUserById(party.getUserId());
+            chatService.sendCmdMessage(partyOwner.getChatId(), cmdMessage);
+        }
     }
 }

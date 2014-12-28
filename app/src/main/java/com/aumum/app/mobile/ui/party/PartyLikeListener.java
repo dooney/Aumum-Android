@@ -1,8 +1,13 @@
 package com.aumum.app.mobile.ui.party;
 
+import android.content.Context;
+
 import com.aumum.app.mobile.Injector;
+import com.aumum.app.mobile.R;
 import com.aumum.app.mobile.core.dao.PartyStore;
+import com.aumum.app.mobile.core.model.CmdMessage;
 import com.aumum.app.mobile.core.model.User;
+import com.aumum.app.mobile.core.service.ChatService;
 import com.aumum.app.mobile.core.service.RestService;
 import com.aumum.app.mobile.core.model.Party;
 import com.aumum.app.mobile.core.dao.UserStore;
@@ -25,6 +30,7 @@ public class PartyLikeListener implements LikeTextView.OnLikeListener {
     @Inject RestService service;
     @Inject UserStore userStore;
     @Inject PartyStore partyStore;
+    @Inject ChatService chatService;
 
     private LikeFinishedListener likeFinishedListener;
 
@@ -95,6 +101,8 @@ public class PartyLikeListener implements LikeTextView.OnLikeListener {
                 service.addPartyLike(party.getObjectId(), currentUser.getObjectId());
                 party.getLikes().add(currentUser.getObjectId());
                 partyStore.updateOrInsert(party);
+
+                sendLikeMessage(view.getContext(), currentUser);
                 return true;
             }
 
@@ -123,5 +131,16 @@ public class PartyLikeListener implements LikeTextView.OnLikeListener {
             }
         };
         task.execute();
+    }
+
+    private void sendLikeMessage(Context context, User currentUser) throws Exception {
+        if (!party.getUserId().equals(currentUser.getObjectId())) {
+            String title = context.getString(R.string.label_like_party_message,
+                    currentUser.getScreenName());
+            CmdMessage cmdMessage = new CmdMessage(CmdMessage.Type.PARTY_LIKE,
+                    title, party.getTitle(), party.getObjectId());
+            User partyOwner = userStore.getUserById(party.getUserId());
+            chatService.sendCmdMessage(partyOwner.getChatId(), cmdMessage);
+        }
     }
 }

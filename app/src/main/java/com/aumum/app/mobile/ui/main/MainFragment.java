@@ -163,6 +163,12 @@ public class MainFragment extends Fragment
                 CmdMessage cmdMessage = chatService.getCmdMessage(message);
                 switch (cmdMessage.getType()) {
                     case CmdMessage.Type.PARTY_NEW:
+                    case CmdMessage.Type.PARTY_JOIN:
+                    case CmdMessage.Type.PARTY_QUIT:
+                    case CmdMessage.Type.PARTY_LIKE:
+                    case CmdMessage.Type.PARTY_COMMENT:
+                    case CmdMessage.Type.PARTY_REPLY:
+                    case CmdMessage.Type.PARTY_CANCEL:
                         String partyId = cmdMessage.getPayload();
                         String title = cmdMessage.getTitle();
                         String content = cmdMessage.getContent();

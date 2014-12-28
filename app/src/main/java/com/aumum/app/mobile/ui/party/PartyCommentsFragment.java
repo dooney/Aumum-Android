@@ -20,8 +20,10 @@ import android.widget.TextView;
 import com.aumum.app.mobile.Injector;
 import com.aumum.app.mobile.R;
 import com.aumum.app.mobile.core.dao.PartyStore;
+import com.aumum.app.mobile.core.model.CmdMessage;
 import com.aumum.app.mobile.core.model.Party;
 import com.aumum.app.mobile.core.model.User;
+import com.aumum.app.mobile.core.service.ChatService;
 import com.aumum.app.mobile.core.service.RestService;
 import com.aumum.app.mobile.core.model.Comment;
 import com.aumum.app.mobile.core.dao.PartyCommentStore;
@@ -52,6 +54,7 @@ public class PartyCommentsFragment extends ItemListFragment<Comment> {
     @Inject UserStore userStore;
     @Inject PartyStore partyStore;
     @Inject PartyCommentStore partyCommentStore;
+    @Inject ChatService chatService;
 
     private String partyId;
     private User currentUser;
@@ -207,6 +210,11 @@ public class PartyCommentsFragment extends ItemListFragment<Comment> {
                 service.addPartyComment(partyId, response.getObjectId());
                 party.getComments().add(response.getObjectId());
                 partyStore.updateOrInsert(party);
+
+                sendCommentMessage(comment);
+                if (repliedComment != null) {
+                    sendRepliedMessage(repliedComment);
+                }
                 return true;
             }
 
@@ -324,5 +332,35 @@ public class PartyCommentsFragment extends ItemListFragment<Comment> {
             Ln.d(e);
         }
         Toaster.showShort(getActivity(), R.string.error_delete_comment);
+    }
+
+    private void sendMessage(String to, CmdMessage cmdMessage) {
+        if (!to.equals(currentUser.getChatId())) {
+            chatService.sendCmdMessage(to, cmdMessage);
+        }
+    }
+
+    private void sendPartyOwnerMessage(CmdMessage cmdMessage) throws Exception {
+        User partyOwner = userStore.getUserById(party.getUserId());
+        sendMessage(partyOwner.getChatId(), cmdMessage);
+    }
+
+    private void sendCommentMessage(Comment comment) throws Exception {
+        String title = getString(R.string.label_comment_party_message,
+                currentUser.getScreenName(), party.getTitle());
+        CmdMessage cmdMessage = new CmdMessage(CmdMessage.Type.PARTY_COMMENT,
+                title, comment.getContent(), partyId);
+        sendPartyOwnerMessage(cmdMessage);
+    }
+
+    private void sendRepliedMessage(Comment repliedComment) throws Exception {
+        String title = getString(R.string.label_replied_party_message,
+                currentUser.getScreenName(), party.getTitle());
+        CmdMessage cmdMessage = new CmdMessage(CmdMessage.Type.PARTY_REPLY,
+                title, repliedComment.getContent(), partyId);
+        sendPartyOwnerMessage(cmdMessage);
+        if (!party.getUserId().equals(repliedComment.getUserId())) {
+            sendMessage(repliedComment.getUser().getChatId(), cmdMessage);
+        }
     }
 }
