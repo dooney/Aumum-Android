@@ -5,7 +5,6 @@ import com.aumum.app.mobile.core.model.Asking;
 import com.aumum.app.mobile.core.model.AskingReply;
 import com.aumum.app.mobile.core.model.Comment;
 import com.aumum.app.mobile.core.Constants;
-import com.aumum.app.mobile.core.model.Message;
 import com.aumum.app.mobile.core.model.Party;
 import com.aumum.app.mobile.core.model.PartyReason;
 import com.aumum.app.mobile.core.model.User;
@@ -18,7 +17,6 @@ import com.google.gson.JsonPrimitive;
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -57,10 +55,6 @@ public class RestService {
 
     private PartyCommentService getPartyCommentService() {
         return getRestAdapter().create(PartyCommentService.class);
-    }
-
-    private MessageService getMessageService() {
-        return getRestAdapter().create(MessageService.class);
     }
 
     private PartyReasonService getPartyReasonService() {
@@ -257,44 +251,6 @@ public class RestService {
         whereJson.addProperty("chatId", id);
         String where = whereJson.toString();
         return getUserService().getList(where, 1).getResults().get(0);
-    }
-
-    public Message newMessage(Message message) {
-        return getMessageService().newMessage(message);
-    }
-
-    public JsonObject addUserMessage(String userId, String messageId) {
-        final JsonObject op = new JsonObject();
-        op.addProperty("__op", "AddUnique");
-        return updateUserMessage(op, userId, messageId);
-    }
-
-    private JsonObject updateUserMessage(JsonObject op, String userId, String messageId) {
-        final JsonObject data = new JsonObject();
-        final JsonArray messages = new JsonArray();
-        messages.add(new JsonPrimitive(messageId));
-        op.add("objects", messages);
-        data.add(Constants.Http.User.PARAM_MESSAGES, op);
-        return getUserService().updateById(userId, data);
-    }
-
-    public List<Message> getMessagesAfter(List<String> idList, List<Integer> typeList, String after, int limit) {
-        final JsonObject whereJson = new JsonObject();
-        whereJson.add("objectId", buildIdListJson(idList));
-        if (typeList != null) {
-            final JsonArray typeListJson = new JsonArray();
-            for (int type : typeList) {
-                typeListJson.add(new JsonPrimitive(type));
-            }
-            final JsonObject typeInJson = new JsonObject();
-            typeInJson.add("$in", typeListJson);
-            whereJson.add("type", typeInJson);
-        }
-        if (after != null) {
-            whereJson.add("createdAt", buildDateTimeAfterJson(after));
-        }
-        String where = whereJson.toString();
-        return getMessageService().getMessages("-createdAt", where, limit).getResults();
     }
 
     public JsonObject addPartyMember(String partyId, String userId) {

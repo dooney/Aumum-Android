@@ -13,12 +13,10 @@ import com.aumum.app.mobile.R;
 import com.aumum.app.mobile.core.dao.PartyReasonStore;
 import com.aumum.app.mobile.core.dao.PartyStore;
 import com.aumum.app.mobile.core.dao.UserStore;
-import com.aumum.app.mobile.core.model.Message;
 import com.aumum.app.mobile.core.model.Party;
 import com.aumum.app.mobile.core.model.PartyReason;
 import com.aumum.app.mobile.core.model.User;
 import com.aumum.app.mobile.core.service.ChatService;
-import com.aumum.app.mobile.core.service.MessageDeliveryService;
 import com.aumum.app.mobile.core.service.RestService;
 import com.aumum.app.mobile.events.AddPartyReasonEvent;
 import com.aumum.app.mobile.events.AddPartyReasonFinishedEvent;
@@ -41,7 +39,6 @@ import retrofit.RetrofitError;
 public class PartyReasonsFragment extends ItemListFragment<PartyReason> {
 
     @Inject RestService service;
-    @Inject MessageDeliveryService messageDeliveryService;
     @Inject Bus bus;
     @Inject UserStore userStore;
     @Inject PartyStore partyStore;
@@ -147,19 +144,11 @@ public class PartyReasonsFragment extends ItemListFragment<PartyReason> {
                         String text = getActivity().getString(R.string.label_group_joint, currentUser.getScreenName());
                         chatService.sendSystemMessage(party.getGroupId(), true, text, null);
                     }
-
-                    Message message = new Message(Message.Type.PARTY_JOIN,
-                            currentUser.getObjectId(), party.getUserId(), reason.getContent(), party.getObjectId());
-                    messageDeliveryService.send(message);
                 } else if (reason.getType() == PartyReason.QUIT) {
                     service.removePartyMember(partyId, currentUser.getObjectId());
                     service.removeUserParty(currentUser.getObjectId(), partyId);
                     party.getMembers().remove(currentUser.getObjectId());
                     partyStore.updateOrInsert(party);
-
-                    Message message = new Message(Message.Type.PARTY_QUIT,
-                            currentUser.getObjectId(), party.getUserId(), reason.getContent(), party.getObjectId());
-                    messageDeliveryService.send(message);
                 }
 
                 return true;

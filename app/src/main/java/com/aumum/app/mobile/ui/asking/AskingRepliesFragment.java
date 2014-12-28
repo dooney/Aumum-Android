@@ -16,9 +16,7 @@ import com.aumum.app.mobile.core.dao.AskingStore;
 import com.aumum.app.mobile.core.dao.UserStore;
 import com.aumum.app.mobile.core.model.Asking;
 import com.aumum.app.mobile.core.model.AskingReply;
-import com.aumum.app.mobile.core.model.Message;
 import com.aumum.app.mobile.core.model.User;
-import com.aumum.app.mobile.core.service.MessageDeliveryService;
 import com.aumum.app.mobile.core.service.RestService;
 import com.aumum.app.mobile.events.AddAskingReplyEvent;
 import com.aumum.app.mobile.events.ReplyAskingReplyEvent;
@@ -44,7 +42,6 @@ public class AskingRepliesFragment extends RefreshItemListFragment<AskingReply> 
     @Inject AskingStore askingStore;
     @Inject AskingReplyStore dataStore;
     @Inject UserStore userStore;
-    @Inject MessageDeliveryService messageDeliveryService;
     @Inject Bus bus;
 
     private String askingId;
@@ -188,16 +185,6 @@ public class AskingRepliesFragment extends RefreshItemListFragment<AskingReply> 
                         reply.getContent(), repliedId);
                 AskingReply response = restService.newAskingReply(newReply);
                 restService.addAskingReplies(askingId, response.getObjectId());
-
-                Message message = new Message(Message.Type.ASKING_REPLY_NEW,
-                        currentUser.getObjectId(), asking.getUserId(), reply.getContent(), askingId);
-                messageDeliveryService.send(message);
-                if (replied != null) {
-                    Message repliedMessage = new Message(Message.Type.ASKING_REPLY_REPLY,
-                            currentUser.getObjectId(), replied.getUserId(), askingReply.getContent(), askingId);
-                    messageDeliveryService.send(repliedMessage);
-                }
-
                 return true;
             }
 

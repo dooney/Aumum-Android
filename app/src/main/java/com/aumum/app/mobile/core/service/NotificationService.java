@@ -9,10 +9,8 @@ import android.content.Intent;
 import android.support.v4.app.NotificationCompat;
 
 import com.aumum.app.mobile.R;
-import com.aumum.app.mobile.core.model.Message;
 import com.aumum.app.mobile.ui.chat.ChatActivity;
 import com.aumum.app.mobile.ui.contact.ContactRequestsActivity;
-import com.aumum.app.mobile.ui.party.PartyCommentsActivity;
 import com.aumum.app.mobile.ui.party.PartyDetailsSingleActivity;
 import com.aumum.app.mobile.utils.Ln;
 import com.parse.ParsePush;
@@ -64,40 +62,6 @@ public class NotificationService {
         NotificationManager mNotificationManager =
                 (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
         mNotificationManager.notify(0, builder.build());
-    }
-
-    public void pushUserMessageNotification(String title, Message message) {
-        NotificationCompat.Builder builder = getNotificationBuilder(title, message.getContent());
-        Intent intent = getUserMessageIntent(context, message);
-        notify(builder, intent);
-    }
-
-    private Intent getUserMessageIntent(Context context, Message message) {
-        Intent intent = new Intent();
-        switch (message.getType()) {
-            case Message.Type.PARTY_NEW:
-            case Message.Type.PARTY_JOIN:
-            case Message.Type.PARTY_QUIT:
-            case Message.Type.PARTY_LIKE:
-                if (message.getParentId() != null) {
-                    intent.putExtra(PartyDetailsSingleActivity.INTENT_PARTY_ID, message.getParentId());
-                    intent.setComponent(new ComponentName(context, PartyDetailsSingleActivity.class));
-                }
-                break;
-            case Message.Type.PARTY_COMMENT:
-            case Message.Type.PARTY_REPLY:
-                if (message.getParentId() != null) {
-                    intent.putExtra(PartyCommentsActivity.INTENT_PARTY_ID, message.getParentId());
-                    intent.setComponent(new ComponentName(context, PartyCommentsActivity.class));
-                }
-                break;
-            case Message.Type.PARTY_DELETE:
-                break;
-            default:
-                break;
-        }
-        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-        return intent;
     }
 
     public void pushPartyNotification(String partyId, String title, String content) {

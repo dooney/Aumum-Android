@@ -76,11 +76,6 @@ public final class Constants {
         public static final String URL_PARTY_BY_ID_FRAG = "/1/classes/Parties/{id}";
 
         /**
-         * List Messages URL
-         */
-        public static final String URL_MESSAGES_FRAG = "/1/classes/Messages";
-
-        /**
          * List Party Comments URL
          */
         public static final String URL_COMMENTS_FRAG = "/1/classes/PartyComments";
@@ -142,7 +137,6 @@ public final class Constants {
 
         public static final class User {
             public static final String PARAM_CONTACTS = "contacts";
-            public static final String PARAM_MESSAGES = "messages";
             public static final String PARAM_PARTIES = "parties";
             public static final String PARAM_AVATAR_URL = "avatarUrl";
             public static final String PARAM_SCREEN_NAME = "screenName";

@@ -10,7 +10,6 @@ import com.aumum.app.mobile.core.dao.Repository;
 import com.aumum.app.mobile.core.infra.security.ApiKeyProvider;
 import com.aumum.app.mobile.core.service.ChatService;
 import com.aumum.app.mobile.core.service.FileUploadService;
-import com.aumum.app.mobile.core.service.MessageDeliveryService;
 import com.aumum.app.mobile.core.service.NotificationService;
 import com.aumum.app.mobile.core.service.RestService;
 import com.aumum.app.mobile.ui.LaunchActivity;
@@ -58,7 +57,6 @@ import com.aumum.app.mobile.core.service.LogoutService;
 import com.aumum.app.mobile.ui.party.SearchPartyFragment;
 import com.aumum.app.mobile.ui.account.RegisterActivity;
 import com.aumum.app.mobile.core.Constants;
-import com.aumum.app.mobile.core.dao.MessageStore;
 import com.aumum.app.mobile.core.dao.PartyCommentStore;
 import com.aumum.app.mobile.core.dao.PartyStore;
 import com.aumum.app.mobile.ui.contact.AddContactActivity;
@@ -157,12 +155,6 @@ public class BootstrapModule {
 
     @Singleton
     @Provides
-    MessageDeliveryService provideMessageDeliveryService(RestService restService) {
-        return new MessageDeliveryService(restService);
-    }
-
-    @Singleton
-    @Provides
     NotificationService provideNotificationService(final Context context) {
         return new NotificationService(context);
     }
@@ -190,12 +182,6 @@ public class BootstrapModule {
     @Provides
     RestService provideRestService(RestAdapter restAdapter) {
         return new RestService(restAdapter);
-    }
-
-    @Provides
-    @Singleton
-    MessageStore provideMessageStore(RestService restService, Repository repository) {
-        return new MessageStore(restService, repository);
     }
 
     @Provides

@@ -18,7 +18,6 @@ public class User extends AggregateRoot implements Sortable {
     protected String avatarUrl;
     protected String about;
     protected List<String> contacts = new ArrayList<String>();
-    protected List<String> messages = new ArrayList<String>();
     protected List<String> parties = new ArrayList<String>();
     protected List<String> askings = new ArrayList<String>();
     protected List<String> favParties = new ArrayList<String>();
@@ -39,7 +38,6 @@ public class User extends AggregateRoot implements Sortable {
                 String avatarUrl,
                 String about,
                 List<String> contacts,
-                List<String> messages,
                 List<String> parties,
                 List<String> askings,
                 List<String> favParties,
@@ -56,8 +54,6 @@ public class User extends AggregateRoot implements Sortable {
         this.about = about;
         this.contacts.clear();
         this.contacts.addAll(contacts);
-        this.messages.clear();
-        this.messages.addAll(messages);
         this.parties.clear();
         this.parties.addAll(parties);
         this.askings.clear();
@@ -130,10 +126,6 @@ public class User extends AggregateRoot implements Sortable {
 
     public List<String> getContacts() {
         return contacts;
-    }
-
-    public List<String> getMessages() {
-        return messages;
     }
 
     public List<String> getParties() {

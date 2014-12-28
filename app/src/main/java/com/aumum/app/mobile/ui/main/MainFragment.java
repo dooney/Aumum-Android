@@ -13,12 +13,10 @@ import android.view.ViewGroup;
 
 import com.aumum.app.mobile.Injector;
 import com.aumum.app.mobile.R;
-import com.aumum.app.mobile.core.dao.MessageStore;
 import com.aumum.app.mobile.core.dao.PartyStore;
 import com.aumum.app.mobile.core.dao.UserStore;
 import com.aumum.app.mobile.core.infra.security.ApiKeyProvider;
 import com.aumum.app.mobile.core.model.CmdMessage;
-import com.aumum.app.mobile.core.model.Message;
 import com.aumum.app.mobile.core.model.Party;
 import com.aumum.app.mobile.core.model.User;
 import com.aumum.app.mobile.core.service.ChatService;
@@ -48,7 +46,6 @@ public class MainFragment extends Fragment
         implements ScheduleService.OnScheduleListener{
 
     @Inject UserStore userStore;
-    @Inject MessageStore messageStore;
     @Inject PartyStore partyStore;
     @Inject NotificationService notificationService;
     @Inject ChatService chatService;
@@ -128,12 +125,6 @@ public class MainFragment extends Fragment
         task = new SafeAsyncTask<Boolean>() {
             public Boolean call() throws Exception {
                 User currentUser = userStore.getCurrentUserFromServer();
-                List<Message> unreadMessageList = messageStore.getUnreadListFromServer(currentUser.getMessages());
-                for (Message message: unreadMessageList) {
-                    String fromName = userStore.getUserById(message.getFromUserId()).getScreenName();
-                    notificationService.pushUserMessageNotification(fromName, message);
-                    messageStore.getUnreadList().add(message);
-                }
                 List<Party> unreadPartyList = partyStore.getUnreadListFromServer(currentUser.getObjectId());
                 if (unreadPartyList.size() > 0) {
                     partyStore.getUnreadList().addAll(unreadPartyList);

@@ -21,12 +21,10 @@ import com.aumum.app.mobile.R;
 import com.aumum.app.mobile.core.infra.security.ApiKeyProvider;
 import com.aumum.app.mobile.core.Constants;
 import com.aumum.app.mobile.core.dao.PartyStore;
-import com.aumum.app.mobile.core.model.Message;
 import com.aumum.app.mobile.core.model.Party;
 import com.aumum.app.mobile.core.model.PartyReason;
 import com.aumum.app.mobile.core.dao.UserStore;
 import com.aumum.app.mobile.core.model.User;
-import com.aumum.app.mobile.core.service.MessageDeliveryService;
 import com.aumum.app.mobile.core.service.RestService;
 import com.aumum.app.mobile.core.service.ShareService;
 import com.aumum.app.mobile.events.AddPartyReasonEvent;
@@ -68,7 +66,6 @@ public class PartyDetailsFragment extends LoaderFragment<Party> {
     @Inject UserStore userStore;
     @Inject PartyStore partyStore;
     @Inject RestService restService;
-    @Inject MessageDeliveryService messageDeliveryService;
     private ShareService shareService;
 
     private Party party;
@@ -395,11 +392,6 @@ public class PartyDetailsFragment extends LoaderFragment<Party> {
                 partyStore.deleteParty(party.getObjectId());
                 for(String userId: party.getMembers()) {
                     restService.removeUserParty(userId, party.getObjectId());
-
-                    String content = getActivity().getString(R.string.label_delete_party_message, party.getTitle());
-                    Message message = new Message(Message.Type.PARTY_DELETE,
-                            party.getUserId(), userId, content, party.getObjectId());
-                    messageDeliveryService.send(message);
                 }
                 return true;
             }

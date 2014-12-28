@@ -20,10 +20,8 @@ import android.widget.TextView;
 import com.aumum.app.mobile.Injector;
 import com.aumum.app.mobile.R;
 import com.aumum.app.mobile.core.dao.PartyStore;
-import com.aumum.app.mobile.core.model.Message;
 import com.aumum.app.mobile.core.model.Party;
 import com.aumum.app.mobile.core.model.User;
-import com.aumum.app.mobile.core.service.MessageDeliveryService;
 import com.aumum.app.mobile.core.service.RestService;
 import com.aumum.app.mobile.core.model.Comment;
 import com.aumum.app.mobile.core.dao.PartyCommentStore;
@@ -51,7 +49,6 @@ import retrofit.RetrofitError;
  */
 public class PartyCommentsFragment extends ItemListFragment<Comment> {
     @Inject RestService service;
-    @Inject MessageDeliveryService messageDeliveryService;
     @Inject UserStore userStore;
     @Inject PartyStore partyStore;
     @Inject PartyCommentStore partyCommentStore;
@@ -210,15 +207,6 @@ public class PartyCommentsFragment extends ItemListFragment<Comment> {
                 service.addPartyComment(partyId, response.getObjectId());
                 party.getComments().add(response.getObjectId());
                 partyStore.updateOrInsert(party);
-
-                Message message = new Message(Message.Type.PARTY_COMMENT,
-                        currentUser.getObjectId(), party.getUserId(), comment.getContent(), party.getObjectId());
-                messageDeliveryService.send(message);
-                if (repliedComment != null) {
-                    Message repliedMessage = new Message(Message.Type.PARTY_REPLY,
-                            currentUser.getObjectId(), repliedComment.getUserId(), comment.getContent(), party.getObjectId());
-                    messageDeliveryService.send(repliedMessage);
-                }
                 return true;
             }
 

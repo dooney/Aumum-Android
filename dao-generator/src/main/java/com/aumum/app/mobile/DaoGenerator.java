@@ -10,20 +10,12 @@ public class DaoGenerator {
     public static void main(String args[]) throws Exception {
         Schema schema = new Schema(SCHEMA_VERSION, "com.aumum.app.mobile.core.dao.gen");
 
-        addMessage(schema);
         addUser(schema);
         addParty(schema);
         addContactRequest(schema);
         addAsking(schema);
 
         new de.greenrobot.daogenerator.DaoGenerator().generateAll(schema, args[0]);
-    }
-
-    private static void addMessage(Schema schema) {
-        Entity message = schema.addEntity("MessageEntity");
-        message.setSuperclass("BaseEntity");
-        message.addStringProperty("objectId").notNull().primaryKey();
-        message.addDateProperty("createdAt").notNull();
     }
 
     private static void addUser(Schema schema) {
@@ -40,7 +32,6 @@ public class DaoGenerator {
         user.addStringProperty("avatarUrl");
         user.addStringProperty("about");
         user.addStringProperty("contacts");
-        user.addStringProperty("messages");
         user.addStringProperty("parties");
         user.addStringProperty("askings");
         user.addStringProperty("favParties");

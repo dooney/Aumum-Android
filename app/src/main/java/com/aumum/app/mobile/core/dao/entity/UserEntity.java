@@ -18,7 +18,6 @@ public class UserEntity extends BaseEntity {
     private String avatarUrl;
     private String about;
     private String contacts;
-    private String messages;
     private String parties;
     private String askings;
     private String favParties;
@@ -42,7 +41,6 @@ public class UserEntity extends BaseEntity {
                       String avatarUrl,
                       String about,
                       String contacts,
-                      String messages,
                       String parties,
                       String askings,
                       String favParties,
@@ -58,7 +56,6 @@ public class UserEntity extends BaseEntity {
         this.avatarUrl = avatarUrl;
         this.about = about;
         this.contacts = contacts;
-        this.messages = messages;
         this.parties = parties;
         this.askings = askings;
         this.favParties = favParties;
@@ -135,14 +132,6 @@ public class UserEntity extends BaseEntity {
 
     public void setContacts(String contacts) {
         this.contacts = contacts;
-    }
-
-    public String getMessages() {
-        return messages;
-    }
-
-    public void setMessages(String messages) {
-        this.messages = messages;
     }
 
     public String getParties() {
