@@ -17,6 +17,7 @@ import com.aumum.app.mobile.core.dao.MessageStore;
 import com.aumum.app.mobile.core.dao.PartyStore;
 import com.aumum.app.mobile.core.dao.UserStore;
 import com.aumum.app.mobile.core.infra.security.ApiKeyProvider;
+import com.aumum.app.mobile.core.model.CmdMessage;
 import com.aumum.app.mobile.core.model.Message;
 import com.aumum.app.mobile.core.model.Party;
 import com.aumum.app.mobile.core.model.User;
@@ -29,6 +30,7 @@ import com.aumum.app.mobile.ui.contact.ContactListener;
 import com.aumum.app.mobile.utils.Ln;
 import com.aumum.app.mobile.utils.SafeAsyncTask;
 import com.aumum.app.mobile.utils.UpYunUtils;
+import com.easemob.chat.EMMessage;
 import com.viewpagerindicator.TabPageIndicator;
 
 import java.util.List;
@@ -55,7 +57,7 @@ public class MainFragment extends Fragment
     private ScheduleService scheduleService;
     private SafeAsyncTask<Boolean> task;
 
-    NewMessageBroadcastReceiver newMessageBroadcastReceiver;
+    CmdMessageBroadcastReceiver cmdMessageBroadcastReceiver;
 
     @InjectView(R.id.tpi_footer)
     protected TabPageIndicator indicator;
@@ -73,10 +75,10 @@ public class MainFragment extends Fragment
         super.onActivityCreated(savedInstanceState);
         Injector.inject(this);
 
-        newMessageBroadcastReceiver = new NewMessageBroadcastReceiver();
-        IntentFilter intentFilter = new IntentFilter(chatService.getNewMessageBroadcastAction());
-        intentFilter.setPriority(NewMessageBroadcastReceiver.PRIORITY);
-        getActivity().registerReceiver(newMessageBroadcastReceiver, intentFilter);
+        cmdMessageBroadcastReceiver = new CmdMessageBroadcastReceiver();
+        IntentFilter intentFilter = new IntentFilter(chatService.getCmdMessageBroadcastAction());
+        intentFilter.setPriority(CmdMessageBroadcastReceiver.PRIORITY);
+        getActivity().registerReceiver(cmdMessageBroadcastReceiver, intentFilter);
 
         chatService.setMessageNotifyListener(new MessageNotifyListener(getActivity()));
         chatService.setNotificationClickListener(new NotificationClickListener(getActivity()));
@@ -110,7 +112,7 @@ public class MainFragment extends Fragment
     @Override
     public void onDestroy() {
         super.onDestroy();
-        getActivity().unregisterReceiver(newMessageBroadcastReceiver);
+        getActivity().unregisterReceiver(cmdMessageBroadcastReceiver);
     }
 
     @Override
@@ -157,12 +159,31 @@ public class MainFragment extends Fragment
         task.execute();
     }
 
-    private class NewMessageBroadcastReceiver extends BroadcastReceiver {
+    private class CmdMessageBroadcastReceiver extends BroadcastReceiver {
 
         public static final int PRIORITY = 3;
 
         @Override
         public void onReceive(Context context, Intent intent) {
+            abortBroadcast();
+
+            try {
+                EMMessage message = intent.getParcelableExtra("message");
+                CmdMessage cmdMessage = chatService.getCmdMessage(message);
+                switch (cmdMessage.getType()) {
+                    case CmdMessage.Type.PARTY_NEW:
+                        String partyId = cmdMessage.getPayload();
+                        String title = cmdMessage.getTitle();
+                        String content = cmdMessage.getContent();
+                        notificationService.pushPartyNotification(partyId, title, content);
+                        break;
+                    default:
+                        break;
+                }
+            } catch (Exception e) {
+                Ln.e(e);
+            }
+
             return;
         }
     }

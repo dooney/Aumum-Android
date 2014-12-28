@@ -1,7 +1,9 @@
 package com.aumum.app.mobile.core.service;
 
+import com.aumum.app.mobile.core.model.CmdMessage;
 import com.aumum.app.mobile.utils.Ln;
 import com.easemob.EMCallBack;
+import com.easemob.chat.CmdMessageBody;
 import com.easemob.chat.EMChat;
 import com.easemob.chat.EMChatManager;
 import com.easemob.chat.EMChatOptions;
@@ -16,6 +18,7 @@ import com.easemob.chat.OnMessageNotifyListener;
 import com.easemob.chat.OnNotificationClickListener;
 import com.easemob.chat.TextMessageBody;
 import com.easemob.chat.VoiceMessageBody;
+import com.google.gson.Gson;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -150,7 +153,7 @@ public class ChatService {
 
     public void sendSystemMessage(String receipt, boolean isGroup, String text, EMCallBack callBack) {
         EMMessage message = addTextMessage(receipt, isGroup, true, text);
-        EMChatManager.getInstance().sendMessage(message, callBack);
+        sendMessage(message, callBack);
     }
 
     public void addVoiceMessage(String receipt, boolean isGroup, String filePath, int length) {
@@ -175,6 +178,21 @@ public class ChatService {
         message.setReceipt(receipt);
         EMConversation conversation = EMChatManager.getInstance().getConversation(receipt);
         conversation.addMessage(message);
+    }
+
+    public void sendCmdMessage(String receipt, CmdMessage cmdMessage) {
+        final EMMessage message = EMMessage.createSendMessage(EMMessage.Type.CMD);
+        CmdMessageBody body = new CmdMessageBody("cmd");
+        message.addBody(body);
+        message.setReceipt(receipt);
+        message.setAttribute("payload", cmdMessage.toString());
+        sendMessage(message, null);
+    }
+
+    public CmdMessage getCmdMessage(EMMessage message) throws Exception {
+        String payload = message.getStringAttribute("payload");
+        Gson gson = new Gson();
+        return gson.fromJson(payload, CmdMessage.class);
     }
 
     public EMConversation getConversation(String id) {
@@ -203,6 +221,10 @@ public class ChatService {
 
     public String getNewMessageBroadcastAction() {
         return EMChatManager.getInstance().getNewMessageBroadcastAction();
+    }
+
+    public String getCmdMessageBroadcastAction() {
+        return EMChatManager.getInstance().getCmdMessageBroadcastAction();
     }
 
     public void setAppInitialized() {

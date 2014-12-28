@@ -142,9 +142,11 @@ public class PartyReasonsFragment extends ItemListFragment<PartyReason> {
                     party.getMembers().add(currentUser.getObjectId());
                     partyStore.updateOrInsert(party);
 
-                    chatService.joinGroup(party.getGroupId());
-                    String text = getActivity().getString(R.string.label_group_joint, currentUser.getScreenName());
-                    chatService.sendSystemMessage(party.getGroupId(), true, text, null);
+                    if (party.getGroupId() != null) {
+                        chatService.joinGroup(party.getGroupId());
+                        String text = getActivity().getString(R.string.label_group_joint, currentUser.getScreenName());
+                        chatService.sendSystemMessage(party.getGroupId(), true, text, null);
+                    }
 
                     Message message = new Message(Message.Type.PARTY_JOIN,
                             currentUser.getObjectId(), party.getUserId(), reason.getContent(), party.getObjectId());

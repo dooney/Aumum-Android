@@ -24,6 +24,7 @@ import com.aumum.app.mobile.Injector;
 import com.aumum.app.mobile.R;
 import com.aumum.app.mobile.core.Constants;
 import com.aumum.app.mobile.core.dao.UserStore;
+import com.aumum.app.mobile.core.model.CmdMessage;
 import com.aumum.app.mobile.core.model.Date;
 import com.aumum.app.mobile.core.model.Party;
 import com.aumum.app.mobile.core.model.Time;
@@ -386,11 +387,14 @@ public class NewPartyActivity extends ProgressDialogActivity
                     chatService.sendSystemMessage(group.getGroupId(), true, groupCreatedText, null);
                 }
                 if (notifiedContacts.size() > 0) {
-                    String partyCreatedText = getString(R.string.label_party_created,
-                            currentUser.getScreenName(), party.getTitle());
+                    String title = getString(R.string.label_new_party_message, currentUser.getScreenName());
                     for (String userId : notifiedContacts) {
                         User user = userStore.getUserById(userId);
-                        chatService.sendSystemMessage(user.getChatId(), false, partyCreatedText, null);
+                        CmdMessage cmdMessage = new CmdMessage(CmdMessage.Type.PARTY_NEW,
+                                                               title,
+                                                               party.getTitle(),
+                                                               party.getObjectId());
+                        chatService.sendCmdMessage(user.getChatId(), cmdMessage);
                     }
                 }
                 return true;

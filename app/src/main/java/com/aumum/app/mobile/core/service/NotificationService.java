@@ -13,7 +13,7 @@ import com.aumum.app.mobile.core.model.Message;
 import com.aumum.app.mobile.ui.chat.ChatActivity;
 import com.aumum.app.mobile.ui.contact.ContactRequestsActivity;
 import com.aumum.app.mobile.ui.party.PartyCommentsActivity;
-import com.aumum.app.mobile.ui.party.PartyDetailsActivity;
+import com.aumum.app.mobile.ui.party.PartyDetailsSingleActivity;
 import com.aumum.app.mobile.utils.Ln;
 import com.parse.ParsePush;
 
@@ -80,8 +80,8 @@ public class NotificationService {
             case Message.Type.PARTY_QUIT:
             case Message.Type.PARTY_LIKE:
                 if (message.getParentId() != null) {
-                    intent.putExtra(PartyDetailsActivity.INTENT_PARTY_ID, message.getParentId());
-                    intent.setComponent(new ComponentName(context, PartyDetailsActivity.class));
+                    intent.putExtra(PartyDetailsSingleActivity.INTENT_PARTY_ID, message.getParentId());
+                    intent.setComponent(new ComponentName(context, PartyDetailsSingleActivity.class));
                 }
                 break;
             case Message.Type.PARTY_COMMENT:
@@ -98,6 +98,15 @@ public class NotificationService {
         }
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         return intent;
+    }
+
+    public void pushPartyNotification(String partyId, String title, String content) {
+        NotificationCompat.Builder builder = getNotificationBuilder(title, content);
+        Intent intent = new Intent();
+        intent.putExtra(PartyDetailsSingleActivity.INTENT_PARTY_ID, partyId);
+        intent.setComponent(new ComponentName(context, PartyDetailsSingleActivity.class));
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        notify(builder, intent);
     }
 
     public void pushContactInvitedNotification(String userName, String reason) {
