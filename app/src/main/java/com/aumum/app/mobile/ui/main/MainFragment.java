@@ -170,19 +170,20 @@ public class MainFragment extends Fragment
             try {
                 EMMessage message = intent.getParcelableExtra("message");
                 CmdMessage cmdMessage = chatService.getCmdMessage(message);
+                String partyId = cmdMessage.getPayload();
+                String title = cmdMessage.getTitle();
+                String content = cmdMessage.getContent();
                 switch (cmdMessage.getType()) {
                     case CmdMessage.Type.PARTY_NEW:
                     case CmdMessage.Type.PARTY_JOIN:
                     case CmdMessage.Type.PARTY_QUIT:
                     case CmdMessage.Type.PARTY_LIKE:
+                    case CmdMessage.Type.PARTY_CANCEL:
+                        notificationService.pushPartyDetailsNotification(partyId, title, content);
+                        break;
                     case CmdMessage.Type.PARTY_COMMENT:
                     case CmdMessage.Type.PARTY_REPLY:
-                    case CmdMessage.Type.PARTY_CANCEL:
-                        String partyId = cmdMessage.getPayload();
-                        String title = cmdMessage.getTitle();
-                        String content = cmdMessage.getContent();
-                        notificationService.pushPartyNotification(partyId, title, content);
-                        break;
+                        notificationService.pushPartyCommentsNotification(partyId, title, content);
                     default:
                         break;
                 }

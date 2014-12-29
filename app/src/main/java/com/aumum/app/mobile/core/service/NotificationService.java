@@ -11,6 +11,7 @@ import android.support.v4.app.NotificationCompat;
 import com.aumum.app.mobile.R;
 import com.aumum.app.mobile.ui.chat.ChatActivity;
 import com.aumum.app.mobile.ui.contact.ContactRequestsActivity;
+import com.aumum.app.mobile.ui.party.PartyCommentsSingleActivity;
 import com.aumum.app.mobile.ui.party.PartyDetailsSingleActivity;
 import com.aumum.app.mobile.utils.Ln;
 import com.parse.ParsePush;
@@ -64,11 +65,20 @@ public class NotificationService {
         mNotificationManager.notify(0, builder.build());
     }
 
-    public void pushPartyNotification(String partyId, String title, String content) {
+    public void pushPartyDetailsNotification(String partyId, String title, String content) {
         NotificationCompat.Builder builder = getNotificationBuilder(title, content);
         Intent intent = new Intent();
         intent.putExtra(PartyDetailsSingleActivity.INTENT_PARTY_ID, partyId);
         intent.setComponent(new ComponentName(context, PartyDetailsSingleActivity.class));
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        notify(builder, intent);
+    }
+
+    public void pushPartyCommentsNotification(String partyId, String title, String content) {
+        NotificationCompat.Builder builder = getNotificationBuilder(title, content);
+        Intent intent = new Intent();
+        intent.putExtra(PartyCommentsSingleActivity.INTENT_PARTY_ID, partyId);
+        intent.setComponent(new ComponentName(context, PartyCommentsSingleActivity.class));
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         notify(builder, intent);
     }

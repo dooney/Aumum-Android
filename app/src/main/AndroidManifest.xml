@@ -136,15 +136,23 @@
             android:windowSoftInputMode="adjustResize" >
         </activity>
         <activity
+            android:name=".ui.party.PartyCommentsSingleActivity"
+            android:excludeFromRecents="true"
+            android:label="@string/title_activity_party_comments"
+            android:launchMode="singleTask"
+            android:taskAffinity=""
+            android:windowSoftInputMode="adjustResize" >
+        </activity>
+        <activity
             android:name=".ui.party.PartyDetailsActivity"
             android:label="@string/title_activity_party_details" >
         </activity>
         <activity
             android:name=".ui.party.PartyDetailsSingleActivity"
-            android:label="@string/title_activity_party_details"
             android:excludeFromRecents="true"
+            android:label="@string/title_activity_party_details"
             android:launchMode="singleTask"
-            android:taskAffinity="">
+            android:taskAffinity="" >
         </activity>
         <activity android:name=".ui.user.UpdateAvatarActivity" />
         <activity
@@ -175,8 +183,8 @@
         </activity>
         <activity
             android:name=".ui.contact.ContactRequestsActivity"
-            android:label="@string/title_activity_contact_requests"
             android:excludeFromRecents="true"
+            android:label="@string/title_activity_contact_requests"
             android:launchMode="singleTask"
             android:taskAffinity="" >
         </activity>
