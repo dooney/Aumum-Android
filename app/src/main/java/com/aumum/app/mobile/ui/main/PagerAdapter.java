@@ -11,11 +11,13 @@ import com.aumum.app.mobile.ui.conversation.ConversationFragment;
 import com.aumum.app.mobile.ui.contact.ContactFragment;
 import com.aumum.app.mobile.ui.party.PartyListFragment;
 import com.aumum.app.mobile.ui.user.ProfileFragment;
+import com.aumum.app.mobile.ui.view.tab.IconPagerAdapter;
 
 /**
  * Pager adapter
  */
-public class PagerAdapter extends FragmentPagerAdapter {
+public class PagerAdapter extends FragmentPagerAdapter
+    implements IconPagerAdapter{
 
     private String pages[];
 
@@ -24,6 +26,14 @@ public class PagerAdapter extends FragmentPagerAdapter {
     public static final int PAGE_CONVERSATION = 2;
     public static final int PAGE_CONTACT = 3;
     public static final int PAGE_PROFILE = 4;
+
+    private int icons[] = {
+            R.drawable.tab_party_icon,
+            R.drawable.tab_asking_icon,
+            R.drawable.tab_chat_icon,
+            R.drawable.tab_contact_icon,
+            R.drawable.tab_profile_icon
+    };
 
     /**
      * Create pager adapter
@@ -34,6 +44,11 @@ public class PagerAdapter extends FragmentPagerAdapter {
     public PagerAdapter(final Resources resources, final FragmentManager fragmentManager) {
         super(fragmentManager);
         pages = resources.getStringArray(R.array.label_main_pages);
+    }
+
+    @Override
+    public int getIconResId(int index) {
+        return icons[index];
     }
 
     @Override

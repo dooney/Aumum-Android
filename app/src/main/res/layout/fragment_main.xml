@@ -16,10 +16,9 @@
         android:layout_height="1dp"
         android:background="@color/grey_light" />
 
-    <com.viewpagerindicator.TabPageIndicator
+    <com.aumum.app.mobile.ui.main.MainTabPageIndicator
         android:id="@+id/tpi_footer"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        style="@style/Widget.TabPageIndicator" />
+        android:layout_height="wrap_content" />
 
 </LinearLayout>

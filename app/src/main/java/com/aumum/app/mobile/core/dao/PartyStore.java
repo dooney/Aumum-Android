@@ -11,9 +11,6 @@ import com.aumum.app.mobile.utils.DateUtils;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
-import org.joda.time.DateTime;
-import org.joda.time.DateTimeZone;
-
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -27,17 +24,12 @@ public class PartyStore {
     private RestService restService;
     private PartyEntityDao partyEntityDao;
     private Gson gson = new Gson();
-    private List<Party> unreadList = new ArrayList<Party>();
 
     public static final int LIMIT_PER_LOAD = 10;
 
     public PartyStore(RestService restService, Repository repository) {
         this.restService = restService;
         this.partyEntityDao = repository.getPartyEntityDao();
-    }
-
-    public List<Party> getUnreadList() {
-        return unreadList;
     }
 
     private List<String> getList(String data) {
@@ -182,13 +174,9 @@ public class PartyStore {
         return partyList;
     }
 
-    public List<Party> getUnreadListFromServer(String userId) throws Exception {
+    public int getUnreadCount(String userId) throws Exception {
         String time = getLastUpdateTime();
-        List<Party> partyList = restService.getPartiesAfter(userId, time, Integer.MAX_VALUE);
-        for (Party party: partyList) {
-            partyEntityDao.insertOrReplace(map(party));
-        }
-        return partyList;
+        return restService.getPartiesCountAfter(userId, time);
     }
 
     private String getLastUpdateTime() {
@@ -198,10 +186,8 @@ public class PartyStore {
                 .unique();
         if (partyEntity != null) {
             return DateUtils.dateToString(partyEntity.getCreatedAt(), Constants.DateTime.FORMAT);
-        } else {
-            DateTime now = DateTime.now(DateTimeZone.UTC);
-            return now.toString(Constants.DateTime.FORMAT);
         }
+        return null;
     }
 
     public List<Party> getList(List<String> idList) throws Exception {

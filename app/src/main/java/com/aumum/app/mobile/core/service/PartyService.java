@@ -30,4 +30,9 @@ public interface PartyService {
 
     @GET(Constants.Http.URL_PARTY_BY_ID_FRAG)
     Party getById(@Path("id") String id);
+
+    @GET(Constants.Http.URL_PARTIES_FRAG)
+    JsonObject getCount(@Query("where") String where,
+                        @Query("count") int count,
+                        @Query("limit") int limit);
 }

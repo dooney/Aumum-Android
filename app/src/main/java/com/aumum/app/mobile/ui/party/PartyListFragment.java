@@ -20,10 +20,12 @@ import com.aumum.app.mobile.core.dao.PartyStore;
 import com.aumum.app.mobile.core.dao.UserStore;
 import com.aumum.app.mobile.core.model.Party;
 import com.aumum.app.mobile.core.model.User;
+import com.aumum.app.mobile.events.GotPartyUpwardsListEvent;
 import com.aumum.app.mobile.ui.base.RefreshItemListFragment;
 import com.aumum.app.mobile.utils.DialogUtils;
 import com.aumum.app.mobile.utils.GPSTracker;
 import com.aumum.app.mobile.utils.Ln;
+import com.squareup.otto.Bus;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -43,6 +45,7 @@ public class PartyListFragment extends RefreshItemListFragment<Card> {
 
     @Inject UserStore userStore;
     @Inject PartyStore dataStore;
+    @Inject Bus bus;
 
     protected User currentUser;
     protected List<Party> dataSet = new ArrayList<Party>();
@@ -95,6 +98,18 @@ public class PartyListFragment extends RefreshItemListFragment<Card> {
     }
 
     @Override
+    public void onResume() {
+        super.onResume();
+        bus.register(this);
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        bus.unregister(this);
+    }
+
+    @Override
     public void onActivityResult (int requestCode, int resultCode, Intent data) {
         if (requestCode == Constants.RequestCode.NEW_PARTY_REQ_CODE && resultCode == Activity.RESULT_OK) {
             refresh(null);
@@ -129,7 +144,6 @@ public class PartyListFragment extends RefreshItemListFragment<Card> {
 
     @Override
     protected void getUpwardsList() throws Exception {
-        dataStore.getUnreadList().clear();
         String after = null;
         if (dataSet.size() > 0) {
             after = dataSet.get(0).getCreatedAt();
@@ -139,6 +153,7 @@ public class PartyListFragment extends RefreshItemListFragment<Card> {
         for(Party party: partyList) {
             dataSet.add(0, party);
         }
+        bus.post(new GotPartyUpwardsListEvent());
     }
 
     @Override

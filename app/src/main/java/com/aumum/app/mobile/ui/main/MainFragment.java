@@ -14,14 +14,12 @@ import android.view.ViewGroup;
 import com.aumum.app.mobile.Injector;
 import com.aumum.app.mobile.R;
 import com.aumum.app.mobile.core.dao.PartyStore;
-import com.aumum.app.mobile.core.dao.UserStore;
 import com.aumum.app.mobile.core.infra.security.ApiKeyProvider;
 import com.aumum.app.mobile.core.model.CmdMessage;
-import com.aumum.app.mobile.core.model.Party;
-import com.aumum.app.mobile.core.model.User;
 import com.aumum.app.mobile.core.service.ChatService;
 import com.aumum.app.mobile.core.service.NotificationService;
 import com.aumum.app.mobile.core.service.ScheduleService;
+import com.aumum.app.mobile.events.GotPartyUpwardsListEvent;
 import com.aumum.app.mobile.ui.chat.MessageNotifyListener;
 import com.aumum.app.mobile.ui.chat.NotificationClickListener;
 import com.aumum.app.mobile.ui.contact.ContactListener;
@@ -29,9 +27,8 @@ import com.aumum.app.mobile.utils.Ln;
 import com.aumum.app.mobile.utils.SafeAsyncTask;
 import com.aumum.app.mobile.utils.UpYunUtils;
 import com.easemob.chat.EMMessage;
-import com.viewpagerindicator.TabPageIndicator;
-
-import java.util.List;
+import com.squareup.otto.Bus;
+import com.squareup.otto.Subscribe;
 
 import javax.inject.Inject;
 
@@ -45,19 +42,20 @@ import retrofit.RetrofitError;
 public class MainFragment extends Fragment
         implements ScheduleService.OnScheduleListener{
 
-    @Inject UserStore userStore;
     @Inject PartyStore partyStore;
     @Inject NotificationService notificationService;
     @Inject ChatService chatService;
     @Inject ApiKeyProvider apiKeyProvider;
+    @Inject Bus bus;
 
+    private String currentUserId;
     private ScheduleService scheduleService;
     private SafeAsyncTask<Boolean> task;
 
     CmdMessageBroadcastReceiver cmdMessageBroadcastReceiver;
 
     @InjectView(R.id.tpi_footer)
-    protected TabPageIndicator indicator;
+    protected MainTabPageIndicator indicator;
 
     @InjectView(R.id.vp_pages)
     protected ViewPager pager;
@@ -81,7 +79,7 @@ public class MainFragment extends Fragment
         chatService.setNotificationClickListener(new NotificationClickListener(getActivity()));
         chatService.setContactListener(new ContactListener());
         chatService.setAppInitialized();
-        String currentUserId = apiKeyProvider.getAuthUserId();
+        currentUserId = apiKeyProvider.getAuthUserId();
         String password = apiKeyProvider.getAuthPassword();
         String chatId = currentUserId.toLowerCase();
         chatService.authenticate(chatId, password);
@@ -98,12 +96,14 @@ public class MainFragment extends Fragment
     public void onResume() {
         super.onResume();
         scheduleService.start();
+        bus.register(this);
     }
 
     @Override
     public void onPause() {
         super.onDestroy();
         scheduleService.shutDown();
+        bus.unregister(this);
     }
 
     @Override
@@ -124,10 +124,14 @@ public class MainFragment extends Fragment
         }
         task = new SafeAsyncTask<Boolean>() {
             public Boolean call() throws Exception {
-                User currentUser = userStore.getCurrentUserFromServer();
-                List<Party> unreadPartyList = partyStore.getUnreadListFromServer(currentUser.getObjectId());
-                if (unreadPartyList.size() > 0) {
-                    partyStore.getUnreadList().addAll(unreadPartyList);
+                int unreadCount = partyStore.getUnreadCount(currentUserId);
+                if (unreadCount > 0) {
+                    getActivity().runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            indicator.getUnreadImage(0).setVisibility(View.VISIBLE);
+                        }
+                    });
                 }
                 return true;
             }
@@ -148,6 +152,11 @@ public class MainFragment extends Fragment
             }
         };
         task.execute();
+    }
+
+    @Subscribe
+    public void onGotPartyUpwardsListEvent(GotPartyUpwardsListEvent event) {
+        indicator.getUnreadImage(0).setVisibility(View.INVISIBLE);
     }
 
     private class CmdMessageBroadcastReceiver extends BroadcastReceiver {

@@ -593,20 +593,25 @@
         <item name="android:background">@color/divider_grey</item>
     </style>
 
-    <style name="TabPageIndicator.Text">
-        <item name="android:textStyle">normal</item>
-        <item name="android:textColor">@color/black</item>
-    </style>
-    <style name="TabPageIndicator" parent="Widget.TabPageIndicator">
-        <item name="android:textSize">@dimen/text_sz_medium</item>
-        <item name="android:paddingTop">0dp</item>
+    <style name="Tab.View" parent="Widget">
+        <item name="android:gravity">center_horizontal</item>
         <item name="android:paddingLeft">@dimen/margin_large</item>
-        <item name="android:paddingRight">@dimen/margin_large</item>
-        <item name="android:textAppearance">@style/TabPageIndicator.Text</item>
+        <item name="android:paddingBottom">@dimen/margin_extra_small</item>
     </style>
-    <style name="Widget.TabPageIndicator.Top" parent="Widget">
+    <style name="Tab.View.Small" parent="Tab.View">
+        <item name="android:paddingLeft">0dp</item>
+        <item name="android:paddingTop">@dimen/margin_small</item>
+        <item name="android:paddingBottom">@dimen/margin_small</item>
+    </style>
+    <style name="Tab.Text" parent="TextView.Subtitle">
+        <item name="android:gravity">center</item>
+        <item name="android:textColor">@drawable/tab_text_color</item>
+    </style>
+    <style name="Tab.Text.Small" parent="Tab.Text">
+        <item name="android:textSize">@dimen/text_sz_medium</item>
+    </style>
+    <style name="Tab.Image" parent="ImageView">
         <item name="android:paddingTop">@dimen/margin_medium</item>
-        <item name="android:textAppearance">@style/TabPageIndicator.Text</item>
     </style>
 
     <style name="MenuItem.Text" parent="TextView">

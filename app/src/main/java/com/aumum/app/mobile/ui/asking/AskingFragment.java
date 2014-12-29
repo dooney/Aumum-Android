@@ -14,7 +14,6 @@ import android.view.ViewGroup;
 
 import com.aumum.app.mobile.R;
 import com.aumum.app.mobile.core.Constants;
-import com.viewpagerindicator.TabPageIndicator;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
@@ -26,7 +25,7 @@ import butterknife.InjectView;
 public class AskingFragment extends Fragment {
 
     @InjectView(R.id.tpi_header)
-    protected TabPageIndicator indicator;
+    protected AskingTabPageIndicator indicator;
 
     @InjectView(R.id.vp_pages)
     protected ViewPager pager;

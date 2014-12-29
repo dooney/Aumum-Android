@@ -164,11 +164,13 @@ public class RestService {
         return getPartyService().getList("-createdAt", where, limit).getResults();
     }
 
-    private JsonElement buildSubscriptionJson(String userId) {
+    private JsonElement buildSubscriptionJson(String userId, boolean includeOwner) {
         JsonArray jsonArray = new JsonArray();
-        JsonObject ownerJson = new JsonObject();
-        ownerJson.addProperty("userId", userId);
-        jsonArray.add(ownerJson);
+        if (includeOwner) {
+            JsonObject ownerJson = new JsonObject();
+            ownerJson.addProperty("userId", userId);
+            jsonArray.add(ownerJson);
+        }
         JsonObject liveJson = new JsonObject();
         liveJson.addProperty("$exists", false);
         JsonObject publicJson = new JsonObject();
@@ -182,8 +184,25 @@ public class RestService {
 
     public List<Party> getPartiesAfter(String userId, String after, int limit) {
         final JsonObject whereJson = new JsonObject();
-        whereJson.add("$or", buildSubscriptionJson(userId));
+        whereJson.add("$or", buildSubscriptionJson(userId, true));
         return getPartiesAfterCore(whereJson, after, limit);
+    }
+
+    public int getPartiesCountAfter(String userId, String after) {
+        final JsonObject whereJson = new JsonObject();
+        JsonObject notOwnerJson = new JsonObject();
+        notOwnerJson.addProperty("$ne", userId);
+        whereJson.add("userId", notOwnerJson);
+        whereJson.add("$or", buildSubscriptionJson(userId, false));
+        if (after != null) {
+            whereJson.add("createdAt", buildDateTimeAfterJson(after));
+        }
+        final JsonObject liveJson = new JsonObject();
+        liveJson.addProperty("$exists", false);
+        whereJson.add("deletedAt" ,liveJson);
+        String where = whereJson.toString();
+        JsonObject result = getPartyService().getCount(where, 1, 0);
+        return result.get("count").getAsInt();
     }
 
     private List<Party> getPartiesBeforeCore(JsonObject whereJson, String before, int limit) {
@@ -197,7 +216,7 @@ public class RestService {
 
     public List<Party> getPartiesBefore(String userId, String before, int limit) {
         final JsonObject whereJson = new JsonObject();
-        whereJson.add("$or", buildSubscriptionJson(userId));
+        whereJson.add("$or", buildSubscriptionJson(userId, true));
         return getPartiesBeforeCore(whereJson, before, limit);
     }
 
