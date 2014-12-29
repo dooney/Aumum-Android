@@ -2,9 +2,9 @@
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item android:state_selected="false"
-        android:drawable="@drawable/ic_tab_party_nor" />
+        android:drawable="@drawable/ic_tab_asking_nor" />
 
     <item android:state_selected="true"
-        android:drawable="@drawable/ic_tab_party_sel" />
+        android:drawable="@drawable/ic_tab_asking_sel" />
 
 </selector>
