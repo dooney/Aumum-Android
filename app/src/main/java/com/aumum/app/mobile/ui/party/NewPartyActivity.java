@@ -394,7 +394,7 @@ public class NewPartyActivity extends ProgressDialogActivity
                                                                title,
                                                                party.getTitle(),
                                                                party.getObjectId());
-                        chatService.sendCmdMessage(user.getChatId(), cmdMessage);
+                        chatService.sendCmdMessage(user.getChatId(), cmdMessage, false, null);
                     }
                 }
                 return true;

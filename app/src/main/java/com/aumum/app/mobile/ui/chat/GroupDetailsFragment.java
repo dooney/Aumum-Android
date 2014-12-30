@@ -11,14 +11,16 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 
 import com.aumum.app.mobile.Injector;
 import com.aumum.app.mobile.R;
 import com.aumum.app.mobile.core.dao.UserStore;
-import com.aumum.app.mobile.core.model.GroupDetails;
+import com.aumum.app.mobile.core.model.CmdMessage;
 import com.aumum.app.mobile.core.model.User;
 import com.aumum.app.mobile.core.service.ChatService;
-import com.aumum.app.mobile.ui.base.LoaderFragment;
+import com.aumum.app.mobile.ui.base.ItemListFragment;
+import com.aumum.app.mobile.ui.user.UserListAdapter;
 import com.aumum.app.mobile.utils.DialogUtils;
 import com.aumum.app.mobile.utils.Ln;
 import com.aumum.app.mobile.utils.SafeAsyncTask;
@@ -27,6 +29,7 @@ import com.easemob.chat.EMGroup;
 import com.github.kevinsawicki.wishlist.Toaster;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import javax.inject.Inject;
 
@@ -35,7 +38,7 @@ import retrofit.RetrofitError;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class GroupDetailsFragment extends LoaderFragment<GroupDetails> {
+public class GroupDetailsFragment extends ItemListFragment<User> {
 
     @Inject ChatService chatService;
     @Inject UserStore userStore;
@@ -44,8 +47,6 @@ public class GroupDetailsFragment extends LoaderFragment<GroupDetails> {
     private User currentUser;
     private EMGroup group;
     private SafeAsyncTask<Boolean> task;
-
-    private View mainView;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -61,13 +62,6 @@ public class GroupDetailsFragment extends LoaderFragment<GroupDetails> {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         return inflater.inflate(R.layout.fragment_group_details, null);
-    }
-
-    @Override
-    public void onViewCreated(View view, Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-
-        mainView = view.findViewById(R.id.main_view);
     }
 
     @Override
@@ -93,35 +87,33 @@ public class GroupDetailsFragment extends LoaderFragment<GroupDetails> {
     }
 
     @Override
+    protected ArrayAdapter<User> createAdapter(List<User> items) {
+        return new UserListAdapter(getActivity(), items);
+    }
+
+    @Override
     protected int getErrorMessage(Exception exception) {
         return R.string.error_load_group_details;
     }
 
     @Override
-    protected boolean readyToShow() {
-        return getData() != null;
-    }
-
-    @Override
-    protected View getMainView() {
-        return mainView;
-    }
-
-    @Override
-    protected GroupDetails loadDataCore(Bundle bundle) throws Exception {
+    protected List<User> loadDataCore(Bundle bundle) throws Exception {
         currentUser = userStore.getCurrentUser();
-        group = chatService.getGroupFromServer(groupId);
-        ArrayList<User> members = new ArrayList<User>();
+        group = chatService.getGroupById(groupId);
+        List<User> members = new ArrayList<User>();
         for (String chatId: group.getMembers()) {
             User user = userStore.getUserByChatId(chatId);
             members.add(user);
         }
-        return new GroupDetails(members);
+        return members;
     }
 
     @Override
-    protected void handleLoadResult(GroupDetails result) {
-        setData(result);
+    protected void handleLoadResult(List<User> result) {
+        super.handleLoadResult(result);
+        String title = String.format("%s (%d)",
+                getString(R.string.title_activity_group_details), group.getMembers().size());
+        getActivity().setTitle(title);
     }
 
     private void showActionDialog() {
@@ -156,7 +148,7 @@ public class GroupDetailsFragment extends LoaderFragment<GroupDetails> {
                     }
                     task = new SafeAsyncTask<Boolean>() {
                         public Boolean call() throws Exception {
-                            chatService.quitGroup(groupId);
+                            chatService.quitGroup(groupId, currentUser.getChatId());
                             return true;
                         }
 
@@ -173,8 +165,10 @@ public class GroupDetailsFragment extends LoaderFragment<GroupDetails> {
 
                         @Override
                         public void onSuccess(final Boolean success) {
-                            group.removeMember(currentUser.getChatId());
-                            chatService.deleteGroupConversation(group.getGroupId());
+                            CmdMessage cmdMessage = new CmdMessage(CmdMessage.Type.GROUP_QUIT,
+                                    null, null, groupId);
+                            chatService.sendCmdMessage(groupId, cmdMessage, true, null);
+                            chatService.deleteGroupConversation(groupId);
                             String message = getActivity().getString(R.string.info_group_quit);
                             Toaster.showShort(getActivity(), message);
                             getActivity().setResult(Activity.RESULT_OK);

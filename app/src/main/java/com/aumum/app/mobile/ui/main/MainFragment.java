@@ -170,20 +170,22 @@ public class MainFragment extends Fragment
             try {
                 EMMessage message = intent.getParcelableExtra("message");
                 CmdMessage cmdMessage = chatService.getCmdMessage(message);
-                String partyId = cmdMessage.getPayload();
-                String title = cmdMessage.getTitle();
-                String content = cmdMessage.getContent();
                 switch (cmdMessage.getType()) {
                     case CmdMessage.Type.PARTY_NEW:
                     case CmdMessage.Type.PARTY_JOIN:
                     case CmdMessage.Type.PARTY_QUIT:
                     case CmdMessage.Type.PARTY_LIKE:
                     case CmdMessage.Type.PARTY_CANCEL:
-                        notificationService.pushPartyDetailsNotification(partyId, title, content);
+                        handlePartyDetailsCmdMessage(cmdMessage);
                         break;
                     case CmdMessage.Type.PARTY_COMMENT:
                     case CmdMessage.Type.PARTY_REPLY:
-                        notificationService.pushPartyCommentsNotification(partyId, title, content);
+                        handlePartyCommentsCmdMessage(cmdMessage);
+                    case CmdMessage.Type.GROUP_JOIN:
+                        handleGroupJoinCmdMessage(cmdMessage, message.getFrom());
+                        break;
+                    case CmdMessage.Type.GROUP_QUIT:
+                        handleGroupQuitCmdMessage(cmdMessage, message.getFrom());
                     default:
                         break;
                 }
@@ -193,5 +195,29 @@ public class MainFragment extends Fragment
 
             return;
         }
+    }
+
+    private void handlePartyDetailsCmdMessage(CmdMessage cmdMessage) {
+        String partyId = cmdMessage.getPayload();
+        String title = cmdMessage.getTitle();
+        String content = cmdMessage.getContent();
+        notificationService.pushPartyDetailsNotification(partyId, title, content);
+    }
+
+    private void handlePartyCommentsCmdMessage(CmdMessage cmdMessage) {
+        String partyId = cmdMessage.getPayload();
+        String title = cmdMessage.getTitle();
+        String content = cmdMessage.getContent();
+        notificationService.pushPartyCommentsNotification(partyId, title, content);
+    }
+
+    private void handleGroupJoinCmdMessage(CmdMessage cmdMessage, String userId) {
+        String groupId = cmdMessage.getPayload();
+        chatService.addGroupMember(groupId, userId);
+    }
+
+    private void handleGroupQuitCmdMessage(CmdMessage cmdMessage, String userId) {
+        String groupId = cmdMessage.getPayload();
+        chatService.removeGroupMember(groupId, userId);
     }
 }

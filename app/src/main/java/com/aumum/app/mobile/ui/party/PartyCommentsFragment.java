@@ -336,7 +336,7 @@ public class PartyCommentsFragment extends ItemListFragment<Comment> {
 
     private void sendMessage(String to, CmdMessage cmdMessage) {
         if (!to.equals(currentUser.getChatId())) {
-            chatService.sendCmdMessage(to, cmdMessage);
+            chatService.sendCmdMessage(to, cmdMessage, false, null);
         }
     }
 

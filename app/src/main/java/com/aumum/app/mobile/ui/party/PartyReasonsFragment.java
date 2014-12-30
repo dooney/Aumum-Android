@@ -184,9 +184,12 @@ public class PartyReasonsFragment extends ItemListFragment<PartyReason> {
 
     private void joinPartyGroup() throws Exception {
         if (party.getGroupId() != null) {
-            chatService.joinGroup(party.getGroupId());
+            chatService.joinGroup(party.getGroupId(), currentUser.getChatId());
             String text = getActivity().getString(R.string.label_group_joint, currentUser.getScreenName());
             chatService.sendSystemMessage(party.getGroupId(), true, text, null);
+            CmdMessage cmdMessage = new CmdMessage(CmdMessage.Type.GROUP_JOIN,
+                    null, null, party.getGroupId());
+            chatService.sendCmdMessage(party.getGroupId(), cmdMessage, true, null);
         }
     }
 
@@ -197,7 +200,7 @@ public class PartyReasonsFragment extends ItemListFragment<PartyReason> {
             CmdMessage cmdMessage = new CmdMessage(CmdMessage.Type.PARTY_JOIN,
                     title, party.getTitle(), partyId);
             User partyOwner = userStore.getUserById(party.getUserId());
-            chatService.sendCmdMessage(partyOwner.getChatId(), cmdMessage);
+            chatService.sendCmdMessage(partyOwner.getChatId(), cmdMessage, false, null);
         }
     }
 
@@ -208,7 +211,7 @@ public class PartyReasonsFragment extends ItemListFragment<PartyReason> {
             CmdMessage cmdMessage = new CmdMessage(CmdMessage.Type.PARTY_QUIT,
                     title, party.getTitle(), partyId);
             User partyOwner = userStore.getUserById(party.getUserId());
-            chatService.sendCmdMessage(partyOwner.getChatId(), cmdMessage);
+            chatService.sendCmdMessage(partyOwner.getChatId(), cmdMessage, false, null);
         }
     }
 }

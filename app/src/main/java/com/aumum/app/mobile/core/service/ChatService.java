@@ -118,17 +118,28 @@ public class ChatService {
         return emGroup;
     }
 
-    public EMGroup getGroupFromServer(String groupId) throws Exception {
-        EMGroup emGroup = EMGroupManager.getInstance().getGroupFromServer(groupId);
-        return EMGroupManager.getInstance().createOrUpdateLocalGroup(emGroup);
-    }
-
-    public void joinGroup(String groupId) throws Exception {
+    public void joinGroup(String groupId, String userId) throws Exception {
         EMGroupManager.getInstance().joinGroup(groupId);
+        addGroupMember(groupId, userId);
     }
 
-    public void quitGroup(String groupId) throws Exception {
+    public void quitGroup(String groupId, String userId) throws Exception {
         EMGroupManager.getInstance().exitFromGroup(groupId);
+        removeGroupMember(groupId, userId);
+    }
+
+    public void addGroupMember(String groupId, String userId) {
+        EMGroup emGroup = EMGroupManager.getInstance().getGroup(groupId);
+        if (emGroup != null) {
+            emGroup.addMember(userId);
+        }
+    }
+
+    public void removeGroupMember(String groupId, String userId) {
+        EMGroup emGroup = EMGroupManager.getInstance().getGroup(groupId);
+        if (emGroup != null) {
+            emGroup.removeMember(userId);
+        }
     }
 
     private EMMessage addTextMessage(String receipt, boolean isGroup, boolean isSystem, String text) {
@@ -180,13 +191,16 @@ public class ChatService {
         conversation.addMessage(message);
     }
 
-    public void sendCmdMessage(String receipt, CmdMessage cmdMessage) {
+    public void sendCmdMessage(String receipt, CmdMessage cmdMessage, boolean isGroup, EMCallBack callBack) {
         final EMMessage message = EMMessage.createSendMessage(EMMessage.Type.CMD);
+        if (isGroup) {
+            message.setChatType(EMMessage.ChatType.GroupChat);
+        }
         CmdMessageBody body = new CmdMessageBody("cmd");
         message.addBody(body);
         message.setReceipt(receipt);
         message.setAttribute("payload", cmdMessage.toString());
-        sendMessage(message, null);
+        sendMessage(message, callBack);
     }
 
     public CmdMessage getCmdMessage(EMMessage message) throws Exception {

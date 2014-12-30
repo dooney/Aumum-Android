@@ -140,7 +140,7 @@ public class PartyLikeListener implements LikeTextView.OnLikeListener {
             CmdMessage cmdMessage = new CmdMessage(CmdMessage.Type.PARTY_LIKE,
                     title, party.getTitle(), party.getObjectId());
             User partyOwner = userStore.getUserById(party.getUserId());
-            chatService.sendCmdMessage(partyOwner.getChatId(), cmdMessage);
+            chatService.sendCmdMessage(partyOwner.getChatId(), cmdMessage, false, null);
         }
     }
 }

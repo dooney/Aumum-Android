@@ -497,7 +497,7 @@ public class PartyDetailsFragment extends LoaderFragment<Party> {
         for (String memberId: party.getMembers()) {
             User member = userStore.getUserById(memberId);
             if (!memberId.equals(currentUserId)) {
-                chatService.sendCmdMessage(member.getChatId(), cmdMessage);
+                chatService.sendCmdMessage(member.getChatId(), cmdMessage, false, null);
             }
         }
     }
