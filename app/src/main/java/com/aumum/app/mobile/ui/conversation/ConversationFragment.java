@@ -18,10 +18,13 @@ import com.aumum.app.mobile.core.model.Conversation;
 import com.aumum.app.mobile.core.model.Group;
 import com.aumum.app.mobile.core.model.User;
 import com.aumum.app.mobile.core.service.ChatService;
+import com.aumum.app.mobile.events.GroupDeletedEvent;
 import com.aumum.app.mobile.ui.base.ItemListFragment;
 import com.easemob.chat.EMConversation;
 import com.easemob.chat.EMGroup;
 import com.easemob.chat.EMMessage;
+import com.squareup.otto.Bus;
+import com.squareup.otto.Subscribe;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -36,6 +39,7 @@ public class ConversationFragment extends ItemListFragment<Conversation> {
 
     @Inject ChatService chatService;
     @Inject UserStore userStore;
+    @Inject Bus bus;
 
     private NewMessageBroadcastReceiver newMessageBroadcastReceiver;
 
@@ -60,6 +64,13 @@ public class ConversationFragment extends ItemListFragment<Conversation> {
     public void onResume() {
         super.onResume();
         refresh(null);
+        bus.register(this);
+    }
+
+    @Override
+    public void onPause() {
+        super.onDestroy();
+        bus.unregister(this);
     }
 
     @Override
@@ -118,5 +129,10 @@ public class ConversationFragment extends ItemListFragment<Conversation> {
             abortBroadcast();
             refresh(null);
         }
+    }
+
+    @Subscribe
+    public void onGroupDeletedEvent(GroupDeletedEvent event) {
+        refresh(null);
     }
 }

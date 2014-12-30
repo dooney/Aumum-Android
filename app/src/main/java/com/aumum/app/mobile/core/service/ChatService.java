@@ -13,6 +13,7 @@ import com.easemob.chat.EMConversation;
 import com.easemob.chat.EMGroup;
 import com.easemob.chat.EMGroupManager;
 import com.easemob.chat.EMMessage;
+import com.easemob.chat.GroupChangeListener;
 import com.easemob.chat.ImageMessageBody;
 import com.easemob.chat.OnMessageNotifyListener;
 import com.easemob.chat.OnNotificationClickListener;
@@ -109,6 +110,16 @@ public class ChatService {
         EMChatManager.getInstance().deleteConversation(groupId, true);
     }
 
+    public EMGroup createGroup(String groupName) throws Exception {
+        String members[] = {};
+        EMGroup emGroup = EMGroupManager.getInstance().createPublicGroup(groupName, "", members, false);
+        return EMGroupManager.getInstance().createOrUpdateLocalGroup(emGroup);
+    }
+
+    public void deleteGroup(String groupId) throws Exception {
+        EMGroupManager.getInstance().exitAndDeleteGroup(groupId);
+    }
+
     public EMGroup getGroupById(String groupId) throws Exception {
         EMGroup emGroup = EMGroupManager.getInstance().getGroup(groupId);
         if (emGroup == null) {
@@ -140,6 +151,18 @@ public class ChatService {
         if (emGroup != null) {
             emGroup.removeMember(userId);
         }
+    }
+
+    public boolean isGroupOwner(String groupId) {
+        EMGroup emGroup = EMGroupManager.getInstance().getGroup(groupId);
+        if (emGroup != null) {
+            return emGroup.getOwner().equals(getCurrentUser());
+        }
+        return false;
+    }
+
+    public void setGroupChangeListener(GroupChangeListener listener) {
+        EMGroupManager.getInstance().addGroupChangeListener(listener);
     }
 
     private EMMessage addTextMessage(String receipt, boolean isGroup, boolean isSystem, String text) {
@@ -257,11 +280,5 @@ public class ChatService {
     public void setNotificationClickListener(OnNotificationClickListener notificationClickListener) {
         EMChatOptions options = EMChatManager.getInstance().getChatOptions();
         options.setOnNotificationClickListener(notificationClickListener);
-    }
-
-    public EMGroup createGroup(String groupName) throws Exception {
-        String members[] = {};
-        EMGroup emGroup = EMGroupManager.getInstance().createPublicGroup(groupName, "", members, false);
-        return EMGroupManager.getInstance().createOrUpdateLocalGroup(emGroup);
     }
 }

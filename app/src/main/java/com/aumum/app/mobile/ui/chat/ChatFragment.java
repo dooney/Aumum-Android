@@ -468,8 +468,10 @@ public class ChatFragment extends Fragment
     }
 
     private void startGroupDetailsActivity() {
+        String groupId = conversation.getUserName();
         final Intent intent = new Intent(getActivity(), GroupDetailsActivity.class);
-        intent.putExtra(GroupDetailsActivity.INTENT_GROUP_ID, conversation.getUserName());
+        intent.putExtra(GroupDetailsActivity.INTENT_GROUP_ID, groupId);
+        intent.putExtra(GroupDetailsActivity.INTENT_IS_OWNER, chatService.isGroupOwner(groupId));
         startActivityForResult(intent, Constants.RequestCode.GET_GROUP_DETAILS_REQ_CODE);
     }
 }

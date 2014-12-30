@@ -9,6 +9,7 @@ import com.aumum.app.mobile.R;
 public class GroupDetailsActivity extends ActionBarActivity {
 
     public static final String INTENT_GROUP_ID = "groupId";
+    public static final String INTENT_IS_OWNER = "isOwner";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

@@ -44,6 +44,7 @@ public class GroupDetailsFragment extends ItemListFragment<User> {
     @Inject UserStore userStore;
 
     private String groupId;
+    private boolean isOwner;
     private User currentUser;
     private EMGroup group;
     private SafeAsyncTask<Boolean> task;
@@ -56,6 +57,7 @@ public class GroupDetailsFragment extends ItemListFragment<User> {
 
         final Intent intent = getActivity().getIntent();
         groupId = intent.getStringExtra(GroupDetailsActivity.INTENT_GROUP_ID);
+        isOwner = intent.getBooleanExtra(GroupDetailsActivity.INTENT_IS_OWNER, false);
     }
 
     @Override
@@ -117,7 +119,133 @@ public class GroupDetailsFragment extends ItemListFragment<User> {
     }
 
     private void showActionDialog() {
-        String options[] = getResources().getStringArray(R.array.label_group_actions);
+        if (isOwner) {
+            showOwnerActionDialog();
+        } else {
+            showMemberActionDialog();
+        }
+    }
+
+    private void quit() {
+        String text = getActivity().getString(R.string.label_group_quit, currentUser.getScreenName());
+        showProgress();
+        chatService.sendSystemMessage(groupId, true, text, new EMCallBack() {
+            @Override
+            public void onSuccess() {
+                if (task != null) {
+                    hideProgress();
+                    return;
+                }
+                task = new SafeAsyncTask<Boolean>() {
+                    public Boolean call() throws Exception {
+                        chatService.quitGroup(groupId, currentUser.getChatId());
+                        return true;
+                    }
+
+                    @Override
+                    protected void onException(final Exception e) throws RuntimeException {
+                        if (!(e instanceof RetrofitError)) {
+                            final Throwable cause = e.getCause() != null ? e.getCause() : e;
+                            if (cause != null) {
+                                Ln.e(e.getCause(), cause.getMessage());
+                            }
+                            Toaster.showShort(getActivity(), R.string.error_quit_group);
+                        }
+                    }
+
+                    @Override
+                    public void onSuccess(final Boolean success) {
+                        CmdMessage cmdMessage = new CmdMessage(CmdMessage.Type.GROUP_QUIT,
+                                null, null, groupId);
+                        chatService.sendCmdMessage(groupId, cmdMessage, true, null);
+                        chatService.deleteGroupConversation(groupId);
+                        String message = getActivity().getString(R.string.info_group_quit);
+                        Toaster.showShort(getActivity(), message);
+                        getActivity().setResult(Activity.RESULT_OK);
+                        getActivity().finish();
+                    }
+
+                    @Override
+                    protected void onFinally() throws RuntimeException {
+                        hideProgress();
+                        task = null;
+                    }
+                };
+                task.execute();
+            }
+
+            @Override
+            public void onError(int i, String s) {
+                hideProgress();
+                Toaster.showShort(getActivity(), R.string.error_quit_group);
+            }
+
+            @Override
+            public void onProgress(int i, String s) {
+
+            }
+        });
+    }
+
+    private void delete() {
+        if (task != null) {
+            return;
+        }
+        showProgress();
+        task = new SafeAsyncTask<Boolean>() {
+            public Boolean call() throws Exception {
+                chatService.deleteGroup(groupId);
+                return true;
+            }
+
+            @Override
+            protected void onException(final Exception e) throws RuntimeException {
+                if (!(e instanceof RetrofitError)) {
+                    final Throwable cause = e.getCause() != null ? e.getCause() : e;
+                    if (cause != null) {
+                        Ln.e(e.getCause(), cause.getMessage());
+                    }
+                    Toaster.showShort(getActivity(), R.string.error_delete_group);
+                }
+            }
+
+            @Override
+            public void onSuccess(final Boolean success) {
+                chatService.deleteGroupConversation(groupId);
+                String message = getActivity().getString(R.string.info_group_deleted);
+                Toaster.showShort(getActivity(), message);
+                getActivity().setResult(Activity.RESULT_OK);
+                getActivity().finish();
+            }
+
+            @Override
+            protected void onFinally() throws RuntimeException {
+                hideProgress();
+                task = null;
+            }
+        };
+        task.execute();
+    }
+
+    private void showOwnerActionDialog() {
+        String options[] = getResources().getStringArray(R.array.label_group_owner_actions);
+        DialogUtils.showDialog(getActivity(), options,
+                new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        switch (i) {
+                            case 0:
+                                delete();
+                                break;
+                            default:
+                                break;
+                        }
+                    }
+                });
+    }
+
+    private void showMemberActionDialog() {
+        String options[] = getResources().getStringArray(R.array.label_group_member_actions);
         DialogUtils.showDialog(getActivity(), options,
                 new DialogInterface.OnClickListener() {
                     @Override
@@ -133,70 +261,5 @@ public class GroupDetailsFragment extends ItemListFragment<User> {
                         }
                     }
                 });
-    }
-
-    private void quit() {
-        try {
-            String text = getActivity().getString(R.string.label_group_quit, currentUser.getScreenName());
-            showProgress();
-            chatService.sendSystemMessage(groupId, true, text, new EMCallBack() {
-                @Override
-                public void onSuccess() {
-                    if (task != null) {
-                        hideProgress();
-                        return;
-                    }
-                    task = new SafeAsyncTask<Boolean>() {
-                        public Boolean call() throws Exception {
-                            chatService.quitGroup(groupId, currentUser.getChatId());
-                            return true;
-                        }
-
-                        @Override
-                        protected void onException(final Exception e) throws RuntimeException {
-                            if (!(e instanceof RetrofitError)) {
-                                final Throwable cause = e.getCause() != null ? e.getCause() : e;
-                                if (cause != null) {
-                                    Ln.e(e.getCause(), cause.getMessage());
-                                }
-                                Toaster.showShort(getActivity(), R.string.error_quit_group);
-                            }
-                        }
-
-                        @Override
-                        public void onSuccess(final Boolean success) {
-                            CmdMessage cmdMessage = new CmdMessage(CmdMessage.Type.GROUP_QUIT,
-                                    null, null, groupId);
-                            chatService.sendCmdMessage(groupId, cmdMessage, true, null);
-                            chatService.deleteGroupConversation(groupId);
-                            String message = getActivity().getString(R.string.info_group_quit);
-                            Toaster.showShort(getActivity(), message);
-                            getActivity().setResult(Activity.RESULT_OK);
-                            getActivity().finish();
-                        }
-
-                        @Override
-                        protected void onFinally() throws RuntimeException {
-                            hideProgress();
-                            task = null;
-                        }
-                    };
-                    task.execute();
-                }
-
-                @Override
-                public void onError(int i, String s) {
-                    hideProgress();
-                    Toaster.showShort(getActivity(), R.string.error_quit_group);
-                }
-
-                @Override
-                public void onProgress(int i, String s) {
-
-                }
-            });
-        } catch (Exception e) {
-            Ln.e(e);
-        }
     }
 }
