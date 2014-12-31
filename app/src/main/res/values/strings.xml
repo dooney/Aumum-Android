@@ -122,6 +122,10 @@
     <string name="info_group_name_deleted">群组#%1$s#已被删除</string>
     <string name="info_submitting_report">正在提交您的举报，请稍候</string>
     <string name="info_report_submitted">举报已成功提交，请等待审核</string>
+    <string name="info_deleting_party">正在删除该聚会，请稍候</string>
+    <string name="info_deleting_asking">正在删除该说说，请稍候</string>
+    <string name="info_deleting_group">正在删除该群组，请稍候</string>
+    <string name="info_submitting_quit_group">正在处理您的退出群组请求，请稍候</string>
 
     <!-- Error Message -->
     <string name="error_load_parties">获取聚会列表失败</string>

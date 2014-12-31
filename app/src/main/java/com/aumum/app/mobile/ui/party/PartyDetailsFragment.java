@@ -32,6 +32,7 @@ import com.aumum.app.mobile.core.service.ShareService;
 import com.aumum.app.mobile.events.AddPartyReasonEvent;
 import com.aumum.app.mobile.events.AddPartyReasonFinishedEvent;
 import com.aumum.app.mobile.ui.base.LoaderFragment;
+import com.aumum.app.mobile.ui.base.ProgressListener;
 import com.aumum.app.mobile.ui.image.CustomGallery;
 import com.aumum.app.mobile.ui.image.GalleryAdapter;
 import com.aumum.app.mobile.ui.report.ReportActivity;
@@ -108,6 +109,7 @@ public class PartyDetailsFragment extends LoaderFragment<Party> {
 
     GalleryAdapter adapter;
     private SafeAsyncTask<Boolean> task;
+    private ProgressListener progressListener;
 
     @Override
     public void onCreate(final Bundle savedInstanceState) {
@@ -124,6 +126,7 @@ public class PartyDetailsFragment extends LoaderFragment<Party> {
             gpsTracker.showSettingsAlert();
         }
         shareService = new ShareService(getActivity());
+        progressListener = (ProgressListener) getActivity();
     }
 
     @Override
@@ -393,7 +396,7 @@ public class PartyDetailsFragment extends LoaderFragment<Party> {
         if (task != null) {
             return;
         }
-        showProgress();
+        progressListener.showProgress();
         task = new SafeAsyncTask<Boolean>() {
             public Boolean call() throws Exception {
                 restService.deleteParty(party.getObjectId());
@@ -430,7 +433,7 @@ public class PartyDetailsFragment extends LoaderFragment<Party> {
 
             @Override
             protected void onFinally() throws RuntimeException {
-                hideProgress();
+                progressListener.hideProgress();
                 task = null;
             }
         };

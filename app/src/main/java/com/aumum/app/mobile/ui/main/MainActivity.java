@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.Fragment;
-import android.view.Window;
 
 import com.aumum.app.mobile.Injector;
 import com.aumum.app.mobile.ServiceProvider;
@@ -27,7 +26,6 @@ public class MainActivity extends BaseFragmentActivity {
 
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
-        requestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
         super.onCreate(savedInstanceState);
         Injector.inject(this);
         setContentView(R.layout.activity_main);

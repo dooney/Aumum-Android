@@ -31,6 +31,7 @@ import com.aumum.app.mobile.core.service.ShareService;
 import com.aumum.app.mobile.events.AddAskingReplyEvent;
 import com.aumum.app.mobile.events.ReplyAskingReplyEvent;
 import com.aumum.app.mobile.ui.base.LoaderFragment;
+import com.aumum.app.mobile.ui.base.ProgressListener;
 import com.aumum.app.mobile.ui.helper.TextWatcherAdapter;
 import com.aumum.app.mobile.ui.image.CustomGallery;
 import com.aumum.app.mobile.ui.image.GalleryAdapter;
@@ -87,6 +88,7 @@ public class AskingDetailsFragment extends LoaderFragment<Asking> {
     GalleryAdapter adapter;
     private SafeAsyncTask<Boolean> task;
     private final TextWatcher watcher = validationTextWatcher();
+    private ProgressListener progressListener;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -98,6 +100,7 @@ public class AskingDetailsFragment extends LoaderFragment<Asking> {
         askingId = intent.getStringExtra(AskingDetailsActivity.INTENT_ASKING_ID);
 
         shareService = new ShareService(getActivity());
+        progressListener = (ProgressListener) getActivity();
     }
 
     @Override
@@ -318,7 +321,7 @@ public class AskingDetailsFragment extends LoaderFragment<Asking> {
         if (task != null) {
             return;
         }
-        showProgress();
+        progressListener.showProgress();
         task = new SafeAsyncTask<Boolean>() {
             public Boolean call() throws Exception {
                 restService.deleteAsking(askingId);
@@ -349,7 +352,7 @@ public class AskingDetailsFragment extends LoaderFragment<Asking> {
 
             @Override
             protected void onFinally() throws RuntimeException {
-                hideProgress();
+                progressListener.hideProgress();
                 task = null;
             }
         };

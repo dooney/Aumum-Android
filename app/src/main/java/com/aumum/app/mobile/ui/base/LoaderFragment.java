@@ -4,7 +4,6 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.Loader;
-import android.support.v7.app.ActionBarActivity;
 import android.view.View;
 import android.view.animation.AnimationUtils;
 import android.widget.ProgressBar;
@@ -169,14 +168,6 @@ public abstract class LoaderFragment<E> extends Fragment
             ViewUtils.setGone(view, true);
         }
         return this;
-    }
-
-    protected void showProgress() {
-        ((ActionBarActivity) getActivity()).setSupportProgressBarIndeterminateVisibility(true);
-    }
-
-    protected void hideProgress() {
-        ((ActionBarActivity) getActivity()).setSupportProgressBarIndeterminateVisibility(false);
     }
 
     protected abstract int getErrorMessage(final Exception exception);

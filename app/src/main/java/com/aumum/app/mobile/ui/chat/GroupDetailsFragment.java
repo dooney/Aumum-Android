@@ -20,6 +20,7 @@ import com.aumum.app.mobile.core.model.CmdMessage;
 import com.aumum.app.mobile.core.model.User;
 import com.aumum.app.mobile.core.service.ChatService;
 import com.aumum.app.mobile.ui.base.ItemListFragment;
+import com.aumum.app.mobile.ui.base.ProgressListener;
 import com.aumum.app.mobile.ui.report.ReportActivity;
 import com.aumum.app.mobile.ui.user.UserListAdapter;
 import com.aumum.app.mobile.utils.DialogUtils;
@@ -49,6 +50,7 @@ public class GroupDetailsFragment extends ItemListFragment<User> {
     private User currentUser;
     private EMGroup group;
     private SafeAsyncTask<Boolean> task;
+    private ProgressListener progressListener;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -59,6 +61,8 @@ public class GroupDetailsFragment extends ItemListFragment<User> {
         final Intent intent = getActivity().getIntent();
         groupId = intent.getStringExtra(GroupDetailsActivity.INTENT_GROUP_ID);
         isOwner = intent.getBooleanExtra(GroupDetailsActivity.INTENT_IS_OWNER, false);
+
+        progressListener = (ProgressListener) getActivity();
     }
 
     @Override
@@ -129,12 +133,13 @@ public class GroupDetailsFragment extends ItemListFragment<User> {
 
     private void quit() {
         String text = getActivity().getString(R.string.label_group_quit, currentUser.getScreenName());
-        showProgress();
+        progressListener.setMessage(R.string.info_submitting_quit_group);
+        progressListener.showProgress();
         chatService.sendSystemMessage(groupId, true, text, new EMCallBack() {
             @Override
             public void onSuccess() {
                 if (task != null) {
-                    hideProgress();
+                    progressListener.hideProgress();
                     return;
                 }
                 task = new SafeAsyncTask<Boolean>() {
@@ -168,7 +173,7 @@ public class GroupDetailsFragment extends ItemListFragment<User> {
 
                     @Override
                     protected void onFinally() throws RuntimeException {
-                        hideProgress();
+                        progressListener.hideProgress();
                         task = null;
                     }
                 };
@@ -177,7 +182,7 @@ public class GroupDetailsFragment extends ItemListFragment<User> {
 
             @Override
             public void onError(int i, String s) {
-                hideProgress();
+                progressListener.hideProgress();
                 Toaster.showShort(getActivity(), R.string.error_quit_group);
             }
 
@@ -192,7 +197,8 @@ public class GroupDetailsFragment extends ItemListFragment<User> {
         if (task != null) {
             return;
         }
-        showProgress();
+        progressListener.setMessage(R.string.info_deleting_group);
+        progressListener.showProgress();
         task = new SafeAsyncTask<Boolean>() {
             public Boolean call() throws Exception {
                 chatService.deleteGroup(groupId);
@@ -221,7 +227,7 @@ public class GroupDetailsFragment extends ItemListFragment<User> {
 
             @Override
             protected void onFinally() throws RuntimeException {
-                hideProgress();
+                progressListener.hideProgress();
                 task = null;
             }
         };

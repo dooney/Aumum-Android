@@ -2,12 +2,11 @@ package com.aumum.app.mobile.ui.party;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.ActionBarActivity;
-import android.view.Window;
 
 import com.aumum.app.mobile.R;
+import com.aumum.app.mobile.ui.base.ProgressDialogActivity;
 
-public class PartyDetailsActivity extends ActionBarActivity {
+public class PartyDetailsActivity extends ProgressDialogActivity {
 
     private String partyId;
 
@@ -16,11 +15,11 @@ public class PartyDetailsActivity extends ActionBarActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        requestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_party_details);
 
         partyId = getIntent().getStringExtra(INTENT_PARTY_ID);
+        progress.setMessageId(R.string.info_deleting_party);
     }
 
     @Override
