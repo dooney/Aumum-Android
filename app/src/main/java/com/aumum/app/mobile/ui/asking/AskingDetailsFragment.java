@@ -34,6 +34,7 @@ import com.aumum.app.mobile.ui.base.LoaderFragment;
 import com.aumum.app.mobile.ui.helper.TextWatcherAdapter;
 import com.aumum.app.mobile.ui.image.CustomGallery;
 import com.aumum.app.mobile.ui.image.GalleryAdapter;
+import com.aumum.app.mobile.ui.report.ReportActivity;
 import com.aumum.app.mobile.ui.user.UserListener;
 import com.aumum.app.mobile.ui.view.FavoriteTextView;
 import com.aumum.app.mobile.ui.view.SpannableTextView;
@@ -279,12 +280,13 @@ public class AskingDetailsFragment extends LoaderFragment<Asking> {
         editReply.setHint(event.getReplyHint());
     }
 
-    private void showActionDialog(boolean isOwner) {
+    private void showActionDialog(final boolean isOwner) {
         List<String> options = new ArrayList<String>();
         options.add(getString(R.string.label_share));
-        options.add(getString(R.string.label_report));
         if (isOwner) {
             options.add(getString(R.string.label_delete));
+        } else {
+            options.add(getString(R.string.label_report));
         }
         DialogUtils.showDialog(getActivity(), options.toArray(new CharSequence[options.size()]),
                 new DialogInterface.OnClickListener() {
@@ -295,9 +297,11 @@ public class AskingDetailsFragment extends LoaderFragment<Asking> {
                                 showShare();
                                 break;
                             case 1:
-                                break;
-                            case 2:
-                                deleteAsking();
+                                if (isOwner) {
+                                    deleteAsking();
+                                } else {
+                                    reportAsking();
+                                }
                                 break;
                             default:
                                 break;
@@ -350,5 +354,12 @@ public class AskingDetailsFragment extends LoaderFragment<Asking> {
             }
         };
         task.execute();
+    }
+
+    private void reportAsking() {
+        final Intent intent = new Intent(getActivity(), ReportActivity.class);
+        intent.putExtra(ReportActivity.INTENT_ENTITY_TYPE, ReportActivity.TYPE_ASKING);
+        intent.putExtra(ReportActivity.INTENT_ENTITY_ID, askingId);
+        startActivity(intent);
     }
 }

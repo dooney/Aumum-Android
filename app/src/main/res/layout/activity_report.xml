@@ -1,0 +1,19 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="@dimen/margin_large">
+
+    <EditText
+        android:id="@+id/et_type"
+        style="@style/EditText.Report.Type"
+        android:focusable="false"
+        android:imeOptions="actionNext"
+        android:nextFocusDown="@+id/et_details"/>
+
+    <EditText
+        android:id="@+id/et_details"
+        style="@style/EditText.Report.Details"
+        android:imeOptions="actionDone"/>
+
+</LinearLayout>

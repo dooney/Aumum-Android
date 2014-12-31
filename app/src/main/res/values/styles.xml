@@ -292,6 +292,17 @@
         <item name="android:text">@null</item>
     </style>
 
+    <!-- Report -->
+    <style name="EditText.Report.Type" parent="EditText.Mandatory">
+        <item name="android:hint">@string/hint_report_type</item>
+    </style>
+    <style name="EditText.Report.Details" parent="EditText.Mandatory">
+        <item name="android:background">@color/transparent</item>
+        <item name="android:inputType">textMultiLine</item>
+        <item name="android:lineSpacingMultiplier">1.1</item>
+        <item name="android:hint">@string/hint_report_details</item>
+    </style>
+
     <!-- Conversation -->
     <style name="TextView.Conversation.ScreenName" parent="TextView.UserName">
         <item name="android:textColor">@color/black</item>

@@ -7,6 +7,7 @@ import com.aumum.app.mobile.core.model.Comment;
 import com.aumum.app.mobile.core.Constants;
 import com.aumum.app.mobile.core.model.Party;
 import com.aumum.app.mobile.core.model.PartyReason;
+import com.aumum.app.mobile.core.model.Report;
 import com.aumum.app.mobile.core.model.User;
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
@@ -67,6 +68,10 @@ public class RestService {
 
     private AskingReplyService getAskingReplyService() {
         return getRestAdapter().create(AskingReplyService.class);
+    }
+
+    private ReportService getReportService() {
+        return getRestAdapter().create(ReportService.class);
     }
 
     private RestAdapter getRestAdapter() {
@@ -690,5 +695,11 @@ public class RestService {
             contactList.put(phone, userId);
         }
         return contactList;
+    }
+
+    public void newReport(Report report) {
+        Gson gson = new Gson();
+        JsonObject data = gson.toJsonTree(report).getAsJsonObject();
+        getReportService().newReport(data);
     }
 }

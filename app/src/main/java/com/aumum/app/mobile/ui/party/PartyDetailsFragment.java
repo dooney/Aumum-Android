@@ -34,6 +34,7 @@ import com.aumum.app.mobile.events.AddPartyReasonFinishedEvent;
 import com.aumum.app.mobile.ui.base.LoaderFragment;
 import com.aumum.app.mobile.ui.image.CustomGallery;
 import com.aumum.app.mobile.ui.image.GalleryAdapter;
+import com.aumum.app.mobile.ui.report.ReportActivity;
 import com.aumum.app.mobile.ui.user.UserListener;
 import com.aumum.app.mobile.ui.view.Animation;
 import com.aumum.app.mobile.ui.view.AvatarImageView;
@@ -230,7 +231,8 @@ public class PartyDetailsFragment extends LoaderFragment<Party> {
 
     @Override
     public void onActivityResult (int requestCode, int resultCode, Intent data) {
-        if (requestCode == Constants.RequestCode.GET_PARTY_COMMENTS_REQ_CODE && resultCode == Activity.RESULT_OK) {
+        if (requestCode == Constants.RequestCode.GET_PARTY_COMMENTS_REQ_CODE &&
+                resultCode == Activity.RESULT_OK) {
             String partyId = data.getStringExtra(PartyCommentsActivity.INTENT_PARTY_ID);
             onPartyRefresh(partyId);
         }
@@ -353,12 +355,13 @@ public class PartyDetailsFragment extends LoaderFragment<Party> {
         }
     }
 
-    private void showActionDialog(boolean isOwner) {
+    private void showActionDialog(final boolean isOwner) {
         List<String> options = new ArrayList<String>();
         options.add(getString(R.string.label_share));
-        options.add(getString(R.string.label_report));
         if (isOwner) {
             options.add(getString(R.string.label_delete));
+        } else {
+            options.add(getString(R.string.label_report));
         }
         DialogUtils.showDialog(getActivity(), options.toArray(new CharSequence[options.size()]),
                 new DialogInterface.OnClickListener() {
@@ -369,9 +372,11 @@ public class PartyDetailsFragment extends LoaderFragment<Party> {
                                 showShare();
                                 break;
                             case 1:
-                                break;
-                            case 2:
-                                deleteParty();
+                                if (isOwner) {
+                                    deleteParty();
+                                } else {
+                                    reportParty();
+                                }
                                 break;
                             default:
                                 break;
@@ -500,5 +505,12 @@ public class PartyDetailsFragment extends LoaderFragment<Party> {
                 chatService.sendCmdMessage(member.getChatId(), cmdMessage, false, null);
             }
         }
+    }
+
+    private void reportParty() {
+        final Intent intent = new Intent(getActivity(), ReportActivity.class);
+        intent.putExtra(ReportActivity.INTENT_ENTITY_TYPE, ReportActivity.TYPE_PARTY);
+        intent.putExtra(ReportActivity.INTENT_ENTITY_ID, partyId);
+        startActivity(intent);
     }
 }

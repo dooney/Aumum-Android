@@ -238,6 +238,10 @@
             android:label="@string/title_activity_contact_picker" >
         </activity>
         <activity android:name=".ui.user.UserListActivity" />
+        <activity
+            android:name=".ui.report.ReportActivity"
+            android:label="@string/title_activity_report_details" >
+        </activity>
     </application>
 
 </manifest>

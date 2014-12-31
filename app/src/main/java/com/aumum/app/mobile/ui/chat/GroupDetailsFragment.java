@@ -20,6 +20,7 @@ import com.aumum.app.mobile.core.model.CmdMessage;
 import com.aumum.app.mobile.core.model.User;
 import com.aumum.app.mobile.core.service.ChatService;
 import com.aumum.app.mobile.ui.base.ItemListFragment;
+import com.aumum.app.mobile.ui.report.ReportActivity;
 import com.aumum.app.mobile.ui.user.UserListAdapter;
 import com.aumum.app.mobile.utils.DialogUtils;
 import com.aumum.app.mobile.utils.Ln;
@@ -252,6 +253,7 @@ public class GroupDetailsFragment extends ItemListFragment<User> {
                     public void onClick(DialogInterface dialogInterface, int i) {
                         switch (i) {
                             case 0:
+                                report();
                                 break;
                             case 1:
                                 quit();
@@ -261,5 +263,12 @@ public class GroupDetailsFragment extends ItemListFragment<User> {
                         }
                     }
                 });
+    }
+
+    private void report() {
+        final Intent intent = new Intent(getActivity(), ReportActivity.class);
+        intent.putExtra(ReportActivity.INTENT_ENTITY_TYPE, ReportActivity.TYPE_GROUP);
+        intent.putExtra(ReportActivity.INTENT_ENTITY_ID, groupId);
+        startActivity(intent);
     }
 }

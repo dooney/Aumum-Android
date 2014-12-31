@@ -32,12 +32,14 @@ import com.aumum.app.mobile.ui.comment.CommentCard;
 import com.aumum.app.mobile.ui.comment.CommentsAdapter;
 import com.aumum.app.mobile.ui.base.ItemListFragment;
 import com.aumum.app.mobile.ui.helper.TextWatcherAdapter;
+import com.aumum.app.mobile.ui.report.ReportActivity;
 import com.aumum.app.mobile.utils.DialogUtils;
 import com.aumum.app.mobile.utils.EditTextUtils;
 import com.aumum.app.mobile.utils.Ln;
 import com.aumum.app.mobile.utils.SafeAsyncTask;
 import com.github.kevinsawicki.wishlist.Toaster;
 
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
@@ -109,13 +111,7 @@ public class PartyCommentsFragment extends ItemListFragment<Comment> {
         getListView().setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
-                Comment comment = getData().get(position);
-                if (party.isOwner(currentUser.getObjectId()) ||
-                        comment.isOwner(currentUser.getObjectId())) {
-                    showActionDialog(view);
-                } else {
-                    reply(comment);
-                }
+                showActionDialog(view);
             }
         });
     }
@@ -289,20 +285,39 @@ public class PartyCommentsFragment extends ItemListFragment<Comment> {
         task.execute();
     }
 
+    private void reportComment(Comment comment) {
+        final Intent intent = new Intent(getActivity(), ReportActivity.class);
+        intent.putExtra(ReportActivity.INTENT_ENTITY_TYPE, ReportActivity.TYPE_PARTY_COMMENT);
+        intent.putExtra(ReportActivity.INTENT_ENTITY_ID, comment.getObjectId());
+        startActivity(intent);
+    }
+
     private void showActionDialog(View view) {
         final CommentCard card = (CommentCard) view.getTag();
-        final String options[] = getResources().getStringArray(R.array.label_comment_actions);
-        DialogUtils.showDialog(getActivity(), options, new DialogInterface.OnClickListener() {
+        final Comment comment = card.getComment();
+        final boolean isOwner = party.isOwner(currentUser.getObjectId()) ||
+                comment.isOwner(currentUser.getObjectId());
+        List<String> options = new ArrayList<String>();
+        options.add(getString(R.string.label_reply));
+        if (isOwner) {
+            options.add(getString(R.string.label_delete));
+        } else {
+            options.add(getString(R.string.label_report));
+        }
+        DialogUtils.showDialog(getActivity(), options.toArray(new CharSequence[options.size()]),
+                new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
                 switch (i) {
                     case 0:
-                        reply(card.getComment());
+                        reply(comment);
                         break;
                     case 1:
-                        break;
-                    case 2:
-                        deleteComment(card);
+                        if (isOwner) {
+                            deleteComment(card);
+                        } else {
+                            reportComment(comment);
+                        }
                         break;
                     default:
                         break;

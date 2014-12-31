@@ -23,16 +23,6 @@
         <item>搜索附近</item>
         <item>搜索地址</item>
     </string-array>
-    <string-array name="label_comment_actions">
-        <item>回复</item>
-        <item>举报</item>
-        <item>删除</item>
-    </string-array>
-    <string-array name="label_asking_reply_actions">
-        <item>回复</item>
-        <item>举报</item>
-        <item>删除</item>
-    </string-array>
     <string-array name="label_contact_actions">
         <item>添加好友</item>
         <item>好友请求</item>
@@ -73,6 +63,12 @@
         <item>自动创建</item>
         <item>不创建</item>
     </string-array>
+    <string-array name="label_report_types">
+        <item>垃圾营销</item>
+        <item>不实信息</item>
+        <item>淫秽色情</item>
+        <item>人身攻击</item>
+    </string-array>
 
     <!-- General -->
     <string name="label_ok">确定</string>
@@ -82,6 +78,7 @@
     <string name="label_send">发送</string>
     <string name="label_delete">删除</string>
     <string name="label_favorite">收藏</string>
+    <string name="label_reply">回复</string>
     <string name="label_report">举报</string>
     <string name="label_image">图片</string>
     <string name="label_voice">语音</string>
@@ -123,6 +120,8 @@
     <string name="info_invitation_accepted_and_start_chatting">你们已经是好友了，开始聊天吧！</string>
     <string name="info_group_deleted">该群组已成功删除</string>
     <string name="info_group_name_deleted">群组#%1$s#已被删除</string>
+    <string name="info_submitting_report">正在提交您的举报，请稍候</string>
+    <string name="info_report_submitted">举报已成功提交，请等待审核</string>
 
     <!-- Error Message -->
     <string name="error_load_parties">获取聚会列表失败</string>
@@ -172,6 +171,7 @@
     <string name="error_selection_no_more_than">最多只能选%,d项</string>
     <string name="error_load_user_list">获取用户列表失败</string>
     <string name="error_delete_group">删除群组失败</string>
+    <string name="error_submit_report">提交举报失败</string>
 
     <!-- Title -->
     <string name="title_activity_login">用户登录</string>
@@ -198,6 +198,7 @@
     <string name="title_activity_mobile_contacts">手机通讯录</string>
     <string name="title_activity_group_details">群组详情</string>
     <string name="title_activity_contact_picker">选择好友</string>
+    <string name="title_activity_report_details">举报详情</string>
 
     <!-- Account -->
     <string name="hint_login_phone">手机号</string>
@@ -299,6 +300,10 @@
     <string name="hint_new_reply">说两句</string>
     <string name="hint_reply_asking_reply">回复@%1$s: %2$s</string>
     <string name="label_add_more">添加更多</string>
+
+    <!-- Report -->
+    <string name="hint_report_type">举报类型</string>
+    <string name="hint_report_details">举报理由</string>
 
     <!-- Contact -->
     <string name="label_mobile_contacts">手机联系人</string>

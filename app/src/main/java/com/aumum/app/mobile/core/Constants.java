@@ -111,6 +111,11 @@ public final class Constants {
         public static final String URL_ASKING_REPLY_BY_ID_FRAG = "/1/classes/AskingReplies/{id}";
 
         /**
+         * List Report URL
+         */
+        public static final String URL_REPORTS_FRAG = "/1/classes/Reports";
+
+        /**
          * PARAMS for auth
          */
         public static final String PARAM_USERNAME = "username";

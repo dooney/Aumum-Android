@@ -146,6 +146,7 @@ public class NewPartyActivity extends ProgressDialogActivity
                 calendarDatePickerDialog.show(fm, FRAG_TAG_DATE_PICKER);
             }
         });
+        dateText.addTextChangedListener(watcher);
         timeText.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -156,6 +157,7 @@ public class NewPartyActivity extends ProgressDialogActivity
                 timePickerDialog.show(getSupportFragmentManager(), FRAG_TAG_TIME_PICKER);
             }
         });
+        timeText.addTextChangedListener(watcher);
         titleText.addTextChangedListener(watcher);
         locationText.setAdapter(new PlacesAutoCompleteAdapter(this, R.layout.place_autocomplete_listitem));
         locationText.addTextChangedListener(watcher);

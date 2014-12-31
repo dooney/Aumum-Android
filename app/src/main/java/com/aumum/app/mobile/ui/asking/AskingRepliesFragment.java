@@ -21,6 +21,7 @@ import com.aumum.app.mobile.core.service.RestService;
 import com.aumum.app.mobile.events.AddAskingReplyEvent;
 import com.aumum.app.mobile.events.ReplyAskingReplyEvent;
 import com.aumum.app.mobile.ui.base.RefreshItemListFragment;
+import com.aumum.app.mobile.ui.report.ReportActivity;
 import com.aumum.app.mobile.utils.DialogUtils;
 import com.aumum.app.mobile.utils.Ln;
 import com.aumum.app.mobile.utils.SafeAsyncTask;
@@ -80,13 +81,7 @@ public class AskingRepliesFragment extends RefreshItemListFragment<AskingReply> 
         getListView().setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
-                AskingReply askingReply = getData().get(position);
-                if (asking.isOwner(currentUser.getObjectId()) ||
-                        askingReply.isOwner(currentUser.getObjectId())) {
-                    showActionDialog(view);
-                } else {
-                    reply(askingReply);
-                }
+                showActionDialog(view);
             }
         });
     }
@@ -212,20 +207,39 @@ public class AskingRepliesFragment extends RefreshItemListFragment<AskingReply> 
         task.execute();
     }
 
+    private void reportAskingReply(AskingReply askingReply) {
+        final Intent intent = new Intent(getActivity(), ReportActivity.class);
+        intent.putExtra(ReportActivity.INTENT_ENTITY_TYPE, ReportActivity.TYPE_ASKING_REPLY);
+        intent.putExtra(ReportActivity.INTENT_ENTITY_ID, askingReply.getObjectId());
+        startActivity(intent);
+    }
+
     private void showActionDialog(View view) {
         final AskingReplyCard card = (AskingReplyCard) view.getTag();
-        final String options[] = getResources().getStringArray(R.array.label_asking_reply_actions);
-        DialogUtils.showDialog(getActivity(), options, new DialogInterface.OnClickListener() {
+        final AskingReply askingReply = card.getAskingReply();
+        final boolean isOwner = asking.isOwner(currentUser.getObjectId()) ||
+                askingReply.isOwner(currentUser.getObjectId());
+        List<String> options = new ArrayList<String>();
+        options.add(getString(R.string.label_reply));
+        if (isOwner) {
+            options.add(getString(R.string.label_delete));
+        } else {
+            options.add(getString(R.string.label_report));
+        }
+        DialogUtils.showDialog(getActivity(), options.toArray(new CharSequence[options.size()]),
+                new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
                 switch (i) {
                     case 0:
-                        reply(card.getAskingReply());
+                        reply(askingReply);
                         break;
                     case 1:
-                        break;
-                    case 2:
-                        deleteAskingReply(card);
+                        if (isOwner) {
+                            deleteAskingReply(card);
+                        } else {
+                            reportAskingReply(askingReply);
+                        }
                         break;
                     default:
                         break;
