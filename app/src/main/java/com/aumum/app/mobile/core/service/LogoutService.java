@@ -6,8 +6,6 @@ import android.accounts.AccountManagerFuture;
 import android.content.Context;
 
 import com.aumum.app.mobile.core.Constants;
-import com.aumum.app.mobile.utils.Ln;
-import com.aumum.app.mobile.utils.SafeAsyncTask;
 
 import javax.inject.Inject;
 
@@ -26,54 +24,17 @@ public class LogoutService {
         this.accountManager = accountManager;
     }
 
-    public void logout(final Runnable onSuccess) {
-        new LogoutTask(context, onSuccess).execute();
-    }
-
-    private static class LogoutTask extends SafeAsyncTask<Boolean> {
-
-        private final Context taskContext;
-        private final Runnable onSuccess;
-
-        protected LogoutTask(final Context context, final Runnable onSuccess) {
-            this.taskContext = context;
-            this.onSuccess = onSuccess;
-        }
-
-        @Override
-        public Boolean call() throws Exception {
-
-            final AccountManager accountManagerWithContext = AccountManager.get(taskContext);
-            if (accountManagerWithContext != null) {
-                final Account[] accounts = accountManagerWithContext
-                        .getAccountsByType(Constants.Auth.BOOTSTRAP_ACCOUNT_TYPE);
-                if (accounts.length > 0) {
-                    final AccountManagerFuture<Boolean> removeAccountFuture
-                            = accountManagerWithContext.removeAccount(accounts[0], null, null);
-
-                    return removeAccountFuture.getResult();
-                }
-            } else {
-                Ln.w("accountManagerWithContext is null");
+    public boolean logout() throws Exception {
+        final AccountManager accountManagerWithContext = AccountManager.get(context);
+        if (accountManagerWithContext != null) {
+            final Account[] accounts = accountManagerWithContext
+                    .getAccountsByType(Constants.Auth.BOOTSTRAP_ACCOUNT_TYPE);
+            if (accounts.length > 0) {
+                final AccountManagerFuture<Boolean> removeAccountFuture
+                        = accountManagerWithContext.removeAccount(accounts[0], null, null);
+                return removeAccountFuture.getResult();
             }
-
-            return false;
         }
-
-        @Override
-        protected void onSuccess(final Boolean accountWasRemoved) throws Exception {
-            super.onSuccess(accountWasRemoved);
-
-            Ln.d("Logout succeeded: %s", accountWasRemoved);
-            onSuccess.run();
-
-        }
-
-        @Override
-        protected void onException(final Exception e) throws RuntimeException {
-            super.onException(e);
-
-            Ln.e(e.getCause(), "Logout failed.");
-        }
+        return false;
     }
 }

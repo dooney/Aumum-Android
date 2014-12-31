@@ -33,32 +33,6 @@
 
     <View style="@style/Divider" />
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" >
-
-        <Button
-            android:id="@+id/b_dialog_cancel"
-            android:layout_width="0dip"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:background="@color/transparent"
-            android:text="@string/label_cancel"
-            android:textSize="@dimen/text_sz_large" />
-
-        <View
-            android:layout_width="1px"
-            android:layout_height="match_parent"
-            android:background="@color/grey_extra_light" />
-
-        <Button
-            android:id="@+id/b_dialog_ok"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:background="@color/transparent"
-            android:text="@string/label_ok"
-            android:textSize="@dimen/text_sz_large" />
-    </LinearLayout>
+    <include layout="@layout/dialog_footer" />
 
 </LinearLayout>

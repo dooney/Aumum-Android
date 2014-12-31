@@ -26,7 +26,9 @@ import com.aumum.app.mobile.ui.image.ImagePickerActivity;
 import com.aumum.app.mobile.ui.party.SearchPartyActivity;
 import com.aumum.app.mobile.ui.settings.SettingsActivity;
 import com.aumum.app.mobile.ui.view.AvatarImageView;
+import com.aumum.app.mobile.ui.view.ConfirmDialog;
 import com.aumum.app.mobile.ui.view.EditTextDialog;
+import com.aumum.app.mobile.ui.view.TextViewDialog;
 import com.aumum.app.mobile.utils.DialogUtils;
 import com.aumum.app.mobile.utils.ImageLoaderUtils;
 import com.aumum.app.mobile.utils.Ln;
@@ -112,31 +114,98 @@ public class ProfileFragment extends LoaderFragment<User> {
         screenNameLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                final EditTextDialog dialog = new EditTextDialog(getActivity(), R.string.hint_screen_name,
+                new EditTextDialog(getActivity(), R.string.hint_screen_name,
                         new EditTextDialog.OnConfirmListener() {
                             @Override
-                            public void call(String value) throws Exception {
-                                restService.updateUserScreenName(currentUser.getObjectId(), value);
-                                currentUser.setScreenName(value);
+                            public void call(Object value) throws Exception {
+                                String screenName = (String) value;
+                                if (restService.getScreenNameRegistered((String)value)) {
+                                    throw new Exception(getString(R.string.error_screen_name_registered));
+                                }
+                                restService.updateUserScreenName(currentUser.getObjectId(), screenName);
+                                currentUser.setScreenName(screenName);
                                 userStore.update(currentUser);
                             }
 
                             @Override
-                            public void onException() {
-                                Toaster.showShort(getActivity(), R.string.error_edit_profile);
+                            public void onException(String errorMessage) {
+                                Toaster.showShort(getActivity(), errorMessage);
                             }
 
                             @Override
-                            public void onSuccess(String value) {
-                                screenNameText.setText(value);
+                            public void onSuccess(Object value) {
+                                String screenName = (String) value;
+                                screenNameText.setText(screenName);
                             }
-                        });
-                dialog.show();
+                        }).show();
             }
         });
         screenNameText = (TextView) view.findViewById(R.id.text_screen_name);
+        emailLayout = view.findViewById(R.id.layout_email);
+        emailLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                new EditTextDialog(getActivity(), R.string.hint_email,
+                        new EditTextDialog.OnConfirmListener() {
+                            @Override
+                            public void call(Object value) throws Exception {
+                                String email = (String) value;
+                                if (restService.getEmailRegistered(email)) {
+                                    throw new Exception(getString(R.string.error_email_registered));
+                                }
+                                restService.updateUserEmail(currentUser.getObjectId(), email);
+                                currentUser.setEmail(email);
+                                userStore.update(currentUser);
+                            }
+
+                            @Override
+                            public void onException(String errorMessage) {
+                                Toaster.showShort(getActivity(), errorMessage);
+                            }
+
+                            @Override
+                            public void onSuccess(Object value) {
+                                String email = (String) value;
+                                emailText.setText(email);
+                            }
+                        }).show();
+            }
+        });
         emailText = (TextView) view.findViewById(R.id.text_email);
         cityText = (TextView) view.findViewById(R.id.text_city);
+        areaLayout = view.findViewById(R.id.layout_area);
+        areaLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                final String areaOptions[] = Constants.Options.AREA_OPTIONS.get(currentUser.getCity());
+                DialogUtils.showDialog(getActivity(), areaOptions,
+                        new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, final int i) {
+                                final String area = areaOptions[i];
+                                final String text = getString(R.string.label_confirm_area, area);
+                                new TextViewDialog(getActivity(), text, new ConfirmDialog.OnConfirmListener() {
+                                    @Override
+                                    public void call(Object value) throws Exception {
+                                        restService.updateUserArea(currentUser.getObjectId(), i);
+                                        currentUser.setArea(i);
+                                        userStore.update(currentUser);
+                                    }
+
+                                    @Override
+                                    public void onException(String errorMessage) {
+                                        Toaster.showShort(getActivity(), errorMessage);
+                                    }
+
+                                    @Override
+                                    public void onSuccess(Object value) {
+                                        areaText.setText(area);
+                                    }
+                                }).show();
+                            }
+                        });
+            }
+        });
         areaText = (TextView) view.findViewById(R.id.text_area);
         aboutText = (TextView) view.findViewById(R.id.text_about);
     }

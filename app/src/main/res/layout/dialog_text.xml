@@ -5,9 +5,10 @@
     android:layout_height="wrap_content"
     android:background="@drawable/dialog_background">
 
-    <EditText
-        android:id="@+id/et_value"
-        style="@style/EditText.DialogEditText" />
+    <TextView
+        android:id="@+id/text_value"
+        style="@style/TextView.DialogText"
+        android:padding="@dimen/margin_large"/>
 
     <View style="@style/Divider" />
 

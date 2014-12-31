@@ -1,6 +1,5 @@
 package com.aumum.app.mobile.ui.settings;
 
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
@@ -12,15 +11,16 @@ import com.aumum.app.mobile.R;
 import com.aumum.app.mobile.core.service.ChatService;
 import com.aumum.app.mobile.core.service.LogoutService;
 import com.aumum.app.mobile.ui.view.Animation;
-import com.aumum.app.mobile.utils.DialogUtils;
+import com.aumum.app.mobile.ui.view.ConfirmDialog;
+import com.aumum.app.mobile.ui.view.TextViewDialog;
+import com.github.kevinsawicki.wishlist.Toaster;
 
 import javax.inject.Inject;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 
-public class SettingsActivity extends ActionBarActivity
-        implements DialogInterface.OnClickListener {
+public class SettingsActivity extends ActionBarActivity {
 
     @Inject LogoutService logoutService;
     @Inject ChatService chatService;
@@ -45,25 +45,26 @@ public class SettingsActivity extends ActionBarActivity
     }
 
     private void showLogoutConfirmDialog() {
-        DialogUtils.showDialog(this,
-                R.string.info_confirm_logout,
-                R.string.label_ok,
-                this,
-                R.string.label_cancel,
-                null);
-    }
-
-    @Override
-    public void onClick(DialogInterface dialogInterface, int i) {
-        logoutService.logout(new Runnable() {
+        new TextViewDialog(this, getString(R.string.info_confirm_logout),
+                new ConfirmDialog.OnConfirmListener() {
             @Override
-            public void run() {
+            public void call(Object value) throws Exception {
+                logoutService.logout();
+            }
+
+            @Override
+            public void onException(String errorMessage) {
+                Toaster.showShort(SettingsActivity.this, errorMessage);
+            }
+
+            @Override
+            public void onSuccess(Object value) {
                 chatService.logOut();
                 final Intent intent = new Intent();
                 intent.putExtra("logout", true);
                 setResult(RESULT_OK, intent);
                 finish();
             }
-        });
+        }).show();
     }
 }

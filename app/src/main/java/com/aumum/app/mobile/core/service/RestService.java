@@ -400,6 +400,18 @@ public class RestService {
         return getUserService().updateById(userId, data);
     }
 
+    public JsonObject updateUserEmail(String userId, String email) {
+        final JsonObject data = new JsonObject();
+        data.addProperty(Constants.Http.User.PARAM_EMAIL, email);
+        return getUserService().updateById(userId, data);
+    }
+
+    public JsonObject updateUserArea(String userId, int area) {
+        final JsonObject data = new JsonObject();
+        data.addProperty(Constants.Http.User.PARAM_AREA, area);
+        return getUserService().updateById(userId, data);
+    }
+
     public JsonObject deleteParty(String partyId) {
         final JsonObject data = new JsonObject();
         DateTime now = DateTime.now(DateTimeZone.UTC);
