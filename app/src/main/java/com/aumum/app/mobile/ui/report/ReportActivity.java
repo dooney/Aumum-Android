@@ -125,8 +125,8 @@ public class ReportActivity extends ProgressDialogActivity {
     }
 
     private void updateUIWithValidation() {
-        final boolean populated = populated(detailsText) &&
-                typeText.getText().length() > 0;
+        final boolean populated = typeText.getText().length() > 0 &&
+                populated(detailsText);
         submitButton.setEnabled(populated);
     }
 

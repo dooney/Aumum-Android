@@ -16,7 +16,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:paddingTop="@dimen/margin_extra_large"
             android:visibility="gone">
 
             <LinearLayout
@@ -26,28 +25,18 @@
                 android:background="@color/card_background"
                 android:layout_marginBottom="@dimen/margin_extra_large">
 
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:padding="@dimen/margin_large">
-
-                    <TextView
-                        android:id="@+id/text_label_avatar"
-                        style="@style/TextView.Profile"
-                        android:layout_centerVertical="true"
-                        android:text="@string/label_avatar"/>
-
-                    <com.aumum.app.mobile.ui.view.AvatarImageView
-                        android:id="@+id/image_avatar"
-                        style="@style/ImageView.Avatar.Large"
-                        android:src="@drawable/ic_avatar"
-                        android:layout_alignParentRight="true"/>
-
-                </RelativeLayout>
+                <com.aumum.app.mobile.ui.view.AvatarImageView
+                    android:id="@+id/image_avatar"
+                    style="@style/ImageView.Avatar.Large"
+                    android:src="@drawable/ic_avatar"
+                    android:layout_marginTop="@dimen/margin_large"
+                    android:layout_marginBottom="@dimen/margin_large"
+                    android:layout_gravity="center_horizontal"/>
 
                 <View style="@style/Divider"/>
 
                 <RelativeLayout
+                    android:id="@+id/layout_screen_name"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:padding="@dimen/margin_large">
@@ -69,6 +58,7 @@
                 <View style="@style/Divider"/>
 
                 <RelativeLayout
+                    android:id="@+id/layout_email"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:padding="@dimen/margin_large">
@@ -97,6 +87,7 @@
                 android:layout_marginBottom="@dimen/margin_extra_large">
 
                 <RelativeLayout
+                    android:id="@+id/layout_city"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:padding="@dimen/margin_large">
@@ -119,6 +110,7 @@
                 <View style="@style/Divider"/>
 
                 <RelativeLayout
+                    android:id="@+id/layout_area"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:padding="@dimen/margin_large">
@@ -141,6 +133,7 @@
                 <View style="@style/Divider"/>
 
                 <RelativeLayout
+                    android:id="@+id/layout_about"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:padding="@dimen/margin_large">

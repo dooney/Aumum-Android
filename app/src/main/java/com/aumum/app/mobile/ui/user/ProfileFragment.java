@@ -26,6 +26,7 @@ import com.aumum.app.mobile.ui.image.ImagePickerActivity;
 import com.aumum.app.mobile.ui.party.SearchPartyActivity;
 import com.aumum.app.mobile.ui.settings.SettingsActivity;
 import com.aumum.app.mobile.ui.view.AvatarImageView;
+import com.aumum.app.mobile.ui.view.EditTextDialog;
 import com.aumum.app.mobile.utils.DialogUtils;
 import com.aumum.app.mobile.utils.ImageLoaderUtils;
 import com.aumum.app.mobile.utils.Ln;
@@ -51,10 +52,15 @@ public class ProfileFragment extends LoaderFragment<User> {
     private ScrollView scrollView;
     private View mainView;
     private AvatarImageView avatarImage;
+    private View screenNameLayout;
     private TextView screenNameText;
+    private View emailLayout;
     private TextView emailText;
+    private View cityLayout;
     private TextView cityText;
+    private View areaLayout;
     private TextView areaText;
+    private View aboutLayout;
     private TextView aboutText;
 
     @Override
@@ -102,6 +108,32 @@ public class ProfileFragment extends LoaderFragment<User> {
         
         mainView = view.findViewById(R.id.main_view);
         avatarImage = (AvatarImageView) view.findViewById(R.id.image_avatar);
+        screenNameLayout = view.findViewById(R.id.layout_screen_name);
+        screenNameLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                final EditTextDialog dialog = new EditTextDialog(getActivity(), R.string.hint_screen_name,
+                        new EditTextDialog.OnConfirmListener() {
+                            @Override
+                            public void call(String value) throws Exception {
+                                restService.updateUserScreenName(currentUser.getObjectId(), value);
+                                currentUser.setScreenName(value);
+                                userStore.update(currentUser);
+                            }
+
+                            @Override
+                            public void onException() {
+                                Toaster.showShort(getActivity(), R.string.error_edit_profile);
+                            }
+
+                            @Override
+                            public void onSuccess(String value) {
+                                screenNameText.setText(value);
+                            }
+                        });
+                dialog.show();
+            }
+        });
         screenNameText = (TextView) view.findViewById(R.id.text_screen_name);
         emailText = (TextView) view.findViewById(R.id.text_email);
         cityText = (TextView) view.findViewById(R.id.text_city);

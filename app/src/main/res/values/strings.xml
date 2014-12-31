@@ -176,6 +176,7 @@
     <string name="error_load_user_list">获取用户列表失败</string>
     <string name="error_delete_group">删除群组失败</string>
     <string name="error_submit_report">提交举报失败</string>
+    <string name="error_edit_profile">修改个人资料失败</string>
 
     <!-- Title -->
     <string name="title_activity_login">用户登录</string>
@@ -209,11 +210,10 @@
     <string name="hint_login_password">密码</string>
     <string name="hint_register_phone">请输入要注册的手机号</string>
     <string name="hint_register_password">请输入6-16位密码</string>
-    <string name="hint_screen_name">昵称 (必填)</string>
-    <string name="hint_email">邮箱 (必填，用于找回密码)</string>
-    <string name="hint_city">所在城市 (必填)</string>
-    <string name="hint_area">所在地区 (必填)</string>
-    <string name="hint_avatar">头像图片</string>
+    <string name="hint_screen_name">昵称</string>
+    <string name="hint_email">邮箱 (用于找回密码)</string>
+    <string name="hint_city">所在城市</string>
+    <string name="hint_area">所在地区</string>
     <string name="hint_about">个人简介</string>
     <string name="label_city">所在城市</string>
     <string name="label_area">所在地区</string>
@@ -249,7 +249,6 @@
     <string name="label_contact_agreed">已经同意您的添加好友请求</string>
 
     <!-- Profile -->
-    <string name="label_avatar">头像图片</string>
     <string name="label_screen_name">用户昵称</string>
     <string name="label_email_address">邮箱地址</string>
     <string name="label_my_parties">我的聚会</string>

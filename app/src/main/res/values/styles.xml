@@ -50,7 +50,7 @@
     <style name="EditText.Mandatory" parent="EditText">
         <item name="android:textColorHint">@color/bbutton_danger</item>
     </style>
-    <style name="EditText.Box">
+    <style name="EditText.Box" parent="EditText">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:textSize">@dimen/text_sz_large</item>
@@ -58,6 +58,12 @@
         <item name="android:gravity">left|top</item>
         <item name="android:imeOptions">actionSend</item>
         <item name="android:inputType">textMultiLine</item>
+    </style>
+    <style name="EditText.DialogEditText" parent="EditText">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:minWidth">240dp</item>
+        <item name="android:background">@color/transparent</item>
     </style>
 
     <style name="ImageView">
@@ -493,9 +499,10 @@
         <item name="android:textColor">@color/black</item>
         <item name="android:textSize">@dimen/text_sz_large</item>
     </style>
-    <style name="ButtonTextView.Account.Country" parent="ButtonTextView.Account">
+    <style name="ButtonTextView.Account.Country" parent="ButtonTextView">
         <item name="android:drawableLeft">@drawable/ic_fa_country</item>
         <item name="android:text">@string/label_country</item>
+        <item name="android:textSize">@dimen/text_sz_large</item>
     </style>
     <style name="TextView.Account.Country" parent="TextView.Account" />
     <style name="TextView.Account.CountryCode" parent="TextView.Account" />
@@ -519,20 +526,18 @@
         <item name="android:hint">@string/hint_register_password</item>
         <item name="android:inputType">textPassword</item>
     </style>
-    <style name="EditText.Register.Email" parent="EditText">
-        <item name="android:drawableLeft">@drawable/ic_fa_envelope</item>
+    <style name="EditText.Register.Email" parent="EditText.Mandatory">
         <item name="android:hint">@string/hint_email</item>
         <item name="android:inputType">textEmailAddress</item>
     </style>
     <style name="EditText.Register.About" parent="EditText">
-        <item name="android:drawableLeft">@drawable/ic_fa_tag</item>
         <item name="android:hint">@string/hint_about</item>
+        <item name="android:background">@color/transparent</item>
         <item name="android:inputType">textMultiLine</item>
         <item name="android:lineSpacingMultiplier">1.1</item>
         <item name="android:maxLines">4</item>
     </style>
-    <style name="EditText.Register.ScreenName" parent="EditText">
-        <item name="android:drawableLeft">@drawable/ic_fa_user_l</item>
+    <style name="EditText.Register.ScreenName" parent="EditText.Mandatory">
         <item name="android:hint">@string/hint_screen_name</item>
         <item name="android:inputType">textPersonName</item>
     </style>
@@ -547,24 +552,11 @@
     <style name="Button.ResetPassword.Resend" parent="Button.Danger">
         <item name="android:text">@string/label_resend_reset_password_email</item>
     </style>
-    <style name="ButtonTextView.Account">
-        <item name="android:layout_width">match_parent</item>
-        <item name="android:gravity">center_vertical</item>
-        <item name="android:textSize">@dimen/text_sz_large</item>
-        <item name="android:padding">@dimen/margin_large</item>
-    </style>
-    <style name="ButtonTextView.Account.City" parent="ButtonTextView.Account">
-        <item name="android:drawableLeft">@drawable/ic_fa_building_o</item>
+    <style name="EditText.Account.City" parent="EditText.Mandatory">
         <item name="android:hint">@string/hint_city</item>
     </style>
-    <style name="ButtonTextView.Account.Area" parent="ButtonTextView.Account">
-        <item name="android:drawableLeft">@drawable/ic_fa_home_l</item>
+    <style name="EditText.Account.Area" parent="EditText.Mandatory">
         <item name="android:hint">@string/hint_area</item>
-    </style>
-    <style name="ButtonTextView.Account.Avatar" parent="ButtonTextView.Account">
-        <item name="android:layout_width">wrap_content</item>
-        <item name="android:drawableLeft">@drawable/ic_fa_camera</item>
-        <item name="android:hint">@string/hint_avatar</item>
     </style>
     <style name="Button.Account.SignUp" parent="Button.Primary">
         <item name="android:text">@string/label_sign_up</item>

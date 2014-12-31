@@ -394,6 +394,12 @@ public class RestService {
         return getUserService().updateById(user.getObjectId(), data);
     }
 
+    public JsonObject updateUserScreenName(String userId, String screenName) {
+        final JsonObject data = new JsonObject();
+        data.addProperty(Constants.Http.User.PARAM_SCREEN_NAME, screenName);
+        return getUserService().updateById(userId, data);
+    }
+
     public JsonObject deleteParty(String partyId) {
         final JsonObject data = new JsonObject();
         DateTime now = DateTime.now(DateTimeZone.UTC);
@@ -697,9 +703,9 @@ public class RestService {
         return contactList;
     }
 
-    public void newReport(Report report) {
+    public Report newReport(Report report) {
         Gson gson = new Gson();
         JsonObject data = gson.toJsonTree(report).getAsJsonObject();
-        getReportService().newReport(data);
+        return getReportService().newReport(data);
     }
 }

@@ -311,9 +311,9 @@ public class NewPartyActivity extends ProgressDialogActivity
 
     private void updateUIWithValidation() {
         final boolean populated = populated(titleText) &&
-                                  populated(locationText) &&
-                                  dateText.getText().length() > 0 &&
-                                  timeText.getText().length() > 0;
+                populated(locationText) &&
+                dateText.getText().length() > 0 &&
+                timeText.getText().length() > 0;
         submitButton.setEnabled(populated);
     }
 

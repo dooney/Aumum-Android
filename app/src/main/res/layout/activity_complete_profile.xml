@@ -18,22 +18,11 @@
             android:focusable="true"
             android:focusableInTouchMode="true" >
 
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-                <TextView
-                    android:id="@+id/text_avatar"
-                    style="@style/ButtonTextView.Account.Avatar"
-                    android:layout_centerVertical="true"/>
-
-                <com.aumum.app.mobile.ui.view.AvatarImageView
-                    android:id="@+id/image_avatar"
-                    style="@style/ImageView.Avatar.Large"
-                    android:src="@drawable/ic_avatar"
-                    android:layout_alignParentRight="true" />
-
-            </RelativeLayout>
+            <com.aumum.app.mobile.ui.view.AvatarImageView
+                android:id="@+id/image_avatar"
+                style="@style/ImageView.Avatar.Large"
+                android:src="@drawable/ic_avatar"
+                android:layout_gravity="center_horizontal" />
 
             <com.aumum.app.mobile.ui.view.ClearEditText
                 android:id="@+id/et_screen_name"
@@ -47,17 +36,19 @@
                 style="@style/EditText.Register.Email"
                 app:clearButtonDrawable="@drawable/ic_fa_times"
                 android:imeOptions="actionNext"
-                android:nextFocusDown="@+id/text_city"/>
+                android:nextFocusDown="@+id/et_city"/>
 
-            <TextView
-                android:id="@+id/text_city"
-                style="@style/ButtonTextView.Account.City"
+            <EditText
+                android:id="@+id/et_city"
+                style="@style/EditText.Account.City"
+                android:focusable="false"
                 android:imeOptions="actionNext"
-                android:nextFocusDown="@+id/text_area" />
+                android:nextFocusDown="@+id/et_area" />
 
-            <TextView
-                android:id="@+id/text_area"
-                style="@style/ButtonTextView.Account.Area"
+            <EditText
+                android:id="@+id/et_area"
+                style="@style/EditText.Account.Area"
+                android:focusable="false"
                 android:imeOptions="actionNext"
                 android:nextFocusDown="@+id/et_about"/>
 

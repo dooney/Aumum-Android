@@ -26,6 +26,7 @@ public class ConfirmPhoneDialog extends Dialog {
         this.listener = listener;
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.dialog_confirm_phone);
+        getWindow().setBackgroundDrawableResource(android.R.color.transparent);
         initView(context);
     }
 

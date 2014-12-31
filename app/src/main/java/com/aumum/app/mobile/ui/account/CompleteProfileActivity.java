@@ -11,7 +11,6 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.TextView;
 
 import com.aumum.app.mobile.Injector;
 import com.aumum.app.mobile.R;
@@ -55,8 +54,8 @@ public class CompleteProfileActivity extends ProgressDialogActivity
     @Email(messageResId = R.string.error_incorrect_email_format)
     protected EmailAutoCompleteTextView emailText;
 
-    @InjectView(R.id.text_city) protected TextView cityButton;
-    @InjectView(R.id.text_area) protected TextView areaButton;
+    @InjectView(R.id.et_city) protected EditText cityText;
+    @InjectView(R.id.et_area) protected EditText areaText;
     @InjectView(R.id.et_about) protected EditText aboutText;
 
     private String userId;
@@ -90,25 +89,23 @@ public class CompleteProfileActivity extends ProgressDialogActivity
         });
         screenNameText.addTextChangedListener(watcher);
         emailText.addTextChangedListener(watcher);
-        cityButton.setOnClickListener(new View.OnClickListener() {
+        cityText.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 DialogUtils.showDialog(CompleteProfileActivity.this, Constants.Options.CITY_OPTIONS,
                         new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        city = i;
-                        cityButton.setText(Constants.Options.CITY_OPTIONS[i]);
-                        cityButton.setTextColor(getResources().getColor(R.color.black));
-                        updateUIWithValidation();
-                    }
-                });
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                city = i;
+                                cityText.setText(Constants.Options.CITY_OPTIONS[i]);
+                            }
+                        });
             }
         });
-        areaButton.setOnClickListener(new View.OnClickListener() {
+        areaText.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (cityButton.getText() == null) {
+                if (cityText.getText() == null) {
                     Toaster.showShort(CompleteProfileActivity.this, R.string.error_city_first);
                     return;
                 }
@@ -118,9 +115,7 @@ public class CompleteProfileActivity extends ProgressDialogActivity
                             @Override
                             public void onClick(DialogInterface dialogInterface, int i) {
                                 area = i;
-                                areaButton.setText(areaOptions[i]);
-                                areaButton.setTextColor(getResources().getColor(R.color.black));
-                                updateUIWithValidation();
+                                areaText.setText(areaOptions[i]);
                             }
                         });
             }
@@ -187,8 +182,8 @@ public class CompleteProfileActivity extends ProgressDialogActivity
     private void updateUIWithValidation() {
         final boolean populated = populated(screenNameText) &&
                 populated(emailText) &&
-                cityButton.getText().length() > 0 &&
-                areaButton.getText().length() > 0;
+                cityText.getText().length() > 0 &&
+                areaText.getText().length() > 0;
         saveButton.setEnabled(populated);
     }
 
