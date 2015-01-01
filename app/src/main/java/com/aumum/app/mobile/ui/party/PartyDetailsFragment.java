@@ -1,7 +1,6 @@
 package com.aumum.app.mobile.ui.party;
 
 import android.app.Activity;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -42,8 +41,8 @@ import com.aumum.app.mobile.ui.view.AvatarImageView;
 import com.aumum.app.mobile.ui.view.FavoriteTextView;
 import com.aumum.app.mobile.ui.view.JoinTextView;
 import com.aumum.app.mobile.ui.view.LikeTextView;
+import com.aumum.app.mobile.ui.view.ListViewDialog;
 import com.aumum.app.mobile.ui.view.SpannableTextView;
-import com.aumum.app.mobile.utils.DialogUtils;
 import com.aumum.app.mobile.utils.EditTextUtils;
 import com.aumum.app.mobile.utils.GPSTracker;
 import com.aumum.app.mobile.utils.ImageLoaderUtils;
@@ -366,26 +365,26 @@ public class PartyDetailsFragment extends LoaderFragment<Party> {
         } else {
             options.add(getString(R.string.label_report));
         }
-        DialogUtils.showDialog(getActivity(), options.toArray(new CharSequence[options.size()]),
-                new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        switch (i) {
-                            case 0:
-                                showShare();
-                                break;
-                            case 1:
-                                if (isOwner) {
-                                    deleteParty();
-                                } else {
-                                    reportParty();
-                                }
-                                break;
-                            default:
-                                break;
+        new ListViewDialog(getActivity(), null, options,
+                new ListViewDialog.OnItemClickListener() {
+            @Override
+            public void onItemClick(int i) {
+                switch (i) {
+                    case 0:
+                        showShare();
+                        break;
+                    case 1:
+                        if (isOwner) {
+                            deleteParty();
+                        } else {
+                            reportParty();
                         }
-                    }
-                });
+                        break;
+                    default:
+                        break;
+                }
+            }
+        }).show();
     }
 
     private void showShare() {

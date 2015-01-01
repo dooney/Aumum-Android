@@ -1,7 +1,6 @@
 package com.aumum.app.mobile.ui.user;
 
 import android.app.Activity;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -28,12 +27,14 @@ import com.aumum.app.mobile.ui.settings.SettingsActivity;
 import com.aumum.app.mobile.ui.view.AvatarImageView;
 import com.aumum.app.mobile.ui.view.ConfirmDialog;
 import com.aumum.app.mobile.ui.view.EditTextDialog;
+import com.aumum.app.mobile.ui.view.ListViewDialog;
 import com.aumum.app.mobile.ui.view.TextViewDialog;
-import com.aumum.app.mobile.utils.DialogUtils;
 import com.aumum.app.mobile.utils.ImageLoaderUtils;
 import com.aumum.app.mobile.utils.Ln;
 import com.aumum.app.mobile.utils.SafeAsyncTask;
 import com.github.kevinsawicki.wishlist.Toaster;
+
+import java.util.Arrays;
 
 import javax.inject.Inject;
 
@@ -191,37 +192,39 @@ public class ProfileFragment extends LoaderFragment<User> {
             @Override
             public void onClick(View view) {
                 final String cityOptions[] = Constants.Options.CITY_OPTIONS;
-                DialogUtils.showDialog(getActivity(), Constants.Options.CITY_OPTIONS,
-                        new DialogInterface.OnClickListener() {
+                new ListViewDialog(getActivity(),
+                        getString(R.string.label_select_your_city),
+                        Arrays.asList(cityOptions),
+                        new ListViewDialog.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(int i) {
+                        final String city = cityOptions[i];
+                        final String text = getString(R.string.label_confirm_city, city);
+                        new TextViewDialog(getActivity(), text, new ConfirmDialog.OnConfirmListener() {
                             @Override
-                            public void onClick(DialogInterface dialogInterface, final int i) {
-                                final String city = cityOptions[i];
-                                final String text = getString(R.string.label_confirm_city, city);
-                                new TextViewDialog(getActivity(), text, new ConfirmDialog.OnConfirmListener() {
-                                    @Override
-                                    public void call(Object value) throws Exception {
-                                        restService.updateUserCity(currentUser.getObjectId(), city);
-                                        currentUser.setCity(city);
-                                        userStore.update(currentUser);
-                                    }
-
-                                    @Override
-                                    public void onException(String errorMessage) {
-                                        Toaster.showShort(getActivity(), errorMessage);
-                                    }
-
-                                    @Override
-                                    public void onSuccess(Object value) {
-                                        cityText.setText(city);
-                                    }
-
-                                    @Override
-                                    public void onFailed() {
-                                        Toaster.showShort(getActivity(), R.string.error_edit_profile);
-                                    }
-                                }).show();
+                            public void call(Object value) throws Exception {
+                                restService.updateUserCity(currentUser.getObjectId(), city);
+                                currentUser.setCity(city);
+                                userStore.update(currentUser);
                             }
-                        });
+
+                            @Override
+                            public void onException(String errorMessage) {
+                                Toaster.showShort(getActivity(), errorMessage);
+                            }
+
+                            @Override
+                            public void onSuccess(Object value) {
+                                cityText.setText(city);
+                            }
+
+                            @Override
+                            public void onFailed() {
+                                Toaster.showShort(getActivity(), R.string.error_edit_profile);
+                            }
+                        }).show();
+                    }
+                }).show();
             }
         });
         cityText = (TextView) view.findViewById(R.id.text_city);
@@ -230,10 +233,12 @@ public class ProfileFragment extends LoaderFragment<User> {
             @Override
             public void onClick(View view) {
                 final String areaOptions[] = Constants.Options.AREA_OPTIONS.get(currentUser.getCity());
-                DialogUtils.showDialog(getActivity(), areaOptions,
-                        new DialogInterface.OnClickListener() {
+                new ListViewDialog(getActivity(),
+                        getString(R.string.label_select_your_area),
+                        Arrays.asList(areaOptions),
+                        new ListViewDialog.OnItemClickListener() {
                             @Override
-                            public void onClick(DialogInterface dialogInterface, final int i) {
+                            public void onItemClick(int i) {
                                 final String area = areaOptions[i];
                                 final String text = getString(R.string.label_confirm_area, area);
                                 new TextViewDialog(getActivity(), text, new ConfirmDialog.OnConfirmListener() {
@@ -260,7 +265,7 @@ public class ProfileFragment extends LoaderFragment<User> {
                                     }
                                 }).show();
                             }
-                        });
+                        }).show();
             }
         });
         areaText = (TextView) view.findViewById(R.id.text_area);
@@ -376,44 +381,46 @@ public class ProfileFragment extends LoaderFragment<User> {
 
     private void showActionDialog() {
         String options[] = getResources().getStringArray(R.array.label_profile_actions);
-        DialogUtils.showDialog(getActivity(), options,
-                new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        switch (i) {
-                            case 0:
-                                startMyPartiesActivity(currentUser);
-                                break;
-                            case 1:
-                                startMyAskingsActivity(currentUser);
-                                break;
-                            case 2:
-                                String options[] = getResources().getStringArray(R.array.label_favorite_types);
-                                DialogUtils.showDialog(getActivity(), options,
-                                        new DialogInterface.OnClickListener() {
-                                            @Override
-                                            public void onClick(DialogInterface dialogInterface, int i) {
-                                                switch (i) {
-                                                    case 0:
-                                                        startMyFavoritePartiesActivity(currentUser);
-                                                        break;
-                                                    case 1:
-                                                        startMyFavoriteAskingsActivity(currentUser);
-                                                        break;
-                                                    default:
-                                                        break;
-                                                }
-                                            }
-                                        });
-                                break;
-                            case 3:
-                                startSettingsActivity();
-                                break;
-                            default:
-                                break;
-                        }
-                    }
-                });
+        new ListViewDialog(getActivity(), null, Arrays.asList(options),
+                new ListViewDialog.OnItemClickListener() {
+            @Override
+            public void onItemClick(int i) {
+                switch (i) {
+                    case 0:
+                        startMyPartiesActivity(currentUser);
+                        break;
+                    case 1:
+                        startMyAskingsActivity(currentUser);
+                        break;
+                    case 2:
+                        String options[] = getResources().getStringArray(R.array.label_favorite_types);
+                        new ListViewDialog(getActivity(),
+                                getString(R.string.label_select_favorite_type),
+                                Arrays.asList(options),
+                                new ListViewDialog.OnItemClickListener() {
+                            @Override
+                            public void onItemClick(int i) {
+                                switch (i) {
+                                    case 0:
+                                        startMyFavoritePartiesActivity(currentUser);
+                                        break;
+                                    case 1:
+                                        startMyFavoriteAskingsActivity(currentUser);
+                                        break;
+                                    default:
+                                        break;
+                                }
+                            }
+                        }).show();
+                        break;
+                    case 3:
+                        startSettingsActivity();
+                        break;
+                    default:
+                        break;
+                }
+            }
+        }).show();
     }
 
     private void startImagePickerActivity() {

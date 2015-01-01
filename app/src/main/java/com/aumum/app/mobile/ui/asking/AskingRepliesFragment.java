@@ -1,6 +1,5 @@
 package com.aumum.app.mobile.ui.asking;
 
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -22,7 +21,7 @@ import com.aumum.app.mobile.events.AddAskingReplyEvent;
 import com.aumum.app.mobile.events.ReplyAskingReplyEvent;
 import com.aumum.app.mobile.ui.base.RefreshItemListFragment;
 import com.aumum.app.mobile.ui.report.ReportActivity;
-import com.aumum.app.mobile.utils.DialogUtils;
+import com.aumum.app.mobile.ui.view.ListViewDialog;
 import com.aumum.app.mobile.utils.Ln;
 import com.aumum.app.mobile.utils.SafeAsyncTask;
 import com.github.kevinsawicki.wishlist.Toaster;
@@ -226,10 +225,10 @@ public class AskingRepliesFragment extends RefreshItemListFragment<AskingReply> 
         } else {
             options.add(getString(R.string.label_report));
         }
-        DialogUtils.showDialog(getActivity(), options.toArray(new CharSequence[options.size()]),
-                new DialogInterface.OnClickListener() {
+        new ListViewDialog(getActivity(), null, options,
+                new ListViewDialog.OnItemClickListener() {
             @Override
-            public void onClick(DialogInterface dialogInterface, int i) {
+            public void onItemClick(int i) {
                 switch (i) {
                     case 0:
                         reply(askingReply);
@@ -245,7 +244,7 @@ public class AskingRepliesFragment extends RefreshItemListFragment<AskingReply> 
                         break;
                 }
             }
-        });
+        }).show();
     }
 
     private void reply(AskingReply askingReply) {

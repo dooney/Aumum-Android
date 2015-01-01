@@ -1,6 +1,5 @@
 package com.aumum.app.mobile.ui.party;
 
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.app.Fragment;
@@ -33,7 +32,7 @@ import com.aumum.app.mobile.ui.comment.CommentsAdapter;
 import com.aumum.app.mobile.ui.base.ItemListFragment;
 import com.aumum.app.mobile.ui.helper.TextWatcherAdapter;
 import com.aumum.app.mobile.ui.report.ReportActivity;
-import com.aumum.app.mobile.utils.DialogUtils;
+import com.aumum.app.mobile.ui.view.ListViewDialog;
 import com.aumum.app.mobile.utils.EditTextUtils;
 import com.aumum.app.mobile.utils.Ln;
 import com.aumum.app.mobile.utils.SafeAsyncTask;
@@ -304,10 +303,10 @@ public class PartyCommentsFragment extends ItemListFragment<Comment> {
         } else {
             options.add(getString(R.string.label_report));
         }
-        DialogUtils.showDialog(getActivity(), options.toArray(new CharSequence[options.size()]),
-                new DialogInterface.OnClickListener() {
+        new ListViewDialog(getActivity(), null, options,
+                new ListViewDialog.OnItemClickListener() {
             @Override
-            public void onClick(DialogInterface dialogInterface, int i) {
+            public void onItemClick(int i) {
                 switch (i) {
                     case 0:
                         reply(comment);
@@ -323,7 +322,7 @@ public class PartyCommentsFragment extends ItemListFragment<Comment> {
                         break;
                 }
             }
-        });
+        }).show();
     }
 
     private void onCommentDeletedSuccess(String commentId) {

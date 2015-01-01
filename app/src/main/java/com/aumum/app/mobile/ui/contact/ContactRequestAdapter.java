@@ -17,12 +17,10 @@ import java.util.List;
 public class ContactRequestAdapter extends ArrayAdapter<ContactRequest> {
 
     private Activity activity;
-    private List<ContactRequest> dataSet;
 
     public ContactRequestAdapter(Activity activity, List<ContactRequest> objects) {
         super(activity, 0, objects);
         this.activity = activity;
-        this.dataSet = objects;
     }
 
     @Override
@@ -30,7 +28,7 @@ public class ContactRequestAdapter extends ArrayAdapter<ContactRequest> {
         final ContactRequestCard card;
 
         if (convertView == null) {
-            LayoutInflater inflater = (LayoutInflater) activity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            LayoutInflater inflater = LayoutInflater.from(getContext());
             convertView = inflater.inflate(R.layout.contact_request_listitem_inner, parent, false);
             card = new ContactRequestCard(activity, convertView);
             convertView.setTag(card);
@@ -38,7 +36,7 @@ public class ContactRequestAdapter extends ArrayAdapter<ContactRequest> {
             card = (ContactRequestCard) convertView.getTag();
         }
 
-        ContactRequest request = dataSet.get(position);
+        ContactRequest request = getItem(position);
         card.refresh(request);
 
         return convertView;

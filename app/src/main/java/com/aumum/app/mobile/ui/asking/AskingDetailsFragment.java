@@ -1,7 +1,6 @@
 package com.aumum.app.mobile.ui.asking;
 
 import android.app.Activity;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -37,8 +36,8 @@ import com.aumum.app.mobile.ui.image.GalleryAdapter;
 import com.aumum.app.mobile.ui.report.ReportActivity;
 import com.aumum.app.mobile.ui.user.UserListener;
 import com.aumum.app.mobile.ui.view.FavoriteTextView;
+import com.aumum.app.mobile.ui.view.ListViewDialog;
 import com.aumum.app.mobile.ui.view.SpannableTextView;
-import com.aumum.app.mobile.utils.DialogUtils;
 import com.aumum.app.mobile.utils.EditTextUtils;
 import com.aumum.app.mobile.utils.ImageLoaderUtils;
 import com.aumum.app.mobile.utils.Ln;
@@ -290,26 +289,26 @@ public class AskingDetailsFragment extends LoaderFragment<Asking> {
         } else {
             options.add(getString(R.string.label_report));
         }
-        DialogUtils.showDialog(getActivity(), options.toArray(new CharSequence[options.size()]),
-                new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        switch (i) {
-                            case 0:
-                                showShare();
-                                break;
-                            case 1:
-                                if (isOwner) {
-                                    deleteAsking();
-                                } else {
-                                    reportAsking();
-                                }
-                                break;
-                            default:
-                                break;
+        new ListViewDialog(getActivity(), null, options,
+                new ListViewDialog.OnItemClickListener() {
+            @Override
+            public void onItemClick(int i) {
+                switch (i) {
+                    case 0:
+                        showShare();
+                        break;
+                    case 1:
+                        if (isOwner) {
+                            deleteAsking();
+                        } else {
+                            reportAsking();
                         }
-                    }
-                });
+                        break;
+                    default:
+                        break;
+                }
+            }
+        }).show();
     }
 
     private void showShare() {

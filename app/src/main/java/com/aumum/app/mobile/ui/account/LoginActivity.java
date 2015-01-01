@@ -6,7 +6,6 @@ import static android.view.inputmethod.EditorInfo.IME_ACTION_DONE;
 import static com.aumum.app.mobile.ui.splash.SplashActivity.SHOW_SIGN_UP;
 import static com.aumum.app.mobile.ui.splash.SplashActivity.SHOW_RESET_PASSWORD;
 
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
@@ -31,13 +30,15 @@ import com.aumum.app.mobile.events.UnAuthorizedErrorEvent;
 import com.aumum.app.mobile.ui.base.AuthenticateActivity;
 import com.aumum.app.mobile.ui.helper.TextWatcherAdapter;
 import com.aumum.app.mobile.ui.view.Animation;
-import com.aumum.app.mobile.utils.DialogUtils;
+import com.aumum.app.mobile.ui.view.ListViewDialog;
 import com.aumum.app.mobile.utils.EditTextUtils;
 import com.aumum.app.mobile.utils.SafeAsyncTask;
 import com.aumum.app.mobile.utils.Strings;
 import com.github.kevinsawicki.wishlist.Toaster;
 import com.squareup.otto.Bus;
 import com.squareup.otto.Subscribe;
+
+import java.util.Arrays;
 
 import javax.inject.Inject;
 
@@ -82,9 +83,12 @@ public class LoginActivity extends AuthenticateActivity {
             @Override
             public void onClick(View view) {
                 final String countryOptions[] = Constants.Options.COUNTRY_OPTIONS;
-                DialogUtils.showDialog(LoginActivity.this, countryOptions, new DialogInterface.OnClickListener() {
+                new ListViewDialog(LoginActivity.this,
+                        getString(R.string.label_select_your_country),
+                        Arrays.asList(countryOptions),
+                        new ListViewDialog.OnItemClickListener() {
                     @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
+                    public void onItemClick(int i) {
                         countryText.setText(countryOptions[i]);
                         switch (i) {
                             case 1:
@@ -98,7 +102,7 @@ public class LoginActivity extends AuthenticateActivity {
                                 break;
                         }
                     }
-                });
+                }).show();
             }
         });
         phoneText.addTextChangedListener(watcher);

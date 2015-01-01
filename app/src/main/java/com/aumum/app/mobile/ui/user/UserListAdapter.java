@@ -17,12 +17,10 @@ import java.util.List;
 public class UserListAdapter extends ArrayAdapter<User> {
 
     private Context context;
-    private List<User> dataSet;
 
     public UserListAdapter(Context context, List<User> objects) {
         super(context, 0, objects);
         this.context = context;
-        this.dataSet = objects;
     }
 
     @Override
@@ -30,7 +28,7 @@ public class UserListAdapter extends ArrayAdapter<User> {
         final UserCard card;
 
         if (convertView == null) {
-            LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            LayoutInflater inflater = LayoutInflater.from(getContext());
             convertView = inflater.inflate(R.layout.user_listitem_inner, parent, false);
             card = new UserCard(context, convertView);
             convertView.setTag(card);
@@ -38,7 +36,7 @@ public class UserListAdapter extends ArrayAdapter<User> {
             card = (UserCard) convertView.getTag();
         }
 
-        User user = dataSet.get(position);
+        User user = getItem(position);
         card.refresh(user);
 
         return convertView;

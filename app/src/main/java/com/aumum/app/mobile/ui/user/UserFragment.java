@@ -1,6 +1,5 @@
 package com.aumum.app.mobile.ui.user;
 
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -27,10 +26,12 @@ import com.aumum.app.mobile.ui.party.SearchPartyActivity;
 import com.aumum.app.mobile.ui.view.AvatarImageView;
 import com.aumum.app.mobile.ui.view.ConfirmDialog;
 import com.aumum.app.mobile.ui.view.EditTextDialog;
+import com.aumum.app.mobile.ui.view.ListViewDialog;
 import com.aumum.app.mobile.ui.view.TextViewDialog;
-import com.aumum.app.mobile.utils.DialogUtils;
 import com.aumum.app.mobile.utils.Ln;
 import com.github.kevinsawicki.wishlist.Toaster;
+
+import java.util.Arrays;
 
 import javax.inject.Inject;
 
@@ -261,22 +262,22 @@ public class UserFragment extends LoaderFragment<User> {
 
     private void showActionDialog() {
         String options[] = getResources().getStringArray(R.array.label_user_actions);
-        DialogUtils.showDialog(getActivity(), options,
-                new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        switch (i) {
-                            case 0:
-                                startHerPartiesActivity(user);
-                                break;
-                            case 1:
-                                startHerAskingsActivity(user);
-                                break;
-                            default:
-                                break;
-                        }
-                    }
-                });
+        new ListViewDialog(getActivity(), null, Arrays.asList(options),
+                new ListViewDialog.OnItemClickListener() {
+            @Override
+            public void onItemClick(int i) {
+                switch (i) {
+                    case 0:
+                        startHerPartiesActivity(user);
+                        break;
+                    case 1:
+                        startHerAskingsActivity(user);
+                        break;
+                    default:
+                        break;
+                }
+            }
+        }).show();
     }
 
     private void startHerPartiesActivity(User user) {

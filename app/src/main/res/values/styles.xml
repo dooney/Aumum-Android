@@ -71,12 +71,12 @@
         <item name="android:imeOptions">actionSend</item>
         <item name="android:inputType">textMultiLine</item>
     </style>
-    <style name="EditText.DialogEditText" parent="EditText">
+    <style name="EditText.Dialog" parent="EditText">
         <item name="android:layout_width">300dp</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:background">@color/transparent</item>
     </style>
-    <style name="EditText.DialogEditText.Multiline" parent="EditText.DialogEditText">
+    <style name="EditText.Dialog.Multiline" parent="EditText.Dialog">
         <item name="android:inputType">textMultiLine</item>
         <item name="android:lineSpacingMultiplier">1.1</item>
         <item name="android:maxLines">4</item>
@@ -161,9 +161,20 @@
         <item name="android:textSize">@dimen/text_sz_large</item>
         <item name="android:lineSpacingMultiplier">1.1</item>
     </style>
-    <style name="TextView.DialogText" parent="TextView">
+    <style name="TextView.Dialog" parent="TextView">
         <item name="android:layout_width">300dp</item>
         <item name="android:textColor">@color/black</item>
+        <item name="android:textSize">@dimen/text_sz_large</item>
+    </style>
+    <style name="TextView.Dialog.List" parent="TextView">
+        <item name="android:textColor">@color/black</item>
+        <item name="android:textSize">@dimen/text_sz_large</item>
+    </style>
+    <style name="TextView.Dialog.Title" parent="TextView">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:background">@drawable/dialog_title_background</item>
+        <item name="android:padding">@dimen/margin_large</item>
+        <item name="android:textColor">@color/text</item>
         <item name="android:textSize">@dimen/text_sz_large</item>
     </style>
 

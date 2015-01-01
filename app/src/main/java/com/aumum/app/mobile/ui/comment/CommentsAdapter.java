@@ -15,13 +15,9 @@ import java.util.List;
  * Created by Administrator on 13/10/2014.
  */
 public class CommentsAdapter extends ArrayAdapter<Comment> {
-    private Context context;
-    private List<Comment> dataSet;
 
     public CommentsAdapter(Context context, List<Comment> objects) {
         super(context, 0, objects);
-        this.context = context;
-        dataSet = objects;
     }
 
     @Override
@@ -29,7 +25,7 @@ public class CommentsAdapter extends ArrayAdapter<Comment> {
         final CommentCard card;
 
         if (convertView == null) {
-            LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            LayoutInflater inflater = LayoutInflater.from(getContext());
             convertView = inflater.inflate(R.layout.comment_listitem_inner, parent, false);
             card = new CommentCard(convertView);
             convertView.setTag(card);
@@ -37,7 +33,7 @@ public class CommentsAdapter extends ArrayAdapter<Comment> {
             card = (CommentCard) convertView.getTag();
         }
 
-        Comment comment = dataSet.get(position);
+        Comment comment = getItem(position);
         card.refresh(comment);
 
         return convertView;

@@ -1,6 +1,5 @@
 package com.aumum.app.mobile.ui.account;
 
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
@@ -23,7 +22,7 @@ import com.aumum.app.mobile.ui.helper.TextWatcherAdapter;
 import com.aumum.app.mobile.ui.image.ImagePickerActivity;
 import com.aumum.app.mobile.ui.user.UpdateAvatarActivity;
 import com.aumum.app.mobile.ui.view.Animation;
-import com.aumum.app.mobile.utils.DialogUtils;
+import com.aumum.app.mobile.ui.view.ListViewDialog;
 import com.aumum.app.mobile.utils.EditTextUtils;
 import com.aumum.app.mobile.utils.ImageLoaderUtils;
 import com.aumum.app.mobile.utils.SafeAsyncTask;
@@ -33,6 +32,7 @@ import com.mobsandgeeks.saripaar.ValidationError;
 import com.mobsandgeeks.saripaar.Validator;
 import com.mobsandgeeks.saripaar.annotation.Email;
 
+import java.util.Arrays;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -92,13 +92,16 @@ public class CompleteProfileActivity extends ProgressDialogActivity
         cityText.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                DialogUtils.showDialog(CompleteProfileActivity.this, Constants.Options.CITY_OPTIONS,
-                        new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialogInterface, int i) {
-                                cityText.setText(Constants.Options.CITY_OPTIONS[i]);
-                            }
-                        });
+                final String cityOptions[] = Constants.Options.CITY_OPTIONS;
+                new ListViewDialog(CompleteProfileActivity.this,
+                        getString(R.string.label_select_your_city),
+                        Arrays.asList(cityOptions),
+                        new ListViewDialog.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(int i) {
+                        cityText.setText(cityOptions[i]);
+                    }
+                }).show();
             }
         });
         cityText.addTextChangedListener(watcher);
@@ -110,13 +113,15 @@ public class CompleteProfileActivity extends ProgressDialogActivity
                     return;
                 }
                 final String areaOptions[] = Constants.Options.AREA_OPTIONS.get(city);
-                DialogUtils.showDialog(CompleteProfileActivity.this, areaOptions,
-                        new DialogInterface.OnClickListener() {
+                new ListViewDialog(CompleteProfileActivity.this,
+                        getString(R.string.label_select_your_area),
+                        Arrays.asList(areaOptions),
+                        new ListViewDialog.OnItemClickListener() {
                             @Override
-                            public void onClick(DialogInterface dialogInterface, int i) {
+                            public void onItemClick(int i) {
                                 areaText.setText(areaOptions[i]);
                             }
-                        });
+                        }).show();
             }
         });
         areaText.addTextChangedListener(watcher);

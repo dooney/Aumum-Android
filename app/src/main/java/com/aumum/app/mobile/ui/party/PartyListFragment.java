@@ -1,7 +1,6 @@
 package com.aumum.app.mobile.ui.party;
 
 import android.app.Activity;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -22,12 +21,13 @@ import com.aumum.app.mobile.core.model.Party;
 import com.aumum.app.mobile.core.model.User;
 import com.aumum.app.mobile.events.GotPartyUpwardsListEvent;
 import com.aumum.app.mobile.ui.base.RefreshItemListFragment;
-import com.aumum.app.mobile.utils.DialogUtils;
+import com.aumum.app.mobile.ui.view.ListViewDialog;
 import com.aumum.app.mobile.utils.GPSTracker;
 import com.aumum.app.mobile.utils.Ln;
 import com.squareup.otto.Bus;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
@@ -207,15 +207,16 @@ public class PartyListFragment extends RefreshItemListFragment<Card> {
 
     private void showSearchPartyDialog() {
         final String options[] = getResources().getStringArray(R.array.label_search_party);
-        DialogUtils.showDialog(getActivity(), options, new DialogInterface.OnClickListener() {
+        new ListViewDialog(getActivity(), null, Arrays.asList(options),
+                new ListViewDialog.OnItemClickListener() {
             @Override
-            public void onClick(DialogInterface dialogInterface, int i) {
+            public void onItemClick(int i) {
                 final Intent intent = new Intent(getActivity(), SearchPartyActivity.class);
                 intent.putExtra(SearchPartyActivity.INTENT_TITLE, options[i]);
                 intent.putExtra(SearchPartyActivity.INTENT_NEARBY_PARTIES, true);
                 startActivity(intent);
             }
-        });
+        }).show();
     }
 
     private void onPartyDeleted(String partyId) {

@@ -1,6 +1,5 @@
 package com.aumum.app.mobile.ui.report;
 
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
@@ -19,10 +18,12 @@ import com.aumum.app.mobile.core.model.Report;
 import com.aumum.app.mobile.core.service.RestService;
 import com.aumum.app.mobile.ui.base.ProgressDialogActivity;
 import com.aumum.app.mobile.ui.helper.TextWatcherAdapter;
-import com.aumum.app.mobile.utils.DialogUtils;
+import com.aumum.app.mobile.ui.view.ListViewDialog;
 import com.aumum.app.mobile.utils.Ln;
 import com.aumum.app.mobile.utils.SafeAsyncTask;
 import com.github.kevinsawicki.wishlist.Toaster;
+
+import java.util.Arrays;
 
 import javax.inject.Inject;
 
@@ -136,13 +137,15 @@ public class ReportActivity extends ProgressDialogActivity {
 
     private void showReportTypeOptions() {
         final String options[] = getResources().getStringArray(R.array.label_report_types);
-        DialogUtils.showDialog(this, options,
-                new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        typeText.setText(options[i]);
-                    }
-                });
+        new ListViewDialog(this,
+                getString(R.string.label_select_report_type),
+                Arrays.asList(options),
+                new ListViewDialog.OnItemClickListener() {
+            @Override
+            public void onItemClick(int i) {
+                typeText.setText(options[i]);
+            }
+        }).show();
     }
 
     private void submit() {

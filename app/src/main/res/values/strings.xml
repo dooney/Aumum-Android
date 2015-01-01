@@ -216,7 +216,9 @@
     <string name="hint_area">所在地区</string>
     <string name="hint_about">个人简介</string>
     <string name="label_city">所在城市</string>
+    <string name="label_select_your_city">请选择您所在的城市</string>
     <string name="label_area">所在地区</string>
+    <string name="label_select_your_area">请选择您所在的地区</string>
     <string name="label_about">个人简介</string>
     <string name="label_sign_in">登录</string>
     <string name="label_sign_up">注册</string>
@@ -225,6 +227,7 @@
     <string name="label_join_now">注册新用户</string>
     <string name="label_prompt_sign_in">已有账户？登录</string>
     <string name="label_country">国家</string>
+    <string name="label_select_your_country">请选择您所在的国家</string>
     <string name="label_confirm_phone">确认手机号码</string>
     <string name="label_will_send_verification_code"><Data>&lt;font color=#d9534f>验证码短信&lt;/font>将被发送到这个号码:</Data></string>
     <string name="label_your_phone"><Data>您的手机号&lt;font color=#d9534f>%1$s %2$s&lt;/font></Data></string>
@@ -252,6 +255,7 @@
     <string name="label_email_address">邮箱地址</string>
     <string name="label_my_parties">我的聚会</string>
     <string name="label_my_askings">我的说说</string>
+    <string name="label_select_favorite_type">请选择收藏类别</string>
     <string name="label_favorite_parties">聚会收藏</string>
     <string name="label_favorite_askings">说说收藏</string>
     <string name="label_confirm_city">您确定变更城市为&lt;font color=#d9534f>%1$s&lt;/font>？</string>
@@ -294,7 +298,9 @@
     <string name="label_time">时间</string>
     <string name="hint_party_details">聚会内容</string>
     <string name="label_privacy">隐私设置</string>
+    <string name="label_select_privacy_type">请选择该聚会的可见程度</string>
     <string name="label_group">群组设置</string>
+    <string name="label_select_group_type">是否为该聚会创建群组</string>
     <string name="label_notify">通知好友</string>
     <string name="label_visible_to_contacts">以下好友可见</string>
 
@@ -306,7 +312,8 @@
     <string name="label_add_more">添加更多</string>
 
     <!-- Report -->
-    <string name="hint_report_type">举报类型</string>
+    <string name="hint_report_type">违规类别</string>
+    <string name="label_select_report_type">请选择违规类别</string>
     <string name="hint_report_details">举报理由</string>
 
     <!-- Contact -->

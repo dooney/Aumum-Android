@@ -18,15 +18,11 @@ import java.util.List;
 public class ContactAdapter extends ArrayAdapter<User>
         implements SectionIndexer {
 
-    private Context context;
-    private List<User> dataSet;
     private ContactClickListener contactClickListener;
 
     public ContactAdapter(Context context, List<User> objects,
                           ContactClickListener contactClickListener) {
         super(context, 0, objects);
-        this.context = context;
-        this.dataSet = objects;
         this.contactClickListener = contactClickListener;
     }
 
@@ -35,7 +31,7 @@ public class ContactAdapter extends ArrayAdapter<User>
         final ContactCard card;
 
         if (convertView == null) {
-            LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            LayoutInflater inflater = LayoutInflater.from(getContext());
             convertView = inflater.inflate(R.layout.contact_listitem_inner, parent, false);
             card = new ContactCard(convertView, contactClickListener);
             convertView.setTag(card);
@@ -43,7 +39,7 @@ public class ContactAdapter extends ArrayAdapter<User>
             card = (ContactCard) convertView.getTag();
         }
 
-        User user = dataSet.get(position);
+        User user = getItem(position);
         card.refresh(user);
 
         int section = getSectionForPosition(position);
@@ -64,7 +60,7 @@ public class ContactAdapter extends ArrayAdapter<User>
     @Override
     public int getPositionForSection(int section) {
         for (int i = 0; i < getCount(); i++) {
-            String sortStr = dataSet.get(i).getSortLetters();
+            String sortStr = getItem(i).getSortLetters();
             char firstChar = sortStr.toUpperCase().charAt(0);
             if (firstChar == section) {
                 return i;
@@ -75,6 +71,6 @@ public class ContactAdapter extends ArrayAdapter<User>
 
     @Override
     public int getSectionForPosition(int position) {
-        return dataSet.get(position).getSortLetters().charAt(0);
+        return getItem(position).getSortLetters().charAt(0);
     }
 }

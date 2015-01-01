@@ -1,7 +1,6 @@
 package com.aumum.app.mobile.ui.party;
 
 import android.app.Activity;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
@@ -39,7 +38,7 @@ import com.aumum.app.mobile.ui.image.CustomGallery;
 import com.aumum.app.mobile.ui.image.GalleryAdapter;
 import com.aumum.app.mobile.ui.image.ImagePickerActivity;
 import com.aumum.app.mobile.ui.view.Animation;
-import com.aumum.app.mobile.utils.DialogUtils;
+import com.aumum.app.mobile.ui.view.ListViewDialog;
 import com.aumum.app.mobile.utils.EditTextUtils;
 import com.aumum.app.mobile.utils.GooglePlaceUtils;
 import com.aumum.app.mobile.utils.ImageLoaderUtils;
@@ -54,6 +53,7 @@ import com.github.kevinsawicki.wishlist.Toaster;
 import org.joda.time.DateTime;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -455,9 +455,12 @@ public class NewPartyActivity extends ProgressDialogActivity
 
     private void showPrivacyOptions() {
         final String options[] = getResources().getStringArray(R.array.label_party_privacy);
-        DialogUtils.showDialog(this, options, new DialogInterface.OnClickListener() {
+        new ListViewDialog(NewPartyActivity.this,
+                getString(R.string.label_select_privacy_type),
+                Arrays.asList(options),
+                new ListViewDialog.OnItemClickListener() {
             @Override
-            public void onClick(DialogInterface dialogInterface, int i) {
+            public void onItemClick(int i) {
                 privacyType = i;
                 switch (i) {
                     case PRIVACY_TYPE_PUBLIC:
@@ -473,7 +476,7 @@ public class NewPartyActivity extends ProgressDialogActivity
                         break;
                 }
             }
-        });
+        }).show();
     }
 
     private List<String> getSubscriptions(User user) {
@@ -491,13 +494,16 @@ public class NewPartyActivity extends ProgressDialogActivity
 
     private void showGroupOptions() {
         final String options[] = getResources().getStringArray(R.array.label_party_group);
-        DialogUtils.showDialog(this, options, new DialogInterface.OnClickListener() {
+        new ListViewDialog(NewPartyActivity.this,
+                getString(R.string.label_select_group_type),
+                Arrays.asList(options),
+                new ListViewDialog.OnItemClickListener() {
             @Override
-            public void onClick(DialogInterface dialogInterface, int i) {
+            public void onItemClick(int i) {
                 groupType = i;
                 groupText.setText(options[i]);
             }
-        });
+        }).show();
     }
 
     private void startSpecifiedContactsActivity() {

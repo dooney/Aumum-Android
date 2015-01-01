@@ -1,7 +1,6 @@
 package com.aumum.app.mobile.ui.chat;
 
 import android.app.Activity;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -23,7 +22,7 @@ import com.aumum.app.mobile.ui.base.ItemListFragment;
 import com.aumum.app.mobile.ui.base.ProgressListener;
 import com.aumum.app.mobile.ui.report.ReportActivity;
 import com.aumum.app.mobile.ui.user.UserListAdapter;
-import com.aumum.app.mobile.utils.DialogUtils;
+import com.aumum.app.mobile.ui.view.ListViewDialog;
 import com.aumum.app.mobile.utils.Ln;
 import com.aumum.app.mobile.utils.SafeAsyncTask;
 import com.easemob.EMCallBack;
@@ -31,6 +30,7 @@ import com.easemob.chat.EMGroup;
 import com.github.kevinsawicki.wishlist.Toaster;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -236,39 +236,39 @@ public class GroupDetailsFragment extends ItemListFragment<User> {
 
     private void showOwnerActionDialog() {
         String options[] = getResources().getStringArray(R.array.label_group_owner_actions);
-        DialogUtils.showDialog(getActivity(), options,
-                new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        switch (i) {
-                            case 0:
-                                delete();
-                                break;
-                            default:
-                                break;
-                        }
-                    }
-                });
+        new ListViewDialog(getActivity(), null, Arrays.asList(options),
+                new ListViewDialog.OnItemClickListener() {
+            @Override
+            public void onItemClick(int i) {
+                switch (i) {
+                    case 0:
+                        delete();
+                        break;
+                    default:
+                        break;
+                }
+            }
+        }).show();
     }
 
     private void showMemberActionDialog() {
         String options[] = getResources().getStringArray(R.array.label_group_member_actions);
-        DialogUtils.showDialog(getActivity(), options,
-                new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        switch (i) {
-                            case 0:
-                                report();
-                                break;
-                            case 1:
-                                quit();
-                                break;
-                            default:
-                                break;
-                        }
-                    }
-                });
+        new ListViewDialog(getActivity(), null, Arrays.asList(options),
+                new ListViewDialog.OnItemClickListener() {
+            @Override
+            public void onItemClick(int i) {
+                switch (i) {
+                    case 0:
+                        report();
+                        break;
+                    case 1:
+                        quit();
+                        break;
+                    default:
+                        break;
+                }
+            }
+        }).show();
     }
 
     private void report() {

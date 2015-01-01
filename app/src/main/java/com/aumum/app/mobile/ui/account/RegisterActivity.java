@@ -1,6 +1,5 @@
 package com.aumum.app.mobile.ui.account;
 
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
@@ -18,7 +17,7 @@ import com.aumum.app.mobile.core.service.RestService;
 import com.aumum.app.mobile.ui.base.AuthenticateActivity;
 import com.aumum.app.mobile.ui.helper.TextWatcherAdapter;
 import com.aumum.app.mobile.ui.view.Animation;
-import com.aumum.app.mobile.utils.DialogUtils;
+import com.aumum.app.mobile.ui.view.ListViewDialog;
 import com.aumum.app.mobile.utils.EditTextUtils;
 import com.aumum.app.mobile.utils.SafeAsyncTask;
 import com.aumum.app.mobile.utils.Strings;
@@ -29,6 +28,7 @@ import com.mobsandgeeks.saripaar.annotation.Order;
 import com.mobsandgeeks.saripaar.annotation.Pattern;
 import com.mobsandgeeks.saripaar.annotation.Size;
 
+import java.util.Arrays;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -89,23 +89,26 @@ public class RegisterActivity extends AuthenticateActivity
             @Override
             public void onClick(View view) {
                 final String countryOptions[] = Constants.Options.COUNTRY_OPTIONS;
-                DialogUtils.showDialog(RegisterActivity.this, countryOptions, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        countryText.setText(countryOptions[i]);
-                        switch (i) {
-                            case 1:
-                                countryCodeText.setText("+64");
-                                break;
-                            case 2:
-                                countryCodeText.setText("+86");
-                                break;
-                            default:
-                                countryCodeText.setText("+61");
-                                break;
-                        }
-                    }
-                });
+                new ListViewDialog(RegisterActivity.this,
+                        getString(R.string.label_select_your_country),
+                        Arrays.asList(countryOptions),
+                        new ListViewDialog.OnItemClickListener() {
+                            @Override
+                            public void onItemClick(int i) {
+                                countryText.setText(countryOptions[i]);
+                                switch (i) {
+                                    case 1:
+                                        countryCodeText.setText("+64");
+                                        break;
+                                    case 2:
+                                        countryCodeText.setText("+86");
+                                        break;
+                                    default:
+                                        countryCodeText.setText("+61");
+                                        break;
+                                }
+                            }
+                        }).show();
             }
         });
         phoneText.addTextChangedListener(watcher);

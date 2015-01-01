@@ -7,7 +7,7 @@
 
     <EditText
         android:id="@+id/et_value"
-        style="@style/EditText.DialogEditText.Multiline" />
+        style="@style/EditText.Dialog.Multiline" />
 
     <View style="@style/Divider" />
 

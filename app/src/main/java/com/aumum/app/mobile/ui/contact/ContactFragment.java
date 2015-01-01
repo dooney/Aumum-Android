@@ -1,6 +1,5 @@
 package com.aumum.app.mobile.ui.contact;
 
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -22,11 +21,12 @@ import com.aumum.app.mobile.ui.user.UserActivity;
 import com.aumum.app.mobile.ui.user.UserListActivity;
 import com.aumum.app.mobile.ui.view.ConfirmDialog;
 import com.aumum.app.mobile.ui.view.EditTextDialog;
+import com.aumum.app.mobile.ui.view.ListViewDialog;
 import com.aumum.app.mobile.ui.view.sort.InitialComparator;
-import com.aumum.app.mobile.utils.DialogUtils;
 import com.github.kevinsawicki.wishlist.Toaster;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
@@ -119,42 +119,42 @@ public class ContactFragment extends ItemListFragment<User>
 
     private void showActionDialog() {
         String options[] = getResources().getStringArray(R.array.label_contact_actions);
-        DialogUtils.showDialog(getActivity(), options,
-                new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        switch (i) {
-                            case 0:
-                                showAddContactsDialog();
-                                break;
-                            case 1:
-                                startContactRequestActivity();
-                                break;
-                            default:
-                                break;
-                        }
-                    }
-                });
+        new ListViewDialog(getActivity(), null, Arrays.asList(options),
+                new ListViewDialog.OnItemClickListener() {
+            @Override
+            public void onItemClick(int i) {
+                switch (i) {
+                    case 0:
+                        showAddContactsDialog();
+                        break;
+                    case 1:
+                        startContactRequestActivity();
+                        break;
+                    default:
+                        break;
+                }
+            }
+        }).show();
     }
 
     private void showAddContactsDialog() {
         String options[] = getResources().getStringArray(R.array.label_add_contacts_actions);
-        DialogUtils.showDialog(getActivity(), options,
-                new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        switch (i) {
-                            case 0:
-                                showSearchUserDialog();
-                                break;
-                            case 1:
-                                startAddMobileContactsActivity();
-                                break;
-                            default:
-                                break;
-                        }
-                    }
-                });
+        new ListViewDialog(getActivity(), null, Arrays.asList(options),
+                new ListViewDialog.OnItemClickListener() {
+            @Override
+            public void onItemClick(int i) {
+                switch (i) {
+                    case 0:
+                        showSearchUserDialog();
+                        break;
+                    case 1:
+                        startAddMobileContactsActivity();
+                        break;
+                    default:
+                        break;
+                }
+            }
+        }).show();
     }
 
     private void showSearchUserDialog() {

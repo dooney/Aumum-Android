@@ -17,12 +17,10 @@ import java.util.List;
 public class ConversationsAdapter extends ArrayAdapter<Conversation> {
 
     private Context context;
-    private List<Conversation> dataSet;
 
     public ConversationsAdapter(Context context, List<Conversation> objects) {
         super(context, 0, objects);
         this.context = context;
-        this.dataSet = objects;
     }
 
     @Override
@@ -30,7 +28,7 @@ public class ConversationsAdapter extends ArrayAdapter<Conversation> {
         final ConversationCard card;
 
         if (convertView == null) {
-            LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            LayoutInflater inflater = LayoutInflater.from(getContext());
             convertView = inflater.inflate(R.layout.conversation_listitem_inner, parent, false);
             card = new ConversationCard(context, convertView);
             convertView.setTag(card);
@@ -38,7 +36,7 @@ public class ConversationsAdapter extends ArrayAdapter<Conversation> {
             card = (ConversationCard) convertView.getTag();
         }
 
-        Conversation conversation = dataSet.get(position);
+        Conversation conversation = getItem(position);
         card.refresh(conversation);
 
         return convertView;
