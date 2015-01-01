@@ -27,8 +27,8 @@ public class DaoGenerator {
         user.addDateProperty("createdAt").notNull();
         user.addStringProperty("screenName");
         user.addStringProperty("email");
-        user.addIntProperty("city");
-        user.addIntProperty("area");
+        user.addStringProperty("city");
+        user.addStringProperty("area");
         user.addStringProperty("avatarUrl");
         user.addStringProperty("about");
         user.addStringProperty("contacts");

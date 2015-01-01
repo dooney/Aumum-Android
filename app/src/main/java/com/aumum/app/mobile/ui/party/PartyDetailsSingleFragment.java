@@ -241,7 +241,7 @@ public class PartyDetailsSingleFragment extends LoaderFragment<Party> {
         party.setDistance(gpsTracker.getLatitude(), gpsTracker.getLongitude());
         distanceText.setText(getString(R.string.label_distance, party.getDistance()));
 
-        cityText.setText(Constants.Options.CITY_OPTIONS[user.getCity()]);
+        cityText.setText(user.getCity());
         createdAtText.setText(party.getCreatedAtFormatted());
         timeText.setText(party.getDateTimeText());
         locationText.setText(party.getPlace().getLocation());

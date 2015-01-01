@@ -5,9 +5,9 @@
     android:layout_height="wrap_content"
     android:background="@drawable/dialog_background">
 
-    <com.aumum.app.mobile.ui.view.ClearEditText
+    <EditText
         android:id="@+id/et_value"
-        style="@style/EditText.DialogEditText" />
+        style="@style/EditText.DialogEditText.Multiline" />
 
     <View style="@style/Divider" />
 

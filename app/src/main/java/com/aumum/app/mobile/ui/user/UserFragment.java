@@ -16,7 +16,6 @@ import android.widget.TextView;
 
 import com.aumum.app.mobile.Injector;
 import com.aumum.app.mobile.R;
-import com.aumum.app.mobile.core.Constants;
 import com.aumum.app.mobile.core.dao.UserStore;
 import com.aumum.app.mobile.core.model.User;
 import com.aumum.app.mobile.ui.asking.SearchAskingActivity;
@@ -163,8 +162,8 @@ public class UserFragment extends LoaderFragment<User>
 
                 avatarImage.getFromUrl(user.getAvatarUrl());
                 screenNameText.setText(user.getScreenName());
-                cityText.setText(Constants.Options.CITY_OPTIONS[user.getCity()]);
-                areaText.setText(Constants.Options.AREA_OPTIONS.get(user.getCity())[user.getArea()]);
+                cityText.setText(user.getCity());
+                areaText.setText(user.getArea());
                 aboutText.setText(user.getAbout());
                 addContactButton.setVisibility(View.GONE);
                 actionLayout.setVisibility(View.GONE);

@@ -20,7 +20,6 @@ import android.widget.TextView;
 
 import com.aumum.app.mobile.Injector;
 import com.aumum.app.mobile.R;
-import com.aumum.app.mobile.core.Constants;
 import com.aumum.app.mobile.core.dao.AskingStore;
 import com.aumum.app.mobile.core.dao.UserStore;
 import com.aumum.app.mobile.core.infra.security.ApiKeyProvider;
@@ -226,7 +225,7 @@ public class AskingDetailsFragment extends LoaderFragment<Asking> {
 
             userNameText.setText(asking.getUser().getScreenName());
             userNameText.setOnClickListener(new UserListener(getActivity(), asking.getUserId()));
-            cityText.setText(Constants.Options.CITY_OPTIONS[asking.getUser().getCity()]);
+            cityText.setText(asking.getUser().getCity());
             titleText.setSpannableText(asking.getTitle());
             if (asking.getDetails() != null && asking.getDetails().length() > 0) {
                 detailsText.setSpannableText(asking.getDetails());

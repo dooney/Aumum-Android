@@ -17,8 +17,9 @@ public class EditTextDialog extends ConfirmDialog {
 
     private final TextWatcher watcher = validationTextWatcher();
 
-    public EditTextDialog(Context context, int hintResId, OnConfirmListener listener) {
-        super(context, R.layout.dialog_edit_text, listener);
+    public EditTextDialog(Context context, int layoutResId, int hintResId,
+                          OnConfirmListener listener) {
+        super(context, layoutResId, listener);
         initView(hintResId);
     }
 

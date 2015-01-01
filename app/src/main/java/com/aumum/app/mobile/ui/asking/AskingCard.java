@@ -6,7 +6,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.aumum.app.mobile.R;
-import com.aumum.app.mobile.core.Constants;
 import com.aumum.app.mobile.core.model.Asking;
 import com.aumum.app.mobile.ui.user.UserListener;
 import com.aumum.app.mobile.ui.view.SpannableTextView;
@@ -42,7 +41,7 @@ public class AskingCard {
         }
         userNameText.setText(asking.getUser().getScreenName());
         userNameText.setOnClickListener(new UserListener(context, asking.getUserId()));
-        cityText.setText(Constants.Options.CITY_OPTIONS[asking.getUser().getCity()]);
+        cityText.setText(asking.getUser().getCity());
         updatedAtText.setText(asking.getUpdatedAtFormatted());
         titleText.setSpannableText(asking.getTitle());
         replyText.setText(String.valueOf(asking.getRepliesCount()));

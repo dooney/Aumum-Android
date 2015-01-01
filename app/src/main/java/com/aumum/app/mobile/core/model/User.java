@@ -13,8 +13,8 @@ public class User extends AggregateRoot implements Sortable {
     protected String screenName;
     protected String email;
     protected String sessionToken;
-    protected int city;
-    protected int area;
+    protected String city;
+    protected String area;
     protected String avatarUrl;
     protected String about;
     protected List<String> contacts = new ArrayList<String>();
@@ -33,8 +33,8 @@ public class User extends AggregateRoot implements Sortable {
                 String createdAt,
                 String screenName,
                 String email,
-                int city,
-                int area,
+                String city,
+                String area,
                 String avatarUrl,
                 String about,
                 List<String> contacts,
@@ -92,19 +92,19 @@ public class User extends AggregateRoot implements Sortable {
         return sessionToken;
     }
 
-    public int getCity() {
+    public String getCity() {
         return city;
     }
 
-    public void setCity(int city) {
+    public void setCity(String city) {
         this.city = city;
     }
 
-    public int getArea() {
+    public String getArea() {
         return area;
     }
 
-    public void setArea(int area) {
+    public void setArea(String area) {
         this.area = area;
     }
 

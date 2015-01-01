@@ -192,9 +192,9 @@ public final class Constants {
             "惠灵顿"
         };
 
-        public static HashMap<Integer, String[]> AREA_OPTIONS = new HashMap<Integer, String[]>(){
+        public static HashMap<String, String[]> AREA_OPTIONS = new HashMap<String, String[]>(){
             {
-                put(1, new String[] {
+                put("墨尔本", new String[] {
                         "City区",
                         "东区",
                         "南区",

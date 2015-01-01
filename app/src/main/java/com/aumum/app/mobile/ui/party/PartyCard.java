@@ -57,7 +57,7 @@ public class PartyCard extends Card {
         userNameText.setOnClickListener(new UserListener(userNameText.getContext(), party.getUserId()));
 
         TextView cityText = (TextView) view.findViewById(R.id.text_city);
-        cityText.setText(Constants.Options.CITY_OPTIONS[party.getUser().getCity()]);
+        cityText.setText(party.getUser().getCity());
 
         SpannableTextView titleText = (SpannableTextView) view.findViewById(R.id.text_title);
         titleText.setSpannableText(party.getTitle());

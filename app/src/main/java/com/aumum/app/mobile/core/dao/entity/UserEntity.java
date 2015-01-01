@@ -13,8 +13,8 @@ public class UserEntity extends BaseEntity {
     private String chatId;
     private String screenName;
     private String email;
-    private Integer city;
-    private Integer area;
+    private String city;
+    private String area;
     private String avatarUrl;
     private String about;
     private String contacts;
@@ -36,8 +36,8 @@ public class UserEntity extends BaseEntity {
                       Date createdAt,
                       String screenName,
                       String email,
-                      Integer city,
-                      Integer area,
+                      String city,
+                      String area,
                       String avatarUrl,
                       String about,
                       String contacts,
@@ -94,19 +94,19 @@ public class UserEntity extends BaseEntity {
         this.email = email;
     }
 
-    public Integer getCity() {
+    public String getCity() {
         return city;
     }
 
-    public void setCity(Integer city) {
+    public void setCity(String city) {
         this.city = city;
     }
 
-    public Integer getArea() {
+    public String getArea() {
         return area;
     }
 
-    public void setArea(Integer area) {
+    public void setArea(String area) {
         this.area = area;
     }
 

@@ -406,9 +406,21 @@ public class RestService {
         return getUserService().updateById(userId, data);
     }
 
-    public JsonObject updateUserArea(String userId, int area) {
+    public JsonObject updateUserCity(String userId, String city) {
+        final JsonObject data = new JsonObject();
+        data.addProperty(Constants.Http.User.PARAM_CITY, city);
+        return getUserService().updateById(userId, data);
+    }
+
+    public JsonObject updateUserArea(String userId, String area) {
         final JsonObject data = new JsonObject();
         data.addProperty(Constants.Http.User.PARAM_AREA, area);
+        return getUserService().updateById(userId, data);
+    }
+
+    public JsonObject updateUserAbout(String userId, String about) {
+        final JsonObject data = new JsonObject();
+        data.addProperty(Constants.Http.User.PARAM_ABOUT, about);
         return getUserService().updateById(userId, data);
     }
 

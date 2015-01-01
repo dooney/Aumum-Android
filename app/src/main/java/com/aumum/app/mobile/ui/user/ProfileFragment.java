@@ -37,6 +37,7 @@ import com.github.kevinsawicki.wishlist.Toaster;
 
 import javax.inject.Inject;
 
+import commons.validator.routines.EmailValidator;
 import retrofit.RetrofitError;
 
 /**
@@ -114,7 +115,7 @@ public class ProfileFragment extends LoaderFragment<User> {
         screenNameLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                new EditTextDialog(getActivity(), R.string.hint_screen_name,
+                new EditTextDialog(getActivity(), R.layout.dialog_edit_text, R.string.hint_screen_name,
                         new EditTextDialog.OnConfirmListener() {
                             @Override
                             public void call(Object value) throws Exception {
@@ -145,11 +146,14 @@ public class ProfileFragment extends LoaderFragment<User> {
         emailLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                new EditTextDialog(getActivity(), R.string.hint_email,
+                new EditTextDialog(getActivity(), R.layout.dialog_edit_text, R.string.hint_email,
                         new EditTextDialog.OnConfirmListener() {
                             @Override
                             public void call(Object value) throws Exception {
                                 String email = (String) value;
+                                if (!EmailValidator.getInstance().isValid(email)) {
+                                    throw new Exception(getString(R.string.error_incorrect_email_format));
+                                }
                                 if (restService.getEmailRegistered(email)) {
                                     throw new Exception(getString(R.string.error_email_registered));
                                 }
@@ -172,6 +176,39 @@ public class ProfileFragment extends LoaderFragment<User> {
             }
         });
         emailText = (TextView) view.findViewById(R.id.text_email);
+        cityLayout = view.findViewById(R.id.layout_city);
+        cityLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                final String cityOptions[] = Constants.Options.CITY_OPTIONS;
+                DialogUtils.showDialog(getActivity(), Constants.Options.CITY_OPTIONS,
+                        new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, final int i) {
+                                final String city = cityOptions[i];
+                                final String text = getString(R.string.label_confirm_city, city);
+                                new TextViewDialog(getActivity(), text, new ConfirmDialog.OnConfirmListener() {
+                                    @Override
+                                    public void call(Object value) throws Exception {
+                                        restService.updateUserCity(currentUser.getObjectId(), city);
+                                        currentUser.setCity(city);
+                                        userStore.update(currentUser);
+                                    }
+
+                                    @Override
+                                    public void onException(String errorMessage) {
+                                        Toaster.showShort(getActivity(), errorMessage);
+                                    }
+
+                                    @Override
+                                    public void onSuccess(Object value) {
+                                        cityText.setText(city);
+                                    }
+                                }).show();
+                            }
+                        });
+            }
+        });
         cityText = (TextView) view.findViewById(R.id.text_city);
         areaLayout = view.findViewById(R.id.layout_area);
         areaLayout.setOnClickListener(new View.OnClickListener() {
@@ -187,8 +224,8 @@ public class ProfileFragment extends LoaderFragment<User> {
                                 new TextViewDialog(getActivity(), text, new ConfirmDialog.OnConfirmListener() {
                                     @Override
                                     public void call(Object value) throws Exception {
-                                        restService.updateUserArea(currentUser.getObjectId(), i);
-                                        currentUser.setArea(i);
+                                        restService.updateUserArea(currentUser.getObjectId(), area);
+                                        currentUser.setArea(area);
                                         userStore.update(currentUser);
                                     }
 
@@ -207,6 +244,33 @@ public class ProfileFragment extends LoaderFragment<User> {
             }
         });
         areaText = (TextView) view.findViewById(R.id.text_area);
+        aboutLayout = view.findViewById(R.id.layout_about);
+        aboutLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                new EditTextDialog(getActivity(), R.layout.dialog_edit_text_multiline, R.string.hint_about,
+                        new ConfirmDialog.OnConfirmListener() {
+                    @Override
+                    public void call(Object value) throws Exception {
+                        String about = (String) value;
+                        restService.updateUserAbout(currentUser.getObjectId(), about);
+                        currentUser.setAbout(about);
+                        userStore.update(currentUser);
+                    }
+
+                    @Override
+                    public void onException(String errorMessage) {
+                        Toaster.showShort(getActivity(), errorMessage);
+                    }
+
+                    @Override
+                    public void onSuccess(Object value) {
+                        String about = (String) value;
+                        aboutText.setText(about);
+                    }
+                }).show();
+            }
+        });
         aboutText = (TextView) view.findViewById(R.id.text_about);
     }
 
@@ -277,8 +341,8 @@ public class ProfileFragment extends LoaderFragment<User> {
             });
             screenNameText.setText(user.getScreenName());
             emailText.setText(user.getEmail());
-            cityText.setText(Constants.Options.CITY_OPTIONS[user.getCity()]);
-            areaText.setText(Constants.Options.AREA_OPTIONS.get(user.getCity())[user.getArea()]);
+            cityText.setText(user.getCity());
+            areaText.setText(user.getArea());
             aboutText.setText(user.getAbout());
         } catch (Exception e) {
             Ln.e(e);

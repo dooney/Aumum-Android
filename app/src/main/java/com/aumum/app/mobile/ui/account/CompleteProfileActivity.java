@@ -61,8 +61,8 @@ public class CompleteProfileActivity extends ProgressDialogActivity
     private String userId;
     private String screenName;
     private String email;
-    private int city;
-    private int area;
+    private String city;
+    private String area;
     private String about;
 
     private Validator validator;
@@ -96,7 +96,6 @@ public class CompleteProfileActivity extends ProgressDialogActivity
                         new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialogInterface, int i) {
-                                city = i;
                                 cityText.setText(Constants.Options.CITY_OPTIONS[i]);
                             }
                         });
@@ -114,7 +113,6 @@ public class CompleteProfileActivity extends ProgressDialogActivity
                         new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialogInterface, int i) {
-                                area = i;
                                 areaText.setText(areaOptions[i]);
                             }
                         });
@@ -201,6 +199,8 @@ public class CompleteProfileActivity extends ProgressDialogActivity
         EditTextUtils.hideSoftInput(screenNameText);
         email = emailText.getText().toString();
         EditTextUtils.hideSoftInput(emailText);
+        city = cityText.getText().toString();
+        area = areaText.getText().toString();
         if (aboutText.getText().length() > 0) {
             about = aboutText.getText().toString();
         }
