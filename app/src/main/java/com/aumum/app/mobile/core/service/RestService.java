@@ -18,6 +18,7 @@ import com.google.gson.JsonPrimitive;
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -275,6 +276,26 @@ public class RestService {
         whereJson.addProperty("chatId", id);
         String where = whereJson.toString();
         return getUserService().getList(where, 1).getResults().get(0);
+    }
+
+    public List<String> getUserByName(String name) {
+        final JsonObject whereJson = new JsonObject();
+        JsonArray jsonArray = new JsonArray();
+        JsonObject screenNameJson = new JsonObject();
+        screenNameJson.addProperty("screenName", name);
+        jsonArray.add(screenNameJson);
+        JsonObject userNameJson = new JsonObject();
+        userNameJson.addProperty(Constants.Http.PARAM_USERNAME, name);
+        jsonArray.add(userNameJson);
+        whereJson.add("$or", jsonArray);
+        String where = whereJson.toString();
+        List<JsonObject> list = getUserService().getList("objectId", where).getResults();
+        ArrayList<String> userList = new ArrayList<String>();
+        for (JsonObject jsonObject: list) {
+            String userId = jsonObject.get("objectId").getAsString();
+            userList.add(userId);
+        }
+        return userList;
     }
 
     public JsonObject addPartyMember(String partyId, String userId) {
@@ -717,7 +738,7 @@ public class RestService {
         whereJson.add(Constants.Http.PARAM_USERNAME, buildIdListJson(numberList));
         String where = whereJson.toString();
         String keys = Constants.Http.PARAM_USERNAME + ",objectId";
-        List<JsonObject> result = getUserService().getInAppContactList(keys, where).getResults();
+        List<JsonObject> result = getUserService().getList(keys, where).getResults();
         HashMap<String, String> contactList = new HashMap<String, String>();
         for (JsonObject jsonObject: result) {
             String phone = jsonObject.get(Constants.Http.PARAM_USERNAME).getAsString();

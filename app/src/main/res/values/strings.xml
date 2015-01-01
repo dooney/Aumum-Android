@@ -28,6 +28,7 @@
         <item>好友请求</item>
     </string-array>
     <string-array name="label_add_contacts_actions">
+        <item>澳妈圈用户</item>
         <item>手机通讯录</item>
         <item>微博好友</item>
         <item>微信好友</item>
@@ -125,6 +126,7 @@
     <string name="info_deleting_asking">正在删除该说说，请稍候</string>
     <string name="info_deleting_group">正在删除该群组，请稍候</string>
     <string name="info_submitting_quit_group">正在处理您的退出群组请求，请稍候</string>
+    <string name="info_no_users_found">没找到任何相关用户</string>
 
     <!-- Error Message -->
     <string name="error_load_parties">获取聚会列表失败</string>
@@ -176,6 +178,7 @@
     <string name="error_delete_group">删除群组失败</string>
     <string name="error_submit_report">提交举报失败</string>
     <string name="error_edit_profile">修改个人资料失败</string>
+    <string name="error_search_user">搜索用户失败</string>
 
     <!-- Title -->
     <string name="title_activity_login">用户登录</string>
@@ -188,7 +191,6 @@
     <string name="title_activity_party_details">聚会详情</string>
     <string name="title_activity_search_party">搜索聚会</string>
     <string name="title_activity_new_party">发起聚会</string>
-    <string name="title_activity_add_contacts">添加好友</string>
     <string name="title_activity_change_avatar">更换头像</string>
     <string name="title_user_parties">%1$s的聚会</string>
     <string name="title_user_askings">%1$s的说说</string>
@@ -202,6 +204,7 @@
     <string name="title_activity_group_details">群组详情</string>
     <string name="title_activity_contact_picker">选择好友</string>
     <string name="title_activity_report_details">举报详情</string>
+    <string name="title_activity_search_user">搜索用户</string>
 
     <!-- Account -->
     <string name="hint_login_phone">手机号</string>
@@ -310,6 +313,7 @@
     <!-- Contact -->
     <string name="label_mobile_contacts">手机联系人</string>
     <string name="label_invite">邀请</string>
+    <string name="hint_search_user">用户昵称/国家码(澳大利亚+61)+手机号</string>
 
     <!-- Chat -->
     <string name="label_press_to_talk">按住说话</string>

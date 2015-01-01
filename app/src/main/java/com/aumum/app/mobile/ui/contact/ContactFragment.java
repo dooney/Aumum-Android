@@ -16,11 +16,17 @@ import com.aumum.app.mobile.Injector;
 import com.aumum.app.mobile.R;
 import com.aumum.app.mobile.core.dao.UserStore;
 import com.aumum.app.mobile.core.model.User;
+import com.aumum.app.mobile.core.service.RestService;
 import com.aumum.app.mobile.ui.base.ItemListFragment;
 import com.aumum.app.mobile.ui.user.UserActivity;
+import com.aumum.app.mobile.ui.user.UserListActivity;
+import com.aumum.app.mobile.ui.view.ConfirmDialog;
+import com.aumum.app.mobile.ui.view.EditTextDialog;
 import com.aumum.app.mobile.ui.view.sort.InitialComparator;
 import com.aumum.app.mobile.utils.DialogUtils;
+import com.github.kevinsawicki.wishlist.Toaster;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -34,7 +40,9 @@ public class ContactFragment extends ItemListFragment<User>
         implements ContactClickListener {
 
     @Inject UserStore userStore;
+    @Inject RestService restService;
 
+    private User currentUser;
     private InitialComparator initialComparator;
 
     @Override
@@ -86,6 +94,7 @@ public class ContactFragment extends ItemListFragment<User>
 
     @Override
     protected List<User> loadDataCore(Bundle bundle) throws Exception {
+        currentUser = userStore.getCurrentUser();
         return getSortedContacts();
     }
 
@@ -116,7 +125,7 @@ public class ContactFragment extends ItemListFragment<User>
                     public void onClick(DialogInterface dialogInterface, int i) {
                         switch (i) {
                             case 0:
-                                startAddContactsActivity();
+                                showAddContactsDialog();
                                 break;
                             case 1:
                                 startContactRequestActivity();
@@ -128,8 +137,69 @@ public class ContactFragment extends ItemListFragment<User>
                 });
     }
 
-    private void startAddContactsActivity() {
-        final Intent intent = new Intent(getActivity(), AddContactsActivity.class);
+    private void showAddContactsDialog() {
+        String options[] = getResources().getStringArray(R.array.label_add_contacts_actions);
+        DialogUtils.showDialog(getActivity(), options,
+                new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        switch (i) {
+                            case 0:
+                                showSearchUserDialog();
+                                break;
+                            case 1:
+                                startAddMobileContactsActivity();
+                                break;
+                            default:
+                                break;
+                        }
+                    }
+                });
+    }
+
+    private void showSearchUserDialog() {
+        final ArrayList<String> userList = new ArrayList<String>();
+        new EditTextDialog(getActivity(), R.layout.dialog_edit_text, R.string.hint_search_user,
+                new ConfirmDialog.OnConfirmListener() {
+            @Override
+            public void call(Object value) throws Exception {
+                String name = (String) value;
+                List<String> users = restService.getUserByName(name);
+                userList.addAll(users);
+            }
+
+            @Override
+            public void onException(String errorMessage) {
+                Toaster.showShort(getActivity(), errorMessage);
+            }
+
+            @Override
+            public void onSuccess(Object value) {
+                if (userList.size() > 0) {
+                    startUserListActivity(userList);
+                } else {
+                    Toaster.showShort(getActivity(), R.string.info_no_users_found);
+                }
+            }
+
+            @Override
+            public void onFailed() {
+                Toaster.showShort(getActivity(), R.string.error_search_user);
+            }
+        }).show();
+    }
+
+    private void startUserListActivity(ArrayList<String> userList) {
+        final Intent intent = new Intent(getActivity(), UserListActivity.class);
+        intent.putExtra(UserListActivity.INTENT_TITLE,
+                getString(R.string.title_activity_search_user));
+        intent.putStringArrayListExtra(UserListActivity.INTENT_USER_LIST, userList);
+        getActivity().startActivity(intent);
+    }
+
+    private void startAddMobileContactsActivity() {
+        final Intent intent = new Intent(getActivity(), MobileContactsActivity.class);
+        intent.putExtra(MobileContactsActivity.INTENT_USER_ID, currentUser.getObjectId());
         startActivity(intent);
     }
 

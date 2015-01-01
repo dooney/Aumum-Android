@@ -101,6 +101,7 @@ public class CompleteProfileActivity extends ProgressDialogActivity
                         });
             }
         });
+        cityText.addTextChangedListener(watcher);
         areaText.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -118,6 +119,7 @@ public class CompleteProfileActivity extends ProgressDialogActivity
                         });
             }
         });
+        areaText.addTextChangedListener(watcher);
         validator = new Validator(this);
         validator.setValidationListener(this);
 

@@ -31,7 +31,6 @@ import com.aumum.app.mobile.ui.chat.NotificationClickListener;
 import com.aumum.app.mobile.ui.chat.SendMessageListener;
 import com.aumum.app.mobile.ui.chat.TextMessageCard;
 import com.aumum.app.mobile.ui.chat.VoiceMessageCard;
-import com.aumum.app.mobile.ui.contact.AddContactsActivity;
 import com.aumum.app.mobile.ui.contact.ContactPickerFragment;
 import com.aumum.app.mobile.ui.contact.MobileContactsActivity;
 import com.aumum.app.mobile.ui.conversation.ConversationFragment;
@@ -138,7 +137,6 @@ import retrofit.converter.GsonConverter;
                 MessageNotifyListener.class,
                 NotificationClickListener.class,
                 MobileContactsActivity.class,
-                AddContactsActivity.class,
                 GroupDetailsFragment.class,
                 ContactPickerFragment.class,
                 UserListFragment.class,
