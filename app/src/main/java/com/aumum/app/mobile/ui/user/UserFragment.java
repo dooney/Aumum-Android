@@ -18,13 +18,15 @@ import com.aumum.app.mobile.Injector;
 import com.aumum.app.mobile.R;
 import com.aumum.app.mobile.core.dao.UserStore;
 import com.aumum.app.mobile.core.model.User;
+import com.aumum.app.mobile.core.service.ChatService;
 import com.aumum.app.mobile.ui.asking.SearchAskingActivity;
 import com.aumum.app.mobile.ui.base.LoaderFragment;
 import com.aumum.app.mobile.ui.chat.ChatActivity;
-import com.aumum.app.mobile.ui.contact.AddContactActivity;
 import com.aumum.app.mobile.ui.contact.DeleteContactListener;
 import com.aumum.app.mobile.ui.party.SearchPartyActivity;
 import com.aumum.app.mobile.ui.view.AvatarImageView;
+import com.aumum.app.mobile.ui.view.ConfirmDialog;
+import com.aumum.app.mobile.ui.view.EditTextDialog;
 import com.aumum.app.mobile.utils.DialogUtils;
 import com.aumum.app.mobile.utils.Ln;
 import com.github.kevinsawicki.wishlist.Toaster;
@@ -37,7 +39,9 @@ import javax.inject.Inject;
  */
 public class UserFragment extends LoaderFragment<User>
         implements DeleteContactListener.OnActionListener {
+
     @Inject UserStore dataStore;
+    @Inject ChatService chatService;
 
     private String userId;
     private String screenName;
@@ -191,10 +195,30 @@ public class UserFragment extends LoaderFragment<User>
                     addContactButton.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
-                            final Intent intent = new Intent(getActivity(), AddContactActivity.class);
-                            intent.putExtra(AddContactActivity.INTENT_TO_USER_ID, userId);
-                            intent.putExtra(AddContactActivity.INTENT_FROM_USER_NAME, currentUser.getScreenName());
-                            startActivity(intent);
+                            new EditTextDialog(getActivity(), R.layout.dialog_edit_text_multiline, R.string.hint_hello,
+                                    new ConfirmDialog.OnConfirmListener() {
+                                        @Override
+                                        public void call(Object value) throws Exception {
+                                            String hello = (String) value;
+                                            chatService.addContact(userId, hello);
+                                            Thread.sleep(1000);
+                                        }
+
+                                        @Override
+                                        public void onException(String errorMessage) {
+                                            Toaster.showShort(getActivity(), errorMessage);
+                                        }
+
+                                        @Override
+                                        public void onSuccess(Object value) {
+                                            Toaster.showShort(getActivity(), R.string.info_add_contact_sent);
+                                        }
+
+                                        @Override
+                                        public void onFailed() {
+                                            Toaster.showShort(getActivity(), R.string.error_add_contact);
+                                        }
+                                    }).show();
                         }
                     });
                 }

@@ -94,7 +94,6 @@
     <string name="info_party_deleted">该聚会已成功删除</string>
     <string name="info_comment_deleted">该评论已成功删除</string>
     <string name="info_click_back_again">再按一次返回桌面</string>
-    <string name="info_submitting_add_contact">正在提交您的添加好友请求，请稍候</string>
     <string name="info_submitting_delete_contact">正在提交您的移除好友请求，请稍候</string>
     <string name="info_add_contact_sent">发送添加好友请求成功，等待对方验证</string>
     <string name="info_contact_deleted">该好友已成功移除</string>
@@ -176,6 +175,7 @@
     <string name="error_load_user_list">获取用户列表失败</string>
     <string name="error_delete_group">删除群组失败</string>
     <string name="error_submit_report">提交举报失败</string>
+    <string name="error_edit_profile">修改个人资料失败</string>
 
     <!-- Title -->
     <string name="title_activity_login">用户登录</string>
@@ -188,7 +188,6 @@
     <string name="title_activity_party_details">聚会详情</string>
     <string name="title_activity_search_party">搜索聚会</string>
     <string name="title_activity_new_party">发起聚会</string>
-    <string name="title_activity_add_contact">添加好友</string>
     <string name="title_activity_add_contacts">添加好友</string>
     <string name="title_activity_change_avatar">更换头像</string>
     <string name="title_user_parties">%1$s的聚会</string>
@@ -240,8 +239,7 @@
     <string name="label_send_message">发送消息</string>
     <string name="label_add_contact">添加好友</string>
     <string name="label_delete_contact">移除好友</string>
-    <string name="hint_add_contact_intro">打个招呼吧</string>
-    <string name="label_add_contact_intro">你好，我是%1$s</string>
+    <string name="hint_hello">你好</string>
     <string name="label_contact_invited">%1$s请求添加好友</string>
     <string name="label_accept">同意</string>
     <string name="label_added">已添加</string>

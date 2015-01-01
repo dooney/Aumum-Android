@@ -18,7 +18,10 @@ import com.aumum.app.mobile.Injector;
 import com.aumum.app.mobile.R;
 import com.aumum.app.mobile.core.dao.UserStore;
 import com.aumum.app.mobile.core.model.User;
+import com.aumum.app.mobile.core.service.ChatService;
 import com.aumum.app.mobile.core.service.RestService;
+import com.aumum.app.mobile.ui.view.ConfirmDialog;
+import com.aumum.app.mobile.ui.view.EditTextDialog;
 import com.aumum.app.mobile.utils.SafeAsyncTask;
 import com.github.kevinsawicki.wishlist.Toaster;
 
@@ -31,10 +34,12 @@ import butterknife.ButterKnife;
 import butterknife.InjectView;
 import retrofit.RetrofitError;
 
-public class MobileContactsActivity extends ActionBarActivity {
+public class MobileContactsActivity extends ActionBarActivity
+    implements MobileContactAdapter.OnAddContactListener{
 
     @Inject UserStore userStore;
     @Inject RestService restService;
+    @Inject ChatService chatService;
 
     @InjectView(android.R.id.list ) protected ListView listView;
     @InjectView(R.id.pb_loading) protected ProgressBar progressBar;
@@ -130,7 +135,8 @@ public class MobileContactsActivity extends ActionBarActivity {
                             runOnUiThread(new Runnable() {
                                 @Override
                                 public void run() {
-                                    adapter = new MobileContactAdapter(MobileContactsActivity.this, currentUser, contactList);
+                                    adapter = new MobileContactAdapter(MobileContactsActivity.this,
+                                            currentUser, contactList, MobileContactsActivity.this);
                                     listView.setAdapter(adapter);
                                     adapter.swapCursor(cursor);
                                 }
@@ -162,5 +168,33 @@ public class MobileContactsActivity extends ActionBarActivity {
             }
         }
         contactList.putAll(restService.getInAppContactList(numberList));
+    }
+
+    @Override
+    public void onAddContact() {
+        new EditTextDialog(this, R.layout.dialog_edit_text_multiline, R.string.hint_hello,
+                new ConfirmDialog.OnConfirmListener() {
+                    @Override
+                    public void call(Object value) throws Exception {
+                        String hello = (String) value;
+                        chatService.addContact(userId, hello);
+                        Thread.sleep(1000);
+                    }
+
+                    @Override
+                    public void onException(String errorMessage) {
+                        Toaster.showShort(MobileContactsActivity.this, errorMessage);
+                    }
+
+                    @Override
+                    public void onSuccess(Object value) {
+                        Toaster.showShort(MobileContactsActivity.this, R.string.info_add_contact_sent);
+                    }
+
+                    @Override
+                    public void onFailed() {
+                        Toaster.showShort(MobileContactsActivity.this, R.string.error_add_contact);
+                    }
+                }).show();
     }
 }

@@ -61,7 +61,6 @@ import com.aumum.app.mobile.ui.account.RegisterActivity;
 import com.aumum.app.mobile.core.Constants;
 import com.aumum.app.mobile.core.dao.PartyCommentStore;
 import com.aumum.app.mobile.core.dao.PartyStore;
-import com.aumum.app.mobile.ui.contact.AddContactActivity;
 import com.aumum.app.mobile.ui.settings.SettingsActivity;
 import com.aumum.app.mobile.ui.user.ProfileFragment;
 import com.aumum.app.mobile.ui.user.UserListFragment;
@@ -113,7 +112,6 @@ import retrofit.converter.GsonConverter;
                 MembersLayoutListener.class,
                 LikesLayoutListener.class,
                 MainFragment.class,
-                AddContactActivity.class,
                 ContactListener.class,
                 ContactRequestsFragment.class,
                 AcceptContactListener.class,

@@ -47,24 +47,29 @@ public class SettingsActivity extends ActionBarActivity {
     private void showLogoutConfirmDialog() {
         new TextViewDialog(this, getString(R.string.info_confirm_logout),
                 new ConfirmDialog.OnConfirmListener() {
-            @Override
-            public void call(Object value) throws Exception {
-                logoutService.logout();
-            }
+                    @Override
+                    public void call(Object value) throws Exception {
+                        logoutService.logout();
+                    }
 
-            @Override
-            public void onException(String errorMessage) {
-                Toaster.showShort(SettingsActivity.this, errorMessage);
-            }
+                    @Override
+                    public void onException(String errorMessage) {
+                        Toaster.showShort(SettingsActivity.this, errorMessage);
+                    }
 
-            @Override
-            public void onSuccess(Object value) {
-                chatService.logOut();
-                final Intent intent = new Intent();
-                intent.putExtra("logout", true);
-                setResult(RESULT_OK, intent);
-                finish();
-            }
-        }).show();
+                    @Override
+                    public void onSuccess(Object value) {
+                        chatService.logOut();
+                        final Intent intent = new Intent();
+                        intent.putExtra("logout", true);
+                        setResult(RESULT_OK, intent);
+                        finish();
+                    }
+
+                    @Override
+                    public void onFailed() {
+
+                    }
+                }).show();
     }
 }

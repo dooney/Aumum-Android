@@ -138,6 +138,11 @@ public class ProfileFragment extends LoaderFragment<User> {
                                 String screenName = (String) value;
                                 screenNameText.setText(screenName);
                             }
+
+                            @Override
+                            public void onFailed() {
+                                Toaster.showShort(getActivity(), R.string.error_edit_profile);
+                            }
                         }).show();
             }
         });
@@ -172,6 +177,11 @@ public class ProfileFragment extends LoaderFragment<User> {
                                 String email = (String) value;
                                 emailText.setText(email);
                             }
+
+                            @Override
+                            public void onFailed() {
+                                Toaster.showShort(getActivity(), R.string.error_edit_profile);
+                            }
                         }).show();
             }
         });
@@ -203,6 +213,11 @@ public class ProfileFragment extends LoaderFragment<User> {
                                     @Override
                                     public void onSuccess(Object value) {
                                         cityText.setText(city);
+                                    }
+
+                                    @Override
+                                    public void onFailed() {
+                                        Toaster.showShort(getActivity(), R.string.error_edit_profile);
                                     }
                                 }).show();
                             }
@@ -238,6 +253,11 @@ public class ProfileFragment extends LoaderFragment<User> {
                                     public void onSuccess(Object value) {
                                         areaText.setText(area);
                                     }
+
+                                    @Override
+                                    public void onFailed() {
+                                        Toaster.showShort(getActivity(), R.string.error_edit_profile);
+                                    }
                                 }).show();
                             }
                         });
@@ -250,24 +270,29 @@ public class ProfileFragment extends LoaderFragment<User> {
             public void onClick(View view) {
                 new EditTextDialog(getActivity(), R.layout.dialog_edit_text_multiline, R.string.hint_about,
                         new ConfirmDialog.OnConfirmListener() {
-                    @Override
-                    public void call(Object value) throws Exception {
-                        String about = (String) value;
-                        restService.updateUserAbout(currentUser.getObjectId(), about);
-                        currentUser.setAbout(about);
-                        userStore.update(currentUser);
-                    }
+                            @Override
+                            public void call(Object value) throws Exception {
+                                String about = (String) value;
+                                restService.updateUserAbout(currentUser.getObjectId(), about);
+                                currentUser.setAbout(about);
+                                userStore.update(currentUser);
+                            }
 
-                    @Override
-                    public void onException(String errorMessage) {
-                        Toaster.showShort(getActivity(), errorMessage);
-                    }
+                            @Override
+                            public void onException(String errorMessage) {
+                                Toaster.showShort(getActivity(), errorMessage);
+                            }
 
-                    @Override
-                    public void onSuccess(Object value) {
-                        String about = (String) value;
-                        aboutText.setText(about);
-                    }
+                            @Override
+                            public void onSuccess(Object value) {
+                                String about = (String) value;
+                                aboutText.setText(about);
+                            }
+
+                            @Override
+                            public void onFailed() {
+                                Toaster.showShort(getActivity(), R.string.error_edit_profile);
+                            }
                 }).show();
             }
         });

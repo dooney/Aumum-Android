@@ -30,12 +30,20 @@ public class MobileContactAdapter extends CursorAdapter {
     private Context context;
     private User currentUser;
     private HashMap<String, String> contactList;
+    private OnAddContactListener onAddContactListener;
 
-    public MobileContactAdapter(Context context, User currentUser, HashMap<String, String> contactList) {
+    public interface OnAddContactListener {
+        void onAddContact();
+    }
+
+    public MobileContactAdapter(Context context, User currentUser,
+                                HashMap<String, String> contactList,
+                                OnAddContactListener onAddContactListener) {
         super(context, null, 0);
         this.context = context;
         this.currentUser = currentUser;
         this.contactList = contactList;
+        this.onAddContactListener = onAddContactListener;
     }
 
     @Override
@@ -76,7 +84,7 @@ public class MobileContactAdapter extends CursorAdapter {
                         addButton.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View view) {
-                                startAddContactActivity(userId);
+                                onAddContactListener.onAddContact();
                             }
                         });
                     }
@@ -98,13 +106,6 @@ public class MobileContactAdapter extends CursorAdapter {
         Uri uri = Uri.parse("smsto:" + mobile);
         Intent intent = new Intent(Intent.ACTION_SENDTO, uri);
         intent.putExtra("sms_body", context.getString(R.string.info_invitation));
-        context.startActivity(intent);
-    }
-
-    private void startAddContactActivity(String userId) {
-        final Intent intent = new Intent(context, AddContactActivity.class);
-        intent.putExtra(AddContactActivity.INTENT_TO_USER_ID, userId);
-        intent.putExtra(AddContactActivity.INTENT_FROM_USER_NAME, currentUser.getScreenName());
         context.startActivity(intent);
     }
 }
