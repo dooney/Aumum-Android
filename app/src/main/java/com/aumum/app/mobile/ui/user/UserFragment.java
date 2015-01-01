@@ -19,14 +19,15 @@ import com.aumum.app.mobile.R;
 import com.aumum.app.mobile.core.dao.UserStore;
 import com.aumum.app.mobile.core.model.User;
 import com.aumum.app.mobile.core.service.ChatService;
+import com.aumum.app.mobile.core.service.RestService;
 import com.aumum.app.mobile.ui.asking.SearchAskingActivity;
 import com.aumum.app.mobile.ui.base.LoaderFragment;
 import com.aumum.app.mobile.ui.chat.ChatActivity;
-import com.aumum.app.mobile.ui.contact.DeleteContactListener;
 import com.aumum.app.mobile.ui.party.SearchPartyActivity;
 import com.aumum.app.mobile.ui.view.AvatarImageView;
 import com.aumum.app.mobile.ui.view.ConfirmDialog;
 import com.aumum.app.mobile.ui.view.EditTextDialog;
+import com.aumum.app.mobile.ui.view.TextViewDialog;
 import com.aumum.app.mobile.utils.DialogUtils;
 import com.aumum.app.mobile.utils.Ln;
 import com.github.kevinsawicki.wishlist.Toaster;
@@ -37,11 +38,11 @@ import javax.inject.Inject;
  * A simple {@link Fragment} subclass.
  *
  */
-public class UserFragment extends LoaderFragment<User>
-        implements DeleteContactListener.OnActionListener {
+public class UserFragment extends LoaderFragment<User> {
 
     @Inject UserStore dataStore;
     @Inject ChatService chatService;
+    @Inject RestService restService;
 
     private String userId;
     private String screenName;
@@ -186,10 +187,40 @@ public class UserFragment extends LoaderFragment<User>
                             startActivity(intent);
                         }
                     });
-                    DeleteContactListener deleteContactListener = new DeleteContactListener(getActivity(), userId);
-                    deleteContactListener.setOnProgressListener((DeleteContactListener.OnProgressListener)getActivity());
-                    deleteContactListener.setOnActionListener(this);
-                    deleteContactButton.setOnClickListener(deleteContactListener);
+                    deleteContactButton.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            new TextViewDialog(getActivity(), getString(R.string.info_confirm_delete_contact),
+                                    new ConfirmDialog.OnConfirmListener() {
+                                @Override
+                                public void call(Object value) throws Exception {
+                                    chatService.deleteConversation(user.getChatId());
+                                    chatService.deleteContact(userId);
+                                    String currentUserId = currentUser.getObjectId();
+                                    restService.removeContact(currentUserId, userId);
+                                    dataStore.removeContact(currentUserId, userId);
+                                    restService.removeContact(userId, currentUserId);
+                                    dataStore.removeContact(userId, currentUserId);
+                                }
+
+                                @Override
+                                public void onException(String errorMessage) {
+                                    Toaster.showShort(getActivity(), errorMessage);
+                                }
+
+                                @Override
+                                public void onSuccess(Object value) {
+                                    actionLayout.setVisibility(View.GONE);
+                                    addContactButton.setVisibility(View.VISIBLE);
+                                }
+
+                                @Override
+                                public void onFailed() {
+                                    Toaster.showShort(getActivity(), R.string.error_delete_contact);
+                                }
+                            }).show();
+                        }
+                    });
                 } else {
                     addContactButton.setVisibility(View.VISIBLE);
                     addContactButton.setOnClickListener(new View.OnClickListener() {
@@ -246,17 +277,6 @@ public class UserFragment extends LoaderFragment<User>
                         }
                     }
                 });
-    }
-
-    @Override
-    public void onDeleteContactSuccess(String contactId) {
-        actionLayout.setVisibility(View.GONE);
-        addContactButton.setVisibility(View.VISIBLE);
-    }
-
-    @Override
-    public void onDeleteContactFailed() {
-        Toaster.showShort(getActivity(), R.string.error_delete_contact);
     }
 
     private void startHerPartiesActivity(User user) {

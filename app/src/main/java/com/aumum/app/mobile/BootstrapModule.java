@@ -38,7 +38,6 @@ import com.aumum.app.mobile.ui.contact.AcceptContactListener;
 import com.aumum.app.mobile.ui.contact.ContactFragment;
 import com.aumum.app.mobile.ui.contact.ContactListener;
 import com.aumum.app.mobile.ui.contact.ContactRequestsFragment;
-import com.aumum.app.mobile.ui.contact.DeleteContactListener;
 import com.aumum.app.mobile.ui.account.VerifyActivity;
 import com.aumum.app.mobile.ui.party.PartyCommentsSingleFragment;
 import com.aumum.app.mobile.ui.party.PartyDetailsSingleFragment;
@@ -114,7 +113,6 @@ import retrofit.converter.GsonConverter;
                 ContactListener.class,
                 ContactRequestsFragment.class,
                 AcceptContactListener.class,
-                DeleteContactListener.class,
                 ContactFragment.class,
                 TextMessageCard.class,
                 ProfileFragment.class,

@@ -106,6 +106,10 @@ public class ChatService {
         return list;
     }
 
+    public void deleteConversation(String userId) {
+        EMChatManager.getInstance().deleteConversation(userId);
+    }
+
     public void deleteGroupConversation(String groupId) {
         EMChatManager.getInstance().deleteConversation(groupId, true);
     }

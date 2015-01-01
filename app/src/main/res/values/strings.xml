@@ -95,7 +95,6 @@
     <string name="info_party_deleted">该聚会已成功删除</string>
     <string name="info_comment_deleted">该评论已成功删除</string>
     <string name="info_click_back_again">再按一次返回桌面</string>
-    <string name="info_submitting_delete_contact">正在提交您的移除好友请求，请稍候</string>
     <string name="info_add_contact_sent">发送添加好友请求成功，等待对方验证</string>
     <string name="info_contact_deleted">该好友已成功移除</string>
     <string name="info_group_quit">您已成功退出了该群组</string>
