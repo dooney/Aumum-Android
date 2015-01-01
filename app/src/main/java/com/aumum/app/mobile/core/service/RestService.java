@@ -278,7 +278,7 @@ public class RestService {
         return getUserService().getList(where, 1).getResults().get(0);
     }
 
-    public List<String> getUserByName(String name) {
+    public String getUserByName(String name) {
         final JsonObject whereJson = new JsonObject();
         JsonArray jsonArray = new JsonArray();
         JsonObject screenNameJson = new JsonObject();
@@ -289,13 +289,11 @@ public class RestService {
         jsonArray.add(userNameJson);
         whereJson.add("$or", jsonArray);
         String where = whereJson.toString();
-        List<JsonObject> list = getUserService().getList("objectId", where).getResults();
-        ArrayList<String> userList = new ArrayList<String>();
-        for (JsonObject jsonObject: list) {
-            String userId = jsonObject.get("objectId").getAsString();
-            userList.add(userId);
+        List<JsonObject> results = getUserService().getList("objectId", where).getResults();
+        if (results.size() > 0) {
+            return results.get(0).get("objectId").getAsString();
         }
-        return userList;
+        return null;
     }
 
     public JsonObject addPartyMember(String partyId, String userId) {

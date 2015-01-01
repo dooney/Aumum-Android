@@ -18,7 +18,6 @@ import com.aumum.app.mobile.core.model.User;
 import com.aumum.app.mobile.core.service.RestService;
 import com.aumum.app.mobile.ui.base.ItemListFragment;
 import com.aumum.app.mobile.ui.user.UserActivity;
-import com.aumum.app.mobile.ui.user.UserListActivity;
 import com.aumum.app.mobile.ui.view.ConfirmDialog;
 import com.aumum.app.mobile.ui.view.EditTextDialog;
 import com.aumum.app.mobile.ui.view.ListViewDialog;
@@ -164,8 +163,10 @@ public class ContactFragment extends ItemListFragment<User>
             @Override
             public void call(Object value) throws Exception {
                 String name = (String) value;
-                List<String> users = restService.getUserByName(name);
-                userList.addAll(users);
+                String userId = restService.getUserByName(name);
+                if (userId != null) {
+                    userList.add(userId);
+                }
             }
 
             @Override
@@ -176,7 +177,7 @@ public class ContactFragment extends ItemListFragment<User>
             @Override
             public void onSuccess(Object value) {
                 if (userList.size() > 0) {
-                    startUserListActivity(userList);
+                    startUserActivity(userList.get(0));
                 } else {
                     Toaster.showShort(getActivity(), R.string.info_no_users_found);
                 }
@@ -189,12 +190,10 @@ public class ContactFragment extends ItemListFragment<User>
         }).show();
     }
 
-    private void startUserListActivity(ArrayList<String> userList) {
-        final Intent intent = new Intent(getActivity(), UserListActivity.class);
-        intent.putExtra(UserListActivity.INTENT_TITLE,
-                getString(R.string.title_activity_search_user));
-        intent.putStringArrayListExtra(UserListActivity.INTENT_USER_LIST, userList);
-        getActivity().startActivity(intent);
+    private void startUserActivity(String userId) {
+        final Intent intent = new Intent(getActivity(), UserActivity.class);
+        intent.putExtra(UserActivity.INTENT_USER_ID, userId);
+        startActivity(intent);
     }
 
     private void startAddMobileContactsActivity() {
