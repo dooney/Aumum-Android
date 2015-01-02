@@ -20,8 +20,8 @@
         <item>美食</item>
     </string-array>
     <string-array name="label_search_party">
-        <item>搜索附近</item>
-        <item>搜索地址</item>
+        <item>当前位置附近</item>
+        <item>指定地址附近</item>
     </string-array>
     <string-array name="label_contact_actions">
         <item>添加好友</item>
@@ -178,6 +178,7 @@
     <string name="error_submit_report">提交举报失败</string>
     <string name="error_edit_profile">修改个人资料失败</string>
     <string name="error_search_user">搜索用户失败</string>
+    <string name="error_search_address">搜索该地址失败</string>
 
     <!-- Title -->
     <string name="title_activity_login">用户登录</string>
@@ -302,6 +303,7 @@
     <string name="label_select_group_type">是否为该聚会创建群组</string>
     <string name="label_notify">通知好友</string>
     <string name="label_visible_to_contacts">以下好友可见</string>
+    <string name="hint_search_address">请输入要搜索的具体地址</string>
 
     <!-- Asking -->
     <string name="hint_asking_title">说说标题</string>

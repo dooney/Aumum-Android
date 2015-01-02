@@ -18,7 +18,6 @@ import com.google.gson.JsonPrimitive;
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -481,17 +480,6 @@ public class RestService {
         whereJson.add("objectId", buildIdListJson(idList));
         String where = whereJson.toString();
         return getPartyReasonService().getList("-createdAt", where).getResults();
-    }
-
-    public List<Party> getLiveParties() {
-        final JsonObject whereJson = new JsonObject();
-        DateTime now = DateTime.now(DateTimeZone.UTC);
-        whereJson.add("dateTime", buildDateTimeAfterJson(now.toString(Constants.DateTime.FORMAT)));
-        final JsonObject liveJson = new JsonObject();
-        liveJson.addProperty("$exists", false);
-        whereJson.add("deletedAt" ,liveJson);
-        String where = whereJson.toString();
-        return getPartyService().getList("dateTime", where, Integer.MAX_VALUE).getResults();
     }
 
     public JsonObject updateUserChatId(String userId, String chatId) {

@@ -15,7 +15,6 @@ import com.aumum.app.mobile.core.dao.PartyStore;
 import com.aumum.app.mobile.core.dao.UserStore;
 import com.aumum.app.mobile.core.model.Party;
 import com.aumum.app.mobile.core.model.User;
-import com.aumum.app.mobile.ui.base.ItemListFragment;
 import com.aumum.app.mobile.ui.base.RefreshItemListFragment;
 import com.aumum.app.mobile.utils.GPSTracker;
 import com.aumum.app.mobile.utils.Ln;
@@ -44,6 +43,7 @@ public class SearchPartyFragment extends RefreshItemListFragment<Card> {
     private final int NEARBY_PARTIES = 0;
     private final int USER_PARTIES = 1;
     private final int FAVORITE_PARTIES = 2;
+    private final int LOCATION_NEARBY_PARTIES = 3;
 
     @Override
     public void onCreate(final Bundle savedInstanceState) {
@@ -57,6 +57,9 @@ public class SearchPartyFragment extends RefreshItemListFragment<Card> {
         final Intent intent = getActivity().getIntent();
         if (intent.hasExtra(SearchPartyActivity.INTENT_NEARBY_PARTIES)) {
             mode = NEARBY_PARTIES;
+        }
+        if (intent.hasExtra(SearchPartyActivity.INTENT_LOCATION_NEARBY_PARTIES)) {
+            mode = LOCATION_NEARBY_PARTIES;
         }
         userId = intent.getStringExtra(SearchPartyActivity.INTENT_USER_ID);
         if (userId != null) {
@@ -122,6 +125,9 @@ public class SearchPartyFragment extends RefreshItemListFragment<Card> {
             case FAVORITE_PARTIES:
                 getUserFavoriteParties();
                 break;
+            case LOCATION_NEARBY_PARTIES:
+                getLocationNearByParties();
+                break;
             default:
                 throw new Exception("Invalid mode: " + mode);
         }
@@ -133,6 +139,7 @@ public class SearchPartyFragment extends RefreshItemListFragment<Card> {
             Party last = dataSet.get(dataSet.size() - 1);
             switch (mode) {
                 case NEARBY_PARTIES:
+                    getNearByPartiesBefore(last.getCreatedAt());
                     break;
                 case USER_PARTIES:
                     getUserPartiesBefore(last.getCreatedAt());
@@ -140,26 +147,40 @@ public class SearchPartyFragment extends RefreshItemListFragment<Card> {
                 case FAVORITE_PARTIES:
                     getUserFavoritePartiesBefore(last.getCreatedAt());
                     break;
+                case LOCATION_NEARBY_PARTIES:
+                    getLocationNearByPartiesBefore(last.getCreatedAt());
+                    break;
                 default:
                     throw new Exception("Invalid mode: " + mode);
             }
         }
     }
 
+    private void getNearByPartiesCore(double latitude,
+                                      double longitude) throws Exception {
+    }
+
     private void getNearByParties() throws Exception {
-        List<Party> partyList = dataStore.getLiveListFromServer();
-        if (partyList != null) {
-            gpsTracker.getLocation();
-            for (Iterator<Party> it = partyList.iterator(); it.hasNext();) {
-                Party party = it.next();
-                party.setDistance(gpsTracker.getLatitude(), gpsTracker.getLongitude());
-                if (!party.isNearby()) {
-                    it.remove();
-                }
-            }
-        }
-        dataSet.addAll(partyList);
-        setMore(false);
+        gpsTracker.getLocation();
+        getNearByPartiesCore(gpsTracker.getLatitude(), gpsTracker.getLongitude());
+    }
+
+    private void getNearByPartiesBefore(String time) {
+
+    }
+
+    private void getLocationNearByParties() throws Exception {
+        gpsTracker.getLocation();
+        final Intent intent = getActivity().getIntent();
+        double latitude = intent.getDoubleExtra(SearchPartyActivity.INTENT_LOCATION_LAT,
+                gpsTracker.getLatitude());
+        double longitude = intent.getDoubleExtra(SearchPartyActivity.INTENT_LOCATION_LNG,
+                gpsTracker.getLongitude());
+        getNearByPartiesCore(latitude, longitude);
+    }
+
+    private void getLocationNearByPartiesBefore(String time) {
+
     }
 
     private void getUserParties() throws Exception {

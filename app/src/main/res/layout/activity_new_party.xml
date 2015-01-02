@@ -49,7 +49,7 @@
 
                 </LinearLayout>
 
-                <AutoCompleteTextView
+                <com.aumum.app.mobile.ui.view.ClearEditText
                     android:id="@+id/et_location"
                     style="@style/EditText.NewParty.Location"
                     android:nextFocusDown="@+id/et_location_description"

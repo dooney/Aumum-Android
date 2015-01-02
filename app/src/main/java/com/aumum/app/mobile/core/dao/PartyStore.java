@@ -168,12 +168,6 @@ public class PartyStore {
         return null;
     }
 
-    public List<Party> getLiveListFromServer() throws Exception {
-        List<Party> partyList = restService.getLiveParties();
-        updateOrInsert(partyList);
-        return partyList;
-    }
-
     public int getUnreadCount(String userId) throws Exception {
         String time = getLastUpdateTime();
         return restService.getPartiesCountAfter(userId, time);

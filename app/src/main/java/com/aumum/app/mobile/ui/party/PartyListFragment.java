@@ -18,12 +18,17 @@ import com.aumum.app.mobile.core.Constants;
 import com.aumum.app.mobile.core.dao.PartyStore;
 import com.aumum.app.mobile.core.dao.UserStore;
 import com.aumum.app.mobile.core.model.Party;
+import com.aumum.app.mobile.core.model.Place;
 import com.aumum.app.mobile.core.model.User;
 import com.aumum.app.mobile.events.GotPartyUpwardsListEvent;
 import com.aumum.app.mobile.ui.base.RefreshItemListFragment;
+import com.aumum.app.mobile.ui.view.ConfirmDialog;
+import com.aumum.app.mobile.ui.view.EditTextDialog;
 import com.aumum.app.mobile.ui.view.ListViewDialog;
 import com.aumum.app.mobile.utils.GPSTracker;
+import com.aumum.app.mobile.utils.GooglePlaceUtils;
 import com.aumum.app.mobile.utils.Ln;
+import com.github.kevinsawicki.wishlist.Toaster;
 import com.squareup.otto.Bus;
 
 import java.util.ArrayList;
@@ -211,10 +216,17 @@ public class PartyListFragment extends RefreshItemListFragment<Card> {
                 new ListViewDialog.OnItemClickListener() {
             @Override
             public void onItemClick(int i) {
-                final Intent intent = new Intent(getActivity(), SearchPartyActivity.class);
-                intent.putExtra(SearchPartyActivity.INTENT_TITLE, options[i]);
-                intent.putExtra(SearchPartyActivity.INTENT_NEARBY_PARTIES, true);
-                startActivity(intent);
+                String title = options[i];
+                switch (i) {
+                    case 0:
+                        startSearchPartyActivity(title);
+                        break;
+                    case 1:
+                        showSearchAddressDialog(title);
+                        break;
+                    default:
+                        break;
+                }
             }
         }).show();
     }
@@ -270,5 +282,57 @@ public class PartyListFragment extends RefreshItemListFragment<Card> {
 
     private List<Party> onGetBackwardsList(String before) throws Exception {
         return dataStore.getBackwardsList(currentUser.getObjectId(), before);
+    }
+
+    private void startSearchPartyActivity(String title) {
+        final Intent intent = new Intent(getActivity(), SearchPartyActivity.class);
+        intent.putExtra(SearchPartyActivity.INTENT_TITLE, title);
+        intent.putExtra(SearchPartyActivity.INTENT_NEARBY_PARTIES, true);
+        startActivity(intent);
+    }
+
+    private void startSearchPartyActivity(String title, Place place) {
+        final Intent intent = new Intent(getActivity(), SearchPartyActivity.class);
+        intent.putExtra(SearchPartyActivity.INTENT_TITLE, title);
+        intent.putExtra(SearchPartyActivity.INTENT_LOCATION_NEARBY_PARTIES, true);
+        intent.putExtra(SearchPartyActivity.INTENT_LOCATION_LAT, place.getLatitude());
+        intent.putExtra(SearchPartyActivity.INTENT_LOCATION_LNG, place.getLongitude());
+        startActivity(intent);
+    }
+
+    private void showSearchAddressDialog(final String title) {
+        final Place place = new Place();
+        EditTextDialog dialog = new EditTextDialog(getActivity(),
+                R.layout.dialog_edit_text_multiline,
+                R.string.hint_search_address,
+                new ConfirmDialog.OnConfirmListener() {
+                    @Override
+                    public void call(Object value) throws Exception {
+                        String address = (String) value;
+                        place.setLocation(address);
+                        if (!GooglePlaceUtils.setPlaceLatLong(place)) {
+                            throw new Exception(getString(R.string.error_validate_party_location,
+                                    place.getLocation()));
+                        }
+                    }
+
+                    @Override
+                    public void onException(String errorMessage) {
+                        Toaster.showShort(getActivity(), errorMessage);
+                    }
+
+                    @Override
+                    public void onSuccess(Object value) {
+                        startSearchPartyActivity(title, place);
+                    }
+
+                    @Override
+                    public void onFailed() {
+                        Toaster.showShort(getActivity(), R.string.error_search_address);
+                    }
+                });
+        dialog.getValueText().setAdapter(new PlacesAutoCompleteAdapter(getActivity(),
+                R.layout.place_autocomplete_listitem));
+        dialog.show();
     }
 }

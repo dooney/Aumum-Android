@@ -11,6 +11,9 @@ public class SearchPartyActivity extends ActionBarActivity {
     public static final String INTENT_NEARBY_PARTIES = "nearbyParties";
     public static final String INTENT_USER_ID = "userId";
     public static final String INTENT_IS_FAVORITE = "isFavorite";
+    public static final String INTENT_LOCATION_NEARBY_PARTIES = "locationNearbyParties";
+    public static final String INTENT_LOCATION_LAT = "locationLatitude";
+    public static final String INTENT_LOCATION_LNG = "locationLongitude";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

@@ -3,6 +3,7 @@ package com.aumum.app.mobile.ui.view;
 import android.content.Context;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.widget.AutoCompleteTextView;
 import android.widget.EditText;
 
 import com.aumum.app.mobile.R;
@@ -13,7 +14,7 @@ import com.aumum.app.mobile.ui.helper.TextWatcherAdapter;
  */
 public class EditTextDialog extends ConfirmDialog {
 
-    private EditText valueText;
+    private AutoCompleteTextView valueText;
 
     private final TextWatcher watcher = validationTextWatcher();
 
@@ -24,7 +25,7 @@ public class EditTextDialog extends ConfirmDialog {
     }
 
     private void initView(int hintResId) {
-        valueText = (EditText) findViewById(R.id.et_value);
+        valueText = (AutoCompleteTextView) findViewById(R.id.et_value);
         valueText.setHint(hintResId);
         valueText.addTextChangedListener(watcher);
 
@@ -51,5 +52,9 @@ public class EditTextDialog extends ConfirmDialog {
 
     private boolean populated(final EditText editText) {
         return editText.length() > 0;
+    }
+
+    public AutoCompleteTextView getValueText() {
+        return valueText;
     }
 }
