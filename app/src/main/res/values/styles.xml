@@ -130,7 +130,7 @@
         <item name="android:drawableLeft">@drawable/ic_fa_clock_o</item>
     </style>
     <style name="TextView.Address" parent="ButtonTextView">
-        <item name="android:drawableLeft">@drawable/ic_fa_home</item>
+        <item name="android:drawableLeft">@drawable/ic_fa_map_marker</item>
     </style>
     <style name="TextView.Comment" parent="ButtonTextView">
         <item name="android:drawableLeft">@drawable/ic_fa_comment_o</item>
@@ -189,7 +189,7 @@
         <item name="android:maxLines">3</item>
     </style>
     <style name="TextView.Party.Distance" parent="ButtonTextView" >
-        <item name="android:drawableLeft">@drawable/ic_fa_map_marker</item>
+        <item name="android:drawableLeft">@drawable/ic_fa_car</item>
         <item name="android:textColor">@color/text_light</item>
     </style>
     <style name="TextView.Party.Details" parent="TextView">

@@ -63,6 +63,12 @@ public class PartyCard extends Card {
         titleText.setSpannableText(party.getTitle());
 
         TextView distanceText = (TextView) view.findViewById(R.id.text_distance);
+        if (party.isNearBy()) {
+            distanceText.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_fa_walk, 0, 0, 0);
+            distanceText.setTextColor(getContext().getResources().getColor(R.color.bbutton_danger));
+        } else {
+            distanceText.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_fa_car, 0, 0, 0);
+        }
         distanceText.setText(view.getResources().getString(R.string.label_distance, party.getDistance()));
 
         TextView createdAtText = (TextView) view.findViewById(R.id.text_createdAt);

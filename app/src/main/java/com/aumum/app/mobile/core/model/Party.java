@@ -261,4 +261,11 @@ public class Party extends AggregateRoot {
         }
         return false;
     }
+
+    public boolean isNearBy() {
+        if (distance != null) {
+            return Float.parseFloat(distance) < 10;
+        }
+        return false;
+    }
 }
