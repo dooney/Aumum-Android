@@ -31,7 +31,7 @@ public class JoinTextView extends AnimateTextView {
     public void update(boolean isMember) {
         if (isMember) {
             setText(R.string.label_quit_party);
-            setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_fa_times, 0, 0, 0);
+            setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0);
         } else {
             setText(R.string.label_join_party);
             setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_fa_join, 0, 0, 0);

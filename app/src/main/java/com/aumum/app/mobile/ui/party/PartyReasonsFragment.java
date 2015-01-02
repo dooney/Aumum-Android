@@ -164,13 +164,9 @@ public class PartyReasonsFragment extends ItemListFragment<PartyReason> {
             }
 
             @Override
-            protected void onSuccess(Boolean success) throws Exception {
-                refresh(null);
-            }
-
-            @Override
             protected void onFinally() throws RuntimeException {
                 task = null;
+                refresh(null);
                 bus.post(new AddPartyReasonFinishedEvent(event.getType(), party));
             }
         };
