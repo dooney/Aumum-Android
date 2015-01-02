@@ -239,6 +239,13 @@ public class PartyDetailsSingleFragment extends LoaderFragment<Party> {
 
         gpsTracker.getLocation();
         party.setDistance(gpsTracker.getLatitude(), gpsTracker.getLongitude());
+        if (party.isNearBy()) {
+            distanceText.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_fa_walk, 0, 0, 0);
+            distanceText.setTextColor(getResources().getColor(R.color.bbutton_danger));
+        } else {
+            distanceText.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_fa_car, 0, 0, 0);
+            distanceText.setTextColor(getResources().getColor(R.color.text_light));
+        }
         distanceText.setText(getString(R.string.label_distance, party.getDistance()));
 
         cityText.setText(user.getCity());

@@ -67,7 +67,7 @@
 
                     <View style="@style/Divider" />
 
-                    <RelativeLayout
+                    <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:paddingTop="@dimen/margin_medium"
@@ -75,14 +75,16 @@
 
                         <com.aumum.app.mobile.ui.view.SpannableTextView
                             android:id="@+id/text_title"
-                            style="@style/TextView.Party.Title" />
+                            style="@style/TextView.Party.Title"
+                            android:layout_width="0dp"
+                            android:layout_weight="1"/>
 
                         <TextView
                             android:id="@+id/text_distance"
                             style="@style/TextView.Party.Distance"
-                            android:layout_alignParentRight="true"/>
+                            android:layout_gravity="bottom"/>
 
-                    </RelativeLayout>
+                    </LinearLayout>
 
                     <LinearLayout
                         android:layout_width="match_parent"
