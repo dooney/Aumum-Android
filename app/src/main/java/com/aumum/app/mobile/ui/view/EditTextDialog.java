@@ -3,11 +3,18 @@ package com.aumum.app.mobile.ui.view;
 import android.content.Context;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.view.KeyEvent;
+import android.view.View;
 import android.widget.AutoCompleteTextView;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import com.aumum.app.mobile.R;
 import com.aumum.app.mobile.ui.helper.TextWatcherAdapter;
+
+import static android.view.KeyEvent.ACTION_DOWN;
+import static android.view.KeyEvent.KEYCODE_ENTER;
+import static android.view.inputmethod.EditorInfo.IME_ACTION_DONE;
 
 /**
  * Created by Administrator on 31/12/2014.
@@ -28,6 +35,28 @@ public class EditTextDialog extends ConfirmDialog {
         valueText = (AutoCompleteTextView) findViewById(R.id.et_value);
         valueText.setHint(hintResId);
         valueText.addTextChangedListener(watcher);
+        valueText.setOnKeyListener(new View.OnKeyListener() {
+
+            public boolean onKey(final View v, final int keyCode, final KeyEvent event) {
+                if (event != null && ACTION_DOWN == event.getAction()
+                        && keyCode == KEYCODE_ENTER && okButton.isEnabled()) {
+                    okButton.performClick();
+                    return true;
+                }
+                return false;
+            }
+        });
+        valueText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+
+            public boolean onEditorAction(final TextView v, final int actionId,
+                                          final KeyEvent event) {
+                if (actionId == IME_ACTION_DONE && okButton.isEnabled()) {
+                    okButton.performClick();
+                    return true;
+                }
+                return false;
+            }
+        });
 
         updateUIWithValidation();
     }

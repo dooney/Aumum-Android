@@ -28,7 +28,7 @@
                 <EditText
                     android:id="@+id/et_title"
                     style="@style/EditText.NewParty.Title"
-                    android:nextFocusDown="@+id/et_location"
+                    android:nextFocusDown="@+id/et_address"
                     android:imeOptions="actionNext"/>
 
                 <LinearLayout

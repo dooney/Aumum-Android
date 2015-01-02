@@ -211,9 +211,6 @@
         <item name="android:orientation">horizontal</item>
     </style>
     <style name="EditText.NewParty.Title" parent="EditText.Mandatory">
-        <item name="android:inputType">textMultiLine</item>
-        <item name="android:lineSpacingMultiplier">1.1</item>
-        <item name="android:maxLines">2</item>
         <item name="android:hint">@string/hint_party_title</item>
     </style>
     <style name="EditText.NewParty.Date" parent="EditText.Mandatory">
@@ -230,9 +227,6 @@
     </style>
     <style name="EditText.NewParty.LocationDescription" parent="EditText">
         <item name="android:hint">@string/hint_party_location_description</item>
-        <item name="android:inputType">textMultiLine</item>
-        <item name="android:lineSpacingMultiplier">1.1</item>
-        <item name="android:maxLines">2</item>
     </style>
     <style name="EditText.NewParty.Details" parent="EditText">
         <item name="android:gravity">left|top</item>
@@ -274,9 +268,6 @@
 
     <!-- Asking -->
     <style name="EditText.NewAsking.Title" parent="EditText.Mandatory">
-        <item name="android:inputType">textMultiLine</item>
-        <item name="android:lineSpacingMultiplier">1.1</item>
-        <item name="android:maxLines">2</item>
         <item name="android:hint">@string/hint_asking_title</item>
     </style>
     <style name="EditText.NewAsking.Details" parent="EditText">
