@@ -72,15 +72,18 @@ public class ChatService {
         return null;
     }
 
-    /**
-     * 根据最后一条消息的时间排序
-     */
     private void sortConversationByLastChatTime(List<EMConversation> conversationList) {
         Collections.sort(conversationList, new Comparator<EMConversation>() {
             @Override
             public int compare(final EMConversation con1, final EMConversation con2) {
                 EMMessage con2LastMessage = con2.getLastMessage();
                 EMMessage con1LastMessage = con1.getLastMessage();
+                if (con1LastMessage == null) {
+                    return 1;
+                }
+                if (con2LastMessage == null) {
+                    return -1;
+                }
                 if (con2LastMessage.getMsgTime() == con1LastMessage.getMsgTime()) {
                     return 0;
                 } else if (con2LastMessage.getMsgTime() > con1LastMessage.getMsgTime()) {
@@ -97,11 +100,8 @@ public class ChatService {
         Hashtable<String, EMConversation> conversations = EMChatManager.getInstance().getAllConversations();
         List<EMConversation> list = new ArrayList<EMConversation>();
         for (EMConversation conversation : conversations.values()) {
-            if (conversation.getAllMessages().size() > 0) {
-                list.add(conversation);
-            }
+            list.add(conversation);
         }
-        // 排序
         sortConversationByLastChatTime(list);
         return list;
     }
@@ -112,6 +112,10 @@ public class ChatService {
 
     public boolean deleteGroupConversation(String groupId) {
         return EMChatManager.getInstance().deleteConversation(groupId, true);
+    }
+
+    public void clearConversation(String userName) {
+        EMChatManager.getInstance().clearConversation(userName);
     }
 
     public EMGroup createGroup(String groupName) throws Exception {

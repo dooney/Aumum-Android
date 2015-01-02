@@ -33,6 +33,7 @@ import com.aumum.app.mobile.core.dao.UserStore;
 import com.aumum.app.mobile.core.service.ChatService;
 import com.aumum.app.mobile.ui.helper.TextWatcherAdapter;
 import com.aumum.app.mobile.ui.image.ImagePickerActivity;
+import com.aumum.app.mobile.ui.view.ListViewDialog;
 import com.aumum.app.mobile.utils.EditTextUtils;
 import com.aumum.app.mobile.utils.Ln;
 import com.aumum.app.mobile.utils.SafeAsyncTask;
@@ -44,6 +45,7 @@ import com.easemob.util.VoiceRecorder;
 import com.github.kevinsawicki.wishlist.Toaster;
 
 import java.io.File;
+import java.util.Arrays;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -128,16 +130,36 @@ public class ChatFragment extends Fragment
     @Override
     public void onCreateOptionsMenu(final Menu menu, final MenuInflater inflater) {
         if (type == ChatActivity.TYPE_SINGLE) {
-            return;
+            menu.add(Menu.NONE, 0, Menu.NONE, null)
+                    .setIcon(R.drawable.ic_fa_ellipsis_v)
+                    .setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
+        } else {
+            menu.add(Menu.NONE, 0, Menu.NONE, null)
+                    .setIcon(R.drawable.ic_fa_users_o)
+                    .setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
         }
-        menu.add(Menu.NONE, 0, Menu.NONE, "MORE")
-                .setIcon(R.drawable.ic_fa_users_o)
-                .setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
     }
 
     @Override
     public boolean onOptionsItemSelected(final MenuItem item) {
-        startGroupDetailsActivity();
+        if (type == ChatActivity.TYPE_SINGLE) {
+            final String options[] = getResources().getStringArray(R.array.label_chat_actions);
+            new ListViewDialog(getActivity(), null, Arrays.asList(options),
+                    new ListViewDialog.OnItemClickListener() {
+                @Override
+                public void onItemClick(int i) {
+                    switch (i) {
+                        case 0:
+                            clearConversation();
+                            break;
+                        default:
+                            break;
+                    }
+                }
+            }).show();
+        } else {
+            startGroupDetailsActivity();
+        }
         return super.onOptionsItemSelected(item);
     }
 
@@ -473,5 +495,11 @@ public class ChatFragment extends Fragment
         intent.putExtra(GroupDetailsActivity.INTENT_GROUP_ID, groupId);
         intent.putExtra(GroupDetailsActivity.INTENT_IS_OWNER, chatService.isGroupOwner(groupId));
         startActivityForResult(intent, Constants.RequestCode.GET_GROUP_DETAILS_REQ_CODE);
+    }
+
+    private void clearConversation() {
+        String userName = conversation.getUserName();
+        chatService.clearConversation(userName);
+        adapter.notifyDataSetChanged();
     }
 }

@@ -80,6 +80,9 @@ public class ConversationCard {
             } else if (lastMessage.getType() == EMMessage.Type.IMAGE) {
                 messageBodyText.setText("[" + context.getString(R.string.label_image) + "]");
             }
+        } else {
+            timeStampText.setVisibility(View.GONE);
+            messageBodyText.setVisibility(View.GONE);
         }
 
         if (conversation.getEmConversation().getUnreadMsgCount() > 0) {
