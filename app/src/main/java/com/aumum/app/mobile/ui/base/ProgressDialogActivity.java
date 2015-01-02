@@ -1,5 +1,6 @@
 package com.aumum.app.mobile.ui.base;
 
+import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 
 import com.aumum.app.mobile.ui.view.ProgressDialog;
@@ -10,21 +11,25 @@ import com.aumum.app.mobile.ui.view.ProgressDialog;
 public abstract class ProgressDialogActivity extends ActionBarActivity
         implements ProgressListener {
 
-    protected final ProgressDialog progress = ProgressDialog.newInstance();
+    protected ProgressDialog progress;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        progress = new ProgressDialog(this);
+    }
 
     public void setMessage(int resId) {
         progress.setMessageId(resId);
     }
 
     public void showProgress() {
-        if (!progress.isAdded()) {
-            progress.show(getFragmentManager(), null);
+        if (!progress.isShowing()) {
+            progress.show();
         }
     }
 
     public void hideProgress() {
-        if (progress != null && progress.getActivity() != null) {
-            progress.dismissAllowingStateLoss();
-        }
+        progress.dismiss();
     }
 }
