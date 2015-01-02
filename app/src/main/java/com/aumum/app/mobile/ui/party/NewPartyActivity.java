@@ -26,6 +26,7 @@ import com.aumum.app.mobile.core.dao.UserStore;
 import com.aumum.app.mobile.core.model.CmdMessage;
 import com.aumum.app.mobile.core.model.Date;
 import com.aumum.app.mobile.core.model.Party;
+import com.aumum.app.mobile.core.model.Place;
 import com.aumum.app.mobile.core.model.Time;
 import com.aumum.app.mobile.core.model.User;
 import com.aumum.app.mobile.core.service.ChatService;
@@ -87,7 +88,7 @@ public class NewPartyActivity extends ProgressDialogActivity
     @InjectView(R.id.et_date) protected EditText dateText;
     @InjectView(R.id.et_time) protected EditText timeText;
     @InjectView(R.id.et_title) protected EditText titleText;
-    @InjectView(R.id.et_location) protected AutoCompleteTextView locationText;
+    @InjectView(R.id.et_address) protected AutoCompleteTextView addressText;
     @InjectView(R.id.et_location_description) protected EditText locationDescriptionText;
     @InjectView(R.id.et_details) protected EditText detailsText;
     @InjectView(R.id.layout_privacy) protected ViewGroup privacyLayout;
@@ -159,8 +160,8 @@ public class NewPartyActivity extends ProgressDialogActivity
         });
         timeText.addTextChangedListener(watcher);
         titleText.addTextChangedListener(watcher);
-        locationText.setAdapter(new PlacesAutoCompleteAdapter(this, R.layout.place_autocomplete_listitem));
-        locationText.addTextChangedListener(watcher);
+        addressText.setAdapter(new PlacesAutoCompleteAdapter(this, R.layout.place_autocomplete_listitem));
+        addressText.addTextChangedListener(watcher);
         detailsText.setOnKeyListener(new View.OnKeyListener() {
             public boolean onKey(final View v, final int keyCode, final KeyEvent event) {
                 if (event != null && ACTION_DOWN == event.getAction()
@@ -311,7 +312,7 @@ public class NewPartyActivity extends ProgressDialogActivity
 
     private void updateUIWithValidation() {
         final boolean populated = populated(titleText) &&
-                populated(locationText) &&
+                populated(addressText) &&
                 dateText.getText().length() > 0 &&
                 timeText.getText().length() > 0;
         submitButton.setEnabled(populated);
@@ -323,7 +324,7 @@ public class NewPartyActivity extends ProgressDialogActivity
 
     private void submit() {
         EditTextUtils.hideSoftInput(titleText);
-        EditTextUtils.hideSoftInput(locationText);
+        EditTextUtils.hideSoftInput(addressText);
         EditTextUtils.hideSoftInput(locationDescriptionText);
         EditTextUtils.hideSoftInput(detailsText);
         showProgress();
@@ -365,20 +366,22 @@ public class NewPartyActivity extends ProgressDialogActivity
         }
         task = new SafeAsyncTask<Boolean>() {
             public Boolean call() throws Exception {
+                String address = addressText.getText().toString();
+                Place place = GooglePlaceUtils.getPlace(address);
+                if (place == null) {
+                    throw new Exception(getString(R.string.error_validate_party_location, address));
+                }
                 User currentUser = userStore.getCurrentUser();
                 List<String> subscriptions = getSubscriptions(currentUser);
                 Party party = new Party(currentUser.getObjectId(),
                                         titleText.getText().toString(),
                                         date,
                                         time,
-                                        locationText.getText().toString(),
+                                        place,
                                         locationDescriptionText.getText().toString(),
                                         detailsText.getText().toString(),
                                         imageUrlList,
                                         subscriptions);
-                if (!GooglePlaceUtils.setPlaceLatLong(party.getPlace())) {
-                    throw new Exception(getString(R.string.error_validate_party_location, party.getPlace().getLocation()));
-                }
                 Party response = restService.newParty(party);
                 restService.addPartyMember(response.getObjectId(), currentUser.getObjectId());
                 restService.addUserParty(currentUser.getObjectId(), response.getObjectId());

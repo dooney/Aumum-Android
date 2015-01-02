@@ -292,7 +292,7 @@
     <string name="label_replied_party_message">%1$s回复了聚会#%2$s#</string>
     <string name="label_cancel_party_message">%1$s取消了聚会</string>
     <string name="hint_party_title">聚会名称</string>
-    <string name="hint_party_location">具体地址</string>
+    <string name="hint_party_address">具体地址</string>
     <string name="hint_party_location_description">地址说明</string>
     <string name="label_date">日期</string>
     <string name="label_time">时间</string>

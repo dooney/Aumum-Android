@@ -14,6 +14,7 @@ import com.aumum.app.mobile.core.Constants;
 import com.aumum.app.mobile.core.dao.PartyStore;
 import com.aumum.app.mobile.core.dao.UserStore;
 import com.aumum.app.mobile.core.model.Party;
+import com.aumum.app.mobile.core.model.PlaceRange;
 import com.aumum.app.mobile.core.model.User;
 import com.aumum.app.mobile.ui.base.RefreshItemListFragment;
 import com.aumum.app.mobile.utils.GPSTracker;
@@ -86,14 +87,16 @@ public class SearchPartyFragment extends RefreshItemListFragment<Card> {
 
     @Override
     public void onActivityResult (int requestCode, int resultCode, Intent data) {
-        if (requestCode == Constants.RequestCode.GET_PARTY_DETAILS_REQ_CODE && resultCode == Activity.RESULT_OK) {
+        if (requestCode == Constants.RequestCode.GET_PARTY_DETAILS_REQ_CODE &&
+                resultCode == Activity.RESULT_OK) {
             String partyId = data.getStringExtra(PartyDetailsActivity.INTENT_PARTY_ID);
             if (data.hasExtra(PartyDetailsActivity.INTENT_DELETED)) {
                 onPartyDeleted(partyId);
             } else {
                 onPartyRefresh(partyId);
             }
-        } else if (requestCode == Constants.RequestCode.GET_PARTY_COMMENTS_REQ_CODE && resultCode == Activity.RESULT_OK) {
+        } else if (requestCode == Constants.RequestCode.GET_PARTY_COMMENTS_REQ_CODE &&
+                resultCode == Activity.RESULT_OK) {
             String partyId = data.getStringExtra(PartyCommentsActivity.INTENT_PARTY_ID);
             onPartyRefresh(partyId);
         }
@@ -117,7 +120,7 @@ public class SearchPartyFragment extends RefreshItemListFragment<Card> {
     protected void getUpwardsList() throws Exception {
         switch (mode) {
             case NEARBY_PARTIES:
-                getNearByParties();
+                getNearByParties(null);
                 break;
             case USER_PARTIES:
                 getUserParties();
@@ -126,7 +129,7 @@ public class SearchPartyFragment extends RefreshItemListFragment<Card> {
                 getUserFavoriteParties();
                 break;
             case LOCATION_NEARBY_PARTIES:
-                getLocationNearByParties();
+                getLocationNearByParties(null);
                 break;
             default:
                 throw new Exception("Invalid mode: " + mode);
@@ -139,7 +142,7 @@ public class SearchPartyFragment extends RefreshItemListFragment<Card> {
             Party last = dataSet.get(dataSet.size() - 1);
             switch (mode) {
                 case NEARBY_PARTIES:
-                    getNearByPartiesBefore(last.getCreatedAt());
+                    getNearByParties(last.getCreatedAt());
                     break;
                 case USER_PARTIES:
                     getUserPartiesBefore(last.getCreatedAt());
@@ -148,7 +151,7 @@ public class SearchPartyFragment extends RefreshItemListFragment<Card> {
                     getUserFavoritePartiesBefore(last.getCreatedAt());
                     break;
                 case LOCATION_NEARBY_PARTIES:
-                    getLocationNearByPartiesBefore(last.getCreatedAt());
+                    getLocationNearByParties(last.getCreatedAt());
                     break;
                 default:
                     throw new Exception("Invalid mode: " + mode);
@@ -156,31 +159,32 @@ public class SearchPartyFragment extends RefreshItemListFragment<Card> {
         }
     }
 
-    private void getNearByPartiesCore(double latitude,
+    private void getNearByPartiesCore(String time,
+                                      double latitude,
                                       double longitude) throws Exception {
+        PlaceRange range = new PlaceRange(latitude, longitude);
+        List<Party> partyList = dataStore.getNearByList(currentUser.getObjectId(), range, time);
+        if (partyList.size() > 0) {
+            dataSet.addAll(partyList);
+            setMore(true);
+        } else {
+            setMore(false);
+        }
     }
 
-    private void getNearByParties() throws Exception {
+    private void getNearByParties(String time) throws Exception {
         gpsTracker.getLocation();
-        getNearByPartiesCore(gpsTracker.getLatitude(), gpsTracker.getLongitude());
+        getNearByPartiesCore(time, gpsTracker.getLatitude(), gpsTracker.getLongitude());
     }
 
-    private void getNearByPartiesBefore(String time) {
-
-    }
-
-    private void getLocationNearByParties() throws Exception {
+    private void getLocationNearByParties(String time) throws Exception {
         gpsTracker.getLocation();
         final Intent intent = getActivity().getIntent();
         double latitude = intent.getDoubleExtra(SearchPartyActivity.INTENT_LOCATION_LAT,
                 gpsTracker.getLatitude());
         double longitude = intent.getDoubleExtra(SearchPartyActivity.INTENT_LOCATION_LNG,
                 gpsTracker.getLongitude());
-        getNearByPartiesCore(latitude, longitude);
-    }
-
-    private void getLocationNearByPartiesBefore(String time) {
-
+        getNearByPartiesCore(time, latitude, longitude);
     }
 
     private void getUserParties() throws Exception {
@@ -223,7 +227,8 @@ public class SearchPartyFragment extends RefreshItemListFragment<Card> {
             public void onClick(Card card, View view) {
                 PartyCard partyCard = (PartyCard) card;
                 final Intent intent = new Intent(getActivity(), PartyDetailsActivity.class);
-                intent.putExtra(PartyDetailsActivity.INTENT_PARTY_ID, partyCard.getParty().getObjectId());
+                intent.putExtra(PartyDetailsActivity.INTENT_PARTY_ID,
+                        partyCard.getParty().getObjectId());
                 startActivityForResult(intent, Constants.RequestCode.GET_PARTY_DETAILS_REQ_CODE);
             }
         });

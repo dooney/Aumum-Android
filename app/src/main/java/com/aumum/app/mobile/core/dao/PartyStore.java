@@ -4,7 +4,7 @@ import com.aumum.app.mobile.core.Constants;
 import com.aumum.app.mobile.core.dao.entity.PartyEntity;
 import com.aumum.app.mobile.core.dao.gen.PartyEntityDao;
 import com.aumum.app.mobile.core.model.Party;
-import com.aumum.app.mobile.core.model.Place;
+import com.aumum.app.mobile.core.model.PlaceRange;
 import com.aumum.app.mobile.core.model.Time;
 import com.aumum.app.mobile.core.service.RestService;
 import com.aumum.app.mobile.utils.DateUtils;
@@ -57,7 +57,9 @@ public class PartyStore {
                 partyEntity.getTitle(),
                 gson.fromJson(partyEntity.getDate(), com.aumum.app.mobile.core.model.Date.class),
                 gson.fromJson(partyEntity.getTime(), Time.class),
-                gson.fromJson(partyEntity.getPlace(), Place.class),
+                partyEntity.getAddress(),
+                partyEntity.getLatitude(),
+                partyEntity.getLongitude(),
                 partyEntity.getLocation(),
                 partyEntity.getDetails(),
                 partyEntity.getGroupId(),
@@ -78,7 +80,9 @@ public class PartyStore {
                 party.getTitle(),
                 gson.toJson(party.getDate()),
                 gson.toJson(party.getTime()),
-                gson.toJson(party.getPlace()),
+                party.getAddress(),
+                party.getLatitude(),
+                party.getLongitude(),
                 party.getLocation(),
                 party.getDetails(),
                 party.getGroupId(),
@@ -194,5 +198,11 @@ public class PartyStore {
 
     public void deleteParty(String partyId) {
         partyEntityDao.deleteByKey(partyId);
+    }
+
+    public List<Party> getNearByList(String userId, PlaceRange range, String time) throws Exception {
+        List<Party> partyList = restService.getNearByPartiesBefore(userId, range, time, LIMIT_PER_LOAD);
+        updateOrInsert(partyList);
+        return partyList;
     }
 }

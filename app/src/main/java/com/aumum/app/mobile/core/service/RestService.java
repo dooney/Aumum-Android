@@ -7,6 +7,7 @@ import com.aumum.app.mobile.core.model.Comment;
 import com.aumum.app.mobile.core.Constants;
 import com.aumum.app.mobile.core.model.Party;
 import com.aumum.app.mobile.core.model.PartyReason;
+import com.aumum.app.mobile.core.model.PlaceRange;
 import com.aumum.app.mobile.core.model.Report;
 import com.aumum.app.mobile.core.model.User;
 import com.google.gson.Gson;
@@ -164,7 +165,7 @@ public class RestService {
         }
         final JsonObject liveJson = new JsonObject();
         liveJson.addProperty("$exists", false);
-        whereJson.add("deletedAt" ,liveJson);
+        whereJson.add("deletedAt", liveJson);
         String where = whereJson.toString();
         return getPartyService().getList("-createdAt", where, limit).getResults();
     }
@@ -234,6 +235,30 @@ public class RestService {
     public List<Party> getParties(List<String> idList, int limit) {
         final JsonObject whereJson = new JsonObject();
         whereJson.add("objectId", buildIdListJson(idList));
+        String where = whereJson.toString();
+        return getPartyService().getList("-createdAt", where, limit).getResults();
+    }
+
+    public List<Party> getNearByPartiesBefore(String userId, PlaceRange range, String before, int limit) {
+        final JsonObject whereJson = new JsonObject();
+        whereJson.add("$or", buildSubscriptionJson(userId, true));
+        if (before != null) {
+            whereJson.add("createdAt", buildDateTimeBeforeJson(before));
+        }
+        final JsonObject liveJson = new JsonObject();
+        liveJson.addProperty("$exists", false);
+        whereJson.add("deletedAt" ,liveJson);
+
+        JsonObject latJson = new JsonObject();
+        latJson.addProperty("$gt", range.getMinLat());
+        latJson.addProperty("$lt", range.getMaxLat());
+        whereJson.add("latitude", latJson);
+
+        JsonObject lngJson = new JsonObject();
+        lngJson.addProperty("$gt", range.getMinLng());
+        lngJson.addProperty("$lt", range.getMaxLng());
+        whereJson.add("longitude", lngJson);
+
         String where = whereJson.toString();
         return getPartyService().getList("-createdAt", where, limit).getResults();
     }

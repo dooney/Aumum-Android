@@ -95,8 +95,8 @@
                             android:paddingBottom="@dimen/margin_small" />
 
                         <TextView
-                            android:id="@+id/text_location"
-                            style="@style/TextView.Location"
+                            android:id="@+id/text_address"
+                            style="@style/TextView.Address"
                             android:paddingBottom="@dimen/margin_small" />
 
                     </LinearLayout>

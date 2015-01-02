@@ -1,16 +1,12 @@
 package com.aumum.app.mobile.core.model;
 
-import java.io.Serializable;
-
 /**
  * Created by Administrator on 2/11/2014.
  */
-public class Place implements Serializable {
+public class Place {
     private String location;
     private double latitude;
     private double longitude;
-
-    public Place() {}
 
     public Place(String location) {
         this.location = location;
@@ -18,10 +14,6 @@ public class Place implements Serializable {
 
     public String getLocation() {
         return location;
-    }
-
-    public void setLocation(String location) {
-        this.location = location;
     }
 
     public double getLatitude() {

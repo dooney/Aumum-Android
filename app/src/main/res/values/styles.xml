@@ -129,7 +129,7 @@
     <style name="TextView.Time" parent="ButtonTextView">
         <item name="android:drawableLeft">@drawable/ic_fa_clock_o</item>
     </style>
-    <style name="TextView.Location" parent="ButtonTextView">
+    <style name="TextView.Address" parent="ButtonTextView">
         <item name="android:drawableLeft">@drawable/ic_fa_home</item>
     </style>
     <style name="TextView.Comment" parent="ButtonTextView">
@@ -222,8 +222,8 @@
     <style name="EditText.NewParty.Time" parent="EditText.Mandatory">
         <item name="android:hint">@string/label_time</item>
     </style>
-    <style name="EditText.NewParty.Location" parent="EditText.Mandatory">
-        <item name="android:hint">@string/hint_party_location</item>
+    <style name="EditText.NewParty.Address" parent="EditText.Mandatory">
+        <item name="android:hint">@string/hint_party_address</item>
         <item name="android:inputType">textMultiLine</item>
         <item name="android:lineSpacingMultiplier">1.1</item>
         <item name="android:maxLines">2</item>

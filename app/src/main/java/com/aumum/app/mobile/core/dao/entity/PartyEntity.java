@@ -11,7 +11,9 @@ public class PartyEntity extends BaseEntity {
     private String title;
     private String date;
     private String time;
-    private String place;
+    private String address;
+    private Double latitude;
+    private Double longitude;
     private String location;
     private String details;
     private String groupId;
@@ -35,7 +37,9 @@ public class PartyEntity extends BaseEntity {
                        String title,
                        String date,
                        String time,
-                       String place,
+                       String address,
+                       Double latitude,
+                       Double longitude,
                        String location,
                        String details,
                        String groupId,
@@ -51,7 +55,9 @@ public class PartyEntity extends BaseEntity {
         this.title = title;
         this.date = date;
         this.time = time;
-        this.place = place;
+        this.address = address;
+        this.latitude = latitude;
+        this.longitude = longitude;
         this.location = location;
         this.details = details;
         this.groupId = groupId;
@@ -95,16 +101,32 @@ public class PartyEntity extends BaseEntity {
         this.title = title;
     }
 
-    public String getPlace() {
-        return place;
-    }
-
-    public void setPlace(String place) {
-        this.place = place;
-    }
-
     public String getLocation() {
         return location;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    public Double getLatitude() {
+        return latitude;
+    }
+
+    public void setLatitude(Double latitude) {
+        this.latitude = latitude;
+    }
+
+    public Double getLongitude() {
+        return longitude;
+    }
+
+    public void setLongitude(Double longitude) {
+        this.longitude = longitude;
     }
 
     public void setLocation(String location) {

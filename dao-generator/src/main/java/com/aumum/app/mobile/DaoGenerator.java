@@ -47,7 +47,9 @@ public class DaoGenerator {
         party.addStringProperty("title");
         party.addStringProperty("date");
         party.addStringProperty("time");
-        party.addStringProperty("place");
+        party.addStringProperty("address");
+        party.addDoubleProperty("latitude");
+        party.addDoubleProperty("longitude");
         party.addStringProperty("location");
         party.addStringProperty("details");
         party.addStringProperty("groupId");

@@ -17,7 +17,9 @@ public class Party extends AggregateRoot {
     protected String title;
     protected Date date;
     protected Time time;
-    protected Place place;
+    protected String address;
+    protected Double latitude;
+    protected Double longitude;
     protected String location;
     protected String details;
     protected String groupId;
@@ -32,19 +34,16 @@ public class Party extends AggregateRoot {
     protected String distance;
     protected User user;
 
-    private static final double NEARBY_THRESHOLD = 10.0;
-
     public Party() {
         date = new Date();
         time = new Time();
-        place = new Place();
     }
 
     public Party(String userId,
                  String title,
                  Date date,
                  Time time,
-                 String place,
+                 Place place,
                  String location,
                  String details,
                  List<String> images,
@@ -53,8 +52,10 @@ public class Party extends AggregateRoot {
         this.title = title;
         this.date = date;
         this.time = time;
-        this.place = new Place(place);
         this.location = location;
+        this.address = place.getLocation();
+        this.latitude = place.getLatitude();
+        this.longitude = place.getLongitude();
         this.details = details;
         this.images.clear();
         this.images.addAll(images);
@@ -71,7 +72,9 @@ public class Party extends AggregateRoot {
                  String title,
                  Date date,
                  Time time,
-                 Place place,
+                 String address,
+                 Double latitude,
+                 Double longitude,
                  String location,
                  String details,
                  String groupId,
@@ -87,8 +90,10 @@ public class Party extends AggregateRoot {
         this.title = title;
         this.date = date;
         this.time = time;
+        this.address = address;
+        this.latitude = latitude;
+        this.longitude = longitude;
         this.location = location;
-        this.place = place;
         this.details = details;
         this.groupId = groupId;
         this.members.clear();
@@ -130,12 +135,20 @@ public class Party extends AggregateRoot {
         return title;
     }
 
-    public Place getPlace() {
-        return place;
-    }
-
     public String getLocation() {
         return location;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public Double getLatitude() {
+        return latitude;
+    }
+
+    public Double getLongitude() {
+        return longitude;
     }
 
     public String getDetails() {
@@ -173,18 +186,18 @@ public class Party extends AggregateRoot {
     }
 
     public void setDistance(double cLat, double cLong) {
-        double pLat = place.getLatitude();
-        double pLong = place.getLongitude();
-        double lat1 = (Math.PI/180)*cLat;
-        double lat2 = (Math.PI/180)*pLat;
+        if (latitude != null && longitude != null) {
+            double lat1 = (Math.PI / 180) * cLat;
+            double lat2 = (Math.PI / 180) * latitude;
 
-        double lon1 = (Math.PI/180)*cLong;
-        double lon2 = (Math.PI/180)*pLong;
+            double lon1 = (Math.PI / 180) * cLong;
+            double lon2 = (Math.PI / 180) * longitude;
 
-        double R = 6371;
-        double d =  Math.acos(Math.sin(lat1)*Math.sin(lat2)+Math.cos(lat1)*Math.cos(lat2)*Math.cos(lon2-lon1))*R;
-        DecimalFormat df = new DecimalFormat("#.#");
-        distance = df.format(d);
+            double R = 6371;
+            double d = Math.acos(Math.sin(lat1) * Math.sin(lat2) + Math.cos(lat1) * Math.cos(lat2) * Math.cos(lon2 - lon1)) * R;
+            DecimalFormat df = new DecimalFormat("#.#");
+            distance = df.format(d);
+        }
     }
 
     public User getUser() {
@@ -245,16 +258,6 @@ public class Party extends AggregateRoot {
         DateTime dt = new DateTime(date.getYear(), date.getMonth(), date.getDay(), time.getHour(), time.getMinute());
         if (dt.isBeforeNow()) {
             return true;
-        }
-        return false;
-    }
-
-    public boolean isNearby() {
-        if (distance != null) {
-            double dt = Double.parseDouble(distance);
-            if (dt <= NEARBY_THRESHOLD) {
-                return true;
-            }
         }
         return false;
     }

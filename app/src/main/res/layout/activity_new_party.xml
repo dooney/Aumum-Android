@@ -50,8 +50,8 @@
                 </LinearLayout>
 
                 <com.aumum.app.mobile.ui.view.ClearEditText
-                    android:id="@+id/et_location"
-                    style="@style/EditText.NewParty.Location"
+                    android:id="@+id/et_address"
+                    style="@style/EditText.NewParty.Address"
                     android:nextFocusDown="@+id/et_location_description"
                     android:imeOptions="actionNext"/>
 

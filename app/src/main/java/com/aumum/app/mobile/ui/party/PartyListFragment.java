@@ -301,7 +301,6 @@ public class PartyListFragment extends RefreshItemListFragment<Card> {
     }
 
     private void showSearchAddressDialog(final String title) {
-        final Place place = new Place();
         EditTextDialog dialog = new EditTextDialog(getActivity(),
                 R.layout.dialog_edit_text_multiline,
                 R.string.hint_search_address,
@@ -309,11 +308,16 @@ public class PartyListFragment extends RefreshItemListFragment<Card> {
                     @Override
                     public void call(Object value) throws Exception {
                         String address = (String) value;
-                        place.setLocation(address);
-                        if (!GooglePlaceUtils.setPlaceLatLong(place)) {
-                            throw new Exception(getString(R.string.error_validate_party_location,
-                                    place.getLocation()));
+                        final Place place = GooglePlaceUtils.getPlace(address);
+                        if (place == null) {
+                            throw new Exception(getString(R.string.error_validate_party_location, address));
                         }
+                        getActivity().runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                startSearchPartyActivity(title, place);
+                            }
+                        });
                     }
 
                     @Override
@@ -323,7 +327,6 @@ public class PartyListFragment extends RefreshItemListFragment<Card> {
 
                     @Override
                     public void onSuccess(Object value) {
-                        startSearchPartyActivity(title, place);
                     }
 
                     @Override

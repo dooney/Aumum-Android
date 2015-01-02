@@ -79,12 +79,14 @@ public class GooglePlaceUtils {
         return resultList;
     }
 
-    public static boolean setPlaceLatLong(Place place) {
+    public static Place getPlace(String address) {
+        Place place = new Place(address);
         HttpURLConnection conn = null;
         StringBuilder jsonResults = new StringBuilder();
+
         try {
             StringBuilder sb = new StringBuilder(GEOCODE_API_BASE + OUT_JSON);
-            sb.append("?address=" + URLEncoder.encode(place.getLocation(), "utf8"));
+            sb.append("?address=" + URLEncoder.encode(address, "utf8"));
             URL url = new URL(sb.toString());
             conn = (HttpURLConnection) url.openConnection();
             InputStreamReader in = new InputStreamReader(conn.getInputStream());
@@ -97,10 +99,10 @@ public class GooglePlaceUtils {
             }
         } catch (MalformedURLException e) {
             Log.e(LOG_TAG, "Error processing Geocode API URL", e);
-            return false;
+            return null;
         } catch (IOException e) {
             Log.e(LOG_TAG, "Error connecting to Geocode API", e);
-            return false;
+            return null;
         } finally {
             if (conn != null) {
                 conn.disconnect();
@@ -122,9 +124,9 @@ public class GooglePlaceUtils {
             place.setLongitude(lng);
         } catch (JSONException e) {
             Log.e(LOG_TAG, "Cannot process JSON results", e);
-            return false;
+            return null;
         }
 
-        return true;
+        return place;
     }
 }

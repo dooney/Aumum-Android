@@ -87,7 +87,7 @@ public class PartyDetailsFragment extends LoaderFragment<Party> {
     private TextView cityText;
     private TextView createdAtText;
     private TextView timeText;
-    private TextView locationText;
+    private TextView addressText;
     private SpannableTextView detailsText;
     private GridView gridGallery;
     private ViewGroup membersLayout;
@@ -172,7 +172,7 @@ public class PartyDetailsFragment extends LoaderFragment<Party> {
         cityText = (TextView) view.findViewById(R.id.text_city);
         createdAtText = (TextView) view.findViewById(R.id.text_createdAt);
         timeText = (TextView) view.findViewById(R.id.text_time);
-        locationText = (TextView) view.findViewById(R.id.text_location);
+        addressText = (TextView) view.findViewById(R.id.text_address);
         detailsText = (SpannableTextView) view.findViewById(R.id.text_details);
 
         adapter = new GalleryAdapter(getActivity(), R.layout.image_collection_listitem_inner, ImageLoaderUtils.getInstance());
@@ -289,7 +289,7 @@ public class PartyDetailsFragment extends LoaderFragment<Party> {
         cityText.setText(user.getCity());
         createdAtText.setText(party.getCreatedAtFormatted());
         timeText.setText(party.getDateTimeText());
-        locationText.setText(party.getPlace().getLocation());
+        addressText.setText(party.getAddress());
         if (party.getDetails() != null && party.getDetails().length() > 0) {
             detailsText.setSpannableText(party.getDetails());
         } else {
