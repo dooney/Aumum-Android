@@ -304,6 +304,8 @@
     <string name="label_notify">通知好友</string>
     <string name="label_visible_to_contacts">以下好友可见</string>
     <string name="hint_search_address">请输入要搜索的具体地址</string>
+    <string name="label_unknown_distance">未知距离</string>
+    <string name="label_unknown_address">未知地址</string>
 
     <!-- Asking -->
     <string name="hint_asking_title">说说标题</string>

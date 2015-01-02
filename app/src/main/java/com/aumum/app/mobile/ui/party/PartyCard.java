@@ -3,6 +3,7 @@ package com.aumum.app.mobile.ui.party;
 import android.app.Activity;
 import android.content.Intent;
 import android.support.v4.app.Fragment;
+import android.text.Html;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
@@ -70,7 +71,11 @@ public class PartyCard extends Card {
             distanceText.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_fa_car, 0, 0, 0);
             distanceText.setTextColor(getContext().getResources().getColor(R.color.text_light));
         }
-        distanceText.setText(view.getResources().getString(R.string.label_distance, party.getDistance()));
+        if (party.getDistance() != null) {
+            distanceText.setText(getContext().getString(R.string.label_distance, party.getDistance()));
+        } else {
+            distanceText.setText(R.string.label_unknown_distance);
+        }
 
         TextView createdAtText = (TextView) view.findViewById(R.id.text_createdAt);
         createdAtText.setText(party.getCreatedAtFormatted());
@@ -80,10 +85,14 @@ public class PartyCard extends Card {
 
         TextView addressText = (TextView) view.findViewById(R.id.text_address);
         String address = party.getAddress();
-        if (party.getLocation() != null && party.getLocation().length() > 0) {
-            address += " (" + party.getLocation() + ")";
+        if (address != null) {
+            if (party.getLocation() != null) {
+                address += "<br/>" + party.getLocation();
+            }
+            addressText.setText(Html.fromHtml(address));
+        } else {
+            addressText.setText(R.string.label_unknown_address);
         }
-        addressText.setText(address);
 
         ViewGroup joinLayout = (ViewGroup) view.findViewById(R.id.layout_join);
         JoinTextView joinText = (JoinTextView) view.findViewById(R.id.text_join);

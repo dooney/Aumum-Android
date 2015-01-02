@@ -58,8 +58,7 @@
 
         <TextView
             android:id="@+id/text_distance"
-            style="@style/TextView.Party.Distance"
-            android:layout_gravity="bottom"/>
+            style="@style/TextView.Party.Distance"/>
 
     </LinearLayout>
 

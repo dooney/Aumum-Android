@@ -3,6 +3,7 @@ package com.aumum.app.mobile.ui.party;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -291,12 +292,27 @@ public class PartyDetailsFragment extends LoaderFragment<Party> {
             distanceText.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_fa_car, 0, 0, 0);
             distanceText.setTextColor(getResources().getColor(R.color.text_light));
         }
-        distanceText.setText(getString(R.string.label_distance, party.getDistance()));
+        if (party.getDistance() != null) {
+            distanceText.setText(getString(R.string.label_distance, party.getDistance()));
+        } else {
+            distanceText.setText(R.string.label_unknown_distance);
+        }
 
         cityText.setText(user.getCity());
         createdAtText.setText(party.getCreatedAtFormatted());
         timeText.setText(party.getDateTimeText());
-        addressText.setText(party.getAddress());
+
+        String address = party.getAddress();
+        addressText.setText(address);
+        if (address != null) {
+            if (party.getLocation() != null) {
+                address += "<br/>" + party.getLocation();
+            }
+            addressText.setText(Html.fromHtml(address));
+        } else {
+            addressText.setText(R.string.label_unknown_address);
+        }
+
         if (party.getDetails() != null && party.getDetails().length() > 0) {
             detailsText.setSpannableText(party.getDetails());
         } else {
