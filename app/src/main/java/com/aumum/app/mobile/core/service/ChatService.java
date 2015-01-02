@@ -110,8 +110,8 @@ public class ChatService {
         EMChatManager.getInstance().deleteConversation(userId);
     }
 
-    public void deleteGroupConversation(String groupId) {
-        EMChatManager.getInstance().deleteConversation(groupId, true);
+    public boolean deleteGroupConversation(String groupId) {
+        return EMChatManager.getInstance().deleteConversation(groupId, true);
     }
 
     public EMGroup createGroup(String groupName) throws Exception {

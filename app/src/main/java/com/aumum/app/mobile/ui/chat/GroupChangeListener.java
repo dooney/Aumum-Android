@@ -62,8 +62,9 @@ public class GroupChangeListener implements com.easemob.chat.GroupChangeListener
 
     @Override
     public void onGroupDestroy(String groupId, String groupName) {
-        chatService.deleteGroupConversation(groupId);
-        bus.post(new GroupDeletedEvent());
-        Toaster.showShort(activity, activity.getString(R.string.info_group_name_deleted, groupName));
+        if (chatService.deleteGroupConversation(groupId)) {
+            bus.post(new GroupDeletedEvent());
+            Toaster.showShort(activity, activity.getString(R.string.info_group_name_deleted, groupName));
+        }
     }
 }
