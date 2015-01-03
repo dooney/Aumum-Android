@@ -43,7 +43,9 @@ public class LikesLayoutListener {
         Injector.inject(this);
     }
 
-    public void update(ViewGroup likesLayout, List<String> likes) {
+    public void update(ViewGroup likesLayout, List<String> likeList) {
+        ArrayList<String> likes = new ArrayList<String>();
+        likes.addAll(likeList);
         Collections.reverse(likes);
         final int size = likes.size();
         if (size > 0) {

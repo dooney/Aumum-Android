@@ -31,7 +31,6 @@ import com.aumum.app.mobile.ui.contact.ContactListener;
 import com.aumum.app.mobile.ui.view.Animation;
 import com.aumum.app.mobile.utils.Ln;
 import com.aumum.app.mobile.utils.SafeAsyncTask;
-import com.aumum.app.mobile.utils.UpYunUtils;
 import com.easemob.chat.EMMessage;
 import com.squareup.otto.Bus;
 import com.squareup.otto.Subscribe;
@@ -54,7 +53,6 @@ public class MainFragment extends Fragment
     @Inject ApiKeyProvider apiKeyProvider;
     @Inject Bus bus;
 
-    private String currentUserId;
     private ScheduleService scheduleService;
     private SafeAsyncTask<Boolean> task;
 
@@ -100,11 +98,6 @@ public class MainFragment extends Fragment
         chatService.setNotificationClickListener(new NotificationClickListener(getActivity()));
         chatService.setContactListener(new ContactListener());
         chatService.setAppInitialized();
-        currentUserId = apiKeyProvider.getAuthUserId();
-        String password = apiKeyProvider.getAuthPassword();
-        String chatId = currentUserId.toLowerCase();
-        chatService.authenticate(chatId, password);
-        UpYunUtils.setCurrentDir(currentUserId);
 
         scheduleService = new ScheduleService(this);
     }
@@ -142,6 +135,7 @@ public class MainFragment extends Fragment
         }
         task = new SafeAsyncTask<Boolean>() {
             public Boolean call() throws Exception {
+                String currentUserId = apiKeyProvider.getAuthUserId();
                 int unreadCount = partyStore.getUnreadCount(currentUserId);
                 if (unreadCount > 0) {
                     getActivity().runOnUiThread(new Runnable() {

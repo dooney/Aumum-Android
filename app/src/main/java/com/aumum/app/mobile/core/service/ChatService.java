@@ -34,21 +34,28 @@ import java.util.List;
  */
 public class ChatService {
 
+    public interface OnAuthenticateListener {
+        void onSuccess();
+        void onError(String message);
+    }
+
     public void createAccount(String userName, String password) throws Exception {
         EMChatManager.getInstance().createAccountOnServer(userName, password);
     }
 
-    public void authenticate(String userName, String password) {
+    public void authenticate(String userName, String password,
+                             final OnAuthenticateListener listener) {
         EMChatManager.getInstance().login(userName, password, new EMCallBack() {
             @Override
             public void onSuccess() {
                 EMGroupManager.getInstance().loadAllGroups();
                 EMChatManager.getInstance().loadAllConversations();
+                listener.onSuccess();
             }
 
             @Override
             public void onError(int code, String message) {
-                Ln.d(message);
+                listener.onError(message);
             }
 
             @Override

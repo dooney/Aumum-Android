@@ -42,7 +42,9 @@ public class MembersLayoutListener {
         Injector.inject(this);
     }
 
-    public void update(ViewGroup membersLayout, List<String> members) {
+    public void update(ViewGroup membersLayout, List<String> memberList) {
+        ArrayList<String> members = new ArrayList<String>();
+        members.addAll(memberList);
         Collections.reverse(members);
         int size = members.size();
         if (size > 0) {

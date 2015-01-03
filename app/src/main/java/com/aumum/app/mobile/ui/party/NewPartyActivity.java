@@ -369,7 +369,7 @@ public class NewPartyActivity extends ProgressDialogActivity
                 String address = addressText.getText().toString();
                 Place place = GooglePlaceUtils.getPlace(address);
                 if (place == null) {
-                    throw new Exception(getString(R.string.error_validate_party_location, address));
+                    throw new Exception(getString(R.string.error_invalid_party_address, address));
                 }
                 final User currentUser = userStore.getCurrentUser();
                 List<String> subscriptions = getSubscriptions(currentUser);

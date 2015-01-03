@@ -310,7 +310,7 @@ public class PartyListFragment extends RefreshItemListFragment<Card> {
                         String address = (String) value;
                         final Place place = GooglePlaceUtils.getPlace(address);
                         if (place == null) {
-                            throw new Exception(getString(R.string.error_validate_party_location, address));
+                            throw new Exception(getString(R.string.error_invalid_party_address, address));
                         }
                         getActivity().runOnUiThread(new Runnable() {
                             @Override

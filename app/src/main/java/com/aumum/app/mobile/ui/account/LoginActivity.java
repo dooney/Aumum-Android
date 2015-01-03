@@ -24,6 +24,7 @@ import com.aumum.app.mobile.R.id;
 import com.aumum.app.mobile.R.layout;
 import com.aumum.app.mobile.core.Constants;
 import com.aumum.app.mobile.core.dao.Repository;
+import com.aumum.app.mobile.core.service.ChatService;
 import com.aumum.app.mobile.core.service.RestService;
 import com.aumum.app.mobile.core.model.User;
 import com.aumum.app.mobile.events.UnAuthorizedErrorEvent;
@@ -34,6 +35,7 @@ import com.aumum.app.mobile.ui.view.ListViewDialog;
 import com.aumum.app.mobile.utils.EditTextUtils;
 import com.aumum.app.mobile.utils.SafeAsyncTask;
 import com.aumum.app.mobile.utils.Strings;
+import com.aumum.app.mobile.utils.UpYunUtils;
 import com.github.kevinsawicki.wishlist.Toaster;
 import com.squareup.otto.Bus;
 import com.squareup.otto.Subscribe;
@@ -52,6 +54,7 @@ import retrofit.RetrofitError;
 public class LoginActivity extends AuthenticateActivity {
 
     @Inject RestService restService;
+    @Inject ChatService chatService;
     @Inject Repository repository;
     @Inject Bus bus;
 
@@ -221,21 +224,31 @@ public class LoginActivity extends AuthenticateActivity {
                         Toaster.showShort(LoginActivity.this, cause.getMessage());
                     }
                 }
+                hideProgress();
             }
 
             @Override
-            public void onSuccess(final Boolean authSuccess) {
-                if (authSuccess) {
-                    finishAuthentication(userId, password, token);
-                } else {
-                    Toaster.showShort(LoginActivity.this,
-                            R.string.error_authentication);
-                }
+            public void onSuccess(final Boolean success) {
+                UpYunUtils.setCurrentDir(userId);
+                String chatId = userId.toLowerCase();
+                chatService.authenticate(chatId, password,
+                        new ChatService.OnAuthenticateListener() {
+                            @Override
+                            public void onSuccess() {
+                                finishAuthentication(userId, password, token);
+                                hideProgress();
+                            }
+
+                            @Override
+                            public void onError(String message) {
+                                hideProgress();
+                                Toaster.showShort(LoginActivity.this, message);
+                            }
+                        });
             }
 
             @Override
             protected void onFinally() throws RuntimeException {
-                hideProgress();
                 task = null;
             }
         };

@@ -65,12 +65,4 @@ public class ApiKeyProvider {
         }
         return null;
     }
-
-    public String getAuthPassword() {
-        Account accounts[] = accountManager.getAccountsByType(BOOTSTRAP_ACCOUNT_TYPE);
-        if (accounts.length > 0) {
-            return accountManager.getPassword(accounts[0]);
-        }
-        return null;
-    }
 }
