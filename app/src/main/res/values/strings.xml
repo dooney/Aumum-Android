@@ -129,6 +129,7 @@
     <string name="info_deleting_group">正在删除该群组，请稍候</string>
     <string name="info_submitting_quit_group">正在处理您的退出群组请求，请稍候</string>
     <string name="info_no_users_found">没找到任何相关用户</string>
+    <string name="info_confirm_quit">您确定要退出该聚会？</string>
 
     <!-- Error Message -->
     <string name="error_load_parties">获取聚会列表失败</string>
@@ -276,7 +277,7 @@
 
     <!-- Party -->
     <string name="hint_join_reason">一句话介绍自己的情况，或报名理由</string>
-    <string name="hint_quit_reason">留言</string>
+    <string name="hint_quit_reason">给聚会发起人留言</string>
     <string name="label_you_join_the_party">你报名了该聚会</string>
     <string name="label_you_and_others_join_the_party">你和其他%,d人报名了该聚会</string>
     <string name="label_others_join_the_party">%,d人报名了该聚会</string>
@@ -284,7 +285,7 @@
     <string name="label_you_and_others_like_the_party">你和其他%,d人支持了该聚会</string>
     <string name="label_others_like_the_party">%,d人支持了该聚会</string>
     <string name="label_join_party">报名</string>
-    <string name="label_quit_party">取消报名</string>
+    <string name="label_quit_party">退出</string>
     <string name="label_comment">评论</string>
     <string name="label_like">支持</string>
     <string name="label_createdAt">创建时间</string>

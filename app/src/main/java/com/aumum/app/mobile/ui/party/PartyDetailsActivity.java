@@ -12,6 +12,7 @@ public class PartyDetailsActivity extends ProgressDialogActivity {
 
     public static final String INTENT_PARTY_ID = "partyId";
     public static final String INTENT_DELETED = "deleted";
+    public static final String INTENT_QUIT = "quit";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

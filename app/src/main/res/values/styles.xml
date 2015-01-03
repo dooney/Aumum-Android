@@ -33,9 +33,6 @@
         <item name="android:minWidth">48sp</item>
         <item name="android:minHeight">32sp</item>
     </style>
-    <style name="Button.Action.Submit" parent="Button.Action">
-        <item name="android:text">@string/label_submit</item>
-    </style>
     <style name="Button.Action.Send" parent="Button.Action">
         <item name="android:text">@string/label_send</item>
     </style>

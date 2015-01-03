@@ -41,8 +41,6 @@ import com.aumum.app.mobile.ui.contact.ContactFragment;
 import com.aumum.app.mobile.ui.contact.ContactListener;
 import com.aumum.app.mobile.ui.contact.ContactRequestsFragment;
 import com.aumum.app.mobile.ui.account.VerifyActivity;
-import com.aumum.app.mobile.ui.party.PartyCommentsSingleFragment;
-import com.aumum.app.mobile.ui.party.PartyDetailsSingleFragment;
 import com.aumum.app.mobile.ui.report.ReportActivity;
 import com.aumum.app.mobile.ui.user.UpdateAvatarActivity;
 import com.aumum.app.mobile.ui.main.MainFragment;
@@ -141,8 +139,6 @@ import retrofit.converter.GsonConverter;
                 GroupDetailsFragment.class,
                 ContactPickerFragment.class,
                 UserListFragment.class,
-                PartyDetailsSingleFragment.class,
-                PartyCommentsSingleFragment.class,
                 ReportActivity.class,
                 ChatConnectionListener.class
         }

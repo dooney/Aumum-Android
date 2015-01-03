@@ -15,6 +15,6 @@ public class PartyDetailsSingleActivity extends ActionBarActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_party_details_single);
+        setContentView(R.layout.activity_party_details);
     }
 }

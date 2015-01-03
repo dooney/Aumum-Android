@@ -98,7 +98,7 @@ public class PartyCard extends Card {
         JoinTextView joinText = (JoinTextView) view.findViewById(R.id.text_join);
         joinLayout.setVisibility(View.GONE);
         joinText.setVisibility(View.GONE);
-        if (!party.isExpired() && !party.isMember(currentUserId)) {
+        if (!party.isExpired() && !party.isOwner(currentUserId)) {
             joinLayout.setVisibility(View.VISIBLE);
             joinText.setVisibility(View.VISIBLE);
             joinText.setOnClickListener(new View.OnClickListener() {
@@ -107,6 +107,9 @@ public class PartyCard extends Card {
                     Animation.animateTextView(view);
                     final Intent intent = new Intent(activity, PartyDetailsActivity.class);
                     intent.putExtra(PartyDetailsActivity.INTENT_PARTY_ID, party.getObjectId());
+                    if (party.isMember(currentUserId)) {
+                        intent.putExtra(PartyDetailsActivity.INTENT_QUIT, true);
+                    }
                     activity.startActivity(intent);
                 }
             });

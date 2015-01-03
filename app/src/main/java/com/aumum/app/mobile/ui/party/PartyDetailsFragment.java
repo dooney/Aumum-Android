@@ -39,11 +39,13 @@ import com.aumum.app.mobile.ui.report.ReportActivity;
 import com.aumum.app.mobile.ui.user.UserListener;
 import com.aumum.app.mobile.ui.view.Animation;
 import com.aumum.app.mobile.ui.view.AvatarImageView;
+import com.aumum.app.mobile.ui.view.ConfirmDialog;
 import com.aumum.app.mobile.ui.view.FavoriteTextView;
 import com.aumum.app.mobile.ui.view.JoinTextView;
 import com.aumum.app.mobile.ui.view.LikeTextView;
 import com.aumum.app.mobile.ui.view.ListViewDialog;
 import com.aumum.app.mobile.ui.view.SpannableTextView;
+import com.aumum.app.mobile.ui.view.TextViewDialog;
 import com.aumum.app.mobile.utils.EditTextUtils;
 import com.aumum.app.mobile.utils.GPSTracker;
 import com.aumum.app.mobile.utils.ImageLoaderUtils;
@@ -208,7 +210,11 @@ public class PartyDetailsFragment extends LoaderFragment<Party> {
         postReasonButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                submit();
+                if (party.isMember(currentUserId)) {
+                    showQuitConfirmDialog();
+                } else {
+                    submit();
+                }
             }
         });
     }
@@ -335,6 +341,9 @@ public class PartyDetailsFragment extends LoaderFragment<Party> {
         if (!party.isExpired() && !party.isOwner(currentUserId)) {
             actionLayout.setVisibility(View.VISIBLE);
             joinText.update(party.isMember(currentUserId));
+            if (getActivity().getIntent().getBooleanExtra(PartyDetailsActivity.INTENT_QUIT, false)) {
+                joinText.performClick();
+            }
         }
 
         int comments = party.getCommentsCount();
@@ -479,8 +488,10 @@ public class PartyDetailsFragment extends LoaderFragment<Party> {
         } else {
             if (joinText.isMember()) {
                 editReason.setHint(R.string.hint_quit_reason);
+                postReasonButton.setText(R.string.label_quit_party);
             } else {
                 editReason.setHint(R.string.hint_join_reason);
+                postReasonButton.setText(R.string.label_join_party);
             }
             showJoinBox();
         }
@@ -537,5 +548,36 @@ public class PartyDetailsFragment extends LoaderFragment<Party> {
         intent.putExtra(ReportActivity.INTENT_ENTITY_TYPE, ReportActivity.TYPE_PARTY);
         intent.putExtra(ReportActivity.INTENT_ENTITY_ID, partyId);
         startActivity(intent);
+    }
+
+    private void showQuitConfirmDialog() {
+        new TextViewDialog(getActivity(),
+                getString(R.string.info_confirm_quit),
+                new ConfirmDialog.OnConfirmListener() {
+                    @Override
+                    public void call(Object value) throws Exception {
+                        getActivity().runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                submit();
+                            }
+                        });
+                    }
+
+                    @Override
+                    public void onException(String errorMessage) {
+
+                    }
+
+                    @Override
+                    public void onSuccess(Object value) {
+
+                    }
+
+                    @Override
+                    public void onFailed() {
+
+                    }
+                }).show();
     }
 }
