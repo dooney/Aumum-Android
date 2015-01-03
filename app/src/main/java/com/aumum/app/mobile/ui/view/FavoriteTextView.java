@@ -50,8 +50,7 @@ public class FavoriteTextView extends AnimateTextView {
         setText(favorites > 0 ?
                 String.valueOf(favorites) :
                 getResources().getString(R.string.label_favorite));
-        int drawableId = (isFavorite ? favoritedResId : favoriteResId);
-        setCompoundDrawablesWithIntrinsicBounds(drawableId, 0, 0, 0);
+        toggleFavorite(isFavorite);
     }
 
     @Override
@@ -74,8 +73,7 @@ public class FavoriteTextView extends AnimateTextView {
     @Override
     public void update(boolean newValue) {
         isFavorite = newValue;
-        int drawableId = (isFavorite ? favoritedResId : favoriteResId);
-        setCompoundDrawablesWithIntrinsicBounds(drawableId, 0, 0, 0);
+        toggleFavorite(isFavorite);
         String currentText = getText().toString();
         try {
             Integer currentFavorites = Integer.parseInt(currentText);
@@ -91,6 +89,16 @@ public class FavoriteTextView extends AnimateTextView {
             }
         } catch (NumberFormatException e) {
             setText("1");
+        }
+    }
+
+    private void toggleFavorite(boolean isFavorite) {
+        if (isFavorite) {
+            setCompoundDrawablesWithIntrinsicBounds(favoritedResId, 0, 0, 0);
+            setTextColor(getResources().getColor(R.color.bbutton_danger));
+        } else {
+            setCompoundDrawablesWithIntrinsicBounds(favoriteResId, 0, 0, 0);
+            setTextColor(getResources().getColor(R.color.text_light));
         }
     }
 }

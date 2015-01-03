@@ -60,8 +60,7 @@ public class LikeTextView extends AnimateTextView {
             setText(null);
         }
         this.isLike = isLike;
-        int drawableId = (isLike ? likedResId : likeResId);
-        setCompoundDrawablesWithIntrinsicBounds(drawableId, 0, 0, 0);
+        toggleLike(isLike);
     }
 
     @Override
@@ -84,8 +83,7 @@ public class LikeTextView extends AnimateTextView {
     @Override
     public void update(boolean newValue) {
         isLike = newValue;
-        int drawableId = (isLike ? likedResId : likeResId);
-        setCompoundDrawablesWithIntrinsicBounds(drawableId, 0, 0, 0);
+        toggleLike(isLike);
         String currentText = getText().toString();
         try {
             Integer currentLikes = Integer.parseInt(currentText);
@@ -103,6 +101,16 @@ public class LikeTextView extends AnimateTextView {
             }
         } catch (NumberFormatException e) {
             setText("1");
+        }
+    }
+
+    private void toggleLike(boolean isLike) {
+        if (isLike) {
+            setCompoundDrawablesWithIntrinsicBounds(likedResId, 0, 0, 0);
+            setTextColor(getResources().getColor(R.color.bbutton_danger));
+        } else {
+            setCompoundDrawablesWithIntrinsicBounds(likeResId, 0, 0, 0);
+            setTextColor(getResources().getColor(R.color.text_light));
         }
     }
 }
