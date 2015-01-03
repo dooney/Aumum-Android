@@ -187,6 +187,7 @@ public class PartyCommentsFragment extends ItemListFragment<Comment> {
         comment.setUser(currentUser);
         getData().add(0, comment);
         getListAdapter().notifyDataSetChanged();
+        hideEmpty();
         show();
         scrollToTop();
         disableSubmit();

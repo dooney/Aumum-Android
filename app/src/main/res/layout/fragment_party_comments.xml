@@ -16,6 +16,13 @@
         style="@style/ListSpinner"
         android:layout_centerInParent="true" />
 
+    <TextView
+        android:id="@+id/text_empty"
+        style="@style/TextView.Empty"
+        android:layout_centerInParent="true"
+        android:text="@string/info_empty_comment_list"
+        android:visibility="gone"/>
+
     <include
         android:id="@+id/layout_comment_box"
         layout="@layout/party_include_comment_box"

@@ -26,4 +26,11 @@
         style="@style/ListSpinner"
         android:layout_centerInParent="true" />
 
+    <TextView
+        android:id="@+id/text_empty"
+        style="@style/TextView.Empty"
+        android:layout_centerInParent="true"
+        android:text="@string/info_empty_party_list"
+        android:visibility="gone"/>
+
 </RelativeLayout>

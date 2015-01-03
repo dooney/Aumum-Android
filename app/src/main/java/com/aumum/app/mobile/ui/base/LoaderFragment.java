@@ -7,6 +7,7 @@ import android.support.v4.content.Loader;
 import android.view.View;
 import android.view.animation.AnimationUtils;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 
 import com.aumum.app.mobile.R;
 import com.aumum.app.mobile.core.infra.async.ThrowableLoader;
@@ -20,7 +21,9 @@ public abstract class LoaderFragment<E> extends Fragment
         implements LoaderManager.LoaderCallbacks<E> {
     private E data;
     private ProgressBar progressBar;
+    private TextView emptyText;
     private boolean isShown;
+    private boolean hasError;
 
     protected E getData() {
         return data;
@@ -28,6 +31,10 @@ public abstract class LoaderFragment<E> extends Fragment
 
     protected void setData(E data) {
         this.data = data;
+    }
+
+    public void setHasError(boolean hasError) {
+        this.hasError = hasError;
     }
 
     @Override
@@ -45,6 +52,7 @@ public abstract class LoaderFragment<E> extends Fragment
     public void onDestroyView() {
         isShown = false;
         progressBar = null;
+        emptyText = null;
 
         super.onDestroyView();
     }
@@ -54,6 +62,7 @@ public abstract class LoaderFragment<E> extends Fragment
         super.onViewCreated(view, savedInstanceState);
 
         progressBar = (ProgressBar) view.findViewById(R.id.pb_loading);
+        emptyText = (TextView) view.findViewById(R.id.text_empty);
     }
 
     @Override
@@ -70,9 +79,12 @@ public abstract class LoaderFragment<E> extends Fragment
     public void onLoadFinished(Loader<E> loader, E data) {
         final Exception exception = getException(loader);
         if (exception != null) {
+            setHasError(true);
             showError(getErrorMessage(exception));
             show();
             return;
+        } else {
+            setHasError(false);
         }
 
         handleLoadResult(data);
@@ -107,6 +119,10 @@ public abstract class LoaderFragment<E> extends Fragment
         setShown(true, isResumed());
     }
 
+    protected void hideEmpty() {
+        hide(emptyText);
+    }
+
     private void setShown(final boolean shown, final boolean animate) {
         if (!isUsable()) {
             return;
@@ -118,7 +134,11 @@ public abstract class LoaderFragment<E> extends Fragment
                 // List has already been shown so hide/show the empty view with
                 // no fade effect
                 if (!readyToShow()) {
-                    hide(mainView);
+                    if (hasError) {
+                        hide(emptyText).hide(mainView);
+                    } else {
+                        hide(mainView).show(emptyText);
+                    }
                 } else {
                     show(mainView);
                 }
@@ -130,12 +150,16 @@ public abstract class LoaderFragment<E> extends Fragment
 
         if (shown) {
             if (readyToShow()) {
-                hide(progressBar).fadeIn(mainView, animate).show(mainView);
+                hide(progressBar).hide(emptyText).fadeIn(mainView, animate).show(mainView);
             } else {
-                hide(progressBar).hide(mainView);
+                if (hasError) {
+                    hide(progressBar).hide(emptyText).hide(mainView);
+                } else {
+                    hide(progressBar).hide(mainView).show(emptyText);
+                }
             }
         } else {
-            hide(mainView).fadeIn(progressBar, animate).show(progressBar);
+            hide(emptyText).hide(mainView).fadeIn(progressBar, animate).show(progressBar);
         }
         return;
     }

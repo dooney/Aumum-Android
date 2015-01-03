@@ -182,6 +182,9 @@
     <style name="TextView.Notification" parent="TextView">
         <item name="android:textColor">@color/bbutton_danger</item>
     </style>
+    <style name="TextView.Empty" parent="TextView">
+        <item name="android:textColor">@color/bbutton_danger</item>
+    </style>
 
     <!-- Party -->
     <style name="TextView.Party.UserName" parent="TextView.UserName" >

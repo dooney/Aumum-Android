@@ -130,6 +130,14 @@
     <string name="info_submitting_quit_group">正在处理您的退出群组请求，请稍候</string>
     <string name="info_no_users_found">没找到任何相关用户</string>
     <string name="info_confirm_quit">您确定要退出该聚会？</string>
+    <string name="info_empty_party_list">暂时还没有聚会记录哦</string>
+    <string name="info_empty_asking_list">暂时还没有说说记录哦</string>
+    <string name="info_empty_conversation_list">您没有任何会话记录</string>
+    <string name="info_empty_mobile_contacts">没找到任何手机联系人</string>
+    <string name="info_empty_contact_list">您还没添加任何好友</string>
+    <string name="info_empty_contact_request_list">您还没收到任何好友请求</string>
+    <string name="info_empty_comment_list">暂时还有没聚会评论哦</string>
+    <string name="info_empty_search_list">没找到任何相关记录</string>
 
     <!-- Error Message -->
     <string name="error_load_parties">获取聚会列表失败</string>
