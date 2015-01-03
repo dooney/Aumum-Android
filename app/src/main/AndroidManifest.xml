@@ -36,7 +36,7 @@
 
     <application
         android:name=".BootstrapApplication"
-        android:icon="@drawable/icon"
+        android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
         android:theme="@style/Theme.Aumum.Light" >
         <activity
@@ -128,7 +128,7 @@
 
         <meta-data
             android:name="com.parse.push.notification_icon"
-            android:resource="@drawable/icon" />
+            android:resource="@drawable/ic_launcher_notification" />
 
         <activity
             android:name=".ui.party.PartyCommentsActivity"

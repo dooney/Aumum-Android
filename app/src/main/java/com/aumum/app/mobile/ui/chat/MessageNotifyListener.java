@@ -59,6 +59,6 @@ public class MessageNotifyListener implements OnMessageNotifyListener {
 
     @Override
     public int onSetSmallIcon(EMMessage emMessage) {
-        return R.drawable.icon;
+        return R.drawable.ic_launcher_notification;
     }
 }

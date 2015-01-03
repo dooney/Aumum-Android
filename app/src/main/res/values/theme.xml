@@ -29,6 +29,7 @@
         <item name="android:background">@color/bbutton_danger</item>
         <item name="android:indeterminateProgressStyle">@style/Widget.Styled.ProgressBar</item>
         <item name="android:titleTextStyle">@style/ActionBarTitle.Text</item>
+        <item name="android:icon">@android:color/transparent</item>
     </style>
 
 </resources>

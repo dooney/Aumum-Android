@@ -52,7 +52,7 @@ public class NotificationService {
                 .setDefaults(Notification.DEFAULT_VIBRATE | Notification.DEFAULT_LIGHTS)
                 .setVibrate(new long[]{0, 100, 200, 300})
                 .setLights(0xd9534f, 300, 1000)
-                .setSmallIcon(R.drawable.icon)
+                .setSmallIcon(R.drawable.ic_launcher_notification)
                 .setContentTitle(title)
                 .setContentText(content);
     }
