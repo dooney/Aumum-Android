@@ -20,9 +20,4 @@ public class TextViewDialog extends ConfirmDialog {
         TextView valueText = (TextView) findViewById(R.id.text_value);
         valueText.setText(Html.fromHtml(text));
     }
-
-    @Override
-    protected Object getValue() {
-        return null;
-    }
 }

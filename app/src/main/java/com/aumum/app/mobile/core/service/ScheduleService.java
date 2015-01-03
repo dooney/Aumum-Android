@@ -10,6 +10,7 @@ public class ScheduleService {
 
     private ScheduledThreadPoolExecutor exec;
     private OnScheduleListener onScheduleListener;
+    private final long INTERVAL_IN_MILLISECONDS = 30000;
 
     public static interface OnScheduleListener {
         public void onAction();
@@ -27,7 +28,7 @@ public class ScheduleService {
                 public void run() {
                     onScheduleListener.onAction();
                 }
-            }, 0, 10000, TimeUnit.MILLISECONDS);
+            }, 0, INTERVAL_IN_MILLISECONDS, TimeUnit.MILLISECONDS);
         }
     }
 

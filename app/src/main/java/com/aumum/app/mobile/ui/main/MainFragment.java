@@ -4,12 +4,15 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.aumum.app.mobile.Injector;
 import com.aumum.app.mobile.R;
@@ -20,10 +23,12 @@ import com.aumum.app.mobile.core.service.ChatService;
 import com.aumum.app.mobile.core.service.NotificationService;
 import com.aumum.app.mobile.core.service.ScheduleService;
 import com.aumum.app.mobile.events.GotPartyUpwardsListEvent;
+import com.aumum.app.mobile.ui.chat.ChatConnectionListener;
 import com.aumum.app.mobile.ui.chat.GroupChangeListener;
 import com.aumum.app.mobile.ui.chat.MessageNotifyListener;
 import com.aumum.app.mobile.ui.chat.NotificationClickListener;
 import com.aumum.app.mobile.ui.contact.ContactListener;
+import com.aumum.app.mobile.ui.view.Animation;
 import com.aumum.app.mobile.utils.Ln;
 import com.aumum.app.mobile.utils.SafeAsyncTask;
 import com.aumum.app.mobile.utils.UpYunUtils;
@@ -41,7 +46,7 @@ import retrofit.RetrofitError;
  * Fragment which houses the View pager.
  */
 public class MainFragment extends Fragment
-        implements ScheduleService.OnScheduleListener{
+        implements ScheduleService.OnScheduleListener {
 
     @Inject PartyStore partyStore;
     @Inject NotificationService notificationService;
@@ -53,6 +58,7 @@ public class MainFragment extends Fragment
     private ScheduleService scheduleService;
     private SafeAsyncTask<Boolean> task;
 
+    ConnectionChangeReceiver connectionChangeReceiver;
     CmdMessageBroadcastReceiver cmdMessageBroadcastReceiver;
 
     @InjectView(R.id.tpi_footer)
@@ -60,6 +66,9 @@ public class MainFragment extends Fragment
 
     @InjectView(R.id.vp_pages)
     protected ViewPager pager;
+
+    @InjectView(R.id.layout_notification)
+    protected View notification;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -71,11 +80,21 @@ public class MainFragment extends Fragment
         super.onActivityCreated(savedInstanceState);
         Injector.inject(this);
 
+        ButterKnife.inject(this, getView());
+        pager.setAdapter(new PagerAdapter(getResources(), getChildFragmentManager()));
+        indicator.setViewPager(pager);
+
+        connectionChangeReceiver = new ConnectionChangeReceiver();
+        IntentFilter filter = new IntentFilter();
+        filter.addAction(android.net.ConnectivityManager.CONNECTIVITY_ACTION);
+        getActivity().registerReceiver(connectionChangeReceiver, filter);
+
         cmdMessageBroadcastReceiver = new CmdMessageBroadcastReceiver();
         IntentFilter intentFilter = new IntentFilter(chatService.getCmdMessageBroadcastAction());
         intentFilter.setPriority(CmdMessageBroadcastReceiver.PRIORITY);
         getActivity().registerReceiver(cmdMessageBroadcastReceiver, intentFilter);
 
+        chatService.setConnectionListener(new ChatConnectionListener(getActivity()));
         chatService.setGroupChangeListener(new GroupChangeListener(getActivity(), chatService, bus));
         chatService.setMessageNotifyListener(new MessageNotifyListener(getActivity()));
         chatService.setNotificationClickListener(new NotificationClickListener(getActivity()));
@@ -88,10 +107,6 @@ public class MainFragment extends Fragment
         UpYunUtils.setCurrentDir(currentUserId);
 
         scheduleService = new ScheduleService(this);
-
-        ButterKnife.inject(this, getView());
-        pager.setAdapter(new PagerAdapter(getResources(), getChildFragmentManager()));
-        indicator.setViewPager(pager);
     }
 
     @Override
@@ -111,6 +126,7 @@ public class MainFragment extends Fragment
     @Override
     public void onDestroy() {
         super.onDestroy();
+        getActivity().unregisterReceiver(connectionChangeReceiver);
         getActivity().unregisterReceiver(cmdMessageBroadcastReceiver);
     }
 
@@ -159,6 +175,30 @@ public class MainFragment extends Fragment
     @Subscribe
     public void onGotPartyUpwardsListEvent(GotPartyUpwardsListEvent event) {
         indicator.getUnreadImage(0).setVisibility(View.INVISIBLE);
+    }
+
+    private class ConnectionChangeReceiver extends BroadcastReceiver {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            ConnectivityManager connectivityManager = (ConnectivityManager) context
+                    .getSystemService(Context.CONNECTIVITY_SERVICE);
+            NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
+            if (networkInfo != null && networkInfo.isConnected()) {
+                hideNotification();
+            } else {
+                showNoNetworkError();
+            }
+        }
+    }
+
+    private void hideNotification() {
+        Animation.fadeOut(notification, Animation.Duration.SHORT);
+    }
+
+    private void showNoNetworkError() {
+        Animation.fadeIn(notification, Animation.Duration.SHORT);
+        TextView notificationText = (TextView) notification.findViewById(R.id.text_notification);
+        notificationText.setText(R.string.error_no_network);
     }
 
     private class CmdMessageBroadcastReceiver extends BroadcastReceiver {

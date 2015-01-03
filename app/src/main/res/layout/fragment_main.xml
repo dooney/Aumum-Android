@@ -5,15 +5,28 @@
               android:layout_width="match_parent"
               android:layout_height="match_parent">
 
+    <RelativeLayout
+        android:id="@+id/layout_notification"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/margin_large"
+        android:visibility="gone">
+
+        <TextView
+            android:id="@+id/text_notification"
+            style="@style/TextView.Notification"
+            android:layout_centerInParent="true"/>
+
+    </RelativeLayout>
+
     <android.support.v4.view.ViewPager
             android:id="@+id/vp_pages"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1" />
 
-    <RelativeLayout
-        android:layout_width="fill_parent"
-        android:layout_height="1dp"
+    <View
+        style="@style/Divider"
         android:background="@color/grey_light" />
 
     <com.aumum.app.mobile.ui.main.MainTabPageIndicator

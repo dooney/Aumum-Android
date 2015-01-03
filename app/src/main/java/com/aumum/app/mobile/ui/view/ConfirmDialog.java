@@ -15,7 +15,7 @@ import retrofit.RetrofitError;
 /**
  * Created by Administrator on 31/12/2014.
  */
-public abstract class ConfirmDialog extends Dialog {
+public class ConfirmDialog extends Dialog {
 
     protected Button okButton;
     protected Button cancelButton;
@@ -82,12 +82,14 @@ public abstract class ConfirmDialog extends Dialog {
         });
 
         cancelButton = (Button) findViewById(R.id.b_dialog_cancel);
-        cancelButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                dismiss();
-            }
-        });
+        if (cancelButton != null) {
+            cancelButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    dismiss();
+                }
+            });
+        }
 
         progress = (ProgressBar) findViewById(R.id.progress);
     }
@@ -95,14 +97,20 @@ public abstract class ConfirmDialog extends Dialog {
     private void toggleProgress(boolean showProgress) {
         if (showProgress) {
             okButton.setVisibility(View.GONE);
-            cancelButton.setEnabled(false);
+            if (cancelButton != null) {
+                cancelButton.setEnabled(false);
+            }
             progress.setVisibility(View.VISIBLE);
         } else {
             progress.setVisibility(View.GONE);
             okButton.setVisibility(View.VISIBLE);
-            cancelButton.setEnabled(true);
+            if (cancelButton != null) {
+                cancelButton.setEnabled(true);
+            }
         }
     }
 
-    protected abstract Object getValue();
+    protected Object getValue() {
+        return null;
+    }
 }

@@ -182,6 +182,7 @@
     <string name="error_edit_profile">修改个人资料失败</string>
     <string name="error_search_user">搜索用户失败</string>
     <string name="error_search_address">搜索该地址失败</string>
+    <string name="error_no_network">无法找到有效的网络，请检查您的网络连接</string>
 
     <!-- Title -->
     <string name="title_activity_login">用户登录</string>
@@ -266,6 +267,8 @@
 
     <!-- Settings -->
     <string name="label_logout">退出登录</string>
+    <string name="label_logout_notification">下线通知</string>
+    <string name="label_connection_conflict">同一账号已在其他设备登录</string>
 
     <!-- Comments -->
     <string name="hint_new_comment">写评论</string>

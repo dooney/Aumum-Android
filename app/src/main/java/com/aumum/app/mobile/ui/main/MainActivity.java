@@ -11,14 +11,19 @@ import com.aumum.app.mobile.ServiceProvider;
 import com.aumum.app.mobile.R;
 import com.aumum.app.mobile.core.Constants;
 import com.aumum.app.mobile.core.service.RestService;
+import com.aumum.app.mobile.events.LogoutEvent;
 import com.aumum.app.mobile.ui.base.BaseFragmentActivity;
 import com.aumum.app.mobile.utils.SafeAsyncTask;
 import com.github.kevinsawicki.wishlist.Toaster;
+import com.squareup.otto.Bus;
+import com.squareup.otto.Subscribe;
 
 import javax.inject.Inject;
 
 public class MainActivity extends BaseFragmentActivity {
     @Inject ServiceProvider serviceProvider;
+    @Inject Bus bus;
+
     private Fragment mainFragment;
 
     private boolean doubleBackToExitPressedOnce;
@@ -33,12 +38,23 @@ public class MainActivity extends BaseFragmentActivity {
     }
 
     @Override
+    protected void onResume() {
+        super.onResume();
+        bus.register(this);
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        bus.unregister(this);
+    }
+
+    @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == Constants.RequestCode.SETTINGS_REQ_CODE && resultCode == RESULT_OK) {
             if (data.getBooleanExtra("logout", false)) {
-                checkAuth();
-                resetScreen();
+                doLogout();
             }
         }
     }
@@ -83,6 +99,11 @@ public class MainActivity extends BaseFragmentActivity {
         }.execute();
     }
 
+    private void doLogout() {
+        checkAuth();
+        resetScreen();
+    }
+
     @Override
     public void onBackPressed() {
         if (doubleBackToExitPressedOnce) {
@@ -98,5 +119,10 @@ public class MainActivity extends BaseFragmentActivity {
                 doubleBackToExitPressedOnce = false;
             }
         }, DOUBLE_BACK_DELAY);
+    }
+
+    @Subscribe
+    public void onLogoutEvent(LogoutEvent event) {
+        doLogout();
     }
 }

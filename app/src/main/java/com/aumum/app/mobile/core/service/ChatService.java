@@ -3,6 +3,7 @@ package com.aumum.app.mobile.core.service;
 import com.aumum.app.mobile.core.model.CmdMessage;
 import com.aumum.app.mobile.utils.Ln;
 import com.easemob.EMCallBack;
+import com.easemob.EMConnectionListener;
 import com.easemob.chat.CmdMessageBody;
 import com.easemob.chat.EMChat;
 import com.easemob.chat.EMChatManager;
@@ -55,6 +56,10 @@ public class ChatService {
 
             }
         });
+    }
+
+    public void setConnectionListener(EMConnectionListener emConnectionListener) {
+        EMChatManager.getInstance().addConnectionListener(emConnectionListener);
     }
 
     public void logOut() {

@@ -98,15 +98,14 @@ public abstract class RefreshItemListFragment<E> extends ItemListFragment<E> {
             return getData();
         } finally {
             isLoading = false;
-        }
-    }
-
-    @Override
-    protected void handleLoadResult(final List<E> result) {
-        super.handleLoadResult(result);
-        isLoading = false;
-        if (pullToRefreshLayout != null) {
-            pullToRefreshLayout.setRefreshComplete();
+            getActivity().runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    if (pullToRefreshLayout != null) {
+                        pullToRefreshLayout.setRefreshComplete();
+                    }
+                }
+            });
         }
     }
 

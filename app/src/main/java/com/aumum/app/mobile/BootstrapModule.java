@@ -24,6 +24,7 @@ import com.aumum.app.mobile.ui.asking.AskingReplyCard;
 import com.aumum.app.mobile.ui.asking.AskingReplyLikeListener;
 import com.aumum.app.mobile.ui.asking.NewAskingActivity;
 import com.aumum.app.mobile.ui.asking.SearchAskingFragment;
+import com.aumum.app.mobile.ui.chat.ChatConnectionListener;
 import com.aumum.app.mobile.ui.chat.ChatFragment;
 import com.aumum.app.mobile.ui.chat.GroupDetailsFragment;
 import com.aumum.app.mobile.ui.chat.ImageMessageCard;
@@ -142,7 +143,8 @@ import retrofit.converter.GsonConverter;
                 UserListFragment.class,
                 PartyDetailsSingleFragment.class,
                 PartyCommentsSingleFragment.class,
-                ReportActivity.class
+                ReportActivity.class,
+                ChatConnectionListener.class
         }
 )
 public class BootstrapModule {
