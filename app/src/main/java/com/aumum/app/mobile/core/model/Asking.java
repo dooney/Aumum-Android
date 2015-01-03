@@ -19,6 +19,7 @@ public class Asking extends AggregateRoot {
     private String title;
     private String details;
     private List<String> replies = new ArrayList<String>();
+    private List<String> likes = new ArrayList<String>();
     private List<String> favorites = new ArrayList<String>();
     private List<String> images = new ArrayList<String>();
 
@@ -45,6 +46,7 @@ public class Asking extends AggregateRoot {
                   String title,
                   String details,
                   List<String> replies,
+                  List<String> likes,
                   List<String> favorites,
                   List<String> images) {
         this.objectId = objectId;
@@ -56,6 +58,8 @@ public class Asking extends AggregateRoot {
         this.details = details;
         this.replies.clear();
         this.replies.addAll(replies);
+        this.likes.clear();
+        this.likes.addAll(replies);
         this.favorites.clear();
         this.favorites.addAll(favorites);
         this.images.clear();
@@ -86,6 +90,10 @@ public class Asking extends AggregateRoot {
         return replies;
     }
 
+    public List<String> getLikes() {
+        return likes;
+    }
+
     public List<String> getFavorites() {
         return favorites;
     }
@@ -109,6 +117,13 @@ public class Asking extends AggregateRoot {
         return 0;
     }
 
+    public int getLikesCount() {
+        if (likes != null) {
+            return likes.size();
+        }
+        return 0;
+    }
+
     public int getFavoritesCount() {
         if (favorites != null) {
             return favorites.size();
@@ -125,6 +140,13 @@ public class Asking extends AggregateRoot {
 
     public boolean isOwner(String userId) {
         return userId.equals(this.userId);
+    }
+
+    public boolean isLiked(String userId) {
+        if (likes != null) {
+            return likes.contains(userId);
+        }
+        return false;
     }
 
     public boolean isFavorited(String userId) {

@@ -35,7 +35,9 @@ import com.aumum.app.mobile.ui.image.CustomGallery;
 import com.aumum.app.mobile.ui.image.GalleryAdapter;
 import com.aumum.app.mobile.ui.report.ReportActivity;
 import com.aumum.app.mobile.ui.user.UserListener;
+import com.aumum.app.mobile.ui.view.AvatarImageView;
 import com.aumum.app.mobile.ui.view.FavoriteTextView;
+import com.aumum.app.mobile.ui.view.LikeTextView;
 import com.aumum.app.mobile.ui.view.ListViewDialog;
 import com.aumum.app.mobile.ui.view.SpannableTextView;
 import com.aumum.app.mobile.utils.EditTextUtils;
@@ -75,9 +77,11 @@ public class AskingDetailsFragment extends LoaderFragment<Asking> {
     private SpannableTextView titleText;
     private SpannableTextView detailsText;
     private GridView gridGallery;
+    private AvatarImageView avatarImage;
     private TextView userNameText;
-    private TextView cityText;
     private TextView updatedAtText;
+    private TextView replyText;
+    private LikeTextView likeText;
     private FavoriteTextView favoriteText;
 
     private EditText editReply;
@@ -141,9 +145,16 @@ public class AskingDetailsFragment extends LoaderFragment<Asking> {
         gridGallery = (GridView) view.findViewById(R.id.grid_gallery);
         gridGallery.setAdapter(adapter);
 
+        avatarImage = (AvatarImageView) view.findViewById(R.id.image_avatar);
         userNameText = (TextView) view.findViewById(R.id.text_user_name);
-        cityText = (TextView) view.findViewById(R.id.text_city);
         updatedAtText = (TextView) view.findViewById(R.id.text_updatedAt);
+
+        replyText = (TextView) view.findViewById(R.id.text_reply);
+
+        likeText = (LikeTextView) view.findViewById(R.id.text_like);
+        likeText.setTextResId(R.string.label_like);
+        likeText.setLikeResId(R.drawable.ic_fa_thumbs_o_up_s);
+        likeText.setLikedResId(R.drawable.ic_fa_thumbs_up_s);
 
         favoriteText = (FavoriteTextView) view.findViewById(R.id.text_favorite);
         favoriteText.setFavoriteResId(R.drawable.ic_fa_star_o_s);
@@ -222,9 +233,9 @@ public class AskingDetailsFragment extends LoaderFragment<Asking> {
                 gridGallery.setVisibility(View.GONE);
             }
 
+            avatarImage.getFromUrl(asking.getUser().getAvatarUrl());
             userNameText.setText(asking.getUser().getScreenName());
             userNameText.setOnClickListener(new UserListener(getActivity(), asking.getUserId()));
-            cityText.setText(asking.getUser().getCity());
             titleText.setSpannableText(asking.getTitle());
             if (asking.getDetails() != null && asking.getDetails().length() > 0) {
                 detailsText.setSpannableText(asking.getDetails());
@@ -232,6 +243,15 @@ public class AskingDetailsFragment extends LoaderFragment<Asking> {
                 detailsText.setVisibility(View.GONE);
             }
             updatedAtText.setText(asking.getUpdatedAtFormatted());
+            replyText.setText(String.valueOf(asking.getRepliesCount()));
+            replyText.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    EditTextUtils.showSoftInput(editReply, true);
+                }
+            });
+            likeText.init(asking.getLikesCount(), asking.isLiked(currentUserId));
+            likeText.setLikeListener(new AskingLikeListener(asking));
             favoriteText.init(asking.getFavoritesCount(), asking.isFavorited(currentUserId));
             favoriteText.setFavoriteListener(new AskingFavoriteListener(asking));
         } catch (Exception e) {

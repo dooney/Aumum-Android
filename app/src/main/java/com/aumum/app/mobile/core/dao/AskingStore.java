@@ -58,6 +58,7 @@ public class AskingStore {
                 askingEntity.getTitle(),
                 askingEntity.getDetails(),
                 getList(askingEntity.getReplies()),
+                getList(askingEntity.getLikes()),
                 getList(askingEntity.getFavorites()),
                 getList(askingEntity.getImages()));
     }
@@ -74,6 +75,7 @@ public class AskingStore {
                 asking.getTitle(),
                 asking.getDetails(),
                 gson.toJson(asking.getReplies()),
+                gson.toJson(asking.getLikes()),
                 gson.toJson(asking.getFavorites()),
                 gson.toJson(asking.getImages()));
     }

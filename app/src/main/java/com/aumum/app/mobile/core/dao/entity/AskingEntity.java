@@ -12,6 +12,7 @@ public class AskingEntity extends BaseEntity  {
     private String title;
     private String details;
     private String replies;
+    private String likes;
     private String favorites;
     private String images;
 
@@ -30,6 +31,7 @@ public class AskingEntity extends BaseEntity  {
                         String title,
                         String details,
                         String replies,
+                        String likes,
                         String favorites,
                         String images) {
         this.objectId = objectId;
@@ -40,6 +42,7 @@ public class AskingEntity extends BaseEntity  {
         this.title = title;
         this.details = details;
         this.replies = replies;
+        this.likes = likes;
         this.favorites = favorites;
         this.images = images;
     }
@@ -86,6 +89,14 @@ public class AskingEntity extends BaseEntity  {
 
     public String getReplies() {
         return replies;
+    }
+
+    public String getLikes() {
+        return likes;
+    }
+
+    public void setLikes(String likes) {
+        this.likes = likes;
     }
 
     public void setReplies(String replies) {

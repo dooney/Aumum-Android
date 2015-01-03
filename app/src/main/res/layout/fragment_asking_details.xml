@@ -2,10 +2,11 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
-    <RelativeLayout
+    <LinearLayout
         android:id="@+id/main_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:orientation="vertical"
         android:background="@color/card_background"
         android:paddingTop="@dimen/margin_medium"
         android:paddingBottom="@dimen/margin_medium"
@@ -13,6 +14,30 @@
         android:paddingRight="@dimen/margin_large"
         android:layout_alignParentTop="true"
         android:visibility="gone" >
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingBottom="@dimen/margin_small">
+
+            <com.aumum.app.mobile.ui.view.AvatarImageView
+                android:id="@+id/image_avatar"
+                style="@style/ImageView.Avatar.Small"
+                android:layout_marginRight="@dimen/margin_large"
+                android:src="@drawable/ic_avatar"/>
+
+            <TextView
+                android:id="@+id/text_user_name"
+                style="@style/TextView.Asking.UserName"
+                android:layout_toRightOf="@+id/image_avatar" />
+
+            <TextView
+                android:id="@+id/text_updatedAt"
+                style="@style/TextView.Asking.UpdatedAt"
+                android:layout_below="@+id/text_user_name"
+                android:layout_alignLeft="@+id/text_user_name" />
+
+        </RelativeLayout>
 
         <LinearLayout
             android:id="@+id/layout_content"
@@ -35,39 +60,55 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="top"
-                android:paddingBottom="@dimen/margin_large"
+                android:paddingBottom="@dimen/margin_medium"
                 android:numColumns="4" >
             </GridView>
 
         </LinearLayout>
 
-        <TextView
-            android:id="@+id/text_user_name"
-            style="@style/TextView.Asking.UserName"
-            android:paddingRight="@dimen/margin_medium"
-            android:layout_below="@+id/layout_content"
-            android:layout_alignParentLeft="true"/>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
 
-        <TextView
-            android:id="@+id/text_city"
-            style="@style/TextView.Asking.City"
-            android:layout_toRightOf="@+id/text_user_name"
-            android:layout_alignBaseline="@+id/text_user_name"/>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:layout_weight="1">
 
-        <com.aumum.app.mobile.ui.view.FavoriteTextView
-            android:id="@+id/text_favorite"
-            style="@style/TextView.Asking.Favorite"
-            android:layout_toLeftOf="@+id/text_updatedAt"
-            android:layout_alignBaseline="@+id/text_user_name"/>
+                <TextView
+                    android:id="@+id/text_reply"
+                    style="@style/TextView.Asking.Reply" />
 
-        <TextView
-            android:id="@+id/text_updatedAt"
-            style="@style/TextView.Asking.UpdatedAt"
-            android:paddingLeft="@dimen/margin_medium"
-            android:layout_alignParentRight="true"
-            android:layout_alignBaseline="@+id/text_user_name"/>
+            </LinearLayout>
 
-    </RelativeLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:layout_weight="1">
+
+                <com.aumum.app.mobile.ui.view.LikeTextView
+                    android:id="@+id/text_like"
+                    style="@style/TextView.Asking.Like" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:layout_weight="1">
+
+                <com.aumum.app.mobile.ui.view.FavoriteTextView
+                    android:id="@+id/text_favorite"
+                    style="@style/TextView.Asking.Favorite" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </LinearLayout>
 
     <View
         android:id="@+id/divider"

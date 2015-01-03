@@ -674,6 +674,27 @@ public class RestService {
         return getUserService().updateById(userId, data);
     }
 
+    public JsonObject addAskingLike(String askingId, String userId) {
+        final JsonObject op = new JsonObject();
+        op.addProperty("__op", "AddUnique");
+        return updateAskingLikes(op, askingId, userId);
+    }
+
+    public JsonObject removeAskingLike(String askingId, String userId) {
+        final JsonObject op = new JsonObject();
+        op.addProperty("__op", "Remove");
+        return updateAskingLikes(op, askingId, userId);
+    }
+
+    private JsonObject updateAskingLikes(JsonObject op, String askingId, String userId) {
+        final JsonObject data = new JsonObject();
+        final JsonArray askingLikes = new JsonArray();
+        askingLikes.add(new JsonPrimitive(userId));
+        op.add("objects", askingLikes);
+        data.add(Constants.Http.Asking.PARAM_LIKES, op);
+        return getAskingService().updateById(askingId, data);
+    }
+
     public JsonObject addAskingFavorite(String askingId, String userId) {
         final JsonObject op = new JsonObject();
         op.addProperty("__op", "AddUnique");

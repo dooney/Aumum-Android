@@ -79,6 +79,7 @@ public class DaoGenerator {
         asking.addStringProperty("title");
         asking.addStringProperty("details");
         asking.addStringProperty("replies");
+        asking.addStringProperty("likes");
         asking.addStringProperty("favorites");
         asking.addStringProperty("images");
     }

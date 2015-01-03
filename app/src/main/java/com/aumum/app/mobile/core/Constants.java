@@ -157,6 +157,7 @@ public final class Constants {
 
         public static final class Asking {
             public static final String PARAM_REPLIES = "replies";
+            public static final String PARAM_LIKES = "likes";
             public static final String PARAM_FAVORITES = "favorites";
         }
 

@@ -29,8 +29,8 @@
                 android:paddingRight="@dimen/margin_medium"/>
 
             <TextView
-                android:id="@+id/text_city"
-                style="@style/TextView.Asking.City"/>
+                android:id="@+id/text_updatedAt"
+                style="@style/TextView.Asking.UpdatedAt"/>
 
         </LinearLayout>
 
@@ -47,11 +47,6 @@
             <TextView
                 android:id="@+id/text_reply"
                 style="@style/TextView.Asking.Reply"
-                android:paddingLeft="@dimen/margin_medium"/>
-
-            <TextView
-                android:id="@+id/text_updatedAt"
-                style="@style/TextView.Asking.UpdatedAt"
                 android:paddingLeft="@dimen/margin_medium"/>
 
         </LinearLayout>
