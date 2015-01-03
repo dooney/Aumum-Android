@@ -371,25 +371,35 @@ public class NewPartyActivity extends ProgressDialogActivity
                 if (place == null) {
                     throw new Exception(getString(R.string.error_validate_party_location, address));
                 }
-                User currentUser = userStore.getCurrentUser();
+                final User currentUser = userStore.getCurrentUser();
                 List<String> subscriptions = getSubscriptions(currentUser);
-                Party party = new Party(currentUser.getObjectId(),
-                                        titleText.getText().toString(),
-                                        date,
-                                        time,
-                                        place,
-                                        locationDescriptionText.getText().toString(),
-                                        detailsText.getText().toString(),
-                                        imageUrlList,
-                                        subscriptions);
-                Party response = restService.newParty(party);
+                final Party party = new Party(currentUser.getObjectId(),
+                        titleText.getText().toString(),
+                        date,
+                        time,
+                        place,
+                        locationDescriptionText.getText().toString(),
+                        detailsText.getText().toString(),
+                        imageUrlList,
+                        subscriptions);
+                final Party response = restService.newParty(party);
                 restService.addPartyMember(response.getObjectId(), currentUser.getObjectId());
                 restService.addUserParty(currentUser.getObjectId(), response.getObjectId());
                 if (groupType == 0) {
-                    EMGroup group = chatService.createGroup(party.getTitle());
-                    restService.addPartyGroup(response.getObjectId(), group.getGroupId());
-                    String groupCreatedText = getString(R.string.label_group_created, currentUser.getScreenName());
-                    chatService.sendSystemMessage(group.getGroupId(), true, groupCreatedText, null);
+                    new SafeAsyncTask<Boolean>() {
+                        @Override
+                        public Boolean call() throws Exception {
+                            EMGroup group = chatService.createGroup(party.getTitle());
+                            chatService.addGroupMember(group.getGroupId(), currentUser.getChatId());
+                            restService.addPartyGroup(response.getObjectId(),
+                                    group.getGroupId());
+                            String groupCreatedText = getString(R.string.label_group_created,
+                                    currentUser.getScreenName());
+                            chatService.sendSystemMessage(group.getGroupId(),
+                                    true, groupCreatedText, null);
+                            return true;
+                        }
+                    }.execute();
                 }
                 if (notifiedContacts.size() > 0) {
                     String title = getString(R.string.label_new_party_message, currentUser.getScreenName());

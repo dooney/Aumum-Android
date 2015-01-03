@@ -180,34 +180,53 @@ public class PartyReasonsFragment extends ItemListFragment<PartyReason> {
 
     private void joinPartyGroup() throws Exception {
         if (party.getGroupId() != null) {
-            chatService.joinGroup(party.getGroupId(), currentUser.getChatId());
-            String text = getActivity().getString(R.string.label_group_joint, currentUser.getScreenName());
-            chatService.sendSystemMessage(party.getGroupId(), true, text, null);
-            CmdMessage cmdMessage = new CmdMessage(CmdMessage.Type.GROUP_JOIN,
-                    null, null, party.getGroupId());
-            chatService.sendCmdMessage(party.getGroupId(), cmdMessage, true, null);
+            new SafeAsyncTask<Boolean>() {
+                @Override
+                public Boolean call() throws Exception {
+                    chatService.joinGroup(party.getGroupId(), currentUser.getChatId());
+                    String text = getActivity().getString(R.string.label_group_joint,
+                            currentUser.getScreenName());
+                    chatService.sendSystemMessage(party.getGroupId(), true, text, null);
+                    CmdMessage cmdMessage = new CmdMessage(CmdMessage.Type.GROUP_JOIN,
+                            null, null, party.getGroupId());
+                    chatService.sendCmdMessage(party.getGroupId(), cmdMessage, true, null);
+                    return true;
+                }
+            }.execute();
         }
     }
 
     private void sendJoinMessage() throws Exception {
         if (!partyId.equals(currentUser.getObjectId())) {
-            String title = getString(R.string.label_join_party_message,
-                    currentUser.getScreenName());
-            CmdMessage cmdMessage = new CmdMessage(CmdMessage.Type.PARTY_JOIN,
-                    title, party.getTitle(), partyId);
-            User partyOwner = userStore.getUserById(party.getUserId());
-            chatService.sendCmdMessage(partyOwner.getChatId(), cmdMessage, false, null);
+            new SafeAsyncTask<Boolean>() {
+                @Override
+                public Boolean call() throws Exception {
+                    String title = getString(R.string.label_join_party_message,
+                            currentUser.getScreenName());
+                    CmdMessage cmdMessage = new CmdMessage(CmdMessage.Type.PARTY_JOIN,
+                            title, party.getTitle(), partyId);
+                    User partyOwner = userStore.getUserById(party.getUserId());
+                    chatService.sendCmdMessage(partyOwner.getChatId(), cmdMessage, false, null);
+                    return true;
+                }
+            }.execute();
         }
     }
 
     private void sendQuitMessage() throws Exception {
         if (!partyId.equals(currentUser.getObjectId())) {
-            String title = getString(R.string.label_quit_party_message,
-                    currentUser.getScreenName());
-            CmdMessage cmdMessage = new CmdMessage(CmdMessage.Type.PARTY_QUIT,
-                    title, party.getTitle(), partyId);
-            User partyOwner = userStore.getUserById(party.getUserId());
-            chatService.sendCmdMessage(partyOwner.getChatId(), cmdMessage, false, null);
+            new SafeAsyncTask<Boolean>() {
+                @Override
+                public Boolean call() throws Exception {
+                    String title = getString(R.string.label_quit_party_message,
+                            currentUser.getScreenName());
+                    CmdMessage cmdMessage = new CmdMessage(CmdMessage.Type.PARTY_QUIT,
+                            title, party.getTitle(), partyId);
+                    User partyOwner = userStore.getUserById(party.getUserId());
+                    chatService.sendCmdMessage(partyOwner.getChatId(), cmdMessage, false, null);
+                    return true;
+                }
+            }.execute();
         }
     }
 }

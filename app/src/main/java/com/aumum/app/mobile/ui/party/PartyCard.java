@@ -86,7 +86,7 @@ public class PartyCard extends Card {
         TextView addressText = (TextView) view.findViewById(R.id.text_address);
         String address = party.getAddress();
         if (address != null) {
-            if (party.getLocation() != null) {
+            if (party.getLocation() != null && party.getLocation().length() > 0) {
                 address += "<br/>" + party.getLocation();
             }
             addressText.setText(Html.fromHtml(address));

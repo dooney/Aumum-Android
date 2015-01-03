@@ -260,7 +260,7 @@ public class PartyDetailsSingleFragment extends LoaderFragment<Party> {
         String address = party.getAddress();
         addressText.setText(address);
         if (address != null) {
-            if (party.getLocation() != null) {
+            if (party.getLocation() != null && party.getLocation().length() > 0) {
                 address += "<br/>" + party.getLocation();
             }
             addressText.setText(Html.fromHtml(address));
