@@ -154,14 +154,14 @@ public class ChatService {
 
     public void addGroupMember(String groupId, String userId) {
         EMGroup emGroup = EMGroupManager.getInstance().getGroup(groupId);
-        if (emGroup != null) {
+        if (emGroup != null && !emGroup.getMembers().contains(userId)) {
             emGroup.addMember(userId);
         }
     }
 
     public void removeGroupMember(String groupId, String userId) {
         EMGroup emGroup = EMGroupManager.getInstance().getGroup(groupId);
-        if (emGroup != null) {
+        if (emGroup != null && emGroup.getMembers().contains(userId)) {
             emGroup.removeMember(userId);
         }
     }
