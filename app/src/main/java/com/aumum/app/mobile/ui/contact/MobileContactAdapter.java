@@ -27,20 +27,18 @@ import java.util.HashMap;
  */
 public class MobileContactAdapter extends CursorAdapter {
 
-    private Context context;
     private User currentUser;
     private HashMap<String, String> contactList;
     private OnAddContactListener onAddContactListener;
 
     public interface OnAddContactListener {
-        void onAddContact();
+        void onAddContact(String contactId);
     }
 
     public MobileContactAdapter(Context context, User currentUser,
                                 HashMap<String, String> contactList,
                                 OnAddContactListener onAddContactListener) {
         super(context, null, 0);
-        this.context = context;
         this.currentUser = currentUser;
         this.contactList = contactList;
         this.onAddContactListener = onAddContactListener;
@@ -84,7 +82,7 @@ public class MobileContactAdapter extends CursorAdapter {
                         addButton.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View view) {
-                                onAddContactListener.onAddContact();
+                                onAddContactListener.onAddContact(userId);
                             }
                         });
                     }

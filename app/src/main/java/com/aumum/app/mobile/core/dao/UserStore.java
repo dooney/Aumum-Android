@@ -177,7 +177,7 @@ public class UserStore {
 
     public void addContact(String userId, String contactId) throws Exception {
         User user = getUserById(userId);
-        if (user != null) {
+        if (user != null && !user.getContacts().contains(contactId)) {
             user.getContacts().add(contactId);
             update(user);
         }
@@ -185,7 +185,7 @@ public class UserStore {
 
     public void removeContact(String userId, String contactId) throws Exception {
         User user = getUserById(userId);
-        if (user != null) {
+        if (user != null && user.getContacts().contains(contactId)) {
             user.getContacts().remove(contactId);
             update(user);
         }

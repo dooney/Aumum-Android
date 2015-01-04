@@ -4,6 +4,7 @@ import com.aumum.app.mobile.Injector;
 import com.aumum.app.mobile.core.dao.UserStore;
 import com.aumum.app.mobile.core.infra.security.ApiKeyProvider;
 import com.aumum.app.mobile.core.model.User;
+import com.aumum.app.mobile.core.service.ChatService;
 import com.aumum.app.mobile.core.service.NotificationService;
 import com.aumum.app.mobile.core.service.RestService;
 import com.aumum.app.mobile.utils.Ln;
@@ -21,6 +22,7 @@ public class ContactListener implements EMContactListener {
     @Inject UserStore userStore;
     @Inject RestService restService;
     @Inject NotificationService notificationService;
+    @Inject ChatService chatService;
     @Inject ApiKeyProvider apiKeyProvider;
 
     public ContactListener() {
@@ -33,6 +35,7 @@ public class ContactListener implements EMContactListener {
             String currentUserId = apiKeyProvider.getAuthUserId();
             for (String contactId : contacts) {
                 User user = userStore.getUserByChatId(contactId);
+                userStore.addContact(currentUserId, user.getObjectId());
                 restService.addContact(currentUserId, user.getObjectId());
             }
         } catch (Exception e) {
@@ -46,6 +49,8 @@ public class ContactListener implements EMContactListener {
             String currentUserId = apiKeyProvider.getAuthUserId();
             for (String contactId: contacts) {
                 User user = userStore.getUserByChatId(contactId);
+                chatService.deleteConversation(contactId);
+                userStore.removeContact(currentUserId, user.getObjectId());
                 restService.removeContact(currentUserId, user.getObjectId());
             }
         } catch (Exception e) {

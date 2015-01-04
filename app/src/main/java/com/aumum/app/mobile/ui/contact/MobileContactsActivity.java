@@ -45,7 +45,7 @@ public class MobileContactsActivity extends ActionBarActivity
     @InjectView(android.R.id.list ) protected ListView listView;
     @InjectView(R.id.pb_loading) protected ProgressBar progressBar;
 
-    private String userId;
+    private String currentUserId;
     private boolean showSkip;
     private MobileContactAdapter adapter;
     private User currentUser;
@@ -62,7 +62,7 @@ public class MobileContactsActivity extends ActionBarActivity
         setContentView(R.layout.activity_mobile_contacts);
         ButterKnife.inject(this);
 
-        userId = getIntent().getStringExtra(INTENT_USER_ID);
+        currentUserId = getIntent().getStringExtra(INTENT_USER_ID);
         showSkip = getIntent().getBooleanExtra(INTENT_SHOW_SKIP, false);
         contactList = new HashMap<String, String>();
 
@@ -116,7 +116,7 @@ public class MobileContactsActivity extends ActionBarActivity
                 public void onLoadFinished(Loader<Cursor> loader, final Cursor cursor) {
                     new SafeAsyncTask<Boolean>() {
                         public Boolean call() throws Exception {
-                            currentUser = userStore.getUserById(userId);
+                            currentUser = userStore.getUserById(currentUserId);
                             getInAppContactList(cursor);
                             return true;
                         }
@@ -172,13 +172,13 @@ public class MobileContactsActivity extends ActionBarActivity
     }
 
     @Override
-    public void onAddContact() {
+    public void onAddContact(final String contactId) {
         new EditTextDialog(this, R.layout.dialog_edit_text_multiline, R.string.hint_hello,
                 new ConfirmDialog.OnConfirmListener() {
                     @Override
                     public void call(Object value) throws Exception {
                         String hello = (String) value;
-                        chatService.addContact(userId, hello);
+                        chatService.addContact(contactId, hello);
                         Thread.sleep(1000);
                     }
 

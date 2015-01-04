@@ -140,7 +140,7 @@ public abstract class LoaderFragment<E> extends Fragment
                         hide(mainView).show(emptyText);
                     }
                 } else {
-                    show(mainView);
+                    hide(emptyText).show(mainView);
                 }
             }
             return;
