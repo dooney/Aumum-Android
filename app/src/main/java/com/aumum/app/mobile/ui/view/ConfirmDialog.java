@@ -26,7 +26,6 @@ public class ConfirmDialog extends Dialog {
         public void call(Object value) throws Exception;
         public void onException(String errorMessage);
         public void onSuccess(Object value);
-        public void onFailed();
     }
 
     public ConfirmDialog(Context context, int layoutResId, OnConfirmListener listener) {
@@ -65,12 +64,8 @@ public class ConfirmDialog extends Dialog {
 
                     @Override
                     protected void onSuccess(Boolean success) throws Exception {
-                        if (success) {
-                            dismiss();
-                            listener.onSuccess(value);
-                        } else {
-                            listener.onFailed();
-                        }
+                        dismiss();
+                        listener.onSuccess(value);
                     }
 
                     @Override

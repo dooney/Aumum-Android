@@ -445,9 +445,8 @@ public class PartyDetailsFragment extends LoaderFragment<Party> {
                 if(!(e instanceof RetrofitError)) {
                     final Throwable cause = e.getCause() != null ? e.getCause() : e;
                     if(cause != null) {
-                        Ln.e(e.getCause(), cause.getMessage());
+                        Toaster.showShort(getActivity(), cause.getMessage());
                     }
-                    Toaster.showShort(getActivity(), R.string.error_delete_party);
                 }
             }
 
@@ -571,11 +570,6 @@ public class PartyDetailsFragment extends LoaderFragment<Party> {
 
                     @Override
                     public void onSuccess(Object value) {
-
-                    }
-
-                    @Override
-                    public void onFailed() {
 
                     }
                 }).show();

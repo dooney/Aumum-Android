@@ -328,11 +328,6 @@ public class PartyListFragment extends RefreshItemListFragment<Card> {
                     @Override
                     public void onSuccess(Object value) {
                     }
-
-                    @Override
-                    public void onFailed() {
-                        Toaster.showShort(getActivity(), R.string.error_search_address);
-                    }
                 });
         dialog.getValueText().setAdapter(new PlacesAutoCompleteAdapter(getActivity(),
                 R.layout.place_autocomplete_listitem));

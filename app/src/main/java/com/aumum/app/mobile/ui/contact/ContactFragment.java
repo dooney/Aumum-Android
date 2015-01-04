@@ -182,11 +182,6 @@ public class ContactFragment extends ItemListFragment<User>
                     Toaster.showShort(getActivity(), R.string.info_no_users_found);
                 }
             }
-
-            @Override
-            public void onFailed() {
-                Toaster.showShort(getActivity(), R.string.error_search_user);
-            }
         }).show();
     }
 

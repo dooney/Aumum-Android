@@ -24,6 +24,7 @@ import com.aumum.app.mobile.events.AddPartyReasonFinishedEvent;
 import com.aumum.app.mobile.ui.base.ItemListFragment;
 import com.aumum.app.mobile.utils.Ln;
 import com.aumum.app.mobile.utils.SafeAsyncTask;
+import com.github.kevinsawicki.wishlist.Toaster;
 import com.squareup.otto.Bus;
 import com.squareup.otto.Subscribe;
 
@@ -158,7 +159,7 @@ public class PartyReasonsFragment extends ItemListFragment<PartyReason> {
                 if(!(e instanceof RetrofitError)) {
                     final Throwable cause = e.getCause() != null ? e.getCause() : e;
                     if(cause != null) {
-                        Ln.e(e.getCause(), cause.getMessage());
+                        Toaster.showShort(getActivity(), cause.getMessage());
                     }
                 }
             }

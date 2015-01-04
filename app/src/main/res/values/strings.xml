@@ -145,27 +145,17 @@
     <string name="error_load_user">获取用户信息失败</string>
     <string name="error_upload_avatar">上传头像图片失败</string>
     <string name="error_bad_credentials">验证失败，请输入正确的手机号/密码</string>
-    <string name="error_reset_password">您的密码重置失败</string>
-    <string name="error_submit_new_party">发起聚会失败</string>
     <string name="error_invalid_party_address">%1$s 不是一个有效的Google地图地址，请确认后重新输入</string>
-    <string name="error_delete_party">删除聚会失败</string>
-    <string name="error_delete_comment">删除评论失败</string>
     <string name="error_load_join_details">获取聚会报名信息失败</string>
     <string name="error_load_conversations">获取聊天记录失败</string>
-    <string name="error_quit_group">退出该群组失败</string>
-    <string name="error_add_contact">添加好友失败</string>
     <string name="error_load_contact_requests">获取好友请求列表失败</string>
     <string name="error_accept_contact">同意添加好友失败</string>
     <string name="error_load_party_details">获取聚会详情失败</string>
-    <string name="error_delete_contact">移除好友失败</string>
     <string name="error_load_contacts">获取好友列表失败</string>
     <string name="error_load_profile">获取个人信息失败</string>
     <string name="error_load_askings">获取说说列表失败</string>
-    <string name="error_submit_new_asking">发布说说失败</string>
     <string name="error_load_asking">获取说说详情失败</string>
     <string name="error_load_asking_reply_list">获取回复列表失败</string>
-    <string name="error_delete_asking">删除说说失败</string>
-    <string name="error_delete_asking_reply">删除回复失败</string>
     <string name="error_sdcard_needed_for_voice">发送语音需要SD卡支持</string>
     <string name="error_recoding_failed">录音失败</string>
     <string name="error_recoding_too_short">录音太短</string>
@@ -180,15 +170,9 @@
     <string name="error_city_first">请先选择城市</string>
     <string name="error_incorrect_email_format">邮箱地址格式无效</string>
     <string name="error_load_mobile_contacts">获取手机通讯录失败</string>
-    <string name="error_send_reset_password_email">发送密码重置邮件失败</string>
     <string name="error_load_group_details">获取群组详情失败</string>
     <string name="error_selection_no_more_than">最多只能选%,d项</string>
     <string name="error_load_user_list">获取用户列表失败</string>
-    <string name="error_delete_group">删除群组失败</string>
-    <string name="error_submit_report">提交举报失败</string>
-    <string name="error_edit_profile">修改个人资料失败</string>
-    <string name="error_search_user">搜索用户失败</string>
-    <string name="error_search_address">搜索该地址失败</string>
     <string name="error_no_network">无法找到有效的网络，请检查您的网络连接</string>
 
     <!-- Title -->

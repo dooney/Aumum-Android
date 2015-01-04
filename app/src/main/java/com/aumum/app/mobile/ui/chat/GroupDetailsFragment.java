@@ -153,9 +153,8 @@ public class GroupDetailsFragment extends ItemListFragment<User> {
                         if (!(e instanceof RetrofitError)) {
                             final Throwable cause = e.getCause() != null ? e.getCause() : e;
                             if (cause != null) {
-                                Ln.e(e.getCause(), cause.getMessage());
+                                Toaster.showShort(getActivity(), cause.getMessage());
                             }
-                            Toaster.showShort(getActivity(), R.string.error_quit_group);
                         }
                     }
 
@@ -181,9 +180,9 @@ public class GroupDetailsFragment extends ItemListFragment<User> {
             }
 
             @Override
-            public void onError(int i, String s) {
+            public void onError(int i, String message) {
                 progressListener.hideProgress();
-                Toaster.showShort(getActivity(), R.string.error_quit_group);
+                Toaster.showShort(getActivity(), message);
             }
 
             @Override
@@ -210,9 +209,8 @@ public class GroupDetailsFragment extends ItemListFragment<User> {
                 if (!(e instanceof RetrofitError)) {
                     final Throwable cause = e.getCause() != null ? e.getCause() : e;
                     if (cause != null) {
-                        Ln.e(e.getCause(), cause.getMessage());
+                        Toaster.showShort(getActivity(), cause.getMessage());
                     }
-                    Toaster.showShort(getActivity(), R.string.error_delete_group);
                 }
             }
 

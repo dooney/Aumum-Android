@@ -408,7 +408,7 @@ public class NewPartyActivity extends ProgressDialogActivity
                         CmdMessage cmdMessage = new CmdMessage(CmdMessage.Type.PARTY_NEW,
                                                                title,
                                                                party.getTitle(),
-                                                               party.getObjectId());
+                                                               response.getObjectId());
                         chatService.sendCmdMessage(user.getChatId(), cmdMessage, false, null);
                     }
                 }
@@ -427,12 +427,8 @@ public class NewPartyActivity extends ProgressDialogActivity
 
             @Override
             public void onSuccess(final Boolean success) {
-                if (success) {
-                    setResult(RESULT_OK);
-                    finish();
-                } else {
-                    Toaster.showShort(NewPartyActivity.this, R.string.error_submit_new_party);
-                }
+                setResult(RESULT_OK);
+                finish();
             }
 
             @Override
@@ -463,7 +459,10 @@ public class NewPartyActivity extends ProgressDialogActivity
     @Override
     public void onUploadFailure(Exception e) {
         hideProgress();
-        Toaster.showShort(NewPartyActivity.this, R.string.error_submit_new_party);
+        final Throwable cause = e.getCause() != null ? e.getCause() : e;
+        if(cause != null) {
+            Toaster.showShort(NewPartyActivity.this, cause.getMessage());
+        }
     }
 
     private void showPrivacyOptions() {

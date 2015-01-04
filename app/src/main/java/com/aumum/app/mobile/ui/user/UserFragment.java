@@ -214,11 +214,6 @@ public class UserFragment extends LoaderFragment<User> {
                                     actionLayout.setVisibility(View.GONE);
                                     addContactButton.setVisibility(View.VISIBLE);
                                 }
-
-                                @Override
-                                public void onFailed() {
-                                    Toaster.showShort(getActivity(), R.string.error_delete_contact);
-                                }
                             }).show();
                         }
                     });
@@ -244,11 +239,6 @@ public class UserFragment extends LoaderFragment<User> {
                                         @Override
                                         public void onSuccess(Object value) {
                                             Toaster.showShort(getActivity(), R.string.info_add_contact_sent);
-                                        }
-
-                                        @Override
-                                        public void onFailed() {
-                                            Toaster.showShort(getActivity(), R.string.error_add_contact);
                                         }
                                     }).show();
                         }

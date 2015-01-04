@@ -352,9 +352,8 @@ public class AskingDetailsFragment extends LoaderFragment<Asking> {
                 if(!(e instanceof RetrofitError)) {
                     final Throwable cause = e.getCause() != null ? e.getCause() : e;
                     if(cause != null) {
-                        Ln.e(e.getCause(), cause.getMessage());
+                        Toaster.showShort(getActivity(), cause.getMessage());
                     }
-                    Toaster.showShort(getActivity(), R.string.error_delete_asking);
                 }
             }
 

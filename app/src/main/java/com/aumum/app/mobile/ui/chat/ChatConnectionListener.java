@@ -68,11 +68,6 @@ public class ChatConnectionListener implements EMConnectionListener {
                         public void onSuccess(Object value) {
                             bus.post(new LogoutEvent());
                         }
-
-                        @Override
-                        public void onFailed() {
-
-                        }
                     });
         }
         connectionConflictDialog.show();

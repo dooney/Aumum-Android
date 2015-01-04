@@ -59,7 +59,6 @@ public class PartyLikeListener implements LikeTextView.OnLikeListener {
                 service.removePartyLike(party.getObjectId(), currentUser.getObjectId());
                 party.getLikes().remove(currentUser.getObjectId());
                 partyStore.updateOrInsert(party);
-
                 return true;
             }
 
@@ -75,10 +74,8 @@ public class PartyLikeListener implements LikeTextView.OnLikeListener {
 
             @Override
             public void onSuccess(final Boolean success) {
-                if (success) {
-                    if (likeFinishedListener != null) {
-                        likeFinishedListener.OnUnLikeFinished(party);
-                    }
+                if (likeFinishedListener != null) {
+                    likeFinishedListener.OnUnLikeFinished(party);
                 }
             }
 
@@ -118,10 +115,8 @@ public class PartyLikeListener implements LikeTextView.OnLikeListener {
 
             @Override
             public void onSuccess(final Boolean success) {
-                if (success) {
-                    if (likeFinishedListener != null) {
-                        likeFinishedListener.OnLikeFinished(party);
-                    }
+                if (likeFinishedListener != null) {
+                    likeFinishedListener.OnLikeFinished(party);
                 }
             }
 

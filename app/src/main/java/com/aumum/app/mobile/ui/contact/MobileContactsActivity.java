@@ -191,11 +191,6 @@ public class MobileContactsActivity extends ActionBarActivity
                     public void onSuccess(Object value) {
                         Toaster.showShort(MobileContactsActivity.this, R.string.info_add_contact_sent);
                     }
-
-                    @Override
-                    public void onFailed() {
-                        Toaster.showShort(MobileContactsActivity.this, R.string.error_add_contact);
-                    }
                 }).show();
     }
 }

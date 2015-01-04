@@ -22,7 +22,6 @@ import com.aumum.app.mobile.events.ReplyAskingReplyEvent;
 import com.aumum.app.mobile.ui.base.RefreshItemListFragment;
 import com.aumum.app.mobile.ui.report.ReportActivity;
 import com.aumum.app.mobile.ui.view.ListViewDialog;
-import com.aumum.app.mobile.utils.Ln;
 import com.aumum.app.mobile.utils.SafeAsyncTask;
 import com.github.kevinsawicki.wishlist.Toaster;
 import com.squareup.otto.Bus;
@@ -187,7 +186,7 @@ public class AskingRepliesFragment extends RefreshItemListFragment<AskingReply> 
                 if(!(e instanceof RetrofitError)) {
                     final Throwable cause = e.getCause() != null ? e.getCause() : e;
                     if(cause != null) {
-                        Ln.e(e.getCause(), cause.getMessage());
+                        Toaster.showShort(getActivity(), cause.getMessage());
                     }
                 }
             }
@@ -272,14 +271,13 @@ public class AskingRepliesFragment extends RefreshItemListFragment<AskingReply> 
                 if(!(e instanceof RetrofitError)) {
                     final Throwable cause = e.getCause() != null ? e.getCause() : e;
                     if(cause != null) {
-                        Ln.e(e.getCause(), cause.getMessage());
+                        Toaster.showShort(getActivity(), cause.getMessage());
                     }
                 }
-                Toaster.showShort(getActivity(), R.string.error_delete_asking_reply);
             }
 
             @Override
-            public void onSuccess(final Boolean success) {
+            public void onSuccess(final Boolean success) throws Exception {
                 onAskingReplyDeletedSuccess(askingReply.getObjectId());
             }
 
@@ -292,26 +290,21 @@ public class AskingRepliesFragment extends RefreshItemListFragment<AskingReply> 
         task.execute();
     }
 
-    private void onAskingReplyDeletedSuccess(String askingReplyId) {
-        try {
-            List<AskingReply> askingReplies = getData();
-            for (Iterator<AskingReply> it = askingReplies.iterator(); it.hasNext();) {
-                AskingReply askingReply = it.next();
-                if (askingReply.getObjectId().equals(askingReplyId)) {
-                    it.remove();
-                    getActivity().runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            getListAdapter().notifyDataSetChanged();
-                        }
-                    });
-                    Toaster.showShort(getActivity(), R.string.info_asking_reply_deleted);
-                    return;
-                }
+    private void onAskingReplyDeletedSuccess(String askingReplyId) throws Exception {
+        List<AskingReply> askingReplies = getData();
+        for (Iterator<AskingReply> it = askingReplies.iterator(); it.hasNext();) {
+            AskingReply askingReply = it.next();
+            if (askingReply.getObjectId().equals(askingReplyId)) {
+                it.remove();
+                getActivity().runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        getListAdapter().notifyDataSetChanged();
+                    }
+                });
+                Toaster.showShort(getActivity(), R.string.info_asking_reply_deleted);
+                return;
             }
-        } catch (Exception e) {
-            Ln.d(e);
         }
-        Toaster.showShort(getActivity(), R.string.error_delete_asking_reply);
     }
 }

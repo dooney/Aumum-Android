@@ -71,13 +71,8 @@ public class ResetPasswordSuccessActivity extends ProgressDialogActivity {
 
             @Override
             public void onSuccess(final Boolean success) {
-                if (success) {
-                    Toaster.showShort(ResetPasswordSuccessActivity.this,
-                            R.string.info_reset_password_email_sent);
-                } else {
-                    Toaster.showShort(ResetPasswordSuccessActivity.this,
-                            R.string.error_send_reset_password_email);
-                }
+                Toaster.showShort(ResetPasswordSuccessActivity.this,
+                        R.string.info_reset_password_email_sent);
             }
 
             @Override

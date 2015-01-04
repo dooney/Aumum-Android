@@ -34,7 +34,6 @@ import com.aumum.app.mobile.ui.helper.TextWatcherAdapter;
 import com.aumum.app.mobile.ui.report.ReportActivity;
 import com.aumum.app.mobile.ui.view.ListViewDialog;
 import com.aumum.app.mobile.utils.EditTextUtils;
-import com.aumum.app.mobile.utils.Ln;
 import com.aumum.app.mobile.utils.SafeAsyncTask;
 import com.github.kevinsawicki.wishlist.Toaster;
 
@@ -219,7 +218,7 @@ public class PartyCommentsFragment extends ItemListFragment<Comment> {
                 if(!(e instanceof RetrofitError)) {
                     final Throwable cause = e.getCause() != null ? e.getCause() : e;
                     if(cause != null) {
-                        Ln.e(e.getCause(), cause.getMessage());
+                        Toaster.showShort(getActivity(), cause.getMessage());
                     }
                 }
             }
@@ -265,14 +264,13 @@ public class PartyCommentsFragment extends ItemListFragment<Comment> {
                 if(!(e instanceof RetrofitError)) {
                     final Throwable cause = e.getCause() != null ? e.getCause() : e;
                     if(cause != null) {
-                        Ln.e(e.getCause(), cause.getMessage());
+                        Toaster.showShort(getActivity(), cause.getMessage());
                     }
                 }
-                Toaster.showShort(getActivity(), R.string.error_delete_comment);
             }
 
             @Override
-            public void onSuccess(final Boolean success) {
+            public void onSuccess(final Boolean success) throws Exception {
                 onCommentDeletedSuccess(comment.getObjectId());
             }
 
@@ -327,26 +325,21 @@ public class PartyCommentsFragment extends ItemListFragment<Comment> {
     }
 
     private void onCommentDeletedSuccess(String commentId) {
-        try {
-            List<Comment> commentList = getData();
-            for (Iterator<Comment> it = commentList.iterator(); it.hasNext();) {
-                Comment comment = it.next();
-                if (comment.getObjectId().equals(commentId)) {
-                    it.remove();
-                    getActivity().runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            getListAdapter().notifyDataSetChanged();
-                        }
-                    });
-                    Toaster.showShort(getActivity(), R.string.info_comment_deleted);
-                    return;
-                }
+        List<Comment> commentList = getData();
+        for (Iterator<Comment> it = commentList.iterator(); it.hasNext();) {
+            Comment comment = it.next();
+            if (comment.getObjectId().equals(commentId)) {
+                it.remove();
+                getActivity().runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        getListAdapter().notifyDataSetChanged();
+                    }
+                });
+                Toaster.showShort(getActivity(), R.string.info_comment_deleted);
+                return;
             }
-        } catch (Exception e) {
-            Ln.d(e);
         }
-        Toaster.showShort(getActivity(), R.string.error_delete_comment);
     }
 
     private void sendMessage(String to, CmdMessage cmdMessage) {

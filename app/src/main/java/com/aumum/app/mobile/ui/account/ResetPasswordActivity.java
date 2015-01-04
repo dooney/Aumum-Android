@@ -146,7 +146,7 @@ public class ResetPasswordActivity extends ProgressDialogActivity
 
             @Override
             public void onSuccess(final Boolean success) {
-                onSubmitResult(success);
+                finishSubmit();
             }
 
             @Override
@@ -163,15 +163,6 @@ public class ResetPasswordActivity extends ProgressDialogActivity
         intent.putExtra(Constants.Auth.KEY_ACCOUNT_EMAIL, email);
         setResult(RESULT_OK, intent);
         finish();
-    }
-
-    public void onSubmitResult(final Boolean result) {
-        if (result) {
-            finishSubmit();
-        } else {
-            Toaster.showShort(ResetPasswordActivity.this,
-                    R.string.error_reset_password);
-        }
     }
 
     @Override

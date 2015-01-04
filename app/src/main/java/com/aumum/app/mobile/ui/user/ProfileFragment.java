@@ -139,11 +139,6 @@ public class ProfileFragment extends LoaderFragment<User> {
                                 String screenName = (String) value;
                                 screenNameText.setText(screenName);
                             }
-
-                            @Override
-                            public void onFailed() {
-                                Toaster.showShort(getActivity(), R.string.error_edit_profile);
-                            }
                         }).show();
             }
         });
@@ -178,11 +173,6 @@ public class ProfileFragment extends LoaderFragment<User> {
                                 String email = (String) value;
                                 emailText.setText(email);
                             }
-
-                            @Override
-                            public void onFailed() {
-                                Toaster.showShort(getActivity(), R.string.error_edit_profile);
-                            }
                         }).show();
             }
         });
@@ -216,11 +206,6 @@ public class ProfileFragment extends LoaderFragment<User> {
                             @Override
                             public void onSuccess(Object value) {
                                 cityText.setText(city);
-                            }
-
-                            @Override
-                            public void onFailed() {
-                                Toaster.showShort(getActivity(), R.string.error_edit_profile);
                             }
                         }).show();
                     }
@@ -258,11 +243,6 @@ public class ProfileFragment extends LoaderFragment<User> {
                                     public void onSuccess(Object value) {
                                         areaText.setText(area);
                                     }
-
-                                    @Override
-                                    public void onFailed() {
-                                        Toaster.showShort(getActivity(), R.string.error_edit_profile);
-                                    }
                                 }).show();
                             }
                         }).show();
@@ -292,11 +272,6 @@ public class ProfileFragment extends LoaderFragment<User> {
                             public void onSuccess(Object value) {
                                 String about = (String) value;
                                 aboutText.setText(about);
-                            }
-
-                            @Override
-                            public void onFailed() {
-                                Toaster.showShort(getActivity(), R.string.error_edit_profile);
                             }
                 }).show();
             }

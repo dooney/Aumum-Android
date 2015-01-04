@@ -252,12 +252,8 @@ public class NewAskingActivity extends ProgressDialogActivity
 
             @Override
             public void onSuccess(final Boolean success) {
-                if (success) {
-                    setResult(RESULT_OK);
-                    finish();
-                } else {
-                    Toaster.showShort(NewAskingActivity.this, R.string.error_submit_new_asking);
-                }
+                setResult(RESULT_OK);
+                finish();
             }
 
             @Override
@@ -288,6 +284,9 @@ public class NewAskingActivity extends ProgressDialogActivity
     @Override
     public void onUploadFailure(Exception e) {
         hideProgress();
-        Toaster.showShort(NewAskingActivity.this, R.string.error_submit_new_asking);
+        final Throwable cause = e.getCause() != null ? e.getCause() : e;
+        if(cause != null) {
+            Toaster.showShort(NewAskingActivity.this, cause.getMessage());
+        }
     }
 }

@@ -176,10 +176,6 @@ public class VoicePlayClickListener {
                             }
                         }
                     }
-
-                    @Override
-                    public void onSuccess(final Boolean success) {
-                    }
                 };
                 task.execute();
             }

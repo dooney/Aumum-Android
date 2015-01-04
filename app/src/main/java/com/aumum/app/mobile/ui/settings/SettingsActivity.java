@@ -65,11 +65,6 @@ public class SettingsActivity extends ActionBarActivity {
                         setResult(RESULT_OK, intent);
                         finish();
                     }
-
-                    @Override
-                    public void onFailed() {
-
-                    }
                 }).show();
     }
 }
