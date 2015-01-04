@@ -573,7 +573,7 @@
         <item name="android:inputType">textPersonName</item>
     </style>
     <style name="EditText.ResetPassword.Email" parent="EditText">
-        <item name="android:drawableLeft">@drawable/ic_fa_envelope</item>
+        <item name="android:drawableLeft">@drawable/ic_fa_envelope_o</item>
         <item name="android:hint">@string/hint_reset_password_email</item>
         <item name="android:inputType">textEmailAddress</item>
     </style>

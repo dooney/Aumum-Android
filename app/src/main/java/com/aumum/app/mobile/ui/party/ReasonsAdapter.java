@@ -38,4 +38,9 @@ public class ReasonsAdapter extends ArrayAdapter<PartyReason> {
 
         return convertView;
     }
+
+    @Override
+    public boolean isEnabled(int position) {
+        return false;
+    }
 }

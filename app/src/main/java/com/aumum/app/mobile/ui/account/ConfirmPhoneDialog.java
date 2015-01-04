@@ -40,6 +40,7 @@ public class ConfirmPhoneDialog extends Dialog {
                 if (listener != null) {
                     listener.onConfirmPhone();
                 }
+                dismiss();
             }
         });
         Button cancelButton = (Button) findViewById(R.id.b_dialog_cancel);
