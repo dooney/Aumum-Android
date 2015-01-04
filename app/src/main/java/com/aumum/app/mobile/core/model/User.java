@@ -69,7 +69,12 @@ public class User extends AggregateRoot implements Sortable {
     }
 
     public String getChatId() {
-        return chatId;
+        if (chatId != null) {
+            return chatId;
+        } else if (objectId != null) {
+            return objectId.toLowerCase();
+        }
+        return null;
     }
 
     public String getScreenName() {

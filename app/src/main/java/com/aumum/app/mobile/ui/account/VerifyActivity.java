@@ -54,9 +54,8 @@ public class VerifyActivity extends ProgressDialogActivity {
     private String countryCode;
     private String phone;
     private String verificationCode;
-    private String userId;
     private String password;
-    private String token;
+    private User user;
 
     private EventHandler handler;
     private SafeAsyncTask<Boolean> task;
@@ -176,8 +175,8 @@ public class VerifyActivity extends ProgressDialogActivity {
 
         if (requestCode == COMPLETE_ACTIVITY_REQ_CODE && resultCode == RESULT_OK) {
             final Intent intent = new Intent();
-            intent.putExtra(INTENT_USER_ID, userId);
-            intent.putExtra(INTENT_TOKEN, token);
+            intent.putExtra(INTENT_USER_ID, user.getObjectId());
+            intent.putExtra(INTENT_TOKEN, user.getSessionToken());
             setResult(RESULT_OK, intent);
             finish();
         }
@@ -245,12 +244,9 @@ public class VerifyActivity extends ProgressDialogActivity {
         task = new SafeAsyncTask<Boolean>() {
             public Boolean call() throws Exception {
                 String mobile = countryCode + phone;
-                User response = restService.register(mobile, password);
-                userId = response.getObjectId();
-                token = response.getSessionToken();
-                String chatId = userId.toLowerCase();
-                restService.updateUserChatId(response.getObjectId(), chatId);
-                chatService.createAccount(chatId, password);
+                user = restService.register(mobile, password);
+                restService.updateUserChatId(user.getObjectId(), user.getChatId());
+                chatService.createAccount(user.getChatId(), password);
                 return true;
             }
 
@@ -262,28 +258,37 @@ public class VerifyActivity extends ProgressDialogActivity {
                         Toaster.showShort(VerifyActivity.this, cause.getMessage());
                     }
                 }
+                hideProgress();
             }
 
             @Override
             public void onSuccess(final Boolean success) {
-                onRegistrationResult(success);
+                loginChatServer(user);
             }
 
             @Override
             protected void onFinally() throws RuntimeException {
-                hideProgress();
                 task = null;
             }
         };
         task.execute();
     }
 
-    private void onRegistrationResult(final Boolean result) {
-        if (result) {
-            startCompleteProfileActivity(userId);
-        } else {
-            Toaster.showShort(VerifyActivity.this, R.string.error_registration);
-        }
+    private void loginChatServer(final User user) {
+        chatService.authenticate(user.getChatId(), password,
+                new ChatService.OnAuthenticateListener() {
+                    @Override
+                    public void onSuccess() {
+                        startCompleteProfileActivity(user.getObjectId());
+                        hideProgress();
+                    }
+
+                    @Override
+                    public void onError(String message) {
+                        Toaster.showShort(VerifyActivity.this, message);
+                        hideProgress();
+                    }
+                });
     }
 
     private void startCompleteProfileActivity(String userId) {

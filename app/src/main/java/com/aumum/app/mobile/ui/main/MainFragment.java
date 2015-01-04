@@ -98,6 +98,7 @@ public class MainFragment extends Fragment
         chatService.setNotificationClickListener(new NotificationClickListener(getActivity()));
         chatService.setContactListener(new ContactListener());
         chatService.setAppInitialized();
+        chatService.loadAllResources();
 
         scheduleService = new ScheduleService(this);
     }

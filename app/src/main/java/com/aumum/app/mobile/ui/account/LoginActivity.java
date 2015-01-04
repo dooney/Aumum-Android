@@ -69,9 +69,8 @@ public class LoginActivity extends AuthenticateActivity {
     private final TextWatcher watcher = validationTextWatcher();
 
     private SafeAsyncTask<Boolean> task;
-    private String userId;
     private String password;
-    private String token;
+    private User user;
 
     @Override
     public void onCreate(Bundle bundle) {
@@ -209,10 +208,7 @@ public class LoginActivity extends AuthenticateActivity {
         showProgress();
         task = new SafeAsyncTask<Boolean>() {
             public Boolean call() throws Exception {
-                User response = restService.authenticate(mobile, password);
-                userId = response.getObjectId();
-                token = response.getSessionToken();
-                repository.reset();
+                user = restService.authenticate(mobile, password);
                 return true;
             }
 
@@ -229,22 +225,9 @@ public class LoginActivity extends AuthenticateActivity {
 
             @Override
             public void onSuccess(final Boolean success) {
-                UpYunUtils.setCurrentDir(userId);
-                String chatId = userId.toLowerCase();
-                chatService.authenticate(chatId, password,
-                        new ChatService.OnAuthenticateListener() {
-                            @Override
-                            public void onSuccess() {
-                                finishAuthentication(userId, password, token);
-                                hideProgress();
-                            }
-
-                            @Override
-                            public void onError(String message) {
-                                hideProgress();
-                                Toaster.showShort(LoginActivity.this, message);
-                            }
-                        });
+                resetLocalDb();
+                resetImageServer(user);
+                resetChatServer(user);
             }
 
             @Override
@@ -253,5 +236,30 @@ public class LoginActivity extends AuthenticateActivity {
             }
         };
         task.execute();
+    }
+
+    private void resetLocalDb() {
+        repository.reset();
+    }
+
+    private void resetImageServer(User user) {
+        UpYunUtils.setCurrentDir(user.getObjectId());
+    }
+
+    private void resetChatServer(final User user) {
+        chatService.authenticate(user.getChatId(), password,
+                new ChatService.OnAuthenticateListener() {
+                    @Override
+                    public void onSuccess() {
+                        finishAuthentication(user.getObjectId(), password, user.getSessionToken());
+                        hideProgress();
+                    }
+
+                    @Override
+                    public void onError(String message) {
+                        Toaster.showShort(LoginActivity.this, message);
+                        hideProgress();
+                    }
+                });
     }
 }

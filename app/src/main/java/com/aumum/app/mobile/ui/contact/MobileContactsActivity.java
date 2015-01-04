@@ -22,6 +22,7 @@ import com.aumum.app.mobile.core.service.ChatService;
 import com.aumum.app.mobile.core.service.RestService;
 import com.aumum.app.mobile.ui.view.ConfirmDialog;
 import com.aumum.app.mobile.ui.view.EditTextDialog;
+import com.aumum.app.mobile.utils.Ln;
 import com.aumum.app.mobile.utils.SafeAsyncTask;
 import com.github.kevinsawicki.wishlist.Toaster;
 
@@ -75,12 +76,12 @@ public class MobileContactsActivity extends ActionBarActivity
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         if (showSkip) {
-            MenuItem menuItem = menu.add(Menu.NONE, 0, Menu.NONE, getString(R.string.label_skip));
-            menuItem.setActionView(R.layout.menuitem_button_skip);
+            MenuItem menuItem = menu.add(Menu.NONE, 0, Menu.NONE, getString(R.string.label_enter));
+            menuItem.setActionView(R.layout.menuitem_button_enter);
             menuItem.setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
             View view = menuItem.getActionView();
-            Button skipButton = (Button) view.findViewById(R.id.b_skip);
-            skipButton.setOnClickListener(new View.OnClickListener() {
+            Button enterButton = (Button) view.findViewById(R.id.b_enter);
+            enterButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     onBackPressed();
@@ -125,7 +126,7 @@ public class MobileContactsActivity extends ActionBarActivity
                             if(!(e instanceof RetrofitError)) {
                                 final Throwable cause = e.getCause() != null ? e.getCause() : e;
                                 if(cause != null) {
-                                    Toaster.showShort(MobileContactsActivity.this, cause.getMessage());
+                                    Ln.e(cause.getMessage());
                                 }
                             }
                         }

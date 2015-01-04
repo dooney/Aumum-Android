@@ -59,11 +59,8 @@ public class SettingsActivity extends ActionBarActivity {
 
                     @Override
                     public void onSuccess(Object value) {
-                        chatService.logOut();
-                        final Intent intent = new Intent();
-                        intent.putExtra("logout", true);
-                        setResult(RESULT_OK, intent);
-                        finish();
+                        logoutChatServer();
+                        logoutApp();
                     }
 
                     @Override
@@ -71,5 +68,16 @@ public class SettingsActivity extends ActionBarActivity {
 
                     }
                 }).show();
+    }
+
+    private void logoutChatServer() {
+        chatService.logOut();
+    }
+
+    private void logoutApp() {
+        final Intent intent = new Intent();
+        intent.putExtra("logout", true);
+        setResult(RESULT_OK, intent);
+        finish();
     }
 }

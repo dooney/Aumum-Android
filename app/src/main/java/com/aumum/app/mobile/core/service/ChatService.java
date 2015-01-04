@@ -1,7 +1,6 @@
 package com.aumum.app.mobile.core.service;
 
 import com.aumum.app.mobile.core.model.CmdMessage;
-import com.aumum.app.mobile.utils.Ln;
 import com.easemob.EMCallBack;
 import com.easemob.EMConnectionListener;
 import com.easemob.chat.CmdMessageBody;
@@ -48,8 +47,7 @@ public class ChatService {
         EMChatManager.getInstance().login(userName, password, new EMCallBack() {
             @Override
             public void onSuccess() {
-                EMGroupManager.getInstance().loadAllGroups();
-                EMChatManager.getInstance().loadAllConversations();
+                loadAllResources();
                 listener.onSuccess();
             }
 
@@ -65,6 +63,11 @@ public class ChatService {
         });
     }
 
+    public void loadAllResources() {
+        EMGroupManager.getInstance().loadAllGroups();
+        EMChatManager.getInstance().loadAllConversations();
+    }
+
     public void setConnectionListener(EMConnectionListener emConnectionListener) {
         EMChatManager.getInstance().addConnectionListener(emConnectionListener);
     }
@@ -76,12 +79,7 @@ public class ChatService {
     }
 
     public String getCurrentUser() {
-        try {
-            return EMChatManager.getInstance().getCurrentUser();
-        } catch (Exception e) {
-            Ln.e(e);
-        }
-        return null;
+        return EMChatManager.getInstance().getCurrentUser();
     }
 
     private void sortConversationByLastChatTime(List<EMConversation> conversationList) {

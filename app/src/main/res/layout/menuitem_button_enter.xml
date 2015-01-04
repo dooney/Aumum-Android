@@ -8,8 +8,8 @@
 
     <Button
         xmlns:android="http://schemas.android.com/apk/res/android"
-        android:id="@+id/b_skip"
+        android:id="@+id/b_enter"
         style="@style/Button.Action"
-        android:text="@string/label_skip" />
+        android:text="@string/label_enter" />
 
 </FrameLayout>

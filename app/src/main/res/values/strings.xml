@@ -78,7 +78,7 @@
     <string name="label_ok">确定</string>
     <string name="label_cancel">取消</string>
     <string name="label_save">保存</string>
-    <string name="label_skip">跳过</string>
+    <string name="label_enter">进入</string>
     <string name="label_send">发送</string>
     <string name="label_delete">删除</string>
     <string name="label_favorite">收藏</string>
@@ -145,7 +145,6 @@
     <string name="error_load_user">获取用户信息失败</string>
     <string name="error_upload_avatar">上传头像图片失败</string>
     <string name="error_bad_credentials">您的账号验证失败，请重新输入正确的手机号/密码</string>
-    <string name="error_registration">注册失败</string>
     <string name="error_reset_password">您的密码重置失败</string>
     <string name="error_submit_new_party">发起聚会失败</string>
     <string name="error_invalid_party_address">%1$s 不是一个有效的Google地图地址，请确认后重新输入</string>

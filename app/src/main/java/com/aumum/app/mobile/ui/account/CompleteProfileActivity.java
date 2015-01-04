@@ -99,6 +99,7 @@ public class CompleteProfileActivity extends ProgressDialogActivity
                         new ListViewDialog.OnItemClickListener() {
                     @Override
                     public void onItemClick(int i) {
+                        city = cityOptions[i];
                         cityText.setText(cityOptions[i]);
                     }
                 }).show();
@@ -108,7 +109,7 @@ public class CompleteProfileActivity extends ProgressDialogActivity
         areaText.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (cityText.getText() == null) {
+                if (city == null) {
                     Toaster.showShort(CompleteProfileActivity.this, R.string.error_city_first);
                     return;
                 }
@@ -119,6 +120,7 @@ public class CompleteProfileActivity extends ProgressDialogActivity
                         new ListViewDialog.OnItemClickListener() {
                             @Override
                             public void onItemClick(int i) {
+                                area = areaOptions[i];
                                 areaText.setText(areaOptions[i]);
                             }
                         }).show();
@@ -206,8 +208,6 @@ public class CompleteProfileActivity extends ProgressDialogActivity
         EditTextUtils.hideSoftInput(screenNameText);
         email = emailText.getText().toString();
         EditTextUtils.hideSoftInput(emailText);
-        city = cityText.getText().toString();
-        area = areaText.getText().toString();
         if (aboutText.getText().length() > 0) {
             about = aboutText.getText().toString();
         }
