@@ -19,7 +19,9 @@ import com.google.gson.JsonPrimitive;
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 
 import retrofit.RestAdapter;
@@ -339,6 +341,17 @@ public class RestService {
         op.add("objects", partyMembers);
         data.add(Constants.Http.Party.PARAM_MEMBERS, op);
         return getPartyService().updateById(partyId, data);
+    }
+
+    public List<String> getPartyMembers(String partyId) {
+        JsonObject json = getPartyService().getMembers(partyId,
+                Constants.Http.Party.PARAM_MEMBERS);
+        ArrayList<String> members = new ArrayList<String>();
+        JsonArray array = json.get(Constants.Http.Party.PARAM_MEMBERS).getAsJsonArray();
+        for (Iterator<JsonElement> it = array.iterator(); it.hasNext();) {
+            members.add(it.next().getAsString());
+        }
+        return members;
     }
 
     public JsonObject addUserParty(String userId, String partyId) {

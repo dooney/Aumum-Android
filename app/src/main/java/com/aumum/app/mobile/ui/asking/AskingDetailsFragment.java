@@ -347,6 +347,8 @@ public class AskingDetailsFragment extends LoaderFragment<Asking> {
             public Boolean call() throws Exception {
                 restService.deleteAsking(askingId);
                 askingStore.deleteAsking(askingId);
+                userStore.removeAsking(currentUserId, askingId);
+                userStore.removeAskingFavorite(currentUserId, askingId);
                 return true;
             }
 

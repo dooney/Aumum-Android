@@ -228,15 +228,16 @@ public class NewAskingActivity extends ProgressDialogActivity
         }
         task = new SafeAsyncTask<Boolean>() {
             public Boolean call() throws Exception {
-                User user = userStore.getCurrentUser();
+                User currentUser = userStore.getCurrentUser();
                 Asking asking = new Asking(
-                        user.getObjectId(),
+                        currentUser.getObjectId(),
                         category,
                         titleText.getText().toString(),
                         detailsText.getText().toString(),
                         imageUrlList);
                 Asking response = restService.newAsking(asking);
-                restService.addUserAsking(user.getObjectId(), response.getObjectId());
+                restService.addUserAsking(currentUser.getObjectId(), response.getObjectId());
+                userStore.addAsking(currentUser.getObjectId(), response.getObjectId());
                 return true;
             }
 

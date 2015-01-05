@@ -385,6 +385,7 @@ public class NewPartyActivity extends ProgressDialogActivity
                 final Party response = restService.newParty(party);
                 restService.addPartyMember(response.getObjectId(), currentUser.getObjectId());
                 restService.addUserParty(currentUser.getObjectId(), response.getObjectId());
+                userStore.addParty(currentUser.getObjectId(), response.getObjectId());
                 if (groupType == 0) {
                     new SafeAsyncTask<Boolean>() {
                         @Override

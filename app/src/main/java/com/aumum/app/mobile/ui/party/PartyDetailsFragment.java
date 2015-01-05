@@ -206,7 +206,7 @@ public class PartyDetailsFragment extends LoaderFragment<Party> {
         postReasonButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (party.isMember(currentUserId)) {
+                if (joinText.isMember()) {
                     showQuitConfirmDialog();
                 } else {
                     submit();
@@ -437,13 +437,11 @@ public class PartyDetailsFragment extends LoaderFragment<Party> {
         progressListener.showProgress();
         task = new SafeAsyncTask<Boolean>() {
             public Boolean call() throws Exception {
-                restService.deleteParty(party.getObjectId());
-                partyStore.deleteParty(party.getObjectId());
-                for(String userId: party.getMembers()) {
-                    restService.removeUserParty(userId, party.getObjectId());
-                }
-
-                sendCancelMessage();
+                restService.deleteParty(partyId);
+                partyStore.deleteParty(partyId);
+                userStore.removeParty(currentUserId, partyId);
+                userStore.removePartyFavorite(currentUserId, partyId);
+                notifyMembers();
                 return true;
             }
 
@@ -535,17 +533,25 @@ public class PartyDetailsFragment extends LoaderFragment<Party> {
         enableSubmit();
     }
 
-    private void sendCancelMessage() throws Exception {
+    private void notifyMembers() throws Exception {
         User partyOwner = userStore.getUserById(party.getUserId());
         String title = getString(R.string.label_cancel_party_message,
                 partyOwner.getScreenName());
         CmdMessage cmdMessage = new CmdMessage(CmdMessage.Type.PARTY_CANCEL,
                 title, party.getTitle(), partyId);
-        for (String memberId: party.getMembers()) {
+        List<String> members = restService.getPartyMembers(partyId);
+        for (final String memberId: members) {
             User member = userStore.getUserById(memberId);
             if (!memberId.equals(currentUserId)) {
                 chatService.sendCmdMessage(member.getChatId(), cmdMessage, false, null);
             }
+            new SafeAsyncTask<Boolean>() {
+                @Override
+                public Boolean call() throws Exception {
+                    restService.removeUserParty(memberId, partyId);
+                    return true;
+                }
+            }.execute();
         }
     }
 
