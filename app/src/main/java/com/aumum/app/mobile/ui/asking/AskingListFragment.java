@@ -108,8 +108,8 @@ public class AskingListFragment extends RefreshItemListFragment<Asking> {
     }
 
     @Override
-    protected int getErrorMessage(Exception exception) {
-        return R.string.error_load_askings;
+    protected String getErrorMessage(Exception exception) {
+        return getString(R.string.error_load_askings);
     }
 
     @Override

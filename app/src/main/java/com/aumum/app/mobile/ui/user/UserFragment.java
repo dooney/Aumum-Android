@@ -128,8 +128,8 @@ public class UserFragment extends LoaderFragment<User> {
     }
 
     @Override
-    protected int getErrorMessage(Exception exception) {
-        return R.string.error_load_user;
+    protected String getErrorMessage(Exception exception) {
+        return getString(R.string.error_load_user);
     }
 
     @Override

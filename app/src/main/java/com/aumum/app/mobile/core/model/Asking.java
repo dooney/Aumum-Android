@@ -14,6 +14,7 @@ import java.util.List;
 public class Asking extends AggregateRoot {
 
     private String updatedAt;
+    private String deletedAt;
     private String userId;
     private int category;
     private String title;
@@ -68,6 +69,10 @@ public class Asking extends AggregateRoot {
 
     public String getUpdatedAt() {
         return updatedAt;
+    }
+
+    public String getDeletedAt() {
+        return deletedAt;
     }
 
     public String getUserId() {

@@ -89,8 +89,8 @@ public class PartyReasonsFragment extends ItemListFragment<PartyReason> {
     }
 
     @Override
-    protected int getErrorMessage(Exception exception) {
-        return R.string.error_load_join_details;
+    protected String getErrorMessage(Exception exception) {
+        return getString(R.string.error_load_join_details);
     }
 
     @Override

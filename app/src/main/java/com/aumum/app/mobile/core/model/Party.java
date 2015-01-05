@@ -13,6 +13,7 @@ import java.util.List;
  * Created by Administrator on 25/09/2014.
  */
 public class Party extends AggregateRoot {
+    protected String deletedAt;
     protected String userId;
     protected String title;
     protected Date date;
@@ -108,6 +109,10 @@ public class Party extends AggregateRoot {
         this.favorites.addAll(favorites);
         this.images.clear();
         this.images.addAll(images);
+    }
+
+    public String getDeletedAt() {
+        return deletedAt;
     }
 
     public String getUserId() {

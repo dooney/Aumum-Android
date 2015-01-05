@@ -87,8 +87,8 @@ public class ContactFragment extends ItemListFragment<User>
     }
 
     @Override
-    protected int getErrorMessage(Exception exception) {
-        return R.string.error_load_contacts;
+    protected String getErrorMessage(Exception exception) {
+        return getString(R.string.error_load_contacts);
     }
 
     @Override

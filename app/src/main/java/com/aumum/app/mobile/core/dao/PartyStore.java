@@ -160,7 +160,9 @@ public class PartyStore {
 
     public Party getPartyByIdFromServer(String id) throws Exception {
         Party party = restService.getPartyById(id);
-        updateOrInsert(party);
+        if (party.getDeletedAt() == null) {
+            updateOrInsert(party);
+        }
         return party;
     }
 

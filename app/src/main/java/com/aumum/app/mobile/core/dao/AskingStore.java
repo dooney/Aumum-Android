@@ -147,7 +147,9 @@ public class AskingStore {
 
     public Asking getAskingByIdFromServer(String id) throws Exception {
         Asking asking = restService.getAskingById(id);
-        updateOrInsert(asking);
+        if (asking.getDeletedAt() == null) {
+            updateOrInsert(asking);
+        }
         return asking;
     }
 

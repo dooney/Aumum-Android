@@ -42,8 +42,8 @@ public class ContactRequestsFragment extends ItemListFragment<ContactRequest> {
     }
 
     @Override
-    protected int getErrorMessage(Exception exception) {
-        return R.string.error_load_contact_requests;
+    protected String getErrorMessage(Exception exception) {
+        return getString(R.string.error_load_contact_requests);
     }
 
     @Override

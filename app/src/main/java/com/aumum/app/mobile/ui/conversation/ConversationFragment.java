@@ -85,8 +85,8 @@ public class ConversationFragment extends ItemListFragment<Conversation> {
     }
 
     @Override
-    protected int getErrorMessage(Exception exception) {
-        return R.string.error_load_conversations;
+    protected String getErrorMessage(Exception exception) {
+        return getString(R.string.error_load_conversations);
     }
 
     @Override

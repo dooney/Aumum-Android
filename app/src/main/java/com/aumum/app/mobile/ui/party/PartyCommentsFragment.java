@@ -121,14 +121,21 @@ public class PartyCommentsFragment extends ItemListFragment<Comment> {
     }
 
     @Override
-    protected int getErrorMessage(Exception exception) {
-        return R.string.error_load_party_comments;
+    protected String getErrorMessage(Exception e) {
+        final Throwable cause = e.getCause() != null ? e.getCause() : e;
+        if(cause != null) {
+            return(cause.getMessage());
+        }
+        return getString(R.string.error_load_party_comments);
     }
 
     @Override
     protected List<Comment> loadDataCore(Bundle bundle) throws Exception {
         currentUser = userStore.getCurrentUser();
         party = partyStore.getPartyByIdFromServer(partyId);
+        if (party.getDeletedAt() != null) {
+            throw new Exception(getString(R.string.error_party_was_deleted));
+        }
         List<Comment> result = partyCommentStore.getPartyComments(party.getComments());
         for (Comment comment : result) {
             comment.setUser(userStore.getUserById(comment.getUserId()));

@@ -103,7 +103,7 @@ public abstract class LoaderFragment<E> extends Fragment
         getLoaderManager().restartLoader(0, args, this);
     }
 
-    protected void showError(final int message) {
+    protected void showError(final String message) {
         Toaster.showShort(getActivity(), message);
     }
 
@@ -194,7 +194,7 @@ public abstract class LoaderFragment<E> extends Fragment
         return this;
     }
 
-    protected abstract int getErrorMessage(final Exception exception);
+    protected abstract String getErrorMessage(final Exception exception);
 
     protected abstract boolean readyToShow();
 

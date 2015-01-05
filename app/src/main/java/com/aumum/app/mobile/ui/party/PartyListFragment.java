@@ -132,8 +132,8 @@ public class PartyListFragment extends RefreshItemListFragment<Card> {
     }
 
     @Override
-    protected int getErrorMessage(Exception exception) {
-        return R.string.error_load_parties;
+    protected String getErrorMessage(Exception exception) {
+        return getString(R.string.error_load_parties);
     }
 
     @Override

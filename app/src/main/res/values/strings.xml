@@ -175,6 +175,8 @@
     <string name="error_selection_no_more_than">最多只能选%,d项</string>
     <string name="error_load_user_list">获取用户列表失败</string>
     <string name="error_no_network">无法找到有效的网络，请检查您的网络连接</string>
+    <string name="error_party_was_deleted">该聚会已被删除</string>
+    <string name="error_asking_was_deleted">该说说已被删除</string>
 
     <!-- Title -->
     <string name="title_activity_login">用户登录</string>

@@ -248,8 +248,12 @@ public class PartyDetailsFragment extends LoaderFragment<Party> {
     }
 
     @Override
-    protected int getErrorMessage(Exception exception) {
-        return R.string.error_load_party_details;
+    protected String getErrorMessage(Exception e) {
+        final Throwable cause = e.getCause() != null ? e.getCause() : e;
+        if(cause != null) {
+            return(cause.getMessage());
+        }
+        return getString(R.string.error_load_party_details);
     }
 
     @Override
@@ -265,6 +269,9 @@ public class PartyDetailsFragment extends LoaderFragment<Party> {
     @Override
     protected Party loadDataCore(Bundle bundle) throws Exception {
         party = partyStore.getPartyByIdFromServer(partyId);
+        if (party.getDeletedAt() != null) {
+            throw new Exception(getString(R.string.error_party_was_deleted));
+        }
         return party;
     }
 

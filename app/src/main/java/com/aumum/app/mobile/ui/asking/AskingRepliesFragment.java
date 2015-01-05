@@ -102,14 +102,17 @@ public class AskingRepliesFragment extends RefreshItemListFragment<AskingReply> 
     }
 
     @Override
-    protected int getErrorMessage(Exception exception) {
-        return R.string.error_load_asking_reply_list;
+    protected String getErrorMessage(Exception exception) {
+        return getString(R.string.error_load_asking_reply_list);
     }
 
     @Override
     protected List<AskingReply> loadDataCore(Bundle bundle) throws Exception {
         currentUser = userStore.getCurrentUser();
         asking = askingStore.getAskingByIdFromServer(askingId);
+        if (asking.getDeletedAt() != null) {
+            return new ArrayList<AskingReply>();
+        }
         return super.loadDataCore(bundle);
     }
 

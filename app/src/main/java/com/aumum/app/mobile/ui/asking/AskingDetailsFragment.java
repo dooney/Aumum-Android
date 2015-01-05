@@ -192,8 +192,12 @@ public class AskingDetailsFragment extends LoaderFragment<Asking> {
     }
 
     @Override
-    protected int getErrorMessage(Exception exception) {
-        return R.string.error_load_asking;
+    protected String getErrorMessage(Exception e) {
+        final Throwable cause = e.getCause() != null ? e.getCause() : e;
+        if(cause != null) {
+            return(cause.getMessage());
+        }
+        return getString(R.string.error_load_asking);
     }
 
     @Override
@@ -210,6 +214,9 @@ public class AskingDetailsFragment extends LoaderFragment<Asking> {
     protected Asking loadDataCore(Bundle bundle) throws Exception {
         currentUserId = apiKeyProvider.getAuthUserId();
         asking = askingStore.getAskingByIdFromServer(askingId);
+        if (asking.getDeletedAt() != null) {
+            throw new Exception(getString(R.string.error_asking_was_deleted));
+        }
         User user = userStore.getUserById(asking.getUserId());
         asking.setUser(user);
         return asking;

@@ -312,8 +312,8 @@ public class ProfileFragment extends LoaderFragment<User> {
     }
 
     @Override
-    protected int getErrorMessage(Exception exception) {
-        return R.string.error_load_profile;
+    protected String getErrorMessage(Exception exception) {
+        return getString(R.string.error_load_profile);
     }
 
     @Override
