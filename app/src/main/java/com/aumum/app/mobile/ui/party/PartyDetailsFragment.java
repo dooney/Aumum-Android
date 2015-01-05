@@ -439,9 +439,7 @@ public class PartyDetailsFragment extends LoaderFragment<Party> {
             public Boolean call() throws Exception {
                 restService.deleteParty(partyId);
                 partyStore.deleteParty(partyId);
-                userStore.removeParty(currentUserId, partyId);
-                userStore.removePartyFavorite(currentUserId, partyId);
-                notifyMembers();
+                sendCancelMessage();
                 return true;
             }
 
@@ -533,7 +531,7 @@ public class PartyDetailsFragment extends LoaderFragment<Party> {
         enableSubmit();
     }
 
-    private void notifyMembers() throws Exception {
+    private void sendCancelMessage() throws Exception {
         User partyOwner = userStore.getUserById(party.getUserId());
         String title = getString(R.string.label_cancel_party_message,
                 partyOwner.getScreenName());
@@ -545,13 +543,6 @@ public class PartyDetailsFragment extends LoaderFragment<Party> {
             if (!memberId.equals(currentUserId)) {
                 chatService.sendCmdMessage(member.getChatId(), cmdMessage, false, null);
             }
-            new SafeAsyncTask<Boolean>() {
-                @Override
-                public Boolean call() throws Exception {
-                    restService.removeUserParty(memberId, partyId);
-                    return true;
-                }
-            }.execute();
         }
     }
 

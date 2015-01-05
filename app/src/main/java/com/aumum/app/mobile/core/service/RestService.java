@@ -237,6 +237,9 @@ public class RestService {
     public List<Party> getParties(List<String> idList, int limit) {
         final JsonObject whereJson = new JsonObject();
         whereJson.add("objectId", buildIdListJson(idList));
+        final JsonObject liveJson = new JsonObject();
+        liveJson.addProperty("$exists", false);
+        whereJson.add("deletedAt" ,liveJson);
         String where = whereJson.toString();
         return getPartyService().getList("-createdAt", where, limit).getResults();
     }
@@ -399,6 +402,9 @@ public class RestService {
     public List<Comment> getPartyComments(List<String> idList) {
         final JsonObject whereJson = new JsonObject();
         whereJson.add("objectId", buildIdListJson(idList));
+        final JsonObject liveJson = new JsonObject();
+        liveJson.addProperty("$exists", false);
+        whereJson.add("deletedAt" ,liveJson);
         String where = whereJson.toString();
         return getPartyCommentService().getList("-createdAt", where).getResults();
     }
@@ -589,6 +595,9 @@ public class RestService {
     public List<AskingReply> getAskingReplies(List<String> idList, int limit) {
         final JsonObject whereJson = new JsonObject();
         whereJson.add("objectId", buildIdListJson(idList));
+        final JsonObject liveJson = new JsonObject();
+        liveJson.addProperty("$exists", false);
+        whereJson.add("deletedAt" ,liveJson);
         String where = whereJson.toString();
         return getAskingReplyService().getList("-createdAt", where, limit).getResults();
     }
@@ -634,6 +643,9 @@ public class RestService {
     public List<Asking> getAskingList(List<String> idList, int limit) {
         final JsonObject whereJson = new JsonObject();
         whereJson.add("objectId", buildIdListJson(idList));
+        final JsonObject liveJson = new JsonObject();
+        liveJson.addProperty("$exists", false);
+        whereJson.add("deletedAt" ,liveJson);
         String where = whereJson.toString();
         return getAskingService().getList("-updatedAt", where, limit).getResults();
     }
