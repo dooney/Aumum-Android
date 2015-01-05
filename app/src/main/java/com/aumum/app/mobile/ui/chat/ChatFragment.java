@@ -33,6 +33,7 @@ import com.aumum.app.mobile.core.dao.UserStore;
 import com.aumum.app.mobile.core.service.ChatService;
 import com.aumum.app.mobile.ui.helper.TextWatcherAdapter;
 import com.aumum.app.mobile.ui.image.ImagePickerActivity;
+import com.aumum.app.mobile.ui.report.ReportActivity;
 import com.aumum.app.mobile.ui.view.ListViewDialog;
 import com.aumum.app.mobile.utils.EditTextUtils;
 import com.aumum.app.mobile.utils.Ln;
@@ -143,20 +144,7 @@ public class ChatFragment extends Fragment
     @Override
     public boolean onOptionsItemSelected(final MenuItem item) {
         if (type == ChatActivity.TYPE_SINGLE) {
-            final String options[] = getResources().getStringArray(R.array.label_chat_actions);
-            new ListViewDialog(getActivity(), null, Arrays.asList(options),
-                    new ListViewDialog.OnItemClickListener() {
-                @Override
-                public void onItemClick(int i) {
-                    switch (i) {
-                        case 0:
-                            clearConversation();
-                            break;
-                        default:
-                            break;
-                    }
-                }
-            }).show();
+            showSingleChatActions();
         } else {
             startGroupDetailsActivity();
         }
@@ -489,6 +477,25 @@ public class ChatFragment extends Fragment
         }
     }
 
+    private void showSingleChatActions() {
+        final String options[] = getResources().getStringArray(R.array.label_single_chat_actions);
+        new ListViewDialog(getActivity(), null, Arrays.asList(options),
+                new ListViewDialog.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(int i) {
+                        switch (i) {
+                            case 0:
+                                clearConversation();
+                                break;
+                            case 1:
+                                reportUser(ReportActivity.TYPE_USER, id);
+                            default:
+                                break;
+                        }
+                    }
+                }).show();
+    }
+
     private void startGroupDetailsActivity() {
         String groupId = conversation.getUserName();
         final Intent intent = new Intent(getActivity(), GroupDetailsActivity.class);
@@ -501,5 +508,12 @@ public class ChatFragment extends Fragment
         String userName = conversation.getUserName();
         chatService.clearConversation(userName);
         adapter.notifyDataSetChanged();
+    }
+
+    private void reportUser(String type, String id) {
+        final Intent intent = new Intent(getActivity(), ReportActivity.class);
+        intent.putExtra(ReportActivity.INTENT_ENTITY_TYPE, type);
+        intent.putExtra(ReportActivity.INTENT_ENTITY_ID, id);
+        startActivity(intent);
     }
 }

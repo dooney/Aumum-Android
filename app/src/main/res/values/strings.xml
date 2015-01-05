@@ -34,8 +34,9 @@
         <item>微信好友</item>
         <item>Facebook好友</item>
     </string-array>
-    <string-array name="label_chat_actions">
+    <string-array name="label_single_chat_actions">
         <item>清除聊天记录</item>
+        <item>举报</item>
     </string-array>
     <string-array name="label_user_actions">
         <item>她的聚会</item>
