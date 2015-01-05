@@ -362,33 +362,9 @@ public class ProfileFragment extends LoaderFragment<User> {
             public void onItemClick(int i) {
                 switch (i) {
                     case 0:
-                        startMyPartiesActivity(currentUser);
+                        showFavoriteDialog();
                         break;
                     case 1:
-                        startMyAskingsActivity(currentUser);
-                        break;
-                    case 2:
-                        String options[] = getResources().getStringArray(R.array.label_favorite_types);
-                        new ListViewDialog(getActivity(),
-                                getString(R.string.label_select_favorite_type),
-                                Arrays.asList(options),
-                                new ListViewDialog.OnItemClickListener() {
-                            @Override
-                            public void onItemClick(int i) {
-                                switch (i) {
-                                    case 0:
-                                        startMyFavoritePartiesActivity(currentUser);
-                                        break;
-                                    case 1:
-                                        startMyFavoriteAskingsActivity(currentUser);
-                                        break;
-                                    default:
-                                        break;
-                                }
-                            }
-                        }).show();
-                        break;
-                    case 3:
                         startSettingsActivity();
                         break;
                     default:
@@ -441,11 +417,26 @@ public class ProfileFragment extends LoaderFragment<User> {
         task.execute();
     }
 
-    private void startMyPartiesActivity(User user) {
-        final Intent intent = new Intent(getActivity(), SearchPartyActivity.class);
-        intent.putExtra(SearchPartyActivity.INTENT_TITLE, getString(R.string.label_my_parties));
-        intent.putExtra(SearchPartyActivity.INTENT_USER_ID, user.getObjectId());
-        startActivity(intent);
+    private void showFavoriteDialog() {
+        String options[] = getResources().getStringArray(R.array.label_favorite_types);
+        new ListViewDialog(getActivity(),
+                getString(R.string.label_select_favorite_type),
+                Arrays.asList(options),
+                new ListViewDialog.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(int i) {
+                        switch (i) {
+                            case 0:
+                                startMyFavoritePartiesActivity(currentUser);
+                                break;
+                            case 1:
+                                startMyFavoriteAskingsActivity(currentUser);
+                                break;
+                            default:
+                                break;
+                        }
+                    }
+                }).show();
     }
 
     private void startMyFavoritePartiesActivity(User user) {
@@ -453,13 +444,6 @@ public class ProfileFragment extends LoaderFragment<User> {
         intent.putExtra(SearchPartyActivity.INTENT_TITLE, getString(R.string.label_favorite_parties));
         intent.putExtra(SearchPartyActivity.INTENT_USER_ID, user.getObjectId());
         intent.putExtra(SearchPartyActivity.INTENT_IS_FAVORITE, true);
-        startActivity(intent);
-    }
-
-    private void startMyAskingsActivity(User user) {
-        final Intent intent = new Intent(getActivity(), SearchAskingActivity.class);
-        intent.putExtra(SearchAskingActivity.INTENT_TITLE, getString(R.string.label_my_askings));
-        intent.putExtra(SearchAskingActivity.INTENT_USER_ID, user.getObjectId());
         startActivity(intent);
     }
 

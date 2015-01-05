@@ -80,8 +80,8 @@ public class PartyListFragment extends RefreshItemListFragment<Card> {
                 .setIcon(R.drawable.ic_fa_search)
                 .setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
 
-        menu.add(Menu.NONE, 1, Menu.NONE, "NEW")
-                .setIcon(R.drawable.ic_fa_plus)
+        menu.add(Menu.NONE, 1, Menu.NONE, "MORE")
+                .setIcon(R.drawable.ic_fa_ellipsis_v)
                 .setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
     }
 
@@ -95,8 +95,9 @@ public class PartyListFragment extends RefreshItemListFragment<Card> {
                 showSearchPartyDialog();
                 break;
             case 1:
-                final Intent intent = new Intent(getActivity(), NewPartyActivity.class);
-                startActivityForResult(intent, Constants.RequestCode.NEW_PARTY_REQ_CODE);
+                showActionDialog();
+                break;
+            default:
                 break;
         }
         return super.onOptionsItemSelected(item);
@@ -332,5 +333,37 @@ public class PartyListFragment extends RefreshItemListFragment<Card> {
         dialog.getValueText().setAdapter(new PlacesAutoCompleteAdapter(getActivity(),
                 R.layout.place_autocomplete_listitem));
         dialog.show();
+    }
+
+    private void showActionDialog() {
+        final String options[] = getResources().getStringArray(R.array.label_party_actions);
+        new ListViewDialog(getActivity(), null, Arrays.asList(options),
+                new ListViewDialog.OnItemClickListener() {
+            @Override
+            public void onItemClick(int i) {
+                switch (i) {
+                    case 0:
+                        startNewPartyActivity();
+                        break;
+                    case 1:
+                        startMyPartiesActivity(currentUser);
+                        break;
+                    default:
+                        break;
+                }
+            }
+        }).show();
+    }
+
+    private void startNewPartyActivity() {
+        final Intent intent = new Intent(getActivity(), NewPartyActivity.class);
+        startActivityForResult(intent, Constants.RequestCode.NEW_PARTY_REQ_CODE);
+    }
+
+    private void startMyPartiesActivity(User user) {
+        final Intent intent = new Intent(getActivity(), SearchPartyActivity.class);
+        intent.putExtra(SearchPartyActivity.INTENT_TITLE, getString(R.string.label_my_parties));
+        intent.putExtra(SearchPartyActivity.INTENT_USER_ID, user.getObjectId());
+        startActivity(intent);
     }
 }

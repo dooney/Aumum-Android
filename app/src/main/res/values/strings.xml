@@ -19,9 +19,17 @@
         <item>时尚</item>
         <item>美食</item>
     </string-array>
+    <string-array name="label_party_actions">
+        <item>发起聚会</item>
+        <item>我的聚会</item>
+    </string-array>
     <string-array name="label_search_party">
         <item>当前位置附近</item>
         <item>指定地址附近</item>
+    </string-array>
+    <string-array name="label_asking_actions">
+        <item>发表说说</item>
+        <item>我的说说</item>
     </string-array>
     <string-array name="label_contact_actions">
         <item>添加好友</item>
@@ -43,8 +51,6 @@
         <item>她的说说</item>
     </string-array>
     <string-array name="label_profile_actions">
-        <item>我的聚会</item>
-        <item>我的说说</item>
         <item>我的收藏</item>
         <item>我的设置</item>
     </string-array>
@@ -192,7 +198,7 @@
     <string name="title_activity_change_avatar">更换头像</string>
     <string name="title_user_parties">%1$s的聚会</string>
     <string name="title_user_askings">%1$s的说说</string>
-    <string name="title_activity_new_asking">发布说说</string>
+    <string name="title_activity_new_asking">发表说说</string>
     <string name="title_activity_asking_details">说说详情</string>
     <string name="title_activity_choose_image">选择图片</string>
     <string name="title_activity_add_image">添加图片</string>

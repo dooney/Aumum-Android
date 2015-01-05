@@ -12,8 +12,15 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.aumum.app.mobile.Injector;
 import com.aumum.app.mobile.R;
 import com.aumum.app.mobile.core.Constants;
+import com.aumum.app.mobile.core.infra.security.ApiKeyProvider;
+import com.aumum.app.mobile.ui.view.ListViewDialog;
+
+import java.util.Arrays;
+
+import javax.inject.Inject;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
@@ -24,22 +31,22 @@ import butterknife.InjectView;
  */
 public class AskingFragment extends Fragment {
 
-    @InjectView(R.id.tpi_header)
-    protected AskingTabPageIndicator indicator;
+    @Inject ApiKeyProvider apiKeyProvider;
 
-    @InjectView(R.id.vp_pages)
-    protected ViewPager pager;
+    @InjectView(R.id.tpi_header)protected AskingTabPageIndicator indicator;
+    @InjectView(R.id.vp_pages)protected ViewPager pager;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
+        Injector.inject(this);
     }
 
     @Override
     public void onCreateOptionsMenu(final Menu menu, final MenuInflater inflater) {
-        menu.add(Menu.NONE, 0, Menu.NONE, "NEW")
-                .setIcon(R.drawable.ic_fa_plus)
+        menu.add(Menu.NONE, 0, Menu.NONE, "MORE")
+                .setIcon(R.drawable.ic_fa_ellipsis_v)
                 .setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
     }
 
@@ -50,9 +57,7 @@ public class AskingFragment extends Fragment {
         }
         switch (item.getItemId()) {
             case 0:
-                final Intent intent = new Intent(getActivity(), NewAskingActivity.class);
-                intent.putExtra(NewAskingActivity.INTENT_CATEGORY, pager.getCurrentItem());
-                startActivityForResult(intent, Constants.RequestCode.NEW_ASKING_REQ_CODE);
+                showActionDialog();
                 break;
             default:
                 break;
@@ -81,5 +86,39 @@ public class AskingFragment extends Fragment {
         if (requestCode == Constants.RequestCode.NEW_ASKING_REQ_CODE && resultCode == Activity.RESULT_OK) {
             pager.setTag(pager.getCurrentItem());
         }
+    }
+
+    private void showActionDialog() {
+        final String options[] = getResources().getStringArray(R.array.label_asking_actions);
+        new ListViewDialog(getActivity(), null, Arrays.asList(options),
+                new ListViewDialog.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(int i) {
+                        switch (i) {
+                            case 0:
+                                startNewAskingActivity();
+                                break;
+                            case 1:
+                                startMyAskingsActivity();
+                                break;
+                            default:
+                                break;
+                        }
+                    }
+                }).show();
+    }
+
+    private void startNewAskingActivity() {
+        final Intent intent = new Intent(getActivity(), NewAskingActivity.class);
+        intent.putExtra(NewAskingActivity.INTENT_CATEGORY, pager.getCurrentItem());
+        startActivityForResult(intent, Constants.RequestCode.NEW_ASKING_REQ_CODE);
+    }
+
+    private void startMyAskingsActivity() {
+        String currentUserId = apiKeyProvider.getAuthUserId();
+        final Intent intent = new Intent(getActivity(), SearchAskingActivity.class);
+        intent.putExtra(SearchAskingActivity.INTENT_TITLE, getString(R.string.label_my_askings));
+        intent.putExtra(SearchAskingActivity.INTENT_USER_ID, currentUserId);
+        startActivity(intent);
     }
 }

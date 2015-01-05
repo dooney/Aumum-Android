@@ -17,6 +17,7 @@ import com.aumum.app.mobile.ui.account.CompleteProfileActivity;
 import com.aumum.app.mobile.ui.account.ResetPasswordSuccessActivity;
 import com.aumum.app.mobile.ui.asking.AskingDetailsFragment;
 import com.aumum.app.mobile.ui.asking.AskingFavoriteListener;
+import com.aumum.app.mobile.ui.asking.AskingFragment;
 import com.aumum.app.mobile.ui.asking.AskingLikeListener;
 import com.aumum.app.mobile.ui.asking.AskingListFragment;
 import com.aumum.app.mobile.ui.asking.AskingRepliesFragment;
@@ -117,6 +118,7 @@ import retrofit.converter.GsonConverter;
                 TextMessageCard.class,
                 ProfileFragment.class,
                 SettingsActivity.class,
+                AskingFragment.class,
                 AskingListFragment.class,
                 NewAskingActivity.class,
                 AskingDetailsFragment.class,
