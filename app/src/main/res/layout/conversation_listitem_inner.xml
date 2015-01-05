@@ -7,45 +7,58 @@
     android:padding="@dimen/margin_large">
 
     <RelativeLayout
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_weight="1">
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:paddingRight="@dimen/margin_medium">
 
         <com.aumum.app.mobile.ui.view.AvatarImageView
             android:id="@+id/image_avatar"
-            style="@style/ImageView.Avatar"
-            android:layout_marginRight="@dimen/margin_large" />
+            style="@style/ImageView.Avatar" />
 
-        <TextView
-            android:id="@+id/text_screen_name"
-            style="@style/TextView.Conversation.ScreenName"
-            android:layout_toRightOf="@+id/image_avatar"
-            android:text="用户名"/>
+        <FrameLayout
+            android:layout_width="@dimen/avatar_sz_medium"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:id="@+id/image_unread"
+                style="@style/ImageView.Unread.Small"
+                android:layout_gravity="right"/>
+
+        </FrameLayout>
+
+    </RelativeLayout>
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/text_screen_name"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                style="@style/TextView.Conversation.ScreenName"/>
+
+            <TextView
+                android:id="@+id/text_time_stamp"
+                android:layout_height="match_parent"
+                style="@style/TextView.Conversation.TimeStamp"
+                android:paddingTop="@dimen/margin_extra_small"/>
+
+        </LinearLayout>
 
         <TextView
             android:id="@+id/text_message_body"
+            android:layout_height="match_parent"
             style="@style/TextView.Conversation.MessageBody"
-            android:layout_alignLeft="@+id/text_screen_name"
-            android:layout_alignBottom="@+id/image_avatar" />
+            android:gravity="bottom"/>
 
-    </RelativeLayout>
-
-    <RelativeLayout
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
-
-        <TextView
-            android:id="@+id/text_time_stamp"
-            style="@style/TextView.Conversation.TimeStamp" />
-
-        <ImageView
-            android:id="@+id/image_unread"
-            style="@style/ImageView.Unread.Small"
-            android:layout_centerHorizontal="true"
-            android:layout_alignParentBottom="true"
-            android:paddingBottom="@dimen/margin_small"/>
-
-    </RelativeLayout>
+    </LinearLayout>
 
 </LinearLayout>

@@ -52,8 +52,8 @@ public class ConversationCard {
             type = ChatActivity.TYPE_SINGLE;
         } else if (conversation.getGroup() != null) {
             id = conversation.getGroup().getChatId();
-            screenName = "#" + conversation.getGroup().getScreenName() + "#";
-            avatarImage.getFromUrl(conversation.getGroup().getAvatarUrl());
+            screenName = conversation.getGroup().getScreenName();
+            avatarImage.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_avatar_group));
             type = ChatActivity.TYPE_GROUP;
         }
         this.view.setOnClickListener(new View.OnClickListener() {

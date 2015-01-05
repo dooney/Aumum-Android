@@ -105,8 +105,7 @@ public class ConversationFragment extends ItemListFragment<Conversation> {
                     for (EMMessage emMessage: emConversation.getAllMessages()) {
                         userStore.getUserByChatId(emMessage.getFrom());
                     }
-                    User owner = userStore.getUserByChatId(emGroup.getOwner());
-                    Group group = new Group(emGroup.getGroupId(), emGroup.getGroupName(), owner.getAvatarUrl());
+                    Group group = new Group(emGroup.getGroupId(), emGroup.getGroupName());
                     conversation.setGroup(group);
                     result.add(conversation);
                 }
