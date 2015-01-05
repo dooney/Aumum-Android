@@ -10,6 +10,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
@@ -76,24 +77,19 @@ public class ProfileFragment extends LoaderFragment<User> {
 
     @Override
     public void onCreateOptionsMenu(final Menu menu, final MenuInflater inflater) {
-        menu.add(Menu.NONE, 0, Menu.NONE, "MORE")
-                .setIcon(R.drawable.ic_fa_ellipsis_v)
-                .setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(final MenuItem item) {
-        if (!isUsable()) {
-            return false;
-        }
-        switch (item.getItemId()) {
-            case 0:
-                showActionDialog();
-                break;
-            default:
-                break;
-        }
-        return super.onOptionsItemSelected(item);
+        MenuItem more = menu.add(Menu.NONE, 0, Menu.NONE, null);
+        more.setActionView(R.layout.menuitem_more);
+        more.setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
+        View moreView = more.getActionView();
+        ImageView moreIcon = (ImageView) moreView.findViewById(R.id.b_more);
+        moreIcon.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (getActivity() != null) {
+                    showActionDialog();
+                }
+            }
+        });
     }
 
     @Override

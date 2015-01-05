@@ -53,7 +53,7 @@ public class ContactPickerFragment extends ItemListFragment<User>
 
     @Override
     public void onCreateOptionsMenu(final Menu menu, final MenuInflater inflater) {
-        MenuItem menuItem = menu.add(Menu.NONE, 0, Menu.NONE, getString(R.string.label_ok));
+        MenuItem menuItem = menu.add(Menu.NONE, 0, Menu.NONE, null);
         menuItem.setActionView(R.layout.menuitem_button_ok);
         menuItem.setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
         View view = menuItem.getActionView();

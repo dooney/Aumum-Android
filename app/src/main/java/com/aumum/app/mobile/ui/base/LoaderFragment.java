@@ -97,7 +97,7 @@ public abstract class LoaderFragment<E> extends Fragment
     }
 
     protected void refresh(final Bundle args) {
-        if (!isUsable()) {
+        if (getActivity() == null) {
             return;
         }
         getLoaderManager().restartLoader(0, args, this);
@@ -124,7 +124,7 @@ public abstract class LoaderFragment<E> extends Fragment
     }
 
     private void setShown(final boolean shown, final boolean animate) {
-        if (!isUsable()) {
+        if (getActivity() == null) {
             return;
         }
 
@@ -162,10 +162,6 @@ public abstract class LoaderFragment<E> extends Fragment
             hide(emptyText).hide(mainView).fadeIn(progressBar, animate).show(progressBar);
         }
         return;
-    }
-
-    protected boolean isUsable() {
-        return getActivity() != null;
     }
 
     private LoaderFragment<E> fadeIn(final View view, final boolean animate) {

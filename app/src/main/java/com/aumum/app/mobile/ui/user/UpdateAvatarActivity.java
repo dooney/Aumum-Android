@@ -59,7 +59,7 @@ public class UpdateAvatarActivity extends ProgressDialogActivity
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        MenuItem menuItem = menu.add(Menu.NONE, 0, Menu.NONE, getString(R.string.label_save));
+        MenuItem menuItem = menu.add(Menu.NONE, 0, Menu.NONE, null);
         menuItem.setActionView(R.layout.menuitem_button_save);
         menuItem.setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
         View view = menuItem.getActionView();

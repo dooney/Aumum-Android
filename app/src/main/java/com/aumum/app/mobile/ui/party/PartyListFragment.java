@@ -11,6 +11,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 
 import com.aumum.app.mobile.Injector;
 import com.aumum.app.mobile.R;
@@ -76,31 +77,29 @@ public class PartyListFragment extends RefreshItemListFragment<Card> {
 
     @Override
     public void onCreateOptionsMenu(final Menu menu, final MenuInflater inflater) {
-        menu.add(Menu.NONE, 0, Menu.NONE, "SEARCH")
-                .setIcon(R.drawable.ic_fa_search)
-                .setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
-
-        menu.add(Menu.NONE, 1, Menu.NONE, "MORE")
-                .setIcon(R.drawable.ic_fa_ellipsis_v)
-                .setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(final MenuItem item) {
-        if (!isUsable()) {
-            return false;
-        }
-        switch (item.getItemId()) {
-            case 0:
+        MenuItem search = menu.add(Menu.NONE, 0, Menu.NONE, null);
+        search.setActionView(R.layout.menuitem_search);
+        search.setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
+        View searchView = search.getActionView();
+        ImageView searchIcon = (ImageView) searchView.findViewById(R.id.b_search);
+        searchIcon.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
                 showSearchPartyDialog();
-                break;
-            case 1:
+            }
+        });
+
+        MenuItem more = menu.add(Menu.NONE, 1, Menu.NONE, null);
+        more.setActionView(R.layout.menuitem_more);
+        more.setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
+        View moreView = more.getActionView();
+        ImageView moreIcon = (ImageView) moreView.findViewById(R.id.b_more);
+        moreIcon.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
                 showActionDialog();
-                break;
-            default:
-                break;
-        }
-        return super.onOptionsItemSelected(item);
+            }
+        });
     }
 
     @Override

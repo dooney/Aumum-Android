@@ -133,7 +133,7 @@ public class NewAskingActivity extends ProgressDialogActivity
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        MenuItem menuItem = menu.add(Menu.NONE, 0, Menu.NONE, getString(R.string.label_submit));
+        MenuItem menuItem = menu.add(Menu.NONE, 0, Menu.NONE, null);
         menuItem.setActionView(R.layout.menuitem_button_submit);
         menuItem.setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
         View view = menuItem.getActionView();

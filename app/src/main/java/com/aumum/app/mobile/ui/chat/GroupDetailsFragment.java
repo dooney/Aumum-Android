@@ -11,6 +11,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 
 import com.aumum.app.mobile.Injector;
 import com.aumum.app.mobile.R;
@@ -23,7 +24,6 @@ import com.aumum.app.mobile.ui.base.ProgressListener;
 import com.aumum.app.mobile.ui.report.ReportActivity;
 import com.aumum.app.mobile.ui.user.UserListAdapter;
 import com.aumum.app.mobile.ui.view.ListViewDialog;
-import com.aumum.app.mobile.utils.Ln;
 import com.aumum.app.mobile.utils.SafeAsyncTask;
 import com.easemob.EMCallBack;
 import com.easemob.chat.EMGroup;
@@ -73,24 +73,19 @@ public class GroupDetailsFragment extends ItemListFragment<User> {
 
     @Override
     public void onCreateOptionsMenu(final Menu menu, final MenuInflater inflater) {
-        menu.add(Menu.NONE, 0, Menu.NONE, "MORE")
-                .setIcon(R.drawable.ic_fa_ellipsis_v)
-                .setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(final MenuItem item) {
-        if (!isUsable()) {
-            return false;
-        }
-        switch (item.getItemId()) {
-            case 0:
-                showActionDialog();
-                break;
-            default:
-                break;
-        }
-        return super.onOptionsItemSelected(item);
+        MenuItem more = menu.add(Menu.NONE, 0, Menu.NONE, null);
+        more.setActionView(R.layout.menuitem_more);
+        more.setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
+        View moreView = more.getActionView();
+        ImageView moreIcon = (ImageView) moreView.findViewById(R.id.b_more);
+        moreIcon.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (getActivity() != null) {
+                    showActionDialog();
+                }
+            }
+        });
     }
 
     @Override

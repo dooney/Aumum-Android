@@ -131,24 +131,34 @@ public class ChatFragment extends Fragment
     @Override
     public void onCreateOptionsMenu(final Menu menu, final MenuInflater inflater) {
         if (type == ChatActivity.TYPE_SINGLE) {
-            menu.add(Menu.NONE, 0, Menu.NONE, null)
-                    .setIcon(R.drawable.ic_fa_ellipsis_v)
-                    .setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
+            MenuItem more = menu.add(Menu.NONE, 0, Menu.NONE, null);
+            more.setActionView(R.layout.menuitem_more);
+            more.setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
+            View moreView = more.getActionView();
+            ImageView moreIcon = (ImageView) moreView.findViewById(R.id.b_more);
+            moreIcon.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if (getActivity() != null) {
+                        showSingleChatActions();
+                    }
+                }
+            });
         } else {
-            menu.add(Menu.NONE, 0, Menu.NONE, null)
-                    .setIcon(R.drawable.ic_fa_users_o)
-                    .setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
+            MenuItem users = menu.add(Menu.NONE, 0, Menu.NONE, null);
+            users.setActionView(R.layout.menuitem_users);
+            users.setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
+            View usersView = users.getActionView();
+            ImageView usersIcon = (ImageView) usersView.findViewById(R.id.b_users);
+            usersIcon.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if (getActivity() != null) {
+                        startGroupDetailsActivity();
+                    }
+                }
+            });
         }
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(final MenuItem item) {
-        if (type == ChatActivity.TYPE_SINGLE) {
-            showSingleChatActions();
-        } else {
-            startGroupDetailsActivity();
-        }
-        return super.onOptionsItemSelected(item);
     }
 
     @Override
