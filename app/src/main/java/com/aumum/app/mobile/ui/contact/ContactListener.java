@@ -61,9 +61,12 @@ public class ContactListener implements EMContactListener {
     @Override
     public void onContactInvited(String userName, String reason) {
         try {
+            User currentUser = userStore.getCurrentUser();
             User user = userStore.getUserByChatId(userName);
-            userStore.addContactRequest(user.getObjectId(), reason);
-            notificationService.pushContactInvitedNotification(user.getScreenName(), reason);
+            if (!currentUser.getContacts().contains(user.getObjectId())) {
+                userStore.addContactRequest(user.getObjectId(), reason);
+                notificationService.pushContactInvitedNotification(user.getScreenName(), reason);
+            }
         } catch (Exception e) {
             Ln.e(e);
         }
