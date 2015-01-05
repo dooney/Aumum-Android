@@ -273,4 +273,11 @@ public class Party extends AggregateRoot {
         }
         return false;
     }
+
+    public boolean isFarAway() {
+        if (distance != null) {
+            return Float.parseFloat(distance) > 100;
+        }
+        return false;
+    }
 }

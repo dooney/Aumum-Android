@@ -298,7 +298,11 @@ public class PartyDetailsFragment extends LoaderFragment<Party> {
             distanceText.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_fa_walk, 0, 0, 0);
             distanceText.setTextColor(getResources().getColor(R.color.bbutton_danger));
         } else {
-            distanceText.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_fa_car, 0, 0, 0);
+            if (party.isFarAway()) {
+                distanceText.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0);
+            } else {
+                distanceText.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_fa_car, 0, 0, 0);
+            }
             distanceText.setTextColor(getResources().getColor(R.color.text_light));
         }
         if (party.getDistance() != null) {
