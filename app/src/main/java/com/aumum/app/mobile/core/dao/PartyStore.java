@@ -205,4 +205,20 @@ public class PartyStore {
         updateOrInsert(partyList);
         return partyList;
     }
+
+    public void addFavorite(String partyId, String userId) throws Exception {
+        Party party = getPartyById(partyId);
+        if (party != null && !party.getFavorites().contains(userId)) {
+            party.getFavorites().add(userId);
+            partyEntityDao.insertOrReplace(map(party));
+        }
+    }
+
+    public void removeFavorite(String partyId, String userId) throws Exception {
+        Party party = getPartyById(partyId);
+        if (party != null && party.getFavorites().contains(userId)) {
+            party.getFavorites().remove(userId);
+            partyEntityDao.insertOrReplace(map(party));
+        }
+    }
 }

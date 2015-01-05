@@ -1,6 +1,7 @@
 package com.aumum.app.mobile.ui.asking;
 
 import com.aumum.app.mobile.Injector;
+import com.aumum.app.mobile.core.dao.AskingStore;
 import com.aumum.app.mobile.core.dao.UserStore;
 import com.aumum.app.mobile.core.model.Asking;
 import com.aumum.app.mobile.core.model.User;
@@ -22,7 +23,8 @@ public class AskingFavoriteListener implements FavoriteTextView.OnFavoriteListen
 
     private Asking asking;
 
-    @Inject RestService service;
+    @Inject RestService restService;
+    @Inject AskingStore askingStore;
     @Inject UserStore userStore;
 
     public AskingFavoriteListener(Asking asking) {
@@ -37,8 +39,14 @@ public class AskingFavoriteListener implements FavoriteTextView.OnFavoriteListen
         task = new SafeAsyncTask<Boolean>() {
             public Boolean call() throws Exception {
                 User currentUser = userStore.getCurrentUser();
-                service.removeAskingFavorite(asking.getObjectId(), currentUser.getObjectId());
-                service.removeUserAskingFavorite(currentUser.getObjectId(), asking.getObjectId());
+                restService.removeAskingFavorite(asking.getObjectId(),
+                        currentUser.getObjectId());
+                askingStore.removeFavorite(asking.getObjectId(),
+                        currentUser.getObjectId());
+                restService.removeUserAskingFavorite(currentUser.getObjectId(),
+                        asking.getObjectId());
+                userStore.removeAskingFavorite(currentUser.getObjectId(),
+                        asking.getObjectId());
                 return true;
             }
 
@@ -68,8 +76,14 @@ public class AskingFavoriteListener implements FavoriteTextView.OnFavoriteListen
         task = new SafeAsyncTask<Boolean>() {
             public Boolean call() throws Exception {
                 User currentUser = userStore.getCurrentUser();
-                service.addAskingFavorite(asking.getObjectId(), currentUser.getObjectId());
-                service.addUserAskingFavorite(currentUser.getObjectId(), asking.getObjectId());
+                restService.addAskingFavorite(asking.getObjectId(),
+                        currentUser.getObjectId());
+                askingStore.addFavorite(asking.getObjectId(),
+                        currentUser.getObjectId());
+                restService.addUserAskingFavorite(currentUser.getObjectId(),
+                        asking.getObjectId());
+                userStore.addAskingFavorite(currentUser.getObjectId(),
+                        asking.getObjectId());
                 return true;
             }
 

@@ -1,6 +1,7 @@
 package com.aumum.app.mobile.ui.party;
 
 import com.aumum.app.mobile.Injector;
+import com.aumum.app.mobile.core.dao.PartyStore;
 import com.aumum.app.mobile.core.dao.UserStore;
 import com.aumum.app.mobile.core.model.Party;
 import com.aumum.app.mobile.core.model.User;
@@ -22,7 +23,8 @@ public class PartyFavoriteListener implements FavoriteTextView.OnFavoriteListene
 
     private Party party;
 
-    @Inject RestService service;
+    @Inject RestService restService;
+    @Inject PartyStore partyStore;
     @Inject UserStore userStore;
 
     public PartyFavoriteListener(Party party) {
@@ -38,9 +40,14 @@ public class PartyFavoriteListener implements FavoriteTextView.OnFavoriteListene
         task = new SafeAsyncTask<Boolean>() {
             public Boolean call() throws Exception {
                 User currentUser = userStore.getCurrentUser();
-                service.removePartyFavorite(party.getObjectId(), currentUser.getObjectId());
-                service.removeUserPartyFavorite(currentUser.getObjectId(), party.getObjectId());
-
+                restService.removePartyFavorite(party.getObjectId(),
+                        currentUser.getObjectId());
+                partyStore.removeFavorite(party.getObjectId(),
+                        currentUser.getObjectId());
+                restService.removeUserPartyFavorite(currentUser.getObjectId(),
+                        party.getObjectId());
+                userStore.removePartyFavorite(currentUser.getObjectId(),
+                        party.getObjectId());
                 return true;
             }
 
@@ -70,9 +77,14 @@ public class PartyFavoriteListener implements FavoriteTextView.OnFavoriteListene
         task = new SafeAsyncTask<Boolean>() {
             public Boolean call() throws Exception {
                 User currentUser = userStore.getCurrentUser();
-                service.addPartyFavorite(party.getObjectId(), currentUser.getObjectId());
-                service.addUserPartyFavorite(currentUser.getObjectId(), party.getObjectId());
-
+                restService.addPartyFavorite(party.getObjectId(),
+                        currentUser.getObjectId());
+                partyStore.addFavorite(party.getObjectId(),
+                        currentUser.getObjectId());
+                restService.addUserPartyFavorite(currentUser.getObjectId(),
+                        party.getObjectId());
+                userStore.addPartyFavorite(currentUser.getObjectId(),
+                        party.getObjectId());
                 return true;
             }
 

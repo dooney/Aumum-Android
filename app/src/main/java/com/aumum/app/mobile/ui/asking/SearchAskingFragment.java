@@ -50,8 +50,7 @@ public class SearchAskingFragment extends RefreshItemListFragment<Asking> {
         if (userId != null) {
             mode = USER_ASKINGS;
         }
-        boolean isFavorite = intent.getBooleanExtra(SearchAskingActivity.INTENT_IS_FAVORITE, false);
-        if (isFavorite) {
+        if (intent.getBooleanExtra(SearchAskingActivity.INTENT_IS_FAVORITE, false)) {
             mode = FAVORITE_ASKINGS;
         }
 

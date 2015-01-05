@@ -179,7 +179,7 @@ public class UserStore {
         User user = getUserById(userId);
         if (user != null && !user.getContacts().contains(contactId)) {
             user.getContacts().add(contactId);
-            update(user);
+            userEntityDao.insertOrReplace(map(user));
         }
     }
 
@@ -187,7 +187,39 @@ public class UserStore {
         User user = getUserById(userId);
         if (user != null && user.getContacts().contains(contactId)) {
             user.getContacts().remove(contactId);
-            update(user);
+            userEntityDao.insertOrReplace(map(user));
+        }
+    }
+
+    public void addPartyFavorite(String userId, String partyId) throws Exception {
+        User user = getUserById(userId);
+        if (user != null && !user.getFavParties().contains(partyId)) {
+            user.getFavParties().add(partyId);
+            userEntityDao.insertOrReplace(map(user));
+        }
+    }
+
+    public void removePartyFavorite(String userId, String partyId) throws Exception {
+        User user = getUserById(userId);
+        if (user != null && user.getFavParties().contains(partyId)) {
+            user.getFavParties().remove(partyId);
+            userEntityDao.insertOrReplace(map(user));
+        }
+    }
+
+    public void addAskingFavorite(String userId, String askingId) throws Exception {
+        User user = getUserById(userId);
+        if (user != null && !user.getFavAskings().contains(askingId)) {
+            user.getFavAskings().add(askingId);
+            userEntityDao.insertOrReplace(map(user));
+        }
+    }
+
+    public void removeAskingFavorite(String userId, String askingId) throws Exception {
+        User user = getUserById(userId);
+        if (user != null && user.getFavAskings().contains(askingId)) {
+            user.getFavAskings().remove(askingId);
+            userEntityDao.insertOrReplace(map(user));
         }
     }
 
