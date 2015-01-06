@@ -131,7 +131,8 @@ public class AskingRepliesFragment extends RefreshItemListFragment<AskingReply> 
     protected void getBackwardsList() {
         if (dataSet.size() > 0) {
             AskingReply last = dataSet.get(dataSet.size() - 1);
-            List<AskingReply> askingReplies = dataStore.getBackwardsList(asking.getReplies(), last.getCreatedAt());
+            List<AskingReply> askingReplies = dataStore.getBackwardsList(asking.getReplies(),
+                    last.getCreatedAt());
             dataSet.addAll(askingReplies);
             if (askingReplies.size() > 0) {
                 setMore(true);
@@ -196,6 +197,7 @@ public class AskingRepliesFragment extends RefreshItemListFragment<AskingReply> 
 
             @Override
             protected void onSuccess(Boolean success) throws Exception {
+                dataSet.clear();
                 refresh(null);
             }
 
@@ -264,8 +266,7 @@ public class AskingRepliesFragment extends RefreshItemListFragment<AskingReply> 
         card.onActionStart();
         task = new SafeAsyncTask<Boolean>() {
             public Boolean call() throws Exception {
-                restService.deleteAskingReply(askingReply.getObjectId());
-                restService.removeAskingReplies(askingId, askingReply.getObjectId());
+                restService.deleteAskingReply(askingReply.getObjectId(), askingId);
                 return true;
             }
 

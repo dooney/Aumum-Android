@@ -57,8 +57,7 @@ public class PartyLikeListener implements LikeTextView.OnLikeListener {
             public Boolean call() throws Exception {
                 User currentUser = userStore.getCurrentUser();
                 service.removePartyLike(party.getObjectId(), currentUser.getObjectId());
-                party.getLikes().remove(currentUser.getObjectId());
-                partyStore.updateOrInsert(party);
+                partyStore.removeLike(party.getObjectId(), currentUser.getObjectId());
                 return true;
             }
 
@@ -96,9 +95,7 @@ public class PartyLikeListener implements LikeTextView.OnLikeListener {
             public Boolean call() throws Exception {
                 User currentUser = userStore.getCurrentUser();
                 service.addPartyLike(party.getObjectId(), currentUser.getObjectId());
-                party.getLikes().add(currentUser.getObjectId());
-                partyStore.updateOrInsert(party);
-
+                partyStore.addLike(party.getObjectId(), currentUser.getObjectId());
                 sendLikeMessage(view.getContext(), currentUser);
                 return true;
             }

@@ -49,6 +49,10 @@ public class RestService {
         this.restAdapter = restAdapter;
     }
 
+    private BatchService getBatchService() {
+        return getRestAdapter().create(BatchService.class);
+    }
+
     private UserService getUserService() {
         return getRestAdapter().create(UserService.class);
     }
@@ -111,6 +115,14 @@ public class RestService {
         final JsonObject ltJson = new JsonObject();
         ltJson.add("$lt", timeJson);
         return ltJson;
+    }
+
+    private JsonObject buildRequestJson(String path, JsonObject body) {
+        final JsonObject requestJson = new JsonObject();
+        requestJson.addProperty("method", "PUT");
+        requestJson.addProperty("path", path);
+        requestJson.add("body", body);
+        return requestJson;
     }
 
     public boolean getMobileRegistered(String mobile) {
@@ -239,7 +251,7 @@ public class RestService {
         whereJson.add("objectId", buildIdListJson(idList));
         final JsonObject liveJson = new JsonObject();
         liveJson.addProperty("$exists", false);
-        whereJson.add("deletedAt" ,liveJson);
+        whereJson.add("deletedAt", liveJson);
         String where = whereJson.toString();
         return getPartyService().getList("-createdAt", where, limit).getResults();
     }
@@ -325,25 +337,60 @@ public class RestService {
         return null;
     }
 
-    public JsonObject addPartyMember(String partyId, String userId) {
-        final JsonObject op = new JsonObject();
-        op.addProperty("__op", "AddUnique");
-        return updatePartyMembers(op, partyId, userId);
-    }
-
-    public JsonObject removePartyMember(String partyId, String userId) {
-        final JsonObject op = new JsonObject();
-        op.addProperty("__op", "Remove");
-        return updatePartyMembers(op, partyId, userId);
-    }
-
-    private JsonObject updatePartyMembers(JsonObject op, String partyId, String userId) {
-        final JsonObject data = new JsonObject();
+    private JsonObject buildPartyMembersRequestJson(String op, String partyId, String userId) {
+        final JsonObject body = new JsonObject();
         final JsonArray partyMembers = new JsonArray();
         partyMembers.add(new JsonPrimitive(userId));
-        op.add("objects", partyMembers);
-        data.add(Constants.Http.Party.PARAM_MEMBERS, op);
-        return getPartyService().updateById(partyId, data);
+        final JsonObject opJson = new JsonObject();
+        opJson.addProperty("__op", op);
+        opJson.add("objects", partyMembers);
+        body.add(Constants.Http.Party.PARAM_MEMBERS, opJson);
+        String path = Constants.Http.URL_PARTIES_FRAG + "/" + partyId;
+        return buildRequestJson(path, body);
+    }
+
+    private JsonObject buildUserPartiesRequestJson(String op, String userId, String partyId) {
+        final JsonObject body = new JsonObject();
+        final JsonArray userParties = new JsonArray();
+        userParties.add(new JsonPrimitive(partyId));
+        final JsonObject opJson = new JsonObject();
+        opJson.addProperty("__op", op);
+        opJson.add("objects", userParties);
+        body.add(Constants.Http.User.PARAM_PARTIES, opJson);
+        String path = Constants.Http.URL_USERS_FRAG + "/" + userId;
+        return buildRequestJson(path, body);
+    }
+
+    private JsonObject buildPartyReasonsRequestJson(String op, String partyId, String reasonId) {
+        final JsonObject body = new JsonObject();
+        final JsonArray partyReasons = new JsonArray();
+        partyReasons.add(new JsonPrimitive(reasonId));
+        final JsonObject opJson = new JsonObject();
+        opJson.addProperty("__op", op);
+        opJson.add("objects", partyReasons);
+        body.add(Constants.Http.Party.PARAM_REASONS, opJson);
+        String path = Constants.Http.URL_PARTIES_FRAG + "/" + partyId;
+        return buildRequestJson(path, body);
+    }
+
+    private JsonArray updatePartyMembers(String op, String partyId, String userId, String reasonId) {
+        final JsonObject script = new JsonObject();
+        final JsonArray requests = new JsonArray();
+        requests.add(buildPartyMembersRequestJson(op, partyId, userId));
+        requests.add(buildUserPartiesRequestJson(op, userId, partyId));
+        if (reasonId != null) {
+            requests.add(buildPartyReasonsRequestJson(op, partyId, reasonId));
+        }
+        script.add(Constants.Http.Batch.PARAM_REQUESTS, requests);
+        return getBatchService().execute(script);
+    }
+
+    public JsonArray joinParty(String partyId, String userId, String reasonId) {
+        return updatePartyMembers("AddUnique", partyId, userId, reasonId);
+    }
+
+    public JsonArray quitParty(String partyId, String userId, String reasonId) {
+        return updatePartyMembers("Remove", partyId, userId, reasonId);
     }
 
     public List<String> getPartyMembers(String partyId) {
@@ -355,27 +402,6 @@ public class RestService {
             members.add(it.next().getAsString());
         }
         return members;
-    }
-
-    public JsonObject addUserParty(String userId, String partyId) {
-        final JsonObject op = new JsonObject();
-        op.addProperty("__op", "AddUnique");
-        return updateUserParties(op, userId, partyId);
-    }
-
-    public JsonObject removeUserParty(String userId, String partyId) {
-        final JsonObject op = new JsonObject();
-        op.addProperty("__op", "Remove");
-        return updateUserParties(op, userId, partyId);
-    }
-
-    private JsonObject updateUserParties(JsonObject op, String userId, String partyId) {
-        final JsonObject data = new JsonObject();
-        final JsonArray userParties = new JsonArray();
-        userParties.add(new JsonPrimitive(partyId));
-        op.add("objects", userParties);
-        data.add(Constants.Http.User.PARAM_PARTIES, op);
-        return getUserService().updateById(userId, data);
     }
 
     public JsonObject addPartyLike(String partyId, String userId) {
@@ -416,12 +442,6 @@ public class RestService {
     public JsonObject addPartyComment(String partyId, String commentId) {
         final JsonObject op = new JsonObject();
         op.addProperty("__op", "AddUnique");
-        return updatePartyComments(op, partyId, commentId);
-    }
-
-    public JsonObject removePartyComment(String partyId, String commentId) {
-        final JsonObject op = new JsonObject();
-        op.addProperty("__op", "Remove");
         return updatePartyComments(op, partyId, commentId);
     }
 
@@ -493,30 +513,37 @@ public class RestService {
         return getPartyService().updateById(partyId, data);
     }
 
-    public JsonObject deletePartyComment(String commentId) {
-        final JsonObject data = new JsonObject();
+    private JsonObject buildPartyCommentRequestJson(String commentId) {
+        final JsonObject body = new JsonObject();
         DateTime now = DateTime.now(DateTimeZone.UTC);
-        data.addProperty("deletedAt", now.toString(Constants.DateTime.FORMAT));
-        return getPartyCommentService().updateById(commentId, data);
+        body.addProperty("deletedAt", now.toString(Constants.DateTime.FORMAT));
+        String path = Constants.Http.URL_PARTY_COMMENTS_FRAG + "/" + commentId;
+        return buildRequestJson(path, body);
+    }
+
+    private JsonObject buildPartyCommentsRequestJson(String partyId, String commentId) {
+        final JsonObject body = new JsonObject();
+        final JsonArray partyComments = new JsonArray();
+        partyComments.add(new JsonPrimitive(commentId));
+        final JsonObject opJson = new JsonObject();
+        opJson.addProperty("__op", "Remove");
+        opJson.add("objects", partyComments);
+        body.add(Constants.Http.Party.PARAM_COMMENTS, opJson);
+        String path = Constants.Http.URL_PARTIES_FRAG + "/" + partyId;
+        return buildRequestJson(path, body);
+    }
+
+    public JsonArray deletePartyComment(String commentId, String partyId) {
+        final JsonObject script = new JsonObject();
+        final JsonArray requests = new JsonArray();
+        requests.add(buildPartyCommentRequestJson(commentId));
+        requests.add(buildPartyCommentsRequestJson(partyId, commentId));
+        script.add(Constants.Http.Batch.PARAM_REQUESTS, requests);
+        return getBatchService().execute(script);
     }
 
     public PartyReason newPartyReason(PartyReason reason) {
         return getPartyReasonService().newPartyReason(reason);
-    }
-
-    public JsonObject addPartyReasons(String partyId, String reasonId) {
-        final JsonObject op = new JsonObject();
-        op.addProperty("__op", "AddUnique");
-        return updatePartyReasons(op, partyId, reasonId);
-    }
-
-    private JsonObject updatePartyReasons(JsonObject op, String partyId, String reasonId) {
-        final JsonObject data = new JsonObject();
-        final JsonArray partyReasons = new JsonArray();
-        partyReasons.add(new JsonPrimitive(reasonId));
-        op.add("objects", partyReasons);
-        data.add(Constants.Http.Party.PARAM_REASONS, op);
-        return getPartyService().updateById(partyId, data);
     }
 
     public List<PartyReason> getPartyReasons(List<String> idList) {
@@ -625,12 +652,6 @@ public class RestService {
         return updateAskingReplies(op, askingId, replyId);
     }
 
-    public JsonObject removeAskingReplies(String askingId, String replyId) {
-        final JsonObject op = new JsonObject();
-        op.addProperty("__op", "Remove");
-        return updateAskingReplies(op, askingId, replyId);
-    }
-
     private JsonObject updateAskingReplies(JsonObject op, String askingId, String replyId) {
         final JsonObject data = new JsonObject();
         final JsonArray askingReplies = new JsonArray();
@@ -657,46 +678,45 @@ public class RestService {
         return getAskingService().updateById(askingId, data);
     }
 
-    public JsonObject addPartyFavorite(String partyId, String userId) {
-        final JsonObject op = new JsonObject();
-        op.addProperty("__op", "AddUnique");
-        return updatePartyFavorites(op, partyId, userId);
+    public JsonArray addPartyFavorite(String partyId, String userId) {
+        return updatePartyFavorites("AddUnique", partyId, userId);
     }
 
-    public JsonObject removePartyFavorite(String partyId, String userId) {
-        final JsonObject op = new JsonObject();
-        op.addProperty("__op", "Remove");
-        return updatePartyFavorites(op, partyId, userId);
+    public JsonArray removePartyFavorite(String partyId, String userId) {
+        return updatePartyFavorites("Remove", partyId, userId);
     }
 
-    private JsonObject updatePartyFavorites(JsonObject op, String partyId, String userId) {
-        final JsonObject data = new JsonObject();
-        final JsonArray partyFavorites = new JsonArray();
-        partyFavorites.add(new JsonPrimitive(userId));
-        op.add("objects", partyFavorites);
-        data.add(Constants.Http.Party.PARAM_FAVORITES, op);
-        return getPartyService().updateById(partyId, data);
-    }
-
-    public JsonObject addUserPartyFavorite(String userId, String partyId) {
-        final JsonObject op = new JsonObject();
-        op.addProperty("__op", "AddUnique");
-        return updateUserPartyFavorites(op, userId, partyId);
-    }
-
-    public JsonObject removeUserPartyFavorite(String userId, String partyId) {
-        final JsonObject op = new JsonObject();
-        op.addProperty("__op", "Remove");
-        return updateUserPartyFavorites(op, userId, partyId);
-    }
-
-    private JsonObject updateUserPartyFavorites(JsonObject op, String userId, String partyId) {
-        final JsonObject data = new JsonObject();
+    private JsonObject buildUserPartyFavoritesRequestJson(String op, String userId, String partyId) {
+        final JsonObject body = new JsonObject();
         final JsonArray userPartyFavorites = new JsonArray();
         userPartyFavorites.add(new JsonPrimitive(partyId));
-        op.add("objects", userPartyFavorites);
-        data.add(Constants.Http.User.PARAM_PARTY_FAVORITES, op);
-        return getUserService().updateById(userId, data);
+        final JsonObject opJson = new JsonObject();
+        opJson.addProperty("__op", op);
+        opJson.add("objects", userPartyFavorites);
+        body.add(Constants.Http.User.PARAM_PARTY_FAVORITES, opJson);
+        String path = Constants.Http.URL_USERS_FRAG + "/" + userId;
+        return buildRequestJson(path, body);
+    }
+
+    private JsonObject buildPartyFavoritesRequestJson(String op, String partyId, String userId) {
+        final JsonObject body = new JsonObject();
+        final JsonArray partyFavorites = new JsonArray();
+        partyFavorites.add(new JsonPrimitive(userId));
+        final JsonObject opJson = new JsonObject();
+        opJson.addProperty("__op", op);
+        opJson.add("objects", partyFavorites);
+        body.add(Constants.Http.Party.PARAM_FAVORITES, opJson);
+        String path = Constants.Http.URL_PARTIES_FRAG + "/" + partyId;
+        return buildRequestJson(path, body);
+    }
+
+    private JsonArray updatePartyFavorites(String op, String partyId, String userId) {
+        final JsonObject script = new JsonObject();
+        final JsonArray requests = new JsonArray();
+        requests.add(buildUserPartyFavoritesRequestJson(op, userId, partyId));
+        requests.add(buildPartyFavoritesRequestJson(op, partyId, userId));
+        script.add(Constants.Http.Batch.PARAM_REQUESTS, requests);
+        return getBatchService().execute(script);
     }
 
     public JsonObject addAskingLike(String askingId, String userId) {
@@ -720,46 +740,45 @@ public class RestService {
         return getAskingService().updateById(askingId, data);
     }
 
-    public JsonObject addAskingFavorite(String askingId, String userId) {
-        final JsonObject op = new JsonObject();
-        op.addProperty("__op", "AddUnique");
-        return updateAskingFavorites(op, askingId, userId);
+    public JsonArray addAskingFavorite(String askingId, String userId) {
+        return updateAskingFavorites("AddUnique", askingId, userId);
     }
 
-    public JsonObject removeAskingFavorite(String askingId, String userId) {
-        final JsonObject op = new JsonObject();
-        op.addProperty("__op", "Remove");
-        return updateAskingFavorites(op, askingId, userId);
+    public JsonArray removeAskingFavorite(String askingId, String userId) {
+        return updateAskingFavorites("Remove", askingId, userId);
     }
 
-    private JsonObject updateAskingFavorites(JsonObject op, String askingId, String userId) {
-        final JsonObject data = new JsonObject();
-        final JsonArray askingFavorites = new JsonArray();
-        askingFavorites.add(new JsonPrimitive(userId));
-        op.add("objects", askingFavorites);
-        data.add(Constants.Http.Asking.PARAM_FAVORITES, op);
-        return getAskingService().updateById(askingId, data);
-    }
-
-    public JsonObject addUserAskingFavorite(String userId, String askingId) {
-        final JsonObject op = new JsonObject();
-        op.addProperty("__op", "AddUnique");
-        return updateUserAskingFavorites(op, userId, askingId);
-    }
-
-    public JsonObject removeUserAskingFavorite(String userId, String askingId) {
-        final JsonObject op = new JsonObject();
-        op.addProperty("__op", "Remove");
-        return updateUserAskingFavorites(op, userId, askingId);
-    }
-
-    private JsonObject updateUserAskingFavorites(JsonObject op, String userId, String askingId) {
-        final JsonObject data = new JsonObject();
+    private JsonObject buildUserAskingFavoritesRequestJson(String op, String userId, String askingId) {
+        final JsonObject body = new JsonObject();
         final JsonArray userAskingFavorites = new JsonArray();
         userAskingFavorites.add(new JsonPrimitive(askingId));
-        op.add("objects", userAskingFavorites);
-        data.add(Constants.Http.User.PARAM_ASKING_FAVORITES, op);
-        return getUserService().updateById(userId, data);
+        final JsonObject opJson = new JsonObject();
+        opJson.addProperty("__op", op);
+        opJson.add("objects", userAskingFavorites);
+        body.add(Constants.Http.User.PARAM_ASKING_FAVORITES, opJson);
+        String path = Constants.Http.URL_USERS_FRAG + "/" + userId;
+        return buildRequestJson(path, body);
+    }
+
+    private JsonObject buildAskingFavoritesRequestJson(String op, String askingId, String userId) {
+        final JsonObject body = new JsonObject();
+        final JsonArray askingFavorites = new JsonArray();
+        askingFavorites.add(new JsonPrimitive(userId));
+        final JsonObject opJson = new JsonObject();
+        opJson.addProperty("__op", op);
+        opJson.add("objects", askingFavorites);
+        body.add(Constants.Http.Asking.PARAM_FAVORITES, opJson);
+        String path = Constants.Http.URL_ASKINGS_FRAG + "/" + askingId;
+        return buildRequestJson(path, body);
+    }
+
+    private JsonArray updateAskingFavorites(String op, String askingId, String userId) {
+        final JsonObject script = new JsonObject();
+        final JsonArray requests = new JsonArray();
+        requests.add(buildUserAskingFavoritesRequestJson(op, userId, askingId));
+        requests.add(buildAskingFavoritesRequestJson(op, askingId, userId));
+        script.add(Constants.Http.Batch.PARAM_REQUESTS, requests);
+        return getBatchService().execute(script);
     }
 
     public JsonObject addAskingReplyLike(String askingReplyId, String userId) {
@@ -783,11 +802,33 @@ public class RestService {
         return getAskingReplyService().updateById(askingReplyId, data);
     }
 
-    public JsonObject deleteAskingReply(String askingReplyId) {
-        final JsonObject data = new JsonObject();
+    private JsonObject buildAskingReplyRequestJson(String askingReplyId) {
+        final JsonObject body = new JsonObject();
         DateTime now = DateTime.now(DateTimeZone.UTC);
-        data.addProperty("deletedAt", now.toString(Constants.DateTime.FORMAT));
-        return getAskingReplyService().updateById(askingReplyId, data);
+        body.addProperty("deletedAt", now.toString(Constants.DateTime.FORMAT));
+        String path = Constants.Http.URL_ASKING_REPLIES_FRAG + "/" + askingReplyId;
+        return buildRequestJson(path, body);
+    }
+
+    private JsonObject buildAskingRepliesRequestJson(String askingId, String askingReplyId) {
+        final JsonObject body = new JsonObject();
+        final JsonArray askingReplies = new JsonArray();
+        askingReplies.add(new JsonPrimitive(askingReplyId));
+        final JsonObject opJson = new JsonObject();
+        opJson.addProperty("__op", "Remove");
+        opJson.add("objects", askingReplies);
+        body.add(Constants.Http.Asking.PARAM_REPLIES, opJson);
+        String path = Constants.Http.URL_ASKINGS_FRAG + "/" + askingId;
+        return buildRequestJson(path, body);
+    }
+
+    public JsonArray deleteAskingReply(String askingReplyId, String askingId) {
+        final JsonObject script = new JsonObject();
+        final JsonArray requests = new JsonArray();
+        requests.add(buildAskingReplyRequestJson(askingReplyId));
+        requests.add(buildAskingRepliesRequestJson(askingId, askingReplyId));
+        script.add(Constants.Http.Batch.PARAM_REQUESTS, requests);
+        return getBatchService().execute(script);
     }
 
     public HashMap<String, String> getInAppContactList(List<String> numberList) {

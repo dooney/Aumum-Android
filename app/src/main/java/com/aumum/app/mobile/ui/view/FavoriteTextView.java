@@ -50,6 +50,7 @@ public class FavoriteTextView extends AnimateTextView {
         setText(favorites > 0 ?
                 String.valueOf(favorites) :
                 getResources().getString(R.string.label_favorite));
+        this.isFavorite = isFavorite;
         toggleFavorite(isFavorite);
     }
 

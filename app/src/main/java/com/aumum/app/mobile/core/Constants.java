@@ -56,6 +56,11 @@ public final class Constants {
         public static final String URL_RESET_PASSWORD_FRAG = "/1/requestPasswordReset";
 
         /**
+         * Batch URL
+         */
+        public static final String URL_BATCH_FRAG = "/1/batch";
+
+        /**
          * List Users URL
          */
         public static final String URL_USERS_FRAG = "/1/users";
@@ -78,7 +83,7 @@ public final class Constants {
         /**
          * List Party Comments URL
          */
-        public static final String URL_COMMENTS_FRAG = "/1/classes/PartyComments";
+        public static final String URL_PARTY_COMMENTS_FRAG = "/1/classes/PartyComments";
 
         /**
          * Party Comment By Id URL
@@ -130,6 +135,10 @@ public final class Constants {
         public static final String HEADER_PARSE_APP_ID = "X-Parse-Application-Id";
         public static final String HEADER_PARSE_MASTER_KEY = "X-Parse-Master-Key";
         public static final String HEADER_PARSE_SESSION_TOKEN = "X-Parse-Session-Token";
+
+        public static final class Batch {
+            public static final String PARAM_REQUESTS = "requests";
+        }
 
         public static final class Party {
             public static final String PARAM_MEMBERS = "members";

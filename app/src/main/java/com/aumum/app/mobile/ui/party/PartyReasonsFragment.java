@@ -22,7 +22,6 @@ import com.aumum.app.mobile.core.service.RestService;
 import com.aumum.app.mobile.events.AddPartyReasonEvent;
 import com.aumum.app.mobile.events.AddPartyReasonFinishedEvent;
 import com.aumum.app.mobile.ui.base.ItemListFragment;
-import com.aumum.app.mobile.utils.Ln;
 import com.aumum.app.mobile.utils.SafeAsyncTask;
 import com.github.kevinsawicki.wishlist.Toaster;
 import com.squareup.otto.Bus;
@@ -132,24 +131,24 @@ public class PartyReasonsFragment extends ItemListFragment<PartyReason> {
                         reason.getContent(),
                         reason.getUserId());
                 PartyReason response = service.newPartyReason(newReason);
-                service.addPartyReasons(partyId, response.getObjectId());
-                party.getReasons().add(response.getObjectId());
-
+                partyStore.addReason(partyId, response.getObjectId());
                 if (reason.getType() == PartyReason.JOIN) {
-                    service.addPartyMember(partyId, currentUser.getObjectId());
-                    service.addUserParty(currentUser.getObjectId(), partyId);
-                    party.getMembers().add(currentUser.getObjectId());
-                    partyStore.updateOrInsert(party);
-
-                    joinPartyGroup();
-                    sendJoinMessage();
+                    service.joinParty(partyId, currentUser.getObjectId(), response.getObjectId());
+                    partyStore.addMember(partyId, currentUser.getObjectId());
+                    userStore.addParty(currentUser.getObjectId(), partyId);
+                    if (party.getGroupId() != null) {
+                        joinPartyGroup();
+                    }
+                    if (!partyId.equals(currentUser.getObjectId())) {
+                        sendJoinMessage();
+                    }
                 } else if (reason.getType() == PartyReason.QUIT) {
-                    service.removePartyMember(partyId, currentUser.getObjectId());
-                    service.removeUserParty(currentUser.getObjectId(), partyId);
-                    party.getMembers().remove(currentUser.getObjectId());
-                    partyStore.updateOrInsert(party);
-
-                    sendQuitMessage();
+                    service.quitParty(partyId, currentUser.getObjectId(), response.getObjectId());
+                    partyStore.removeMember(partyId, currentUser.getObjectId());
+                    userStore.removeParty(currentUser.getObjectId(), partyId);
+                    if (!partyId.equals(currentUser.getObjectId())) {
+                        sendQuitMessage();
+                    }
                 }
                 return true;
             }
@@ -180,54 +179,48 @@ public class PartyReasonsFragment extends ItemListFragment<PartyReason> {
     }
 
     private void joinPartyGroup() throws Exception {
-        if (party.getGroupId() != null) {
-            new SafeAsyncTask<Boolean>() {
-                @Override
-                public Boolean call() throws Exception {
-                    chatService.joinGroup(party.getGroupId(), currentUser.getChatId());
-                    String text = getActivity().getString(R.string.label_group_joint,
-                            currentUser.getScreenName());
-                    chatService.sendSystemMessage(party.getGroupId(), true, text, null);
-                    CmdMessage cmdMessage = new CmdMessage(CmdMessage.Type.GROUP_JOIN,
-                            null, null, party.getGroupId());
-                    chatService.sendCmdMessage(party.getGroupId(), cmdMessage, true, null);
-                    return true;
-                }
-            }.execute();
-        }
+        new SafeAsyncTask<Boolean>() {
+            @Override
+            public Boolean call() throws Exception {
+                chatService.joinGroup(party.getGroupId(), currentUser.getChatId());
+                String text = getActivity().getString(R.string.label_group_joint,
+                        currentUser.getScreenName());
+                chatService.sendSystemMessage(party.getGroupId(), true, text, null);
+                CmdMessage cmdMessage = new CmdMessage(CmdMessage.Type.GROUP_JOIN,
+                        null, null, party.getGroupId());
+                chatService.sendCmdMessage(party.getGroupId(), cmdMessage, true, null);
+                return true;
+            }
+        }.execute();
     }
 
     private void sendJoinMessage() throws Exception {
-        if (!partyId.equals(currentUser.getObjectId())) {
-            new SafeAsyncTask<Boolean>() {
-                @Override
-                public Boolean call() throws Exception {
-                    String title = getString(R.string.label_join_party_message,
-                            currentUser.getScreenName());
-                    CmdMessage cmdMessage = new CmdMessage(CmdMessage.Type.PARTY_JOIN,
-                            title, party.getTitle(), partyId);
-                    User partyOwner = userStore.getUserById(party.getUserId());
-                    chatService.sendCmdMessage(partyOwner.getChatId(), cmdMessage, false, null);
-                    return true;
-                }
-            }.execute();
-        }
+        new SafeAsyncTask<Boolean>() {
+            @Override
+            public Boolean call() throws Exception {
+                String title = getString(R.string.label_join_party_message,
+                        currentUser.getScreenName());
+                CmdMessage cmdMessage = new CmdMessage(CmdMessage.Type.PARTY_JOIN,
+                        title, party.getTitle(), partyId);
+                User partyOwner = userStore.getUserById(party.getUserId());
+                chatService.sendCmdMessage(partyOwner.getChatId(), cmdMessage, false, null);
+                return true;
+            }
+        }.execute();
     }
 
     private void sendQuitMessage() throws Exception {
-        if (!partyId.equals(currentUser.getObjectId())) {
-            new SafeAsyncTask<Boolean>() {
-                @Override
-                public Boolean call() throws Exception {
-                    String title = getString(R.string.label_quit_party_message,
-                            currentUser.getScreenName());
-                    CmdMessage cmdMessage = new CmdMessage(CmdMessage.Type.PARTY_QUIT,
-                            title, party.getTitle(), partyId);
-                    User partyOwner = userStore.getUserById(party.getUserId());
-                    chatService.sendCmdMessage(partyOwner.getChatId(), cmdMessage, false, null);
-                    return true;
-                }
-            }.execute();
-        }
+        new SafeAsyncTask<Boolean>() {
+            @Override
+            public Boolean call() throws Exception {
+                String title = getString(R.string.label_quit_party_message,
+                        currentUser.getScreenName());
+                CmdMessage cmdMessage = new CmdMessage(CmdMessage.Type.PARTY_QUIT,
+                        title, party.getTitle(), partyId);
+                User partyOwner = userStore.getUserById(party.getUserId());
+                chatService.sendCmdMessage(partyOwner.getChatId(), cmdMessage, false, null);
+                return true;
+            }
+        }.execute();
     }
 }

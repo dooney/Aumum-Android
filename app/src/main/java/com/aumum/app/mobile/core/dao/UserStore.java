@@ -199,6 +199,14 @@ public class UserStore {
         }
     }
 
+    public void removeParty(String userId, String partyId) throws Exception {
+        User user = getUserById(userId);
+        if (user != null && user.getParties().contains(partyId)) {
+            user.getParties().remove(partyId);
+            userEntityDao.insertOrReplace(map(user));
+        }
+    }
+
     public void addPartyFavorite(String userId, String partyId) throws Exception {
         User user = getUserById(userId);
         if (user != null && !user.getFavParties().contains(partyId)) {

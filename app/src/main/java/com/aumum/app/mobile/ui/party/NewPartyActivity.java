@@ -382,36 +382,15 @@ public class NewPartyActivity extends ProgressDialogActivity
                         detailsText.getText().toString(),
                         imageUrlList,
                         subscriptions);
-                final Party response = restService.newParty(party);
-                restService.addPartyMember(response.getObjectId(), currentUser.getObjectId());
-                restService.addUserParty(currentUser.getObjectId(), response.getObjectId());
-                userStore.addParty(currentUser.getObjectId(), response.getObjectId());
+                Party response = restService.newParty(party);
+                party.setObjectId(response.getObjectId());
+                restService.joinParty(party.getObjectId(), currentUser.getObjectId(), null);
+                userStore.addParty(currentUser.getObjectId(), party.getObjectId());
                 if (groupType == 0) {
-                    new SafeAsyncTask<Boolean>() {
-                        @Override
-                        public Boolean call() throws Exception {
-                            EMGroup group = chatService.createGroup(party.getTitle());
-                            chatService.addGroupMember(group.getGroupId(), currentUser.getChatId());
-                            restService.addPartyGroup(response.getObjectId(),
-                                    group.getGroupId());
-                            String groupCreatedText = getString(R.string.label_group_created,
-                                    currentUser.getScreenName());
-                            chatService.sendSystemMessage(group.getGroupId(),
-                                    true, groupCreatedText, null);
-                            return true;
-                        }
-                    }.execute();
+                    createPartyGroup(party, currentUser);
                 }
                 if (notifiedContacts.size() > 0) {
-                    String title = getString(R.string.label_new_party_message, currentUser.getScreenName());
-                    for (String userId : notifiedContacts) {
-                        User user = userStore.getUserById(userId);
-                        CmdMessage cmdMessage = new CmdMessage(CmdMessage.Type.PARTY_NEW,
-                                                               title,
-                                                               party.getTitle(),
-                                                               response.getObjectId());
-                        chatService.sendCmdMessage(user.getChatId(), cmdMessage, false, null);
-                    }
+                    notifyContacts(party, currentUser);
                 }
                 return true;
             }
@@ -439,6 +418,41 @@ public class NewPartyActivity extends ProgressDialogActivity
             }
         };
         task.execute();
+    }
+
+    private void createPartyGroup(final Party party, final User user) {
+        new SafeAsyncTask<Boolean>() {
+            @Override
+            public Boolean call() throws Exception {
+                EMGroup group = chatService.createGroup(party.getTitle());
+                chatService.addGroupMember(group.getGroupId(), user.getChatId());
+                restService.addPartyGroup(party.getObjectId(),
+                        group.getGroupId());
+                String groupCreatedText = getString(R.string.label_group_created,
+                        user.getScreenName());
+                chatService.sendSystemMessage(group.getGroupId(),
+                        true, groupCreatedText, null);
+                return true;
+            }
+        }.execute();
+    }
+
+    private void notifyContacts(final Party party, final User currentUser) throws Exception {
+        new SafeAsyncTask<Boolean>() {
+            @Override
+            public Boolean call() throws Exception {
+                String title = getString(R.string.label_new_party_message, currentUser.getScreenName());
+                for (String userId : notifiedContacts) {
+                    User user = userStore.getUserById(userId);
+                    CmdMessage cmdMessage = new CmdMessage(CmdMessage.Type.PARTY_NEW,
+                            title,
+                            party.getTitle(),
+                            party.getObjectId());
+                    chatService.sendCmdMessage(user.getChatId(), cmdMessage, false, null);
+                }
+                return true;
+            }
+        }.execute();
     }
 
     private void toggleTypeSelectionLayout() {

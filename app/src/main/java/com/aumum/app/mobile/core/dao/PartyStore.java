@@ -97,12 +97,8 @@ public class PartyStore {
 
     public void updateOrInsert(List<Party> partyList) throws Exception {
         for (Party party: partyList) {
-            updateOrInsert(party);
+            partyEntityDao.insertOrReplace(map(party));
         }
-    }
-
-    public void updateOrInsert(Party party) throws Exception {
-        partyEntityDao.insertOrReplace(map(party));
     }
 
     public List<Party> getUpwardsList(String userId, String time) throws Exception {
@@ -161,7 +157,7 @@ public class PartyStore {
     public Party getPartyByIdFromServer(String id) throws Exception {
         Party party = restService.getPartyById(id);
         if (party.getDeletedAt() == null) {
-            updateOrInsert(party);
+            partyEntityDao.insertOrReplace(map(party));
         }
         return party;
     }
@@ -208,6 +204,46 @@ public class PartyStore {
         return partyList;
     }
 
+    public void addReason(String partyId, String reasonId) throws Exception {
+        Party party = getPartyById(partyId);
+        if (party != null && !party.getReasons().contains(reasonId)) {
+            party.getReasons().add(reasonId);
+            partyEntityDao.insertOrReplace(map(party));
+        }
+    }
+
+    public void addComment(String partyId, String commentId) throws Exception {
+        Party party = getPartyById(partyId);
+        if (party != null && !party.getComments().contains(commentId)) {
+            party.getComments().add(commentId);
+            partyEntityDao.insertOrReplace(map(party));
+        }
+    }
+
+    public void removeComment(String partyId, String commentId) throws Exception {
+        Party party = getPartyById(partyId);
+        if (party != null && party.getComments().contains(commentId)) {
+            party.getComments().remove(commentId);
+            partyEntityDao.insertOrReplace(map(party));
+        }
+    }
+
+    public void addMember(String partyId, String memberId) throws Exception {
+        Party party = getPartyById(partyId);
+        if (party != null && !party.getMembers().contains(memberId)) {
+            party.getMembers().add(memberId);
+            partyEntityDao.insertOrReplace(map(party));
+        }
+    }
+
+    public void removeMember(String partyId, String memberId) throws Exception {
+        Party party = getPartyById(partyId);
+        if (party != null && party.getMembers().contains(memberId)) {
+            party.getMembers().remove(memberId);
+            partyEntityDao.insertOrReplace(map(party));
+        }
+    }
+
     public void addFavorite(String partyId, String userId) throws Exception {
         Party party = getPartyById(partyId);
         if (party != null && !party.getFavorites().contains(userId)) {
@@ -220,6 +256,22 @@ public class PartyStore {
         Party party = getPartyById(partyId);
         if (party != null && party.getFavorites().contains(userId)) {
             party.getFavorites().remove(userId);
+            partyEntityDao.insertOrReplace(map(party));
+        }
+    }
+
+    public void addLike(String partyId, String userId) throws Exception {
+        Party party = getPartyById(partyId);
+        if (party != null && !party.getLikes().contains(userId)) {
+            party.getLikes().add(userId);
+            partyEntityDao.insertOrReplace(map(party));
+        }
+    }
+
+    public void removeLike(String partyId, String userId) throws Exception {
+        Party party = getPartyById(partyId);
+        if (party != null && party.getLikes().contains(userId)) {
+            party.getLikes().remove(userId);
             partyEntityDao.insertOrReplace(map(party));
         }
     }
