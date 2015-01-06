@@ -60,7 +60,7 @@ public class Asking extends AggregateRoot {
         this.replies.clear();
         this.replies.addAll(replies);
         this.likes.clear();
-        this.likes.addAll(replies);
+        this.likes.addAll(likes);
         this.favorites.clear();
         this.favorites.addAll(favorites);
         this.images.clear();
@@ -164,5 +164,29 @@ public class Asking extends AggregateRoot {
     public String getUpdatedAtFormatted() {
         DateTime time = new DateTime(updatedAt, DateTimeZone.UTC);
         return TimeUtils.getFormattedTimeString(time);
+    }
+
+    public void addReply(String replyId) {
+        if (replies != null && !replies.contains(replyId)) {
+            replies.add(replyId);
+        }
+    }
+
+    public void removeReply(String replyId) {
+        if (replies != null && replies.contains(replyId)) {
+            replies.remove(replyId);
+        }
+    }
+
+    public void addFavorite(String userId) {
+        if (favorites != null && !favorites.contains(userId)) {
+            favorites.add(userId);
+        }
+    }
+
+    public void removeFavorite(String userId) {
+        if (favorites != null && favorites.contains(userId)) {
+            favorites.remove(userId);
+        }
     }
 }

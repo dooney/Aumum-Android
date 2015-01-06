@@ -41,10 +41,10 @@ public class AskingFavoriteListener implements FavoriteTextView.OnFavoriteListen
                 User currentUser = userStore.getCurrentUser();
                 restService.removeAskingFavorite(asking.getObjectId(),
                         currentUser.getObjectId());
-                askingStore.removeFavorite(asking.getObjectId(),
-                        currentUser.getObjectId());
-                userStore.removeAskingFavorite(currentUser.getObjectId(),
-                        asking.getObjectId());
+                asking.removeFavorite(currentUser.getObjectId());
+                askingStore.save(asking);
+                currentUser.removeAskingFavorite(asking.getObjectId());
+                userStore.save(currentUser);
                 return true;
             }
 
@@ -76,10 +76,10 @@ public class AskingFavoriteListener implements FavoriteTextView.OnFavoriteListen
                 User currentUser = userStore.getCurrentUser();
                 restService.addAskingFavorite(asking.getObjectId(),
                         currentUser.getObjectId());
-                askingStore.addFavorite(asking.getObjectId(),
-                        currentUser.getObjectId());
-                userStore.addAskingFavorite(currentUser.getObjectId(),
-                        asking.getObjectId());
+                asking.addFavorite(currentUser.getObjectId());
+                askingStore.save(asking);
+                currentUser.addAskingFavorite(asking.getObjectId());
+                userStore.save(currentUser);
                 return true;
             }
 

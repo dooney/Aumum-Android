@@ -42,7 +42,7 @@ import javax.inject.Inject;
  */
 public class UserFragment extends LoaderFragment<User> {
 
-    @Inject UserStore dataStore;
+    @Inject UserStore userStore;
     @Inject ChatService chatService;
     @Inject RestService restService;
 
@@ -140,14 +140,14 @@ public class UserFragment extends LoaderFragment<User> {
 
     @Override
     protected User loadDataCore(Bundle bundle) throws Exception {
-        currentUser = dataStore.getCurrentUser();
+        currentUser = userStore.getCurrentUser();
         if (userId != null) {
             if (userId.equals(currentUser.getObjectId())) {
                 return currentUser;
             }
-            user = dataStore.getUserByIdFromServer(userId);
+            user = userStore.getUserByIdFromServer(userId);
         } else if (screenName != null) {
-            user = dataStore.getUserByScreenNameFromServer(screenName);
+            user = userStore.getUserByScreenNameFromServer(screenName);
             userId = user.getObjectId();
         }
         if (user == null) {
@@ -195,9 +195,8 @@ public class UserFragment extends LoaderFragment<User> {
                                     chatService.deleteContact(userId);
                                     String currentUserId = currentUser.getObjectId();
                                     restService.removeContact(currentUserId, userId);
-                                    dataStore.removeContact(currentUserId, userId);
-                                    restService.removeContact(userId, currentUserId);
-                                    dataStore.removeContact(userId, currentUserId);
+                                    currentUser.removeContact(userId);
+                                    userStore.save(currentUser);
                                 }
 
                                 @Override

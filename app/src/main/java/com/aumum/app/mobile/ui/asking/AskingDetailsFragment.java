@@ -3,6 +3,8 @@ package com.aumum.app.mobile.ui.asking;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.v4.app.Fragment;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -92,6 +94,17 @@ public class AskingDetailsFragment extends LoaderFragment<Asking> {
     private SafeAsyncTask<Boolean> task;
     private final TextWatcher watcher = validationTextWatcher();
     private ProgressListener progressListener;
+
+    private Handler handler = new Handler(){
+        @Override
+        public void handleMessage(Message msg) {
+            AskingRepliesFragment fragment = new AskingRepliesFragment();
+            fragment.setAsking(asking);
+            getActivity().getSupportFragmentManager().beginTransaction()
+                    .replace(R.id.scroll_view, fragment)
+                    .commit();
+        }
+    };
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -222,44 +235,48 @@ public class AskingDetailsFragment extends LoaderFragment<Asking> {
     protected void handleLoadResult(Asking asking) {
         try {
             setData(asking);
-
-            ArrayList<CustomGallery> list = new ArrayList<CustomGallery>();
-            for (String imageUrl: asking.getImages()) {
-                CustomGallery item = new CustomGallery();
-                item.type = CustomGallery.HTTP;
-                item.imageUri = UpYunUtils.getThumbnailUrl(imageUrl);
-                list.add(item);
-            }
-            if (list.size() > 0) {
-                adapter.addAll(list);
-            } else {
-                gridGallery.setVisibility(View.GONE);
-            }
-
-            avatarImage.getFromUrl(asking.getUser().getAvatarUrl());
-            userNameText.setText(asking.getUser().getScreenName());
-            userNameText.setOnClickListener(new UserListener(getActivity(), asking.getUserId()));
-            titleText.setSpannableText(asking.getTitle());
-            if (asking.getDetails() != null && asking.getDetails().length() > 0) {
-                detailsText.setSpannableText(asking.getDetails());
-            } else {
-                detailsText.setVisibility(View.GONE);
-            }
-            updatedAtText.setText(asking.getUpdatedAtFormatted());
-            replyText.setText(String.valueOf(asking.getRepliesCount()));
-            replyText.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    EditTextUtils.showSoftInput(editReply, true);
-                }
-            });
-            likeText.init(asking.getLikesCount(), asking.isLiked(currentUserId));
-            likeText.setLikeListener(new AskingLikeListener(asking));
-            favoriteText.init(asking.getFavoritesCount(), asking.isFavorited(currentUserId));
-            favoriteText.setFavoriteListener(new AskingFavoriteListener(asking));
+            updateAsking(asking);
+            handler.sendEmptyMessage(0);
         } catch (Exception e) {
             Ln.e(e);
         }
+    }
+
+    private void updateAsking(Asking asking) {
+        ArrayList<CustomGallery> list = new ArrayList<CustomGallery>();
+        for (String imageUrl: asking.getImages()) {
+            CustomGallery item = new CustomGallery();
+            item.type = CustomGallery.HTTP;
+            item.imageUri = UpYunUtils.getThumbnailUrl(imageUrl);
+            list.add(item);
+        }
+        if (list.size() > 0) {
+            adapter.addAll(list);
+        } else {
+            gridGallery.setVisibility(View.GONE);
+        }
+
+        avatarImage.getFromUrl(asking.getUser().getAvatarUrl());
+        userNameText.setText(asking.getUser().getScreenName());
+        userNameText.setOnClickListener(new UserListener(getActivity(), asking.getUserId()));
+        titleText.setSpannableText(asking.getTitle());
+        if (asking.getDetails() != null && asking.getDetails().length() > 0) {
+            detailsText.setSpannableText(asking.getDetails());
+        } else {
+            detailsText.setVisibility(View.GONE);
+        }
+        updatedAtText.setText(asking.getUpdatedAtFormatted());
+        replyText.setText(String.valueOf(asking.getRepliesCount()));
+        replyText.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                EditTextUtils.showSoftInput(editReply, true);
+            }
+        });
+        likeText.init(asking.getLikesCount(), asking.isLiked(currentUserId));
+        likeText.setLikeListener(new AskingLikeListener(asking));
+        favoriteText.init(asking.getFavoritesCount(), asking.isFavorited(currentUserId));
+        favoriteText.setFavoriteListener(new AskingFavoriteListener(asking));
     }
 
     private TextWatcher validationTextWatcher() {

@@ -237,7 +237,8 @@ public class NewAskingActivity extends ProgressDialogActivity
                         imageUrlList);
                 Asking response = restService.newAsking(asking);
                 restService.addUserAsking(currentUser.getObjectId(), response.getObjectId());
-                userStore.addAsking(currentUser.getObjectId(), response.getObjectId());
+                currentUser.addAsking(response.getObjectId());
+                userStore.save(currentUser);
                 return true;
             }
 

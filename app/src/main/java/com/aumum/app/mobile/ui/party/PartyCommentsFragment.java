@@ -210,7 +210,8 @@ public class PartyCommentsFragment extends ItemListFragment<Comment> {
                         comment.getUserId());
                 Comment response = service.newPartyComment(newComment);
                 service.addPartyComment(partyId, response.getObjectId());
-                partyStore.addComment(partyId, response.getObjectId());
+                party.addComment(response.getObjectId());
+                partyStore.save(party);
                 sendCommentMessage(comment);
                 if (repliedComment != null) {
                     sendRepliedMessage(repliedComment);
@@ -258,7 +259,8 @@ public class PartyCommentsFragment extends ItemListFragment<Comment> {
         task = new SafeAsyncTask<Boolean>() {
             public Boolean call() throws Exception {
                 service.deletePartyComment(comment.getObjectId(), comment.getParentId());
-                partyStore.removeComment(comment.getParentId(), comment.getObjectId());
+                party.removeComment(comment.getObjectId());
+                partyStore.save(party);
                 return true;
             }
 

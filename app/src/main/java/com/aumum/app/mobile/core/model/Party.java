@@ -280,4 +280,58 @@ public class Party extends AggregateRoot {
         }
         return false;
     }
+
+    public void addReason(String reasonId) {
+        if (reasons != null && !reasons.contains(reasonId)) {
+            reasons.add(reasonId);
+        }
+    }
+
+    public void addComment(String commentId) {
+        if (comments != null && !comments.contains(commentId)) {
+            comments.add(commentId);
+        }
+    }
+
+    public void removeComment(String commentId) {
+        if (comments != null && comments.contains(commentId)) {
+            comments.remove(commentId);
+        }
+    }
+
+    public void addMember(String memberId) {
+        if (members != null && !members.contains(memberId)) {
+            members.add(memberId);
+        }
+    }
+
+    public void removeMember(String memberId) {
+        if (members != null && members.contains(memberId)) {
+            members.remove(memberId);
+        }
+    }
+
+    public void addFavorite(String userId) {
+        if (favorites != null && !favorites.contains(userId)) {
+            favorites.add(userId);
+        }
+    }
+
+    public void removeFavorite(String userId) {
+        if (favorites != null && favorites.contains(userId)) {
+            favorites.remove(userId);
+        }
+    }
+
+    public void addLike(String userId) {
+        if (likes != null && !likes.contains(userId)) {
+            likes.add(userId);
+        }
+    }
+
+    public void removeLike(String userId) {
+        if (likes != null && likes.contains(userId)) {
+            likes.remove(userId);
+        }
+    }
 }

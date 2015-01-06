@@ -1,6 +1,5 @@
 package com.aumum.app.mobile.ui.party;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.app.Fragment;
 import android.view.LayoutInflater;
@@ -48,18 +47,19 @@ public class PartyReasonsFragment extends ItemListFragment<PartyReason> {
 
     private SafeAsyncTask<Boolean> task;
 
-    private String partyId;
     private Party party;
     private User currentUser;
 
     private ViewGroup mainView;
 
+    public void setParty(Party party) {
+        this.party = party;
+    }
+
     @Override
     public void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Injector.inject(this);
-        final Intent intent = getActivity().getIntent();
-        partyId = intent.getStringExtra(PartyDetailsActivity.INTENT_PARTY_ID);
     }
 
     @Override
@@ -95,7 +95,6 @@ public class PartyReasonsFragment extends ItemListFragment<PartyReason> {
     @Override
     protected List<PartyReason> loadDataCore(Bundle bundle) throws Exception {
         currentUser = userStore.getCurrentUser();
-        party = partyStore.getPartyById(partyId);
         List<PartyReason> result = partyReasonStore.getPartyReasons(party.getReasons());
         for (PartyReason reason: result) {
             reason.setUser(userStore.getUserById(reason.getUserId()));
@@ -131,11 +130,12 @@ public class PartyReasonsFragment extends ItemListFragment<PartyReason> {
                         reason.getContent(),
                         reason.getUserId());
                 PartyReason response = service.newPartyReason(newReason);
-                partyStore.addReason(partyId, response.getObjectId());
+                party.addReason(response.getObjectId());
+                String partyId = party.getObjectId();
                 if (reason.getType() == PartyReason.JOIN) {
                     service.joinParty(partyId, currentUser.getObjectId(), response.getObjectId());
-                    partyStore.addMember(partyId, currentUser.getObjectId());
-                    userStore.addParty(currentUser.getObjectId(), partyId);
+                    party.addMember(currentUser.getObjectId());
+                    currentUser.addParty(partyId);
                     if (party.getGroupId() != null) {
                         joinPartyGroup();
                     }
@@ -144,12 +144,14 @@ public class PartyReasonsFragment extends ItemListFragment<PartyReason> {
                     }
                 } else if (reason.getType() == PartyReason.QUIT) {
                     service.quitParty(partyId, currentUser.getObjectId(), response.getObjectId());
-                    partyStore.removeMember(partyId, currentUser.getObjectId());
-                    userStore.removeParty(currentUser.getObjectId(), partyId);
+                    party.removeMember(currentUser.getObjectId());
+                    currentUser.removeParty(partyId);
                     if (!partyId.equals(currentUser.getObjectId())) {
                         sendQuitMessage();
                     }
                 }
+                partyStore.save(party);
+                userStore.save(currentUser);
                 return true;
             }
 
@@ -201,7 +203,7 @@ public class PartyReasonsFragment extends ItemListFragment<PartyReason> {
                 String title = getString(R.string.label_join_party_message,
                         currentUser.getScreenName());
                 CmdMessage cmdMessage = new CmdMessage(CmdMessage.Type.PARTY_JOIN,
-                        title, party.getTitle(), partyId);
+                        title, party.getTitle(), party.getObjectId());
                 User partyOwner = userStore.getUserById(party.getUserId());
                 chatService.sendCmdMessage(partyOwner.getChatId(), cmdMessage, false, null);
                 return true;
@@ -216,7 +218,7 @@ public class PartyReasonsFragment extends ItemListFragment<PartyReason> {
                 String title = getString(R.string.label_quit_party_message,
                         currentUser.getScreenName());
                 CmdMessage cmdMessage = new CmdMessage(CmdMessage.Type.PARTY_QUIT,
-                        title, party.getTitle(), partyId);
+                        title, party.getTitle(), party.getObjectId());
                 User partyOwner = userStore.getUserById(party.getUserId());
                 chatService.sendCmdMessage(partyOwner.getChatId(), cmdMessage, false, null);
                 return true;

@@ -3,6 +3,8 @@ package com.aumum.app.mobile.ui.party;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -113,6 +115,17 @@ public class PartyDetailsFragment extends LoaderFragment<Party> {
     GalleryAdapter adapter;
     private SafeAsyncTask<Boolean> task;
     private ProgressListener progressListener;
+
+    private Handler handler = new Handler(){
+        @Override
+        public void handleMessage(Message msg) {
+            PartyReasonsFragment fragment = new PartyReasonsFragment();
+            fragment.setParty(party);
+            getActivity().getSupportFragmentManager().beginTransaction()
+                    .replace(R.id.container, fragment)
+                    .commit();
+        }
+    };
 
     @Override
     public void onCreate(final Bundle savedInstanceState) {
@@ -277,6 +290,7 @@ public class PartyDetailsFragment extends LoaderFragment<Party> {
             if (party != null) {
                 setData(party);
                 updateParty(party);
+                handler.sendEmptyMessage(0);
             }
         } catch (Exception e) {
             Ln.d(e);

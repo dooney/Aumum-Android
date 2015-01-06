@@ -39,11 +39,10 @@ public class AskingRepliesFragment extends RefreshItemListFragment<AskingReply> 
 
     @Inject RestService restService;
     @Inject AskingStore askingStore;
-    @Inject AskingReplyStore dataStore;
+    @Inject AskingReplyStore askingReplyStore;
     @Inject UserStore userStore;
     @Inject Bus bus;
 
-    private String askingId;
     private Asking asking;
     private User currentUser;
     private AskingReply replied;
@@ -53,14 +52,15 @@ public class AskingRepliesFragment extends RefreshItemListFragment<AskingReply> 
 
     private SafeAsyncTask<Boolean> task;
 
+    public void setAsking(Asking asking) {
+        this.asking = asking;
+    }
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
         Injector.inject(this);
-
-        final Intent intent = getActivity().getIntent();
-        askingId = intent.getStringExtra(AskingDetailsActivity.INTENT_ASKING_ID);
 
         dataSet = new ArrayList<AskingReply>();
     }
@@ -109,10 +109,6 @@ public class AskingRepliesFragment extends RefreshItemListFragment<AskingReply> 
     @Override
     protected List<AskingReply> loadDataCore(Bundle bundle) throws Exception {
         currentUser = userStore.getCurrentUser();
-        asking = askingStore.getAskingByIdFromServer(askingId);
-        if (asking.getDeletedAt() != null) {
-            return new ArrayList<AskingReply>();
-        }
         return super.loadDataCore(bundle);
     }
 
@@ -123,7 +119,7 @@ public class AskingRepliesFragment extends RefreshItemListFragment<AskingReply> 
 
     @Override
     protected void getUpwardsList() {
-        List<AskingReply> askingReplies = dataStore.getUpwardsList(asking.getReplies());
+        List<AskingReply> askingReplies = askingReplyStore.getUpwardsList(asking.getReplies());
         dataSet.addAll(askingReplies);
     }
 
@@ -131,7 +127,7 @@ public class AskingRepliesFragment extends RefreshItemListFragment<AskingReply> 
     protected void getBackwardsList() {
         if (dataSet.size() > 0) {
             AskingReply last = dataSet.get(dataSet.size() - 1);
-            List<AskingReply> askingReplies = dataStore.getBackwardsList(asking.getReplies(),
+            List<AskingReply> askingReplies = askingReplyStore.getBackwardsList(asking.getReplies(),
                     last.getCreatedAt());
             dataSet.addAll(askingReplies);
             if (askingReplies.size() > 0) {
@@ -165,9 +161,15 @@ public class AskingRepliesFragment extends RefreshItemListFragment<AskingReply> 
         }
 
         // update UI first
-        final String repliedId = (replied != null) ? replied.getObjectId() : null;
+        String repliedId = null;
+        String content = event.getReply();
+        if (replied != null) {
+            repliedId = replied.getObjectId();
+            content = getString(R.string.hint_reply_asking_reply,
+                    replied.getUser().getScreenName(), content);
+        }
         final AskingReply askingReply = new AskingReply(currentUser.getObjectId(),
-                event.getReply(), repliedId);
+                content, repliedId);
         askingReply.setUser(currentUser);
         getData().add(0, askingReply);
         getListAdapter().notifyDataSetChanged();
@@ -179,9 +181,11 @@ public class AskingRepliesFragment extends RefreshItemListFragment<AskingReply> 
             public Boolean call() throws Exception {
                 AskingReply reply = getData().get(0);
                 final AskingReply newReply = new AskingReply(reply.getUserId(),
-                        reply.getContent(), repliedId);
+                        reply.getContent(), reply.getRepliedId());
                 AskingReply response = restService.newAskingReply(newReply);
-                restService.addAskingReplies(askingId, response.getObjectId());
+                restService.addAskingReplies(asking.getObjectId(), response.getObjectId());
+                asking.addReply(response.getObjectId());
+                askingStore.save(asking);
                 return true;
             }
 
@@ -266,7 +270,9 @@ public class AskingRepliesFragment extends RefreshItemListFragment<AskingReply> 
         card.onActionStart();
         task = new SafeAsyncTask<Boolean>() {
             public Boolean call() throws Exception {
-                restService.deleteAskingReply(askingReply.getObjectId(), askingId);
+                restService.deleteAskingReply(askingReply.getObjectId(), asking.getObjectId());
+                asking.removeReply(askingReply.getObjectId());
+                askingStore.save(asking);
                 return true;
             }
 

@@ -122,7 +122,7 @@ public class ProfileFragment extends LoaderFragment<User> {
                                 }
                                 restService.updateUserScreenName(currentUser.getObjectId(), screenName);
                                 currentUser.setScreenName(screenName);
-                                userStore.update(currentUser);
+                                userStore.save(currentUser);
                             }
 
                             @Override
@@ -156,7 +156,7 @@ public class ProfileFragment extends LoaderFragment<User> {
                                 }
                                 restService.updateUserEmail(currentUser.getObjectId(), email);
                                 currentUser.setEmail(email);
-                                userStore.update(currentUser);
+                                userStore.save(currentUser);
                             }
 
                             @Override
@@ -191,7 +191,7 @@ public class ProfileFragment extends LoaderFragment<User> {
                             public void call(Object value) throws Exception {
                                 restService.updateUserCity(currentUser.getObjectId(), city);
                                 currentUser.setCity(city);
-                                userStore.update(currentUser);
+                                userStore.save(currentUser);
                             }
 
                             @Override
@@ -227,7 +227,7 @@ public class ProfileFragment extends LoaderFragment<User> {
                                     public void call(Object value) throws Exception {
                                         restService.updateUserArea(currentUser.getObjectId(), area);
                                         currentUser.setArea(area);
-                                        userStore.update(currentUser);
+                                        userStore.save(currentUser);
                                     }
 
                                     @Override
@@ -256,7 +256,7 @@ public class ProfileFragment extends LoaderFragment<User> {
                                 String about = (String) value;
                                 restService.updateUserAbout(currentUser.getObjectId(), about);
                                 currentUser.setAbout(about);
-                                userStore.update(currentUser);
+                                userStore.save(currentUser);
                             }
 
                             @Override
@@ -391,7 +391,7 @@ public class ProfileFragment extends LoaderFragment<User> {
             public Boolean call() throws Exception {
                 restService.updateUserAvatar(currentUser.getObjectId(), fileUrl);
                 currentUser.setAvatarUrl(fileUrl);
-                userStore.update(currentUser);
+                userStore.save(currentUser);
                 return true;
             }
 

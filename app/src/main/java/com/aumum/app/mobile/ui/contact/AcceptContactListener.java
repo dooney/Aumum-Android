@@ -6,7 +6,6 @@ import android.view.View;
 import com.aumum.app.mobile.Injector;
 import com.aumum.app.mobile.R;
 import com.aumum.app.mobile.core.dao.UserStore;
-import com.aumum.app.mobile.core.infra.security.ApiKeyProvider;
 import com.aumum.app.mobile.core.model.User;
 import com.aumum.app.mobile.core.service.ChatService;
 import com.aumum.app.mobile.core.service.RestService;
@@ -23,7 +22,6 @@ import retrofit.RetrofitError;
 public class AcceptContactListener implements View.OnClickListener {
     @Inject ChatService chatService;
     @Inject RestService restService;
-    @Inject ApiKeyProvider apiKeyProvider;
     @Inject UserStore userStore;
 
     private String userId;
@@ -71,11 +69,10 @@ public class AcceptContactListener implements View.OnClickListener {
         task = new SafeAsyncTask<Boolean>() {
             public Boolean call() throws Exception {
                 chatService.acceptInvitation(userId);
-                String currentUserId = apiKeyProvider.getAuthUserId();
-                restService.addContact(currentUserId, userId);
-                userStore.addContact(currentUserId, userId);
-                restService.addContact(userId, currentUserId);
-                userStore.addContact(userId, currentUserId);
+                User currentUser = userStore.getCurrentUser();
+                restService.addContact(currentUser.getObjectId(), userId);
+                currentUser.addContact(userId);
+                userStore.save(currentUser);
 
                 String text = context.getString(R.string.info_invitation_accepted_and_start_chatting);
                 User user = userStore.getUserById(userId);

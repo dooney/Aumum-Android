@@ -32,7 +32,7 @@ import it.gmariotti.cardslib.library.internal.CardArrayAdapter;
 public class SearchPartyFragment extends RefreshItemListFragment<Card> {
 
     @Inject UserStore userStore;
-    @Inject PartyStore dataStore;
+    @Inject PartyStore partyStore;
 
     private User user;
     private User currentUser;
@@ -163,7 +163,7 @@ public class SearchPartyFragment extends RefreshItemListFragment<Card> {
                                       double latitude,
                                       double longitude) throws Exception {
         PlaceRange range = new PlaceRange(latitude, longitude);
-        List<Party> partyList = dataStore.getNearByList(currentUser.getObjectId(), range, time);
+        List<Party> partyList = partyStore.getNearByList(currentUser.getObjectId(), range, time);
         if (partyList.size() > 0) {
             dataSet.addAll(partyList);
             setMore(true);
@@ -188,7 +188,7 @@ public class SearchPartyFragment extends RefreshItemListFragment<Card> {
     }
 
     private void getUserParties() throws Exception {
-        List<Party> partyList = dataStore.getList(user.getParties());
+        List<Party> partyList = partyStore.getList(user.getParties());
         dataSet.addAll(partyList);
     }
 
@@ -197,7 +197,7 @@ public class SearchPartyFragment extends RefreshItemListFragment<Card> {
     }
 
     private void getUserFavoriteParties() throws Exception {
-        List<Party> partyList = dataStore.getList(user.getFavParties());
+        List<Party> partyList = partyStore.getList(user.getFavParties());
         dataSet.addAll(partyList);
     }
 
@@ -206,7 +206,7 @@ public class SearchPartyFragment extends RefreshItemListFragment<Card> {
     }
 
     private void getPartiesBefore(List<String> idList, String time) throws Exception {
-        List<Party> partyList = dataStore.getBackwardsList(idList, time);
+        List<Party> partyList = partyStore.getBackwardsList(idList, time);
         if (partyList.size() > 0) {
             dataSet.addAll(partyList);
             setMore(true);
@@ -275,7 +275,7 @@ public class SearchPartyFragment extends RefreshItemListFragment<Card> {
                 Card card = getData().get(i);
                 Party item = ((PartyCard) card).getParty();
                 if (item.getObjectId().equals(partyId)) {
-                    Party party = dataStore.getPartyById(partyId);
+                    Party party = partyStore.getPartyById(partyId);
                     getData().set(i, buildCard(party, currentUser.getObjectId()));
                     getActivity().runOnUiThread(new Runnable() {
                         @Override

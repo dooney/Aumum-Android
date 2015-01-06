@@ -42,10 +42,10 @@ public class PartyFavoriteListener implements FavoriteTextView.OnFavoriteListene
                 User currentUser = userStore.getCurrentUser();
                 restService.removePartyFavorite(party.getObjectId(),
                         currentUser.getObjectId());
-                partyStore.removeFavorite(party.getObjectId(),
-                        currentUser.getObjectId());
-                userStore.removePartyFavorite(currentUser.getObjectId(),
-                        party.getObjectId());
+                party.removeFavorite(currentUser.getObjectId());
+                partyStore.save(party);
+                currentUser.removePartyFavorite(party.getObjectId());
+                userStore.save(currentUser);
                 return true;
             }
 
@@ -77,10 +77,10 @@ public class PartyFavoriteListener implements FavoriteTextView.OnFavoriteListene
                 User currentUser = userStore.getCurrentUser();
                 restService.addPartyFavorite(party.getObjectId(),
                         currentUser.getObjectId());
-                partyStore.addFavorite(party.getObjectId(),
-                        currentUser.getObjectId());
-                userStore.addPartyFavorite(currentUser.getObjectId(),
-                        party.getObjectId());
+                party.addFavorite(currentUser.getObjectId());
+                partyStore.save(party);
+                currentUser.addPartyFavorite(party.getObjectId());
+                userStore.save(currentUser);
                 return true;
             }
 

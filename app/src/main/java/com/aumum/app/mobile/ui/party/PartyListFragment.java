@@ -50,7 +50,7 @@ import it.gmariotti.cardslib.library.internal.CardArrayAdapter;
 public class PartyListFragment extends RefreshItemListFragment<Card> {
 
     @Inject UserStore userStore;
-    @Inject PartyStore dataStore;
+    @Inject PartyStore partyStore;
     @Inject Bus bus;
 
     protected User currentUser;
@@ -259,7 +259,7 @@ public class PartyListFragment extends RefreshItemListFragment<Card> {
             for (int i = 0; i < dataSet.size(); i++) {
                 Party item = dataSet.get(i);
                 if (item.getObjectId().equals(partyId)) {
-                    Party party = dataStore.getPartyById(partyId);
+                    Party party = partyStore.getPartyById(partyId);
                     getData().set(i, buildCard(party, currentUser.getObjectId()));
                     dataSet.set(i, party);
                     getActivity().runOnUiThread(new Runnable() {
@@ -277,11 +277,11 @@ public class PartyListFragment extends RefreshItemListFragment<Card> {
     }
 
     private List<Party> onGetUpwardsList(String after) throws Exception {
-        return dataStore.getUpwardsList(currentUser.getObjectId(), after);
+        return partyStore.getUpwardsList(currentUser.getObjectId(), after);
     }
 
     private List<Party> onGetBackwardsList(String before) throws Exception {
-        return dataStore.getBackwardsList(currentUser.getObjectId(), before);
+        return partyStore.getBackwardsList(currentUser.getObjectId(), before);
     }
 
     private void startSearchPartyActivity(String title) {

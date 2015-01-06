@@ -159,4 +159,58 @@ public class User extends AggregateRoot implements Sortable {
             return "#";
         }
     }
+
+    public void addContact(String contactId) {
+        if (contacts != null && !contacts.contains(contactId)) {
+            contacts.add(contactId);
+        }
+    }
+
+    public void removeContact(String contactId) {
+        if (contacts != null && contacts.contains(contactId)) {
+            contacts.remove(contactId);
+        }
+    }
+
+    public void addParty(String partyId) {
+        if (parties != null && !parties.contains(partyId)) {
+            parties.add(partyId);
+        }
+    }
+
+    public void removeParty(String partyId) {
+        if (parties != null && parties.contains(partyId)) {
+            parties.remove(partyId);
+        }
+    }
+
+    public void addPartyFavorite(String partyId) {
+        if (favParties != null && !favParties.contains(partyId)) {
+            favParties.add(partyId);
+        }
+    }
+
+    public void removePartyFavorite(String partyId) {
+        if (favParties != null && favParties.contains(partyId)) {
+            favParties.remove(partyId);
+        }
+    }
+
+    public void addAsking(String askingId) {
+        if (askings != null && !askings.contains(askingId)) {
+            askings.add(askingId);
+        }
+    }
+
+    public void addAskingFavorite(String askingId) {
+        if (favAskings != null && !favAskings.contains(askingId)) {
+            favAskings.add(askingId);
+        }
+    }
+
+    public void removeAskingFavorite(String askingId) {
+        if (favAskings != null && favAskings.contains(askingId)) {
+            favAskings.remove(askingId);
+        }
+    }
 }

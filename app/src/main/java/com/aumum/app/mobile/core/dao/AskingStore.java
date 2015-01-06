@@ -153,14 +153,6 @@ public class AskingStore {
         return asking;
     }
 
-    public Asking getAskingById(String id) throws Exception {
-        AskingEntity askingEntity = askingEntityDao.load(id);
-        if (askingEntity != null) {
-            return map(askingEntity);
-        }
-        return null;
-    }
-
     public List<Asking> getList(List<String> idList) throws Exception {
         List<Asking> askingList = restService.getAskingList(idList, LIMIT_PER_LOAD);
         for (Asking asking: askingList) {
@@ -173,19 +165,7 @@ public class AskingStore {
         askingEntityDao.deleteByKey(askingId);
     }
 
-    public void addFavorite(String askingId, String userId) throws Exception {
-        Asking asking = getAskingById(askingId);
-        if (asking != null && !asking.getFavorites().contains(userId)) {
-            asking.getFavorites().add(userId);
-            askingEntityDao.insertOrReplace(map(asking));
-        }
-    }
-
-    public void removeFavorite(String askingId, String userId) throws Exception {
-        Asking asking = getAskingById(askingId);
-        if (asking != null && asking.getFavorites().contains(userId)) {
-            asking.getFavorites().remove(userId);
-            askingEntityDao.insertOrReplace(map(asking));
-        }
+    public void save(Asking asking) throws Exception {
+        askingEntityDao.insertOrReplace(map(asking));
     }
 }

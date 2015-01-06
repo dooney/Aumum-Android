@@ -31,7 +31,7 @@ import javax.inject.Inject;
  */
 public class AskingListFragment extends RefreshItemListFragment<Asking> {
 
-    @Inject AskingStore dataStore;
+    @Inject AskingStore askingStore;
     @Inject UserStore userStore;
 
     private int category;
@@ -134,7 +134,7 @@ public class AskingListFragment extends RefreshItemListFragment<Asking> {
         if (dataSet.size() > 0) {
             after = dataSet.get(0).getUpdatedAt();
         }
-        List<Asking> askingList = dataStore.getUpwardsList(category, after);
+        List<Asking> askingList = askingStore.getUpwardsList(category, after);
         Collections.reverse(askingList);
         for(Asking asking: askingList) {
             for (Iterator<Asking> it = dataSet.iterator(); it.hasNext();) {
@@ -152,7 +152,7 @@ public class AskingListFragment extends RefreshItemListFragment<Asking> {
     protected void getBackwardsList() throws Exception {
         if (dataSet.size() > 0) {
             Asking last = dataSet.get(dataSet.size() - 1);
-            List<Asking> askingList = dataStore.getBackwardsList(category, last.getUpdatedAt());
+            List<Asking> askingList = askingStore.getBackwardsList(category, last.getUpdatedAt());
             dataSet.addAll(askingList);
             if (askingList.size() > 0) {
                 setMore(true);

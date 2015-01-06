@@ -2,12 +2,11 @@ package com.aumum.app.mobile.ui.contact;
 
 import com.aumum.app.mobile.Injector;
 import com.aumum.app.mobile.core.dao.UserStore;
-import com.aumum.app.mobile.core.infra.security.ApiKeyProvider;
 import com.aumum.app.mobile.core.model.User;
 import com.aumum.app.mobile.core.service.ChatService;
 import com.aumum.app.mobile.core.service.NotificationService;
 import com.aumum.app.mobile.core.service.RestService;
-import com.aumum.app.mobile.utils.Ln;
+import com.aumum.app.mobile.utils.SafeAsyncTask;
 import com.easemob.chat.EMContactListener;
 
 import java.util.List;
@@ -23,63 +22,73 @@ public class ContactListener implements EMContactListener {
     @Inject RestService restService;
     @Inject NotificationService notificationService;
     @Inject ChatService chatService;
-    @Inject ApiKeyProvider apiKeyProvider;
 
     public ContactListener() {
         Injector.inject(this);
     }
 
     @Override
-    public void onContactAdded(List<String> contacts) {
-        try {
-            String currentUserId = apiKeyProvider.getAuthUserId();
-            for (String contactId : contacts) {
-                User user = userStore.getUserByChatId(contactId);
-                userStore.addContact(currentUserId, user.getObjectId());
-                restService.addContact(currentUserId, user.getObjectId());
+    public void onContactAdded(final List<String> contacts) {
+        new SafeAsyncTask<Boolean>() {
+            @Override
+            public Boolean call() throws Exception {
+                User currentUser = userStore.getCurrentUser();
+                for (String contactId : contacts) {
+                    User user = userStore.getUserByChatId(contactId);
+                    restService.addContact(currentUser.getObjectId(), user.getObjectId());
+                    currentUser.addContact(user.getObjectId());
+                    userStore.save(currentUser);
+                }
+                return true;
             }
-        } catch (Exception e) {
-            Ln.e(e);
-        }
+        }.execute();
     }
 
     @Override
-    public void onContactDeleted(List<String> contacts) {
-        try {
-            String currentUserId = apiKeyProvider.getAuthUserId();
-            for (String contactId: contacts) {
-                User user = userStore.getUserByChatId(contactId);
-                chatService.deleteConversation(contactId);
-                userStore.removeContact(currentUserId, user.getObjectId());
-                restService.removeContact(currentUserId, user.getObjectId());
+    public void onContactDeleted(final List<String> contacts) {
+        new SafeAsyncTask<Boolean>() {
+            @Override
+            public Boolean call() throws Exception {
+                User currentUser = userStore.getCurrentUser();
+                for (String contactId: contacts) {
+                    User user = userStore.getUserByChatId(contactId);
+                    chatService.deleteConversation(contactId);
+                    restService.removeContact(currentUser.getObjectId(), user.getObjectId());
+                    currentUser.removeContact(user.getObjectId());
+                    userStore.save(user);
+                }
+                return true;
             }
-        } catch (Exception e) {
-            Ln.e(e);
-        }
+        }.execute();
     }
 
     @Override
-    public void onContactInvited(String userName, String reason) {
-        try {
-            User currentUser = userStore.getCurrentUser();
-            User user = userStore.getUserByChatId(userName);
-            if (!currentUser.getContacts().contains(user.getObjectId())) {
-                userStore.addContactRequest(user.getObjectId(), reason);
-                notificationService.pushContactInvitedNotification(user.getScreenName(), reason);
+    public void onContactInvited(final String userName, final String reason) {
+        new SafeAsyncTask<Boolean>() {
+            @Override
+            public Boolean call() throws Exception {
+                User currentUser = userStore.getCurrentUser();
+                User user = userStore.getUserByChatId(userName);
+                if (!currentUser.getContacts().contains(user.getObjectId())) {
+                    userStore.addContactRequest(user.getObjectId(), reason);
+                    notificationService.pushContactInvitedNotification(user.getScreenName(), reason);
+                }
+                return true;
             }
-        } catch (Exception e) {
-            Ln.e(e);
-        }
+        }.execute();
     }
 
     @Override
-    public void onContactAgreed(String userName) {
-        try {
-            User user = userStore.getUserByChatId(userName);
-            notificationService.pushContactAgreedNotification(user.getChatId(), user.getScreenName());
-        } catch (Exception e) {
-            Ln.e(e);
-        }
+    public void onContactAgreed(final String userName) {
+        new SafeAsyncTask<Boolean>() {
+            @Override
+            public Boolean call() throws Exception {
+                User user = userStore.getUserByChatId(userName);
+                notificationService.pushContactAgreedNotification(user.getChatId(),
+                        user.getScreenName());
+                return true;
+            }
+        }.execute();
     }
 
     @Override

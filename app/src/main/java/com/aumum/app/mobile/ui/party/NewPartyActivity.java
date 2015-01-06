@@ -385,7 +385,8 @@ public class NewPartyActivity extends ProgressDialogActivity
                 Party response = restService.newParty(party);
                 party.setObjectId(response.getObjectId());
                 restService.joinParty(party.getObjectId(), currentUser.getObjectId(), null);
-                userStore.addParty(currentUser.getObjectId(), party.getObjectId());
+                currentUser.addParty(party.getObjectId());
+                userStore.save(currentUser);
                 if (groupType == 0) {
                     createPartyGroup(party, currentUser);
                 }
