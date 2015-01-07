@@ -34,6 +34,7 @@ import com.aumum.app.mobile.ui.chat.NotificationClickListener;
 import com.aumum.app.mobile.ui.chat.SendMessageListener;
 import com.aumum.app.mobile.ui.chat.TextMessageCard;
 import com.aumum.app.mobile.ui.chat.VoiceMessageCard;
+import com.aumum.app.mobile.ui.party.PartyCommentCard;
 import com.aumum.app.mobile.ui.contact.ContactPickerFragment;
 import com.aumum.app.mobile.ui.contact.MobileContactsActivity;
 import com.aumum.app.mobile.ui.conversation.ConversationFragment;
@@ -42,6 +43,7 @@ import com.aumum.app.mobile.ui.contact.ContactFragment;
 import com.aumum.app.mobile.ui.contact.ContactListener;
 import com.aumum.app.mobile.ui.contact.ContactRequestsFragment;
 import com.aumum.app.mobile.ui.account.VerifyActivity;
+import com.aumum.app.mobile.ui.party.PartyCommentLikeListener;
 import com.aumum.app.mobile.ui.report.ReportActivity;
 import com.aumum.app.mobile.ui.user.UpdateAvatarActivity;
 import com.aumum.app.mobile.ui.main.MainFragment;
@@ -100,9 +102,11 @@ import retrofit.converter.GsonConverter;
                 NewPartyActivity.class,
                 PartyLikeListener.class,
                 PartyCommentsFragment.class,
+                PartyCommentCard.class,
                 UserFragment.class,
                 PartyDetailsFragment.class,
                 PartyReasonsFragment.class,
+                PartyCommentLikeListener.class,
                 ConversationFragment.class,
                 ChatFragment.class,
                 SendMessageListener.class,

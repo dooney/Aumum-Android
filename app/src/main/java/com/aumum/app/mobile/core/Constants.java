@@ -149,6 +149,10 @@ public final class Constants {
             public static final String PARAM_GROUP_ID = "groupId";
         }
 
+        public static final class PartyComment {
+            public static final String PARAM_LIKES = "likes";
+        }
+
         public static final class User {
             public static final String PARAM_CONTACTS = "contacts";
             public static final String PARAM_PARTIES = "parties";

@@ -22,7 +22,7 @@
             android:id="@+id/edit_comment"
             style="@style/EditText.Box"
             android:layout_toLeftOf="@+id/b_post_comment"
-            android:hint="@string/hint_new_comment" />
+            android:hint="@string/hint_new_party_comment" />
 
         <Button
             android:id="@+id/b_post_comment"

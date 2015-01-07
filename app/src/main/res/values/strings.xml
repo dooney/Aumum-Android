@@ -270,10 +270,6 @@
     <string name="label_logout_notification">下线通知</string>
     <string name="label_connection_conflict">同一账号已在其他设备登录</string>
 
-    <!-- Comments -->
-    <string name="hint_new_comment">写评论</string>
-    <string name="hint_reply_comment">回复@%1$s: %2$s</string>
-
     <!-- Party -->
     <string name="hint_join_reason">一句话介绍自己的情况，或报名理由</string>
     <string name="hint_quit_reason">给聚会发起人留言</string>
@@ -312,6 +308,8 @@
     <string name="hint_search_address">请输入要搜索的具体地址</string>
     <string name="label_unknown_distance">未知距离</string>
     <string name="label_unknown_address">未知地址</string>
+    <string name="hint_new_party_comment">写评论</string>
+    <string name="hint_reply_party_comment">回复@%1$s: %2$s</string>
 
     <!-- Asking -->
     <string name="hint_asking_title">说说标题</string>

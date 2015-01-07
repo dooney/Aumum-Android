@@ -1,8 +1,8 @@
-package com.aumum.app.mobile.ui.asking;
+package com.aumum.app.mobile.ui.party;
 
 import com.aumum.app.mobile.Injector;
 import com.aumum.app.mobile.core.infra.security.ApiKeyProvider;
-import com.aumum.app.mobile.core.model.Asking;
+import com.aumum.app.mobile.core.model.PartyComment;
 import com.aumum.app.mobile.core.service.RestService;
 import com.aumum.app.mobile.ui.view.LikeTextView;
 import com.aumum.app.mobile.utils.Ln;
@@ -13,18 +13,18 @@ import javax.inject.Inject;
 import retrofit.RetrofitError;
 
 /**
- * Created by Administrator on 3/01/2015.
+ * Created by Administrator on 7/01/2015.
  */
-public class AskingLikeListener implements LikeTextView.OnLikeListener {
+public class PartyCommentLikeListener implements LikeTextView.OnLikeListener {
 
     @Inject RestService service;
     @Inject ApiKeyProvider apiKeyProvider;
 
-    private Asking asking;
+    private PartyComment comment;
     private SafeAsyncTask<Boolean> task;
 
-    public AskingLikeListener(Asking asking) {
-        this.asking = asking;
+    public PartyCommentLikeListener(PartyComment comment) {
+        this.comment = comment;
         Injector.inject(this);
     }
 
@@ -36,7 +36,7 @@ public class AskingLikeListener implements LikeTextView.OnLikeListener {
         task = new SafeAsyncTask<Boolean>() {
             public Boolean call() throws Exception {
                 String currentUserId = apiKeyProvider.getAuthUserId();
-                service.removeAskingLike(asking.getObjectId(), currentUserId);
+                service.removePartyCommentLike(comment.getObjectId(), currentUserId);
                 return true;
             }
 
@@ -66,7 +66,7 @@ public class AskingLikeListener implements LikeTextView.OnLikeListener {
         task = new SafeAsyncTask<Boolean>() {
             public Boolean call() throws Exception {
                 String currentUserId = apiKeyProvider.getAuthUserId();
-                service.addAskingLike(asking.getObjectId(), currentUserId);
+                service.addPartyCommentLike(comment.getObjectId(), currentUserId);
                 return true;
             }
 

@@ -1,17 +1,21 @@
 package com.aumum.app.mobile.core.model;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Created by Administrator on 10/10/2014.
  */
-public class Comment extends AggregateRoot {
+public class PartyComment extends AggregateRoot {
     private String parentId;
     private String repliedId;
     private String content;
     private String userId;
+    private List<String> likes = new ArrayList<String>();
 
     private User user;
 
-    public Comment(String parentId, String repliedId, String content, String userId) {
+    public PartyComment(String parentId, String repliedId, String content, String userId) {
         this.parentId = parentId;
         this.repliedId = repliedId;
         this.content = content;
@@ -52,5 +56,19 @@ public class Comment extends AggregateRoot {
 
     public void setUser(User user) {
         this.user = user;
+    }
+
+    public int getLikesCount() {
+        if (likes != null) {
+            return likes.size();
+        }
+        return 0;
+    }
+
+    public boolean isLiked(String userId) {
+        if (likes != null) {
+            return likes.contains(userId);
+        }
+        return false;
     }
 }

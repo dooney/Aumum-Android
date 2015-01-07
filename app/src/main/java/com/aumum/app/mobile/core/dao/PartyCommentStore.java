@@ -1,6 +1,6 @@
 package com.aumum.app.mobile.core.dao;
 
-import com.aumum.app.mobile.core.model.Comment;
+import com.aumum.app.mobile.core.model.PartyComment;
 import com.aumum.app.mobile.core.service.RestService;
 
 import java.util.List;
@@ -16,7 +16,7 @@ public class PartyCommentStore {
         this.restService = restService;
     }
 
-    public List<Comment> getPartyComments(List<String> idList) {
+    public List<PartyComment> getPartyComments(List<String> idList) {
         return restService.getPartyComments(idList);
     }
 }

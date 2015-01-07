@@ -273,6 +273,16 @@
     <style name="TextView.PartyReason.CreatedAt" parent="TextView.Subtitle.Small" />
     <style name="TextView.PartyReason.Action" parent="TextView.Subtitle.Small" />
     <style name="TextView.PartyReason.Text" parent="TextView.Content.Text" />
+    <style name="TextView.PartyComment.UserName" parent="TextView.UserName" />
+    <style name="TextView.PartyComment.CreatedAt" parent="TextView.Subtitle" >
+        <item name="android:textSize">@dimen/text_sz_small</item>
+    </style>
+    <style name="TextView.PartyComment.Text" parent="TextView.Content.Text" />
+    <style name="TextView.PartyComment.Like" parent="TextView.Like">
+        <item name="android:drawableLeft">@drawable/ic_fa_thumbs_o_up_s</item>
+        <item name="android:textSize">@dimen/text_sz_small</item>
+        <item name="android:text">@null</item>
+    </style>
 
     <!-- Asking -->
     <style name="EditText.NewAsking.Title" parent="EditText.Mandatory">
@@ -479,13 +489,6 @@
     <style name="ImageView.ContactPicker.Checkbox" parent="ImageView">
         <item name="android:src">@drawable/checkbox_on_focus</item>
     </style>
-
-    <!-- Comment -->
-    <style name="TextView.Comment.UserName" parent="TextView.UserName" />
-    <style name="TextView.Comment.CreatedAt" parent="TextView.Subtitle" >
-        <item name="android:textSize">@dimen/text_sz_small</item>
-    </style>
-    <style name="TextView.Comment.Text" parent="TextView.Content.Text" />
 
     <!-- User -->
     <style name="TextView.User" parent="TextView.Title" />

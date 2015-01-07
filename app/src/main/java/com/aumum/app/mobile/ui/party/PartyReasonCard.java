@@ -13,7 +13,7 @@ import com.aumum.app.mobile.ui.view.SpannableTextView;
 /**
  * Created by Administrator on 28/10/2014.
  */
-public class ReasonCard {
+public class PartyReasonCard {
     private AvatarImageView avatarImage;
     private TextView userNameText;
     private SpannableTextView reasonText;
@@ -21,7 +21,7 @@ public class ReasonCard {
     private TextView actionText;
     private ProgressBar progressBar;
 
-    public ReasonCard(View view) {
+    public PartyReasonCard(View view) {
         this.avatarImage = (AvatarImageView) view.findViewById(R.id.image_avatar);
         this.userNameText = (TextView) view.findViewById(R.id.text_user_name);
         this.reasonText = (SpannableTextView) view.findViewById(R.id.text_content);

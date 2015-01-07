@@ -21,14 +21,12 @@ import com.aumum.app.mobile.R;
 import com.aumum.app.mobile.core.dao.PartyStore;
 import com.aumum.app.mobile.core.model.CmdMessage;
 import com.aumum.app.mobile.core.model.Party;
+import com.aumum.app.mobile.core.model.PartyComment;
 import com.aumum.app.mobile.core.model.User;
 import com.aumum.app.mobile.core.service.ChatService;
 import com.aumum.app.mobile.core.service.RestService;
-import com.aumum.app.mobile.core.model.Comment;
 import com.aumum.app.mobile.core.dao.PartyCommentStore;
 import com.aumum.app.mobile.core.dao.UserStore;
-import com.aumum.app.mobile.ui.comment.CommentCard;
-import com.aumum.app.mobile.ui.comment.CommentsAdapter;
 import com.aumum.app.mobile.ui.base.ItemListFragment;
 import com.aumum.app.mobile.ui.helper.TextWatcherAdapter;
 import com.aumum.app.mobile.ui.report.ReportActivity;
@@ -49,7 +47,7 @@ import retrofit.RetrofitError;
  * A simple {@link Fragment} subclass.
  *
  */
-public class PartyCommentsFragment extends ItemListFragment<Comment> {
+public class PartyCommentsFragment extends ItemListFragment<PartyComment> {
     @Inject RestService service;
     @Inject UserStore userStore;
     @Inject PartyStore partyStore;
@@ -61,7 +59,7 @@ public class PartyCommentsFragment extends ItemListFragment<Comment> {
     private Party party;
 
     private SafeAsyncTask<Boolean> task;
-    private Comment repliedComment;
+    private PartyComment repliedComment;
 
     private EditText editComment;
     private Button postCommentButton;
@@ -130,22 +128,22 @@ public class PartyCommentsFragment extends ItemListFragment<Comment> {
     }
 
     @Override
-    protected List<Comment> loadDataCore(Bundle bundle) throws Exception {
+    protected List<PartyComment> loadDataCore(Bundle bundle) throws Exception {
         currentUser = userStore.getCurrentUser();
         party = partyStore.getPartyByIdFromServer(partyId);
         if (party.getDeletedAt() != null) {
             throw new Exception(getString(R.string.error_party_was_deleted));
         }
-        List<Comment> result = partyCommentStore.getPartyComments(party.getComments());
-        for (Comment comment : result) {
+        List<PartyComment> result = partyCommentStore.getPartyComments(party.getComments());
+        for (PartyComment comment : result) {
             comment.setUser(userStore.getUserById(comment.getUserId()));
         }
         return result;
     }
 
     @Override
-    protected ArrayAdapter<Comment> createAdapter(List<Comment> items) {
-        return new CommentsAdapter(getActivity(), items);
+    protected ArrayAdapter<PartyComment> createAdapter(List<PartyComment> items) {
+        return new PartyCommentsAdapter(getActivity(), items);
     }
 
     private TextWatcher validationTextWatcher() {
@@ -173,7 +171,7 @@ public class PartyCommentsFragment extends ItemListFragment<Comment> {
         EditTextUtils.hideSoftInput(editComment);
         editComment.clearFocus();
         editComment.setText(null);
-        editComment.setHint(R.string.hint_new_comment);
+        editComment.setHint(R.string.hint_new_party_comment);
     }
 
     private void submitComment() {
@@ -186,10 +184,10 @@ public class PartyCommentsFragment extends ItemListFragment<Comment> {
         String content = editComment.getText().toString();
         if (repliedComment != null) {
             repliedId = repliedComment.getObjectId();
-            content = getString(R.string.hint_reply_comment,
+            content = getString(R.string.hint_reply_party_comment,
                     repliedComment.getUser().getScreenName(), content);
         }
-        Comment comment = new Comment(partyId, repliedId, content, currentUser.getObjectId());
+        PartyComment comment = new PartyComment(partyId, repliedId, content, currentUser.getObjectId());
         comment.setUser(currentUser);
         getData().add(0, comment);
         getListAdapter().notifyDataSetChanged();
@@ -202,13 +200,13 @@ public class PartyCommentsFragment extends ItemListFragment<Comment> {
         // submit
         task = new SafeAsyncTask<Boolean>() {
             public Boolean call() throws Exception {
-                Comment comment = getData().get(0);
-                final Comment newComment = new Comment(
+                PartyComment comment = getData().get(0);
+                final PartyComment newComment = new PartyComment(
                         comment.getParentId(),
                         comment.getRepliedId(),
                         comment.getContent(),
                         comment.getUserId());
-                Comment response = service.newPartyComment(newComment);
+                PartyComment response = service.newPartyComment(newComment);
                 service.addPartyComment(partyId, response.getObjectId());
                 party.addComment(response.getObjectId());
                 partyStore.save(party);
@@ -243,18 +241,18 @@ public class PartyCommentsFragment extends ItemListFragment<Comment> {
         task.execute();
     }
 
-    private void reply(Comment comment) {
+    private void reply(PartyComment comment) {
         EditTextUtils.showSoftInput(editComment, true);
         repliedComment = comment;
-        editComment.setHint(getString(R.string.hint_reply_comment,
+        editComment.setHint(getString(R.string.hint_reply_party_comment,
                 repliedComment.getUser().getScreenName(), repliedComment.getContent()));
     }
 
-    private void deleteComment(final CommentCard card) {
+    private void deleteComment(final PartyCommentCard card) {
         if (task != null) {
             return;
         }
-        final Comment comment = card.getComment();
+        final PartyComment comment = card.getComment();
         card.onActionStart();
         task = new SafeAsyncTask<Boolean>() {
             public Boolean call() throws Exception {
@@ -288,7 +286,7 @@ public class PartyCommentsFragment extends ItemListFragment<Comment> {
         task.execute();
     }
 
-    private void reportComment(Comment comment) {
+    private void reportComment(PartyComment comment) {
         final Intent intent = new Intent(getActivity(), ReportActivity.class);
         intent.putExtra(ReportActivity.INTENT_ENTITY_TYPE, ReportActivity.TYPE_PARTY_COMMENT);
         intent.putExtra(ReportActivity.INTENT_ENTITY_ID, comment.getObjectId());
@@ -296,8 +294,8 @@ public class PartyCommentsFragment extends ItemListFragment<Comment> {
     }
 
     private void showActionDialog(View view) {
-        final CommentCard card = (CommentCard) view.getTag();
-        final Comment comment = card.getComment();
+        final PartyCommentCard card = (PartyCommentCard) view.getTag();
+        final PartyComment comment = card.getComment();
         final boolean isOwner = party.isOwner(currentUser.getObjectId()) ||
                 comment.isOwner(currentUser.getObjectId());
         List<String> options = new ArrayList<String>();
@@ -330,9 +328,9 @@ public class PartyCommentsFragment extends ItemListFragment<Comment> {
     }
 
     private void onCommentDeletedSuccess(String commentId) {
-        List<Comment> commentList = getData();
-        for (Iterator<Comment> it = commentList.iterator(); it.hasNext();) {
-            Comment comment = it.next();
+        List<PartyComment> commentList = getData();
+        for (Iterator<PartyComment> it = commentList.iterator(); it.hasNext();) {
+            PartyComment comment = it.next();
             if (comment.getObjectId().equals(commentId)) {
                 it.remove();
                 getActivity().runOnUiThread(new Runnable() {
@@ -358,7 +356,7 @@ public class PartyCommentsFragment extends ItemListFragment<Comment> {
         sendMessage(partyOwner.getChatId(), cmdMessage);
     }
 
-    private void sendCommentMessage(Comment comment) throws Exception {
+    private void sendCommentMessage(PartyComment comment) throws Exception {
         String title = getString(R.string.label_comment_party_message,
                 currentUser.getScreenName(), party.getTitle());
         CmdMessage cmdMessage = new CmdMessage(CmdMessage.Type.PARTY_COMMENT,
@@ -366,7 +364,7 @@ public class PartyCommentsFragment extends ItemListFragment<Comment> {
         sendPartyOwnerMessage(cmdMessage);
     }
 
-    private void sendRepliedMessage(Comment repliedComment) throws Exception {
+    private void sendRepliedMessage(PartyComment repliedComment) throws Exception {
         String title = getString(R.string.label_replied_party_message,
                 currentUser.getScreenName(), party.getTitle());
         CmdMessage cmdMessage = new CmdMessage(CmdMessage.Type.PARTY_REPLY,

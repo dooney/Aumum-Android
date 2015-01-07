@@ -22,15 +22,15 @@ public class ReasonsAdapter extends ArrayAdapter<PartyReason> {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        final ReasonCard card;
+        final PartyReasonCard card;
 
         if (convertView == null) {
             LayoutInflater inflater = LayoutInflater.from(getContext());
             convertView = inflater.inflate(R.layout.party_reason_listitem_inner, parent, false);
-            card = new ReasonCard(convertView);
+            card = new PartyReasonCard(convertView);
             convertView.setTag(card);
         } else {
-            card = (ReasonCard) convertView.getTag();
+            card = (PartyReasonCard) convertView.getTag();
         }
 
         PartyReason reason = getItem(position);

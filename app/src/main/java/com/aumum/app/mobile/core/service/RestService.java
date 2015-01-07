@@ -3,7 +3,7 @@ package com.aumum.app.mobile.core.service;
 
 import com.aumum.app.mobile.core.model.Asking;
 import com.aumum.app.mobile.core.model.AskingReply;
-import com.aumum.app.mobile.core.model.Comment;
+import com.aumum.app.mobile.core.model.PartyComment;
 import com.aumum.app.mobile.core.Constants;
 import com.aumum.app.mobile.core.model.Party;
 import com.aumum.app.mobile.core.model.PartyReason;
@@ -425,7 +425,7 @@ public class RestService {
         return getPartyService().updateById(partyId, data);
     }
 
-    public List<Comment> getPartyComments(List<String> idList) {
+    public List<PartyComment> getPartyComments(List<String> idList) {
         final JsonObject whereJson = new JsonObject();
         whereJson.add("objectId", buildIdListJson(idList));
         final JsonObject liveJson = new JsonObject();
@@ -435,7 +435,7 @@ public class RestService {
         return getPartyCommentService().getList("-createdAt", where).getResults();
     }
 
-    public Comment newPartyComment(Comment comment) {
+    public PartyComment newPartyComment(PartyComment comment) {
         return getPartyCommentService().newPartyComment(comment);
     }
 
@@ -540,6 +540,27 @@ public class RestService {
         requests.add(buildPartyCommentsRequestJson(partyId, commentId));
         script.add(Constants.Http.Batch.PARAM_REQUESTS, requests);
         return getBatchService().execute(script);
+    }
+
+    public JsonObject addPartyCommentLike(String commentId, String userId) {
+        final JsonObject op = new JsonObject();
+        op.addProperty("__op", "AddUnique");
+        return updatePartyCommentLikes(op, commentId, userId);
+    }
+
+    public JsonObject removePartyCommentLike(String commentId, String userId) {
+        final JsonObject op = new JsonObject();
+        op.addProperty("__op", "Remove");
+        return updatePartyCommentLikes(op, commentId, userId);
+    }
+
+    private JsonObject updatePartyCommentLikes(JsonObject op, String commentId, String userId) {
+        final JsonObject data = new JsonObject();
+        final JsonArray partyCommentLikes = new JsonArray();
+        partyCommentLikes.add(new JsonPrimitive(userId));
+        op.add("objects", partyCommentLikes);
+        data.add(Constants.Http.PartyComment.PARAM_LIKES, op);
+        return getPartyCommentService().updateById(commentId, data);
     }
 
     public PartyReason newPartyReason(PartyReason reason) {

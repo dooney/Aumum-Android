@@ -1,6 +1,6 @@
 package com.aumum.app.mobile.core.service;
 
-import com.aumum.app.mobile.core.model.Comment;
+import com.aumum.app.mobile.core.model.PartyComment;
 import com.aumum.app.mobile.core.Constants;
 import com.aumum.app.mobile.core.api.ListWrapper;
 import com.google.gson.JsonObject;
@@ -18,11 +18,11 @@ import retrofit.http.Query;
 public interface PartyCommentService {
 
     @GET(Constants.Http.URL_PARTY_COMMENTS_FRAG)
-    ListWrapper<Comment> getList(@Query("order") String order,
+    ListWrapper<PartyComment> getList(@Query("order") String order,
                                  @Query("where") String where);
 
     @POST(Constants.Http.URL_PARTY_COMMENTS_FRAG)
-    Comment newPartyComment(@Body Comment data);
+    PartyComment newPartyComment(@Body PartyComment data);
 
     @PUT(Constants.Http.URL_PARTY_COMMENT_BY_ID_FRAG)
     JsonObject updateById(@Path("id") String id, @Body JsonObject data);

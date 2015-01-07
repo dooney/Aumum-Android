@@ -17,20 +17,27 @@
 
     <TextView
         android:id="@+id/text_user_name"
-        style="@style/TextView.Comment.UserName"
+        style="@style/TextView.PartyComment.UserName"
         android:layout_toRightOf="@+id/image_avatar" />
 
     <TextView
         android:id="@+id/text_createdAt"
-        style="@style/TextView.Comment.CreatedAt"
+        style="@style/TextView.PartyComment.CreatedAt"
         android:layout_below="@+id/text_user_name"
         android:layout_alignLeft="@+id/text_user_name" />
 
     <com.aumum.app.mobile.ui.view.SpannableTextView
         android:id="@+id/text_content"
-        style="@style/TextView.Comment.Text"
+        style="@style/TextView.PartyComment.Text"
         android:layout_below="@+id/text_createdAt"
         android:layout_alignLeft="@+id/text_user_name" />
+
+    <com.aumum.app.mobile.ui.view.LikeTextView
+        android:id="@+id/text_like"
+        style="@style/TextView.PartyComment.Like"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"
+        android:visibility="gone"/>
 
     <ProgressBar
         android:id="@+id/progress"
