@@ -98,7 +98,8 @@
                         android:paddingRight="@dimen/margin_extra_large">
 
                         <TextView
-                            style="@style/TextView.NewParty.PrivacyLabel"/>
+                            style="@style/TextView.NewParty.PrivacyLabel"
+                            android:layout_centerVertical="true"/>
 
                         <TextView
                             android:id="@+id/text_privacy"
@@ -106,6 +107,25 @@
                             android:layout_centerVertical="true"
                             android:layout_alignParentRight="true"
                             android:text="完全公开"/>
+
+                        <LinearLayout
+                            android:id="@+id/layout_specified"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentRight="true"
+                            android:visibility="gone">
+
+                            <LinearLayout
+                                android:id="@+id/layout_specified_avatars"
+                                style="@style/LinearLayout.Party.UserAvatars"
+                                android:layout_width="wrap_content"/>
+
+                            <TextView
+                                android:id="@+id/text_specified_info"
+                                style="@style/LinkTextView"
+                                android:layout_gravity="center_vertical"/>
+
+                        </LinearLayout>
 
                     </RelativeLayout>
 
@@ -144,7 +164,34 @@
                         android:paddingRight="@dimen/margin_extra_large">
 
                         <TextView
-                            style="@style/TextView.NewParty.NotifyLabel"/>
+                            style="@style/TextView.NewParty.NotifyLabel"
+                            android:layout_centerVertical="true"/>
+
+                        <TextView
+                            android:id="@+id/text_notified"
+                            style="@style/TextView.NewParty.Notify"
+                            android:layout_centerVertical="true"
+                            android:layout_alignParentRight="true"
+                            android:text="所有好友"/>
+
+                        <LinearLayout
+                            android:id="@+id/layout_notified"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentRight="true"
+                            android:visibility="gone">
+
+                            <LinearLayout
+                                android:id="@+id/layout_notified_avatars"
+                                style="@style/LinearLayout.Party.UserAvatars"
+                                android:layout_width="wrap_content"/>
+
+                            <TextView
+                                android:id="@+id/text_notified_info"
+                                style="@style/LinkTextView"
+                                android:layout_gravity="center_vertical"/>
+
+                        </LinearLayout>
 
                     </RelativeLayout>
 

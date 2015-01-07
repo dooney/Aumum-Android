@@ -74,6 +74,11 @@
         <item>自动创建</item>
         <item>不创建</item>
     </string-array>
+    <string-array name="label_party_notify">
+        <item>所有好友</item>
+        <item>指定好友</item>
+        <item>不通知</item>
+    </string-array>
     <string-array name="label_report_types">
         <item>垃圾营销</item>
         <item>不实信息</item>
@@ -311,6 +316,10 @@
     <string name="label_unknown_address">未知地址</string>
     <string name="hint_new_party_comment">写评论</string>
     <string name="hint_reply_party_comment">回复@%1$s: %2$s</string>
+    <string name="label_contacts_specified">等%,d位好友</string>
+    <string name="label_contacts_notified">等%,d位好友</string>
+    <string name="label_specify_contacts">以下好友可见</string>
+    <string name="label_notify_contacts">通知以下好友</string>
 
     <!-- Asking -->
     <string name="hint_asking_title">说说标题</string>

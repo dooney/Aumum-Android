@@ -6,4 +6,5 @@ package com.aumum.app.mobile.ui.contact;
 public interface ContactClickListener {
 
     boolean onContactClick(String contactId);
+    boolean isSelected(String contactId);
 }

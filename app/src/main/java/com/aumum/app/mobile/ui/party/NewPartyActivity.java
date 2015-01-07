@@ -8,6 +8,7 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.text.format.DateFormat;
 import android.view.KeyEvent;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -38,7 +39,9 @@ import com.aumum.app.mobile.ui.helper.TextWatcherAdapter;
 import com.aumum.app.mobile.ui.image.CustomGallery;
 import com.aumum.app.mobile.ui.image.GalleryAdapter;
 import com.aumum.app.mobile.ui.image.ImagePickerActivity;
+import com.aumum.app.mobile.ui.user.UserListActivity;
 import com.aumum.app.mobile.ui.view.Animation;
+import com.aumum.app.mobile.ui.view.AvatarImageView;
 import com.aumum.app.mobile.ui.view.ListViewDialog;
 import com.aumum.app.mobile.utils.EditTextUtils;
 import com.aumum.app.mobile.utils.GooglePlaceUtils;
@@ -55,7 +58,10 @@ import org.joda.time.DateTime;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 import javax.inject.Inject;
 
@@ -93,9 +99,16 @@ public class NewPartyActivity extends ProgressDialogActivity
     @InjectView(R.id.et_details) protected EditText detailsText;
     @InjectView(R.id.layout_privacy) protected ViewGroup privacyLayout;
     @InjectView(R.id.text_privacy) protected TextView privacyText;
+    @InjectView(R.id.layout_specified) protected ViewGroup specifiedLayout;
+    @InjectView(R.id.layout_specified_avatars) protected ViewGroup specifiedAvatars;
+    @InjectView(R.id.text_specified_info) protected TextView specifiedInfo;
     @InjectView(R.id.layout_group) protected ViewGroup groupLayout;
     @InjectView(R.id.text_group) protected TextView groupText;
     @InjectView(R.id.layout_notify) protected ViewGroup notifyLayout;
+    @InjectView(R.id.text_notified) protected TextView notifiedText;
+    @InjectView(R.id.layout_notified) protected ViewGroup notifiedLayout;
+    @InjectView(R.id.layout_notified_avatars) protected ViewGroup notifiedAvatars;
+    @InjectView(R.id.text_notified_info) protected TextView notifiedInfo;
     @InjectView(R.id.text_add_more) protected TextView addMoreText;
     @InjectView(R.id.layout_type_selection) protected ViewGroup typeSelectionLayout;
     @InjectView(R.id.layout_image) protected ViewGroup imageLayout;
@@ -108,13 +121,21 @@ public class NewPartyActivity extends ProgressDialogActivity
     private String imagePathList[];
     private ArrayList<String> imageUrlList;
 
-    private int groupType;
     private int privacyType;
+    private ArrayList<String> specifiedContacts;
     private final int PRIVACY_TYPE_PUBLIC = 0;
     private final int PRIVACY_TYPE_CONTACTS = 1;
     private final int PRIVACY_TYPE_SPECIFIED_CONTACTS = 2;
-    private ArrayList<String> specifiedContacts;
+
+    private int groupType;
+    private final int GROUP_TYPE_NEW = 0;
+    private final int GROUP_TYPE_NONE = 1;
+
+    private int notifyType;
     private ArrayList<String> notifiedContacts;
+    private final int NOTIFY_TYPE_CONTACTS = 0;
+    private final int NOTIFY_TYPE_SPECIFIED_CONTACTS = 1;
+    private final int NOTIFY_TYPE_NONE = 2;
 
     private final int SPECIFIED_CONTACTS_REQ_CODE = 100;
     private final int NOTIFIED_CONTACTS_REQ_CODE = 101;
@@ -197,7 +218,7 @@ public class NewPartyActivity extends ProgressDialogActivity
         notifyLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startNotifiedContactsActivity();
+                showNotifyOptions();
             }
         });
         addMoreText.setOnClickListener(new View.OnClickListener() {
@@ -210,18 +231,23 @@ public class NewPartyActivity extends ProgressDialogActivity
             @Override
             public void onClick(View view) {
                 final Intent intent = new Intent(NewPartyActivity.this, ImagePickerActivity.class);
-                intent.putExtra(ImagePickerActivity.INTENT_ACTION, ImagePickerActivity.ACTION_MULTIPLE_PICK);
+                intent.putExtra(ImagePickerActivity.INTENT_ACTION,
+                        ImagePickerActivity.ACTION_MULTIPLE_PICK);
                 startActivityForResult(intent, Constants.RequestCode.IMAGE_PICKER_REQ_CODE);
             }
         });
-        adapter = new GalleryAdapter(this, R.layout.image_collection_listitem_inner, ImageLoaderUtils.getInstance());
+        adapter = new GalleryAdapter(this, R.layout.image_collection_listitem_inner,
+                ImageLoaderUtils.getInstance());
         gridGallery.setAdapter(adapter);
 
         Animation.flyIn(this);
     }
 
     @Override
-    public void onDateSet(CalendarDatePickerDialog dialog, int year, int monthOfYear, int dayOfMonth) {
+    public void onDateSet(CalendarDatePickerDialog dialog,
+                          int year,
+                          int monthOfYear,
+                          int dayOfMonth) {
         date.setYear(year);
         date.setMonth(monthOfYear + 1);
         date.setDay(dayOfMonth);
@@ -229,7 +255,9 @@ public class NewPartyActivity extends ProgressDialogActivity
     }
 
     @Override
-    public void onTimeSet(RadialPickerLayout radialPickerLayout, int hourOfDay, int minute) {
+    public void onTimeSet(RadialPickerLayout radialPickerLayout,
+                          int hourOfDay,
+                          int minute) {
         time.setHour(hourOfDay);
         time.setMinute(minute);
         timeText.setText(time.getTimeText());
@@ -239,14 +267,14 @@ public class NewPartyActivity extends ProgressDialogActivity
     public void onResume() {
         super.onResume();
 
-        CalendarDatePickerDialog calendarDatePickerDialog = (CalendarDatePickerDialog) getSupportFragmentManager()
-                .findFragmentByTag(FRAG_TAG_DATE_PICKER);
+        CalendarDatePickerDialog calendarDatePickerDialog = (CalendarDatePickerDialog)
+                getSupportFragmentManager().findFragmentByTag(FRAG_TAG_DATE_PICKER);
         if (calendarDatePickerDialog != null) {
             calendarDatePickerDialog.setOnDateSetListener(this);
         }
 
-        RadialTimePickerDialog radialTimePickerDialog = (RadialTimePickerDialog) getSupportFragmentManager().findFragmentByTag(
-                FRAG_TAG_TIME_PICKER);
+        RadialTimePickerDialog radialTimePickerDialog = (RadialTimePickerDialog)
+                getSupportFragmentManager().findFragmentByTag(FRAG_TAG_TIME_PICKER);
         if (radialTimePickerDialog != null) {
             radialTimePickerDialog.setOnTimeSetListener(this);
         }
@@ -293,13 +321,95 @@ public class NewPartyActivity extends ProgressDialogActivity
                     data.getStringArrayListExtra(ContactPickerActivity.INTENT_SELECTED_CONTACTS);
             specifiedContacts.clear();
             specifiedContacts.addAll(selectedContacts);
-            privacyText.setText(R.string.label_visible_to_contacts);
+            showSpecifiedInfo(selectedContacts);
+            privacyText.setVisibility(View.GONE);
+            privacyType = PRIVACY_TYPE_SPECIFIED_CONTACTS;
         } else if (requestCode == NOTIFIED_CONTACTS_REQ_CODE && resultCode == RESULT_OK) {
             final ArrayList<String> selectedContacts =
                     data.getStringArrayListExtra(ContactPickerActivity.INTENT_SELECTED_CONTACTS);
             notifiedContacts.clear();
             notifiedContacts.addAll(selectedContacts);
+            showNotifiedInfo(notifiedContacts);
+            notifiedText.setVisibility(View.GONE);
+            notifyType = NOTIFY_TYPE_SPECIFIED_CONTACTS;
         }
+    }
+
+    private void showAvatarsLayout(ViewGroup avatarsLayout, List<String> contacts) {
+        avatarsLayout.removeAllViews();
+        LayoutInflater inflater = getLayoutInflater();
+        final HashMap<String, AvatarImageView> avatarImages = new HashMap<String, AvatarImageView>();
+        for(String userId: contacts) {
+            AvatarImageView avatarImage = (AvatarImageView) inflater
+                    .inflate(R.layout.small_avatar, avatarsLayout, false);
+            avatarImages.put(userId, avatarImage);
+            avatarsLayout.addView(avatarImage);
+        }
+        final HashMap<String, String> avatarUrls = new HashMap<String, String>();
+        new SafeAsyncTask<Boolean>() {
+            @Override
+            public Boolean call() throws Exception {
+                Iterator it = avatarImages.entrySet().iterator();
+                while (it.hasNext()) {
+                    Map.Entry<String, AvatarImageView> pair = (Map.Entry<String, AvatarImageView>) it.next();
+                    String userId = pair.getKey();
+                    User user = userStore.getUserById(userId);
+                    avatarUrls.put(userId, user.getAvatarUrl());
+                }
+                return true;
+            }
+
+            @Override
+            protected void onSuccess(Boolean success) throws Exception {
+                Iterator it = avatarImages.entrySet().iterator();
+                while (it.hasNext()) {
+                    Map.Entry<String, AvatarImageView> pair = (Map.Entry<String, AvatarImageView>) it.next();
+                    String userId = pair.getKey();
+                    AvatarImageView avatarImage = pair.getValue();
+                    avatarImage.getFromUrl(avatarUrls.get(userId));
+                }
+            }
+        }.execute();
+    }
+
+    private void showSpecifiedInfo(final ArrayList<String> contacts) {
+        ArrayList<String> avatars = new ArrayList<String>();
+        if (contacts.size() > 4) {
+            specifiedInfo.setVisibility(View.VISIBLE);
+            specifiedInfo.setText(getString(R.string.label_contacts_specified, contacts.size()));
+            specifiedInfo.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    startUserListActivity(getString(R.string.label_specify_contacts), contacts);
+                }
+            });
+            avatars.add(contacts.get(0));
+        } else {
+            specifiedInfo.setVisibility(View.GONE);
+            avatars.addAll(contacts);
+        }
+        specifiedLayout.setVisibility(View.VISIBLE);
+        showAvatarsLayout(specifiedAvatars, avatars);
+    }
+
+    private void showNotifiedInfo(final ArrayList<String> contacts) {
+        ArrayList<String> avatars = new ArrayList<String>();
+        if (contacts.size() > 4) {
+            notifiedInfo.setVisibility(View.VISIBLE);
+            notifiedInfo.setText(getString(R.string.label_contacts_notified, contacts.size()));
+            notifiedInfo.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    startUserListActivity(getString(R.string.label_notify_contacts), contacts);
+                }
+            });
+            avatars.add(contacts.get(0));
+        } else {
+            notifiedInfo.setVisibility(View.GONE);
+            avatars.addAll(contacts);
+        }
+        notifiedLayout.setVisibility(View.VISIBLE);
+        showAvatarsLayout(notifiedAvatars, avatars);
     }
 
     private TextWatcher validationTextWatcher() {
@@ -387,11 +497,13 @@ public class NewPartyActivity extends ProgressDialogActivity
                 restService.joinParty(party.getObjectId(), currentUser.getObjectId(), null);
                 currentUser.addParty(party.getObjectId());
                 userStore.save(currentUser);
-                if (groupType == 0) {
+                if (groupType == GROUP_TYPE_NEW) {
                     createPartyGroup(party, currentUser);
                 }
-                if (notifiedContacts.size() > 0) {
-                    notifyContacts(party, currentUser);
+                if (notifyType == NOTIFY_TYPE_CONTACTS) {
+                    notifyContacts(currentUser.getContacts(), party, currentUser);
+                } else if (notifyType == NOTIFY_TYPE_SPECIFIED_CONTACTS) {
+                    notifyContacts(notifiedContacts, party, currentUser);
                 }
                 return true;
             }
@@ -438,12 +550,14 @@ public class NewPartyActivity extends ProgressDialogActivity
         }.execute();
     }
 
-    private void notifyContacts(final Party party, final User currentUser) throws Exception {
+    private void notifyContacts(final List<String> contacts,
+                                final Party party,
+                                final User currentUser) throws Exception {
         new SafeAsyncTask<Boolean>() {
             @Override
             public Boolean call() throws Exception {
                 String title = getString(R.string.label_new_party_message, currentUser.getScreenName());
-                for (String userId : notifiedContacts) {
+                for (String userId : contacts) {
                     User user = userStore.getUserById(userId);
                     CmdMessage cmdMessage = new CmdMessage(CmdMessage.Type.PARTY_NEW,
                             title,
@@ -489,13 +603,13 @@ public class NewPartyActivity extends ProgressDialogActivity
                 new ListViewDialog.OnItemClickListener() {
             @Override
             public void onItemClick(int i) {
-                privacyType = i;
                 switch (i) {
                     case PRIVACY_TYPE_PUBLIC:
-                        privacyText.setText(options[i]);
-                        break;
                     case PRIVACY_TYPE_CONTACTS:
+                        specifiedLayout.setVisibility(View.GONE);
+                        privacyText.setVisibility(View.VISIBLE);
                         privacyText.setText(options[i]);
+                        privacyType = i;
                         break;
                     case PRIVACY_TYPE_SPECIFIED_CONTACTS:
                         startSpecifiedContactsActivity();
@@ -528,10 +642,41 @@ public class NewPartyActivity extends ProgressDialogActivity
                 new ListViewDialog.OnItemClickListener() {
             @Override
             public void onItemClick(int i) {
-                groupType = i;
-                groupText.setText(options[i]);
+                switch (i) {
+                    case GROUP_TYPE_NEW:
+                    case GROUP_TYPE_NONE:
+                        groupText.setText(options[i]);
+                        groupType = i;
+                        break;
+                    default:
+                        break;
+                }
             }
         }).show();
+    }
+
+    private void showNotifyOptions() {
+        final String options[] = getResources().getStringArray(R.array.label_party_notify);
+        new ListViewDialog(NewPartyActivity.this, null, Arrays.asList(options),
+                new ListViewDialog.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(int i) {
+                        switch (i) {
+                            case NOTIFY_TYPE_NONE:
+                            case NOTIFY_TYPE_CONTACTS:
+                                notifiedLayout.setVisibility(View.GONE);
+                                notifiedText.setVisibility(View.VISIBLE);
+                                notifiedText.setText(options[i]);
+                                notifyType = i;
+                                break;
+                            case NOTIFY_TYPE_SPECIFIED_CONTACTS:
+                                startNotifiedContactsActivity();
+                                break;
+                            default:
+                                break;
+                        }
+                    }
+                }).show();
     }
 
     private void startSpecifiedContactsActivity() {
@@ -542,5 +687,12 @@ public class NewPartyActivity extends ProgressDialogActivity
     private void startNotifiedContactsActivity() {
         final Intent intent = new Intent(this, ContactPickerActivity.class);
         startActivityForResult(intent, NOTIFIED_CONTACTS_REQ_CODE);
+    }
+
+    private void startUserListActivity(String title, ArrayList<String> userList) {
+        final Intent intent = new Intent(this, UserListActivity.class);
+        intent.putExtra(UserListActivity.INTENT_TITLE, title);
+        intent.putStringArrayListExtra(UserListActivity.INTENT_USER_LIST, userList);
+        startActivity(intent);
     }
 }

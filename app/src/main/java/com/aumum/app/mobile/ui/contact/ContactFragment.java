@@ -126,6 +126,11 @@ public class ContactFragment extends ItemListFragment<User>
         return true;
     }
 
+    @Override
+    public boolean isSelected(String contactId) {
+        return true;
+    }
+
     private List<User> getSortedContacts() throws Exception {
         List<User> contacts = userStore.getContacts();
         Collections.sort(contacts, initialComparator);

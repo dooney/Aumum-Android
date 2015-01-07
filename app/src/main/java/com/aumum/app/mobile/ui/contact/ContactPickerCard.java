@@ -34,6 +34,7 @@ public class ContactPickerCard {
     public void refresh(final User user) {
         avatarImage.getFromUrl(user.getAvatarUrl());
         screenNameText.setText(user.getScreenName());
+        checkbox.setSelected(contactClickListener.isSelected(user.getObjectId()));
 
         contactCardLayout.setOnClickListener(new View.OnClickListener() {
             @Override

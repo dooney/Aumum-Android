@@ -122,13 +122,19 @@ public class ContactPickerFragment extends ItemListFragment<User>
             contacts.remove(contactId);
         } else {
             if (contacts.size() >= MAX_COUNT) {
-                Toaster.showShort(getActivity(), R.string.error_selection_no_more_than, MAX_COUNT);
+                Toaster.showShort(getActivity(),
+                        getString(R.string.error_selection_no_more_than, MAX_COUNT));
                 return false;
             }
             contacts.add(contactId);
         }
         updateUIWithValidation();
         return true;
+    }
+
+    @Override
+    public boolean isSelected(String contactId) {
+        return contacts.contains(contactId);
     }
 
     private void updateUIWithValidation() {

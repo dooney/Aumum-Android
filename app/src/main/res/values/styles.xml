@@ -265,6 +265,9 @@
         <item name="android:text">@string/label_notify</item>
         <item name="android:textSize">@dimen/text_sz_large</item>
     </style>
+    <style name="TextView.NewParty.Notify" parent="TextView">
+        <item name="android:textSize">@dimen/text_sz_large</item>
+    </style>
     <style name="TextView.NewParty.AddMore" parent="TextView.Subtitle">
         <item name="android:textSize">@dimen/text_sz_large</item>
         <item name="android:text">@string/label_add_more</item>
