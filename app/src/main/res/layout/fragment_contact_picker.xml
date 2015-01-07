@@ -24,6 +24,7 @@
         android:visibility="gone"/>
 
     <com.aumum.app.mobile.ui.view.sort.SideBar
+        android:id="@+id/sideBar"
         style="@style/SideBar"
         android:layout_alignParentRight="true"/>
 

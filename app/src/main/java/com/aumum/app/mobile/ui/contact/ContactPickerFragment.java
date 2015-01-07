@@ -19,6 +19,7 @@ import com.aumum.app.mobile.core.dao.UserStore;
 import com.aumum.app.mobile.core.model.User;
 import com.aumum.app.mobile.ui.base.ItemListFragment;
 import com.aumum.app.mobile.ui.view.sort.InitialComparator;
+import com.aumum.app.mobile.ui.view.sort.SideBar;
 import com.github.kevinsawicki.wishlist.Toaster;
 
 import java.util.ArrayList;
@@ -38,6 +39,7 @@ public class ContactPickerFragment extends ItemListFragment<User>
     private ArrayList<String> contacts;
     private InitialComparator initialComparator;
 
+    private ContactPickerAdapter adapter;
     private Button confirmButton;
 
     private final int MAX_COUNT = 10;
@@ -77,6 +79,22 @@ public class ContactPickerFragment extends ItemListFragment<User>
     }
 
     @Override
+    public void onViewCreated(View view, Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
+        SideBar sideBar = (SideBar) view.findViewById(R.id.sideBar);
+        sideBar.setOnTouchingLetterChangedListener(new SideBar.OnTouchingLetterChangedListener() {
+            @Override
+            public void onTouchingLetterChanged(String s) {
+                int position = adapter.getPositionForSection(s.charAt(0));
+                if(position != -1){
+                    getListView().setSelection(position);
+                }
+            }
+        });
+    }
+
+    @Override
     protected String getErrorMessage(Exception exception) {
         return getString(R.string.error_load_contacts);
     }
@@ -88,7 +106,8 @@ public class ContactPickerFragment extends ItemListFragment<User>
 
     @Override
     protected ArrayAdapter<User> createAdapter(List<User> items) {
-        return new ContactPickerAdapter(getActivity(), items, this);
+        adapter = new ContactPickerAdapter(getActivity(), items, this);
+        return adapter;
     }
 
     private List<User> getSortedContacts() throws Exception {

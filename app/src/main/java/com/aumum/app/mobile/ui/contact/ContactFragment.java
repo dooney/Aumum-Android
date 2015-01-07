@@ -23,6 +23,7 @@ import com.aumum.app.mobile.ui.view.ConfirmDialog;
 import com.aumum.app.mobile.ui.view.EditTextDialog;
 import com.aumum.app.mobile.ui.view.ListViewDialog;
 import com.aumum.app.mobile.ui.view.sort.InitialComparator;
+import com.aumum.app.mobile.ui.view.sort.SideBar;
 import com.github.kevinsawicki.wishlist.Toaster;
 
 import java.util.ArrayList;
@@ -44,6 +45,8 @@ public class ContactFragment extends ItemListFragment<User>
 
     private User currentUser;
     private InitialComparator initialComparator;
+
+    private ContactAdapter adapter;
 
     @Override
     public void onCreate(final Bundle savedInstanceState) {
@@ -77,6 +80,22 @@ public class ContactFragment extends ItemListFragment<User>
     }
 
     @Override
+    public void onViewCreated(View view, Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
+        SideBar sideBar = (SideBar) view.findViewById(R.id.sideBar);
+        sideBar.setOnTouchingLetterChangedListener(new SideBar.OnTouchingLetterChangedListener() {
+            @Override
+            public void onTouchingLetterChanged(String s) {
+                int position = adapter.getPositionForSection(s.charAt(0));
+                if(position != -1){
+                    getListView().setSelection(position);
+                }
+            }
+        });
+    }
+
+    @Override
     public void onResume() {
         super.onResume();
         refresh(null);
@@ -95,7 +114,8 @@ public class ContactFragment extends ItemListFragment<User>
 
     @Override
     protected ArrayAdapter<User> createAdapter(List<User> items) {
-        return new ContactAdapter(getActivity(), items, this);
+        adapter = new ContactAdapter(getActivity(), items, this);
+        return adapter;
     }
 
     @Override
