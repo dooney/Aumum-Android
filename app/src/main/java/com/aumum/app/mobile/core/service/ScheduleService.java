@@ -28,7 +28,7 @@ public class ScheduleService {
                 public void run() {
                     onScheduleListener.onAction();
                 }
-            }, 0, INTERVAL_IN_MILLISECONDS, TimeUnit.MILLISECONDS);
+            }, INTERVAL_IN_MILLISECONDS, INTERVAL_IN_MILLISECONDS, TimeUnit.MILLISECONDS);
         }
     }
 
