@@ -22,6 +22,7 @@ import com.aumum.app.mobile.core.model.CmdMessage;
 import com.aumum.app.mobile.core.service.ChatService;
 import com.aumum.app.mobile.core.service.NotificationService;
 import com.aumum.app.mobile.core.service.ScheduleService;
+import com.aumum.app.mobile.events.NewChatMessageEvent;
 import com.aumum.app.mobile.events.ResetChatUnreadEvent;
 import com.aumum.app.mobile.events.ResetPartyUnreadEvent;
 import com.aumum.app.mobile.ui.chat.ChatConnectionListener;
@@ -218,8 +219,12 @@ public class MainFragment extends Fragment
         @Override
         public void onReceive(Context context, Intent intent) {
             abortBroadcast();
-            indicator.getUnreadImage(MainTabPageIndicator.TAB_CHAT)
-                    .setVisibility(View.INVISIBLE);
+            if (pager.getCurrentItem() != MainTabPageIndicator.TAB_CHAT) {
+                indicator.getUnreadImage(MainTabPageIndicator.TAB_CHAT)
+                        .setVisibility(View.VISIBLE);
+            } else {
+                bus.post(new NewChatMessageEvent());
+            }
         }
     }
 

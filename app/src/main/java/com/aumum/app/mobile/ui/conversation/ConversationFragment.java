@@ -1,9 +1,5 @@
 package com.aumum.app.mobile.ui.conversation;
 
-import android.content.BroadcastReceiver;
-import android.content.Context;
-import android.content.Intent;
-import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -19,6 +15,7 @@ import com.aumum.app.mobile.core.model.Group;
 import com.aumum.app.mobile.core.model.User;
 import com.aumum.app.mobile.core.service.ChatService;
 import com.aumum.app.mobile.events.GroupDeletedEvent;
+import com.aumum.app.mobile.events.NewChatMessageEvent;
 import com.aumum.app.mobile.events.ResetChatUnreadEvent;
 import com.aumum.app.mobile.ui.base.ItemListFragment;
 import com.easemob.chat.EMConversation;
@@ -42,17 +39,10 @@ public class ConversationFragment extends ItemListFragment<Conversation> {
     @Inject UserStore userStore;
     @Inject Bus bus;
 
-    private NewMessageBroadcastReceiver newMessageBroadcastReceiver;
-
     @Override
     public void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Injector.inject(this);
-
-        newMessageBroadcastReceiver = new NewMessageBroadcastReceiver();
-        IntentFilter newMessageIntentFilter = new IntentFilter(chatService.getNewMessageBroadcastAction());
-        newMessageIntentFilter.setPriority(NewMessageBroadcastReceiver.PRIORITY);
-        getActivity().registerReceiver(newMessageBroadcastReceiver, newMessageIntentFilter);
     }
 
     @Override
@@ -73,12 +63,6 @@ public class ConversationFragment extends ItemListFragment<Conversation> {
     public void onPause() {
         super.onDestroy();
         bus.unregister(this);
-    }
-
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        getActivity().unregisterReceiver(newMessageBroadcastReceiver);
     }
 
     @Override
@@ -122,18 +106,13 @@ public class ConversationFragment extends ItemListFragment<Conversation> {
         return result;
     }
 
-    private class NewMessageBroadcastReceiver extends BroadcastReceiver {
-        public static final int PRIORITY = 4;
-
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            abortBroadcast();
-            refresh(null);
-        }
+    @Subscribe
+    public void onGroupDeletedEvent(GroupDeletedEvent event) {
+        refresh(null);
     }
 
     @Subscribe
-    public void onGroupDeletedEvent(GroupDeletedEvent event) {
+    public void onNewChatMessageEvent(NewChatMessageEvent event) {
         refresh(null);
     }
 }
