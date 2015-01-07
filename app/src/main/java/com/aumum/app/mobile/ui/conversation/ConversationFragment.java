@@ -19,6 +19,7 @@ import com.aumum.app.mobile.core.model.Group;
 import com.aumum.app.mobile.core.model.User;
 import com.aumum.app.mobile.core.service.ChatService;
 import com.aumum.app.mobile.events.GroupDeletedEvent;
+import com.aumum.app.mobile.events.ResetChatUnreadEvent;
 import com.aumum.app.mobile.ui.base.ItemListFragment;
 import com.easemob.chat.EMConversation;
 import com.easemob.chat.EMGroup;
@@ -65,6 +66,7 @@ public class ConversationFragment extends ItemListFragment<Conversation> {
         super.onResume();
         refresh(null);
         bus.register(this);
+        bus.post(new ResetChatUnreadEvent());
     }
 
     @Override

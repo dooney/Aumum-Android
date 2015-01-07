@@ -22,7 +22,8 @@ import com.aumum.app.mobile.core.model.CmdMessage;
 import com.aumum.app.mobile.core.service.ChatService;
 import com.aumum.app.mobile.core.service.NotificationService;
 import com.aumum.app.mobile.core.service.ScheduleService;
-import com.aumum.app.mobile.events.GotPartyUpwardsListEvent;
+import com.aumum.app.mobile.events.ResetChatUnreadEvent;
+import com.aumum.app.mobile.events.ResetPartyUnreadEvent;
 import com.aumum.app.mobile.ui.chat.ChatConnectionListener;
 import com.aumum.app.mobile.ui.chat.GroupChangeListener;
 import com.aumum.app.mobile.ui.chat.MessageNotifyListener;
@@ -56,8 +57,9 @@ public class MainFragment extends Fragment
     private ScheduleService scheduleService;
     private SafeAsyncTask<Boolean> task;
 
-    ConnectionChangeReceiver connectionChangeReceiver;
-    CmdMessageBroadcastReceiver cmdMessageBroadcastReceiver;
+    private ConnectionChangeReceiver connectionChangeReceiver;
+    private NewMessageBroadcastReceiver newMessageBroadcastReceiver;
+    private CmdMessageBroadcastReceiver cmdMessageBroadcastReceiver;
 
     @InjectView(R.id.tpi_footer)
     protected MainTabPageIndicator indicator;
@@ -83,14 +85,19 @@ public class MainFragment extends Fragment
         indicator.setViewPager(pager);
 
         connectionChangeReceiver = new ConnectionChangeReceiver();
-        IntentFilter filter = new IntentFilter();
-        filter.addAction(android.net.ConnectivityManager.CONNECTIVITY_ACTION);
-        getActivity().registerReceiver(connectionChangeReceiver, filter);
+        IntentFilter connectionChangeIntentFilter = new IntentFilter();
+        connectionChangeIntentFilter.addAction(android.net.ConnectivityManager.CONNECTIVITY_ACTION);
+        getActivity().registerReceiver(connectionChangeReceiver, connectionChangeIntentFilter);
+
+        newMessageBroadcastReceiver = new NewMessageBroadcastReceiver();
+        IntentFilter newMessageIntentFilter = new IntentFilter(chatService.getNewMessageBroadcastAction());
+        newMessageIntentFilter.setPriority(NewMessageBroadcastReceiver.PRIORITY);
+        getActivity().registerReceiver(newMessageBroadcastReceiver, newMessageIntentFilter);
 
         cmdMessageBroadcastReceiver = new CmdMessageBroadcastReceiver();
-        IntentFilter intentFilter = new IntentFilter(chatService.getCmdMessageBroadcastAction());
-        intentFilter.setPriority(CmdMessageBroadcastReceiver.PRIORITY);
-        getActivity().registerReceiver(cmdMessageBroadcastReceiver, intentFilter);
+        IntentFilter cmdMessageIntentFilter = new IntentFilter(chatService.getCmdMessageBroadcastAction());
+        cmdMessageIntentFilter.setPriority(CmdMessageBroadcastReceiver.PRIORITY);
+        getActivity().registerReceiver(cmdMessageBroadcastReceiver, cmdMessageIntentFilter);
 
         chatService.setConnectionListener(new ChatConnectionListener(getActivity()));
         chatService.setGroupChangeListener(new GroupChangeListener(getActivity(), chatService, bus));
@@ -121,6 +128,7 @@ public class MainFragment extends Fragment
     public void onDestroy() {
         super.onDestroy();
         getActivity().unregisterReceiver(connectionChangeReceiver);
+        getActivity().unregisterReceiver(newMessageBroadcastReceiver);
         getActivity().unregisterReceiver(cmdMessageBroadcastReceiver);
     }
 
@@ -142,7 +150,8 @@ public class MainFragment extends Fragment
                     getActivity().runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-                            indicator.getUnreadImage(0).setVisibility(View.VISIBLE);
+                            indicator.getUnreadImage(MainTabPageIndicator.TAB_PARTY)
+                                    .setVisibility(View.VISIBLE);
                         }
                     });
                 }
@@ -168,8 +177,15 @@ public class MainFragment extends Fragment
     }
 
     @Subscribe
-    public void onGotPartyUpwardsListEvent(GotPartyUpwardsListEvent event) {
-        indicator.getUnreadImage(0).setVisibility(View.INVISIBLE);
+    public void onResetPartyUnreadEvent(ResetPartyUnreadEvent event) {
+        indicator.getUnreadImage(MainTabPageIndicator.TAB_PARTY)
+                .setVisibility(View.INVISIBLE);
+    }
+
+    @Subscribe
+    public void onResetChatUnreadEvent(ResetChatUnreadEvent event) {
+        indicator.getUnreadImage(MainTabPageIndicator.TAB_CHAT)
+                .setVisibility(View.INVISIBLE);
     }
 
     private class ConnectionChangeReceiver extends BroadcastReceiver {
@@ -194,6 +210,17 @@ public class MainFragment extends Fragment
         Animation.fadeIn(notification, Animation.Duration.SHORT);
         TextView notificationText = (TextView) notification.findViewById(R.id.text_notification);
         notificationText.setText(R.string.error_no_network);
+    }
+
+    private class NewMessageBroadcastReceiver extends BroadcastReceiver {
+        public static final int PRIORITY = 3;
+
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            abortBroadcast();
+            indicator.getUnreadImage(MainTabPageIndicator.TAB_CHAT)
+                    .setVisibility(View.INVISIBLE);
+        }
     }
 
     private class CmdMessageBroadcastReceiver extends BroadcastReceiver {

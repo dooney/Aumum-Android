@@ -21,7 +21,7 @@ import com.aumum.app.mobile.core.dao.UserStore;
 import com.aumum.app.mobile.core.model.Party;
 import com.aumum.app.mobile.core.model.Place;
 import com.aumum.app.mobile.core.model.User;
-import com.aumum.app.mobile.events.GotPartyUpwardsListEvent;
+import com.aumum.app.mobile.events.ResetPartyUnreadEvent;
 import com.aumum.app.mobile.ui.base.RefreshItemListFragment;
 import com.aumum.app.mobile.ui.view.ConfirmDialog;
 import com.aumum.app.mobile.ui.view.EditTextDialog;
@@ -158,7 +158,7 @@ public class PartyListFragment extends RefreshItemListFragment<Card> {
         for(Party party: partyList) {
             dataSet.add(0, party);
         }
-        bus.post(new GotPartyUpwardsListEvent());
+        bus.post(new ResetPartyUnreadEvent());
     }
 
     @Override
