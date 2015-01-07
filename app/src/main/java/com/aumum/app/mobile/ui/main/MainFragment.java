@@ -249,6 +249,7 @@ public class MainFragment extends Fragment
                         break;
                     case CmdMessage.Type.PARTY_COMMENT:
                     case CmdMessage.Type.PARTY_REPLY:
+                    case CmdMessage.Type.PARTY_COMMENT_LIKE:
                         handlePartyCommentsCmdMessage(cmdMessage);
                     case CmdMessage.Type.GROUP_JOIN:
                         handleGroupJoinCmdMessage(cmdMessage, message.getFrom());

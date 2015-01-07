@@ -287,12 +287,13 @@
     <string name="label_join_details">报名动态</string>
     <string name="label_distance">%1$skm</string>
     <string name="label_new_party_message">%1$s发起了聚会</string>
-    <string name="label_join_party_message">%1$s报名了聚会</string>
+    <string name="label_join_party_message">%1$s报名了您的聚会</string>
     <string name="label_quit_party_message">%1$s退出了聚会</string>
-    <string name="label_like_party_message">%1$s支持了聚会</string>
-    <string name="label_comment_party_message">%1$s评论了聚会#%2$s#</string>
-    <string name="label_replied_party_message">%1$s回复了聚会#%2$s#</string>
+    <string name="label_like_party_message">%1$s支持了您的聚会</string>
+    <string name="label_comment_party_message">%1$s评论了您的聚会#%2$s#</string>
+    <string name="label_replied_party_message">%1$s回复了您的评论#%2$s#</string>
     <string name="label_cancel_party_message">%1$s取消了聚会</string>
+    <string name="label_like_party_comment_message">%1$s支持了您的评论</string>
     <string name="hint_party_title">聚会名称</string>
     <string name="hint_party_address">具体地址</string>
     <string name="hint_party_location_description">地址说明</string>
