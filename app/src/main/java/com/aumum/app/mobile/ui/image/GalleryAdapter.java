@@ -25,12 +25,19 @@ public class GalleryAdapter extends BaseAdapter {
 
     private boolean isActionMultiplePick;
     private int itemLayoutResId;
+    private int maxCount;
 
-    public GalleryAdapter(Context context, int itemLayoutResId, ImageLoader imageLoader) {
+    public GalleryAdapter(Context context,
+                          int itemLayoutResId,
+                          ImageLoader imageLoader) {
         inflater = (LayoutInflater) context
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         this.itemLayoutResId = itemLayoutResId;
         this.imageLoader = imageLoader;
+    }
+
+    public void setMaxCount(int maxCount) {
+        this.maxCount = maxCount;
     }
 
     @Override
@@ -111,17 +118,20 @@ public class GalleryAdapter extends BaseAdapter {
         notifyDataSetChanged();
     }
 
-    public void changeSelection(View v, int position) {
+    public boolean changeSelection(View v, int position) {
 
         if (data.get(position).isSelected) {
             data.get(position).isSelected = false;
         } else {
+            if (getSelected().size() >= maxCount) {
+                return false;
+            }
             data.get(position).isSelected = true;
         }
-
         ImageView imgQueueMultiSelected = ((ViewHolder) v.getTag()).imgQueueMultiSelected;
         imgQueueMultiSelected.setSelected(data.get(position).isSelected);
         Animation.scaleIn(imgQueueMultiSelected, Animation.Duration.SHORT);
+        return true;
     }
 
     @Override

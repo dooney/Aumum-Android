@@ -13,6 +13,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
@@ -42,6 +43,7 @@ import com.aumum.app.mobile.ui.image.ImagePickerActivity;
 import com.aumum.app.mobile.ui.user.UserListActivity;
 import com.aumum.app.mobile.ui.view.Animation;
 import com.aumum.app.mobile.ui.view.AvatarImageView;
+import com.aumum.app.mobile.ui.view.ImageViewDialog;
 import com.aumum.app.mobile.ui.view.ListViewDialog;
 import com.aumum.app.mobile.utils.EditTextUtils;
 import com.aumum.app.mobile.utils.GooglePlaceUtils;
@@ -239,6 +241,13 @@ public class NewPartyActivity extends ProgressDialogActivity
         adapter = new GalleryAdapter(this, R.layout.image_collection_listitem_inner,
                 ImageLoaderUtils.getInstance());
         gridGallery.setAdapter(adapter);
+        gridGallery.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
+                String imageUrl = adapter.getItem(position).getUri();
+                new ImageViewDialog(NewPartyActivity.this, imageUrl).show();
+            }
+        });
 
         Animation.flyIn(this);
     }

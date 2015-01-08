@@ -18,6 +18,7 @@ import android.widget.ImageView;
 import com.aumum.app.mobile.R;
 import com.aumum.app.mobile.utils.ImageLoaderUtils;
 import com.aumum.app.mobile.utils.Ln;
+import com.github.kevinsawicki.wishlist.Toaster;
 import com.nostra13.universalimageloader.core.listener.PauseOnScrollListener;
 
 import java.util.ArrayList;
@@ -39,6 +40,7 @@ public class ImagePickerActivity extends ActionBarActivity {
     public static final String INTENT_ACTION = "action";
     public static final int ACTION_PICK = 1;
     public static final int ACTION_MULTIPLE_PICK = 2;
+    private static final int MAX_COUNT = 4;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -80,6 +82,7 @@ public class ImagePickerActivity extends ActionBarActivity {
         gridGallery = (GridView) findViewById(R.id.grid_gallery);
         adapter = new GalleryAdapter(getApplicationContext(),
                 R.layout.gallery_listitem_inner, ImageLoaderUtils.getInstance());
+        adapter.setMaxCount(MAX_COUNT);
         PauseOnScrollListener listener = new PauseOnScrollListener(ImageLoaderUtils.getInstance(), true, true);
         gridGallery.setOnScrollListener(listener);
 
@@ -143,8 +146,12 @@ public class ImagePickerActivity extends ActionBarActivity {
 
         @Override
         public void onItemClick(AdapterView<?> l, View v, int position, long id) {
-            adapter.changeSelection(v, position);
-            confirmButton.setEnabled(adapter.isAnySelected());
+            if (adapter.changeSelection(v, position)) {
+                confirmButton.setEnabled(adapter.isAnySelected());
+            } else {
+                Toaster.showShort(ImagePickerActivity.this,
+                        getString(R.string.error_selection_no_more_than, MAX_COUNT));
+            }
         }
     };
 

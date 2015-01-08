@@ -100,7 +100,7 @@
     </style>
     <style name="ImageView.Dialog.Popup" parent="ImageView">
         <item name="android:minWidth">300dp</item>
-        <item name="android:minHeight">300dp</item>
+        <item name="android:minHeight">360dp</item>
         <item name="android:scaleType">fitCenter</item>
     </style>
 
