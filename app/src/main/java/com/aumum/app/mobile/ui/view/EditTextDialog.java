@@ -11,6 +11,7 @@ import android.widget.TextView;
 
 import com.aumum.app.mobile.R;
 import com.aumum.app.mobile.ui.helper.TextWatcherAdapter;
+import com.aumum.app.mobile.utils.EditTextUtils;
 
 import static android.view.KeyEvent.ACTION_DOWN;
 import static android.view.KeyEvent.KEYCODE_ENTER;
@@ -57,6 +58,7 @@ public class EditTextDialog extends ConfirmDialog {
                 return false;
             }
         });
+        EditTextUtils.showSoftInput(valueText, true);
 
         updateUIWithValidation();
     }

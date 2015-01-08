@@ -334,6 +334,7 @@
     <string name="hint_report_details">举报理由</string>
 
     <!-- Contact -->
+    <string name="label_add_contacts_from">请选择好友来源</string>
     <string name="label_mobile_contacts">手机联系人</string>
     <string name="label_invite">邀请</string>
     <string name="hint_search_user">用户昵称/国家码(澳大利亚+61)+手机号</string>

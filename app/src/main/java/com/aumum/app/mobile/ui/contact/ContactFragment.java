@@ -159,7 +159,9 @@ public class ContactFragment extends ItemListFragment<User>
 
     private void showAddContactsDialog() {
         String options[] = getResources().getStringArray(R.array.label_add_contacts_actions);
-        new ListViewDialog(getActivity(), null, Arrays.asList(options),
+        new ListViewDialog(getActivity(),
+                getString(R.string.label_add_contacts_from),
+                Arrays.asList(options),
                 new ListViewDialog.OnItemClickListener() {
             @Override
             public void onItemClick(int i) {

@@ -60,7 +60,7 @@ public class EditTextUtils {
     /**
      * show the soft keyboard for the passed EditText
      */
-    public static void showSoftInput(EditText edit, boolean requestFocus) {
+    public static void showSoftInput(final EditText edit, boolean requestFocus) {
         if (edit == null) {
             return;
         }
@@ -69,9 +69,14 @@ public class EditTextUtils {
             edit.requestFocus();
         }
 
-        InputMethodManager imm = getInputMethodManager(edit);
+        final InputMethodManager imm = getInputMethodManager(edit);
         if (imm != null) {
-            imm.showSoftInput(edit, InputMethodManager.SHOW_IMPLICIT);
+            edit.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    imm.showSoftInput(edit, 0);
+                }
+            }, 100);
         }
     }
 

@@ -105,6 +105,7 @@ public class VerifyActivity extends ProgressDialogActivity {
                 return false;
             }
         });
+        EditTextUtils.showSoftInput(verificationCodeText, true);
         confirmButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
