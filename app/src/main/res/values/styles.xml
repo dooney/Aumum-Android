@@ -98,6 +98,11 @@
     <style name="ImageView.Unread.Small" parent="ImageView">
         <item name="android:src">@drawable/image_unread_background</item>
     </style>
+    <style name="ImageView.Dialog.Popup" parent="ImageView">
+        <item name="android:minWidth">300dp</item>
+        <item name="android:minHeight">300dp</item>
+        <item name="android:scaleType">fitCenter</item>
+    </style>
 
     <style name="TextView" parent="android:Widget.TextView">
         <item name="android:layout_width">wrap_content</item>

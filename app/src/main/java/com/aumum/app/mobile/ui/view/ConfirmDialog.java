@@ -1,13 +1,12 @@
 package com.aumum.app.mobile.ui.view;
 
-import android.app.Dialog;
 import android.content.Context;
 import android.view.View;
-import android.view.Window;
 import android.widget.Button;
 import android.widget.ProgressBar;
 
 import com.aumum.app.mobile.R;
+import com.aumum.app.mobile.ui.view.tab.PopupDialog;
 import com.aumum.app.mobile.utils.SafeAsyncTask;
 
 import retrofit.RetrofitError;
@@ -15,7 +14,7 @@ import retrofit.RetrofitError;
 /**
  * Created by Administrator on 31/12/2014.
  */
-public class ConfirmDialog extends Dialog {
+public class ConfirmDialog extends PopupDialog {
 
     protected Button okButton;
     protected Button cancelButton;
@@ -29,12 +28,8 @@ public class ConfirmDialog extends Dialog {
     }
 
     public ConfirmDialog(Context context, int layoutResId, OnConfirmListener listener) {
-        super(context);
+        super(context, layoutResId);
         this.listener = listener;
-        requestWindowFeature(Window.FEATURE_NO_TITLE);
-        setContentView(layoutResId);
-        setCanceledOnTouchOutside(false);
-        getWindow().setBackgroundDrawableResource(android.R.color.transparent);
         initView();
     }
 

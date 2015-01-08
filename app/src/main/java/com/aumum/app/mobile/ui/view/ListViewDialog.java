@@ -1,24 +1,23 @@
 package com.aumum.app.mobile.ui.view;
 
-import android.app.Dialog;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
 import com.aumum.app.mobile.R;
+import com.aumum.app.mobile.ui.view.tab.PopupDialog;
 
 import java.util.List;
 
 /**
  * Created by Administrator on 1/01/2015.
  */
-public class ListViewDialog extends Dialog {
+public class ListViewDialog extends PopupDialog {
 
     private OnItemClickListener listener;
 
@@ -30,12 +29,9 @@ public class ListViewDialog extends Dialog {
                           String title,
                           List<String> items,
                           OnItemClickListener listener) {
-        super(context);
+        super(context, R.layout.dialog_list);
         this.listener = listener;
-        requestWindowFeature(Window.FEATURE_NO_TITLE);
-        setContentView(R.layout.dialog_list);
         setCanceledOnTouchOutside(true);
-        getWindow().setBackgroundDrawableResource(android.R.color.transparent);
         initView(context, title, items);
     }
 

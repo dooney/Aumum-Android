@@ -12,6 +12,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.GridView;
@@ -44,6 +45,7 @@ import com.aumum.app.mobile.ui.view.Animation;
 import com.aumum.app.mobile.ui.view.AvatarImageView;
 import com.aumum.app.mobile.ui.view.ConfirmDialog;
 import com.aumum.app.mobile.ui.view.FavoriteTextView;
+import com.aumum.app.mobile.ui.view.ImageViewDialog;
 import com.aumum.app.mobile.ui.view.JoinTextView;
 import com.aumum.app.mobile.ui.view.LikeTextView;
 import com.aumum.app.mobile.ui.view.ListViewDialog;
@@ -54,7 +56,6 @@ import com.aumum.app.mobile.utils.GPSTracker;
 import com.aumum.app.mobile.utils.ImageLoaderUtils;
 import com.aumum.app.mobile.utils.Ln;
 import com.aumum.app.mobile.utils.SafeAsyncTask;
-import com.aumum.app.mobile.utils.UpYunUtils;
 import com.github.kevinsawicki.wishlist.Toaster;
 import com.squareup.otto.Bus;
 import com.squareup.otto.Subscribe;
@@ -187,9 +188,17 @@ public class PartyDetailsFragment extends LoaderFragment<Party> {
         addressText = (TextView) view.findViewById(R.id.text_address);
         detailsText = (SpannableTextView) view.findViewById(R.id.text_details);
 
-        adapter = new GalleryAdapter(getActivity(), R.layout.image_collection_listitem_inner, ImageLoaderUtils.getInstance());
+        adapter = new GalleryAdapter(getActivity(), R.layout.image_collection_listitem_inner,
+                ImageLoaderUtils.getInstance());
         gridGallery = (GridView) view.findViewById(R.id.grid_gallery);
         gridGallery.setAdapter(adapter);
+        gridGallery.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
+                String imageUrl = party.getImages().get(position);
+                new ImageViewDialog(getActivity(), imageUrl).show();
+            }
+        });
 
         membersLayout = (ViewGroup) view.findViewById(R.id.layout_members);
         likesLayout = (ViewGroup) view.findViewById(R.id.layout_likes);
@@ -350,7 +359,7 @@ public class PartyDetailsFragment extends LoaderFragment<Party> {
         for (String imageUrl: party.getImages()) {
             CustomGallery item = new CustomGallery();
             item.type = CustomGallery.HTTP;
-            item.imageUri = UpYunUtils.getThumbnailUrl(imageUrl);
+            item.imageUri = imageUrl;
             list.add(item);
         }
         if (list.size() > 0) {

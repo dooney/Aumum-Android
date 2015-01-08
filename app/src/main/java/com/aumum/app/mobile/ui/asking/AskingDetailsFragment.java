@@ -14,6 +14,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.GridView;
@@ -40,6 +41,7 @@ import com.aumum.app.mobile.ui.report.ReportActivity;
 import com.aumum.app.mobile.ui.user.UserListener;
 import com.aumum.app.mobile.ui.view.AvatarImageView;
 import com.aumum.app.mobile.ui.view.FavoriteTextView;
+import com.aumum.app.mobile.ui.view.ImageViewDialog;
 import com.aumum.app.mobile.ui.view.LikeTextView;
 import com.aumum.app.mobile.ui.view.ListViewDialog;
 import com.aumum.app.mobile.ui.view.SpannableTextView;
@@ -47,7 +49,6 @@ import com.aumum.app.mobile.utils.EditTextUtils;
 import com.aumum.app.mobile.utils.ImageLoaderUtils;
 import com.aumum.app.mobile.utils.Ln;
 import com.aumum.app.mobile.utils.SafeAsyncTask;
-import com.aumum.app.mobile.utils.UpYunUtils;
 import com.github.kevinsawicki.wishlist.Toaster;
 import com.squareup.otto.Bus;
 import com.squareup.otto.Subscribe;
@@ -153,6 +154,13 @@ public class AskingDetailsFragment extends LoaderFragment<Asking> {
         adapter = new GalleryAdapter(getActivity(), R.layout.image_collection_listitem_inner, ImageLoaderUtils.getInstance());
         gridGallery = (GridView) view.findViewById(R.id.grid_gallery);
         gridGallery.setAdapter(adapter);
+        gridGallery.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
+                String imageUrl = asking.getImages().get(position);
+                new ImageViewDialog(getActivity(), imageUrl).show();
+            }
+        });
 
         avatarImage = (AvatarImageView) view.findViewById(R.id.image_avatar);
         userNameText = (TextView) view.findViewById(R.id.text_user_name);
@@ -247,7 +255,7 @@ public class AskingDetailsFragment extends LoaderFragment<Asking> {
         for (String imageUrl: asking.getImages()) {
             CustomGallery item = new CustomGallery();
             item.type = CustomGallery.HTTP;
-            item.imageUri = UpYunUtils.getThumbnailUrl(imageUrl);
+            item.imageUri = imageUrl;
             list.add(item);
         }
         if (list.size() > 0) {
