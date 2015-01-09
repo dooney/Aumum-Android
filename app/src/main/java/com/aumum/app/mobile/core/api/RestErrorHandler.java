@@ -22,7 +22,7 @@ public class RestErrorHandler implements ErrorHandler {
     @Override
     public Throwable handleError(RetrofitError cause) {
         if(cause != null) {
-            if (cause.isNetworkError()) {
+            if (cause.getKind() == RetrofitError.Kind.NETWORK) {
                 bus.post(new NetworkErrorEvent(cause));
             } else if(isUnAuthorized(cause)) {
                 bus.post(new UnAuthorizedErrorEvent(cause));

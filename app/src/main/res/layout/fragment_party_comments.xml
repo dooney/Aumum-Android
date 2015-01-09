@@ -23,6 +23,12 @@
         android:text="@string/info_empty_comment_list"
         android:visibility="gone"/>
 
+    <TextView
+        android:id="@+id/text_reload"
+        style="@style/TextView.Reload"
+        android:layout_centerInParent="true"
+        android:visibility="gone"/>
+
     <include
         android:id="@+id/layout_comment_box"
         layout="@layout/party_include_comment_box"

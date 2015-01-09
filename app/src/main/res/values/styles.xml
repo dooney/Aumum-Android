@@ -190,6 +190,10 @@
     <style name="TextView.Empty" parent="TextView">
         <item name="android:textColor">@color/bbutton_danger</item>
     </style>
+    <style name="TextView.Reload" parent="TextView">
+        <item name="android:text">@string/info_click_to_reload</item>
+        <item name="android:textColor">@color/bbutton_danger</item>
+    </style>
 
     <!-- Party -->
     <style name="TextView.Party.UserName" parent="TextView.UserName" >

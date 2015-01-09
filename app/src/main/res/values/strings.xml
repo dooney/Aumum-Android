@@ -150,6 +150,7 @@
     <string name="info_empty_contact_request_list">您还没收到任何好友请求</string>
     <string name="info_empty_comment_list">暂时还有没聚会评论哦</string>
     <string name="info_empty_search_list">没找到任何相关记录</string>
+    <string name="info_click_to_reload">点击重试</string>
 
     <!-- Error Message -->
     <string name="error_load_parties">获取聚会列表失败</string>

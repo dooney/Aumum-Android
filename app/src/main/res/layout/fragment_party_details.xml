@@ -220,6 +220,12 @@
         style="@style/ListSpinner"
         android:layout_centerInParent="true" />
 
+    <TextView
+        android:id="@+id/text_reload"
+        style="@style/TextView.Reload"
+        android:layout_centerInParent="true"
+        android:visibility="gone"/>
+
     <LinearLayout
         android:id="@+id/layout_action"
         android:layout_width="match_parent"
