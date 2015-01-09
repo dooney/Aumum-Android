@@ -20,11 +20,17 @@
         android:layout_height="wrap_content"
         android:gravity="right">
 
-        <ProgressBar
-            android:id="@+id/progress"
-            style="@style/ProgressBar.Small"
+        <TextView
+            android:id="@+id/text_progress"
+            style="@style/TextView.ChatMessage.Progress"
             android:layout_gravity="center_vertical"
-            android:visibility="invisible"/>
+            android:visibility="gone"/>
+
+        <ImageView
+            android:id="@+id/image_sent_failed"
+            style="@style/ImageView.ChatMessage.SentFailed"
+            android:layout_gravity="center_vertical"
+            android:visibility="gone"/>
 
         <com.makeramen.RoundedImageView
             xmlns:app="http://schemas.android.com/apk/res-auto"

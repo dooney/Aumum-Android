@@ -62,7 +62,7 @@ public class MobileContactAdapter extends CursorAdapter {
             if (bitmap != null) {
                 avatarImage.setImageBitmap(bitmap);
             } else {
-                ImageLoaderUtils.displayImage(R.drawable.ic_avatar, avatarImage);
+                avatarImage.setImageResource(R.drawable.ic_avatar);
             }
 
             final String number = cursor.getString(cursor.getColumnIndexOrThrow(ContactsContract.CommonDataKinds.Phone.NUMBER));

@@ -42,9 +42,4 @@ public class ImageLoaderUtils {
     public static void displayImage(String imageUri, ImageView imageView) {
         ImageLoader.getInstance().displayImage(imageUri, imageView);
     }
-
-    public static void displayImage(int resId, ImageView imageView) {
-        String imageUri = "drawable://" + resId;
-        ImageLoader.getInstance().displayImage(imageUri, imageView);
-    }
 }

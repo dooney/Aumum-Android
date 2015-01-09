@@ -25,6 +25,11 @@
             style="@style/ProgressBar.Small"
             android:visibility="invisible"/>
 
+        <ImageView
+            android:id="@+id/image_sent_failed"
+            style="@style/ImageView.ChatMessage.SentFailed"
+            android:visibility="gone"/>
+
         <com.aumum.app.mobile.ui.view.SpannableTextView
             android:id="@+id/text_text_body"
             style="@style/TextView.ChatMessage.SentText"

@@ -16,7 +16,6 @@ import com.aumum.app.mobile.ui.account.LoginActivity;
 import com.aumum.app.mobile.ui.account.RegisterActivity;
 import com.aumum.app.mobile.ui.account.ResetPasswordActivity;
 import com.aumum.app.mobile.ui.account.ResetPasswordSuccessActivity;
-import com.aumum.app.mobile.utils.ImageLoaderUtils;
 import com.viewpagerindicator.CirclePageIndicator;
 
 import java.util.ArrayList;
@@ -50,7 +49,7 @@ public class SplashActivity extends AccountAuthenticatorActivity {
         for (int i = 0; i < images.length(); i++) {
             View splashView = inflater.inflate(R.layout.view_splash, null);
             ImageView imageBackground = (ImageView) splashView.findViewById(R.id.image_background);
-            ImageLoaderUtils.displayImage(images.getResourceId(i, -1), imageBackground);
+            imageBackground.setImageResource(images.getResourceId(i, -1));
             views.add(splashView);
         }
         mAdapter = new SplashViewPagerAdapter(views);

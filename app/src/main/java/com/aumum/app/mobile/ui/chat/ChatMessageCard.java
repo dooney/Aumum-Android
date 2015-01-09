@@ -2,6 +2,7 @@ package com.aumum.app.mobile.ui.chat;
 
 import android.app.Activity;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
@@ -35,6 +36,7 @@ public abstract class ChatMessageCard
     private AvatarImageView avatarImage;
     private TextView userNameText;
     private ProgressBar progressBar;
+    private ImageView resendImage;
 
     public ChatMessageCard(Activity activity, View view) {
         Injector.inject(this);
@@ -43,12 +45,13 @@ public abstract class ChatMessageCard
         avatarImage = (AvatarImageView) view.findViewById(R.id.image_avatar);
         userNameText = (TextView) view.findViewById(R.id.text_user_name);
         progressBar = (ProgressBar) view.findViewById(R.id.progress);
+        resendImage = (ImageView) view.findViewById(R.id.image_sent_failed);
         listener = new SendMessageListener();
         listener.setListener(this);
     }
 
     public void refresh(EMConversation conversation, int position) {
-        EMMessage message = conversation.getMessage(position);
+        final EMMessage message = conversation.getMessage(position);
         if (position == 0) {
             timeStampText.setText(DateUtils.getTimestampString(new Date(message.getMsgTime())));
             timeStampText.setVisibility(View.VISIBLE);
@@ -84,20 +87,25 @@ public abstract class ChatMessageCard
             avatarImage.setImageResource(R.drawable.ic_avatar);
         }
 
+        resendImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                sendMessage(message);
+            }
+        });
         if (message.direct == EMMessage.Direct.SEND ) {
             switch (message.status) {
                 case INPROGRESS:
-                    progressBar.setVisibility(View.VISIBLE);
+                    onProgress(message.progress, null);
                     break;
                 case SUCCESS:
-                    progressBar.setVisibility(View.INVISIBLE);
+                    onSuccess();
                     break;
                 case FAIL:
-                    progressBar.setVisibility(View.INVISIBLE);
+                    onError(0, null);
                     break;
                 default:
-                    progressBar.setVisibility(View.VISIBLE);
-                    listener.sendMessage(message);
+                    sendMessage(message);
             }
         }
     }
@@ -107,7 +115,7 @@ public abstract class ChatMessageCard
         activity.runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                progressBar.setVisibility(View.INVISIBLE);
+                hideProgress().hideResend();
             }
         });
     }
@@ -117,13 +125,38 @@ public abstract class ChatMessageCard
         activity.runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                progressBar.setVisibility(View.INVISIBLE);
+                show(resendImage).hideProgress();
             }
         });
     }
 
     @Override
     public void onProgress(int progress, String status) {
+    }
 
+    protected void sendMessage(final EMMessage message) {
+        show(progressBar).hideResend();
+        listener.sendMessage(message);
+    }
+
+    private ChatMessageCard show(final View view) {
+        if (view != null) {
+            view.setVisibility(View.VISIBLE);
+        }
+        return this;
+    }
+
+    private ChatMessageCard hideProgress() {
+        if (progressBar != null) {
+            progressBar.setVisibility(View.INVISIBLE);
+        }
+        return this;
+    }
+
+    private ChatMessageCard hideResend() {
+        if (resendImage != null) {
+            resendImage.setVisibility(View.GONE);
+        }
+        return this;
     }
 }

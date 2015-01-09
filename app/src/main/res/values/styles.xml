@@ -473,6 +473,10 @@
         <item name="android:maxHeight">128dp</item>
         <item name="android:scaleType">fitCenter</item>
     </style>
+    <style name="TextView.ChatMessage.Progress" parent="TextView.Subtitle">
+        <item name="android:textSize">@dimen/text_sz_small</item>
+        <item name="android:paddingRight">@dimen/text_sz_small</item>
+    </style>
 
     <!-- Contact -->
     <style name="TextView.Contact" parent="TextView.Title" />
