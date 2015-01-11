@@ -156,7 +156,6 @@
     <string name="error_load_parties">获取聚会列表失败</string>
     <string name="error_load_party_comments">获取聚会评论失败</string>
     <string name="error_load_user">获取用户信息失败</string>
-    <string name="error_upload_avatar">上传头像图片失败</string>
     <string name="error_bad_credentials">验证失败，请输入正确的手机号/密码</string>
     <string name="error_invalid_party_address">%1$s 不是一个有效的Google地图地址，请确认后重新输入</string>
     <string name="error_load_join_details">获取聚会报名信息失败</string>
@@ -189,6 +188,7 @@
     <string name="error_no_network">无法找到有效的网络，请检查您的网络连接</string>
     <string name="error_party_was_deleted">该聚会已被删除</string>
     <string name="error_asking_was_deleted">该说说已被删除</string>
+    <string name="error_invalid_image_file">找不到该图片%1$s</string>
 
     <!-- Title -->
     <string name="title_activity_login">用户登录</string>

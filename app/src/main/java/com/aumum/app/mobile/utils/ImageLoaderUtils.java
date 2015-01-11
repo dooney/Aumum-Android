@@ -2,14 +2,17 @@ package com.aumum.app.mobile.utils;
 
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.view.View;
+import android.widget.AbsListView;
 import android.widget.ImageView;
 
 import com.nostra13.universalimageloader.cache.disc.naming.HashCodeFileNameGenerator;
-import com.nostra13.universalimageloader.cache.memory.impl.LruMemoryCache;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.nostra13.universalimageloader.core.assist.ImageScaleType;
+import com.nostra13.universalimageloader.core.listener.PauseOnScrollListener;
+import com.nostra13.universalimageloader.core.listener.SimpleImageLoadingListener;
 
 /**
  * Created by Administrator on 5/11/2014.
@@ -26,20 +29,40 @@ public class ImageLoaderUtils {
                 .build();
         ImageLoaderConfiguration config = new ImageLoaderConfiguration.Builder(context)
                 .defaultDisplayImageOptions(defaultOptions)
-                .memoryCacheExtraOptions(480, 800)
-                .diskCacheExtraOptions(480, 800, null)
-                .memoryCache(new LruMemoryCache(2 * 1024 * 1024))
-                .diskCacheSize(50 * 1024 * 1024)
+                .memoryCacheExtraOptions(480, 640)
+                .diskCacheExtraOptions(480, 640, null)
+                .diskCacheSize(200 * 1024 * 1024)
                 .diskCacheFileNameGenerator(new HashCodeFileNameGenerator())
                 .build();
         ImageLoader.getInstance().init(config);
     }
 
-    public static ImageLoader getInstance() {
-        return ImageLoader.getInstance();
-    }
-
     public static void displayImage(String imageUri, ImageView imageView) {
         ImageLoader.getInstance().displayImage(imageUri, imageView);
+    }
+
+    public static void displayImage(String imageUri,
+                                    final ImageView imageView,
+                                    final int placeHolderResId) {
+        ImageLoader.getInstance().displayImage(imageUri, imageView,
+                new SimpleImageLoadingListener() {
+            @Override
+            public void onLoadingStarted(String imageUri, View view) {
+                imageView.setImageResource(placeHolderResId);
+                super.onLoadingStarted(imageUri, view);
+            }
+        });
+    }
+
+    public static Bitmap loadImage(String imageUri) {
+        return ImageLoader.getInstance().loadImageSync(imageUri);
+    }
+
+    public static void putInMemory(String imageUri, Bitmap bitmap) {
+        ImageLoader.getInstance().getMemoryCache().put(imageUri, bitmap);
+    }
+
+    public static AbsListView.OnScrollListener getOnScrollListener() {
+        return new PauseOnScrollListener(ImageLoader.getInstance(), true, true);
     }
 }

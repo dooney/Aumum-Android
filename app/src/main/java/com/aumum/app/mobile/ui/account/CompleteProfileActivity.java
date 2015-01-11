@@ -167,9 +167,8 @@ public class CompleteProfileActivity extends ProgressDialogActivity
             if (imageUrl != null) {
                 updateAvatar(imageUrl);
             }
-            String imagePath = data.getStringExtra(UpdateAvatarActivity.INTENT_IMAGE_PATH);
-            if (imagePath != null) {
-                String imageUri = "file://" + imagePath;
+            String imageUri = data.getStringExtra(UpdateAvatarActivity.INTENT_IMAGE_URI);
+            if (imageUri != null) {
                 ImageLoaderUtils.displayImage(imageUri, avatarImage);
             }
         } else if (requestCode == MOBILE_CONTACTS_REQ_CODE) {

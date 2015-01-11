@@ -199,8 +199,8 @@ public class ChatService {
         return message;
     }
 
-    public void addTextMessage(String receipt, boolean isGroup, String text) {
-        addTextMessage(receipt, isGroup, false, text);
+    public EMMessage addTextMessage(String receipt, boolean isGroup, String text) {
+        return addTextMessage(receipt, isGroup, false, text);
     }
 
     public void sendSystemMessage(String receipt, boolean isGroup, String text, EMCallBack callBack) {
@@ -208,7 +208,7 @@ public class ChatService {
         sendMessage(message, callBack);
     }
 
-    public void addVoiceMessage(String receipt, boolean isGroup, String filePath, int length) {
+    public EMMessage addVoiceMessage(String receipt, boolean isGroup, String filePath, int length) {
         final EMMessage message = EMMessage.createSendMessage(EMMessage.Type.VOICE);
         if (isGroup) {
             message.setChatType(EMMessage.ChatType.GroupChat);
@@ -216,11 +216,10 @@ public class ChatService {
         VoiceMessageBody body = new VoiceMessageBody(new File(filePath), length);
         message.addBody(body);
         message.setReceipt(receipt);
-        EMConversation conversation = EMChatManager.getInstance().getConversation(receipt);
-        conversation.addMessage(message);
+        return message;
     }
 
-    public void addImageMessage(String receipt, boolean isGroup, String imagePath) {
+    public EMMessage addImageMessage(String receipt, boolean isGroup, String imagePath) {
         final EMMessage message = EMMessage.createSendMessage(EMMessage.Type.IMAGE);
         if (isGroup) {
             message.setChatType(EMMessage.ChatType.GroupChat);
@@ -228,8 +227,7 @@ public class ChatService {
         ImageMessageBody body = new ImageMessageBody(new File(imagePath));
         message.addBody(body);
         message.setReceipt(receipt);
-        EMConversation conversation = EMChatManager.getInstance().getConversation(receipt);
-        conversation.addMessage(message);
+        return message;
     }
 
     public void sendCmdMessage(String receipt, CmdMessage cmdMessage, boolean isGroup, EMCallBack callBack) {

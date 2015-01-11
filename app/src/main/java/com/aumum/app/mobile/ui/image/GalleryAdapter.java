@@ -9,8 +9,7 @@ import android.widget.ImageView;
 
 import com.aumum.app.mobile.R;
 import com.aumum.app.mobile.ui.view.Animation;
-import com.nostra13.universalimageloader.core.ImageLoader;
-import com.nostra13.universalimageloader.core.listener.SimpleImageLoadingListener;
+import com.aumum.app.mobile.utils.ImageLoaderUtils;
 
 import java.util.ArrayList;
 
@@ -21,19 +20,15 @@ public class GalleryAdapter extends BaseAdapter {
 
     private LayoutInflater inflater;
     private ArrayList<CustomGallery> data = new ArrayList<CustomGallery>();
-    ImageLoader imageLoader;
 
     private boolean isActionMultiplePick;
     private int itemLayoutResId;
     private int maxCount;
 
-    public GalleryAdapter(Context context,
-                          int itemLayoutResId,
-                          ImageLoader imageLoader) {
+    public GalleryAdapter(Context context, int itemLayoutResId) {
         inflater = (LayoutInflater) context
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         this.itemLayoutResId = itemLayoutResId;
-        this.imageLoader = imageLoader;
     }
 
     public void setMaxCount(int maxCount) {
@@ -159,23 +154,12 @@ public class GalleryAdapter extends BaseAdapter {
         }
         holder.imgQueue.setTag(position);
 
-        try {
-            imageLoader.displayImage(data.get(position).getUri(),
-                    holder.imgQueue, new SimpleImageLoadingListener() {
-                        @Override
-                        public void onLoadingStarted(String imageUri, View view) {
-                            holder.imgQueue.setImageResource(R.drawable.image_placeholder);
-                            super.onLoadingStarted(imageUri, view);
-                        }
-                    });
+        ImageLoaderUtils.displayImage(data.get(position).getUri(),
+                holder.imgQueue, R.drawable.image_placeholder);
 
-            if (isActionMultiplePick) {
-                holder.imgQueueMultiSelected
-                        .setSelected(data.get(position).isSelected);
-            }
-
-        } catch (Exception e) {
-            e.printStackTrace();
+        if (isActionMultiplePick) {
+            holder.imgQueueMultiSelected
+                    .setSelected(data.get(position).isSelected);
         }
 
         return convertView;
@@ -184,11 +168,6 @@ public class GalleryAdapter extends BaseAdapter {
     public class ViewHolder {
         ImageView imgQueue;
         ImageView imgQueueMultiSelected;
-    }
-
-    public void clearCache() {
-        imageLoader.clearDiskCache();
-        imageLoader.clearMemoryCache();
     }
 
     public void clear() {

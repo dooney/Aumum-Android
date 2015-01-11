@@ -1,7 +1,6 @@
 package com.aumum.app.mobile.ui.chat;
 
 import android.app.Activity;
-import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,8 +8,11 @@ import android.widget.BaseAdapter;
 
 import com.aumum.app.mobile.R;
 import com.aumum.app.mobile.utils.Ln;
-import com.easemob.chat.EMConversation;
 import com.easemob.chat.EMMessage;
+import com.easemob.util.DateUtils;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by Administrator on 11/11/2014.
@@ -18,7 +20,8 @@ import com.easemob.chat.EMMessage;
 public class ChatMessagesAdapter extends BaseAdapter {
 
     private Activity activity;
-    private EMConversation conversation;
+    private boolean isGroup;
+    private ArrayList<EMMessage> data;
 
     private static final int MESSAGE_TYPE_SYSTEM = 0;
     private static final int MESSAGE_TYPE_RECV_TXT = 1;
@@ -28,14 +31,15 @@ public class ChatMessagesAdapter extends BaseAdapter {
     private static final int MESSAGE_TYPE_RECV_IMAGE = 5;
     private static final int MESSAGE_TYPE_SENT_IMAGE = 6;
 
-    public ChatMessagesAdapter(Activity activity, EMConversation conversation) {
+    public ChatMessagesAdapter(Activity activity, boolean isGroup) {
         this.activity = activity;
-        this.conversation = conversation;
+        this.isGroup = isGroup;
+        data = new ArrayList<EMMessage>();
     }
 
     @Override
     public int getItemViewType(int position) {
-        EMMessage message = conversation.getMessage(position);
+        EMMessage message = getItem(position);
         if (message.getBooleanAttribute("isSystem", false)) {
             return MESSAGE_TYPE_SYSTEM;
         } else if (message.getType() == EMMessage.Type.TXT) {
@@ -55,12 +59,12 @@ public class ChatMessagesAdapter extends BaseAdapter {
 
     @Override
     public int getCount() {
-        return conversation.getMsgCount();
+        return data.size();
     }
 
     @Override
     public EMMessage getItem(int position) {
-        return conversation.getMessage(position);
+        return data.get(position);
     }
 
     @Override
@@ -70,11 +74,11 @@ public class ChatMessagesAdapter extends BaseAdapter {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        final CardRefreshListener card;
+        final ChatMessageListener card;
 
         int type = getItemViewType(position);
         if (convertView == null) {
-            LayoutInflater inflater = (LayoutInflater) activity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            LayoutInflater inflater = activity.getLayoutInflater();
             int viewId;
             switch (type) {
                 case MESSAGE_TYPE_SYSTEM:
@@ -83,7 +87,7 @@ public class ChatMessagesAdapter extends BaseAdapter {
                     card = new SystemMessageCard(convertView);
                     break;
                 case MESSAGE_TYPE_RECV_TXT:
-                    if (conversation.isGroup()) {
+                    if (isGroup) {
                         viewId = R.layout.group_chat_text_received_listitem_inner;
                     } else {
                         viewId = R.layout.chat_text_received_listitem_inner;
@@ -97,7 +101,7 @@ public class ChatMessagesAdapter extends BaseAdapter {
                     card = new TextMessageCard(activity, convertView);
                     break;
                 case MESSAGE_TYPE_RECV_VOICE:
-                    if (conversation.isGroup()) {
+                    if (isGroup) {
                         viewId = R.layout.group_chat_voice_received_listitem_inner;
                     } else {
                         viewId = R.layout.chat_voice_received_listitem_inner;
@@ -111,7 +115,7 @@ public class ChatMessagesAdapter extends BaseAdapter {
                     card = new VoiceMessageCard(activity, convertView);
                     break;
                 case MESSAGE_TYPE_RECV_IMAGE:
-                    if (conversation.isGroup()) {
+                    if (isGroup) {
                         viewId = R.layout.group_chat_image_received_listitem_inner;
                     } else {
                         viewId = R.layout.chat_image_received_listitem_inner;
@@ -151,8 +155,21 @@ public class ChatMessagesAdapter extends BaseAdapter {
                     return null;
             }
         }
-        card.refresh(conversation, position);
+
+        EMMessage message = getItem(position);
+        boolean showTimestamp = true;
+        if (position > 0) {
+            EMMessage lastMessage = getItem(position - 1);
+            showTimestamp = !DateUtils.isCloseEnough(message.getMsgTime(), lastMessage.getMsgTime());
+        }
+        card.refresh(getItem(position), showTimestamp, position);
 
         return convertView;
+    }
+
+    public void addAll(List<EMMessage> messageList) {
+        data.clear();
+        data.addAll(messageList);
+        notifyDataSetChanged();
     }
 }

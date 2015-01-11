@@ -13,7 +13,6 @@ import com.aumum.app.mobile.core.model.User;
 import com.aumum.app.mobile.ui.user.UserListener;
 import com.aumum.app.mobile.ui.view.AvatarImageView;
 import com.aumum.app.mobile.utils.Ln;
-import com.easemob.chat.EMConversation;
 import com.easemob.chat.EMMessage;
 import com.easemob.util.DateUtils;
 
@@ -26,7 +25,7 @@ import javax.inject.Inject;
  */
 public abstract class ChatMessageCard
         implements SendMessageListener.OnActionListener,
-                   CardRefreshListener {
+                   ChatMessageListener {
 
     @Inject UserStore userStore;
     private SendMessageListener listener;
@@ -50,17 +49,17 @@ public abstract class ChatMessageCard
         listener.setListener(this);
     }
 
-    public void refresh(EMConversation conversation, int position) {
-        final EMMessage message = conversation.getMessage(position);
+    @Override
+    public void refresh(final EMMessage message, boolean showTimestamp, int position) {
         if (position == 0) {
             timeStampText.setText(DateUtils.getTimestampString(new Date(message.getMsgTime())));
             timeStampText.setVisibility(View.VISIBLE);
         } else {
-            if (DateUtils.isCloseEnough(message.getMsgTime(), conversation.getMessage(position - 1).getMsgTime())) {
-                timeStampText.setVisibility(View.GONE);
-            } else {
+            if (showTimestamp) {
                 timeStampText.setText(DateUtils.getTimestampString(new Date(message.getMsgTime())));
                 timeStampText.setVisibility(View.VISIBLE);
+            } else {
+                timeStampText.setVisibility(View.GONE);
             }
         }
 
@@ -87,12 +86,14 @@ public abstract class ChatMessageCard
             avatarImage.setImageResource(R.drawable.ic_avatar);
         }
 
-        resendImage.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                sendMessage(message);
-            }
-        });
+        if (resendImage != null) {
+            resendImage.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    sendMessage(message);
+                }
+            });
+        }
         if (message.direct == EMMessage.Direct.SEND ) {
             switch (message.status) {
                 case INPROGRESS:

@@ -19,11 +19,10 @@ public class FileUploadService {
     }
 
     public void upload(final String fileName, final byte[] data) {
-        SafeAsyncTask<Boolean> uploadTask = new SafeAsyncTask<Boolean>() {
+        new SafeAsyncTask<Boolean>() {
             public Boolean call() throws Exception {
-                boolean result = UpYunUtils.uploadImage(fileName, data);
-                if (!result) {
-                    throw new Exception();
+                if (!UpYunUtils.uploadImage(fileName, data)) {
+                    throw new Exception("网络不给力，请检查");
                 }
                 return true;
             }
@@ -41,7 +40,6 @@ public class FileUploadService {
                     onFileUploadListener.onUploadFailure(e);
                 }
             }
-        };
-        uploadTask.execute();
+        }.execute();
     }
 }

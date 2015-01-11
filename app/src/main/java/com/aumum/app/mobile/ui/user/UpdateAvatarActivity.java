@@ -1,6 +1,7 @@
 package com.aumum.app.mobile.ui.user;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -14,11 +15,8 @@ import com.aumum.app.mobile.ui.base.ProgressDialogActivity;
 import com.aumum.app.mobile.ui.crop.CropImageView;
 import com.aumum.app.mobile.utils.ImageLoaderUtils;
 import com.aumum.app.mobile.utils.ImageUtils;
-import com.aumum.app.mobile.utils.Ln;
 import com.aumum.app.mobile.utils.SafeAsyncTask;
 import com.github.kevinsawicki.wishlist.Toaster;
-
-import java.io.File;
 
 import javax.inject.Inject;
 
@@ -30,14 +28,12 @@ public class UpdateAvatarActivity extends ProgressDialogActivity
     @Inject FileUploadService fileUploadService;
 
     private String imageUri;
-    private String imagePath;
     private CropImageView cropImage;
     private SafeAsyncTask<Boolean> task;
 
     public static final String INTENT_TITLE = "title";
     public static final String INTENT_IMAGE_URI = "imageUri";
     public static final String INTENT_IMAGE_URL = "imageUrl";
-    public static final String INTENT_IMAGE_PATH = "imagePath";
 
     private static final int AVATAR_MAX_WIDTH = 180;
     private static final int AVATAR_MAX_HEIGHT = 180;
@@ -81,8 +77,9 @@ public class UpdateAvatarActivity extends ProgressDialogActivity
         showProgress();
         task = new SafeAsyncTask<Boolean>() {
             public Boolean call() throws Exception {
-                byte bytes[] = ImageUtils.getBytesBitmap(cropImage.clip(AVATAR_MAX_WIDTH, AVATAR_MAX_HEIGHT));
-                imagePath = ImageUtils.createFile(UpdateAvatarActivity.this, bytes).getAbsolutePath();
+                Bitmap bitmap = cropImage.clip(AVATAR_MAX_WIDTH, AVATAR_MAX_HEIGHT);
+                byte bytes[] = ImageUtils.getBytesBitmap(bitmap);
+                ImageLoaderUtils.putInMemory(imageUri, bitmap);
                 fileUploadService.upload(imageUri, bytes);
                 return true;
             }
@@ -111,7 +108,7 @@ public class UpdateAvatarActivity extends ProgressDialogActivity
         hideProgress();
         final Intent intent = new Intent();
         intent.putExtra(INTENT_IMAGE_URL, fileUrl);
-        intent.putExtra(INTENT_IMAGE_PATH, imagePath);
+        intent.putExtra(INTENT_IMAGE_URI, imageUri);
         setResult(RESULT_OK, intent);
         finish();
     }
@@ -119,7 +116,9 @@ public class UpdateAvatarActivity extends ProgressDialogActivity
     @Override
     public void onUploadFailure(Exception e) {
         hideProgress();
-        Toaster.showShort(this, R.string.error_upload_avatar);
-        Ln.e(e);
+        final Throwable cause = e.getCause() != null ? e.getCause() : e;
+        if(cause != null) {
+            Toaster.showShort(UpdateAvatarActivity.this, cause.getMessage());
+        }
     }
 }

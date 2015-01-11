@@ -6,8 +6,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.aumum.app.mobile.R;
+import com.aumum.app.mobile.ui.view.ImageViewDialog;
 import com.aumum.app.mobile.utils.ImageLoaderUtils;
-import com.easemob.chat.EMConversation;
 import com.easemob.chat.EMMessage;
 import com.easemob.chat.ImageMessageBody;
 
@@ -28,19 +28,25 @@ public class ImageMessageCard extends ChatMessageCard {
     }
 
     @Override
-    public void refresh(EMConversation conversation, int position) {
-        EMMessage message = conversation.getMessage(position);
+    public void refresh(EMMessage message, boolean showTimestamp, int position) {
         ImageMessageBody imageBody = (ImageMessageBody) message.getBody();
 
-        String imagePath;
+        final String imageUri;
         if (message.direct == EMMessage.Direct.RECEIVE) {
-            imagePath = imageBody.getRemoteUrl();
+            imageUri = imageBody.getRemoteUrl();
         } else {
-            imagePath = "file:/" + imageBody.getLocalUrl();
+            imageUri = "file:/" + imageBody.getLocalUrl();
         }
-        ImageLoaderUtils.displayImage(imagePath, image);
+        ImageLoaderUtils.displayImage(imageUri, image);
+        image.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String imageUrl = imageUri;
+                new ImageViewDialog(activity, imageUrl).show();
+            }
+        });
 
-        super.refresh(conversation, position);
+        super.refresh(message, showTimestamp, position);
     }
 
     @Override
@@ -71,15 +77,9 @@ public class ImageMessageCard extends ChatMessageCard {
         activity.runOnUiThread(new Runnable() {
             @Override
             public void run() {
+                progressText.setVisibility(View.VISIBLE);
                 progressText.setText(String.format("%,d%%", progress));
             }
         });
-    }
-
-    @Override
-    protected void sendMessage(EMMessage message) {
-        progressText.setVisibility(View.VISIBLE);
-        message.progress = 0;
-        super.sendMessage(message);
     }
 }

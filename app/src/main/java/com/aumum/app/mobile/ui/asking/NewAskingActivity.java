@@ -2,6 +2,7 @@ package com.aumum.app.mobile.ui.asking;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -127,8 +128,7 @@ public class NewAskingActivity extends ProgressDialogActivity
                 startActivityForResult(intent, Constants.RequestCode.IMAGE_PICKER_REQ_CODE);
             }
         });
-        adapter = new GalleryAdapter(this, R.layout.image_collection_listitem_inner,
-                ImageLoaderUtils.getInstance());
+        adapter = new GalleryAdapter(this, R.layout.image_collection_listitem_inner);
         gridGallery.setAdapter(adapter);
         gridGallery.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -214,8 +214,12 @@ public class NewAskingActivity extends ProgressDialogActivity
     private void uploadImage(final String imagePath) {
         new SafeAsyncTask<Boolean>() {
             public Boolean call() throws Exception {
-                byte avatarData[] = ImageUtils.decodeBitmap(imagePath);
-                fileUploadService.upload(imagePath, avatarData);
+                Bitmap bitmap = ImageLoaderUtils.loadImage("file://" + imagePath);
+                if (bitmap == null) {
+                    throw new Exception(getString(R.string.error_invalid_image_file, imagePath));
+                }
+                byte data[] = ImageUtils.getBytesBitmap(bitmap);
+                fileUploadService.upload(imagePath, data);
                 return true;
             }
 

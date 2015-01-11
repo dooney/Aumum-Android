@@ -2,11 +2,9 @@ package com.aumum.app.mobile.ui.chat;
 
 import android.app.Activity;
 import android.view.View;
-import android.widget.TextView;
 
 import com.aumum.app.mobile.R;
 import com.aumum.app.mobile.ui.view.SpannableTextView;
-import com.easemob.chat.EMConversation;
 import com.easemob.chat.EMMessage;
 import com.easemob.chat.TextMessageBody;
 
@@ -23,11 +21,10 @@ public class TextMessageCard extends ChatMessageCard {
     }
 
     @Override
-    public void refresh(EMConversation conversation, int position) {
-        EMMessage message = conversation.getMessage(position);
+    public void refresh(EMMessage message, boolean showTimestamp, int position) {
         TextMessageBody textBody = (TextMessageBody) message.getBody();
         textBodyText.setSpannableText(textBody.getMessage());
 
-        super.refresh(conversation, position);
+        super.refresh(message, showTimestamp, position);
     }
 }

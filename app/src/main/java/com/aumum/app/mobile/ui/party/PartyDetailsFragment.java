@@ -188,8 +188,7 @@ public class PartyDetailsFragment extends LoaderFragment<Party> {
         addressText = (TextView) view.findViewById(R.id.text_address);
         detailsText = (SpannableTextView) view.findViewById(R.id.text_details);
 
-        adapter = new GalleryAdapter(getActivity(), R.layout.image_collection_listitem_inner,
-                ImageLoaderUtils.getInstance());
+        adapter = new GalleryAdapter(getActivity(), R.layout.image_collection_listitem_inner);
         gridGallery = (GridView) view.findViewById(R.id.grid_gallery);
         gridGallery.setAdapter(adapter);
         gridGallery.setOnItemClickListener(new AdapterView.OnItemClickListener() {

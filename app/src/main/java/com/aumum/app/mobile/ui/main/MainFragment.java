@@ -33,6 +33,7 @@ import com.aumum.app.mobile.ui.contact.ContactListener;
 import com.aumum.app.mobile.ui.view.Animation;
 import com.aumum.app.mobile.utils.Ln;
 import com.aumum.app.mobile.utils.SafeAsyncTask;
+import com.aumum.app.mobile.utils.UpYunUtils;
 import com.easemob.chat.EMMessage;
 import com.squareup.otto.Bus;
 import com.squareup.otto.Subscribe;
@@ -85,30 +86,9 @@ public class MainFragment extends Fragment
         pager.setAdapter(new PagerAdapter(getResources(), getChildFragmentManager()));
         indicator.setViewPager(pager);
 
-        connectionChangeReceiver = new ConnectionChangeReceiver();
-        IntentFilter connectionChangeIntentFilter = new IntentFilter();
-        connectionChangeIntentFilter.addAction(android.net.ConnectivityManager.CONNECTIVITY_ACTION);
-        getActivity().registerReceiver(connectionChangeReceiver, connectionChangeIntentFilter);
-
-        newMessageBroadcastReceiver = new NewMessageBroadcastReceiver();
-        IntentFilter newMessageIntentFilter = new IntentFilter(chatService.getNewMessageBroadcastAction());
-        newMessageIntentFilter.setPriority(NewMessageBroadcastReceiver.PRIORITY);
-        getActivity().registerReceiver(newMessageBroadcastReceiver, newMessageIntentFilter);
-
-        cmdMessageBroadcastReceiver = new CmdMessageBroadcastReceiver();
-        IntentFilter cmdMessageIntentFilter = new IntentFilter(chatService.getCmdMessageBroadcastAction());
-        cmdMessageIntentFilter.setPriority(CmdMessageBroadcastReceiver.PRIORITY);
-        getActivity().registerReceiver(cmdMessageBroadcastReceiver, cmdMessageIntentFilter);
-
-        chatService.setConnectionListener(new ChatConnectionListener(getActivity()));
-        chatService.setGroupChangeListener(new GroupChangeListener(getActivity(), chatService, bus));
-        chatService.setMessageNotifyListener(new MessageNotifyListener(getActivity()));
-        chatService.setNotificationClickListener(new NotificationClickListener(getActivity()));
-        chatService.setContactListener(new ContactListener());
-        chatService.setAppInitialized();
-        chatService.loadAllResources();
-
-        scheduleService = new ScheduleService(this);
+        initChatServer();
+        initImageServer();
+        initScheduleService();
     }
 
     @Override
@@ -187,6 +167,40 @@ public class MainFragment extends Fragment
     public void onResetChatUnreadEvent(ResetChatUnreadEvent event) {
         indicator.getUnreadImage(MainTabPageIndicator.TAB_CHAT)
                 .setVisibility(View.INVISIBLE);
+    }
+
+    private void initImageServer() {
+        String currentUserId = apiKeyProvider.getAuthUserId();
+        UpYunUtils.setCurrentDir(currentUserId);
+    }
+
+    private void initScheduleService() {
+        scheduleService = new ScheduleService(this);
+    }
+
+    private void initChatServer() {
+        connectionChangeReceiver = new ConnectionChangeReceiver();
+        IntentFilter connectionChangeIntentFilter = new IntentFilter();
+        connectionChangeIntentFilter.addAction(android.net.ConnectivityManager.CONNECTIVITY_ACTION);
+        getActivity().registerReceiver(connectionChangeReceiver, connectionChangeIntentFilter);
+
+        newMessageBroadcastReceiver = new NewMessageBroadcastReceiver();
+        IntentFilter newMessageIntentFilter = new IntentFilter(chatService.getNewMessageBroadcastAction());
+        newMessageIntentFilter.setPriority(NewMessageBroadcastReceiver.PRIORITY);
+        getActivity().registerReceiver(newMessageBroadcastReceiver, newMessageIntentFilter);
+
+        cmdMessageBroadcastReceiver = new CmdMessageBroadcastReceiver();
+        IntentFilter cmdMessageIntentFilter = new IntentFilter(chatService.getCmdMessageBroadcastAction());
+        cmdMessageIntentFilter.setPriority(CmdMessageBroadcastReceiver.PRIORITY);
+        getActivity().registerReceiver(cmdMessageBroadcastReceiver, cmdMessageIntentFilter);
+
+        chatService.setConnectionListener(new ChatConnectionListener(getActivity()));
+        chatService.setGroupChangeListener(new GroupChangeListener(getActivity(), chatService, bus));
+        chatService.setMessageNotifyListener(new MessageNotifyListener(getActivity()));
+        chatService.setNotificationClickListener(new NotificationClickListener(getActivity()));
+        chatService.setContactListener(new ContactListener());
+        chatService.setAppInitialized();
+        chatService.loadAllResources();
     }
 
     private class ConnectionChangeReceiver extends BroadcastReceiver {

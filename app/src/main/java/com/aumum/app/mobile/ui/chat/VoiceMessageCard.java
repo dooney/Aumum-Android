@@ -6,7 +6,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.aumum.app.mobile.R;
-import com.easemob.chat.EMConversation;
 import com.easemob.chat.EMMessage;
 import com.easemob.chat.VoiceMessageBody;
 
@@ -29,8 +28,7 @@ public class VoiceMessageCard extends ChatMessageCard {
     }
 
     @Override
-    public void refresh(EMConversation conversation, int position) {
-        final EMMessage message = conversation.getMessage(position);
+    public void refresh(final EMMessage message, boolean showTimestamp, int position) {
         VoiceMessageBody textBody = (VoiceMessageBody) message.getBody();
         voiceLengthText.setText(String.valueOf(textBody.getLength()) + "\"");
 
@@ -49,7 +47,7 @@ public class VoiceMessageCard extends ChatMessageCard {
             }
         });
 
-        super.refresh(conversation, position);
+        super.refresh(message, showTimestamp, position);
     }
 }
 

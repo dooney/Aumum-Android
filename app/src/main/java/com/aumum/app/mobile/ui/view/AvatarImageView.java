@@ -2,11 +2,9 @@ package com.aumum.app.mobile.ui.view;
 
 import android.content.Context;
 import android.util.AttributeSet;
-import android.view.View;
 
 import com.aumum.app.mobile.R;
 import com.aumum.app.mobile.utils.ImageLoaderUtils;
-import com.nostra13.universalimageloader.core.listener.SimpleImageLoadingListener;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -32,12 +30,6 @@ public class AvatarImageView extends CircleImageView {
     }
 
     public void getFromUrl(String imageUrl) {
-        ImageLoaderUtils.getInstance().displayImage(imageUrl, this, new SimpleImageLoadingListener() {
-            @Override
-            public void onLoadingStarted(String imageUri, View view) {
-                AvatarImageView.this.setImageResource(R.drawable.ic_avatar);
-                super.onLoadingStarted(imageUri, view);
-            }
-        });
+        ImageLoaderUtils.displayImage(imageUrl, this, R.drawable.ic_avatar);
     }
 }

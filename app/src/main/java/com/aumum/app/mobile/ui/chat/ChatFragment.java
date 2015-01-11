@@ -36,16 +36,19 @@ import com.aumum.app.mobile.ui.image.ImagePickerActivity;
 import com.aumum.app.mobile.ui.report.ReportActivity;
 import com.aumum.app.mobile.ui.view.ListViewDialog;
 import com.aumum.app.mobile.utils.EditTextUtils;
+import com.aumum.app.mobile.utils.ImageLoaderUtils;
 import com.aumum.app.mobile.utils.Ln;
 import com.aumum.app.mobile.utils.SafeAsyncTask;
 import com.aumum.app.mobile.utils.StorageUtils;
 import com.easemob.EMError;
 import com.easemob.chat.EMConversation;
 import com.easemob.chat.EMMessage;
+import com.easemob.chat.ImageMessageBody;
 import com.easemob.util.VoiceRecorder;
 import com.github.kevinsawicki.wishlist.Toaster;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -61,8 +64,8 @@ public class ChatFragment extends Fragment
     @Inject ChatService chatService;
     @Inject UserStore userStore;
 
-    private int type;
     private String id;
+    private boolean isGroup;
 
     private ListView listView;
 
@@ -103,11 +106,13 @@ public class ChatFragment extends Fragment
         setHasOptionsMenu(true);
         Injector.inject(this);
         final Intent intent = getActivity().getIntent();
-        type = intent.getIntExtra(ChatActivity.INTENT_TYPE, ChatActivity.TYPE_SINGLE);
         id = intent.getStringExtra(ChatActivity.INTENT_ID);
         conversation = chatService.getConversation(id);
         conversation.resetUnsetMsgCount();
-        adapter = new ChatMessagesAdapter(getActivity(), conversation);
+        int type = intent.getIntExtra(ChatActivity.INTENT_TYPE, ChatActivity.TYPE_SINGLE);
+        isGroup = type == ChatActivity.TYPE_GROUP;
+        adapter = new ChatMessagesAdapter(getActivity(), isGroup);
+        adapter.addAll(conversation.getAllMessages());
 
         newMessageBroadcastReceiver = new NewMessageBroadcastReceiver();
         IntentFilter intentFilter = new IntentFilter(chatService.getNewMessageBroadcastAction());
@@ -130,7 +135,7 @@ public class ChatFragment extends Fragment
 
     @Override
     public void onCreateOptionsMenu(final Menu menu, final MenuInflater inflater) {
-        if (type == ChatActivity.TYPE_SINGLE) {
+        if (!isGroup) {
             MenuItem more = menu.add(Menu.NONE, 0, Menu.NONE, null);
             more.setActionView(R.layout.menuitem_more);
             more.setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
@@ -175,10 +180,7 @@ public class ChatFragment extends Fragment
         listView.setSelector(android.R.color.transparent);
         listView.setAdapter(adapter);
         listView.setOnScrollListener(this);
-        int count = listView.getCount();
-        if (count > 0) {
-            listView.setSelection(count - 1);
-        }
+        listView.setSelection(adapter.getCount() - 1);
 
         voiceButton = (Button) view.findViewById(R.id.b_set_voice_mode);
         voiceButton.setOnClickListener(new View.OnClickListener() {
@@ -213,6 +215,7 @@ public class ChatFragment extends Fragment
             public void onFocusChange(View view, boolean hasFocus) {
                 if (hasFocus) {
                     typeSelectionLayout.setVisibility(View.GONE);
+                    listView.setSelection(adapter.getCount() - 1);
                 }
             }
         });
@@ -227,6 +230,15 @@ public class ChatFragment extends Fragment
                 chatText.clearFocus();
                 EditTextUtils.hideSoftInput(chatText);
                 toggleTypeSelectionLayout();
+                listView.clearFocus();
+                listView.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        listView.requestFocusFromTouch();
+                        listView.setSelection(adapter.getCount() - 1);
+                        listView.requestFocus();
+                    }
+                });
             }
         });
         sendButton = (Button) view.findViewById(R.id.b_send);
@@ -284,12 +296,28 @@ public class ChatFragment extends Fragment
         if (requestCode == Constants.RequestCode.IMAGE_PICKER_REQ_CODE) {
             toggleTypeSelectionLayout();
             if (resultCode == Activity.RESULT_OK) {
-                String imagePath[] = data.getStringArrayExtra(ImagePickerActivity.INTENT_ALL_PATH);
-                if (imagePath != null) {
-                    for (String path : imagePath) {
-                        sendImage(path);
+                final String allPath[] = data.getStringArrayExtra(ImagePickerActivity.INTENT_ALL_PATH);
+                new SafeAsyncTask<Boolean>() {
+                    @Override
+                    public Boolean call() throws Exception {
+                        if (allPath != null) {
+                            for (String path : allPath) {
+                                EMMessage message = chatService.addImageMessage(id, isGroup, path);
+                                conversation.addMessage(message);
+                                preLoadMessageImage(message);
+                            }
+                            return true;
+                        }
+                        return false;
                     }
-                }
+
+                    @Override
+                    protected void onSuccess(Boolean success) throws Exception {
+                        if (success) {
+                            adapter.addAll(conversation.getAllMessages());
+                        }
+                    }
+                }.execute();
             }
         } else if (requestCode == Constants.RequestCode.GET_GROUP_DETAILS_REQ_CODE &&
                 resultCode == Activity.RESULT_OK) {
@@ -320,9 +348,9 @@ public class ChatFragment extends Fragment
         if (text.length() > 0) {
             EditTextUtils.hideSoftInput(chatText);
             chatText.setText(null);
-            chatService.addTextMessage(id, type == ChatActivity.TYPE_GROUP, text);
-            adapter.notifyDataSetChanged();
-            listView.setSelection(listView.getCount() - 1);
+            EMMessage message = chatService.addTextMessage(id, isGroup, text);
+            conversation.addMessage(message);
+            adapter.addAll(conversation.getAllMessages());
         }
     }
 
@@ -330,16 +358,21 @@ public class ChatFragment extends Fragment
         if (!(new File(filePath).exists())) {
             return;
         }
-        chatService.addVoiceMessage(id, type == ChatActivity.TYPE_GROUP, filePath, length);
-        adapter.notifyDataSetChanged();
-        listView.setSelection(listView.getCount() - 1);
+        EMMessage message = chatService.addVoiceMessage(id, isGroup, filePath, length);
+        conversation.addMessage(message);
+        adapter.addAll(conversation.getAllMessages());
     }
 
-    private void sendImage(String imagePath) {
-        if (imagePath != null) {
-            chatService.addImageMessage(id, type == ChatActivity.TYPE_GROUP, imagePath);
-            adapter.notifyDataSetChanged();
-            listView.setSelection(listView.getCount() - 1);
+    private void preLoadMessageImage(EMMessage message) {
+        if (message.getType() == EMMessage.Type.IMAGE) {
+            ImageMessageBody imageBody = (ImageMessageBody) message.getBody();
+            String imageUri;
+            if (message.direct == EMMessage.Direct.RECEIVE) {
+                imageUri = imageBody.getRemoteUrl();
+            } else {
+                imageUri = "file:/" + imageBody.getLocalUrl();
+            }
+            ImageLoaderUtils.loadImage(imageUri);
         }
     }
 
@@ -348,27 +381,41 @@ public class ChatFragment extends Fragment
         switch (scrollState) {
             case AbsListView.OnScrollListener.SCROLL_STATE_IDLE:
                 if (absListView.getFirstVisiblePosition() == 0 && !isLoading && loadMore) {
-                    List<EMMessage> messages;
-                    try {
-                        String beforeId = adapter.getItem(0).getMsgId();
-                        if (type == ChatActivity.TYPE_SINGLE) {
-                            messages = conversation.loadMoreMsgFromDB(beforeId, LIMIT_PER_LOAD);
-                        } else {
-                            messages = conversation.loadMoreGroupMsgFromDB(beforeId, LIMIT_PER_LOAD);
+                    isLoading = true;
+                    final List<EMMessage> messages = new ArrayList<EMMessage>();
+                    new SafeAsyncTask<Boolean>() {
+                        @Override
+                        public Boolean call() throws Exception {
+                            String beforeId = adapter.getItem(0).getMsgId();
+                            if (!isGroup) {
+                                messages.addAll(conversation.loadMoreMsgFromDB(beforeId, LIMIT_PER_LOAD));
+                            } else {
+                                messages.addAll(conversation.loadMoreGroupMsgFromDB(beforeId, LIMIT_PER_LOAD));
+                            }
+                            for (EMMessage message: messages) {
+                                preLoadMessageImage(message);
+                            }
+                            return true;
                         }
-                    } catch (Exception e) {
-                        return;
-                    }
-                    if (messages.size() > 0) {
-                        adapter.notifyDataSetChanged();
-                        listView.setSelection(messages.size() - 1);
-                        if (messages.size() != LIMIT_PER_LOAD)
-                            loadMore = false;
-                    } else {
-                        loadMore = false;
-                    }
-                    isLoading = false;
+
+                        @Override
+                        protected void onSuccess(Boolean success) throws Exception {
+                            if (messages.size() > 0) {
+                                adapter.addAll(conversation.getAllMessages());
+                                listView.setSelection(messages.size() - 1);
+                            }
+                            if (messages.size() < LIMIT_PER_LOAD) {
+                                loadMore = false;
+                            }
+                            isLoading = false;
+                        }
+                    }.execute();
                 }
+                break;
+            case AbsListView.OnScrollListener.SCROLL_STATE_TOUCH_SCROLL:
+                chatText.clearFocus();
+                EditTextUtils.hideSoftInput(chatText);
+                typeSelectionLayout.setVisibility(View.GONE);
                 break;
         }
     }
@@ -387,17 +434,19 @@ public class ChatFragment extends Fragment
             abortBroadcast();
 
             final String chatId = intent.getStringExtra("from");
+            final String msgId = intent.getStringExtra("msgid");
             new SafeAsyncTask<Boolean>() {
                 @Override
                 public Boolean call() throws Exception {
                     userStore.getUserByChatId(chatId);
+                    EMMessage message = chatService.getMessage(msgId);
+                    preLoadMessageImage(message);
                     return true;
                 }
 
                 @Override
                 protected void onSuccess(Boolean success) throws Exception {
-                    adapter.notifyDataSetChanged();
-                    listView.setSelection(listView.getCount() - 1);
+                    adapter.addAll(conversation.getAllMessages());
                 }
             }.execute();
         }
@@ -517,7 +566,7 @@ public class ChatFragment extends Fragment
     private void clearConversation() {
         String userName = conversation.getUserName();
         chatService.clearConversation(userName);
-        adapter.notifyDataSetChanged();
+        adapter.addAll(conversation.getAllMessages());
     }
 
     private void reportUser(String type, String id) {

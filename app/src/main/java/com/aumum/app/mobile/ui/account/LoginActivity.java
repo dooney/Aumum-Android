@@ -35,7 +35,6 @@ import com.aumum.app.mobile.ui.view.ListViewDialog;
 import com.aumum.app.mobile.utils.EditTextUtils;
 import com.aumum.app.mobile.utils.SafeAsyncTask;
 import com.aumum.app.mobile.utils.Strings;
-import com.aumum.app.mobile.utils.UpYunUtils;
 import com.github.kevinsawicki.wishlist.Toaster;
 import com.squareup.otto.Bus;
 import com.squareup.otto.Subscribe;
@@ -226,7 +225,6 @@ public class LoginActivity extends AuthenticateActivity {
             @Override
             public void onSuccess(final Boolean success) {
                 resetLocalDb();
-                resetImageServer(user);
                 resetChatServer(user);
             }
 
@@ -240,10 +238,6 @@ public class LoginActivity extends AuthenticateActivity {
 
     private void resetLocalDb() {
         repository.reset();
-    }
-
-    private void resetImageServer(User user) {
-        UpYunUtils.setCurrentDir(user.getObjectId());
     }
 
     private void resetChatServer(final User user) {

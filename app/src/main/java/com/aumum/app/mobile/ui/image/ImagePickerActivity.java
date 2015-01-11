@@ -19,7 +19,6 @@ import com.aumum.app.mobile.R;
 import com.aumum.app.mobile.utils.ImageLoaderUtils;
 import com.aumum.app.mobile.utils.Ln;
 import com.github.kevinsawicki.wishlist.Toaster;
-import com.nostra13.universalimageloader.core.listener.PauseOnScrollListener;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -81,10 +80,9 @@ public class ImagePickerActivity extends ActionBarActivity {
         handler = new Handler();
         gridGallery = (GridView) findViewById(R.id.grid_gallery);
         adapter = new GalleryAdapter(getApplicationContext(),
-                R.layout.gallery_listitem_inner, ImageLoaderUtils.getInstance());
+                R.layout.gallery_listitem_inner);
         adapter.setMaxCount(MAX_COUNT);
-        PauseOnScrollListener listener = new PauseOnScrollListener(ImageLoaderUtils.getInstance(), true, true);
-        gridGallery.setOnScrollListener(listener);
+        gridGallery.setOnScrollListener(ImageLoaderUtils.getOnScrollListener());
 
         if (action == ACTION_MULTIPLE_PICK) {
             gridGallery.setOnItemClickListener(mItemMulClickListener);

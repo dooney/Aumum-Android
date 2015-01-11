@@ -2,6 +2,7 @@ package com.aumum.app.mobile.ui.party;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.text.Editable;
@@ -238,8 +239,7 @@ public class NewPartyActivity extends ProgressDialogActivity
                 startActivityForResult(intent, Constants.RequestCode.IMAGE_PICKER_REQ_CODE);
             }
         });
-        adapter = new GalleryAdapter(this, R.layout.image_collection_listitem_inner,
-                ImageLoaderUtils.getInstance());
+        adapter = new GalleryAdapter(this, R.layout.image_collection_listitem_inner);
         gridGallery.setAdapter(adapter);
         gridGallery.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -461,8 +461,12 @@ public class NewPartyActivity extends ProgressDialogActivity
     private void uploadImage(final String imagePath) {
         new SafeAsyncTask<Boolean>() {
             public Boolean call() throws Exception {
-                byte avatarData[] = ImageUtils.decodeBitmap(imagePath);
-                fileUploadService.upload(imagePath, avatarData);
+                Bitmap bitmap = ImageLoaderUtils.loadImage("file://" + imagePath);
+                if (bitmap == null) {
+                    throw new Exception(getString(R.string.error_invalid_image_file, imagePath));
+                }
+                byte data[] = ImageUtils.getBytesBitmap(bitmap);
+                fileUploadService.upload(imagePath, data);
                 return true;
             }
 
