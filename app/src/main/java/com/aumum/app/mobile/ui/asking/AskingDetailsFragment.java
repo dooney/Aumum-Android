@@ -46,8 +46,6 @@ import com.aumum.app.mobile.ui.view.LikeTextView;
 import com.aumum.app.mobile.ui.view.ListViewDialog;
 import com.aumum.app.mobile.ui.view.SpannableTextView;
 import com.aumum.app.mobile.utils.EditTextUtils;
-import com.aumum.app.mobile.utils.ImageLoaderUtils;
-import com.aumum.app.mobile.utils.Ln;
 import com.aumum.app.mobile.utils.SafeAsyncTask;
 import com.github.kevinsawicki.wishlist.Toaster;
 import com.squareup.otto.Bus;
@@ -241,13 +239,9 @@ public class AskingDetailsFragment extends LoaderFragment<Asking> {
 
     @Override
     protected void handleLoadResult(Asking asking) {
-        try {
-            setData(asking);
-            updateAsking(asking);
-            handler.sendEmptyMessage(0);
-        } catch (Exception e) {
-            Ln.e(e);
-        }
+        setData(asking);
+        updateAsking(asking);
+        handler.sendEmptyMessage(0);
     }
 
     private void updateAsking(Asking asking) {

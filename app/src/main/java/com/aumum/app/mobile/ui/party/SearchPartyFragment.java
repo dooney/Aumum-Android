@@ -188,7 +188,7 @@ public class SearchPartyFragment extends RefreshItemListFragment<Card> {
     }
 
     private void getUserParties() throws Exception {
-        List<Party> partyList = partyStore.getList(user.getParties());
+        List<Party> partyList = partyStore.getList(userId, user.getParties());
         dataSet.addAll(partyList);
     }
 
@@ -197,7 +197,7 @@ public class SearchPartyFragment extends RefreshItemListFragment<Card> {
     }
 
     private void getUserFavoriteParties() throws Exception {
-        List<Party> partyList = partyStore.getList(user.getFavParties());
+        List<Party> partyList = partyStore.getList(userId, user.getFavParties());
         dataSet.addAll(partyList);
     }
 

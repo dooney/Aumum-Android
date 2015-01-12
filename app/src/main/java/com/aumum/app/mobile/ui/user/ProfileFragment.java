@@ -31,7 +31,6 @@ import com.aumum.app.mobile.ui.view.EditTextDialog;
 import com.aumum.app.mobile.ui.view.ListViewDialog;
 import com.aumum.app.mobile.ui.view.TextViewDialog;
 import com.aumum.app.mobile.utils.ImageLoaderUtils;
-import com.aumum.app.mobile.utils.Ln;
 import com.aumum.app.mobile.utils.SafeAsyncTask;
 import com.github.kevinsawicki.wishlist.Toaster;
 
@@ -329,24 +328,20 @@ public class ProfileFragment extends LoaderFragment<User> {
 
     @Override
     protected void handleLoadResult(final User user) {
-        try {
-            setData(user);
+        setData(user);
 
-            avatarImage.getFromUrl(user.getAvatarUrl());
-            avatarImage.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    startImagePickerActivity();
-                }
-            });
-            screenNameText.setText(user.getScreenName());
-            emailText.setText(user.getEmail());
-            cityText.setText(user.getCity());
-            areaText.setText(user.getArea());
-            aboutText.setText(user.getAbout());
-        } catch (Exception e) {
-            Ln.e(e);
-        }
+        avatarImage.getFromUrl(user.getAvatarUrl());
+        avatarImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startImagePickerActivity();
+            }
+        });
+        screenNameText.setText(user.getScreenName());
+        emailText.setText(user.getEmail());
+        cityText.setText(user.getCity());
+        areaText.setText(user.getArea());
+        aboutText.setText(user.getAbout());
     }
 
     private void showActionDialog() {

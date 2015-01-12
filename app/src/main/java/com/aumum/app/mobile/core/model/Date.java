@@ -10,6 +10,16 @@ public class Date implements Serializable {
     protected int month;
     protected int day;
 
+    public Date() {
+
+    }
+
+    public Date(int year, int month, int day) {
+        this.year = year;
+        this.month = month;
+        this.day = day;
+    }
+
     public int getYear() {
         return year;
     }

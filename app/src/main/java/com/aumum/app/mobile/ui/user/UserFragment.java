@@ -29,7 +29,6 @@ import com.aumum.app.mobile.ui.view.ConfirmDialog;
 import com.aumum.app.mobile.ui.view.EditTextDialog;
 import com.aumum.app.mobile.ui.view.ListViewDialog;
 import com.aumum.app.mobile.ui.view.TextViewDialog;
-import com.aumum.app.mobile.utils.Ln;
 import com.github.kevinsawicki.wishlist.Toaster;
 
 import java.util.Arrays;
@@ -158,90 +157,86 @@ public class UserFragment extends LoaderFragment<User> {
 
     @Override
     protected void handleLoadResult(final User user) {
-        try {
-            if (user != null) {
-                setData(user);
+        if (user != null) {
+            setData(user);
 
-                avatarImage.getFromUrl(user.getAvatarUrl());
-                screenNameText.setText(user.getScreenName());
-                cityText.setText(user.getCity());
-                areaText.setText(user.getArea());
-                aboutText.setText(user.getAbout());
-                addContactButton.setVisibility(View.GONE);
-                actionLayout.setVisibility(View.GONE);
-                if (currentUser.getObjectId().equals(userId)) {
-                    return;
-                }
-                if (currentUser.getContacts().contains(userId)) {
-                    actionLayout.setVisibility(View.VISIBLE);
-                    sendMessageButton.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View view) {
-                            final Intent intent = new Intent(getActivity(), ChatActivity.class);
-                            intent.putExtra(ChatActivity.INTENT_TITLE, user.getScreenName());
-                            intent.putExtra(ChatActivity.INTENT_TYPE, ChatActivity.TYPE_SINGLE);
-                            intent.putExtra(ChatActivity.INTENT_ID, user.getChatId());
-                            startActivity(intent);
-                        }
-                    });
-                    deleteContactButton.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View view) {
-                            new TextViewDialog(getActivity(), getString(R.string.info_confirm_delete_contact),
-                                    new ConfirmDialog.OnConfirmListener() {
-                                @Override
-                                public void call(Object value) throws Exception {
-                                    chatService.deleteConversation(user.getChatId());
-                                    chatService.deleteContact(userId);
-                                    String currentUserId = currentUser.getObjectId();
-                                    restService.removeContact(currentUserId, userId);
-                                    currentUser.removeContact(userId);
-                                    userStore.save(currentUser);
-                                }
-
-                                @Override
-                                public void onException(String errorMessage) {
-                                    Toaster.showShort(getActivity(), errorMessage);
-                                }
-
-                                @Override
-                                public void onSuccess(Object value) {
-                                    actionLayout.setVisibility(View.GONE);
-                                    addContactButton.setVisibility(View.VISIBLE);
-                                }
-                            }).show();
-                        }
-                    });
-                } else {
-                    addContactButton.setVisibility(View.VISIBLE);
-                    addContactButton.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View view) {
-                            new EditTextDialog(getActivity(), R.layout.dialog_edit_text_multiline, R.string.hint_hello,
-                                    new ConfirmDialog.OnConfirmListener() {
-                                        @Override
-                                        public void call(Object value) throws Exception {
-                                            String hello = (String) value;
-                                            chatService.addContact(userId, hello);
-                                            Thread.sleep(1000);
-                                        }
-
-                                        @Override
-                                        public void onException(String errorMessage) {
-                                            Toaster.showShort(getActivity(), errorMessage);
-                                        }
-
-                                        @Override
-                                        public void onSuccess(Object value) {
-                                            Toaster.showShort(getActivity(), R.string.info_add_contact_sent);
-                                        }
-                                    }).show();
-                        }
-                    });
-                }
+            avatarImage.getFromUrl(user.getAvatarUrl());
+            screenNameText.setText(user.getScreenName());
+            cityText.setText(user.getCity());
+            areaText.setText(user.getArea());
+            aboutText.setText(user.getAbout());
+            addContactButton.setVisibility(View.GONE);
+            actionLayout.setVisibility(View.GONE);
+            if (currentUser.getObjectId().equals(userId)) {
+                return;
             }
-        } catch (Exception e) {
-            Ln.d(e);
+            if (currentUser.getContacts().contains(userId)) {
+                actionLayout.setVisibility(View.VISIBLE);
+                sendMessageButton.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        final Intent intent = new Intent(getActivity(), ChatActivity.class);
+                        intent.putExtra(ChatActivity.INTENT_TITLE, user.getScreenName());
+                        intent.putExtra(ChatActivity.INTENT_TYPE, ChatActivity.TYPE_SINGLE);
+                        intent.putExtra(ChatActivity.INTENT_ID, user.getChatId());
+                        startActivity(intent);
+                    }
+                });
+                deleteContactButton.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        new TextViewDialog(getActivity(), getString(R.string.info_confirm_delete_contact),
+                                new ConfirmDialog.OnConfirmListener() {
+                                    @Override
+                                    public void call(Object value) throws Exception {
+                                        chatService.deleteConversation(user.getChatId());
+                                        chatService.deleteContact(userId);
+                                        String currentUserId = currentUser.getObjectId();
+                                        restService.removeContact(currentUserId, userId);
+                                        currentUser.removeContact(userId);
+                                        userStore.save(currentUser);
+                                    }
+
+                                    @Override
+                                    public void onException(String errorMessage) {
+                                        Toaster.showShort(getActivity(), errorMessage);
+                                    }
+
+                                    @Override
+                                    public void onSuccess(Object value) {
+                                        actionLayout.setVisibility(View.GONE);
+                                        addContactButton.setVisibility(View.VISIBLE);
+                                    }
+                                }).show();
+                    }
+                });
+            } else {
+                addContactButton.setVisibility(View.VISIBLE);
+                addContactButton.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        new EditTextDialog(getActivity(), R.layout.dialog_edit_text_multiline, R.string.hint_hello,
+                                new ConfirmDialog.OnConfirmListener() {
+                                    @Override
+                                    public void call(Object value) throws Exception {
+                                        String hello = (String) value;
+                                        chatService.addContact(userId, hello);
+                                        Thread.sleep(1000);
+                                    }
+
+                                    @Override
+                                    public void onException(String errorMessage) {
+                                        Toaster.showShort(getActivity(), errorMessage);
+                                    }
+
+                                    @Override
+                                    public void onSuccess(Object value) {
+                                        Toaster.showShort(getActivity(), R.string.info_add_contact_sent);
+                                    }
+                                }).show();
+                    }
+                });
+            }
         }
     }
 

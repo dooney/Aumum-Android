@@ -289,24 +289,22 @@ public class PartyDetailsFragment extends LoaderFragment<Party> {
         if (party.getDeletedAt() != null) {
             throw new Exception(getString(R.string.error_party_was_deleted));
         }
+        User user = userStore.getUserById(party.getUserId());
+        party.setUser(user);
         return party;
     }
 
     @Override
     protected void handleLoadResult(final Party party) {
-        try {
-            if (party != null) {
-                setData(party);
-                updateParty(party);
-                handler.sendEmptyMessage(0);
-            }
-        } catch (Exception e) {
-            Ln.d(e);
+        if (party != null) {
+            setData(party);
+            updateParty(party);
+            handler.sendEmptyMessage(0);
         }
     }
 
-    private void updateParty(Party party) throws Exception {
-        User user = userStore.getUserById(party.getUserId());
+    private void updateParty(Party party) {
+        User user = party.getUser();
         avatarImage.getFromUrl(user.getAvatarUrl());
         avatarImage.setOnClickListener(new UserListener(avatarImage.getContext(), party.getUserId()));
 

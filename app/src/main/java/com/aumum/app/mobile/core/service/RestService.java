@@ -117,6 +117,19 @@ public class RestService {
         return ltJson;
     }
 
+    private JsonObject buildDateTimeBetweenJson(String start, String end) {
+        final JsonObject startJson = new JsonObject();
+        startJson.addProperty("__type", "Date");
+        startJson.addProperty("iso", start);
+        final JsonObject endJson = new JsonObject();
+        endJson.addProperty("__type", "Date");
+        endJson.addProperty("iso", end);
+        final JsonObject timeJson = new JsonObject();
+        timeJson.add("$gt", startJson);
+        timeJson.add("$lt", endJson);
+        return timeJson;
+    }
+
     private JsonObject buildRequestJson(String path, JsonObject body) {
         final JsonObject requestJson = new JsonObject();
         requestJson.addProperty("method", "PUT");
@@ -246,14 +259,29 @@ public class RestService {
         return getPartiesBeforeCore(whereJson, before, limit);
     }
 
-    public List<Party> getParties(List<String> idList, int limit) {
+    public List<Party> getParties(String userId, List<String> idList, int limit) {
         final JsonObject whereJson = new JsonObject();
+        whereJson.add("$or", buildSubscriptionJson(userId, true));
         whereJson.add("objectId", buildIdListJson(idList));
         final JsonObject liveJson = new JsonObject();
         liveJson.addProperty("$exists", false);
         whereJson.add("deletedAt", liveJson);
         String where = whereJson.toString();
         return getPartyService().getList("-createdAt", where, limit).getResults();
+    }
+
+    public List<Party> getParties(String userId, List<String> idList, DateTime start, DateTime end) {
+        final JsonObject whereJson = new JsonObject();
+        whereJson.add("$or", buildSubscriptionJson(userId, true));
+        whereJson.add("objectId", buildIdListJson(idList));
+        whereJson.add("dateTime", buildDateTimeBetweenJson(
+                start.toString(Constants.DateTime.FORMAT),
+                end.toString(Constants.DateTime.FORMAT)));
+        final JsonObject liveJson = new JsonObject();
+        liveJson.addProperty("$exists", false);
+        whereJson.add("deletedAt", liveJson);
+        String where = whereJson.toString();
+        return getPartyService().getList("dateTime", where, Integer.MAX_VALUE).getResults();
     }
 
     public List<Party> getNearByPartiesBefore(String userId, PlaceRange range, String before, int limit) {

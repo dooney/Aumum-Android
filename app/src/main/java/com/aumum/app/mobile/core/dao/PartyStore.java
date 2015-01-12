@@ -11,6 +11,8 @@ import com.aumum.app.mobile.utils.DateUtils;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
+import org.joda.time.DateTime;
+
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -186,8 +188,17 @@ public class PartyStore {
         return null;
     }
 
-    public List<Party> getList(List<String> idList) throws Exception {
-        List<Party> partyList = restService.getParties(idList, LIMIT_PER_LOAD);
+    public List<Party> getList(String userId, List<String> idList) throws Exception {
+        List<Party> partyList = restService.getParties(userId, idList, LIMIT_PER_LOAD);
+        for (Party party: partyList) {
+            partyEntityDao.insertOrReplace(map(party));
+        }
+        return partyList;
+    }
+
+    public List<Party> getListDuring(String userId, List<String> idList,
+                                     DateTime start, DateTime end) throws Exception {
+        List<Party> partyList = restService.getParties(userId, idList, start, end);
         for (Party party: partyList) {
             partyEntityDao.insertOrReplace(map(party));
         }

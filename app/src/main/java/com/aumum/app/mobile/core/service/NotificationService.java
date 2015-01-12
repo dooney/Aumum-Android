@@ -13,8 +13,6 @@ import com.aumum.app.mobile.ui.chat.ChatActivity;
 import com.aumum.app.mobile.ui.contact.ContactRequestsActivity;
 import com.aumum.app.mobile.ui.party.PartyCommentsSingleActivity;
 import com.aumum.app.mobile.ui.party.PartyDetailsSingleActivity;
-import com.aumum.app.mobile.utils.Ln;
-import com.parse.ParsePush;
 
 /**
  * Created by Administrator on 18/11/2014.
@@ -24,26 +22,6 @@ public class NotificationService {
 
     public NotificationService(Context context) {
         this.context = context;
-    }
-
-    public void subscribe(String channel) {
-        if (channel != null) {
-            try {
-                ParsePush.subscribeInBackground(channel);
-            } catch (Exception e) {
-                Ln.d(e);
-            }
-        }
-    }
-
-    public void unSubscribe(String channel) {
-        if (channel != null) {
-            try {
-                ParsePush.unsubscribeInBackground(channel);
-            } catch (Exception e) {
-                Ln.d(e);
-            }
-        }
     }
 
     private NotificationCompat.Builder getNotificationBuilder(String title, String content) {

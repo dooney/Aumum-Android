@@ -9,6 +9,15 @@ public class Time implements Serializable {
     protected int hour;
     protected int minute;
 
+    public Time() {
+
+    }
+
+    public Time(int hour, int minute) {
+        this.hour = hour;
+        this.minute = minute;
+    }
+
     public int getHour() {
         return hour;
     }

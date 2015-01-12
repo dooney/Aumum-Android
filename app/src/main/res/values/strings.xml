@@ -23,6 +23,10 @@
         <item>发起聚会</item>
         <item>我的聚会</item>
     </string-array>
+    <string-array name="label_my_parties">
+        <item>日历</item>
+        <item>列表</item>
+    </string-array>
     <string-array name="label_search_party">
         <item>当前位置附近</item>
         <item>指定地址附近</item>
@@ -321,6 +325,7 @@
     <string name="label_contacts_notified">等%,d位好友</string>
     <string name="label_specify_contacts">以下好友可见</string>
     <string name="label_notify_contacts">通知以下好友</string>
+    <string name="label_select_party_view">请选择显示方式</string>
 
     <!-- Asking -->
     <string name="hint_asking_title">说说标题</string>

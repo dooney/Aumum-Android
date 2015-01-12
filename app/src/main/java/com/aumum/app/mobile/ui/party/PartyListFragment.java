@@ -345,7 +345,7 @@ public class PartyListFragment extends RefreshItemListFragment<Card> {
                         startNewPartyActivity();
                         break;
                     case 1:
-                        startMyPartiesActivity(currentUser);
+                        showMyPartiesDialog();
                         break;
                     default:
                         break;
@@ -354,15 +354,43 @@ public class PartyListFragment extends RefreshItemListFragment<Card> {
         }).show();
     }
 
+    private void showMyPartiesDialog() {
+        final String options[] = getResources().getStringArray(R.array.label_my_parties);
+        new ListViewDialog(getActivity(),
+                getString(R.string.label_select_party_view),
+                Arrays.asList(options),
+                new ListViewDialog.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(int i) {
+                        switch (i) {
+                            case 0:
+                                startMyPartiesActivity();
+                                break;
+                            case 1:
+                                startMyPartiesActivity(currentUser.getObjectId());
+                                break;
+                            default:
+                                break;
+                        }
+                    }
+                }).show();
+    }
+
     private void startNewPartyActivity() {
         final Intent intent = new Intent(getActivity(), NewPartyActivity.class);
         startActivityForResult(intent, Constants.RequestCode.NEW_PARTY_REQ_CODE);
     }
 
-    private void startMyPartiesActivity(User user) {
+    private void startMyPartiesActivity() {
+        final Intent intent = new Intent(getActivity(), PartyCalendarActivity.class);
+        intent.putExtra(PartyCalendarActivity.INTENT_TITLE, getString(R.string.label_my_parties));
+        startActivity(intent);
+    }
+
+    private void startMyPartiesActivity(String userId) {
         final Intent intent = new Intent(getActivity(), SearchPartyActivity.class);
         intent.putExtra(SearchPartyActivity.INTENT_TITLE, getString(R.string.label_my_parties));
-        intent.putExtra(SearchPartyActivity.INTENT_USER_ID, user.getObjectId());
+        intent.putExtra(SearchPartyActivity.INTENT_USER_ID, userId);
         startActivity(intent);
     }
 }
