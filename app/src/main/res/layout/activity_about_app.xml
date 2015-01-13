@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/margin_extreme_large">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:src="@drawable/ic_about_app"/>
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/layout_rate_app"
+        style="@style/RelativeLayout.NavButton">
+
+        <TextView
+            style="@style/TextView.About"
+            android:text="@string/label_rate_the_app"/>
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/layout_version_intro"
+        style="@style/RelativeLayout.NavButton">
+
+        <TextView
+            style="@style/TextView.About"
+            android:text="@string/label_version_intro"/>
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/layout_user_contract"
+        style="@style/RelativeLayout.NavButton">
+
+        <TextView
+            style="@style/TextView.About"
+            android:text="@string/label_user_contract"/>
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/layout_check_for_updates"
+        style="@style/RelativeLayout.NavButton">
+
+        <TextView
+            style="@style/TextView.About"
+            android:text="@string/label_check_for_updates"/>
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1">
+
+        <TextView
+            style="@style/TextView.Subtitle"
+            android:layout_centerInParent="true"
+            android:textSize="@dimen/text_sz_small"
+            android:text="@string/label_copyright"/>
+
+    </RelativeLayout>
+
+</LinearLayout>

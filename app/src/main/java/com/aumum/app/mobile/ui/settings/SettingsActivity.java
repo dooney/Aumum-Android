@@ -25,6 +25,7 @@ public class SettingsActivity extends ActionBarActivity {
     @Inject ChatService chatService;
 
     @InjectView(R.id.layout_feedback) protected View feedbackLayout;
+    @InjectView(R.id.layout_about_app) protected View aboutAppLayout;
     @InjectView(R.id.layout_logout) protected View logoutLayout;
 
     @Override
@@ -38,6 +39,12 @@ public class SettingsActivity extends ActionBarActivity {
             @Override
             public void onClick(View view) {
                 startFeedbackActivity();
+            }
+        });
+        aboutAppLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startAboutAppActivity();
             }
         });
         logoutLayout.setOnClickListener(new View.OnClickListener() {
@@ -76,6 +83,11 @@ public class SettingsActivity extends ActionBarActivity {
 
     private void startFeedbackActivity() {
         final Intent intent = new Intent(this, FeedbackActivity.class);
+        startActivity(intent);
+    }
+
+    private void startAboutAppActivity() {
+        final Intent intent = new Intent(this, AboutAppActivity.class);
         startActivity(intent);
     }
 }

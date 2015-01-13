@@ -204,6 +204,10 @@
             android:name=".ui.settings.FeedbackActivity"
             android:label="@string/title_activity_feedback" >
         </activity>
+        <activity
+            android:name=".ui.settings.AboutAppActivity"
+            android:label="@string/title_activity_about_app" >
+        </activity>
     </application>
 
 </manifest>

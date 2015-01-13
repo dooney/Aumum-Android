@@ -569,6 +569,9 @@
         <item name="android:hint">@string/hint_feedback_details</item>
     </style>
 
+    <!-- About -->
+    <style name="TextView.About" parent="TextView.Title" />
+
     <!-- Splash -->
     <style name="Button.Splash.SignUp" parent="Button.Primary">
         <item name="android:background">@drawable/bbuton_danger_rounded</item>
