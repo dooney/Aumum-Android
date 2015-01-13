@@ -46,6 +46,7 @@ import com.aumum.app.mobile.ui.contact.ContactRequestsFragment;
 import com.aumum.app.mobile.ui.account.VerifyActivity;
 import com.aumum.app.mobile.ui.party.PartyCommentLikeListener;
 import com.aumum.app.mobile.ui.report.ReportActivity;
+import com.aumum.app.mobile.ui.settings.FeedbackActivity;
 import com.aumum.app.mobile.ui.user.UpdateAvatarActivity;
 import com.aumum.app.mobile.ui.main.MainFragment;
 import com.aumum.app.mobile.ui.party.PartyFavoriteListener;
@@ -148,7 +149,8 @@ import retrofit.converter.GsonConverter;
                 UserListFragment.class,
                 ReportActivity.class,
                 ChatConnectionListener.class,
-                PartyCalendarFragment.class
+                PartyCalendarFragment.class,
+                FeedbackActivity.class
         }
 )
 public class BootstrapModule {

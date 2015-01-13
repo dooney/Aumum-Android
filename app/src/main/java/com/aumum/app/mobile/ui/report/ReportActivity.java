@@ -14,6 +14,7 @@ import android.widget.TextView;
 
 import com.aumum.app.mobile.Injector;
 import com.aumum.app.mobile.R;
+import com.aumum.app.mobile.core.infra.security.ApiKeyProvider;
 import com.aumum.app.mobile.core.model.Report;
 import com.aumum.app.mobile.core.service.RestService;
 import com.aumum.app.mobile.ui.base.ProgressDialogActivity;
@@ -37,6 +38,7 @@ import static android.view.inputmethod.EditorInfo.IME_ACTION_DONE;
 public class ReportActivity extends ProgressDialogActivity {
 
     @Inject RestService restService;
+    @Inject ApiKeyProvider apiKeyProvider;
 
     private String entityType;
     private String entityId;
@@ -158,7 +160,8 @@ public class ReportActivity extends ProgressDialogActivity {
             public Boolean call() throws Exception {
                 String type = typeText.getText().toString();
                 String details = detailsText.getText().toString();
-                Report report = new Report(entityType, entityId, type, details);
+                String currentUserId = apiKeyProvider.getAuthUserId();
+                Report report = new Report(entityType, entityId, type, details, currentUserId);
                 restService.newReport(report);
                 return true;
             }

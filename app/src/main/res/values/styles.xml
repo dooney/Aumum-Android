@@ -561,6 +561,14 @@
         <item name="android:textColor">@color/bbutton_danger</item>
     </style>
 
+    <!-- Feedback -->
+    <style name="EditText.Feedback.Details" parent="EditText.Mandatory">
+        <item name="android:background">@color/transparent</item>
+        <item name="android:inputType">textMultiLine</item>
+        <item name="android:lineSpacingMultiplier">1.1</item>
+        <item name="android:hint">@string/hint_feedback_details</item>
+    </style>
+
     <!-- Splash -->
     <style name="Button.Splash.SignUp" parent="Button.Primary">
         <item name="android:background">@drawable/bbuton_danger_rounded</item>

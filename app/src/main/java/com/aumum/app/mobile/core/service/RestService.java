@@ -3,6 +3,7 @@ package com.aumum.app.mobile.core.service;
 
 import com.aumum.app.mobile.core.model.Asking;
 import com.aumum.app.mobile.core.model.AskingReply;
+import com.aumum.app.mobile.core.model.Feedback;
 import com.aumum.app.mobile.core.model.PartyComment;
 import com.aumum.app.mobile.core.Constants;
 import com.aumum.app.mobile.core.model.Party;
@@ -79,6 +80,10 @@ public class RestService {
 
     private ReportService getReportService() {
         return getRestAdapter().create(ReportService.class);
+    }
+
+    private FeedbackService getFeedbackService() {
+        return getRestAdapter().create(FeedbackService.class);
     }
 
     private RestAdapter getRestAdapter() {
@@ -899,5 +904,11 @@ public class RestService {
         Gson gson = new Gson();
         JsonObject data = gson.toJsonTree(report).getAsJsonObject();
         return getReportService().newReport(data);
+    }
+
+    public Feedback newFeedback(Feedback feedback) {
+        Gson gson = new Gson();
+        JsonObject data = gson.toJsonTree(feedback).getAsJsonObject();
+        return getFeedbackService().newFeedback(data);
     }
 }

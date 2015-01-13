@@ -155,6 +155,8 @@
     <string name="info_empty_comment_list">暂时还有没聚会评论哦</string>
     <string name="info_empty_search_list">没找到任何相关记录</string>
     <string name="info_click_to_reload">点击重试</string>
+    <string name="info_submitting_feedback">正在提交您的用户反馈，请稍候</string>
+    <string name="info_feedback_submitted">用户反馈已成功提交，感谢您的支持！</string>
 
     <!-- Error Message -->
     <string name="error_load_parties">获取聚会列表失败</string>
@@ -218,6 +220,7 @@
     <string name="title_activity_group_details">群组详情</string>
     <string name="title_activity_contact_picker">选择好友</string>
     <string name="title_activity_report_details">举报详情</string>
+    <string name="title_activity_feedback">用户反馈</string>
 
     <!-- Account -->
     <string name="hint_login_phone">手机号</string>
@@ -285,6 +288,9 @@
     <string name="label_logout">退出登录</string>
     <string name="label_logout_notification">下线通知</string>
     <string name="label_connection_conflict">同一账号已在其他设备登录</string>
+
+    <!-- Feedback -->
+    <string name="hint_feedback_details">您的问题或建议</string>
 
     <!-- Party -->
     <string name="hint_join_reason">一句话介绍自己的情况，或报名理由</string>

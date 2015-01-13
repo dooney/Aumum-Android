@@ -24,6 +24,7 @@ public class SettingsActivity extends ActionBarActivity {
     @Inject LogoutService logoutService;
     @Inject ChatService chatService;
 
+    @InjectView(R.id.layout_feedback) protected View feedbackLayout;
     @InjectView(R.id.layout_logout) protected View logoutLayout;
 
     @Override
@@ -33,6 +34,12 @@ public class SettingsActivity extends ActionBarActivity {
         setContentView(R.layout.activity_settings);
         ButterKnife.inject(this);
 
+        feedbackLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startFeedbackActivity();
+            }
+        });
         logoutLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -65,5 +72,10 @@ public class SettingsActivity extends ActionBarActivity {
                         finish();
                     }
                 }).show();
+    }
+
+    private void startFeedbackActivity() {
+        final Intent intent = new Intent(this, FeedbackActivity.class);
+        startActivity(intent);
     }
 }

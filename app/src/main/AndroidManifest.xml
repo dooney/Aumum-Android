@@ -200,6 +200,10 @@
             android:label="@string/title_activity_report_details" >
         </activity>
         <activity android:name=".ui.party.PartyCalendarActivity" />
+        <activity
+            android:name=".ui.settings.FeedbackActivity"
+            android:label="@string/title_activity_feedback" >
+        </activity>
     </application>
 
 </manifest>
