@@ -10,7 +10,66 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:layout_marginBottom="@dimen/margin_extra_large">
+
+        <RelativeLayout
+            android:id="@+id/layout_notification"
+            style="@style/RelativeLayout.NavButton">
+
+            <TextView
+                style="@style/TextView.Settings"
+                android:text="@string/label_notification"/>
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/layout_party"
+            style="@style/RelativeLayout.NavButton">
+
+            <TextView
+                style="@style/TextView.Settings"
+                android:text="@string/label_party"/>
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/layout_asking"
+            style="@style/RelativeLayout.NavButton">
+
+            <TextView
+                style="@style/TextView.Settings"
+                android:text="@string/label_asking"/>
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/layout_chat"
+            style="@style/RelativeLayout.NavButton">
+
+            <TextView
+                style="@style/TextView.Settings"
+                android:text="@string/label_chat"/>
+
+        </RelativeLayout>
+
+     </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_marginBottom="@dimen/margin_extra_large">
+
+        <RelativeLayout
+            android:id="@+id/layout_feedback"
+            style="@style/RelativeLayout.NavButton">
+
+            <TextView
+                style="@style/TextView.Settings"
+                android:text="@string/label_feedback"/>
+
+        </RelativeLayout>
 
         <RelativeLayout
             android:id="@+id/layout_about_app"
@@ -22,18 +81,17 @@
 
         </RelativeLayout>
 
-        <View style="@style/Divider"/>
-
-        <RelativeLayout
-            android:id="@+id/layout_logout"
-            style="@style/RelativeLayout.NavButton">
-
-            <TextView
-                style="@style/TextView.Settings"
-                android:text="@string/label_logout"/>
-
-        </RelativeLayout>
-
     </LinearLayout>
+
+    <RelativeLayout
+        android:id="@+id/layout_logout"
+        style="@style/RelativeLayout.NavButton">
+
+        <TextView
+            style="@style/TextView.Settings.Logout"
+            android:layout_centerInParent="true"
+            android:text="@string/label_logout"/>
+
+    </RelativeLayout>
 
 </LinearLayout>

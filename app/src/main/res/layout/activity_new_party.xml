@@ -91,6 +91,7 @@
                     <RelativeLayout
                         android:id="@+id/layout_privacy"
                         style="@style/RelativeLayout.NavButton"
+                        android:padding="@null"
                         android:paddingTop="@dimen/margin_large"
                         android:paddingBottom="@dimen/margin_large"
                         android:paddingLeft="@dimen/margin_extra_large"
@@ -128,11 +129,10 @@
 
                     </RelativeLayout>
 
-                    <View style="@style/Divider" />
-
                     <RelativeLayout
                         android:id="@+id/layout_group"
                         style="@style/RelativeLayout.NavButton"
+                        android:padding="@null"
                         android:paddingTop="@dimen/margin_large"
                         android:paddingBottom="@dimen/margin_large"
                         android:paddingLeft="@dimen/margin_extra_large"
@@ -150,11 +150,10 @@
 
                     </RelativeLayout>
 
-                    <View style="@style/Divider" />
-
                     <RelativeLayout
                         android:id="@+id/layout_notify"
                         style="@style/RelativeLayout.NavButton"
+                        android:padding="@null"
                         android:paddingTop="@dimen/margin_large"
                         android:paddingBottom="@dimen/margin_large"
                         android:paddingLeft="@dimen/margin_extra_large"

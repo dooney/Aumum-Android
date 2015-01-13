@@ -492,12 +492,14 @@
     </style>
 
     <!-- Contact -->
-    <style name="RelativeLayout.NavButton.Contact" parent="RelativeLayout.NavButton">
-        <item name="android:padding">@null</item>
+    <style name="RelativeLayout.ContactButton" parent="RelativeLayout">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
         <item name="android:paddingTop">@dimen/margin_medium</item>
         <item name="android:paddingBottom">@dimen/margin_medium</item>
         <item name="android:paddingLeft">@dimen/margin_large</item>
         <item name="android:paddingRight">@dimen/margin_large</item>
+        <item name="android:background">@drawable/button_contact</item>
     </style>
     <style name="TextView.Contact" parent="TextView.Title" />
     <style name="TextView.Contact.ScreenName" parent="TextView.Contact" />
@@ -555,6 +557,9 @@
 
     <!-- Settings -->
     <style name="TextView.Settings" parent="TextView.Title" />
+    <style name="TextView.Settings.Logout" parent="TextView.Settings">
+        <item name="android:textColor">@color/bbutton_danger</item>
+    </style>
 
     <!-- Splash -->
     <style name="Button.Splash.SignUp" parent="Button.Primary">

@@ -32,8 +32,6 @@
                     android:layout_marginBottom="@dimen/margin_large"
                     android:layout_gravity="center_horizontal"/>
 
-                <View style="@style/Divider"/>
-
                 <RelativeLayout
                     android:id="@+id/layout_screen_name"
                     style="@style/RelativeLayout.NavButton">
@@ -51,8 +49,6 @@
                         android:layout_alignParentRight="true"/>
 
                 </RelativeLayout>
-
-                <View style="@style/Divider"/>
 
                 <RelativeLayout
                     android:id="@+id/layout_email"
@@ -99,8 +95,6 @@
 
                 </RelativeLayout>
 
-                <View style="@style/Divider"/>
-
                 <RelativeLayout
                     android:id="@+id/layout_area"
                     style="@style/RelativeLayout.NavButton">
@@ -119,8 +113,6 @@
                         android:layout_alignBaseline="@+id/text_label_area"/>
 
                 </RelativeLayout>
-
-                <View style="@style/Divider"/>
 
                 <RelativeLayout
                     android:id="@+id/layout_about"

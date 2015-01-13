@@ -36,8 +36,6 @@
 
             </RelativeLayout>
 
-            <View style="@style/Divider"/>
-
         </LinearLayout>
 
         <LinearLayout
@@ -64,8 +62,6 @@
 
             </RelativeLayout>
 
-            <View style="@style/Divider"/>
-
             <RelativeLayout
                 style="@style/RelativeLayout.NavButton">
 
@@ -83,8 +79,6 @@
                     android:layout_alignBaseline="@+id/text_label_area"/>
 
             </RelativeLayout>
-
-            <View style="@style/Divider"/>
 
             <RelativeLayout
                 style="@style/RelativeLayout.NavButton">

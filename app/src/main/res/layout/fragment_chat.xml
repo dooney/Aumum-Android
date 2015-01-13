@@ -22,7 +22,8 @@
         android:focusable="true"
         android:focusableInTouchMode="true">
 
-        <View style="@style/Divider" />
+        <View style="@style/Divider"
+            android:background="@color/grey_light" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -71,7 +72,8 @@
 
         </LinearLayout>
 
-        <View style="@style/Divider" />
+        <View style="@style/Divider"
+            android:background="@color/grey_light" />
 
         <RelativeLayout
             android:id="@+id/layout_type_selection"
