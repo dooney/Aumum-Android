@@ -22,7 +22,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:background="@color/card_background"
                 android:layout_marginBottom="@dimen/margin_extra_large">
 
                 <com.aumum.app.mobile.ui.view.AvatarImageView
@@ -37,9 +36,7 @@
 
                 <RelativeLayout
                     android:id="@+id/layout_screen_name"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:padding="@dimen/margin_large">
+                    style="@style/RelativeLayout.NavButton">
 
                     <TextView
                         android:id="@+id/text_label_screen_name"
@@ -49,7 +46,7 @@
 
                     <TextView
                         android:id="@+id/text_screen_name"
-                        style="@style/TextView.Profile.About"
+                        style="@style/TextView.Subtitle"
                         android:layout_centerVertical="true"
                         android:layout_alignParentRight="true"/>
 
@@ -59,9 +56,7 @@
 
                 <RelativeLayout
                     android:id="@+id/layout_email"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:padding="@dimen/margin_large">
+                    style="@style/RelativeLayout.NavButton">
 
                     <TextView
                         android:id="@+id/text_label_email"
@@ -71,7 +66,7 @@
 
                     <TextView
                         android:id="@+id/text_email"
-                        style="@style/TextView.Profile.About"
+                        style="@style/TextView.Subtitle"
                         android:layout_centerVertical="true"
                         android:layout_alignParentRight="true"/>
 
@@ -83,14 +78,11 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:background="@color/card_background"
                 android:layout_marginBottom="@dimen/margin_extra_large">
 
                 <RelativeLayout
                     android:id="@+id/layout_city"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:padding="@dimen/margin_large">
+                    style="@style/RelativeLayout.NavButton">
 
                     <TextView
                         android:id="@+id/text_label_city"
@@ -111,9 +103,7 @@
 
                 <RelativeLayout
                     android:id="@+id/layout_area"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:padding="@dimen/margin_large">
+                    style="@style/RelativeLayout.NavButton">
 
                     <TextView
                         android:id="@+id/text_label_area"
@@ -134,9 +124,7 @@
 
                 <RelativeLayout
                     android:id="@+id/layout_about"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:padding="@dimen/margin_large">
+                    style="@style/RelativeLayout.NavButton">
 
                     <TextView
                         android:id="@+id/text_label_about"

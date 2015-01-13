@@ -3,6 +3,19 @@
 <resources>
 
     <style name="LinearLayout" />
+    <style name="LinearLayout.NavButton" parent="LinearLayout">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:orientation">vertical</item>
+        <item name="android:background">@drawable/button_navigation</item>
+    </style>
+    <style name="RelativeLayout" />
+    <style name="RelativeLayout.NavButton" parent="RelativeLayout">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:padding">@dimen/margin_large</item>
+        <item name="android:background">@drawable/button_navigation</item>
+    </style>
 
     <style name="Button">
         <item name="android:layout_width">match_parent</item>
@@ -479,6 +492,13 @@
     </style>
 
     <!-- Contact -->
+    <style name="RelativeLayout.NavButton.Contact" parent="RelativeLayout.NavButton">
+        <item name="android:padding">@null</item>
+        <item name="android:paddingTop">@dimen/margin_medium</item>
+        <item name="android:paddingBottom">@dimen/margin_medium</item>
+        <item name="android:paddingLeft">@dimen/margin_large</item>
+        <item name="android:paddingRight">@dimen/margin_large</item>
+    </style>
     <style name="TextView.Contact" parent="TextView.Title" />
     <style name="TextView.Contact.ScreenName" parent="TextView.Contact" />
     <style name="TextView.ContactRequest.ScreenName" parent="TextView.Title" />
@@ -527,7 +547,6 @@
 
     <!-- Profile -->
     <style name="TextView.Profile" parent="TextView.Title" />
-    <style name="TextView.Profile.ScreenName" parent="TextView.Profile" />
     <style name="TextView.Profile.About" parent="TextView.Subtitle">
         <item name="android:maxLines">4</item>
         <item name="android:ellipsize">end</item>
@@ -535,9 +554,7 @@
     </style>
 
     <!-- Settings -->
-    <style name="Button.Settings.Logout" parent="Button.Danger">
-        <item name="android:text">@string/label_logout</item>
-    </style>
+    <style name="TextView.Settings" parent="TextView.Title" />
 
     <!-- Splash -->
     <style name="Button.Splash.SignUp" parent="Button.Primary">

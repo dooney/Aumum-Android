@@ -53,7 +53,6 @@ import com.aumum.app.mobile.ui.view.SpannableTextView;
 import com.aumum.app.mobile.ui.view.TextViewDialog;
 import com.aumum.app.mobile.utils.EditTextUtils;
 import com.aumum.app.mobile.utils.GPSTracker;
-import com.aumum.app.mobile.utils.ImageLoaderUtils;
 import com.aumum.app.mobile.utils.Ln;
 import com.aumum.app.mobile.utils.SafeAsyncTask;
 import com.github.kevinsawicki.wishlist.Toaster;
@@ -203,6 +202,12 @@ public class PartyDetailsFragment extends LoaderFragment<Party> {
         likesLayout = (ViewGroup) view.findViewById(R.id.layout_likes);
 
         actionLayout = (ViewGroup) view.findViewById(R.id.layout_action);
+        actionLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                toggleJoinBox();
+            }
+        });
         joinBoxLayout = (ViewGroup) view.findViewById(R.id.layout_join_box);
         joinText = (JoinTextView) view.findViewById(R.id.text_join);
         joinText.setOnClickListener(new View.OnClickListener() {

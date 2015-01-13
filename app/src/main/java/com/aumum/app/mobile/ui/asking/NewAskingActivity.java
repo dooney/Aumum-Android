@@ -70,7 +70,7 @@ public class NewAskingActivity extends ProgressDialogActivity
     @InjectView(R.id.v_scroll) protected ScrollView scrollView;
     @InjectView(R.id.et_title) protected EditText titleText;
     @InjectView(R.id.et_details) protected EditText detailsText;
-    @InjectView(R.id.text_add_more) protected TextView addMoreText;
+    @InjectView(R.id.layout_add_more) protected View addMoreLayout;
     @InjectView(R.id.layout_type_selection) protected ViewGroup typeSelectionLayout;
     @InjectView(R.id.layout_image) protected ViewGroup imageLayout;
     @InjectView(R.id.grid_gallery) protected GridView gridGallery;
@@ -114,7 +114,7 @@ public class NewAskingActivity extends ProgressDialogActivity
                 return false;
             }
         });
-        addMoreText.setOnClickListener(new View.OnClickListener() {
+        addMoreLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 toggleTypeSelectionLayout();

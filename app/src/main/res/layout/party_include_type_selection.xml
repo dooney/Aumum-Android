@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/card_background"
+    android:visibility="gone">
+
+    <View
+        style="@style/Divider"
+        android:background="@color/grey_light" />
+
+    <LinearLayout
+        android:id="@+id/layout_image"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:paddingTop="@dimen/margin_large"
+        android:paddingBottom="@dimen/margin_small"
+        android:paddingLeft="@dimen/margin_large"
+        android:paddingRight="@dimen/margin_large">
+
+        <FrameLayout
+            android:layout_width="@dimen/image_sz_medium"
+            android:layout_height="@dimen/image_sz_medium"
+            android:background="@drawable/content_box_background">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_fa_image"
+                android:layout_gravity="center"/>
+
+        </FrameLayout>
+
+        <TextView
+            style="@style/TextView.NewAsking.Type"
+            android:text="@string/label_image"/>
+
+    </LinearLayout>
+
+</RelativeLayout>

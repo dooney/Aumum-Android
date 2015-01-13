@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.view.View;
-import android.widget.Button;
 
 import com.aumum.app.mobile.Injector;
 import com.aumum.app.mobile.R;
@@ -25,7 +24,7 @@ public class SettingsActivity extends ActionBarActivity {
     @Inject LogoutService logoutService;
     @Inject ChatService chatService;
 
-    @InjectView(R.id.b_logout) protected Button logoutButton;
+    @InjectView(R.id.layout_logout) protected View logoutLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,7 +33,7 @@ public class SettingsActivity extends ActionBarActivity {
         setContentView(R.layout.activity_settings);
         ButterKnife.inject(this);
 
-        logoutButton.setOnClickListener(new View.OnClickListener() {
+        logoutLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 showLogoutConfirmDialog();

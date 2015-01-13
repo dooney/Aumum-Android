@@ -17,13 +17,10 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:background="@color/card_background"
             android:layout_marginBottom="@dimen/margin_extra_large">
 
             <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:padding="@dimen/margin_large">
+                style="@style/RelativeLayout.NavButton">
 
                 <com.aumum.app.mobile.ui.view.AvatarImageView
                     android:id="@+id/image_avatar"
@@ -47,13 +44,10 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:background="@color/card_background"
             android:layout_marginBottom="@dimen/margin_extra_large">
 
             <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:padding="@dimen/margin_large">
+                style="@style/RelativeLayout.NavButton">
 
                 <TextView
                     android:id="@+id/text_label_city"
@@ -73,13 +67,11 @@
             <View style="@style/Divider"/>
 
             <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:padding="@dimen/margin_large">
+                style="@style/RelativeLayout.NavButton">
 
                 <TextView
                     android:id="@+id/text_label_area"
-                    style="@style/TextView.Profile"
+                    style="@style/TextView.User"
                     android:layout_centerVertical="true"
                     android:layout_marginRight="@dimen/margin_large"
                     android:text="@string/label_area"/>
@@ -95,9 +87,7 @@
             <View style="@style/Divider"/>
 
             <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:padding="@dimen/margin_large">
+                style="@style/RelativeLayout.NavButton">
 
                 <TextView
                     android:id="@+id/text_label_about"

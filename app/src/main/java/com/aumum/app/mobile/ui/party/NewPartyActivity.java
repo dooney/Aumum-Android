@@ -112,7 +112,7 @@ public class NewPartyActivity extends ProgressDialogActivity
     @InjectView(R.id.layout_notified) protected ViewGroup notifiedLayout;
     @InjectView(R.id.layout_notified_avatars) protected ViewGroup notifiedAvatars;
     @InjectView(R.id.text_notified_info) protected TextView notifiedInfo;
-    @InjectView(R.id.text_add_more) protected TextView addMoreText;
+    @InjectView(R.id.layout_add_more) protected View addMoreLayout;
     @InjectView(R.id.layout_type_selection) protected ViewGroup typeSelectionLayout;
     @InjectView(R.id.layout_image) protected ViewGroup imageLayout;
     @InjectView(R.id.grid_gallery) protected GridView gridGallery;
@@ -224,7 +224,7 @@ public class NewPartyActivity extends ProgressDialogActivity
                 showNotifyOptions();
             }
         });
-        addMoreText.setOnClickListener(new View.OnClickListener() {
+        addMoreLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 toggleTypeSelectionLayout();

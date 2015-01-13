@@ -9,7 +9,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:fillViewport="true"
-        android:layout_above="@+id/layout_action">
+        android:layout_above="@+id/layout_add_more">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -90,8 +90,7 @@
 
                     <RelativeLayout
                         android:id="@+id/layout_privacy"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
+                        style="@style/RelativeLayout.NavButton"
                         android:paddingTop="@dimen/margin_large"
                         android:paddingBottom="@dimen/margin_large"
                         android:paddingLeft="@dimen/margin_extra_large"
@@ -133,8 +132,7 @@
 
                     <RelativeLayout
                         android:id="@+id/layout_group"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
+                        style="@style/RelativeLayout.NavButton"
                         android:paddingTop="@dimen/margin_large"
                         android:paddingBottom="@dimen/margin_large"
                         android:paddingLeft="@dimen/margin_extra_large"
@@ -156,8 +154,7 @@
 
                     <RelativeLayout
                         android:id="@+id/layout_notify"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
+                        style="@style/RelativeLayout.NavButton"
                         android:paddingTop="@dimen/margin_large"
                         android:paddingBottom="@dimen/margin_large"
                         android:paddingLeft="@dimen/margin_extra_large"
@@ -204,11 +201,8 @@
     </ScrollView>
 
     <LinearLayout
-        android:id="@+id/layout_action"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:background="@color/card_background"
+        android:id="@+id/layout_add_more"
+        style="@style/LinearLayout.NavButton"
         android:layout_alignParentBottom="true">
 
         <View style="@style/Divider"
@@ -217,18 +211,16 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="@dimen/margin_large"
+            android:padding="@dimen/margin_medium"
             android:gravity="center">
 
-            <TextView
-                android:id="@+id/text_add_more"
-                style="@style/TextView.NewParty.AddMore"/>
+            <TextView style="@style/TextView.NewParty.AddMore"/>
 
         </LinearLayout>
 
         <include
             android:id="@+id/layout_type_selection"
-            layout="@layout/asking_include_type_selection"
+            layout="@layout/party_include_type_selection"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
 
