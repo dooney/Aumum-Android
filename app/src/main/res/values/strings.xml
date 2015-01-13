@@ -62,6 +62,11 @@
         <item>聚会</item>
         <item>说说</item>
     </string-array>
+    <string-array name="label_country_code_list">
+        <item>澳大利亚(61)</item>
+        <item>新西兰(64)</item>
+        <item>中国(86)</item>
+    </string-array>
     <string-array name="label_group_owner_actions">
         <item>删除该群组</item>
     </string-array>
@@ -126,7 +131,7 @@
     <string name="info_no_more">已加载所有项</string>
     <string name="info_downloading_voice">正在下载语音，请稍候</string>
     <string name="info_sending_verification_sms">正在发送验证码短信，请稍候</string>
-    <string name="info_verifying_mobile">正在验证手机号，请稍候</string>
+    <string name="info_verifying_mobile">正在验证手机号码，请稍候</string>
     <string name="info_submitting_profile">正在保存您的个人资料，请稍候</string>
     <string name="info_save_profile_before_back">返回之前必须先保存个人资料</string>
     <string name="info_verification_sms_sent">验证码短信已成功发送，请注意查收</string>
@@ -162,7 +167,7 @@
     <string name="error_load_parties">获取聚会列表失败</string>
     <string name="error_load_party_comments">获取聚会评论失败</string>
     <string name="error_load_user">获取用户信息失败</string>
-    <string name="error_bad_credentials">验证失败，请输入正确的手机号/密码</string>
+    <string name="error_bad_credentials">验证失败，请输入正确的手机号码/密码</string>
     <string name="error_invalid_party_address">%1$s 不是一个有效的Google地图地址，请确认后重新输入</string>
     <string name="error_load_join_details">获取聚会报名信息失败</string>
     <string name="error_load_conversations">获取聊天记录失败</string>
@@ -180,9 +185,9 @@
     <string name="error_send_recoding_failed">发送录音失败</string>
     <string name="error_send_verification_sms">发送验证码短信失败</string>
     <string name="error_verify_code">验证码错误，请确认后重新输入</string>
-    <string name="error_incorrect_phone">手机号必须全为数字且没有空格</string>
+    <string name="error_incorrect_phone">手机号码必须全为数字且没有空格</string>
     <string name="error_incorrect_password_length">密码长度必须为6-16位</string>
-    <string name="error_mobile_registered">该手机号已被注册</string>
+    <string name="error_mobile_registered">该手机号码已被注册</string>
     <string name="error_screen_name_registered">该昵称已被注册</string>
     <string name="error_email_registered">该邮箱地址已被注册</string>
     <string name="error_city_first">请先选择城市</string>
@@ -223,12 +228,12 @@
     <string name="title_activity_feedback">用户反馈</string>
 
     <!-- Account -->
-    <string name="hint_login_phone">手机号</string>
+    <string name="hint_login_phone">手机号码</string>
     <string name="hint_login_password">密码</string>
-    <string name="hint_register_phone">请输入要注册的手机号</string>
+    <string name="hint_register_phone">请输入要注册的手机号码</string>
     <string name="hint_register_password">请输入6-16位密码</string>
-    <string name="hint_screen_name">昵称</string>
-    <string name="hint_email">邮箱 (用于找回密码)</string>
+    <string name="hint_screen_name">用户昵称</string>
+    <string name="hint_email">邮箱地址 (找回密码)</string>
     <string name="hint_city">所在城市</string>
     <string name="hint_area">所在地区</string>
     <string name="hint_about">个人简介</string>
@@ -247,7 +252,7 @@
     <string name="label_select_your_country">请选择您所在的国家</string>
     <string name="label_confirm_phone">确认手机号码</string>
     <string name="label_will_send_verification_code"><Data>&lt;font color=#d9534f>验证码短信&lt;/font>将被发送到这个号码:</Data></string>
-    <string name="label_your_phone"><Data>您的手机号&lt;font color=#d9534f>%1$s %2$s&lt;/font></Data></string>
+    <string name="label_your_phone"><Data>您的手机号码&lt;font color=#d9534f>%1$s %2$s&lt;/font></Data></string>
     <string name="label_will_receive_verification_code"><Data>将会收到一条包含&lt;font color=#d9534f>4位数字验证码&lt;/font>的短信</Data></string>
     <string name="label_will_receive_sms_within"><Data>接收短信大约需要&lt;font color=#000000>%s&lt;/font>秒</Data></string>
     <string name="hint_verification_code">请输入4位数字验证码</string>
@@ -355,7 +360,8 @@
     <string name="label_add_contacts_from">请选择好友来源</string>
     <string name="label_mobile_contacts">手机联系人</string>
     <string name="label_invite">邀请</string>
-    <string name="hint_search_user">用户昵称/国家码(澳大利亚+61)+手机号</string>
+    <string name="hint_search_user">手机号码/用户昵称</string>
+    <string name="label_select_country_code">选择手机区号</string>
 
     <!-- Chat -->
     <string name="label_press_to_talk">按住说话</string>

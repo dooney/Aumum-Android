@@ -192,6 +192,12 @@ public final class Constants {
         private Options() {
         }
 
+        public static final String COUNTRY_CODES[] = {
+                "+61",
+                "+64",
+                "+86"
+        };
+
         public static final String COUNTRY_OPTIONS[] = {
             "澳大利亚",
             "新西兰",

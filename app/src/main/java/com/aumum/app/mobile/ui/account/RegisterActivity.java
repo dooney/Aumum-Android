@@ -88,6 +88,7 @@ public class RegisterActivity extends AuthenticateActivity
         countryText.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                final String countryCodes[] = Constants.Options.COUNTRY_CODES;
                 final String countryOptions[] = Constants.Options.COUNTRY_OPTIONS;
                 new ListViewDialog(RegisterActivity.this,
                         getString(R.string.label_select_your_country),
@@ -96,17 +97,7 @@ public class RegisterActivity extends AuthenticateActivity
                             @Override
                             public void onItemClick(int i) {
                                 countryText.setText(countryOptions[i]);
-                                switch (i) {
-                                    case 1:
-                                        countryCodeText.setText("+64");
-                                        break;
-                                    case 2:
-                                        countryCodeText.setText("+86");
-                                        break;
-                                    default:
-                                        countryCodeText.setText("+61");
-                                        break;
-                                }
+                                countryCodeText.setText(countryCodes[i]);
                             }
                         }).show();
             }

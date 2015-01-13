@@ -181,8 +181,7 @@ public class ContactFragment extends ItemListFragment<User>
 
     private void showSearchUserDialog() {
         final ArrayList<String> userList = new ArrayList<String>();
-        new EditTextDialog(getActivity(), R.layout.dialog_edit_text, R.string.hint_search_user,
-                new ConfirmDialog.OnConfirmListener() {
+        new SearchUserDialog(getActivity(), new ConfirmDialog.OnConfirmListener() {
             @Override
             public void call(Object value) throws Exception {
                 String name = (String) value;

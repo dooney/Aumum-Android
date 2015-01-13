@@ -22,7 +22,7 @@ import static android.view.inputmethod.EditorInfo.IME_ACTION_DONE;
  */
 public class EditTextDialog extends ConfirmDialog {
 
-    private AutoCompleteTextView valueText;
+    protected AutoCompleteTextView valueText;
 
     private final TextWatcher watcher = validationTextWatcher();
 
