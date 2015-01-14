@@ -209,6 +209,10 @@
             android:label="@string/title_activity_about_app" >
         </activity>
         <activity android:name=".ui.browser.BrowserActivity" />
+        <activity
+            android:name=".ui.area.AreaListActivity"
+            android:label="@string/title_activity_area_list" >
+        </activity>
     </application>
 
 </manifest>

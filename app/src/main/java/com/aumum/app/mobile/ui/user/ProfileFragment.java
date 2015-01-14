@@ -20,6 +20,7 @@ import com.aumum.app.mobile.core.Constants;
 import com.aumum.app.mobile.core.dao.UserStore;
 import com.aumum.app.mobile.core.model.User;
 import com.aumum.app.mobile.core.service.RestService;
+import com.aumum.app.mobile.ui.area.AreaListActivity;
 import com.aumum.app.mobile.ui.asking.SearchAskingActivity;
 import com.aumum.app.mobile.ui.base.LoaderFragment;
 import com.aumum.app.mobile.ui.image.ImagePickerActivity;
@@ -212,35 +213,8 @@ public class ProfileFragment extends LoaderFragment<User> {
         areaLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                final String areaOptions[] = Constants.Options.AREA_OPTIONS.get(currentUser.getCity());
-                new ListViewDialog(getActivity(),
-                        getString(R.string.label_select_your_area),
-                        Arrays.asList(areaOptions),
-                        new ListViewDialog.OnItemClickListener() {
-                            @Override
-                            public void onItemClick(int i) {
-                                final String area = areaOptions[i];
-                                final String text = getString(R.string.label_confirm_area, area);
-                                new TextViewDialog(getActivity(), text, new ConfirmDialog.OnConfirmListener() {
-                                    @Override
-                                    public void call(Object value) throws Exception {
-                                        restService.updateUserArea(currentUser.getObjectId(), area);
-                                        currentUser.setArea(area);
-                                        userStore.save(currentUser);
-                                    }
-
-                                    @Override
-                                    public void onException(String errorMessage) {
-                                        Toaster.showShort(getActivity(), errorMessage);
-                                    }
-
-                                    @Override
-                                    public void onSuccess(Object value) {
-                                        areaText.setText(area);
-                                    }
-                                }).show();
-                            }
-                        }).show();
+                int cityId = Constants.Options.CITY_ID.get(currentUser.getCity());
+                startAreaListActivity(cityId);
             }
         });
         areaText = (TextView) view.findViewById(R.id.text_area);
@@ -302,6 +276,10 @@ public class ProfileFragment extends LoaderFragment<User> {
             if (imageUri != null) {
                 ImageLoaderUtils.displayImage(imageUri, avatarImage);
             }
+        } else if (requestCode == Constants.RequestCode.GET_AREA_LIST_REQ_CODE &&
+                resultCode == Activity.RESULT_OK) {
+            String area = data.getStringExtra(AreaListActivity.INTENT_AREA);
+            updateArea(area);
         }
     }
 
@@ -405,6 +383,34 @@ public class ProfileFragment extends LoaderFragment<User> {
             }
         };
         task.execute();
+    }
+
+    private void startAreaListActivity(int city) {
+        final Intent intent = new Intent(getActivity(), AreaListActivity.class);
+        intent.putExtra(AreaListActivity.INTENT_CITY, city);
+        startActivityForResult(intent, Constants.RequestCode.GET_AREA_LIST_REQ_CODE);
+    }
+
+    private void updateArea(final String area) {
+        final String text = getString(R.string.label_confirm_area, area);
+        new TextViewDialog(getActivity(), text, new ConfirmDialog.OnConfirmListener() {
+            @Override
+            public void call(Object value) throws Exception {
+                restService.updateUserArea(currentUser.getObjectId(), area);
+                currentUser.setArea(area);
+                userStore.save(currentUser);
+            }
+
+            @Override
+            public void onException(String errorMessage) {
+                Toaster.showShort(getActivity(), errorMessage);
+            }
+
+            @Override
+            public void onSuccess(Object value) {
+                areaText.setText(area);
+            }
+        }).show();
     }
 
     private void showFavoriteDialog() {

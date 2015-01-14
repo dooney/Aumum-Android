@@ -1,6 +1,7 @@
 
 package com.aumum.app.mobile.core.service;
 
+import com.aumum.app.mobile.core.model.Area;
 import com.aumum.app.mobile.core.model.Asking;
 import com.aumum.app.mobile.core.model.AskingReply;
 import com.aumum.app.mobile.core.model.Feedback;
@@ -84,6 +85,10 @@ public class RestService {
 
     private FeedbackService getFeedbackService() {
         return getRestAdapter().create(FeedbackService.class);
+    }
+
+    private AreaService getAreaService() {
+        return getRestAdapter().create(AreaService.class);
     }
 
     private RestAdapter getRestAdapter() {
@@ -910,5 +915,12 @@ public class RestService {
         Gson gson = new Gson();
         JsonObject data = gson.toJsonTree(feedback).getAsJsonObject();
         return getFeedbackService().newFeedback(data);
+    }
+
+    public List<Area> getAreaListByCity(int cityId) {
+        final JsonObject whereJson = new JsonObject();
+        whereJson.addProperty("city", cityId);
+        String where = whereJson.toString();
+        return getAreaService().getList(where, Integer.MAX_VALUE).getResults();
     }
 }

@@ -18,7 +18,7 @@
 
     <RelativeLayout
         android:id="@+id/layout_contact_card"
-        style="@style/RelativeLayout.ContactButton">
+        style="@style/RelativeLayout.ListNavButton">
 
         <com.aumum.app.mobile.ui.view.AvatarImageView
             android:id="@+id/image_avatar"

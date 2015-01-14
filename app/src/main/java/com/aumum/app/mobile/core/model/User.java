@@ -153,9 +153,9 @@ public class User extends AggregateRoot implements Sortable {
     public String getSortLetters() {
         String pinyin = Strings.getSelling(screenName);
         String sortString = pinyin.substring(0, 1).toUpperCase();
-        if(sortString.matches("[A-Z]")){
+        if (sortString.matches("[A-Z]")) {
             return sortString.toUpperCase();
-        }else{
+        } else {
             return "#";
         }
     }

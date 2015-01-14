@@ -88,7 +88,7 @@ public class ContactFragment extends ItemListFragment<User>
             @Override
             public void onTouchingLetterChanged(String s) {
                 int position = adapter.getPositionForSection(s.charAt(0));
-                if(position != -1){
+                if (position != -1) {
                     getListView().setSelection(position);
                 }
             }

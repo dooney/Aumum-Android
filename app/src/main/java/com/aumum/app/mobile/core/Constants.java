@@ -126,6 +126,11 @@ public final class Constants {
         public static final String URL_FEEDBACK_FRAG = "/1/classes/Feedback";
 
         /**
+         * List Area URL
+         */
+        public static final String URL_AREAS_FRAG = "/1/classes/Areas";
+
+        /**
          * PARAMS for auth
          */
         public static final String PARAM_USERNAME = "username";
@@ -217,19 +222,18 @@ public final class Constants {
             "惠灵顿"
         };
 
-        public static HashMap<String, String[]> AREA_OPTIONS = new HashMap<String, String[]>(){
+        public static HashMap<String, Integer> CITY_ID = new HashMap<String, Integer>(){
             {
-                put("墨尔本", new String[] {
-                        "City区",
-                        "东区",
-                        "南区",
-                        "西区",
-                        "北区",
-                        "东南区",
-                        "东北区",
-                        "西南区",
-                        "西北区"
-                });
+                put("悉尼", 0);
+                put("墨尔本", 1);
+                put("布里斯班", 2);
+                put("珀斯", 3);
+                put("阿德莱德", 4);
+                put("堪培拉", 5);
+                put("达尔文", 6);
+                put("霍巴特", 7);
+                put("奥克兰", 8);
+                put("惠灵顿", 9);
             }
         };
     }
@@ -248,6 +252,7 @@ public final class Constants {
         public static final int GET_ASKING_DETAILS_REQ_CODE = 36;
         public static final int GET_PARTY_COMMENTS_REQ_CODE = 37;
         public static final int GET_GROUP_DETAILS_REQ_CODE = 38;
+        public static final int GET_AREA_LIST_REQ_CODE = 39;
     }
 
     public static final class Link {

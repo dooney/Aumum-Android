@@ -17,26 +17,12 @@
         android:text="A"/>
 
     <RelativeLayout
-        android:id="@+id/layout_contact_card"
+        android:id="@+id/layout_area_card"
         style="@style/RelativeLayout.ListNavButton">
 
-        <com.aumum.app.mobile.ui.view.AvatarImageView
-            android:id="@+id/image_avatar"
-            style="@style/ImageView.Avatar.Small"
-            android:layout_marginRight="@dimen/margin_large"
-            android:src="@drawable/ic_avatar"/>
-
         <TextView
-            android:id="@+id/text_screen_name"
+            android:id="@+id/text_name"
             style="@style/TextView.Contact.ScreenName"
-            android:layout_toRightOf="@+id/image_avatar"
-            android:layout_centerVertical="true"/>
-
-        <ImageView
-            android:id="@+id/checkbox"
-            style="@style/ImageView.ContactPicker.Checkbox"
-            android:layout_alignParentRight="true"
-            android:paddingRight="@dimen/margin_large"
             android:layout_centerVertical="true"/>
 
     </RelativeLayout>

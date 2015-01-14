@@ -16,6 +16,15 @@
         <item name="android:padding">@dimen/margin_large</item>
         <item name="android:background">@drawable/button_navigation</item>
     </style>
+    <style name="RelativeLayout.ListNavButton" parent="RelativeLayout">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:paddingTop">@dimen/margin_medium</item>
+        <item name="android:paddingBottom">@dimen/margin_medium</item>
+        <item name="android:paddingLeft">@dimen/margin_large</item>
+        <item name="android:paddingRight">@dimen/margin_large</item>
+        <item name="android:background">@drawable/button_list_navigation</item>
+    </style>
 
     <style name="Button">
         <item name="android:layout_width">match_parent</item>
@@ -492,15 +501,6 @@
     </style>
 
     <!-- Contact -->
-    <style name="RelativeLayout.ContactButton" parent="RelativeLayout">
-        <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_height">wrap_content</item>
-        <item name="android:paddingTop">@dimen/margin_medium</item>
-        <item name="android:paddingBottom">@dimen/margin_medium</item>
-        <item name="android:paddingLeft">@dimen/margin_large</item>
-        <item name="android:paddingRight">@dimen/margin_large</item>
-        <item name="android:background">@drawable/button_contact</item>
-    </style>
     <style name="TextView.Contact" parent="TextView.Title" />
     <style name="TextView.Contact.ScreenName" parent="TextView.Contact" />
     <style name="TextView.ContactRequest.ScreenName" parent="TextView.Title" />

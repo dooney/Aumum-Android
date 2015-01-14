@@ -15,6 +15,7 @@ import com.aumum.app.mobile.core.service.RestService;
 import com.aumum.app.mobile.ui.LaunchActivity;
 import com.aumum.app.mobile.ui.account.CompleteProfileActivity;
 import com.aumum.app.mobile.ui.account.ResetPasswordSuccessActivity;
+import com.aumum.app.mobile.ui.area.AreaListFragment;
 import com.aumum.app.mobile.ui.asking.AskingDetailsFragment;
 import com.aumum.app.mobile.ui.asking.AskingFavoriteListener;
 import com.aumum.app.mobile.ui.asking.AskingFragment;
@@ -150,7 +151,8 @@ import retrofit.converter.GsonConverter;
                 ReportActivity.class,
                 ChatConnectionListener.class,
                 PartyCalendarFragment.class,
-                FeedbackActivity.class
+                FeedbackActivity.class,
+                AreaListFragment.class
         }
 )
 public class BootstrapModule {

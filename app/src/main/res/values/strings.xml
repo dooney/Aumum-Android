@@ -200,6 +200,7 @@
     <string name="error_party_was_deleted">该聚会已被删除</string>
     <string name="error_asking_was_deleted">该说说已被删除</string>
     <string name="error_invalid_image_file">找不到该图片%1$s</string>
+    <string name="error_load_area_list">获取地区列表失败</string>
 
     <!-- Title -->
     <string name="title_activity_login">用户登录</string>
@@ -227,6 +228,7 @@
     <string name="title_activity_report_details">举报详情</string>
     <string name="title_activity_feedback">反馈</string>
     <string name="title_activity_about_app">关于</string>
+    <string name="title_activity_area_list">请选择您所在的地区</string>
 
     <!-- Account -->
     <string name="hint_login_phone">手机号码</string>
@@ -241,7 +243,6 @@
     <string name="label_city">所在城市</string>
     <string name="label_select_your_city">请选择您所在的城市</string>
     <string name="label_area">所在地区</string>
-    <string name="label_select_your_area">请选择您所在的地区</string>
     <string name="label_about">个人简介</string>
     <string name="label_sign_in">登录</string>
     <string name="label_sign_up">注册</string>

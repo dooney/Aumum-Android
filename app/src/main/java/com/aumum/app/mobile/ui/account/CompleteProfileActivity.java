@@ -16,6 +16,7 @@ import com.aumum.app.mobile.R;
 import com.aumum.app.mobile.core.Constants;
 import com.aumum.app.mobile.core.model.User;
 import com.aumum.app.mobile.core.service.RestService;
+import com.aumum.app.mobile.ui.area.AreaListActivity;
 import com.aumum.app.mobile.ui.base.ProgressDialogActivity;
 import com.aumum.app.mobile.ui.contact.MobileContactsActivity;
 import com.aumum.app.mobile.ui.helper.TextWatcherAdapter;
@@ -113,17 +114,8 @@ public class CompleteProfileActivity extends ProgressDialogActivity
                     Toaster.showShort(CompleteProfileActivity.this, R.string.error_city_first);
                     return;
                 }
-                final String areaOptions[] = Constants.Options.AREA_OPTIONS.get(city);
-                new ListViewDialog(CompleteProfileActivity.this,
-                        getString(R.string.label_select_your_area),
-                        Arrays.asList(areaOptions),
-                        new ListViewDialog.OnItemClickListener() {
-                            @Override
-                            public void onItemClick(int i) {
-                                area = areaOptions[i];
-                                areaText.setText(areaOptions[i]);
-                            }
-                        }).show();
+                int cityId = Constants.Options.CITY_ID.get(city);
+                startAreaListActivity(cityId);
             }
         });
         areaText.addTextChangedListener(watcher);
@@ -171,6 +163,10 @@ public class CompleteProfileActivity extends ProgressDialogActivity
             if (imageUri != null) {
                 ImageLoaderUtils.displayImage(imageUri, avatarImage);
             }
+        } else if (requestCode == Constants.RequestCode.GET_AREA_LIST_REQ_CODE &&
+                resultCode == RESULT_OK) {
+            String area = data.getStringExtra(AreaListActivity.INTENT_AREA);
+            updateArea(area);
         } else if (requestCode == MOBILE_CONTACTS_REQ_CODE) {
             setResult(RESULT_OK);
             finish();
@@ -293,6 +289,17 @@ public class CompleteProfileActivity extends ProgressDialogActivity
             }
         };
         task.execute();
+    }
+
+    private void startAreaListActivity(int city) {
+        final Intent intent = new Intent(this, AreaListActivity.class);
+        intent.putExtra(AreaListActivity.INTENT_CITY, city);
+        startActivityForResult(intent, Constants.RequestCode.GET_AREA_LIST_REQ_CODE);
+    }
+
+    private void updateArea(String value) {
+        area = value;
+        areaText.setText(value);
     }
 
     @Override
