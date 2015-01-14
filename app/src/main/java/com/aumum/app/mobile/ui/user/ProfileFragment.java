@@ -284,7 +284,11 @@ public class ProfileFragment extends LoaderFragment<User> {
     }
 
     @Override
-    protected String getErrorMessage(Exception exception) {
+    protected String getErrorMessage(Exception e) {
+        final Throwable cause = e.getCause() != null ? e.getCause() : e;
+        if(cause != null) {
+            return(cause.getMessage());
+        }
         return getString(R.string.error_load_profile);
     }
 
@@ -301,25 +305,30 @@ public class ProfileFragment extends LoaderFragment<User> {
     @Override
     protected User loadDataCore(Bundle bundle) throws Exception {
         currentUser = userStore.getCurrentUserFromServer();
+        if (currentUser == null) {
+            throw new Exception(getString(R.string.error_load_profile));
+        }
         return currentUser;
     }
 
     @Override
     protected void handleLoadResult(final User user) {
-        setData(user);
+        if (user != null) {
+            setData(user);
 
-        avatarImage.getFromUrl(user.getAvatarUrl());
-        avatarImage.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                startImagePickerActivity();
-            }
-        });
-        screenNameText.setText(user.getScreenName());
-        emailText.setText(user.getEmail());
-        cityText.setText(user.getCity());
-        areaText.setText(user.getArea());
-        aboutText.setText(user.getAbout());
+            avatarImage.getFromUrl(user.getAvatarUrl());
+            avatarImage.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    startImagePickerActivity();
+                }
+            });
+            screenNameText.setText(user.getScreenName());
+            emailText.setText(user.getEmail());
+            cityText.setText(user.getCity());
+            areaText.setText(user.getArea());
+            aboutText.setText(user.getAbout());
+        }
     }
 
     private void showActionDialog() {
