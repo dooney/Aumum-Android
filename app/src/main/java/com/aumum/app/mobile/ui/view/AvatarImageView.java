@@ -30,6 +30,10 @@ public class AvatarImageView extends CircleImageView {
     }
 
     public void getFromUrl(String imageUrl) {
-        ImageLoaderUtils.displayImage(imageUrl, this, R.drawable.ic_avatar);
+        if (imageUrl != null) {
+            ImageLoaderUtils.displayImage(imageUrl, this, R.drawable.ic_avatar);
+        } else {
+            setImageResource(R.drawable.ic_avatar);
+        }
     }
 }

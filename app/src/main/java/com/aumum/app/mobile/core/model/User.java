@@ -213,4 +213,10 @@ public class User extends AggregateRoot implements Sortable {
             favAskings.remove(askingId);
         }
     }
+
+    public void resetProfile() {
+        screenName = "用户" + objectId;
+        city = "悉尼";
+        area = "Sydney";
+    }
 }

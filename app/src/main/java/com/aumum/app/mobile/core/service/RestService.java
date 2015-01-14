@@ -484,6 +484,7 @@ public class RestService {
         data.addProperty(Constants.Http.User.PARAM_CITY, user.getCity());
         data.addProperty(Constants.Http.User.PARAM_AREA, user.getArea());
         data.addProperty(Constants.Http.User.PARAM_ABOUT, user.getAbout());
+        data.addProperty(Constants.Http.User.PARAM_CHAT_ID, user.getChatId());
         return getUserService().updateById(user.getObjectId(), data);
     }
 
@@ -583,12 +584,6 @@ public class RestService {
         whereJson.add("objectId", buildIdListJson(idList));
         String where = whereJson.toString();
         return getPartyReasonService().getList("-createdAt", where).getResults();
-    }
-
-    public JsonObject updateUserChatId(String userId, String chatId) {
-        final JsonObject data = new JsonObject();
-        data.addProperty(Constants.Http.User.PARAM_CHAT_ID, chatId);
-        return getUserService().updateById(userId, data);
     }
 
     public List<Asking> getAskingListAfter(int category, String after, int limit) {

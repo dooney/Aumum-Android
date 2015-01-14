@@ -246,7 +246,8 @@ public class VerifyActivity extends ProgressDialogActivity {
             public Boolean call() throws Exception {
                 String mobile = countryCode + phone;
                 user = restService.register(mobile, password);
-                restService.updateUserChatId(user.getObjectId(), user.getChatId());
+                user.resetProfile();
+                restService.updateUserProfile(user);
                 chatService.createAccount(user.getChatId(), password);
                 return true;
             }

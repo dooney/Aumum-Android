@@ -304,7 +304,7 @@ public class CompleteProfileActivity extends ProgressDialogActivity
 
     @Override
     public void onBackPressed() {
-        Toaster.showShort(this, R.string.info_save_profile_before_back);
+        Toaster.showShort(this, R.string.info_profile_not_completed_yet);
     }
 
     @Override

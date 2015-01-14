@@ -241,6 +241,7 @@ public class LoginActivity extends AuthenticateActivity {
     }
 
     private void resetChatServer(final User user) {
+        chatService.logOut();
         chatService.authenticate(user.getChatId(), password,
                 new ChatService.OnAuthenticateListener() {
                     @Override

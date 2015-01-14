@@ -133,7 +133,7 @@
     <string name="info_sending_verification_sms">正在发送验证码短信，请稍候</string>
     <string name="info_verifying_mobile">正在验证手机号码，请稍候</string>
     <string name="info_submitting_profile">正在保存您的个人资料，请稍候</string>
-    <string name="info_save_profile_before_back">返回之前必须先保存个人资料</string>
+    <string name="info_profile_not_completed_yet">您还没填写完个人资料</string>
     <string name="info_verification_sms_sent">验证码短信已成功发送，请注意查收</string>
     <string name="info_invitation">我在【澳妈圈】等你！安卓版下载地址xxx iOS版下载地址xxx</string>
     <string name="info_reset_password_tip">验证邮件24小时内有效，请尽快登陆您的邮箱点击验证链接完成验证。若未收到邮件请先确认是否在垃圾邮件中。</string>
