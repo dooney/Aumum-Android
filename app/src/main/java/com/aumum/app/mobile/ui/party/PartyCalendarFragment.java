@@ -20,9 +20,6 @@ import com.aumum.app.mobile.ui.base.LoaderFragment;
 import com.aumum.app.mobile.ui.view.calendar.WeekView;
 import com.aumum.app.mobile.ui.view.calendar.WeekViewEvent;
 
-import org.joda.time.DateTime;
-import org.joda.time.DateTimeZone;
-
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
@@ -83,24 +80,9 @@ public class PartyCalendarFragment extends LoaderFragment<PartyCalendar>
 
     @Override
     protected PartyCalendar loadDataCore(Bundle bundle) throws Exception {
-        DateTime now = DateTime.now(DateTimeZone.UTC);
-        DateTime dayInLastMonth = now.minusMonths(6);
-        DateTime dayInNextMonth = now.plusMonths(6);
-        DateTime start = new DateTime(dayInLastMonth.getYear(),
-                dayInLastMonth.getMonthOfYear(),
-                dayInLastMonth.getDayOfMonth(),
-                dayInLastMonth.getHourOfDay(),
-                dayInLastMonth.getMinuteOfHour(),
-                DateTimeZone.UTC);
-        DateTime end = new DateTime(dayInNextMonth.getYear(),
-                dayInNextMonth.getMonthOfYear(),
-                dayInNextMonth.getDayOfMonth(),
-                dayInNextMonth.getHourOfDay(),
-                dayInNextMonth.getMinuteOfHour(),
-                DateTimeZone.UTC);
         User currentUser = userStore.getCurrentUser();
-        List<Party> partyList = partyStore.getListDuring(
-                currentUser.getObjectId(), currentUser.getParties(), start, end);
+        List<Party> partyList = partyStore
+                .getAllList(currentUser.getObjectId(), currentUser.getParties());
         return new PartyCalendar(partyList);
     }
 
