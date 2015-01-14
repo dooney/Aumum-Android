@@ -624,6 +624,12 @@
         <item name="android:hint">@string/hint_screen_name</item>
         <item name="android:inputType">textPersonName</item>
     </style>
+    <style name="LinkTextView.Register.Agreement" parent="LinkTextView">
+        <item name="android:paddingLeft">@dimen/margin_large</item>
+        <item name="android:paddingTop">@dimen/margin_small</item>
+        <item name="android:textSize">@dimen/text_sz_small</item>
+        <item name="android:text">@string/label_confirm_agreement</item>
+    </style>
     <style name="EditText.ResetPassword.Email" parent="EditText">
         <item name="android:drawableLeft">@drawable/ic_fa_envelope_o</item>
         <item name="android:hint">@string/hint_reset_password_email</item>

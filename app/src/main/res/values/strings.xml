@@ -249,6 +249,7 @@
     <string name="label_forgot_password">忘记密码？</string>
     <string name="label_join_now">注册新用户</string>
     <string name="label_prompt_sign_in">已有账户？登录</string>
+    <string name="label_confirm_agreement">注册即表示同意《澳妈圈用户协议》</string>
     <string name="label_country">国家</string>
     <string name="label_select_your_country">请选择您所在的国家</string>
     <string name="label_confirm_phone">确认手机号码</string>
@@ -301,7 +302,7 @@
     <!-- About -->
     <string name="label_rate_the_app">给澳妈圈评分</string>
     <string name="label_version_intro">版本介绍</string>
-    <string name="label_user_contract">用户协议</string>
+    <string name="label_agreement">用户协议</string>
     <string name="label_check_for_updates">检查新版本</string>
     <string name="label_copyright">Copyright @ 2014 澳妈圈. All Rights Reserved.</string>
 

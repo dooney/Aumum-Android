@@ -38,12 +38,12 @@
     </RelativeLayout>
 
     <RelativeLayout
-        android:id="@+id/layout_user_contract"
+        android:id="@+id/layout_agreement"
         style="@style/RelativeLayout.NavButton">
 
         <TextView
             style="@style/TextView.About"
-            android:text="@string/label_user_contract"/>
+            android:text="@string/label_agreement"/>
 
     </RelativeLayout>
 

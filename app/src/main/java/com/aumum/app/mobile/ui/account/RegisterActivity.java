@@ -15,6 +15,7 @@ import com.aumum.app.mobile.R;
 import com.aumum.app.mobile.core.Constants;
 import com.aumum.app.mobile.core.service.RestService;
 import com.aumum.app.mobile.ui.base.AuthenticateActivity;
+import com.aumum.app.mobile.ui.browser.BrowserActivity;
 import com.aumum.app.mobile.ui.helper.TextWatcherAdapter;
 import com.aumum.app.mobile.ui.view.Animation;
 import com.aumum.app.mobile.ui.view.ListViewDialog;
@@ -62,6 +63,7 @@ public class RegisterActivity extends AuthenticateActivity
     @Order(1)
     protected EditText passwordText;
 
+    @InjectView(R.id.t_agreement) protected TextView agreementText;
     @InjectView(R.id.b_sign_up) protected Button signUpButton;
     @InjectView(R.id.t_prompt_sign_in) protected TextView promptSignInText;
 
@@ -123,6 +125,12 @@ public class RegisterActivity extends AuthenticateActivity
                     return true;
                 }
                 return false;
+            }
+        });
+        agreementText.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                showAgreement();
             }
         });
         signUpButton.setOnClickListener(new View.OnClickListener() {
@@ -213,6 +221,13 @@ public class RegisterActivity extends AuthenticateActivity
         progress.setMessageId(R.string.info_sending_verification_sms);
         showProgress();
         SMSSDK.getVerificationCode(countryCode.replace("+", ""), phone);
+    }
+
+    private void showAgreement() {
+        final Intent intent = new Intent(this, BrowserActivity.class);
+        intent.putExtra(BrowserActivity.INTENT_TITLE, getString(R.string.label_agreement));
+        intent.putExtra(BrowserActivity.INTENT_URL, Constants.Link.AGREEMENT);
+        startActivity(intent);
     }
 
     private void signUp() {

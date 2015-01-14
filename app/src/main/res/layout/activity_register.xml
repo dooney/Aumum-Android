@@ -54,6 +54,10 @@
         style="@style/EditText.Register.Password"
         android:imeOptions="actionDone" />
 
+    <TextView
+        android:id="@+id/t_agreement"
+        style="@style/LinkTextView.Register.Agreement" />
+
     <Button
         android:id="@+id/b_sign_up"
         style="@style/Button.Account.SignUp" />

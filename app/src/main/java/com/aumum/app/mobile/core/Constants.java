@@ -249,6 +249,11 @@ public final class Constants {
         public static final int GET_PARTY_COMMENTS_REQ_CODE = 37;
         public static final int GET_GROUP_DETAILS_REQ_CODE = 38;
     }
+
+    public static final class Link {
+
+        public static final String AGREEMENT = "http://www.aumums.com/agreement.html";
+    }
 }
 
 
