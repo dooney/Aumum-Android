@@ -33,6 +33,8 @@ public class AreaListFragment extends ItemListFragment<Area>
     private AreaListAdapter adapter;
     private InitialComparator initialComparator;
 
+    private View mainView;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -53,6 +55,7 @@ public class AreaListFragment extends ItemListFragment<Area>
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        mainView = view.findViewById(R.id.main_view);
         SideBar sideBar = (SideBar) view.findViewById(R.id.sideBar);
         sideBar.setOnTouchingLetterChangedListener(new SideBar.OnTouchingLetterChangedListener() {
             @Override
@@ -63,6 +66,11 @@ public class AreaListFragment extends ItemListFragment<Area>
                 }
             }
         });
+    }
+
+    @Override
+    protected View getMainView() {
+        return mainView;
     }
 
     @Override

@@ -39,6 +39,7 @@ public class ContactPickerFragment extends ItemListFragment<User>
     private ArrayList<String> contacts;
     private InitialComparator initialComparator;
 
+    private View mainView;
     private ContactPickerAdapter adapter;
     private Button confirmButton;
 
@@ -82,6 +83,7 @@ public class ContactPickerFragment extends ItemListFragment<User>
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        mainView = view.findViewById(R.id.main_view);
         SideBar sideBar = (SideBar) view.findViewById(R.id.sideBar);
         sideBar.setOnTouchingLetterChangedListener(new SideBar.OnTouchingLetterChangedListener() {
             @Override
@@ -92,6 +94,11 @@ public class ContactPickerFragment extends ItemListFragment<User>
                 }
             }
         });
+    }
+
+    @Override
+    protected View getMainView() {
+        return mainView;
     }
 
     @Override

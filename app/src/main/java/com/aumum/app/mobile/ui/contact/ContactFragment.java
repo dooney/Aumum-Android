@@ -46,6 +46,7 @@ public class ContactFragment extends ItemListFragment<User>
     private User currentUser;
     private InitialComparator initialComparator;
 
+    private View mainView;
     private ContactAdapter adapter;
 
     @Override
@@ -83,6 +84,7 @@ public class ContactFragment extends ItemListFragment<User>
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        mainView = view.findViewById(R.id.main_view);
         SideBar sideBar = (SideBar) view.findViewById(R.id.sideBar);
         sideBar.setOnTouchingLetterChangedListener(new SideBar.OnTouchingLetterChangedListener() {
             @Override
@@ -93,6 +95,11 @@ public class ContactFragment extends ItemListFragment<User>
                 }
             }
         });
+    }
+
+    @Override
+    protected View getMainView() {
+        return mainView;
     }
 
     @Override
