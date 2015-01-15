@@ -3,7 +3,6 @@ package com.aumum.app.mobile.ui.main;
 import android.accounts.OperationCanceledException;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.v4.app.Fragment;
 
 import com.aumum.app.mobile.Injector;
@@ -14,7 +13,6 @@ import com.aumum.app.mobile.core.service.RestService;
 import com.aumum.app.mobile.events.LogoutEvent;
 import com.aumum.app.mobile.ui.base.BaseFragmentActivity;
 import com.aumum.app.mobile.utils.SafeAsyncTask;
-import com.github.kevinsawicki.wishlist.Toaster;
 import com.squareup.otto.Bus;
 import com.squareup.otto.Subscribe;
 
@@ -25,9 +23,6 @@ public class MainActivity extends BaseFragmentActivity {
     @Inject Bus bus;
 
     private Fragment mainFragment;
-
-    private boolean doubleBackToExitPressedOnce;
-    private static final int DOUBLE_BACK_DELAY = 2000;
 
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
@@ -106,19 +101,10 @@ public class MainActivity extends BaseFragmentActivity {
 
     @Override
     public void onBackPressed() {
-        if (doubleBackToExitPressedOnce) {
-            super.onBackPressed();
-            return;
-        }
-        doubleBackToExitPressedOnce = true;
-        Toaster.showShort(this, R.string.info_click_back_again);
-        new Handler().postDelayed(new Runnable() {
-
-            @Override
-            public void run() {
-                doubleBackToExitPressedOnce = false;
-            }
-        }, DOUBLE_BACK_DELAY);
+        Intent intent = new Intent(Intent.ACTION_MAIN);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        intent.addCategory(Intent.CATEGORY_HOME);
+        startActivity(intent);
     }
 
     @Subscribe

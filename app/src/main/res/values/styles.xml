@@ -117,6 +117,10 @@
         <item name="android:layout_width">@dimen/avatar_sz_large</item>
         <item name="android:layout_height">@dimen/avatar_sz_large</item>
     </style>
+    <style name="ImageView.Avatar.Chat" parent="ImageView">
+        <item name="android:layout_width">40dp</item>
+        <item name="android:layout_height">40dp</item>
+    </style>
     <style name="ImageView.Unread.Small" parent="ImageView">
         <item name="android:src">@drawable/image_unread_background</item>
     </style>
@@ -446,7 +450,8 @@
     </style>
     <style name="TextView.ChatMessage.UserName" parent="TextView">
         <item name="android:textColor">@color/text_link</item>
-        <item name="android:layout_marginBottom">@dimen/margin_medium</item>
+        <item name="android:textSize">@dimen/text_sz_small</item>
+        <item name="android:layout_marginBottom">@dimen/margin_extra_small</item>
     </style>
     <style name="TextView.ChatMessage.Text" parent="TextView">
         <item name="android:padding">@dimen/margin_medium</item>
@@ -475,7 +480,7 @@
     </style>
     <style name="TextView.ChatMessage.VoiceLength" parent="TextView.Subtitle.Small" />
     <style name="ImageView.ChatMessage.SentVoice" parent="ImageView">
-        <item name="android:padding">@dimen/margin_medium</item>
+        <item name="android:padding">11dp</item>
         <item name="android:src">@drawable/chat_sent_voice_playing</item>
         <item name="android:background">@drawable/chat_sent_voice_background</item>
     </style>
@@ -483,7 +488,7 @@
         <item name="android:src">@drawable/chat_msg_sent_failed_icon</item>
     </style>
     <style name="ImageView.ChatMessage.ReceivedVoice" parent="ImageView">
-        <item name="android:padding">@dimen/margin_medium</item>
+        <item name="android:padding">11dp</item>
         <item name="android:src">@drawable/chat_received_voice_playing</item>
         <item name="android:background">@drawable/chat_received_voice_background</item>
     </style>
