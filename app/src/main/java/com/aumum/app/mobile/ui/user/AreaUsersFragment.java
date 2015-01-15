@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.EditText;
 
 import com.aumum.app.mobile.Injector;
 import com.aumum.app.mobile.R;
@@ -32,6 +33,7 @@ public class AreaUsersFragment extends ItemListFragment<User>
     @Inject ChatService chatService;
 
     private String area;
+    private User currentUser;
     private int usersCount;
 
     private AreaUsersAdapter adapter;
@@ -59,7 +61,7 @@ public class AreaUsersFragment extends ItemListFragment<User>
 
     @Override
     protected List<User> loadDataCore(Bundle bundle) throws Exception {
-        User currentUser = userStore.getCurrentUser();
+        currentUser = userStore.getCurrentUser();
         adapter.setCurrentUser(currentUser);
         List<User> users = userStore.getListByArea(currentUser.getObjectId(), area);
         usersCount = users.size();
@@ -75,7 +77,7 @@ public class AreaUsersFragment extends ItemListFragment<User>
 
     @Override
     public void onAddContact(final String contactId) {
-        new EditTextDialog(getActivity(),
+        EditTextDialog dialog = new EditTextDialog(getActivity(),
                 R.layout.dialog_edit_text_multiline,
                 R.string.hint_hello,
                 new ConfirmDialog.OnConfirmListener() {
@@ -95,6 +97,11 @@ public class AreaUsersFragment extends ItemListFragment<User>
                     public void onSuccess(Object value) {
                         Toaster.showShort(getActivity(), R.string.info_add_contact_sent);
                     }
-                }).show();
+                });
+        String hello = getString(R.string.label_hello, currentUser.getScreenName());
+        EditText valueText = dialog.getValueText();
+        valueText.setText(hello);
+        valueText.setSelection(valueText.getText().length());
+        dialog.show();
     }
 }

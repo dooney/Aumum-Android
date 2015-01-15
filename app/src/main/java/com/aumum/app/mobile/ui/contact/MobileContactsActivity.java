@@ -8,6 +8,7 @@ import android.support.v4.content.Loader;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 
@@ -149,7 +150,9 @@ public class MobileContactsActivity extends ActionBarActivity
 
     @Override
     public void onAddContact(final String contactId) {
-        new EditTextDialog(this, R.layout.dialog_edit_text_multiline, R.string.hint_hello,
+        EditTextDialog dialog = new EditTextDialog(this,
+                R.layout.dialog_edit_text_multiline,
+                R.string.hint_hello,
                 new ConfirmDialog.OnConfirmListener() {
                     @Override
                     public void call(Object value) throws Exception {
@@ -167,6 +170,11 @@ public class MobileContactsActivity extends ActionBarActivity
                     public void onSuccess(Object value) {
                         Toaster.showShort(MobileContactsActivity.this, R.string.info_add_contact_sent);
                     }
-                }).show();
+                });
+        String hello = getString(R.string.label_hello, currentUser.getScreenName());
+        EditText valueText = dialog.getValueText();
+        valueText.setText(hello);
+        valueText.setSelection(valueText.getText().length());
+        dialog.show();
     }
 }
