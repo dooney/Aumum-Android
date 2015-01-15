@@ -8,7 +8,6 @@ import com.aumum.app.mobile.ui.base.ProgressDialogActivity;
 public class GroupDetailsActivity extends ProgressDialogActivity {
 
     public static final String INTENT_GROUP_ID = "groupId";
-    public static final String INTENT_IS_OWNER = "isOwner";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

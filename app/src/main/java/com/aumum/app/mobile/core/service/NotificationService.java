@@ -6,6 +6,7 @@ import android.app.PendingIntent;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.support.v4.app.NotificationCompat;
 
 import com.aumum.app.mobile.R;
@@ -27,9 +28,8 @@ public class NotificationService {
     private NotificationCompat.Builder getNotificationBuilder(String title, String content) {
         return new NotificationCompat.Builder(context)
                 .setAutoCancel(true)
-                .setDefaults(Notification.DEFAULT_VIBRATE | Notification.DEFAULT_LIGHTS)
-                .setVibrate(new long[]{0, 100, 200, 300})
-                .setLights(0xd9534f, 300, 1000)
+                .setVibrate(new long[]{0, 200, 200, 200})
+                .setLights(0xffff0000, 300, 300)
                 .setSmallIcon(R.drawable.ic_launcher_notification)
                 .setContentTitle(title)
                 .setContentText(content);

@@ -73,13 +73,7 @@ public class ChatService {
     }
 
     public void logOut() {
-        if (getCurrentUser() != null) {
-            EMChatManager.getInstance().logout();
-        }
-    }
-
-    public String getCurrentUser() {
-        return EMChatManager.getInstance().getCurrentUser();
+        EMChatManager.getInstance().logout();
     }
 
     private void sortConversationByLastChatTime(List<EMConversation> conversationList) {
@@ -169,14 +163,6 @@ public class ChatService {
         if (emGroup != null && emGroup.getMembers().contains(userId)) {
             emGroup.removeMember(userId);
         }
-    }
-
-    public boolean isGroupOwner(String groupId) {
-        EMGroup emGroup = EMGroupManager.getInstance().getGroup(groupId);
-        if (emGroup != null) {
-            return emGroup.getOwner().equals(getCurrentUser());
-        }
-        return false;
     }
 
     public void setGroupChangeListener(GroupChangeListener listener) {

@@ -108,7 +108,7 @@ public class ChatFragment extends Fragment
         final Intent intent = getActivity().getIntent();
         id = intent.getStringExtra(ChatActivity.INTENT_ID);
         conversation = chatService.getConversation(id);
-        conversation.resetUnsetMsgCount();
+        conversation.resetUnreadMsgCount();
         int type = intent.getIntExtra(ChatActivity.INTENT_TYPE, ChatActivity.TYPE_SINGLE);
         isGroup = type == ChatActivity.TYPE_GROUP;
         adapter = new ChatMessagesAdapter(getActivity(), isGroup);
@@ -447,6 +447,7 @@ public class ChatFragment extends Fragment
                 @Override
                 protected void onSuccess(Boolean success) throws Exception {
                     adapter.addAll(conversation.getAllMessages());
+                    conversation.resetUnreadMsgCount();
                 }
             }.execute();
         }
@@ -559,7 +560,6 @@ public class ChatFragment extends Fragment
         String groupId = conversation.getUserName();
         final Intent intent = new Intent(getActivity(), GroupDetailsActivity.class);
         intent.putExtra(GroupDetailsActivity.INTENT_GROUP_ID, groupId);
-        intent.putExtra(GroupDetailsActivity.INTENT_IS_OWNER, chatService.isGroupOwner(groupId));
         startActivityForResult(intent, Constants.RequestCode.GET_GROUP_DETAILS_REQ_CODE);
     }
 

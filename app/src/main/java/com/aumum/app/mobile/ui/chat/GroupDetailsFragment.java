@@ -46,7 +46,6 @@ public class GroupDetailsFragment extends ItemListFragment<User> {
     @Inject UserStore userStore;
 
     private String groupId;
-    private boolean isOwner;
     private User currentUser;
     private EMGroup group;
     private SafeAsyncTask<Boolean> task;
@@ -60,7 +59,6 @@ public class GroupDetailsFragment extends ItemListFragment<User> {
 
         final Intent intent = getActivity().getIntent();
         groupId = intent.getStringExtra(GroupDetailsActivity.INTENT_GROUP_ID);
-        isOwner = intent.getBooleanExtra(GroupDetailsActivity.INTENT_IS_OWNER, false);
 
         progressListener = (ProgressListener) getActivity();
     }
@@ -114,7 +112,7 @@ public class GroupDetailsFragment extends ItemListFragment<User> {
     }
 
     private void showActionDialog() {
-        if (isOwner) {
+        if (group.getOwner().equals(currentUser.getChatId())) {
             showOwnerActionDialog();
         } else {
             showMemberActionDialog();
