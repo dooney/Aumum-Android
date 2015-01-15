@@ -207,15 +207,6 @@ public class AskingDetailsFragment extends LoaderFragment<Asking> {
     }
 
     @Override
-    protected String getErrorMessage(Exception e) {
-        final Throwable cause = e.getCause() != null ? e.getCause() : e;
-        if(cause != null) {
-            return(cause.getMessage());
-        }
-        return getString(R.string.error_load_asking);
-    }
-
-    @Override
     protected boolean readyToShow() {
         return getData() != null;
     }

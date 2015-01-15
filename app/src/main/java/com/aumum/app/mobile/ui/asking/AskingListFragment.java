@@ -108,11 +108,6 @@ public class AskingListFragment extends RefreshItemListFragment<Asking> {
     }
 
     @Override
-    protected String getErrorMessage(Exception exception) {
-        return getString(R.string.error_load_askings);
-    }
-
-    @Override
     protected List<Asking> buildCards() throws Exception {
         int totalCount = dataSet.size();
         if (totalCount < AskingStore.LIMIT_PER_LOAD) {

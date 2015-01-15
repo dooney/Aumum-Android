@@ -71,11 +71,6 @@ public class ConversationFragment extends ItemListFragment<Conversation> {
     }
 
     @Override
-    protected String getErrorMessage(Exception exception) {
-        return getString(R.string.error_load_conversations);
-    }
-
-    @Override
     protected List<Conversation> loadDataCore(Bundle bundle) throws Exception {
         return getAllConversations();
     }

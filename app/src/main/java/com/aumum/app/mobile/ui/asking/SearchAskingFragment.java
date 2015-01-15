@@ -86,11 +86,6 @@ public class SearchAskingFragment extends RefreshItemListFragment<Asking> {
     }
 
     @Override
-    protected String getErrorMessage(Exception exception) {
-        return getString(R.string.error_load_askings);
-    }
-
-    @Override
     protected List<Asking> loadDataCore(Bundle bundle) throws Exception {
         user = userStore.getUserById(userId);
         return super.loadDataCore(bundle);

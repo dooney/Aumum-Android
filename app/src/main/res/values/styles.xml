@@ -514,14 +514,14 @@
     <style name="TextView.ContactRequest.Added" parent="TextView.Subtitle">
         <item name="android:text">@string/label_added</item>
     </style>
-    <style name="TextView.MobileContact.Invite" parent="LinkTextView">
+    <style name="TextView.UserContact.Invite" parent="LinkTextView">
         <item name="android:textSize">@dimen/text_sz_large</item>
         <item name="android:text">@string/label_invite</item>
     </style>
-    <style name="Button.MobileContact.Add" parent="Button.Action">
+    <style name="Button.UserContact.Add" parent="Button.Action">
         <item name="android:text">@string/label_add</item>
     </style>
-    <style name="TextView.MobileContact.Added" parent="TextView.Subtitle">
+    <style name="TextView.UserContact.Added" parent="TextView.Subtitle">
         <item name="android:text">@string/label_added</item>
     </style>
     <style name="ImageView.ContactPicker.Checkbox" parent="ImageView">

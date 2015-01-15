@@ -158,7 +158,7 @@ public class UserStore {
         List<ContactRequest> result = new ArrayList<ContactRequest>();
         for (ContactRequestEntity entity: entities) {
             User user = getUserById(entity.getUserId());
-            boolean isAdded = currentUser.getContacts().contains(entity.getUserId());
+            boolean isAdded = currentUser.isContact(entity.getUserId());
             result.add(new ContactRequest(user, entity.getIntro(), isAdded));
         }
         return result;
@@ -173,6 +173,16 @@ public class UserStore {
             }
         }
         return result;
+    }
+
+    public List<User> getListByArea(String userId, String area) throws Exception {
+        List<User> users = restService.getAreaUsers(userId, area);
+        if (users != null) {
+            for (User user: users) {
+                userEntityDao.insertOrReplace(map(user));
+            }
+        }
+        return users;
     }
 
     public void save(User user) throws Exception {

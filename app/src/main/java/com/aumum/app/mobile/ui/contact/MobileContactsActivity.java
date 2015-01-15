@@ -7,10 +7,7 @@ import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 
@@ -36,7 +33,7 @@ import butterknife.InjectView;
 import retrofit.RetrofitError;
 
 public class MobileContactsActivity extends ActionBarActivity
-    implements MobileContactAdapter.OnAddContactListener{
+    implements AddContactListener {
 
     @Inject UserStore userStore;
     @Inject RestService restService;
@@ -46,14 +43,12 @@ public class MobileContactsActivity extends ActionBarActivity
     @InjectView(R.id.pb_loading) protected ProgressBar progressBar;
 
     private String currentUserId;
-    private boolean showSkip;
     private MobileContactAdapter adapter;
     private User currentUser;
     private HashMap<String, String> contactList;
 
     private static final int CONTACT_LOADER_ID = 78;
     public static final String INTENT_USER_ID = "userId";
-    public static final String INTENT_SHOW_SKIP = "showSkip";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,7 +58,6 @@ public class MobileContactsActivity extends ActionBarActivity
         ButterKnife.inject(this);
 
         currentUserId = getIntent().getStringExtra(INTENT_USER_ID);
-        showSkip = getIntent().getBooleanExtra(INTENT_SHOW_SKIP, false);
         contactList = new HashMap<String, String>();
 
         listView.setVisibility(View.GONE);
@@ -71,24 +65,6 @@ public class MobileContactsActivity extends ActionBarActivity
 
         getSupportLoaderManager().initLoader(CONTACT_LOADER_ID,
                 new Bundle(), contactsLoader);
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        if (showSkip) {
-            MenuItem menuItem = menu.add(Menu.NONE, 0, Menu.NONE, null);
-            menuItem.setActionView(R.layout.menuitem_button_enter);
-            menuItem.setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
-            View view = menuItem.getActionView();
-            Button enterButton = (Button) view.findViewById(R.id.b_enter);
-            enterButton.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    onBackPressed();
-                }
-            });
-        }
-        return true;
     }
 
     private LoaderManager.LoaderCallbacks<Cursor> contactsLoader =

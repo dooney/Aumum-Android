@@ -102,11 +102,6 @@ public class AskingRepliesFragment extends RefreshItemListFragment<AskingReply> 
     }
 
     @Override
-    protected String getErrorMessage(Exception exception) {
-        return getString(R.string.error_load_asking_reply_list);
-    }
-
-    @Override
     protected List<AskingReply> loadDataCore(Bundle bundle) throws Exception {
         currentUser = userStore.getCurrentUser();
         return super.loadDataCore(bundle);

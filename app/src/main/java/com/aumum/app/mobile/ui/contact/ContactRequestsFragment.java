@@ -42,11 +42,6 @@ public class ContactRequestsFragment extends ItemListFragment<ContactRequest> {
     }
 
     @Override
-    protected String getErrorMessage(Exception exception) {
-        return getString(R.string.error_load_contact_requests);
-    }
-
-    @Override
     protected List<ContactRequest> loadDataCore(Bundle bundle) throws Exception {
         return userStore.getContactRequestList();
     }

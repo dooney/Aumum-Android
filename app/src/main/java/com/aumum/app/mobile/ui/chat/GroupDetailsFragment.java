@@ -94,11 +94,6 @@ public class GroupDetailsFragment extends ItemListFragment<User> {
     }
 
     @Override
-    protected String getErrorMessage(Exception exception) {
-        return getString(R.string.error_load_group_details);
-    }
-
-    @Override
     protected List<User> loadDataCore(Bundle bundle) throws Exception {
         currentUser = userStore.getCurrentUser();
         group = chatService.getGroupById(groupId);

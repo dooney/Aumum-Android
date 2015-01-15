@@ -213,6 +213,7 @@
             android:name=".ui.area.AreaListActivity"
             android:label="@string/title_activity_area_list" >
         </activity>
+        <activity android:name=".ui.user.AreaUsersActivity" />
     </application>
 
 </manifest>

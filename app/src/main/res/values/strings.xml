@@ -35,12 +35,15 @@
         <item>发表说说</item>
         <item>我的说说</item>
     </string-array>
+    <string-array name="label_add_contacts">
+        <item>手机号码/用户昵称</item>
+        <item>同一地区</item>
+    </string-array>
     <string-array name="label_contact_actions">
-        <item>添加好友</item>
+        <item>邀请好友</item>
         <item>好友请求</item>
     </string-array>
-    <string-array name="label_add_contacts_actions">
-        <item>澳妈圈用户</item>
+    <string-array name="label_invite_contacts">
         <item>手机通讯录</item>
         <item>微博好友</item>
         <item>微信好友</item>
@@ -99,7 +102,6 @@
     <string name="label_ok">确定</string>
     <string name="label_cancel">取消</string>
     <string name="label_save">保存</string>
-    <string name="label_enter">进入</string>
     <string name="label_send">发送</string>
     <string name="label_delete">删除</string>
     <string name="label_favorite">收藏</string>
@@ -162,23 +164,12 @@
     <string name="info_click_to_reload">点击重试</string>
     <string name="info_submitting_feedback">正在提交您的反馈，请稍候</string>
     <string name="info_feedback_submitted">反馈已成功提交，感谢您的支持！</string>
+    <string name="info_empty_area_users">您是该地区的第一位用哦</string>
 
     <!-- Error Message -->
-    <string name="error_load_parties">获取聚会列表失败</string>
-    <string name="error_load_party_comments">获取聚会评论失败</string>
-    <string name="error_load_user">获取用户信息失败</string>
     <string name="error_bad_credentials">验证失败，请输入正确的手机号码/密码</string>
     <string name="error_invalid_party_address">%1$s 不是一个有效的Google地图地址，请确认后重新输入</string>
-    <string name="error_load_join_details">获取聚会报名信息失败</string>
-    <string name="error_load_conversations">获取聊天记录失败</string>
-    <string name="error_load_contact_requests">获取好友请求列表失败</string>
     <string name="error_accept_contact">同意添加好友失败</string>
-    <string name="error_load_party_details">获取聚会详情失败</string>
-    <string name="error_load_contacts">获取好友列表失败</string>
-    <string name="error_load_profile">获取个人信息失败</string>
-    <string name="error_load_askings">获取说说列表失败</string>
-    <string name="error_load_asking">获取说说详情失败</string>
-    <string name="error_load_asking_reply_list">获取回复列表失败</string>
     <string name="error_sdcard_needed_for_voice">发送语音需要SD卡支持</string>
     <string name="error_recoding_failed">录音失败</string>
     <string name="error_recoding_too_short">录音太短</string>
@@ -192,15 +183,11 @@
     <string name="error_email_registered">该邮箱地址已被注册</string>
     <string name="error_city_first">请先选择城市</string>
     <string name="error_incorrect_email_format">邮箱地址格式无效</string>
-    <string name="error_load_mobile_contacts">获取手机通讯录失败</string>
-    <string name="error_load_group_details">获取群组详情失败</string>
     <string name="error_selection_no_more_than">最多只能选%,d项</string>
-    <string name="error_load_user_list">获取用户列表失败</string>
     <string name="error_no_network">无法找到有效的网络，请检查您的网络连接</string>
     <string name="error_party_was_deleted">该聚会已被删除</string>
     <string name="error_asking_was_deleted">该说说已被删除</string>
     <string name="error_invalid_image_file">找不到该图片%1$s</string>
-    <string name="error_load_area_list">获取地区列表失败</string>
 
     <!-- Title -->
     <string name="title_activity_login">用户登录</string>
@@ -367,7 +354,7 @@
     <string name="hint_report_details">举报理由</string>
 
     <!-- Contact -->
-    <string name="label_add_contacts_from">请选择好友来源</string>
+    <string name="label_invite_contacts_from">请选择用户来源</string>
     <string name="label_mobile_contacts">手机联系人</string>
     <string name="label_invite">邀请</string>
     <string name="hint_search_user">手机号码/用户昵称</string>

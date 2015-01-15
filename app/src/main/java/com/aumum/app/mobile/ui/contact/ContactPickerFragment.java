@@ -102,11 +102,6 @@ public class ContactPickerFragment extends ItemListFragment<User>
     }
 
     @Override
-    protected String getErrorMessage(Exception exception) {
-        return getString(R.string.error_load_contacts);
-    }
-
-    @Override
     protected List<User> loadDataCore(Bundle bundle) throws Exception {
         return getSortedContacts();
     }

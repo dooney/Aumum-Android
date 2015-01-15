@@ -116,7 +116,17 @@ public abstract class LoaderFragment<E> extends Fragment
     }
 
     protected void showError(final String message) {
-        Toaster.showShort(getActivity(), message);
+        if (message != null) {
+            Toaster.showShort(getActivity(), message);
+        }
+    }
+
+    protected String getErrorMessage(final Exception e) {
+        final Throwable cause = e.getCause() != null ? e.getCause() : e;
+        if(cause != null) {
+            return(cause.getMessage());
+        }
+        return null;
     }
 
     private Exception getException(final Loader<E> loader) {
@@ -203,8 +213,6 @@ public abstract class LoaderFragment<E> extends Fragment
         }
         return this;
     }
-
-    protected abstract String getErrorMessage(final Exception exception);
 
     protected abstract boolean readyToShow();
 

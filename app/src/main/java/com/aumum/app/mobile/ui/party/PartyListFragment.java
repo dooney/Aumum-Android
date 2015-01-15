@@ -132,11 +132,6 @@ public class PartyListFragment extends RefreshItemListFragment<Card> {
     }
 
     @Override
-    protected String getErrorMessage(Exception exception) {
-        return getString(R.string.error_load_parties);
-    }
-
-    @Override
     protected ArrayAdapter<Card> createAdapter(List<Card> items) {
         return new CardArrayAdapter(getActivity(), items);
     }

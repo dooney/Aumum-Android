@@ -80,11 +80,6 @@ public class AreaListFragment extends ItemListFragment<Area>
     }
 
     @Override
-    protected String getErrorMessage(Exception exception) {
-        return getString(R.string.error_load_area_list);
-    }
-
-    @Override
     protected List<Area> loadDataCore(Bundle bundle) throws Exception {
         List<Area> areaList = restService.getAreaListByCity(city);
         Collections.sort(areaList, initialComparator);

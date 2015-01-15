@@ -18,9 +18,9 @@ import com.aumum.app.mobile.core.dao.UserStore;
 import com.aumum.app.mobile.core.model.User;
 import com.aumum.app.mobile.core.service.RestService;
 import com.aumum.app.mobile.ui.base.ItemListFragment;
+import com.aumum.app.mobile.ui.user.AreaUsersActivity;
 import com.aumum.app.mobile.ui.user.UserActivity;
 import com.aumum.app.mobile.ui.view.ConfirmDialog;
-import com.aumum.app.mobile.ui.view.EditTextDialog;
 import com.aumum.app.mobile.ui.view.ListViewDialog;
 import com.aumum.app.mobile.ui.view.sort.InitialComparator;
 import com.aumum.app.mobile.ui.view.sort.SideBar;
@@ -59,7 +59,21 @@ public class ContactFragment extends ItemListFragment<User>
 
     @Override
     public void onCreateOptionsMenu(final Menu menu, final MenuInflater inflater) {
-        MenuItem more = menu.add(Menu.NONE, 0, Menu.NONE, null);
+        MenuItem plus = menu.add(Menu.NONE, 0, Menu.NONE, null);
+        plus.setActionView(R.layout.menuitem_plus);
+        plus.setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
+        View plusView = plus.getActionView();
+        ImageView plusIcon = (ImageView) plusView.findViewById(R.id.b_plus);
+        plusIcon.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (getActivity() != null) {
+                    showAddContactsDialog();
+                }
+            }
+        });
+
+        MenuItem more = menu.add(Menu.NONE, 1, Menu.NONE, null);
         more.setActionView(R.layout.menuitem_more);
         more.setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
         View moreView = more.getActionView();
@@ -109,11 +123,6 @@ public class ContactFragment extends ItemListFragment<User>
     }
 
     @Override
-    protected String getErrorMessage(Exception exception) {
-        return getString(R.string.error_load_contacts);
-    }
-
-    @Override
     protected List<User> loadDataCore(Bundle bundle) throws Exception {
         currentUser = userStore.getCurrentUser();
         return getSortedContacts();
@@ -144,6 +153,26 @@ public class ContactFragment extends ItemListFragment<User>
         return contacts;
     }
 
+    private void showAddContactsDialog() {
+        String options[] = getResources().getStringArray(R.array.label_add_contacts);
+        new ListViewDialog(getActivity(), null, Arrays.asList(options),
+                new ListViewDialog.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(int i) {
+                        switch (i) {
+                            case 0:
+                                showSearchUserDialog();
+                                break;
+                            case 1:
+                                startAreaUsersActivity(currentUser.getArea());
+                                break;
+                            default:
+                                break;
+                        }
+                    }
+                }).show();
+    }
+
     private void showActionDialog() {
         String options[] = getResources().getStringArray(R.array.label_contact_actions);
         new ListViewDialog(getActivity(), null, Arrays.asList(options),
@@ -152,7 +181,7 @@ public class ContactFragment extends ItemListFragment<User>
             public void onItemClick(int i) {
                 switch (i) {
                     case 0:
-                        showAddContactsDialog();
+                        showInviteContactsDialog();
                         break;
                     case 1:
                         startContactRequestActivity();
@@ -164,19 +193,16 @@ public class ContactFragment extends ItemListFragment<User>
         }).show();
     }
 
-    private void showAddContactsDialog() {
-        String options[] = getResources().getStringArray(R.array.label_add_contacts_actions);
+    private void showInviteContactsDialog() {
+        String options[] = getResources().getStringArray(R.array.label_invite_contacts);
         new ListViewDialog(getActivity(),
-                getString(R.string.label_add_contacts_from),
+                getString(R.string.label_invite_contacts_from),
                 Arrays.asList(options),
                 new ListViewDialog.OnItemClickListener() {
             @Override
             public void onItemClick(int i) {
                 switch (i) {
                     case 0:
-                        showSearchUserDialog();
-                        break;
-                    case 1:
                         startAddMobileContactsActivity();
                         break;
                     default:
@@ -228,6 +254,12 @@ public class ContactFragment extends ItemListFragment<User>
 
     private void startContactRequestActivity() {
         final Intent intent = new Intent(getActivity(), ContactRequestsActivity.class);
+        startActivity(intent);
+    }
+
+    private void startAreaUsersActivity(String area) {
+        final Intent intent = new Intent(getActivity(), AreaUsersActivity.class);
+        intent.putExtra(AreaUsersActivity.INTENT_AREA, area);
         startActivity(intent);
     }
 }

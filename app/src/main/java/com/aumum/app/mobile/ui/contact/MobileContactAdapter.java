@@ -17,7 +17,6 @@ import com.aumum.app.mobile.R;
 import com.aumum.app.mobile.core.model.User;
 import com.aumum.app.mobile.ui.view.Animation;
 import com.aumum.app.mobile.ui.view.AvatarImageView;
-import com.aumum.app.mobile.utils.ImageLoaderUtils;
 import com.aumum.app.mobile.utils.ImageUtils;
 
 import java.util.HashMap;
@@ -29,32 +28,28 @@ public class MobileContactAdapter extends CursorAdapter {
 
     private User currentUser;
     private HashMap<String, String> contactList;
-    private OnAddContactListener onAddContactListener;
-
-    public interface OnAddContactListener {
-        void onAddContact(String contactId);
-    }
+    private AddContactListener addContactListener;
 
     public MobileContactAdapter(Context context, User currentUser,
                                 HashMap<String, String> contactList,
-                                OnAddContactListener onAddContactListener) {
+                                AddContactListener addContactListener) {
         super(context, null, 0);
         this.currentUser = currentUser;
         this.contactList = contactList;
-        this.onAddContactListener = onAddContactListener;
+        this.addContactListener = addContactListener;
     }
 
     @Override
     public View newView(Context context, Cursor cursor, ViewGroup parent) {
-        return LayoutInflater.from(context).inflate(R.layout.mobile_contact_listitem_inner, null);
+        return LayoutInflater.from(context).inflate(R.layout.user_contact_listitem_inner, null);
     }
 
     @Override
     public void bindView(View view, final Context context, Cursor cursor) {
         if (cursor != null) {
             String contactName = cursor.getString(cursor.getColumnIndexOrThrow(ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME));
-            TextView contactNameText = (TextView) view.findViewById(R.id.text_contact_name);
-            contactNameText.setText(contactName);
+            TextView screenNameText = (TextView) view.findViewById(R.id.text_screen_name);
+            screenNameText.setText(contactName);
 
             String thumbnailUri = cursor.getString(cursor.getColumnIndexOrThrow(ContactsContract.CommonDataKinds.Phone.PHOTO_THUMBNAIL_URI));
             AvatarImageView avatarImage = (AvatarImageView) view.findViewById(R.id.image_avatar);
@@ -75,14 +70,14 @@ public class MobileContactAdapter extends CursorAdapter {
             final String userId = contactList.get(number.replace(" ", ""));
             if (!currentUser.getObjectId().equals(userId)) {
                 if (number != null && userId != null) {
-                    if (currentUser.getContacts().contains(userId)) {
+                    if (currentUser.isContact(userId)) {
                         addedText.setVisibility(View.VISIBLE);
                     } else {
                         addButton.setVisibility(View.VISIBLE);
                         addButton.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View view) {
-                                onAddContactListener.onAddContact(userId);
+                                addContactListener.onAddContact(userId);
                             }
                         });
                     }

@@ -219,4 +219,11 @@ public class User extends AggregateRoot implements Sortable {
         city = "悉尼";
         area = "Sydney";
     }
+
+    public boolean isContact(String userId) {
+        if (contacts != null) {
+            return contacts.contains(userId);
+        }
+        return false;
+    }
 }

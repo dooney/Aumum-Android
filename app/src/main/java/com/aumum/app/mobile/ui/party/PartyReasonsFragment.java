@@ -88,11 +88,6 @@ public class PartyReasonsFragment extends ItemListFragment<PartyReason> {
     }
 
     @Override
-    protected String getErrorMessage(Exception exception) {
-        return getString(R.string.error_load_join_details);
-    }
-
-    @Override
     protected List<PartyReason> loadDataCore(Bundle bundle) throws Exception {
         currentUser = userStore.getCurrentUser();
         List<PartyReason> result = partyReasonStore.getPartyReasons(party.getReasons());

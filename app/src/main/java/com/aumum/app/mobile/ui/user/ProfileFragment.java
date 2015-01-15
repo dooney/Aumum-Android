@@ -284,15 +284,6 @@ public class ProfileFragment extends LoaderFragment<User> {
     }
 
     @Override
-    protected String getErrorMessage(Exception e) {
-        final Throwable cause = e.getCause() != null ? e.getCause() : e;
-        if(cause != null) {
-            return(cause.getMessage());
-        }
-        return getString(R.string.error_load_profile);
-    }
-
-    @Override
     protected boolean readyToShow() {
         return getData() != null;
     }
@@ -305,9 +296,6 @@ public class ProfileFragment extends LoaderFragment<User> {
     @Override
     protected User loadDataCore(Bundle bundle) throws Exception {
         currentUser = userStore.getCurrentUserFromServer();
-        if (currentUser == null) {
-            throw new Exception(getString(R.string.error_load_profile));
-        }
         return currentUser;
     }
 

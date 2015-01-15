@@ -18,9 +18,9 @@ import com.aumum.app.mobile.core.model.User;
 import com.aumum.app.mobile.core.service.RestService;
 import com.aumum.app.mobile.ui.area.AreaListActivity;
 import com.aumum.app.mobile.ui.base.ProgressDialogActivity;
-import com.aumum.app.mobile.ui.contact.MobileContactsActivity;
 import com.aumum.app.mobile.ui.helper.TextWatcherAdapter;
 import com.aumum.app.mobile.ui.image.ImagePickerActivity;
+import com.aumum.app.mobile.ui.user.AreaUsersActivity;
 import com.aumum.app.mobile.ui.user.UpdateAvatarActivity;
 import com.aumum.app.mobile.ui.view.Animation;
 import com.aumum.app.mobile.ui.view.ListViewDialog;
@@ -48,6 +48,7 @@ public class CompleteProfileActivity extends ProgressDialogActivity
     @Inject RestService restService;
 
     private Button saveButton;
+    @InjectView(R.id.container) protected View container;
     @InjectView(R.id.image_avatar) protected ImageView avatarImage;
     @InjectView(R.id.et_screen_name) protected EditText screenNameText;
 
@@ -65,13 +66,14 @@ public class CompleteProfileActivity extends ProgressDialogActivity
     private String city;
     private String area;
     private String about;
+    private int areaUsersCount;
 
     private Validator validator;
     private SafeAsyncTask<Boolean> task;
     private final TextWatcher watcher = validationTextWatcher();
 
     public static final String INTENT_USER_ID = "userId";
-    private static final int MOBILE_CONTACTS_REQ_CODE = 100;
+    private static final int GET_AREA_USERS_REQ_CODE = 100;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -93,6 +95,7 @@ public class CompleteProfileActivity extends ProgressDialogActivity
         cityText.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                container.requestFocus();
                 final String cityOptions[] = Constants.Options.CITY_OPTIONS;
                 new ListViewDialog(CompleteProfileActivity.this,
                         getString(R.string.label_select_your_city),
@@ -110,6 +113,7 @@ public class CompleteProfileActivity extends ProgressDialogActivity
         areaText.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                container.requestFocus();
                 if (city == null) {
                     Toaster.showShort(CompleteProfileActivity.this, R.string.error_city_first);
                     return;
@@ -167,7 +171,7 @@ public class CompleteProfileActivity extends ProgressDialogActivity
                 resultCode == RESULT_OK) {
             String area = data.getStringExtra(AreaListActivity.INTENT_AREA);
             updateArea(area);
-        } else if (requestCode == MOBILE_CONTACTS_REQ_CODE) {
+        } else if (requestCode == GET_AREA_USERS_REQ_CODE) {
             setResult(RESULT_OK);
             finish();
         }
@@ -223,6 +227,7 @@ public class CompleteProfileActivity extends ProgressDialogActivity
                 user.setArea(area);
                 user.setAbout(about);
                 restService.updateUserProfile(user);
+                areaUsersCount = restService.getAreaUsersCount(userId, area);
                 return true;
             }
 
@@ -238,7 +243,12 @@ public class CompleteProfileActivity extends ProgressDialogActivity
 
             @Override
             protected void onSuccess(Boolean success) throws Exception {
-                startMobileContactsActivity();
+                if (areaUsersCount > 0) {
+                    startAreaUsersActivity(area);
+                } else {
+                    setResult(RESULT_OK);
+                    finish();
+                }
             }
 
             @Override
@@ -319,10 +329,9 @@ public class CompleteProfileActivity extends ProgressDialogActivity
         }
     }
 
-    private void startMobileContactsActivity() {
-        final Intent intent = new Intent(this, MobileContactsActivity.class);
-        intent.putExtra(MobileContactsActivity.INTENT_USER_ID, userId);
-        intent.putExtra(MobileContactsActivity.INTENT_SHOW_SKIP, true);
-        startActivityForResult(intent, MOBILE_CONTACTS_REQ_CODE);
+    private void startAreaUsersActivity(String area) {
+        final Intent intent = new Intent(this, AreaUsersActivity.class);
+        intent.putExtra(AreaUsersActivity.INTENT_AREA, area);
+        startActivityForResult(intent, GET_AREA_USERS_REQ_CODE);
     }
 }

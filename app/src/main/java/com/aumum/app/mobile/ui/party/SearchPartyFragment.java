@@ -103,11 +103,6 @@ public class SearchPartyFragment extends RefreshItemListFragment<Card> {
     }
 
     @Override
-    protected String getErrorMessage(Exception exception) {
-        return getString(R.string.error_load_parties);
-    }
-
-    @Override
     protected List<Card> loadDataCore(Bundle bundle) throws Exception {
         if (userId != null) {
             user = userStore.getUserById(userId);

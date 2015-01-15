@@ -123,15 +123,6 @@ public class UserFragment extends LoaderFragment<User> {
     }
 
     @Override
-    protected String getErrorMessage(Exception e) {
-        final Throwable cause = e.getCause() != null ? e.getCause() : e;
-        if(cause != null) {
-            return(cause.getMessage());
-        }
-        return getString(R.string.error_load_user);
-    }
-
-    @Override
     protected boolean readyToShow() {
         return getData() != null;
     }
@@ -153,9 +144,6 @@ public class UserFragment extends LoaderFragment<User> {
             user = userStore.getUserByScreenNameFromServer(screenName);
             userId = user.getObjectId();
         }
-        if (user == null) {
-            throw new Exception(getString(R.string.error_load_user));
-        }
         return user;
     }
 
@@ -174,7 +162,7 @@ public class UserFragment extends LoaderFragment<User> {
             if (currentUser.getObjectId().equals(userId)) {
                 return;
             }
-            if (currentUser.getContacts().contains(userId)) {
+            if (currentUser.isContact(userId)) {
                 actionLayout.setVisibility(View.VISIBLE);
                 sendMessageButton.setOnClickListener(new View.OnClickListener() {
                     @Override

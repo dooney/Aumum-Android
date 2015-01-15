@@ -348,6 +348,28 @@ public class RestService {
         return null;
     }
 
+    private JsonObject buildAreaUsersJson(String userId, String area) {
+        final JsonObject areaUsersJson = new JsonObject();
+        final JsonObject userIdJson = new JsonObject();
+        userIdJson.addProperty("$ne", userId);
+        areaUsersJson.add("objectId", userIdJson);
+        areaUsersJson.addProperty("area", area);
+        return areaUsersJson;
+    }
+
+    public List<User> getAreaUsers(String userId, String area) {
+        final JsonObject whereJson = buildAreaUsersJson(userId, area);
+        String where = whereJson.toString();
+        return getUserService().getList(where, Integer.MAX_VALUE).getResults();
+    }
+
+    public int getAreaUsersCount(String userId, String area) {
+        final JsonObject whereJson = buildAreaUsersJson(userId, area);
+        String where = whereJson.toString();
+        JsonObject result = getUserService().getCount(where, 1, 0);
+        return result.get("count").getAsInt();
+    }
+
     private JsonObject buildPartyMembersRequestJson(String op, String partyId, String userId) {
         final JsonObject body = new JsonObject();
         final JsonArray partyMembers = new JsonArray();

@@ -51,11 +51,6 @@ public class UserListFragment extends ItemListFragment<User> {
     }
 
     @Override
-    protected String getErrorMessage(Exception exception) {
-        return getString(R.string.error_load_user_list);
-    }
-
-    @Override
     protected List<User> loadDataCore(Bundle bundle) throws Exception {
         List<User> userList = new ArrayList<User>();
         for (String userId: users) {

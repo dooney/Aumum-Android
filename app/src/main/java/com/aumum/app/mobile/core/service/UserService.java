@@ -54,4 +54,9 @@ public interface UserService {
     @GET(Constants.Http.URL_USERS_FRAG)
     ListWrapper<User> getByScreenName(@Query("where") String where,
                                       @Query("limit") int limit);
+
+    @GET(Constants.Http.URL_USERS_FRAG)
+    JsonObject getCount(@Query("where") String where,
+                        @Query("count") int count,
+                        @Query("limit") int limit);
 }

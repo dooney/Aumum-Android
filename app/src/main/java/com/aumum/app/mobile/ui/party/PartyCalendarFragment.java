@@ -64,11 +64,6 @@ public class PartyCalendarFragment extends LoaderFragment<PartyCalendar>
     }
 
     @Override
-    protected String getErrorMessage(Exception exception) {
-        return getString(R.string.error_load_parties);
-    }
-
-    @Override
     protected boolean readyToShow() {
         return getData() != null;
     }

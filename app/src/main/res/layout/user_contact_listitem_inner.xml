@@ -15,25 +15,24 @@
         android:src="@drawable/ic_avatar"/>
 
     <TextView
-        android:id="@+id/text_contact_name"
+        android:id="@+id/text_screen_name"
         android:layout_width="0dp"
         android:layout_weight="1"
-        style="@style/TextView"
-        android:text="Simpson Du"/>
+        style="@style/TextView"/>
 
     <TextView
         android:id="@+id/text_invite"
-        style="@style/TextView.MobileContact.Invite"
+        style="@style/TextView.UserContact.Invite"
         android:paddingRight="@dimen/margin_medium"/>
 
     <Button
         android:id="@+id/b_add_contact"
-        style="@style/Button.MobileContact.Add"
+        style="@style/Button.UserContact.Add"
         android:layout_marginRight="@dimen/margin_medium" />
 
     <TextView
         android:id="@+id/text_added"
-        style="@style/TextView.MobileContact.Added"
+        style="@style/TextView.UserContact.Added"
         android:paddingRight="@dimen/margin_medium"/>
 
 </LinearLayout>
