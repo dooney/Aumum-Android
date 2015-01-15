@@ -6,6 +6,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.aumum.app.mobile.R;
+import com.aumum.app.mobile.utils.DisplayUtils;
 import com.easemob.chat.EMMessage;
 import com.easemob.chat.VoiceMessageBody;
 
@@ -16,6 +17,7 @@ public class VoiceMessageCard extends ChatMessageCard {
 
     private Activity activity;
     private View view;
+    private View voiceLayout;
     private TextView voiceLengthText;
     private ImageView unreadImage;
 
@@ -23,6 +25,7 @@ public class VoiceMessageCard extends ChatMessageCard {
         super(activity, view);
         this.activity = activity;
         this.view = view;
+        this.voiceLayout = view.findViewById(R.id.layout_voice);
         this.voiceLengthText = (TextView) view.findViewById(R.id.text_voice_length);
         this.unreadImage = (ImageView) view.findViewById(R.id.image_unread);
     }
@@ -30,6 +33,11 @@ public class VoiceMessageCard extends ChatMessageCard {
     @Override
     public void refresh(final EMMessage message, boolean showTimestamp, int position) {
         VoiceMessageBody textBody = (VoiceMessageBody) message.getBody();
+        int voiceLayoutWidth = 64 + 2 * textBody.getLength();
+        if (voiceLayoutWidth > 240) {
+            voiceLayoutWidth = 240;
+        }
+        voiceLayout.getLayoutParams().width = (DisplayUtils.dpToPx(activity, voiceLayoutWidth));
         voiceLengthText.setText(String.valueOf(textBody.getLength()) + "\"");
 
         if (unreadImage != null) {

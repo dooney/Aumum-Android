@@ -482,7 +482,6 @@
     <style name="ImageView.ChatMessage.SentVoice" parent="ImageView">
         <item name="android:padding">11dp</item>
         <item name="android:src">@drawable/chat_sent_voice_playing</item>
-        <item name="android:background">@drawable/chat_sent_voice_background</item>
     </style>
     <style name="ImageView.ChatMessage.SentFailed" parent="ImageView">
         <item name="android:src">@drawable/chat_msg_sent_failed_icon</item>
@@ -490,7 +489,6 @@
     <style name="ImageView.ChatMessage.ReceivedVoice" parent="ImageView">
         <item name="android:padding">11dp</item>
         <item name="android:src">@drawable/chat_received_voice_playing</item>
-        <item name="android:background">@drawable/chat_received_voice_background</item>
     </style>
     <style name="ImageView.ChatMessage.VoiceUnread" parent="ImageView">
         <item name="android:src">@drawable/image_unread_background</item>

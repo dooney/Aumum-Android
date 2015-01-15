@@ -35,10 +35,18 @@
             style="@style/TextView.ChatMessage.VoiceLength"
             android:padding="@dimen/margin_medium"/>
 
-        <ImageView
-            android:id="@+id/image_voice"
-            android:layout_width="@dimen/image_sz_large"
-            style="@style/ImageView.ChatMessage.SentVoice" />
+        <RelativeLayout
+            android:id="@+id/layout_voice"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/chat_sent_voice_background">
+
+            <ImageView
+                android:id="@+id/image_voice"
+                style="@style/ImageView.ChatMessage.SentVoice"
+                android:layout_alignParentRight="true"/>
+
+        </RelativeLayout>
 
         <com.aumum.app.mobile.ui.view.AvatarImageView
             android:id="@+id/image_avatar"

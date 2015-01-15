@@ -26,10 +26,18 @@
             android:layout_marginRight="@dimen/margin_medium"
             android:src="@drawable/ic_avatar"/>
 
-        <ImageView
-            android:id="@+id/image_voice"
-            style="@style/ImageView.ChatMessage.ReceivedVoice"
-            android:layout_width="@dimen/image_sz_large" />
+        <RelativeLayout
+            android:id="@+id/layout_voice"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/chat_received_voice_background">
+
+            <ImageView
+                android:id="@+id/image_voice"
+                style="@style/ImageView.ChatMessage.ReceivedVoice"
+                android:layout_alignParentLeft="true"/>
+
+        </RelativeLayout>
 
         <TextView
             android:id="@+id/text_voice_length"
