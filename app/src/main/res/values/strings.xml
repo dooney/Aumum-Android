@@ -276,9 +276,6 @@
 
     <!-- Settings -->
     <string name="label_notification">通知</string>
-    <string name="label_party">聚会</string>
-    <string name="label_asking">说说</string>
-    <string name="label_chat">聊天</string>
     <string name="label_feedback">反馈</string>
     <string name="label_about_app">关于</string>
     <string name="label_logout">退出登录</string>
@@ -286,6 +283,7 @@
     <string name="label_connection_conflict">同一账号已在其他设备登录</string>
     <string name="label_notification_sound">声音</string>
     <string name="label_notification_vibrate">震动</string>
+    <string name="label_unknown_app_version">未知版本</string>
 
     <!-- Feedback -->
     <string name="hint_feedback_details">您的问题或建议</string>
@@ -295,7 +293,6 @@
     <string name="label_version_intro">版本介绍</string>
     <string name="label_agreement">用户协议</string>
     <string name="label_check_for_updates">检查新版本</string>
-    <string name="label_copyright">Copyright @ 2014 澳妈圈. All Rights Reserved.</string>
 
     <!-- Party -->
     <string name="hint_join_reason">一句话介绍自己的情况，或报名理由</string>

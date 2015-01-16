@@ -575,6 +575,10 @@
     <style name="TextView.Settings.Logout" parent="TextView.Settings">
         <item name="android:textColor">@color/bbutton_danger</item>
     </style>
+    <style name="TextView.Settings.AppVersion" parent="TextView.Title">
+        <item name="android:textSize">@dimen/text_sz_small</item>
+        <item name="android:textColor">@color/bbutton_danger</item>
+    </style>
 
     <!-- Feedback -->
     <style name="EditText.Feedback.Details" parent="EditText.Mandatory">

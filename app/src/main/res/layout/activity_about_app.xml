@@ -7,13 +7,21 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="@dimen/margin_extreme_large">
+        android:paddingTop="@dimen/margin_extreme_large"
+        android:paddingBottom="@dimen/margin_extreme_large">
 
         <ImageView
+            android:id="@+id/image_logo"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
+            android:layout_centerHorizontal="true"
             android:src="@drawable/ic_about_app"/>
+
+        <TextView
+            android:id="@+id/text_app_version"
+            style="@style/TextView.Settings.AppVersion"
+            android:layout_below="@+id/image_logo"
+            android:layout_centerHorizontal="true"/>
 
     </RelativeLayout>
 
@@ -57,17 +65,24 @@
 
     </RelativeLayout>
 
-    <RelativeLayout
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1">
+        android:layout_weight="1"
+        android:orientation="vertical"
+        android:gravity="center">
 
         <TextView
             style="@style/TextView.Subtitle"
-            android:layout_centerInParent="true"
+            android:padding="@dimen/margin_small"
             android:textSize="@dimen/text_sz_small"
-            android:text="@string/label_copyright"/>
+            android:text="Copyright @ 2014-2015 澳妈圈."/>
 
-    </RelativeLayout>
+        <TextView
+            style="@style/TextView.Subtitle"
+            android:textSize="@dimen/text_sz_small"
+            android:text="All Rights Reserved."/>
+
+    </LinearLayout>
 
 </LinearLayout>

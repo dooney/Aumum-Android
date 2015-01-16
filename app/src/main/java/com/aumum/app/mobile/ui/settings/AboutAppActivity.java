@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.view.View;
+import android.widget.TextView;
 
 import com.aumum.app.mobile.R;
 import com.aumum.app.mobile.core.Constants;
@@ -18,6 +19,7 @@ import butterknife.InjectView;
  */
 public class AboutAppActivity extends ActionBarActivity {
 
+    @InjectView(R.id.text_app_version) protected TextView versionText;
     @InjectView(R.id.layout_agreement) protected View agreementLayout;
 
     @Override
@@ -26,6 +28,7 @@ public class AboutAppActivity extends ActionBarActivity {
         setContentView(R.layout.activity_about_app);
         ButterKnife.inject(this);
 
+        showAppVersion();
         agreementLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -34,6 +37,15 @@ public class AboutAppActivity extends ActionBarActivity {
         });
 
         Animation.flyIn(this);
+    }
+
+    private void showAppVersion() {
+        try {
+            String versionName = getPackageManager().getPackageInfo(getPackageName(), 0).versionName;
+            versionText.setText(versionName);
+        } catch (Exception e) {
+            versionText.setText(R.string.label_unknown_app_version);
+        }
     }
 
     private void showAgreement() {

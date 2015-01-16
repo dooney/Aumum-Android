@@ -23,36 +23,6 @@
 
         </RelativeLayout>
 
-        <RelativeLayout
-            android:id="@+id/layout_party"
-            style="@style/RelativeLayout.NavButton">
-
-            <TextView
-                style="@style/TextView.Settings"
-                android:text="@string/label_party"/>
-
-        </RelativeLayout>
-
-        <RelativeLayout
-            android:id="@+id/layout_asking"
-            style="@style/RelativeLayout.NavButton">
-
-            <TextView
-                style="@style/TextView.Settings"
-                android:text="@string/label_asking"/>
-
-        </RelativeLayout>
-
-        <RelativeLayout
-            android:id="@+id/layout_chat"
-            style="@style/RelativeLayout.NavButton">
-
-            <TextView
-                style="@style/TextView.Settings"
-                android:text="@string/label_chat"/>
-
-        </RelativeLayout>
-
      </LinearLayout>
 
     <LinearLayout
