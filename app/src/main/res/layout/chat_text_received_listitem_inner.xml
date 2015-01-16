@@ -23,13 +23,16 @@
         <com.aumum.app.mobile.ui.view.AvatarImageView
             android:id="@+id/image_avatar"
             style="@style/ImageView.Avatar.Chat"
-            android:layout_marginRight="@dimen/margin_medium"
-            android:src="@drawable/ic_avatar"/>
+            android:layout_marginRight="@dimen/margin_small"
+            android:src="@drawable/ic_avatar"
+            android:layout_gravity="top"/>
+
+        <ImageView
+            style="@style/ImageView.ChatMessage.FromYou"/>
 
         <com.aumum.app.mobile.ui.view.SpannableTextView
             android:id="@+id/text_text_body"
-            style="@style/TextView.ChatMessage.ReceivedText"
-            android:text="消息内容"/>
+            style="@style/TextView.ChatMessage.ReceivedText"/>
 
         <ProgressBar
             android:id="@+id/progress"

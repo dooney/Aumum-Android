@@ -22,16 +22,16 @@
         <com.aumum.app.mobile.ui.view.AvatarImageView
             android:id="@+id/image_avatar"
             style="@style/ImageView.Avatar.Chat"
-            android:layout_marginRight="@dimen/margin_medium"
+            android:layout_marginRight="@dimen/margin_small"
             android:layout_alignParentLeft="true"
             android:src="@drawable/ic_avatar"/>
 
         <TextView
             android:id="@+id/text_user_name"
             style="@style/TextView.ChatMessage.UserName"
+            android:paddingLeft="@dimen/margin_medium"
             android:layout_alignTop="@+id/image_avatar"
-            android:layout_toRightOf="@+id/image_avatar"
-            android:text="用户名"/>
+            android:layout_toRightOf="@+id/image_avatar"/>
 
         <LinearLayout
             android:layout_width="wrap_content"
@@ -40,10 +40,12 @@
             android:layout_below="@+id/text_user_name"
             android:gravity="center_vertical">
 
+            <ImageView
+                style="@style/ImageView.ChatMessage.FromYou" />
+
             <com.aumum.app.mobile.ui.view.SpannableTextView
                 android:id="@+id/text_text_body"
-                style="@style/TextView.ChatMessage.ReceivedText"
-                android:text="消息内容"/>
+                style="@style/TextView.ChatMessage.ReceivedText"/>
 
             <ProgressBar
                 android:id="@+id/progress"

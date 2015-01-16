@@ -446,7 +446,7 @@
         <item name="android:textSize">@dimen/text_sz_small</item>
         <item name="android:padding">@dimen/margin_small</item>
         <item name="android:layout_marginBottom">@dimen/margin_medium</item>
-        <item name="android:background">@drawable/chat_msg_background</item>
+        <item name="android:background">@drawable/chat_system_msg_background</item>
     </style>
     <style name="TextView.ChatMessage.UserName" parent="TextView">
         <item name="android:textColor">@color/text_link</item>
@@ -460,17 +460,29 @@
         <item name="android:maxWidth">225dp</item>
     </style>
     <style name="TextView.ChatMessage.SentText" parent="TextView.ChatMessage.Text">
-        <item name="android:background">@drawable/chat_sent_text_background</item>
+        <item name="android:background">@drawable/chat_sent_msg_background</item>
         <item name="android:textColor">@color/text</item>
     </style>
     <style name="TextView.ChatMessage.ReceivedText" parent="TextView.ChatMessage.Text">
-        <item name="android:background">@drawable/chat_received_text_background</item>
+        <item name="android:background">@drawable/chat_received_msg_background</item>
+    </style>
+    <style name="ImageView.ChatMessage.FromMe" parent="ImageView">
+        <item name="android:paddingTop">@dimen/margin_large</item>
+        <item name="android:paddingLeft">-6dp</item>
+        <item name="android:layout_gravity">top</item>
+        <item name="android:src">@drawable/ic_fa_from</item>
+    </style>
+    <style name="ImageView.ChatMessage.FromYou" parent="ImageView">
+        <item name="android:paddingTop">@dimen/margin_large</item>
+        <item name="android:paddingRight">-6dp</item>
+        <item name="android:layout_gravity">top</item>
+        <item name="android:src">@drawable/ic_fa_from_o</item>
     </style>
     <style name="TextView.ChatMessage.System" parent="TextView">
         <item name="android:textColor">@color/text</item>
         <item name="android:textSize">@dimen/text_sz_small</item>
         <item name="android:padding">@dimen/margin_small</item>
-        <item name="android:background">@drawable/chat_msg_background</item>
+        <item name="android:background">@drawable/chat_system_msg_background</item>
     </style>
     <style name="TextView.ChatMessage.Type" parent="TextView">
         <item name="android:textColor">@color/grey_medium</item>

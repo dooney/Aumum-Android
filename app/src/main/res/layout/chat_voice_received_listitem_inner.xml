@@ -23,14 +23,17 @@
         <com.aumum.app.mobile.ui.view.AvatarImageView
             android:id="@+id/image_avatar"
             style="@style/ImageView.Avatar.Chat"
-            android:layout_marginRight="@dimen/margin_medium"
+            android:layout_marginRight="@dimen/margin_small"
             android:src="@drawable/ic_avatar"/>
+
+        <ImageView
+            style="@style/ImageView.ChatMessage.FromYou" />
 
         <RelativeLayout
             android:id="@+id/layout_voice"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@drawable/chat_received_voice_background">
+            android:background="@drawable/chat_received_msg_background">
 
             <ImageView
                 android:id="@+id/image_voice"
