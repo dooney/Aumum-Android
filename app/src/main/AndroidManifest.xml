@@ -214,6 +214,10 @@
             android:label="@string/title_activity_area_list" >
         </activity>
         <activity android:name=".ui.user.AreaUsersActivity" />
+        <activity
+            android:name=".ui.settings.NotificationActivity"
+            android:label="@string/title_activity_notification_settings" >
+        </activity>
     </application>
 
 </manifest>

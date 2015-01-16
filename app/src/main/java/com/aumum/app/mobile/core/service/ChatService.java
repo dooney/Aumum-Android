@@ -283,4 +283,14 @@ public class ChatService {
         EMChatOptions options = EMChatManager.getInstance().getChatOptions();
         options.setOnNotificationClickListener(notificationClickListener);
     }
+
+    public void setNotificationSoundEnabled(boolean isEnabled) {
+        EMChatOptions options = EMChatManager.getInstance().getChatOptions();
+        options.setNoticeBySound(isEnabled);
+    }
+
+    public void setNotificationVibrateEnabled(boolean isEnabled) {
+        EMChatOptions options = EMChatManager.getInstance().getChatOptions();
+        options.setNoticedByVibrate(isEnabled);
+    }
 }

@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingTop="@dimen/margin_large">
+
+    <RelativeLayout
+        style="@style/RelativeLayout.NavButton"
+        android:focusable="false">
+
+        <TextView
+            style="@style/TextView.Settings"
+            android:layout_centerVertical="true"
+            android:text="@string/label_notification_sound"/>
+
+        <com.aumum.app.mobile.ui.view.ToggleButton
+            android:id="@+id/image_switch_sound"
+            android:layout_width="48dp"
+            android:layout_height="30dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true" />
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        style="@style/RelativeLayout.NavButton"
+        android:focusable="false">
+
+        <TextView
+            style="@style/TextView.Settings"
+            android:layout_centerVertical="true"
+            android:text="@string/label_notification_vibrate"/>
+
+        <com.aumum.app.mobile.ui.view.ToggleButton
+            android:id="@+id/image_switch_vibrate"
+            android:layout_width="48dp"
+            android:layout_height="30dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true" />
+
+    </RelativeLayout>
+
+</LinearLayout>

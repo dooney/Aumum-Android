@@ -216,6 +216,7 @@
     <string name="title_activity_feedback">反馈</string>
     <string name="title_activity_about_app">关于</string>
     <string name="title_activity_area_list">请选择您所在的地区</string>
+    <string name="title_activity_notification_settings">通知设置</string>
 
     <!-- Account -->
     <string name="hint_login_phone">手机号码</string>
@@ -283,6 +284,8 @@
     <string name="label_logout">退出登录</string>
     <string name="label_logout_notification">下线通知</string>
     <string name="label_connection_conflict">同一账号已在其他设备登录</string>
+    <string name="label_notification_sound">声音</string>
+    <string name="label_notification_vibrate">震动</string>
 
     <!-- Feedback -->
     <string name="hint_feedback_details">您的问题或建议</string>

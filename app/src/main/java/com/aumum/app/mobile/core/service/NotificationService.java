@@ -1,15 +1,15 @@
 package com.aumum.app.mobile.core.service;
 
-import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Color;
+import android.media.RingtoneManager;
 import android.support.v4.app.NotificationCompat;
 
 import com.aumum.app.mobile.R;
+import com.aumum.app.mobile.utils.PreferenceUtils;
 import com.aumum.app.mobile.ui.chat.ChatActivity;
 import com.aumum.app.mobile.ui.contact.ContactRequestsActivity;
 import com.aumum.app.mobile.ui.party.PartyCommentsSingleActivity;
@@ -28,7 +28,6 @@ public class NotificationService {
     private NotificationCompat.Builder getNotificationBuilder(String title, String content) {
         return new NotificationCompat.Builder(context)
                 .setAutoCancel(true)
-                .setVibrate(new long[]{0, 200, 200, 200})
                 .setLights(0xffff0000, 300, 300)
                 .setSmallIcon(R.drawable.ic_launcher_notification)
                 .setContentTitle(title)
@@ -40,6 +39,12 @@ public class NotificationService {
         builder.setContentIntent(notifyIntent);
         NotificationManager mNotificationManager =
                 (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+        if (PreferenceUtils.isNotificationSoundEnabled()) {
+            builder.setSound(RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION));
+        }
+        if (PreferenceUtils.isNotificationVibrateEnabled()) {
+            builder.setVibrate(new long[]{0, 200, 200, 200});
+        }
         mNotificationManager.notify(0, builder.build());
     }
 
