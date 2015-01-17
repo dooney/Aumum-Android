@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources>
-    <array name="splash_images">
-        <item>@drawable/splash_1</item>
-        <item>@drawable/splash_2</item>
-        <item>@drawable/splash_3</item>
-        <item>@drawable/splash_4</item>
-    </array>
-</resources>

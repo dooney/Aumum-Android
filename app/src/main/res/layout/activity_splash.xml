@@ -2,44 +2,28 @@
 
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
-
-    <android.support.v4.view.ViewPager
-        android:id="@+id/pager"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" />
-
-    <com.viewpagerindicator.CirclePageIndicator
-        android:id="@+id/indicator"
-        android:layout_height="wrap_content"
-        android:layout_width="fill_parent"
-        app:radius="3dp"
-        app:fillColor="@color/white"
-        app:strokeColor="@color/white"
-        app:strokeWidth="1dp"
-        android:layout_above="@+id/action_layout"/>
+    android:layout_height="match_parent"
+    android:background="@drawable/image_splash">
 
     <LinearLayout
         android:id="@+id/action_layout"
-        android:orientation="horizontal"
-        android:layout_width="fill_parent"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:padding="@dimen/margin_large">
+        android:padding="@dimen/margin_large"
+        android:layout_alignParentBottom="true">
 
         <Button
-            style="@style/Button.Splash.SignUp"
-            android:text="@string/label_sign_up"
-            android:layout_weight="1"
-            android:onClick="showRegister"/>
+            android:id="@+id/b_signUp"
+            style="@style/Button.Primary"
+            android:text="@string/label_register_now"
+            android:layout_weight="1"/>
 
         <Button
-            style="@style/Button.Splash.SignIn"
+            android:id="@+id/b_signIn"
+            style="@style/Button.Primary"
             android:text="@string/label_sign_in"
-            android:layout_weight="1"
-            android:onClick="showLogin"/>
+            android:layout_weight="1"/>
 
     </LinearLayout>
 

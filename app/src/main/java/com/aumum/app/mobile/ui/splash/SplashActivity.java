@@ -1,13 +1,9 @@
 package com.aumum.app.mobile.ui.splash;
 
 import android.content.Intent;
-import android.content.res.TypedArray;
-import android.support.v4.view.PagerAdapter;
-import android.support.v4.view.ViewPager;
 import android.os.Bundle;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.ImageView;
+import android.widget.Button;
 
 import com.aumum.app.mobile.R;
 import com.aumum.app.mobile.core.Constants;
@@ -16,15 +12,14 @@ import com.aumum.app.mobile.ui.account.LoginActivity;
 import com.aumum.app.mobile.ui.account.RegisterActivity;
 import com.aumum.app.mobile.ui.account.ResetPasswordActivity;
 import com.aumum.app.mobile.ui.account.ResetPasswordSuccessActivity;
-import com.viewpagerindicator.CirclePageIndicator;
 
-import java.util.ArrayList;
-import java.util.List;
+import butterknife.ButterKnife;
+import butterknife.InjectView;
 
 public class SplashActivity extends AccountAuthenticatorActivity {
-    private PagerAdapter mAdapter;
-    private ViewPager mPager;
-    private CirclePageIndicator mIndicator;
+
+    @InjectView(R.id.b_signUp) protected Button signUpButton;
+    @InjectView(R.id.b_signIn) protected Button signInButton;
 
     public static final String SHOW_SIGN_IN = "showSignIn";
     public static final String SHOW_SIGN_UP = "showSignUp";
@@ -38,40 +33,33 @@ public class SplashActivity extends AccountAuthenticatorActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
+        ButterKnife.inject(this);
 
-        initSplashViews();
+        signUpButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                showRegister();
+            }
+        });
+        signInButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                showLogin();
+            }
+        });
     }
 
-    private void initSplashViews() {
-        LayoutInflater inflater = LayoutInflater.from(this);
-        List<View> views = new ArrayList<View>();
-        TypedArray images = getResources().obtainTypedArray(R.array.splash_images);
-        for (int i = 0; i < images.length(); i++) {
-            View splashView = inflater.inflate(R.layout.view_splash, null);
-            ImageView imageBackground = (ImageView) splashView.findViewById(R.id.image_background);
-            imageBackground.setImageResource(images.getResourceId(i, -1));
-            views.add(splashView);
-        }
-        mAdapter = new SplashViewPagerAdapter(views);
-
-        mPager = (ViewPager)findViewById(R.id.pager);
-        mPager.setAdapter(mAdapter);
-
-        mIndicator = (CirclePageIndicator)findViewById(R.id.indicator);
-        mIndicator.setViewPager(mPager);
-    }
-
-    public void showLogin(final View view) {
+    public void showLogin() {
         final Intent intent = new Intent(this, LoginActivity.class);
         startActivityForResult(intent, LOGIN_REQ_CODE);
     }
 
-    public void showRegister(final View view) {
+    public void showRegister() {
         final Intent intent = new Intent(this, RegisterActivity.class);
         startActivityForResult(intent, REGISTER_REQ_CODE);
     }
 
-    public void showForgotPassword(final View view) {
+    public void showForgotPassword() {
         final Intent intent = new Intent(this, ResetPasswordActivity.class);
         startActivityForResult(intent, RESET_PASSWORD_REQ_CODE);
     }
@@ -97,9 +85,9 @@ public class SplashActivity extends AccountAuthenticatorActivity {
     private void onLoginResult(int resultCode, Intent data) {
         if (resultCode == RESULT_OK) {
             if (data.getBooleanExtra(SHOW_SIGN_UP, false)) {
-                showRegister(null);
+                showRegister();
             } else if (data.getBooleanExtra(SHOW_RESET_PASSWORD, false)) {
-                showForgotPassword(null);
+                showForgotPassword();
             } else {
                 setAccountAuthenticatorResult(data.getExtras());
                 finish();
@@ -110,7 +98,7 @@ public class SplashActivity extends AccountAuthenticatorActivity {
     private void onRegistrationResult(int resultCode, Intent data) {
         if (resultCode == RESULT_OK) {
             if (data.getBooleanExtra(SHOW_SIGN_IN, false)) {
-                showLogin(null);
+                showLogin();
             } else {
                 setAccountAuthenticatorResult(data.getExtras());
                 finish();

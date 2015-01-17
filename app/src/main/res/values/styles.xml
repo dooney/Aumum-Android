@@ -591,12 +591,6 @@
     <!-- About -->
     <style name="TextView.About" parent="TextView.Title" />
 
-    <!-- Splash -->
-    <style name="Button.Splash.SignUp" parent="Button.Primary">
-        <item name="android:background">@drawable/bbuton_danger_rounded</item>
-    </style>
-    <style name="Button.Splash.SignIn" parent="Button.Primary" />
-
     <!-- Account -->
     <style name="TextView.Account" parent="TextView">
         <item name="android:textColor">@color/black</item>
