@@ -22,17 +22,14 @@
 
     <TextView
         android:id="@+id/text_invite"
-        style="@style/TextView.UserContact.Invite"
-        android:paddingRight="@dimen/margin_medium"/>
+        style="@style/TextView.UserContact.Invite"/>
 
     <Button
         android:id="@+id/b_add_contact"
-        style="@style/Button.UserContact.Add"
-        android:layout_marginRight="@dimen/margin_medium" />
+        style="@style/Button.UserContact.Add"/>
 
     <TextView
         android:id="@+id/text_added"
-        style="@style/TextView.UserContact.Added"
-        android:paddingRight="@dimen/margin_medium"/>
+        style="@style/TextView.UserContact.Added"/>
 
 </LinearLayout>
