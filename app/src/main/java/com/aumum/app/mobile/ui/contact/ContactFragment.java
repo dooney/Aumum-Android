@@ -181,29 +181,10 @@ public class ContactFragment extends ItemListFragment<User>
             public void onItemClick(int i) {
                 switch (i) {
                     case 0:
-                        showInviteContactsDialog();
+                        startAddMobileContactsActivity();
                         break;
                     case 1:
                         startContactRequestActivity();
-                        break;
-                    default:
-                        break;
-                }
-            }
-        }).show();
-    }
-
-    private void showInviteContactsDialog() {
-        String options[] = getResources().getStringArray(R.array.label_invite_contacts);
-        new ListViewDialog(getActivity(),
-                getString(R.string.label_invite_contacts_from),
-                Arrays.asList(options),
-                new ListViewDialog.OnItemClickListener() {
-            @Override
-            public void onItemClick(int i) {
-                switch (i) {
-                    case 0:
-                        startAddMobileContactsActivity();
                         break;
                     default:
                         break;
