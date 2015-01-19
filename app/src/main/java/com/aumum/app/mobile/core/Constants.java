@@ -263,6 +263,8 @@ public final class Constants {
 
     public static final class Link {
 
+        public static final String GOOGLE_PLAY_APP = "market://details?id=";
+        public static final String GOOGLE_PLAY_URL = "http://play.google.com/store/apps/details?id=";
         public static final String AGREEMENT = "http://www.aumums.com/agreement.html";
     }
 }

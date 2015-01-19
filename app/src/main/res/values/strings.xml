@@ -131,7 +131,7 @@
     <string name="info_submitting_profile">正在保存您的个人资料，请稍候</string>
     <string name="info_profile_not_completed_yet">您还没填写完个人资料</string>
     <string name="info_verification_sms_sent">验证码短信已成功发送，请注意查收</string>
-    <string name="info_invitation">我在【澳妈圈】等你！安卓版下载地址xxx iOS版下载地址xxx</string>
+    <string name="info_invitation">澳妈圈，澳新领先的华人移动社区。安卓版下载地址https://play.google.com/store/apps/details?id=com.aumum.app.mobile iOS版即将上线，敬请期待。</string>
     <string name="info_reset_password_tip">验证邮件24小时内有效，请尽快登陆您的邮箱点击验证链接完成验证。若未收到邮件请先确认是否在垃圾邮件中。</string>
     <string name="info_sending_reset_password_email">正在发送密码重置邮件，请稍候</string>
     <string name="info_reset_password_email_sent">重置密码邮件发送成功</string>

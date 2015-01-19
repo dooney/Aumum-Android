@@ -1,6 +1,7 @@
 package com.aumum.app.mobile.ui.settings;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.view.View;
@@ -19,6 +20,7 @@ import butterknife.InjectView;
  */
 public class AboutAppActivity extends ActionBarActivity {
 
+    @InjectView(R.id.layout_rate_app) protected View rateAppLayout;
     @InjectView(R.id.text_app_version) protected TextView versionText;
     @InjectView(R.id.layout_agreement) protected View agreementLayout;
 
@@ -29,6 +31,12 @@ public class AboutAppActivity extends ActionBarActivity {
         ButterKnife.inject(this);
 
         showAppVersion();
+        rateAppLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startRateAppActivity();
+            }
+        });
         agreementLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -45,6 +53,15 @@ public class AboutAppActivity extends ActionBarActivity {
             versionText.setText(versionName);
         } catch (Exception e) {
             versionText.setText(R.string.label_unknown_app_version);
+        }
+    }
+
+    private void startRateAppActivity() {
+        final String appPackageName = getPackageName();
+        try {
+            startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(Constants.Link.GOOGLE_PLAY_APP + appPackageName)));
+        } catch (android.content.ActivityNotFoundException e) {
+            startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(Constants.Link.GOOGLE_PLAY_URL + appPackageName)));
         }
     }
 
