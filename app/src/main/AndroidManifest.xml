@@ -159,6 +159,19 @@
         <activity android:name=".ui.asking.SearchAskingActivity" />
         <activity android:name=".ui.image.ImagePickerActivity" />
 
+        <activity
+            android:name="com.tencent.tauth.AuthActivity"
+            android:launchMode="singleTask"
+            android:noHistory="true" >
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <data android:scheme="tencent1104116792" />
+            </intent-filter>
+        </activity>
+        <activity android:name="com.tencent.connect.common.AssistActivity" />
         <meta-data
             android:name="UMENG_APPKEY"
             android:value="548989a7fd98c57e73000956" >
