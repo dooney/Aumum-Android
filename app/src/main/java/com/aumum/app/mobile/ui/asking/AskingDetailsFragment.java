@@ -345,7 +345,11 @@ public class AskingDetailsFragment extends LoaderFragment<Asking> {
     }
 
     private void showShare() {
-        shareService.show(getActivity());
+        String imageUrl = null;
+        if (asking.getImages().size() > 0) {
+            imageUrl = asking.getImages().get(0);
+        }
+        shareService.show(asking.getTitle(), asking.getDetails(), imageUrl);
     }
 
     private void deleteAsking() {

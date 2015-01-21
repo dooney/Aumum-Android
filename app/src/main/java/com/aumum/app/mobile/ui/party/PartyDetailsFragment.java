@@ -443,7 +443,11 @@ public class PartyDetailsFragment extends LoaderFragment<Party> {
     }
 
     private void showShare() {
-        shareService.show(getActivity());
+        String imageUrl = null;
+        if (party.getImages().size() > 0) {
+            imageUrl = party.getImages().get(0);
+        }
+        shareService.show(party.getTitle(), party.getDetails(), imageUrl);
     }
 
     private void deleteParty() {
