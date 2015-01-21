@@ -2,10 +2,13 @@ package com.aumum.app.mobile.core.service;
 
 import android.app.Activity;
 
+import com.aumum.app.mobile.R;
 import com.aumum.app.mobile.core.Constants;
+import com.github.kevinsawicki.wishlist.Toaster;
 import com.umeng.socialize.bean.SHARE_MEDIA;
 import com.umeng.socialize.controller.UMServiceFactory;
 import com.umeng.socialize.controller.UMSocialService;
+import com.umeng.socialize.media.BaseShareContent;
 import com.umeng.socialize.media.QQShareContent;
 import com.umeng.socialize.media.SinaShareContent;
 import com.umeng.socialize.media.UMImage;
@@ -35,6 +38,10 @@ public class ShareService {
     }
 
     public void show(String title, String content, String imageUrl) {
+        if (title == null || title.isEmpty()) {
+            Toaster.showShort(activity, R.string.error_title_is_null_for_sharing);
+            return;
+        }
         setSINAShareDetails(title, content, imageUrl);
         setWEIXINShareDetails(title, content, imageUrl);
         setCircleShareDetails(title, content, imageUrl);
@@ -47,52 +54,42 @@ public class ShareService {
         controller.openShare(activity, false);
     }
 
-    private void setSINAShareDetails(String title, String content, String imageUrl) {
-        SinaShareContent details = new SinaShareContent();
+    private void setShareDetails(BaseShareContent details,
+                                 String title,
+                                 String content,
+                                 String imageUrl) {
         details.setTitle(title);
-        details.setShareContent(content);
+        if (content != null && !content.isEmpty()) {
+            details.setShareContent(content);
+        } else {
+            details.setShareContent(title);
+        }
         if (imageUrl != null) {
             UMImage umImage = new UMImage(activity, imageUrl);
             details.setShareMedia(umImage);
         }
         details.setTargetUrl(Constants.Link.GOOGLE_PLAY_URL + Constants.APP_NAME);
         controller.setShareMedia(details);
+    }
+
+    private void setSINAShareDetails(String title, String content, String imageUrl) {
+        SinaShareContent details = new SinaShareContent();
+        setShareDetails(details, title, content, imageUrl);
     }
 
     private void setWEIXINShareDetails(String title, String content, String imageUrl) {
         WeiXinShareContent details = new WeiXinShareContent();
-        details.setShareContent(content);
-        details.setTitle(title);
-        if (imageUrl != null) {
-            UMImage umImage = new UMImage(activity, imageUrl);
-            details.setShareMedia(umImage);
-        }
-        details.setTargetUrl(Constants.Link.GOOGLE_PLAY_URL + Constants.APP_NAME);
-        controller.setShareMedia(details);
+        setShareDetails(details, title, content, imageUrl);
     }
 
     private void setCircleShareDetails(String title, String content, String imageUrl) {
         CircleShareContent details = new CircleShareContent();
-        details.setShareContent(content);
-        details.setTitle(title);
-        if (imageUrl != null) {
-            UMImage umImage = new UMImage(activity, imageUrl);
-            details.setShareMedia(umImage);
-        }
-        details.setTargetUrl(Constants.Link.GOOGLE_PLAY_URL + Constants.APP_NAME);
-        controller.setShareMedia(details);
+        setShareDetails(details, title, content, imageUrl);
     }
 
     private void setQQShareDetails(String title, String content, String imageUrl) {
         QQShareContent details = new QQShareContent();
-        details.setShareContent(content);
-        details.setTitle(title);
-        if (imageUrl != null) {
-            UMImage umImage = new UMImage(activity, imageUrl);
-            details.setShareMedia(umImage);
-        }
-        details.setTargetUrl(Constants.Link.GOOGLE_PLAY_URL + Constants.APP_NAME);
-        controller.setShareMedia(details);
+        setShareDetails(details, title, content, imageUrl);
     }
 
     private void addSINAPlatform() {

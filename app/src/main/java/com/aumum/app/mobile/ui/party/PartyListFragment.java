@@ -76,6 +76,18 @@ public class PartyListFragment extends RefreshItemListFragment<Card> {
     }
 
     @Override
+    public void onViewCreated(View view, Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
+        emptyText.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                reload();
+            }
+        });
+    }
+
+    @Override
     public void onCreateOptionsMenu(final Menu menu, final MenuInflater inflater) {
         MenuItem search = menu.add(Menu.NONE, 0, Menu.NONE, null);
         search.setActionView(R.layout.menuitem_search);

@@ -19,12 +19,12 @@ import com.github.kevinsawicki.wishlist.ViewUtils;
  */
 public abstract class LoaderFragment<E> extends Fragment
         implements LoaderManager.LoaderCallbacks<E> {
-    private E data;
-    private ProgressBar progressBar;
-    private TextView emptyText;
-    private TextView reloadText;
-    private boolean isShown;
-    private boolean hasError;
+    protected E data;
+    protected ProgressBar progressBar;
+    protected TextView emptyText;
+    protected TextView reloadText;
+    protected boolean isShown;
+    protected boolean hasError;
 
     protected E getData() {
         return data;
@@ -70,8 +70,7 @@ public abstract class LoaderFragment<E> extends Fragment
             reloadText.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    hide(reloadText).show(progressBar);
-                    refresh(null);
+                    reload();
                 }
             });
         }
@@ -106,6 +105,11 @@ public abstract class LoaderFragment<E> extends Fragment
     @Override
     public void onLoaderReset(Loader<E> loader) {
 
+    }
+
+    protected void reload() {
+        hide(emptyText).hide(reloadText).show(progressBar);
+        refresh(null);
     }
 
     protected void refresh(final Bundle args) {

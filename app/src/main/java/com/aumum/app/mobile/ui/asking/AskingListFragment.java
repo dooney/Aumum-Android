@@ -76,6 +76,12 @@ public class AskingListFragment extends RefreshItemListFragment<Asking> {
                 startActivityForResult(intent, Constants.RequestCode.GET_ASKING_DETAILS_REQ_CODE);
             }
         });
+        emptyText.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                reload();
+            }
+        });
     }
 
     @Override
