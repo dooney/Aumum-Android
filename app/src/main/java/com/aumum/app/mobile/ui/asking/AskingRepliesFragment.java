@@ -17,6 +17,7 @@ import com.aumum.app.mobile.core.model.Asking;
 import com.aumum.app.mobile.core.model.AskingReply;
 import com.aumum.app.mobile.core.model.User;
 import com.aumum.app.mobile.core.service.RestService;
+import com.aumum.app.mobile.core.service.ShareService;
 import com.aumum.app.mobile.events.AddAskingReplyEvent;
 import com.aumum.app.mobile.events.ReplyAskingReplyEvent;
 import com.aumum.app.mobile.ui.base.RefreshItemListFragment;
@@ -42,6 +43,7 @@ public class AskingRepliesFragment extends RefreshItemListFragment<AskingReply> 
     @Inject AskingReplyStore askingReplyStore;
     @Inject UserStore userStore;
     @Inject Bus bus;
+    private ShareService shareService;
 
     private Asking asking;
     private User currentUser;
@@ -63,6 +65,7 @@ public class AskingRepliesFragment extends RefreshItemListFragment<AskingReply> 
         Injector.inject(this);
 
         dataSet = new ArrayList<AskingReply>();
+        shareService = new ShareService(getActivity());
     }
 
     @Override
@@ -223,6 +226,7 @@ public class AskingRepliesFragment extends RefreshItemListFragment<AskingReply> 
                 askingReply.isOwner(currentUser.getObjectId());
         List<String> options = new ArrayList<String>();
         options.add(getString(R.string.label_reply));
+        options.add(getString(R.string.label_share));
         if (isOwner) {
             options.add(getString(R.string.label_delete));
         } else {
@@ -237,6 +241,9 @@ public class AskingRepliesFragment extends RefreshItemListFragment<AskingReply> 
                         reply(askingReply);
                         break;
                     case 1:
+                        showShare(askingReply);
+                        break;
+                    case 2:
                         if (isOwner) {
                             deleteAskingReply(card);
                         } else {
@@ -255,6 +262,10 @@ public class AskingRepliesFragment extends RefreshItemListFragment<AskingReply> 
         String replyHint = getString(R.string.hint_reply_asking_reply,
                 askingReply.getUser().getScreenName(), askingReply.getContent());
         bus.post(new ReplyAskingReplyEvent(replyHint));
+    }
+
+    private void showShare(AskingReply askingReply) {
+        shareService.show(askingReply.getContent(), null, null);
     }
 
     private void deleteAskingReply(final AskingReplyCard card) {
