@@ -137,16 +137,16 @@ public final class Constants {
         public static final String PARAM_PASSWORD = "password";
         public static final String PARAM_EMAIL = "email";
 
-        /* Prod Keys
+        /* Prod Keys */
         public static final String PARSE_APP_ID = "1CWTxIB11kQiHz7QAY1hZzA1PstlJ2TQuAmZ8Nc6";
         public static final String PARSE_REST_API_KEY = "YT6Gt3CQUEtLkQsiCMMAnBIm7FrGkX8sqWMNElNx";
         public static final String PARSE_MASTER_KEY = "MMtsR9A9hywGlZ505DD43VbQwPIu7XT6KFVQpJm8";
-        */
-        /* Dev Keys */
+
+        /* Dev Keys
         public static final String PARSE_APP_ID = "hJSBmj3YSXBuZkpXIPuFbR3nZiIZWr0uNfCFBXLl";
         public static final String PARSE_REST_API_KEY = "bLKzd37O5lF6o11FdQ2q0NwQferhjEEvIXFVxEcA";
         public static final String PARSE_MASTER_KEY = "2Cjggz9DM0HCCdhlmps7YuWk1SE1vnxnqjJhz3SI";
-
+        */
         public static final String HEADER_PARSE_REST_API_KEY = "X-Parse-REST-API-Key";
         public static final String HEADER_PARSE_APP_ID = "X-Parse-Application-Id";
         public static final String HEADER_PARSE_MASTER_KEY = "X-Parse-Master-Key";
@@ -266,7 +266,8 @@ public final class Constants {
         public static final String GOOGLE_PLAY_APP = "market://details?id=";
         public static final String GOOGLE_PLAY_URL = "http://play.google.com/store/apps/details?id=";
         public static final String HOME = "http://www.aumums.com";
-        public static final String AGREEMENT = "http://www.aumums.com/agreement.html";
+        public static final String VERSION_DETAILS = "http://www.aumums.com/version";
+        public static final String AGREEMENT = "http://www.aumums.com/agreement";
     }
 }
 

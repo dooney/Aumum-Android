@@ -36,12 +36,12 @@
     </RelativeLayout>
 
     <RelativeLayout
-        android:id="@+id/layout_version_intro"
+        android:id="@+id/layout_version_details"
         style="@style/RelativeLayout.NavButton">
 
         <TextView
             style="@style/TextView.About"
-            android:text="@string/label_version_intro"/>
+            android:text="@string/label_version_details"/>
 
     </RelativeLayout>
 

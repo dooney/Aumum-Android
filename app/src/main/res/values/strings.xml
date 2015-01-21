@@ -288,9 +288,10 @@
 
     <!-- About -->
     <string name="label_rate_the_app">给澳妈圈评分</string>
-    <string name="label_version_intro">版本介绍</string>
+    <string name="label_version_details">版本介绍</string>
     <string name="label_agreement">用户协议</string>
     <string name="label_check_for_updates">检查新版本</string>
+    <string name="label_website_title">澳妈圈官网</string>
 
     <!-- Party -->
     <string name="hint_join_reason">一句话介绍自己的情况，或报名理由</string>

@@ -22,6 +22,7 @@ import butterknife.InjectView;
 public class AboutAppActivity extends ActionBarActivity {
 
     @InjectView(R.id.layout_rate_app) protected View rateAppLayout;
+    @InjectView(R.id.layout_version_details) protected View versionDetailsLayout;
     @InjectView(R.id.text_app_version) protected TextView versionText;
     @InjectView(R.id.layout_agreement) protected View agreementLayout;
     @InjectView(R.id.layout_check_for_updates) protected View checkForUpdatesLayout;
@@ -39,6 +40,12 @@ public class AboutAppActivity extends ActionBarActivity {
             @Override
             public void onClick(View view) {
                 startGooglePlayActivity();
+            }
+        });
+        versionDetailsLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                showVersionDetails();
             }
         });
         agreementLayout.setOnClickListener(new View.OnClickListener() {
@@ -89,6 +96,13 @@ public class AboutAppActivity extends ActionBarActivity {
         }
     }
 
+    private void showVersionDetails() {
+        final Intent intent = new Intent(this, BrowserActivity.class);
+        intent.putExtra(BrowserActivity.INTENT_TITLE, getString(R.string.label_version_details));
+        intent.putExtra(BrowserActivity.INTENT_URL, Constants.Link.VERSION_DETAILS);
+        startActivity(intent);
+    }
+
     private void showAgreement() {
         final Intent intent = new Intent(this, BrowserActivity.class);
         intent.putExtra(BrowserActivity.INTENT_TITLE, getString(R.string.label_agreement));
@@ -98,6 +112,7 @@ public class AboutAppActivity extends ActionBarActivity {
 
     private void showWebsite() {
         final Intent intent = new Intent(this, BrowserActivity.class);
+        intent.putExtra(BrowserActivity.INTENT_TITLE, getString(R.string.label_website_title));
         intent.putExtra(BrowserActivity.INTENT_URL, Constants.Link.HOME);
         startActivity(intent);
     }
