@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
+import android.text.Html;
 import android.view.View;
 import android.widget.TextView;
 
@@ -23,6 +24,9 @@ public class AboutAppActivity extends ActionBarActivity {
     @InjectView(R.id.layout_rate_app) protected View rateAppLayout;
     @InjectView(R.id.text_app_version) protected TextView versionText;
     @InjectView(R.id.layout_agreement) protected View agreementLayout;
+    @InjectView(R.id.layout_check_for_updates) protected View checkForUpdatesLayout;
+    @InjectView(R.id.text_weibo_info) protected TextView weiboInfoText;
+    @InjectView(R.id.text_website_info) protected TextView websiteInfoText;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,13 +38,33 @@ public class AboutAppActivity extends ActionBarActivity {
         rateAppLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startRateAppActivity();
+                startGooglePlayActivity();
             }
         });
         agreementLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 showAgreement();
+            }
+        });
+        checkForUpdatesLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startGooglePlayActivity();
+            }
+        });
+        websiteInfoText.setText(Html.fromHtml(getString(R.string.label_website_info)));
+        websiteInfoText.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                showWebsite();
+            }
+        });
+        weiboInfoText.setText(Html.fromHtml(getString(R.string.label_weibo_info)));
+        weiboInfoText.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
             }
         });
 
@@ -56,7 +80,7 @@ public class AboutAppActivity extends ActionBarActivity {
         }
     }
 
-    private void startRateAppActivity() {
+    private void startGooglePlayActivity() {
         final String appPackageName = getPackageName();
         try {
             startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(Constants.Link.GOOGLE_PLAY_APP + appPackageName)));
@@ -69,6 +93,12 @@ public class AboutAppActivity extends ActionBarActivity {
         final Intent intent = new Intent(this, BrowserActivity.class);
         intent.putExtra(BrowserActivity.INTENT_TITLE, getString(R.string.label_agreement));
         intent.putExtra(BrowserActivity.INTENT_URL, Constants.Link.AGREEMENT);
+        startActivity(intent);
+    }
+
+    private void showWebsite() {
+        final Intent intent = new Intent(this, BrowserActivity.class);
+        intent.putExtra(BrowserActivity.INTENT_URL, Constants.Link.HOME);
         startActivity(intent);
     }
 }

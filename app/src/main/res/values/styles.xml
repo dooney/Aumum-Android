@@ -571,8 +571,10 @@
     <style name="TextView.Settings.Logout" parent="TextView.Settings">
         <item name="android:textColor">@color/bbutton_danger</item>
     </style>
-    <style name="TextView.Settings.AppVersion" parent="TextView.Title">
+    <style name="TextView.About.Info" parent="TextView.Subtitle">
         <item name="android:textSize">@dimen/text_sz_small</item>
+    </style>
+    <style name="TextView.Settings.AppVersion" parent="TextView.About.Info">
         <item name="android:textColor">@color/bbutton_danger</item>
     </style>
 

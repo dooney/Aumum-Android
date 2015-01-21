@@ -73,14 +73,21 @@
         android:gravity="center">
 
         <TextView
-            style="@style/TextView.Subtitle"
+            android:id="@+id/text_website_info"
+            style="@style/TextView.About.Info"/>
+
+        <TextView
+            android:id="@+id/text_weibo_info"
+            style="@style/TextView.About.Info"
+            android:padding="@dimen/margin_small"/>
+
+        <TextView
+            style="@style/TextView.About.Info"
             android:padding="@dimen/margin_small"
-            android:textSize="@dimen/text_sz_small"
             android:text="Copyright @ 2014-2015 澳妈圈."/>
 
         <TextView
-            style="@style/TextView.Subtitle"
-            android:textSize="@dimen/text_sz_small"
+            style="@style/TextView.About.Info"
             android:text="All Rights Reserved."/>
 
     </LinearLayout>

@@ -283,6 +283,8 @@
     <string name="label_notification_sound">声音</string>
     <string name="label_notification_vibrate">震动</string>
     <string name="label_unknown_app_version">未知版本</string>
+    <string name="label_weibo_info">新浪微博：&lt;font color=#005684>@澳妈圈&lt;/font></string>
+    <string name="label_website_info">官方网址：&lt;font color=#005684>www.aumums.com&lt;/font></string>
 
     <!-- Feedback -->
     <string name="hint_feedback_details">您的问题或建议</string>
