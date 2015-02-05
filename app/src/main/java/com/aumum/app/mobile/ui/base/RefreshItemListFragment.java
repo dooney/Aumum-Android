@@ -7,6 +7,7 @@ import android.view.View;
 import android.widget.AbsListView;
 import android.widget.ArrayAdapter;
 import android.widget.HeaderViewListAdapter;
+import android.widget.ListView;
 
 import com.aumum.app.mobile.R;
 
@@ -34,8 +35,6 @@ public abstract class RefreshItemListFragment<E> extends ItemListFragment<E> {
 
     @Override
     public void onViewCreated(final View view, final Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-
         pullToRefreshLayout = (PullToRefreshLayout) view.findViewById(R.id.ptr_layout);
         if (pullToRefreshLayout != null) {
             ActionBarPullToRefresh.from(getActivity()).allChildrenArePullable().listener(new OnRefreshListener() {
@@ -51,14 +50,15 @@ public abstract class RefreshItemListFragment<E> extends ItemListFragment<E> {
         }
 
         LayoutInflater inflater = getActivity().getLayoutInflater();
+        ListView listView = (ListView) view.findViewById(android.R.id.list);
         View footerView = inflater.inflate(R.layout.listview_footer, null);
-        getListView().addFooterView(footerView, null, false);
-        getListView().setFooterDividersEnabled(false);
+        listView.addFooterView(footerView, null, false);
+        listView.setFooterDividersEnabled(false);
         noMoreLayout = footerView.findViewById(R.id.layout_no_more);
         loadingLayout = footerView.findViewById(R.id.layout_loading);
         toggleLoadingView();
 
-        getListView().setOnScrollListener(
+        listView.setOnScrollListener(
                 new SwipeOnScrollListener() {
                     @Override
                     public void onScrollStateChanged(AbsListView view, int scrollState) {
@@ -77,6 +77,8 @@ public abstract class RefreshItemListFragment<E> extends ItemListFragment<E> {
                         }
                     }
                 });
+
+        super.onViewCreated(view, savedInstanceState);
     }
 
     @Override

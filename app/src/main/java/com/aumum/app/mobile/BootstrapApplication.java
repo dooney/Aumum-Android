@@ -13,9 +13,13 @@ import com.aumum.app.mobile.utils.PreferenceUtils;
 import com.aumum.app.mobile.utils.SmsSdkUtils;
 import com.aumum.app.mobile.utils.UpYunUtils;
 
+import org.acra.ACRA;
+import org.acra.annotation.ReportsCrashes;
+
 /**
  * Aumum application
  */
+@ReportsCrashes(formUri = "http://www.bugsense.com/api/acra?api_key=082a75bc")
 public class BootstrapApplication extends Application {
 
     private static BootstrapApplication instance;
@@ -45,6 +49,7 @@ public class BootstrapApplication extends Application {
         // Perform injection
         Injector.init(getRootModule(), this);
 
+        ACRA.init(this);
         LocaleUtils.init(this);
         PreferenceUtils.init(this);
         ImageLoaderUtils.init(this);
