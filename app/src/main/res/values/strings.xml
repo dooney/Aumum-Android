@@ -158,7 +158,7 @@
     <string name="info_click_to_reload">点击重试</string>
     <string name="info_submitting_feedback">正在提交您的反馈，请稍候</string>
     <string name="info_feedback_submitted">反馈已成功提交，感谢您的支持！</string>
-    <string name="info_empty_area_users">您是该地区的第一位用哦</string>
+    <string name="info_empty_area_users">您是该地区的第一位用户哦</string>
 
     <!-- Error Message -->
     <string name="error_bad_credentials">验证失败，请输入正确的手机号码/密码</string>
