@@ -13,6 +13,7 @@ import com.aumum.app.mobile.R;
 import com.aumum.app.mobile.core.infra.async.ThrowableLoader;
 import com.github.kevinsawicki.wishlist.Toaster;
 import com.github.kevinsawicki.wishlist.ViewUtils;
+import com.umeng.analytics.MobclickAgent;
 
 /**
  * Created by Administrator on 5/10/2014.
@@ -74,6 +75,18 @@ public abstract class LoaderFragment<E> extends Fragment
                 }
             });
         }
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        MobclickAgent.onPageStart(getFragmentName());
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        MobclickAgent.onPageEnd(getFragmentName());
     }
 
     @Override
@@ -216,6 +229,10 @@ public abstract class LoaderFragment<E> extends Fragment
             ViewUtils.setGone(view, true);
         }
         return this;
+    }
+
+    protected String getFragmentName() {
+        return getClass().getSimpleName();
     }
 
     protected abstract boolean readyToShow();

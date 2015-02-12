@@ -184,4 +184,9 @@ public class AskingListFragment extends RefreshItemListFragment<Asking> {
             }
         }
     }
+
+    @Override
+    protected String getFragmentName() {
+        return getClass().getSimpleName() + category;
+    }
 }

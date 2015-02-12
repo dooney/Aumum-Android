@@ -15,7 +15,7 @@ public class EMChatUtils {
 
     public static void init(Context context) {
         EMChat.getInstance().init(context);
-        EMChat.getInstance().setDebugMode(true);
+        EMChat.getInstance().setDebugMode(false);
 
         EMChatOptions options = EMChatManager.getInstance().getChatOptions();
         options.setAcceptInvitationAlways(false);

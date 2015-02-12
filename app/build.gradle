@@ -29,6 +29,7 @@ dependencies {
     compile files('src/main/libs/togglebuttonlib.jar')
     compile 'ch.acra:acra:4.6.0RC2'
     compile files('src/main/libs/easemobchat_2.1.5.jar')
+    compile 'com.umeng.analytics:analytics:latest.integration'
 }
 
 android {
@@ -38,8 +39,8 @@ android {
     defaultConfig {
         minSdkVersion 14
         targetSdkVersion 19
-        versionCode 33
-        versionName 'V3.0.2'
+        versionCode 34
+        versionName 'V3.0.3'
     }
 
     packagingOptions {
