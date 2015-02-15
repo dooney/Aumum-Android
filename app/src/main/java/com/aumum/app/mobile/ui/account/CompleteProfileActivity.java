@@ -190,7 +190,9 @@ public class CompleteProfileActivity extends ProgressDialogActivity
                 populated(emailText) &&
                 cityText.getText().length() > 0 &&
                 areaText.getText().length() > 0;
-        saveButton.setEnabled(populated);
+        if (saveButton != null) {
+            saveButton.setEnabled(populated);
+        }
     }
 
     private boolean populated(final EditText editText) {
