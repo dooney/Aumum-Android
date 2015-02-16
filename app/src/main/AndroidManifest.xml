@@ -172,10 +172,8 @@
             </intent-filter>
         </activity>
         <activity android:name="com.tencent.connect.common.AssistActivity" />
-        <meta-data
-            android:name="UMENG_APPKEY"
-            android:value="548989a7fd98c57e73000956" >
-        </meta-data>
+        <meta-data android:name="UMENG_APPKEY" android:value="548989a7fd98c57e73000956" />
+        <meta-data android:name="UMENG_CHANNEL" android:value="Channel ID" />
 
         <activity
             android:name="com.umeng.socialize.view.ShareActivity"
