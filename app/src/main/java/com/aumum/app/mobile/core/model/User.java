@@ -216,7 +216,7 @@ public class User extends AggregateRoot implements Sortable {
 
     public void resetProfile() {
         screenName = "用户" + objectId;
-        city = "未知";
+        city = "悉尼";
         area = "Unknown";
     }
 
