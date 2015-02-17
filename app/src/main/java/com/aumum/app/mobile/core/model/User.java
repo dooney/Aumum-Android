@@ -216,8 +216,8 @@ public class User extends AggregateRoot implements Sortable {
 
     public void resetProfile() {
         screenName = "用户" + objectId;
-        city = "悉尼";
-        area = "Sydney";
+        city = "未知";
+        area = "Unknown";
     }
 
     public boolean isContact(String userId) {
