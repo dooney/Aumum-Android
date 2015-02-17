@@ -30,6 +30,8 @@ dependencies {
     compile 'ch.acra:acra:4.6.0RC2'
     compile files('src/main/libs/easemobchat_2.1.5.jar')
     compile 'com.umeng.analytics:analytics:latest.integration'
+    compile files('src/main/libs/Parse-1.8.2.jar')
+    compile files('src/main/libs/bolts-android-1.1.4.jar')
 }
 
 android {

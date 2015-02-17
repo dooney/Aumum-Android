@@ -10,6 +10,7 @@ import com.aumum.app.mobile.utils.EMChatUtils;
 import com.aumum.app.mobile.utils.ImageLoaderUtils;
 import com.aumum.app.mobile.utils.LocaleUtils;
 import com.aumum.app.mobile.utils.PreferenceUtils;
+import com.aumum.app.mobile.utils.PushUtils;
 import com.aumum.app.mobile.utils.SmsSdkUtils;
 import com.aumum.app.mobile.utils.UMengUtils;
 import com.aumum.app.mobile.utils.UpYunUtils;
@@ -52,6 +53,7 @@ public class BootstrapApplication extends Application {
 
         ACRA.init(this);
         UMengUtils.init(this);
+        PushUtils.init(this);
         LocaleUtils.init(this);
         PreferenceUtils.init(this);
         ImageLoaderUtils.init(this);
