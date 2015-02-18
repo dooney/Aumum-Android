@@ -78,7 +78,9 @@ public class EditTextDialog extends ConfirmDialog {
 
     private void updateUIWithValidation() {
         final boolean populated = populated(valueText);
-        okButton.setEnabled(populated);
+        if (okButton != null) {
+            okButton.setEnabled(populated);
+        }
     }
 
     private boolean populated(final EditText editText) {

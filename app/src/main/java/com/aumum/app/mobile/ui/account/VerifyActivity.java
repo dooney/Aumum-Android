@@ -193,7 +193,9 @@ public class VerifyActivity extends ProgressDialogActivity {
 
     private void updateUIWithValidation() {
         final boolean populated = populated(verificationCodeText);
-        confirmButton.setEnabled(populated);
+        if (confirmButton != null) {
+            confirmButton.setEnabled(populated);
+        }
     }
 
     private boolean populated(final EditText editText) {

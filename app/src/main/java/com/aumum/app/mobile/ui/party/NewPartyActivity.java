@@ -434,7 +434,9 @@ public class NewPartyActivity extends ProgressDialogActivity
                 populated(addressText) &&
                 dateText.getText().length() > 0 &&
                 timeText.getText().length() > 0;
-        submitButton.setEnabled(populated);
+        if (submitButton != null) {
+            submitButton.setEnabled(populated);
+        }
     }
 
     private boolean populated(final EditText editText) {

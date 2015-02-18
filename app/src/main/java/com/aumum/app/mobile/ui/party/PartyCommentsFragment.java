@@ -147,7 +147,9 @@ public class PartyCommentsFragment extends ItemListFragment<PartyComment> {
 
     private void updateUIWithValidation() {
         final boolean populated = populated(editComment);
-        postCommentButton.setEnabled(populated);
+        if (postCommentButton != null) {
+            postCommentButton.setEnabled(populated);
+        }
     }
 
     private boolean populated(final EditText editText) {

@@ -114,7 +114,9 @@ public class ResetPasswordActivity extends ProgressDialogActivity
 
     private void updateUIWithValidation() {
         final boolean populated = populated(emailText);
-        submitButton.setEnabled(populated);
+        if (submitButton != null) {
+            submitButton.setEnabled(populated);
+        }
     }
 
     private boolean populated(final EditText editText) {

@@ -209,7 +209,9 @@ public class RegisterActivity extends AuthenticateActivity
     private void updateUIWithValidation() {
         final boolean populated = populated(phoneText) &&
                 populated(passwordText);
-        signUpButton.setEnabled(populated);
+        if (signUpButton != null) {
+            signUpButton.setEnabled(populated);
+        }
     }
 
     private boolean populated(final EditText editText) {

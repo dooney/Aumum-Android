@@ -79,7 +79,9 @@ public class FeedbackActivity extends ProgressDialogActivity {
     }
 
     private void updateUIWithValidation() {
-        submitButton.setEnabled(detailsText.length() > 0);
+        if (submitButton != null) {
+            submitButton.setEnabled(detailsText.length() > 0);
+        }
     }
 
     private void submit() {

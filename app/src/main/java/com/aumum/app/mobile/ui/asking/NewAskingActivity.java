@@ -190,7 +190,9 @@ public class NewAskingActivity extends ProgressDialogActivity
 
     private void updateUIWithValidation() {
         final boolean populated = populated(titleText);
-        submitButton.setEnabled(populated);
+        if (submitButton != null) {
+            submitButton.setEnabled(populated);
+        }
     }
 
     private boolean populated(final EditText editText) {

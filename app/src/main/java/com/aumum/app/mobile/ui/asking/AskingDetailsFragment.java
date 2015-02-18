@@ -282,7 +282,9 @@ public class AskingDetailsFragment extends LoaderFragment<Asking> {
 
     private void updateUIWithValidation() {
         final boolean populated = populated(editReply);
-        postReplyButton.setEnabled(populated);
+        if (postReplyButton != null) {
+            postReplyButton.setEnabled(populated);
+        }
     }
 
     private boolean populated(final EditText editText) {

@@ -182,7 +182,9 @@ public class LoginActivity extends AuthenticateActivity {
 
     private void updateUIWithValidation() {
         final boolean populated = populated(phoneText) && populated(passwordText);
-        signInButton.setEnabled(populated);
+        if (signInButton != null) {
+            signInButton.setEnabled(populated);
+        }
     }
 
     private boolean populated(final EditText editText) {

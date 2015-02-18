@@ -335,8 +335,12 @@ public class ChatFragment extends Fragment
 
     private void updateUIWithValidation() {
         final boolean populated = populated(chatText);
-        typeSelectButton.setVisibility(populated ? View.GONE : View.VISIBLE);
-        sendButton.setVisibility(populated ? View.VISIBLE : View.GONE);
+        if (typeSelectButton != null) {
+            typeSelectButton.setVisibility(populated ? View.GONE : View.VISIBLE);
+        }
+        if (sendButton != null) {
+            sendButton.setVisibility(populated ? View.VISIBLE : View.GONE);
+        }
     }
 
     private boolean populated(final EditText editText) {

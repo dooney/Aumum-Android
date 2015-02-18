@@ -141,6 +141,8 @@ public class ContactPickerFragment extends ItemListFragment<User>
 
     private void updateUIWithValidation() {
         final boolean populated = contacts.size() > 0;
-        confirmButton.setEnabled(populated);
+        if (confirmButton != null) {
+            confirmButton.setEnabled(populated);
+        }
     }
 }
