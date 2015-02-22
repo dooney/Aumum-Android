@@ -27,6 +27,7 @@ import com.aumum.app.mobile.ui.view.ListViewDialog;
 import com.aumum.app.mobile.utils.EditTextUtils;
 import com.aumum.app.mobile.utils.ImageLoaderUtils;
 import com.aumum.app.mobile.utils.SafeAsyncTask;
+import com.aumum.app.mobile.utils.UpYunUtils;
 import com.github.kevinsawicki.wishlist.Toaster;
 import com.greenhalolabs.emailautocompletetextview.EmailAutoCompleteTextView;
 import com.mobsandgeeks.saripaar.ValidationError;
@@ -83,6 +84,7 @@ public class CompleteProfileActivity extends ProgressDialogActivity
         ButterKnife.inject(this);
 
         userId = getIntent().getStringExtra(INTENT_USER_ID);
+        UpYunUtils.setCurrentDir(userId);
 
         avatarImage.setOnClickListener(new View.OnClickListener() {
             @Override
