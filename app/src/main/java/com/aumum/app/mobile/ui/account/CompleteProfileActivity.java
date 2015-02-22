@@ -334,6 +334,7 @@ public class CompleteProfileActivity extends ProgressDialogActivity
     private void startAreaUsersActivity(String area) {
         final Intent intent = new Intent(this, AreaUsersActivity.class);
         intent.putExtra(AreaUsersActivity.INTENT_AREA, area);
+        intent.putExtra(AreaUsersActivity.INTENT_USER_ID, userId);
         startActivityForResult(intent, GET_AREA_USERS_REQ_CODE);
     }
 }

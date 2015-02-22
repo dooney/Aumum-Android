@@ -33,6 +33,7 @@ public class AreaUsersFragment extends ItemListFragment<User>
     @Inject ChatService chatService;
 
     private String area;
+    private String userId;
     private User currentUser;
     private int usersCount;
 
@@ -45,6 +46,7 @@ public class AreaUsersFragment extends ItemListFragment<User>
 
         final Intent intent = getActivity().getIntent();
         area = intent.getStringExtra(AreaUsersActivity.INTENT_AREA);
+        userId = intent.getStringExtra(AreaUsersActivity.INTENT_USER_ID);
     }
 
     @Override
@@ -61,7 +63,11 @@ public class AreaUsersFragment extends ItemListFragment<User>
 
     @Override
     protected List<User> loadDataCore(Bundle bundle) throws Exception {
-        currentUser = userStore.getCurrentUser();
+        if (userId != null) {
+            currentUser = userStore.getUserById(userId);
+        } else {
+            currentUser = userStore.getCurrentUser();
+        }
         adapter.setCurrentUser(currentUser);
         List<User> users = userStore.getListByArea(currentUser.getObjectId(), area);
         usersCount = users.size();
@@ -71,7 +77,7 @@ public class AreaUsersFragment extends ItemListFragment<User>
     @Override
     protected void handleLoadResult(List<User> result) {
         super.handleLoadResult(result);
-        String title = String.format("%s (%d)", area, usersCount);
+        String title = getString(R.string.info_area_users_found, usersCount);
         getActivity().setTitle(title);
     }
 

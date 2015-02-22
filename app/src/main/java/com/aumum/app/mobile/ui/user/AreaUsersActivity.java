@@ -11,6 +11,7 @@ import com.aumum.app.mobile.R;
 public class AreaUsersActivity extends ActionBarActivity {
 
     public static final String INTENT_AREA = "area";
+    public static final String INTENT_USER_ID = "userId";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
