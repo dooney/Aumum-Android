@@ -293,6 +293,9 @@ public class MainFragment extends Fragment
                     case CmdMessage.Type.ASKING_REPLY:
                         handleAskingDetailsCmdMessage(cmdMessage);
                         break;
+                    case CmdMessage.Type.USER_NEW:
+                        handleUserDetailsCmdMessage(cmdMessage);
+                        break;
                     default:
                         break;
                 }
@@ -333,5 +336,12 @@ public class MainFragment extends Fragment
         String title = cmdMessage.getTitle();
         String content = cmdMessage.getContent();
         notificationService.pushAskingDetailsNotification(askingId, title, content);
+    }
+
+    private void handleUserDetailsCmdMessage(CmdMessage cmdMessage) {
+        String userId = cmdMessage.getPayload();
+        String title = cmdMessage.getTitle();
+        String content = cmdMessage.getContent();
+        notificationService.pushUserDetailsNotification(userId, title, content);
     }
 }

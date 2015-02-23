@@ -6,17 +6,16 @@ import android.support.v7.app.ActionBarActivity;
 import com.aumum.app.mobile.R;
 
 /**
- * Created by Administrator on 15/01/2015.
+ * Created by Administrator on 23/02/2015.
  */
-public class AreaUsersActivity extends ActionBarActivity {
+public class UserSingleActivity extends ActionBarActivity {
 
-    public static final String INTENT_AREA = "area";
     public static final String INTENT_USER_ID = "userId";
-    public static final String INTENT_SHOULD_NOTIFY = "shouldNotify";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_area_users);
+
+        setContentView(R.layout.activity_user);
     }
 }

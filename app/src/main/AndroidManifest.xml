@@ -95,6 +95,13 @@
                 <data android:scheme="com.aumum.app.mobile.user" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".ui.user.UserSingleActivity"
+            android:excludeFromRecents="true"
+            android:label="@string/title_activity_user"
+            android:launchMode="singleTask"
+            android:taskAffinity="" >
+        </activity>
 
         <service android:name="com.parse.PushService" />
 
