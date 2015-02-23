@@ -30,4 +30,9 @@ public interface AskingService {
 
     @PUT(Constants.Http.URL_ASKING_BY_ID_FRAG)
     JsonObject updateById(@Path("id") String id, @Body JsonObject data);
+
+    @GET(Constants.Http.URL_ASKINGS_FRAG)
+    JsonObject getCount(@Query("where") String where,
+                        @Query("count") int count,
+                        @Query("limit") int limit);
 }

@@ -11,13 +11,9 @@
         <item>个人</item>
     </string-array>
     <string-array name="label_asking_pages">
-        <item>房产</item>
-        <item>装修</item>
-        <item>育儿</item>
-        <item>理财</item>
-        <item>血拼</item>
-        <item>时尚</item>
-        <item>美食</item>
+        <item>我爱我家</item>
+        <item>亲子育儿</item>
+        <item>子女教育</item>
     </string-array>
     <string-array name="label_party_actions">
         <item>发起聚会</item>

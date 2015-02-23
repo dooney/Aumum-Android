@@ -161,6 +161,22 @@ public class AskingStore {
         return askingList;
     }
 
+    public int getUnreadCount() throws Exception {
+        String time = getLastUpdateTime();
+        return restService.getAskingsCountAfter(time);
+    }
+
+    private String getLastUpdateTime() {
+        AskingEntity askingEntity = askingEntityDao.queryBuilder()
+                .orderDesc(AskingEntityDao.Properties.CreatedAt)
+                .limit(1)
+                .unique();
+        if (askingEntity != null) {
+            return DateUtils.dateToString(askingEntity.getCreatedAt(), Constants.DateTime.FORMAT);
+        }
+        return null;
+    }
+
     public void deleteAsking(String askingId) {
         askingEntityDao.deleteByKey(askingId);
     }

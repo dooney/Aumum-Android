@@ -16,6 +16,7 @@ import android.widget.TextView;
 
 import com.aumum.app.mobile.Injector;
 import com.aumum.app.mobile.R;
+import com.aumum.app.mobile.core.dao.AskingStore;
 import com.aumum.app.mobile.core.dao.PartyStore;
 import com.aumum.app.mobile.core.infra.security.ApiKeyProvider;
 import com.aumum.app.mobile.core.model.CmdMessage;
@@ -51,6 +52,7 @@ public class MainFragment extends Fragment
         implements ScheduleService.OnScheduleListener {
 
     @Inject PartyStore partyStore;
+    @Inject AskingStore askingStore;
     @Inject NotificationService notificationService;
     @Inject ChatService chatService;
     @Inject ApiKeyProvider apiKeyProvider;
@@ -132,6 +134,16 @@ public class MainFragment extends Fragment
                         @Override
                         public void run() {
                             indicator.getUnreadImage(MainTabPageIndicator.TAB_PARTY)
+                                    .setVisibility(View.VISIBLE);
+                        }
+                    });
+                }
+                unreadCount = askingStore.getUnreadCount();
+                if (unreadCount > 0) {
+                    getActivity().runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            indicator.getUnreadImage(MainTabPageIndicator.TAB_ASKING)
                                     .setVisibility(View.VISIBLE);
                         }
                     });
