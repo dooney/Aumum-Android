@@ -327,7 +327,9 @@ public class ProfileFragment extends LoaderFragment<User> {
             public void onItemClick(int i) {
                 switch (i) {
                     case 0:
-                        showFavoriteDialog();
+                        if (currentUser != null) {
+                            showFavoriteDialog(currentUser);
+                        }
                         break;
                     case 1:
                         startSettingsActivity();
@@ -410,7 +412,7 @@ public class ProfileFragment extends LoaderFragment<User> {
         }).show();
     }
 
-    private void showFavoriteDialog() {
+    private void showFavoriteDialog(final User user) {
         String options[] = getResources().getStringArray(R.array.label_favorite_types);
         new ListViewDialog(getActivity(),
                 getString(R.string.label_select_favorite_type),
@@ -420,10 +422,10 @@ public class ProfileFragment extends LoaderFragment<User> {
                     public void onItemClick(int i) {
                         switch (i) {
                             case 0:
-                                startMyFavoritePartiesActivity(currentUser);
+                                startMyFavoritePartiesActivity(user);
                                 break;
                             case 1:
-                                startMyFavoriteAskingsActivity(currentUser);
+                                startMyFavoriteAskingsActivity(user);
                                 break;
                             default:
                                 break;
