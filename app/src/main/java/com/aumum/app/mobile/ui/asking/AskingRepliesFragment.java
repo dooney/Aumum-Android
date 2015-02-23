@@ -15,7 +15,9 @@ import com.aumum.app.mobile.core.dao.AskingStore;
 import com.aumum.app.mobile.core.dao.UserStore;
 import com.aumum.app.mobile.core.model.Asking;
 import com.aumum.app.mobile.core.model.AskingReply;
+import com.aumum.app.mobile.core.model.CmdMessage;
 import com.aumum.app.mobile.core.model.User;
+import com.aumum.app.mobile.core.service.ChatService;
 import com.aumum.app.mobile.core.service.RestService;
 import com.aumum.app.mobile.core.service.ShareService;
 import com.aumum.app.mobile.events.AddAskingReplyEvent;
@@ -43,6 +45,7 @@ public class AskingRepliesFragment extends RefreshItemListFragment<AskingReply> 
     @Inject AskingReplyStore askingReplyStore;
     @Inject UserStore userStore;
     @Inject Bus bus;
+    @Inject ChatService chatService;
     private ShareService shareService;
 
     private Asking asking;
@@ -184,6 +187,7 @@ public class AskingRepliesFragment extends RefreshItemListFragment<AskingReply> 
                 restService.addAskingReplies(asking.getObjectId(), response.getObjectId());
                 asking.addReply(response.getObjectId());
                 askingStore.save(asking);
+                sendAskingReplyMessage(newReply);
                 return true;
             }
 
@@ -210,6 +214,18 @@ public class AskingRepliesFragment extends RefreshItemListFragment<AskingReply> 
             }
         };
         task.execute();
+    }
+
+    private void sendAskingReplyMessage(AskingReply askingReply) throws Exception {
+        String title = getString(R.string.label_reply_asking_message,
+                currentUser.getScreenName(), asking.getTitle());
+        CmdMessage cmdMessage = new CmdMessage(CmdMessage.Type.ASKING_REPLY,
+                title, askingReply.getContent(), asking.getObjectId());
+        User askingOwner = userStore.getUserById(asking.getUserId());
+        String to = askingOwner.getChatId();
+        if (!to.equals(currentUser.getChatId())) {
+            chatService.sendCmdMessage(to, cmdMessage, false, null);
+        }
     }
 
     private void reportAskingReply(AskingReply askingReply) {

@@ -289,6 +289,10 @@ public class MainFragment extends Fragment
                         break;
                     case CmdMessage.Type.GROUP_QUIT:
                         handleGroupQuitCmdMessage(cmdMessage, message.getFrom());
+                        break;
+                    case CmdMessage.Type.ASKING_REPLY:
+                        handleAskingDetailsCmdMessage(cmdMessage);
+                        break;
                     default:
                         break;
                 }
@@ -322,5 +326,12 @@ public class MainFragment extends Fragment
     private void handleGroupQuitCmdMessage(CmdMessage cmdMessage, String userId) {
         String groupId = cmdMessage.getPayload();
         chatService.removeGroupMember(groupId, userId);
+    }
+
+    private void handleAskingDetailsCmdMessage(CmdMessage cmdMessage) {
+        String askingId = cmdMessage.getPayload();
+        String title = cmdMessage.getTitle();
+        String content = cmdMessage.getContent();
+        notificationService.pushAskingDetailsNotification(askingId, title, content);
     }
 }

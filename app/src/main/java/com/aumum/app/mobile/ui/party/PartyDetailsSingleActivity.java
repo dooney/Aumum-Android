@@ -16,5 +16,7 @@ public class PartyDetailsSingleActivity extends ProgressDialogActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_party_details);
+
+        progress.setMessageId(R.string.info_deleting_party);
     }
 }

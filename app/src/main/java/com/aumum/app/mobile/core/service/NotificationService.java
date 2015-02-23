@@ -9,6 +9,7 @@ import android.media.RingtoneManager;
 import android.support.v4.app.NotificationCompat;
 
 import com.aumum.app.mobile.R;
+import com.aumum.app.mobile.ui.asking.AskingDetailsSingleActivity;
 import com.aumum.app.mobile.utils.PreferenceUtils;
 import com.aumum.app.mobile.ui.chat.ChatActivity;
 import com.aumum.app.mobile.ui.contact.ContactRequestsActivity;
@@ -83,6 +84,15 @@ public class NotificationService {
         intent.putExtra(ChatActivity.INTENT_TYPE, ChatActivity.TYPE_SINGLE);
         intent.putExtra(ChatActivity.INTENT_TITLE, userName);
         intent.setComponent(new ComponentName(context, ChatActivity.class));
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        notify(builder, intent);
+    }
+
+    public void pushAskingDetailsNotification(String askingId, String title, String content) {
+        NotificationCompat.Builder builder = getNotificationBuilder(title, content);
+        Intent intent = new Intent();
+        intent.putExtra(AskingDetailsSingleActivity.INTENT_ASKING_ID, askingId);
+        intent.setComponent(new ComponentName(context, AskingDetailsSingleActivity.class));
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         notify(builder, intent);
     }

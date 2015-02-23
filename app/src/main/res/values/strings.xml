@@ -192,8 +192,8 @@
     <string name="title_activity_search_party">搜索聚会</string>
     <string name="title_activity_new_party">发起聚会</string>
     <string name="title_activity_change_avatar">更换头像</string>
-    <string name="title_user_parties">%1$s的聚会</string>
-    <string name="title_user_askings">%1$s的说说</string>
+    <string name="title_activity_user_parties">%1$s的聚会</string>
+    <string name="title_activity_user_askings">%1$s的说说</string>
     <string name="title_activity_new_asking">发表说说</string>
     <string name="title_activity_asking_details">说说详情</string>
     <string name="title_activity_choose_image">选择图片</string>
@@ -342,6 +342,7 @@
     <string name="hint_new_reply">说两句</string>
     <string name="hint_reply_asking_reply">回复@%1$s: %2$s</string>
     <string name="label_add_more">添加更多</string>
+    <string name="label_reply_asking_message">%1$s回复了您的说说#%2$s#</string>
 
     <!-- Report -->
     <string name="hint_report_type">违规类别</string>

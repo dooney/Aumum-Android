@@ -51,5 +51,6 @@ public class CmdMessage {
         public static final int PARTY_COMMENT_LIKE = 8;
         public static final int GROUP_JOIN = 11;
         public static final int GROUP_QUIT = 12;
+        public static final int ASKING_REPLY = 13;
     }
 }

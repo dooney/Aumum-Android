@@ -255,7 +255,7 @@ public class UserFragment extends LoaderFragment<User> {
     private void startHerPartiesActivity(User user) {
         final Intent intent = new Intent(getActivity(), SearchPartyActivity.class);
         intent.putExtra(SearchPartyActivity.INTENT_TITLE,
-                getString(R.string.title_user_parties, user.getScreenName()));
+                getString(R.string.title_activity_user_parties, user.getScreenName()));
         intent.putExtra(SearchPartyActivity.INTENT_USER_ID, userId);
         startActivity(intent);
     }
@@ -263,7 +263,7 @@ public class UserFragment extends LoaderFragment<User> {
     private void startHerAskingsActivity(User user) {
         final Intent intent = new Intent(getActivity(), SearchAskingActivity.class);
         intent.putExtra(SearchAskingActivity.INTENT_TITLE,
-                getString(R.string.title_user_askings, user.getScreenName()));
+                getString(R.string.title_activity_user_askings, user.getScreenName()));
         intent.putExtra(SearchPartyActivity.INTENT_USER_ID, userId);
         startActivity(intent);
     }

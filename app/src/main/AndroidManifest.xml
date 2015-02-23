@@ -191,6 +191,13 @@
             android:label="@string/title_activity_new_asking" >
         </activity>
         <activity android:name=".ui.asking.AskingDetailsActivity" />
+        <activity
+            android:name=".ui.asking.AskingDetailsSingleActivity"
+            android:label="@string/title_activity_asking_details"
+            android:excludeFromRecents="true"
+            android:launchMode="singleTask"
+            android:taskAffinity="" >
+        </activity>
         <activity android:name=".ui.asking.SearchAskingActivity" />
         <activity android:name=".ui.image.ImagePickerActivity" />
 
