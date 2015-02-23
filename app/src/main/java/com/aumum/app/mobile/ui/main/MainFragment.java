@@ -24,6 +24,7 @@ import com.aumum.app.mobile.core.service.ChatService;
 import com.aumum.app.mobile.core.service.NotificationService;
 import com.aumum.app.mobile.core.service.ScheduleService;
 import com.aumum.app.mobile.events.NewChatMessageEvent;
+import com.aumum.app.mobile.events.ResetAskingUnreadEvent;
 import com.aumum.app.mobile.events.ResetChatUnreadEvent;
 import com.aumum.app.mobile.events.ResetPartyUnreadEvent;
 import com.aumum.app.mobile.ui.chat.ChatConnectionListener;
@@ -172,6 +173,12 @@ public class MainFragment extends Fragment
     @Subscribe
     public void onResetPartyUnreadEvent(ResetPartyUnreadEvent event) {
         indicator.getUnreadImage(MainTabPageIndicator.TAB_PARTY)
+                .setVisibility(View.INVISIBLE);
+    }
+
+    @Subscribe
+    public void onResetAskingUnreadEvent(ResetAskingUnreadEvent event) {
+        indicator.getUnreadImage(MainTabPageIndicator.TAB_ASKING)
                 .setVisibility(View.INVISIBLE);
     }
 

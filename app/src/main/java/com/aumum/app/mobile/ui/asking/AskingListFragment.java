@@ -16,7 +16,9 @@ import com.aumum.app.mobile.core.Constants;
 import com.aumum.app.mobile.core.dao.AskingStore;
 import com.aumum.app.mobile.core.dao.UserStore;
 import com.aumum.app.mobile.core.model.Asking;
+import com.aumum.app.mobile.events.ResetAskingUnreadEvent;
 import com.aumum.app.mobile.ui.base.RefreshItemListFragment;
+import com.squareup.otto.Bus;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -33,6 +35,7 @@ public class AskingListFragment extends RefreshItemListFragment<Asking> {
 
     @Inject AskingStore askingStore;
     @Inject UserStore userStore;
+    @Inject Bus bus;
 
     private int category;
     private String title;
@@ -87,6 +90,7 @@ public class AskingListFragment extends RefreshItemListFragment<Asking> {
     @Override
     public void onResume() {
         super.onResume();
+        bus.register(this);
 
         if (container.getTag() != null) {
             int category = (Integer) container.getTag();
@@ -95,6 +99,12 @@ public class AskingListFragment extends RefreshItemListFragment<Asking> {
                 container.setTag(null);
             }
         }
+    }
+
+    @Override
+    public void onPause() {
+        super.onDestroy();
+        bus.unregister(this);
     }
 
     @Override
@@ -146,6 +156,9 @@ public class AskingListFragment extends RefreshItemListFragment<Asking> {
                 }
             }
             dataSet.add(0, asking);
+        }
+        if (askingList.size() > 0) {
+            bus.post(new ResetAskingUnreadEvent());
         }
     }
 

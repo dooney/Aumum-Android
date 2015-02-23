@@ -8,12 +8,15 @@ import android.support.v4.app.FragmentPagerAdapter;
 
 import com.aumum.app.mobile.R;
 
+import java.util.ArrayList;
+
 /**
  * Created by Administrator on 25/11/2014.
  */
 public class PagerAdapter extends FragmentPagerAdapter {
 
     private String pages[];
+    private ArrayList<Fragment> fragments;
 
     /**
      * Create pager adapter
@@ -24,6 +27,15 @@ public class PagerAdapter extends FragmentPagerAdapter {
     public PagerAdapter(final Resources resources, final FragmentManager fragmentManager) {
         super(fragmentManager);
         pages = resources.getStringArray(R.array.label_asking_pages);
+        fragments = new ArrayList<Fragment>();
+        for(int i = 0; i < pages.length; i++) {
+            final Fragment fragment = new AskingListFragment();
+            Bundle bundle = new Bundle();
+            bundle.putInt(AskingListFragment.CATEGORY, i);
+            bundle.putString(AskingListFragment.TITLE, pages[i]);
+            fragment.setArguments(bundle);
+            fragments.add(fragment);
+        }
     }
 
     @Override
@@ -33,12 +45,7 @@ public class PagerAdapter extends FragmentPagerAdapter {
 
     @Override
     public Fragment getItem(final int position) {
-        final Fragment result = new AskingListFragment();
-        Bundle bundle = new Bundle();
-        bundle.putInt(AskingListFragment.CATEGORY, position);
-        bundle.putString(AskingListFragment.TITLE, pages[position]);
-        result.setArguments(bundle);
-        return result;
+        return fragments.get(position);
     }
 
     @Override
