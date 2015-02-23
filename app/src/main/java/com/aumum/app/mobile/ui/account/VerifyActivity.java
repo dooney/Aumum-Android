@@ -175,10 +175,14 @@ public class VerifyActivity extends ProgressDialogActivity {
         super.onActivityResult(requestCode, resultCode, data);
 
         if (requestCode == COMPLETE_ACTIVITY_REQ_CODE && resultCode == RESULT_OK) {
-            final Intent intent = new Intent();
-            intent.putExtra(INTENT_USER_ID, user.getObjectId());
-            intent.putExtra(INTENT_TOKEN, user.getSessionToken());
-            setResult(RESULT_OK, intent);
+            if (user != null) {
+                final Intent intent = new Intent();
+                intent.putExtra(INTENT_USER_ID, user.getObjectId());
+                intent.putExtra(INTENT_TOKEN, user.getSessionToken());
+                setResult(RESULT_OK, intent);
+            } else {
+                setResult(RESULT_CANCELED);
+            }
             finish();
         }
     }
