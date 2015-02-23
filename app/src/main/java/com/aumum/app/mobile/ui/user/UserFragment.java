@@ -86,8 +86,8 @@ public class UserFragment extends LoaderFragment<User> {
         moreIcon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (getActivity() != null) {
-                    showActionDialog();
+                if (getActivity() != null && user != null) {
+                    showActionDialog(user);
                 }
             }
         });
@@ -232,7 +232,7 @@ public class UserFragment extends LoaderFragment<User> {
         }
     }
 
-    private void showActionDialog() {
+    private void showActionDialog(final User user) {
         String options[] = getResources().getStringArray(R.array.label_user_actions);
         new ListViewDialog(getActivity(), null, Arrays.asList(options),
                 new ListViewDialog.OnItemClickListener() {
@@ -240,10 +240,10 @@ public class UserFragment extends LoaderFragment<User> {
             public void onItemClick(int i) {
                 switch (i) {
                     case 0:
-                        startHerPartiesActivity(user);
+                        startUserPartiesActivity(user);
                         break;
                     case 1:
-                        startHerAskingsActivity(user);
+                        startUserAskingsActivity(user);
                         break;
                     default:
                         break;
@@ -252,19 +252,19 @@ public class UserFragment extends LoaderFragment<User> {
         }).show();
     }
 
-    private void startHerPartiesActivity(User user) {
+    private void startUserPartiesActivity(User user) {
         final Intent intent = new Intent(getActivity(), SearchPartyActivity.class);
         intent.putExtra(SearchPartyActivity.INTENT_TITLE,
                 getString(R.string.title_activity_user_parties, user.getScreenName()));
-        intent.putExtra(SearchPartyActivity.INTENT_USER_ID, userId);
+        intent.putExtra(SearchPartyActivity.INTENT_USER_ID, user.getObjectId());
         startActivity(intent);
     }
 
-    private void startHerAskingsActivity(User user) {
+    private void startUserAskingsActivity(User user) {
         final Intent intent = new Intent(getActivity(), SearchAskingActivity.class);
         intent.putExtra(SearchAskingActivity.INTENT_TITLE,
                 getString(R.string.title_activity_user_askings, user.getScreenName()));
-        intent.putExtra(SearchPartyActivity.INTENT_USER_ID, userId);
+        intent.putExtra(SearchPartyActivity.INTENT_USER_ID, user.getObjectId());
         startActivity(intent);
     }
 }
