@@ -24,6 +24,7 @@ import com.aumum.app.mobile.ui.view.ConfirmDialog;
 import com.aumum.app.mobile.ui.view.ListViewDialog;
 import com.aumum.app.mobile.ui.view.sort.InitialComparator;
 import com.aumum.app.mobile.ui.view.sort.SideBar;
+import com.aumum.app.mobile.utils.SafeAsyncTask;
 import com.github.kevinsawicki.wishlist.Toaster;
 
 import java.util.ArrayList;
@@ -164,7 +165,7 @@ public class ContactFragment extends ItemListFragment<User>
                                 showSearchUserDialog();
                                 break;
                             case 1:
-                                startAreaUsersActivity(currentUser.getArea());
+                                startAreaUsersActivity();
                                 break;
                             default:
                                 break;
@@ -238,9 +239,16 @@ public class ContactFragment extends ItemListFragment<User>
         startActivity(intent);
     }
 
-    private void startAreaUsersActivity(String area) {
-        final Intent intent = new Intent(getActivity(), AreaUsersActivity.class);
-        intent.putExtra(AreaUsersActivity.INTENT_AREA, area);
-        startActivity(intent);
+    private void startAreaUsersActivity() {
+        new SafeAsyncTask<Boolean>() {
+            @Override
+            public Boolean call() throws Exception {
+                currentUser = userStore.getCurrentUser();
+                final Intent intent = new Intent(getActivity(), AreaUsersActivity.class);
+                intent.putExtra(AreaUsersActivity.INTENT_AREA, currentUser.getArea());
+                startActivity(intent);
+                return true;
+            }
+        }.execute();
     }
 }
