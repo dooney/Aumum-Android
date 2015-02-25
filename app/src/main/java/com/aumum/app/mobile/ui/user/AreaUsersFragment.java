@@ -84,7 +84,7 @@ public class AreaUsersFragment extends ItemListFragment<User>
     @Override
     protected void handleLoadResult(List<User> result) {
         super.handleLoadResult(result);
-        String title = getString(R.string.info_area_users_found, usersCount);
+        String title = getString(R.string.info_area_users_found, area, usersCount);
         getActivity().setTitle(title);
     }
 

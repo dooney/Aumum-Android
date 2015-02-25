@@ -1,5 +1,6 @@
 package com.aumum.app.mobile.ui.contact;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -14,9 +15,11 @@ import android.widget.ImageView;
 
 import com.aumum.app.mobile.Injector;
 import com.aumum.app.mobile.R;
+import com.aumum.app.mobile.core.Constants;
 import com.aumum.app.mobile.core.dao.UserStore;
 import com.aumum.app.mobile.core.model.User;
 import com.aumum.app.mobile.core.service.RestService;
+import com.aumum.app.mobile.ui.area.AreaListActivity;
 import com.aumum.app.mobile.ui.base.ItemListFragment;
 import com.aumum.app.mobile.ui.user.AreaUsersActivity;
 import com.aumum.app.mobile.ui.user.UserActivity;
@@ -113,6 +116,17 @@ public class ContactFragment extends ItemListFragment<User>
     }
 
     @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == Constants.RequestCode.GET_AREA_LIST_REQ_CODE &&
+                resultCode == Activity.RESULT_OK) {
+            String area = data.getStringExtra(AreaListActivity.INTENT_AREA);
+            startAreaUsersActivity(area);
+        }
+    }
+
+    @Override
     protected View getMainView() {
         return mainView;
     }
@@ -165,6 +179,9 @@ public class ContactFragment extends ItemListFragment<User>
                                 showSearchUserDialog();
                                 break;
                             case 1:
+                                startAreaListActivity();
+                                break;
+                            case 2:
                                 startAreaUsersActivity();
                                 break;
                             default:
@@ -239,14 +256,33 @@ public class ContactFragment extends ItemListFragment<User>
         startActivity(intent);
     }
 
+    private void startAreaUsersActivity(String area) {
+        final Intent intent = new Intent(getActivity(), AreaUsersActivity.class);
+        intent.putExtra(AreaUsersActivity.INTENT_AREA, area);
+        startActivity(intent);
+    }
+
     private void startAreaUsersActivity() {
         new SafeAsyncTask<Boolean>() {
             @Override
             public Boolean call() throws Exception {
                 currentUser = userStore.getCurrentUser();
-                final Intent intent = new Intent(getActivity(), AreaUsersActivity.class);
-                intent.putExtra(AreaUsersActivity.INTENT_AREA, currentUser.getArea());
-                startActivity(intent);
+                startAreaUsersActivity(currentUser.getArea());
+                return true;
+            }
+        }.execute();
+    }
+
+    private void startAreaListActivity() {
+        new SafeAsyncTask<Boolean>() {
+            @Override
+            public Boolean call() throws Exception {
+                currentUser = userStore.getCurrentUser();
+                final Intent intent = new Intent(getActivity(), AreaListActivity.class);
+                int cityId = Constants.Options.CITY_ID.get(currentUser.getCity());
+                intent.putExtra(AreaListActivity.INTENT_CITY, cityId);
+                intent.putExtra(AreaListActivity.INTENT_TITLE, getString(R.string.title_activity_search_area));
+                startActivityForResult(intent, Constants.RequestCode.GET_AREA_LIST_REQ_CODE);
                 return true;
             }
         }.execute();
