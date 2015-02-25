@@ -131,6 +131,11 @@ public final class Constants {
         public static final String URL_AREAS_FRAG = "/1/classes/Areas";
 
         /**
+         * List City Group URL
+         */
+        public static final String URL_CITY_GROUP_FRAG = "/1/classes/CityGroup";
+
+        /**
          * PARAMS for auth
          */
         public static final String PARAM_USERNAME = "username";
