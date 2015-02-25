@@ -109,8 +109,6 @@ public class ChatFragment extends Fragment
         id = intent.getStringExtra(ChatActivity.INTENT_ID);
         conversation = chatService.getConversation(id);
         conversation.resetUnreadMsgCount();
-        int type = intent.getIntExtra(ChatActivity.INTENT_TYPE, ChatActivity.TYPE_SINGLE);
-        isGroup = type == ChatActivity.TYPE_GROUP;
         adapter = new ChatMessagesAdapter(getActivity(), isGroup);
         adapter.addAll(conversation.getAllMessages());
 
@@ -135,6 +133,8 @@ public class ChatFragment extends Fragment
 
     @Override
     public void onCreateOptionsMenu(final Menu menu, final MenuInflater inflater) {
+        int type = getActivity().getIntent().getIntExtra(ChatActivity.INTENT_TYPE, ChatActivity.TYPE_SINGLE);
+        isGroup = type == ChatActivity.TYPE_GROUP;
         if (!isGroup) {
             MenuItem more = menu.add(Menu.NONE, 0, Menu.NONE, null);
             more.setActionView(R.layout.menuitem_more);

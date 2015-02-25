@@ -14,7 +14,10 @@ import android.widget.ImageView;
 import com.aumum.app.mobile.Injector;
 import com.aumum.app.mobile.R;
 import com.aumum.app.mobile.core.Constants;
+import com.aumum.app.mobile.core.model.CityGroup;
+import com.aumum.app.mobile.core.model.CmdMessage;
 import com.aumum.app.mobile.core.model.User;
+import com.aumum.app.mobile.core.service.ChatService;
 import com.aumum.app.mobile.core.service.RestService;
 import com.aumum.app.mobile.ui.area.AreaListActivity;
 import com.aumum.app.mobile.ui.base.ProgressDialogActivity;
@@ -26,6 +29,7 @@ import com.aumum.app.mobile.ui.view.Animation;
 import com.aumum.app.mobile.ui.view.ListViewDialog;
 import com.aumum.app.mobile.utils.EditTextUtils;
 import com.aumum.app.mobile.utils.ImageLoaderUtils;
+import com.aumum.app.mobile.utils.Ln;
 import com.aumum.app.mobile.utils.SafeAsyncTask;
 import com.aumum.app.mobile.utils.UpYunUtils;
 import com.github.kevinsawicki.wishlist.Toaster;
@@ -47,6 +51,7 @@ public class CompleteProfileActivity extends ProgressDialogActivity
     implements Validator.ValidationListener {
 
     @Inject RestService restService;
+    @Inject ChatService chatService;
 
     private Button saveButton;
     @InjectView(R.id.container) protected View container;
@@ -232,6 +237,7 @@ public class CompleteProfileActivity extends ProgressDialogActivity
                 user.setAbout(about);
                 restService.updateUserProfile(user);
                 areaUsersCount = restService.getAreaUsersCount(userId, area);
+                joinCityGroup(user);
                 return true;
             }
 
@@ -339,5 +345,30 @@ public class CompleteProfileActivity extends ProgressDialogActivity
         intent.putExtra(AreaUsersActivity.INTENT_USER_ID, userId);
         intent.putExtra(AreaUsersActivity.INTENT_SHOULD_NOTIFY, true);
         startActivityForResult(intent, GET_AREA_USERS_REQ_CODE);
+    }
+
+    private void joinCityGroup(final User user) throws Exception {
+        new SafeAsyncTask<Boolean>() {
+            @Override
+            public Boolean call() throws Exception {
+                int cityId = Constants.Options.CITY_ID.get(user.getCity());
+                CityGroup cityGroup = restService.getCityGroup(cityId);
+                if (cityGroup != null) {
+                    String groupId = cityGroup.getGroupId();
+                    chatService.joinGroup(groupId, user.getChatId());
+                    String text = getString(R.string.label_group_joint, user.getScreenName());
+                    chatService.sendSystemMessage(groupId, true, text, null);
+                    CmdMessage cmdMessage = new CmdMessage(CmdMessage.Type.GROUP_JOIN,
+                            null, null, groupId);
+                    chatService.sendCmdMessage(groupId, cmdMessage, true, null);
+                }
+                return true;
+            }
+
+            @Override
+            protected void onException(Exception e) throws RuntimeException {
+                Ln.e(e);
+            }
+        }.execute();
     }
 }
