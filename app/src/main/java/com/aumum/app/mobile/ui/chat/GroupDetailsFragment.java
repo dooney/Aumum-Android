@@ -29,7 +29,6 @@ import com.easemob.EMCallBack;
 import com.easemob.chat.EMGroup;
 import com.github.kevinsawicki.wishlist.Toaster;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -94,13 +93,8 @@ public class GroupDetailsFragment extends ItemListFragment<User> {
     @Override
     protected List<User> loadDataCore(Bundle bundle) throws Exception {
         currentUser = userStore.getCurrentUser();
-        group = chatService.getGroupById(groupId);
-        List<User> members = new ArrayList<User>();
-        for (String chatId: group.getMembers()) {
-            User user = userStore.getUserByChatId(chatId);
-            members.add(user);
-        }
-        return members;
+        group = chatService.getGroupFromServer(groupId);
+        return userStore.getGroupUsers(group.getMembers());
     }
 
     @Override

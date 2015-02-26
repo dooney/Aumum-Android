@@ -343,6 +343,13 @@ public class RestService {
         return null;
     }
 
+    public List<User> getGroupUsers(List<String> chatIds) {
+        final JsonObject whereJson = new JsonObject();
+        whereJson.add("chatId", buildIdListJson(chatIds));
+        String where = whereJson.toString();
+        return getUserService().getList(where, Integer.MAX_VALUE).getResults();
+    }
+
     public String getUserByName(String name) {
         final JsonObject whereJson = new JsonObject();
         JsonArray jsonArray = new JsonArray();

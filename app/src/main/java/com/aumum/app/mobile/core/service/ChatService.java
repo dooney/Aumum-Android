@@ -132,11 +132,15 @@ public class ChatService {
         EMGroupManager.getInstance().exitAndDeleteGroup(groupId);
     }
 
+    public EMGroup getGroupFromServer(String groupId) throws Exception {
+        EMGroup emGroup = EMGroupManager.getInstance().getGroupFromServer(groupId);
+        return EMGroupManager.getInstance().createOrUpdateLocalGroup(emGroup);
+    }
+
     public EMGroup getGroupById(String groupId) throws Exception {
         EMGroup emGroup = EMGroupManager.getInstance().getGroup(groupId);
         if (emGroup == null) {
-            emGroup = EMGroupManager.getInstance().getGroupFromServer(groupId);
-            return EMGroupManager.getInstance().createOrUpdateLocalGroup(emGroup);
+            return getGroupFromServer(groupId);
         }
         return emGroup;
     }

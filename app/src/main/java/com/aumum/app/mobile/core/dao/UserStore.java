@@ -185,6 +185,16 @@ public class UserStore {
         return users;
     }
 
+    public List<User> getGroupUsers(List<String> chatIds) throws Exception {
+        List<User> users = restService.getGroupUsers(chatIds);
+        if (users != null) {
+            for (User user: users) {
+                userEntityDao.insertOrReplace(map(user));
+            }
+        }
+        return users;
+    }
+
     public void save(User user) throws Exception {
         userEntityDao.insertOrReplace(map(user));
     }
