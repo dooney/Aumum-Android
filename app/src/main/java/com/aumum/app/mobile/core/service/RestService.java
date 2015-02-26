@@ -325,14 +325,22 @@ public class RestService {
         final JsonObject whereJson = new JsonObject();
         whereJson.addProperty("screenName", screenName);
         String where = whereJson.toString();
-        return getUserService().getByScreenName(where, 1).getResults().get(0);
+        List<User> result = getUserService().getByScreenName(where, 1).getResults();
+        if (result.size() > 0) {
+            return result.get(0);
+        }
+        return null;
     }
 
     public User getUserByChatId(String id) {
         final JsonObject whereJson = new JsonObject();
         whereJson.addProperty("chatId", id);
         String where = whereJson.toString();
-        return getUserService().getList(where, 1).getResults().get(0);
+        List<User> result = getUserService().getList(where, 1).getResults();
+        if (result.size() > 0) {
+            return result.get(0);
+        }
+        return null;
     }
 
     public String getUserByName(String name) {
@@ -936,6 +944,10 @@ public class RestService {
         final JsonObject whereJson = new JsonObject();
         whereJson.addProperty("city", cityId);
         String where = whereJson.toString();
-        return getCityGroupService().getList(where, 1).getResults().get(0);
+        List<CityGroup> result = getCityGroupService().getList(where, 1).getResults();
+        if (result.size() > 0) {
+            return result.get(0);
+        }
+        return null;
     }
 }

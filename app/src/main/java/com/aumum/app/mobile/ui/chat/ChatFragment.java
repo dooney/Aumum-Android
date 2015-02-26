@@ -109,6 +109,8 @@ public class ChatFragment extends Fragment
         id = intent.getStringExtra(ChatActivity.INTENT_ID);
         conversation = chatService.getConversation(id);
         conversation.resetUnreadMsgCount();
+        int type = intent.getIntExtra(ChatActivity.INTENT_TYPE, ChatActivity.TYPE_SINGLE);
+        isGroup = type == ChatActivity.TYPE_GROUP;
         adapter = new ChatMessagesAdapter(getActivity(), isGroup);
         adapter.addAll(conversation.getAllMessages());
 

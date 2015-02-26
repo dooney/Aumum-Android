@@ -18,6 +18,7 @@ import com.aumum.app.mobile.events.GroupDeletedEvent;
 import com.aumum.app.mobile.events.NewChatMessageEvent;
 import com.aumum.app.mobile.events.ResetChatUnreadEvent;
 import com.aumum.app.mobile.ui.base.ItemListFragment;
+import com.aumum.app.mobile.utils.SafeAsyncTask;
 import com.easemob.chat.EMConversation;
 import com.easemob.chat.EMGroup;
 import com.easemob.chat.EMMessage;
@@ -78,14 +79,20 @@ public class ConversationFragment extends ItemListFragment<Conversation> {
     private List<Conversation> getAllConversations() throws Exception {
         List<Conversation> result = new ArrayList<Conversation>();
         List<EMConversation> emConversations = chatService.getAllConversations();
-        for (EMConversation emConversation: emConversations) {
+        for (final EMConversation emConversation: emConversations) {
             Conversation conversation = new Conversation(emConversation);
             if (emConversation.isGroup()) {
                 EMGroup emGroup = chatService.getGroupById(emConversation.getUserName());
                 if (emGroup != null) {
-                    for (EMMessage emMessage: emConversation.getAllMessages()) {
-                        userStore.getUserByChatId(emMessage.getFrom());
-                    }
+                    new SafeAsyncTask<Boolean>() {
+                        @Override
+                        public Boolean call() throws Exception {
+                            for (EMMessage emMessage: emConversation.getAllMessages()) {
+                                userStore.getUserByChatId(emMessage.getFrom());
+                            }
+                            return true;
+                        }
+                    }.execute();
                     Group group = new Group(emGroup.getGroupId(), emGroup.getGroupName());
                     conversation.setGroup(group);
                     result.add(conversation);
