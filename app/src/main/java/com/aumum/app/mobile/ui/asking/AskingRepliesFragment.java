@@ -166,11 +166,13 @@ public class AskingRepliesFragment extends RefreshItemListFragment<AskingReply> 
         String content = event.getReply();
         if (replied != null) {
             repliedId = replied.getObjectId();
-            content = getString(R.string.hint_reply_asking_reply,
-                    replied.getUser().getScreenName(), content);
+            if (!replied.getIsAnonymous()) {
+                content = getString(R.string.hint_reply_asking_reply,
+                        replied.getUser().getScreenName(), content);
+            }
         }
         final AskingReply askingReply = new AskingReply(currentUser.getObjectId(),
-                content, repliedId);
+                content, repliedId, asking.getIsAnonymous());
         askingReply.setUser(currentUser);
         getData().add(0, askingReply);
         getListAdapter().notifyDataSetChanged();
@@ -182,7 +184,7 @@ public class AskingRepliesFragment extends RefreshItemListFragment<AskingReply> 
             public Boolean call() throws Exception {
                 AskingReply reply = getData().get(0);
                 final AskingReply newReply = new AskingReply(reply.getUserId(),
-                        reply.getContent(), reply.getRepliedId());
+                        reply.getContent(), reply.getRepliedId(), reply.getIsAnonymous());
                 AskingReply response = restService.newAskingReply(newReply);
                 restService.addAskingReplies(asking.getObjectId(), response.getObjectId());
                 asking.addReply(response.getObjectId());
@@ -275,8 +277,11 @@ public class AskingRepliesFragment extends RefreshItemListFragment<AskingReply> 
 
     private void reply(AskingReply askingReply) {
         replied = askingReply;
+        String screenName = replied.getIsAnonymous() ?
+                getString(R.string.label_anonymous) :
+                askingReply.getUser().getScreenName();
         String replyHint = getString(R.string.hint_reply_asking_reply,
-                askingReply.getUser().getScreenName(), askingReply.getContent());
+                screenName, askingReply.getContent());
         bus.post(new ReplyAskingReplyEvent(replyHint));
     }
 

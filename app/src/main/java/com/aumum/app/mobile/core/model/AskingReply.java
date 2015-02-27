@@ -11,16 +11,19 @@ public class AskingReply extends AggregateRoot {
     private String userId;
     private String content;
     private String repliedId;
+    private Boolean isAnonymous;
     private List<String> likes = new ArrayList<String>();
 
     private User user;
 
     public AskingReply(String userId,
                        String content,
-                       String repliedId) {
+                       String repliedId,
+                       Boolean isAnonymous) {
         this.userId = userId;
         this.content = content;
         this.repliedId = repliedId;
+        this.isAnonymous = isAnonymous;
     }
 
     public String getUserId() {
@@ -33,6 +36,10 @@ public class AskingReply extends AggregateRoot {
 
     public String getRepliedId() {
         return repliedId;
+    }
+
+    public Boolean getIsAnonymous() {
+        return isAnonymous != null ? isAnonymous : false;
     }
 
     public int getLikesCount() {

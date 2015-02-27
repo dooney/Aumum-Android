@@ -5,7 +5,7 @@ import de.greenrobot.daogenerator.Schema;
 
 public class DaoGenerator {
 
-    private static final int SCHEMA_VERSION = 1;
+    private static final int SCHEMA_VERSION = 2;
 
     public static void main(String args[]) throws Exception {
         Schema schema = new Schema(SCHEMA_VERSION, "com.aumum.app.mobile.core.dao.gen");
@@ -76,6 +76,7 @@ public class DaoGenerator {
         asking.addDateProperty("updatedAt").notNull();
         asking.addStringProperty("userId");
         asking.addIntProperty("category");
+        asking.addBooleanProperty("isAnonymous");
         asking.addStringProperty("title");
         asking.addStringProperty("details");
         asking.addStringProperty("replies");

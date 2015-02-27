@@ -743,12 +743,15 @@ public class RestService {
         return getAskingService().updateById(askingId, data);
     }
 
-    public List<Asking> getAskingList(List<String> idList, int limit) {
+    public List<Asking> getAskingList(List<String> idList, boolean excludesAnonymous, int limit) {
         final JsonObject whereJson = new JsonObject();
         whereJson.add("objectId", buildIdListJson(idList));
         final JsonObject liveJson = new JsonObject();
         liveJson.addProperty("$exists", false);
         whereJson.add("deletedAt" ,liveJson);
+        if (excludesAnonymous) {
+            whereJson.addProperty("isAnonymous", false);
+        }
         String where = whereJson.toString();
         return getAskingService().getList("-updatedAt", where, limit).getResults();
     }

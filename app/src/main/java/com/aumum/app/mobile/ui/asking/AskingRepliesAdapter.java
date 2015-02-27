@@ -16,8 +16,11 @@ import java.util.List;
  */
 public class AskingRepliesAdapter extends ArrayAdapter<AskingReply> {
 
+    private Context context;
+
     public AskingRepliesAdapter(Context context, List<AskingReply> objects) {
         super(context, 0, objects);
+        this.context = context;
     }
 
     @Override
@@ -27,7 +30,7 @@ public class AskingRepliesAdapter extends ArrayAdapter<AskingReply> {
         if (convertView == null) {
             LayoutInflater inflater = LayoutInflater.from(getContext());
             convertView = inflater.inflate(R.layout.asking_reply_listitem_inner, parent, false);
-            card = new AskingReplyCard(convertView);
+            card = new AskingReplyCard(context, convertView);
             convertView.setTag(card);
         } else {
             card = (AskingReplyCard) convertView.getTag();

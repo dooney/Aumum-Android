@@ -9,6 +9,7 @@ public class AskingEntity extends BaseEntity  {
     private java.util.Date updatedAt;
     private String userId;
     private Integer category;
+    private Boolean isAnonymous;
     private String title;
     private String details;
     private String replies;
@@ -28,6 +29,7 @@ public class AskingEntity extends BaseEntity  {
                         java.util.Date updatedAt,
                         String userId,
                         Integer category,
+                        Boolean isAnonymous,
                         String title,
                         String details,
                         String replies,
@@ -39,6 +41,7 @@ public class AskingEntity extends BaseEntity  {
         this.updatedAt = updatedAt;
         this.userId = userId;
         this.category = category;
+        this.isAnonymous = isAnonymous;
         this.title = title;
         this.details = details;
         this.replies = replies;
@@ -69,6 +72,14 @@ public class AskingEntity extends BaseEntity  {
 
     public void setCategory(Integer category) {
         this.category = category;
+    }
+
+    public Boolean getIsAnonymous() {
+        return isAnonymous;
+    }
+
+    public void setIsAnonymous(Boolean isAnonymous) {
+        this.isAnonymous = isAnonymous;
     }
 
     public String getTitle() {

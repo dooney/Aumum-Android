@@ -249,9 +249,14 @@ public class AskingDetailsFragment extends LoaderFragment<Asking> {
             gridGallery.setVisibility(View.GONE);
         }
 
-        avatarImage.getFromUrl(asking.getUser().getAvatarUrl());
-        userNameText.setText(asking.getUser().getScreenName());
-        userNameText.setOnClickListener(new UserListener(getActivity(), asking.getUserId()));
+        if (asking.getIsAnonymous()) {
+            avatarImage.setImageResource(R.drawable.ic_avatar);
+            userNameText.setText(getString(R.string.label_post_owner));
+        } else {
+            avatarImage.getFromUrl(asking.getUser().getAvatarUrl());
+            userNameText.setText(asking.getUser().getScreenName());
+            userNameText.setOnClickListener(new UserListener(getActivity(), asking.getUserId()));
+        }
         titleText.setSpannableText(asking.getTitle());
         if (asking.getDetails() != null && asking.getDetails().length() > 0) {
             detailsText.setSpannableText(asking.getDetails());

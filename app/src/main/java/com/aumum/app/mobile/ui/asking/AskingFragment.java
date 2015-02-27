@@ -37,6 +37,8 @@ public class AskingFragment extends Fragment {
     @InjectView(R.id.tpi_header)protected AskingTabPageIndicator indicator;
     @InjectView(R.id.vp_pages)protected ViewPager pager;
 
+    private PagerAdapter pagerAdapter;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -72,7 +74,8 @@ public class AskingFragment extends Fragment {
         super.onActivityCreated(savedInstanceState);
 
         ButterKnife.inject(this, getView());
-        pager.setAdapter(new PagerAdapter(getResources(), getChildFragmentManager()));
+        pagerAdapter = new PagerAdapter(getResources(), getChildFragmentManager());
+        pager.setAdapter(pagerAdapter);
         indicator.setViewPager(pager);
     }
 
@@ -80,7 +83,8 @@ public class AskingFragment extends Fragment {
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == Constants.RequestCode.NEW_ASKING_REQ_CODE && resultCode == Activity.RESULT_OK) {
-            pager.setTag(pager.getCurrentItem());
+            int category = pagerAdapter.getCategory(pager.getCurrentItem());
+            pager.setTag(category);
         }
     }
 
@@ -106,7 +110,11 @@ public class AskingFragment extends Fragment {
 
     private void startNewAskingActivity() {
         final Intent intent = new Intent(getActivity(), NewAskingActivity.class);
-        intent.putExtra(NewAskingActivity.INTENT_CATEGORY, pager.getCurrentItem());
+        int category = pagerAdapter.getCategory(pager.getCurrentItem());
+        intent.putExtra(NewAskingActivity.INTENT_CATEGORY, category);
+        if (pager.getCurrentItem() == pagerAdapter.getCount() - 1) {
+            intent.putExtra(NewAskingActivity.INTENT_IS_ANONYMOUS, true);
+        }
         startActivityForResult(intent, Constants.RequestCode.NEW_ASKING_REQ_CODE);
     }
 

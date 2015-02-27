@@ -16,7 +16,9 @@ import java.util.ArrayList;
 public class PagerAdapter extends FragmentPagerAdapter {
 
     private String pages[];
-    private ArrayList<Fragment> fragments;
+    private ArrayList<String> titles;
+    private ArrayList<Integer> categories;
+    private ArrayList<AskingListFragment> fragments;
 
     /**
      * Create pager adapter
@@ -27,20 +29,27 @@ public class PagerAdapter extends FragmentPagerAdapter {
     public PagerAdapter(final Resources resources, final FragmentManager fragmentManager) {
         super(fragmentManager);
         pages = resources.getStringArray(R.array.label_asking_pages);
-        fragments = new ArrayList<Fragment>();
+        titles = new ArrayList<String>();
+        categories = new ArrayList<Integer>();
+        fragments = new ArrayList<AskingListFragment>();
         for(int i = 0; i < pages.length; i++) {
-            final Fragment fragment = new AskingListFragment();
-            Bundle bundle = new Bundle();
-            bundle.putInt(AskingListFragment.CATEGORY, i);
-            bundle.putString(AskingListFragment.TITLE, pages[i]);
-            fragment.setArguments(bundle);
-            fragments.add(fragment);
+            String title = pages[i];
+            if (title != null && title.length() > 0) {
+                final AskingListFragment fragment = new AskingListFragment();
+                Bundle bundle = new Bundle();
+                bundle.putInt(AskingListFragment.CATEGORY, i);
+                bundle.putString(AskingListFragment.TITLE, title);
+                fragment.setArguments(bundle);
+                fragments.add(fragment);
+                titles.add(title);
+                categories.add(i);
+            }
         }
     }
 
     @Override
     public int getCount() {
-        return pages.length;
+        return fragments.size();
     }
 
     @Override
@@ -50,6 +59,10 @@ public class PagerAdapter extends FragmentPagerAdapter {
 
     @Override
     public CharSequence getPageTitle(final int position) {
-        return pages[position];
+        return titles.get(position);
+    }
+
+    public int getCategory(final int position) {
+        return categories.get(position);
     }
 }

@@ -59,12 +59,14 @@ public class NewAskingActivity extends ProgressDialogActivity
     @Inject FileUploadService fileUploadService;
 
     private int category;
+    private boolean isAnonymous;
     private SafeAsyncTask<Boolean> task;
     private GalleryAdapter adapter;
     private String imagePathList[];
     private ArrayList<String> imageUrlList;
 
     public static final String INTENT_CATEGORY = "category";
+    public static final String INTENT_IS_ANONYMOUS = "isAnonymous";
 
     private Button submitButton;
     @InjectView(R.id.v_scroll) protected ScrollView scrollView;
@@ -88,6 +90,9 @@ public class NewAskingActivity extends ProgressDialogActivity
         fileUploadService.setOnFileUploadListener(this);
 
         category = getIntent().getIntExtra(INTENT_CATEGORY, 0);
+        String pages[] = getResources().getStringArray(R.array.label_asking_pages);
+        setTitle(pages[category]);
+        isAnonymous = getIntent().getBooleanExtra(INTENT_IS_ANONYMOUS, false);
 
         progress.setMessageId(R.string.info_submitting_asking);
 
@@ -248,6 +253,7 @@ public class NewAskingActivity extends ProgressDialogActivity
                 Asking asking = new Asking(
                         currentUser.getObjectId(),
                         category,
+                        isAnonymous,
                         titleText.getText().toString(),
                         detailsText.getText().toString(),
                         imageUrlList);

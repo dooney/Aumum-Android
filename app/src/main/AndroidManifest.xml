@@ -193,10 +193,7 @@
             android:name=".ui.settings.SettingsActivity"
             android:label="@string/title_activity_settings" >
         </activity>
-        <activity
-            android:name=".ui.asking.NewAskingActivity"
-            android:label="@string/title_activity_new_asking" >
-        </activity>
+        <activity android:name=".ui.asking.NewAskingActivity" />
         <activity android:name=".ui.asking.AskingDetailsActivity" />
         <activity
             android:name=".ui.asking.AskingDetailsSingleActivity"

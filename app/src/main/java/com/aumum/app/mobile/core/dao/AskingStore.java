@@ -55,6 +55,7 @@ public class AskingStore {
                 DateUtils.dateToString(askingEntity.getUpdatedAt(), Constants.DateTime.FORMAT),
                 askingEntity.getUserId(),
                 askingEntity.getCategory(),
+                askingEntity.getIsAnonymous(),
                 askingEntity.getTitle(),
                 askingEntity.getDetails(),
                 getList(askingEntity.getReplies()),
@@ -72,6 +73,7 @@ public class AskingStore {
                 updatedAt,
                 asking.getUserId(),
                 asking.getCategory(),
+                asking.getIsAnonymous(),
                 asking.getTitle(),
                 asking.getDetails(),
                 gson.toJson(asking.getReplies()),
@@ -153,8 +155,8 @@ public class AskingStore {
         return asking;
     }
 
-    public List<Asking> getList(List<String> idList) throws Exception {
-        List<Asking> askingList = restService.getAskingList(idList, LIMIT_PER_LOAD);
+    public List<Asking> getList(List<String> idList, boolean excludesAnonymous) throws Exception {
+        List<Asking> askingList = restService.getAskingList(idList, excludesAnonymous, LIMIT_PER_LOAD);
         for (Asking asking: askingList) {
             askingEntityDao.insertOrReplace(map(asking));
         }

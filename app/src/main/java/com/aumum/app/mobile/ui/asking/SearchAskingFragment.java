@@ -14,6 +14,7 @@ import com.aumum.app.mobile.R;
 import com.aumum.app.mobile.core.Constants;
 import com.aumum.app.mobile.core.dao.AskingStore;
 import com.aumum.app.mobile.core.dao.UserStore;
+import com.aumum.app.mobile.core.infra.security.ApiKeyProvider;
 import com.aumum.app.mobile.core.model.Asking;
 import com.aumum.app.mobile.core.model.User;
 import com.aumum.app.mobile.ui.base.RefreshItemListFragment;
@@ -31,6 +32,7 @@ public class SearchAskingFragment extends RefreshItemListFragment<Asking> {
 
     @Inject UserStore userStore;
     @Inject AskingStore askingStore;
+    @Inject ApiKeyProvider apiKeyProvider;
 
     private int mode;
     private String userId;
@@ -135,7 +137,9 @@ public class SearchAskingFragment extends RefreshItemListFragment<Asking> {
     }
 
     private void getUserAskings() throws Exception {
-        List<Asking> askingList = askingStore.getList(user.getAskings());
+        String currentUserId = apiKeyProvider.getAuthUserId();
+        boolean excludesAnonymous = !currentUserId.equals(userId);
+        List<Asking> askingList = askingStore.getList(user.getAskings(), excludesAnonymous);
         dataSet.addAll(askingList);
     }
 
@@ -144,7 +148,7 @@ public class SearchAskingFragment extends RefreshItemListFragment<Asking> {
     }
 
     private void getUserFavoriteAskings() throws Exception {
-        List<Asking> askingList = askingStore.getList(user.getFavAskings());
+        List<Asking> askingList = askingStore.getList(user.getFavAskings(), false);
         dataSet.addAll(askingList);
     }
 

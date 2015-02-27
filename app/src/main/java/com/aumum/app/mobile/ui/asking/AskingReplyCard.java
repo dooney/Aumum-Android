@@ -1,5 +1,6 @@
 package com.aumum.app.mobile.ui.asking;
 
+import android.content.Context;
 import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -25,6 +26,7 @@ public class AskingReplyCard implements ActionListener {
 
     private AskingReply askingReply;
 
+    private Context context;
     private AvatarImageView avatarImage;
     private TextView userNameText;
     private SpannableTextView replyText;
@@ -32,8 +34,9 @@ public class AskingReplyCard implements ActionListener {
     private LikeTextView likeText;
     private ProgressBar progressBar;
 
-    public AskingReplyCard(View view) {
+    public AskingReplyCard(Context context, View view) {
         Injector.inject(this);
+        this.context = context;
         this.avatarImage = (AvatarImageView) view.findViewById(R.id.image_avatar);
         this.userNameText = (TextView) view.findViewById(R.id.text_user_name);
         this.replyText = (SpannableTextView) view.findViewById(R.id.text_content);
@@ -49,10 +52,15 @@ public class AskingReplyCard implements ActionListener {
     public void refresh(AskingReply askingReply) {
         this.askingReply = askingReply;
 
-        avatarImage.getFromUrl(askingReply.getUser().getAvatarUrl());
-        avatarImage.setOnClickListener(new UserListener(avatarImage.getContext(), askingReply.getUserId()));
-        userNameText.setText(askingReply.getUser().getScreenName());
-        userNameText.setOnClickListener(new UserListener(userNameText.getContext(), askingReply.getUserId()));
+        if (askingReply.getIsAnonymous()) {
+            avatarImage.setImageResource(R.drawable.ic_avatar);
+            userNameText.setText(context.getString(R.string.label_anonymous));
+        } else {
+            avatarImage.getFromUrl(askingReply.getUser().getAvatarUrl());
+            avatarImage.setOnClickListener(new UserListener(avatarImage.getContext(), askingReply.getUserId()));
+            userNameText.setText(askingReply.getUser().getScreenName());
+            userNameText.setOnClickListener(new UserListener(userNameText.getContext(), askingReply.getUserId()));
+        }
 
         likeText.setLikeResId(R.drawable.ic_fa_thumbs_o_up_s);
         likeText.setLikedResId(R.drawable.ic_fa_thumbs_up_s);

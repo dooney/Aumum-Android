@@ -37,8 +37,13 @@ public class AskingCard {
         } else {
             hasPicImage.setVisibility(View.GONE);
         }
-        userNameText.setText(asking.getUser().getScreenName());
-        userNameText.setOnClickListener(new UserListener(context, asking.getUserId()));
+        if (asking.getIsAnonymous()) {
+            userNameText.setVisibility(View.GONE);
+        } else {
+            userNameText.setVisibility(View.VISIBLE);
+            userNameText.setText(asking.getUser().getScreenName());
+            userNameText.setOnClickListener(new UserListener(context, asking.getUserId()));
+        }
         updatedAtText.setText(asking.getUpdatedAtFormatted());
         titleText.setSpannableText(asking.getTitle());
         replyText.setText(String.valueOf(asking.getRepliesCount()));

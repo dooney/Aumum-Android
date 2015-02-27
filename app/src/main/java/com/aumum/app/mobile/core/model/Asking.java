@@ -17,6 +17,7 @@ public class Asking extends AggregateRoot {
     private String deletedAt;
     private String userId;
     private int category;
+    private Boolean isAnonymous;
     private String title;
     private String details;
     private List<String> replies = new ArrayList<String>();
@@ -28,11 +29,13 @@ public class Asking extends AggregateRoot {
 
     public Asking(String userId,
                   int category,
+                  Boolean isAnonymous,
                   String title,
                   String details,
                   List<String> images) {
         this.userId = userId;
         this.category = category;
+        this.isAnonymous = isAnonymous;
         this.title = title;
         this.details = details;
         this.images.clear();
@@ -44,6 +47,7 @@ public class Asking extends AggregateRoot {
                   String updatedAt,
                   String userId,
                   int category,
+                  Boolean isAnonymous,
                   String title,
                   String details,
                   List<String> replies,
@@ -55,6 +59,7 @@ public class Asking extends AggregateRoot {
         this.updatedAt = updatedAt;
         this.userId = userId;
         this.category = category;
+        this.isAnonymous = isAnonymous;
         this.title = title;
         this.details = details;
         this.replies.clear();
@@ -81,6 +86,10 @@ public class Asking extends AggregateRoot {
 
     public int getCategory() {
         return category;
+    }
+
+    public boolean getIsAnonymous() {
+        return isAnonymous != null ? isAnonymous : false;
     }
 
     public String getTitle() {

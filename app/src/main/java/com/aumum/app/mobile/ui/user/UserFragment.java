@@ -264,7 +264,7 @@ public class UserFragment extends LoaderFragment<User> {
         final Intent intent = new Intent(getActivity(), SearchAskingActivity.class);
         intent.putExtra(SearchAskingActivity.INTENT_TITLE,
                 getString(R.string.title_activity_user_askings, user.getScreenName()));
-        intent.putExtra(SearchPartyActivity.INTENT_USER_ID, user.getObjectId());
+        intent.putExtra(SearchAskingActivity.INTENT_USER_ID, user.getObjectId());
         startActivity(intent);
     }
 }
