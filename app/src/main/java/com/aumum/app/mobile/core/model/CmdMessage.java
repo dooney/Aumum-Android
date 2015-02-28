@@ -52,7 +52,8 @@ public class CmdMessage {
         public static final int GROUP_JOIN = 11;
         public static final int GROUP_QUIT = 12;
         public static final int ASKING_REPLY = 13;
-        public static final int ASKING_NEW = 14;
+        public static final int ASKING_REPLIED = 14;
+        public static final int ASKING_NEW = 15;
         public static final int USER_NEW = 21;
     }
 }

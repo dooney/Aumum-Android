@@ -350,11 +350,12 @@
     <string name="hint_new_reply">说两句</string>
     <string name="hint_reply_asking_reply">回复@%1$s: %2$s</string>
     <string name="label_add_more">添加更多</string>
-    <string name="label_reply_asking_message">%1$s回复了您的说说#%2$s#</string>
+    <string name="label_reply_asking_message">%1$s回复了您的说说</string>
     <string name="label_post_owner">楼主</string>
     <string name="label_anonymous">匿名</string>
     <string name="label_new_asking_message">%1$s发表了说说</string>
     <string name="label_new_anonymous_asking_message">您的好友发表了匿名讨论</string>
+    <string name="label_replied_asking_message">%1$s回复了您</string>
 
     <!-- Report -->
     <string name="hint_report_type">违规类别</string>

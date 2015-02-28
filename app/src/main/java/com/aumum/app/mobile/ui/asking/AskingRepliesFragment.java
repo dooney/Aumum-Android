@@ -189,7 +189,14 @@ public class AskingRepliesFragment extends RefreshItemListFragment<AskingReply> 
                 restService.addAskingReplies(asking.getObjectId(), response.getObjectId());
                 asking.addReply(response.getObjectId());
                 askingStore.save(asking);
-                sendAskingReplyMessage(newReply);
+                if (!asking.isOwner(currentUser.getObjectId())) {
+                    sendAskingReplyMessage(asking, newReply);
+                }
+                if (replied != null &&
+                    !asking.isOwner(replied.getUserId()) &&
+                    !replied.isOwner(currentUser.getObjectId())) {
+                    sendAskingRepliedMessage(asking, replied, newReply);
+                }
                 return true;
             }
 
@@ -218,16 +225,22 @@ public class AskingRepliesFragment extends RefreshItemListFragment<AskingReply> 
         task.execute();
     }
 
-    private void sendAskingReplyMessage(AskingReply askingReply) throws Exception {
+    private void sendAskingReplyMessage(Asking asking, AskingReply askingReply) throws Exception {
         String title = getString(R.string.label_reply_asking_message,
-                currentUser.getScreenName(), asking.getTitle());
+                currentUser.getScreenName());
         CmdMessage cmdMessage = new CmdMessage(CmdMessage.Type.ASKING_REPLY,
                 title, askingReply.getContent(), asking.getObjectId());
-        User askingOwner = userStore.getUserById(asking.getUserId());
-        String to = askingOwner.getChatId();
-        if (!to.equals(currentUser.getChatId())) {
-            chatService.sendCmdMessage(to, cmdMessage, false, null);
-        }
+        chatService.sendCmdMessage(asking.getUserId().toLowerCase(), cmdMessage, false, null);
+    }
+
+    private void sendAskingRepliedMessage(Asking asking,
+                                          AskingReply replied,
+                                          AskingReply askingReply) throws Exception {
+        String title = getString(R.string.label_replied_asking_message,
+                currentUser.getScreenName());
+        CmdMessage cmdMessage = new CmdMessage(CmdMessage.Type.ASKING_REPLIED,
+                title, askingReply.getContent(), asking.getObjectId());
+        chatService.sendCmdMessage(replied.getUserId().toLowerCase(), cmdMessage, false, null);
     }
 
     private void reportAskingReply(AskingReply askingReply) {
