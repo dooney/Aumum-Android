@@ -353,6 +353,8 @@
     <string name="label_reply_asking_message">%1$s回复了您的说说#%2$s#</string>
     <string name="label_post_owner">楼主</string>
     <string name="label_anonymous">匿名</string>
+    <string name="label_new_asking_message">%1$s发表了说说</string>
+    <string name="label_new_anonymous_asking_message">您的好友发表了匿名讨论</string>
 
     <!-- Report -->
     <string name="hint_report_type">违规类别</string>

@@ -291,6 +291,7 @@ public class MainFragment extends Fragment
                         handleGroupQuitCmdMessage(cmdMessage, message.getFrom());
                         break;
                     case CmdMessage.Type.ASKING_REPLY:
+                    case CmdMessage.Type.ASKING_NEW:
                         handleAskingDetailsCmdMessage(cmdMessage);
                         break;
                     case CmdMessage.Type.USER_NEW:

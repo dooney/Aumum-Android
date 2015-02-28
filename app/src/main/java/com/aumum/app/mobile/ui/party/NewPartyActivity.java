@@ -573,12 +573,9 @@ public class NewPartyActivity extends ProgressDialogActivity
             public Boolean call() throws Exception {
                 String title = getString(R.string.label_new_party_message, currentUser.getScreenName());
                 for (String userId : contacts) {
-                    User user = userStore.getUserById(userId);
                     CmdMessage cmdMessage = new CmdMessage(CmdMessage.Type.PARTY_NEW,
-                            title,
-                            party.getTitle(),
-                            party.getObjectId());
-                    chatService.sendCmdMessage(user.getChatId(), cmdMessage, false, null);
+                            title, party.getTitle(), party.getObjectId());
+                    chatService.sendCmdMessage(userId.toLowerCase(), cmdMessage, false, null);
                 }
                 return true;
             }

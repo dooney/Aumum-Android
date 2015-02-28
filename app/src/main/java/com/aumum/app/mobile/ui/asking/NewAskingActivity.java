@@ -23,7 +23,9 @@ import com.aumum.app.mobile.R;
 import com.aumum.app.mobile.core.Constants;
 import com.aumum.app.mobile.core.dao.UserStore;
 import com.aumum.app.mobile.core.model.Asking;
+import com.aumum.app.mobile.core.model.CmdMessage;
 import com.aumum.app.mobile.core.model.User;
+import com.aumum.app.mobile.core.service.ChatService;
 import com.aumum.app.mobile.core.service.FileUploadService;
 import com.aumum.app.mobile.core.service.RestService;
 import com.aumum.app.mobile.ui.base.ProgressDialogActivity;
@@ -40,6 +42,7 @@ import com.aumum.app.mobile.utils.SafeAsyncTask;
 import com.github.kevinsawicki.wishlist.Toaster;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import javax.inject.Inject;
 
@@ -57,6 +60,7 @@ public class NewAskingActivity extends ProgressDialogActivity
     @Inject UserStore userStore;
     @Inject RestService restService;
     @Inject FileUploadService fileUploadService;
+    @Inject ChatService chatService;
 
     private int category;
     private boolean isAnonymous;
@@ -258,9 +262,11 @@ public class NewAskingActivity extends ProgressDialogActivity
                         detailsText.getText().toString(),
                         imageUrlList);
                 Asking response = restService.newAsking(asking);
-                restService.addUserAsking(currentUser.getObjectId(), response.getObjectId());
-                currentUser.addAsking(response.getObjectId());
+                asking.setObjectId(response.getObjectId());
+                restService.addUserAsking(currentUser.getObjectId(), asking.getObjectId());
+                currentUser.addAsking(asking.getObjectId());
                 userStore.save(currentUser);
+                notifyContacts(currentUser, asking);
                 return true;
             }
 
@@ -312,5 +318,24 @@ public class NewAskingActivity extends ProgressDialogActivity
         if(cause != null) {
             Toaster.showShort(NewAskingActivity.this, cause.getMessage());
         }
+    }
+
+    private void notifyContacts(final User currentUser,
+                                final Asking asking) throws Exception {
+        new SafeAsyncTask<Boolean>() {
+            @Override
+            public Boolean call() throws Exception {
+                String title = getString(R.string.label_new_anonymous_asking_message);
+                if (!asking.getIsAnonymous()) {
+                    title = getString(R.string.label_new_asking_message, currentUser.getScreenName());
+                }
+                for (String userId : currentUser.getContacts()) {
+                    CmdMessage cmdMessage = new CmdMessage(CmdMessage.Type.ASKING_NEW,
+                            title, asking.getTitle(), asking.getObjectId());
+                    chatService.sendCmdMessage(userId.toLowerCase(), cmdMessage, false, null);
+                }
+                return true;
+            }
+        }.execute();
     }
 }
