@@ -230,7 +230,7 @@ public class AskingRepliesFragment extends RefreshItemListFragment<AskingReply> 
                 currentUser.getScreenName());
         CmdMessage cmdMessage = new CmdMessage(CmdMessage.Type.ASKING_REPLY,
                 title, askingReply.getContent(), asking.getObjectId());
-        chatService.sendCmdMessage(asking.getUserId().toLowerCase(), cmdMessage, false, null);
+        chatService.sendCmdMessage(asking.getUser().getChatId(), cmdMessage, false, null);
     }
 
     private void sendAskingRepliedMessage(Asking asking,
@@ -240,7 +240,7 @@ public class AskingRepliesFragment extends RefreshItemListFragment<AskingReply> 
                 currentUser.getScreenName());
         CmdMessage cmdMessage = new CmdMessage(CmdMessage.Type.ASKING_REPLIED,
                 title, askingReply.getContent(), asking.getObjectId());
-        chatService.sendCmdMessage(replied.getUserId().toLowerCase(), cmdMessage, false, null);
+        chatService.sendCmdMessage(replied.getUser().getChatId(), cmdMessage, false, null);
     }
 
     private void reportAskingReply(AskingReply askingReply) {

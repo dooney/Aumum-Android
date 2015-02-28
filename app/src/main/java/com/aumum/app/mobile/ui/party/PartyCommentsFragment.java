@@ -351,7 +351,7 @@ public class PartyCommentsFragment extends ItemListFragment<PartyComment> {
 
     private void sendCommentMessage(PartyComment comment) throws Exception {
         String title = getString(R.string.label_comment_party_message,
-                currentUser.getScreenName(), party.getTitle());
+                currentUser.getScreenName());
         CmdMessage cmdMessage = new CmdMessage(CmdMessage.Type.PARTY_COMMENT,
                 title, comment.getContent(), partyId);
         sendPartyOwnerMessage(cmdMessage);
@@ -359,7 +359,7 @@ public class PartyCommentsFragment extends ItemListFragment<PartyComment> {
 
     private void sendRepliedMessage(PartyComment repliedComment) throws Exception {
         String title = getString(R.string.label_replied_party_message,
-                currentUser.getScreenName(), party.getTitle());
+                currentUser.getScreenName());
         CmdMessage cmdMessage = new CmdMessage(CmdMessage.Type.PARTY_REPLY,
                 title, repliedComment.getContent(), partyId);
         sendPartyOwnerMessage(cmdMessage);
