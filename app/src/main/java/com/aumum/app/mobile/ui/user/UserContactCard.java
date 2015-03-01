@@ -28,6 +28,18 @@ public class UserContactCard extends UserCard {
     public void refresh(final User user, boolean isAdded) {
         super.refresh(user);
 
+        TextView tagsText = (TextView) view.findViewById(R.id.text_tags);
+        if (user.getTags().size() > 0) {
+            String text = "";
+            for(String tag: user.getTags()) {
+                text += tag + "  ";
+            }
+            tagsText.setText(text);
+            tagsText.setVisibility(View.VISIBLE);
+        } else {
+            tagsText.setVisibility(View.GONE);
+        }
+
         TextView inviteButton = (TextView) view.findViewById(R.id.text_invite);
         Button addButton = (Button) view.findViewById(R.id.b_add_contact);
         TextView addedText = (TextView) view.findViewById(R.id.text_added);

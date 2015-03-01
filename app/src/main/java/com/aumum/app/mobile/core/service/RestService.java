@@ -388,6 +388,31 @@ public class RestService {
         return getUserService().getList(where, Integer.MAX_VALUE).getResults();
     }
 
+    private JsonObject buildTagUsersJson(String userId, List<String> tags) {
+        final JsonObject tagUsersJson = new JsonObject();
+        final JsonObject userIdJson = new JsonObject();
+        userIdJson.addProperty("$ne", userId);
+        tagUsersJson.add("objectId", userIdJson);
+        if (tags.size() > 1) {
+            final JsonArray tagsJson = new JsonArray();
+            for(String tag: tags) {
+                final JsonObject tagJson = new JsonObject();
+                tagJson.addProperty("tags", tag);
+                tagsJson.add(tagJson);
+            }
+            tagUsersJson.add("$or", tagsJson);
+        } else {
+            tagUsersJson.addProperty("tags", tags.get(0));
+        }
+        return tagUsersJson;
+    }
+
+    public List<User> getTagUsers(String userId, List<String> tags) {
+        final JsonObject whereJson = buildTagUsersJson(userId, tags);
+        String where = whereJson.toString();
+        return getUserService().getList(where, Integer.MAX_VALUE).getResults();
+    }
+
     public int getAreaUsersCount(String userId, String area) {
         final JsonObject whereJson = buildAreaUsersJson(userId, area);
         String where = whereJson.toString();

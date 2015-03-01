@@ -21,26 +21,26 @@ import com.aumum.app.mobile.ui.view.EditTextDialog;
 import com.aumum.app.mobile.utils.SafeAsyncTask;
 import com.github.kevinsawicki.wishlist.Toaster;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
 
 /**
- * Created by Administrator on 15/01/2015.
+ * Created by Administrator on 1/03/2015.
  */
-public class AreaUsersFragment extends ItemListFragment<User>
+public class TagUsersFragment extends ItemListFragment<User>
         implements AddContactListener {
 
     @Inject UserStore userStore;
     @Inject ChatService chatService;
 
-    private String area;
-    private String userId;
+    private ArrayList<String> tags;
     private boolean shouldNotify;
     private User currentUser;
     private int usersCount;
 
-    private AreaUsersAdapter adapter;
+    private TagUsersAdapter adapter;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -48,35 +48,30 @@ public class AreaUsersFragment extends ItemListFragment<User>
         Injector.inject(this);
 
         final Intent intent = getActivity().getIntent();
-        area = intent.getStringExtra(AreaUsersActivity.INTENT_AREA);
-        userId = intent.getStringExtra(AreaUsersActivity.INTENT_USER_ID);
-        shouldNotify = intent.getBooleanExtra(AreaUsersActivity.INTENT_SHOULD_NOTIFY, false);
+        tags = intent.getStringArrayListExtra(TagUsersActivity.INTENT_TAGS);
+        shouldNotify = intent.getBooleanExtra(TagUsersActivity.INTENT_SHOULD_NOTIFY, false);
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_area_users, null);
+        return inflater.inflate(R.layout.fragment_tag_users, null);
     }
 
     @Override
     protected ArrayAdapter<User> createAdapter(List<User> items) {
-        adapter = new AreaUsersAdapter(getActivity(), items, this);
+        adapter = new TagUsersAdapter(getActivity(), items, this);
         return adapter;
     }
 
     @Override
     protected List<User> loadDataCore(Bundle bundle) throws Exception {
-        if (userId != null) {
-            currentUser = userStore.getUserById(userId);
-        } else {
-            currentUser = userStore.getCurrentUser();
-        }
+        currentUser = userStore.getCurrentUser();
         adapter.setCurrentUser(currentUser);
-        List<User> users = userStore.getListByArea(currentUser.getObjectId(), area);
+        List<User> users = userStore.getListByTags(currentUser.getObjectId(), tags);
         usersCount = users.size();
         if (usersCount > 0 && shouldNotify) {
-            notifyAreaUsers(users);
+            notifyTagUsers(users);
         }
         return users;
     }
@@ -84,7 +79,7 @@ public class AreaUsersFragment extends ItemListFragment<User>
     @Override
     protected void handleLoadResult(List<User> result) {
         super.handleLoadResult(result);
-        String title = getString(R.string.info_area_users_found, area, usersCount);
+        String title = getString(R.string.info_tag_users_found, usersCount);
         getActivity().setTitle(title);
     }
 
@@ -118,12 +113,12 @@ public class AreaUsersFragment extends ItemListFragment<User>
         dialog.show();
     }
 
-    private void notifyAreaUsers(final List<User> users) {
+    private void notifyTagUsers(final List<User> users) {
         new SafeAsyncTask<Boolean>() {
             @Override
             public Boolean call() throws Exception {
                 for (User user: users) {
-                    String title = getString(R.string.info_new_area_user_message);
+                    String title = getString(R.string.info_new_tag_user_message);
                     String content = getString(R.string.info_welcome_new_user, currentUser.getScreenName());
                     CmdMessage cmdMessage = new CmdMessage(CmdMessage.Type.USER_NEW,
                             title, content, currentUser.getObjectId());

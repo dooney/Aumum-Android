@@ -8,17 +8,34 @@
     android:padding="@dimen/margin_large"
     android:gravity="center_vertical">
 
-    <com.aumum.app.mobile.ui.view.AvatarImageView
-        android:id="@+id/image_avatar"
-        style="@style/ImageView.Avatar.Small"
-        android:layout_marginRight="@dimen/margin_large"
-        android:src="@drawable/ic_avatar"/>
-
-    <TextView
-        android:id="@+id/text_screen_name"
+    <LinearLayout
         android:layout_width="0dp"
+        android:layout_height="wrap_content"
         android:layout_weight="1"
-        style="@style/TextView"/>
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical">
+
+            <com.aumum.app.mobile.ui.view.AvatarImageView
+                android:id="@+id/image_avatar"
+                style="@style/ImageView.Avatar.Small"
+                android:layout_marginRight="@dimen/margin_large"
+                android:src="@drawable/ic_avatar"/>
+
+            <TextView
+                android:id="@+id/text_screen_name"
+                style="@style/TextView"/>
+
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/text_tags"
+            style="@style/TextView.Tag"/>
+
+    </LinearLayout>
 
     <TextView
         android:id="@+id/text_invite"

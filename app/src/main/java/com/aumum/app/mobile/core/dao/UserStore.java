@@ -185,6 +185,16 @@ public class UserStore {
         return users;
     }
 
+    public List<User> getListByTags(String userId, List<String> tags) throws Exception {
+        List<User> users = restService.getTagUsers(userId, tags);
+        if (users != null) {
+            for (User user: users) {
+                userEntityDao.insertOrReplace(map(user));
+            }
+        }
+        return users;
+    }
+
     public List<User> getGroupUsers(List<String> chatIds) throws Exception {
         List<User> users = restService.getGroupUsers(chatIds);
         if (users != null) {

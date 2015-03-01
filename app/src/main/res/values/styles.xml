@@ -160,6 +160,9 @@
     <style name="TextView.Address" parent="ButtonTextView">
         <item name="android:drawableLeft">@drawable/ic_fa_map_marker</item>
     </style>
+    <style name="TextView.Tag" parent="ButtonTextView">
+        <item name="android:drawableLeft">@drawable/ic_fa_tag</item>
+    </style>
     <style name="TextView.Comment" parent="ButtonTextView">
         <item name="android:drawableLeft">@drawable/ic_fa_comment_o</item>
         <item name="android:text">@string/label_comment</item>

@@ -282,6 +282,7 @@
             android:name=".ui.user.UserTagListActivity"
             android:label="@string/title_activity_user_tag_list" >
         </activity>
+        <activity android:name=".ui.user.TagUsersActivity" />
     </application>
 
 </manifest>
