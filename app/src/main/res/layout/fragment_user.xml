@@ -3,136 +3,172 @@
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:paddingTop="@dimen/margin_extra_large">
+    android:layout_height="match_parent">
 
-    <LinearLayout
-        android:id="@+id/main_view"
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:visibility="gone">
+        android:layout_height="match_parent">
 
         <LinearLayout
+            android:id="@+id/main_view"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:orientation="vertical"
-            android:layout_marginBottom="@dimen/margin_extra_large">
-
-            <RelativeLayout
-                style="@style/RelativeLayout.NavButton">
-
-                <com.aumum.app.mobile.ui.view.AvatarImageView
-                    android:id="@+id/image_avatar"
-                    style="@style/ImageView.Avatar.Large"
-                    android:layout_marginRight="@dimen/margin_large"
-                    android:src="@drawable/ic_avatar"/>
-
-                <TextView
-                    android:id="@+id/text_screen_name"
-                    style="@style/TextView.User.ScreenName"
-                    android:layout_toRightOf="@+id/image_avatar"
-                    android:layout_centerVertical="true"/>
-
-            </RelativeLayout>
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:layout_marginBottom="@dimen/margin_extra_large">
-
-            <RelativeLayout
-                style="@style/RelativeLayout.NavButton">
-
-                <TextView
-                    android:id="@+id/text_label_city"
-                    style="@style/TextView.User"
-                    android:layout_centerVertical="true"
-                    android:layout_marginRight="@dimen/margin_large"
-                    android:text="@string/label_city"/>
-
-                <TextView
-                    android:id="@+id/text_city"
-                    style="@style/TextView.Subtitle"
-                    android:layout_toRightOf="@+id/text_label_city"
-                    android:layout_alignBaseline="@+id/text_label_city"/>
-
-            </RelativeLayout>
-
-            <RelativeLayout
-                style="@style/RelativeLayout.NavButton">
-
-                <TextView
-                    android:id="@+id/text_label_area"
-                    style="@style/TextView.User"
-                    android:layout_centerVertical="true"
-                    android:layout_marginRight="@dimen/margin_large"
-                    android:text="@string/label_area"/>
-
-                <TextView
-                    android:id="@+id/text_area"
-                    style="@style/TextView.Subtitle"
-                    android:layout_toRightOf="@+id/text_label_area"
-                    android:layout_alignBaseline="@+id/text_label_area"/>
-
-            </RelativeLayout>
-
-            <RelativeLayout
-                style="@style/RelativeLayout.NavButton">
-
-                <TextView
-                    android:id="@+id/text_label_about"
-                    style="@style/TextView.User"
-                    android:layout_centerVertical="true"
-                    android:layout_marginRight="@dimen/margin_large"
-                    android:text="@string/label_about"/>
-
-                <TextView
-                    android:id="@+id/text_about"
-                    style="@style/TextView.User.About"
-                    android:layout_toRightOf="@+id/text_label_about"
-                    android:layout_alignBaseline="@+id/text_label_about"/>
-
-            </RelativeLayout>
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:paddingLeft="@dimen/margin_large"
-            android:paddingRight="@dimen/margin_large">
-
-            <Button
-                android:id="@+id/b_add_contact"
-                style="@style/Button.User.AddContact" />
+            android:paddingTop="@dimen/margin_extra_large"
+            android:visibility="gone">
 
             <LinearLayout
-                android:id="@+id/layout_action"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:layout_marginBottom="@dimen/margin_extra_large">
+
+                <RelativeLayout
+                    style="@style/RelativeLayout.NavButton">
+
+                    <com.aumum.app.mobile.ui.view.AvatarImageView
+                        android:id="@+id/image_avatar"
+                        style="@style/ImageView.Avatar.Large"
+                        android:layout_marginRight="@dimen/margin_large"
+                        android:src="@drawable/ic_avatar"/>
+
+                    <TextView
+                        android:id="@+id/text_screen_name"
+                        style="@style/TextView.User.ScreenName"
+                        android:layout_toRightOf="@+id/image_avatar"
+                        android:layout_centerVertical="true"/>
+
+                </RelativeLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_marginBottom="@dimen/margin_extra_large">
+
+                <RelativeLayout
+                    style="@style/RelativeLayout.NavButton">
+
+                    <TextView
+                        android:id="@+id/text_label_city"
+                        style="@style/TextView.User"
+                        android:layout_centerVertical="true"
+                        android:layout_marginRight="@dimen/margin_large"
+                        android:text="@string/label_city"/>
+
+                    <TextView
+                        android:id="@+id/text_city"
+                        style="@style/TextView.Subtitle"
+                        android:layout_toRightOf="@+id/text_label_city"
+                        android:layout_alignBaseline="@+id/text_label_city"/>
+
+                </RelativeLayout>
+
+                <RelativeLayout
+                    style="@style/RelativeLayout.NavButton">
+
+                    <TextView
+                        android:id="@+id/text_label_area"
+                        style="@style/TextView.User"
+                        android:layout_centerVertical="true"
+                        android:layout_marginRight="@dimen/margin_large"
+                        android:text="@string/label_area"/>
+
+                    <TextView
+                        android:id="@+id/text_area"
+                        style="@style/TextView.Subtitle"
+                        android:layout_toRightOf="@+id/text_label_area"
+                        android:layout_alignBaseline="@+id/text_label_area"/>
+
+                </RelativeLayout>
+
+                <RelativeLayout
+                    style="@style/RelativeLayout.NavButton">
+
+                    <TextView
+                        android:id="@+id/text_label_tags"
+                        style="@style/TextView.User"
+                        android:layout_centerVertical="true"
+                        android:layout_marginRight="@dimen/margin_large"
+                        android:text="@string/label_tags"/>
+
+                    <TextView
+                        android:id="@+id/text_tag1"
+                        style="@style/TextView.User.Tag"
+                        android:layout_toRightOf="@+id/text_label_tags"
+                        android:layout_alignBaseline="@+id/text_label_tags"/>
+
+                    <TextView
+                        android:id="@+id/text_tag2"
+                        style="@style/TextView.User.Tag"
+                        android:layout_toRightOf="@+id/text_tag1"
+                        android:layout_alignBaseline="@+id/text_label_tags"/>
+
+                    <TextView
+                        android:id="@+id/text_tag3"
+                        style="@style/TextView.User.Tag"
+                        android:layout_toRightOf="@+id/text_tag2"
+                        android:layout_alignBaseline="@+id/text_label_tags"/>
+
+                </RelativeLayout>
+
+                <RelativeLayout
+                    style="@style/RelativeLayout.NavButton">
+
+                    <TextView
+                        android:id="@+id/text_label_about"
+                        style="@style/TextView.User"
+                        android:layout_centerVertical="true"
+                        android:layout_marginRight="@dimen/margin_large"
+                        android:text="@string/label_about"/>
+
+                    <TextView
+                        android:id="@+id/text_about"
+                        style="@style/TextView.User.About"
+                        android:layout_toRightOf="@+id/text_label_about"
+                        android:layout_alignBaseline="@+id/text_label_about"/>
+
+                </RelativeLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingLeft="@dimen/margin_large"
+                android:paddingRight="@dimen/margin_large">
 
                 <Button
-                    android:id="@+id/b_send_message"
-                    style="@style/Button.User.SendMessage"
-                    android:layout_marginTop="@dimen/margin_large"
-                    android:layout_marginBottom="@dimen/margin_medium"/>
+                    android:id="@+id/b_add_contact"
+                    style="@style/Button.User.AddContact" />
 
-                <Button
-                    android:id="@+id/b_delete_contact"
-                    style="@style/Button.User.DeleteContact"
-                    android:layout_marginTop="@dimen/margin_medium"
-                    android:layout_marginBottom="@dimen/margin_large"/>
+                <LinearLayout
+                    android:id="@+id/layout_action"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <Button
+                        android:id="@+id/b_send_message"
+                        style="@style/Button.User.SendMessage"
+                        android:layout_marginTop="@dimen/margin_large"
+                        android:layout_marginBottom="@dimen/margin_medium"/>
+
+                    <Button
+                        android:id="@+id/b_delete_contact"
+                        style="@style/Button.User.DeleteContact"
+                        android:layout_marginTop="@dimen/margin_medium"
+                        android:layout_marginBottom="@dimen/margin_large"/>
+
+                </LinearLayout>
 
             </LinearLayout>
 
         </LinearLayout>
 
-    </LinearLayout>
+    </ScrollView>
 
     <ProgressBar
         android:id="@+id/pb_loading"

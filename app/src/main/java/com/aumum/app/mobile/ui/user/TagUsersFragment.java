@@ -36,6 +36,7 @@ public class TagUsersFragment extends ItemListFragment<User>
     @Inject ChatService chatService;
 
     private ArrayList<String> tags;
+    private String userId;
     private boolean shouldNotify;
     private User currentUser;
     private int usersCount;
@@ -48,6 +49,7 @@ public class TagUsersFragment extends ItemListFragment<User>
         Injector.inject(this);
 
         final Intent intent = getActivity().getIntent();
+        userId = intent.getStringExtra(TagUsersActivity.INTENT_USER_ID);
         tags = intent.getStringArrayListExtra(TagUsersActivity.INTENT_TAGS);
         shouldNotify = intent.getBooleanExtra(TagUsersActivity.INTENT_SHOULD_NOTIFY, false);
     }
@@ -66,7 +68,11 @@ public class TagUsersFragment extends ItemListFragment<User>
 
     @Override
     protected List<User> loadDataCore(Bundle bundle) throws Exception {
-        currentUser = userStore.getCurrentUser();
+        if (userId != null) {
+            currentUser = userStore.getUserById(userId);
+        } else {
+            currentUser = userStore.getCurrentUser();
+        }
         adapter.setCurrentUser(currentUser);
         List<User> users = userStore.getListByTags(currentUser.getObjectId(), tags);
         usersCount = users.size();

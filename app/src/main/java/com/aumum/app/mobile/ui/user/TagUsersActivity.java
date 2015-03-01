@@ -10,6 +10,7 @@ import com.aumum.app.mobile.R;
  */
 public class TagUsersActivity extends ActionBarActivity {
 
+    public static final String INTENT_USER_ID = "userId";
     public static final String INTENT_TAGS = "tags";
     public static final String INTENT_SHOULD_NOTIFY = "shouldNotify";
 

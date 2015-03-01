@@ -161,10 +161,10 @@
     <string name="info_submitting_feedback">正在提交您的反馈，请稍候</string>
     <string name="info_feedback_submitted">反馈已成功提交，感谢您的支持！</string>
     <string name="info_area_users_found">在%1$s为您找到%2$d位用户</string>
-    <string name="info_new_area_user_message">您有同区新朋友</string>
-    <string name="info_new_tag_user_message">您有同标签新朋友</string>
+    <string name="info_new_area_user_message">同区新用户</string>
+    <string name="info_new_tag_user_message">相似标签新用户</string>
     <string name="info_welcome_new_user">%1$s刚刚加入，过去打个招呼吧！</string>
-    <string name="info_tag_users_found">为您找到%,d位用户</string>
+    <string name="info_tag_users_found">按标签为您找到%,d位用户</string>
 
     <!-- Error Message -->
     <string name="error_bad_credentials">验证失败，请输入正确的手机号码/密码</string>

@@ -25,6 +25,7 @@ import com.aumum.app.mobile.ui.base.ProgressDialogActivity;
 import com.aumum.app.mobile.ui.helper.TextWatcherAdapter;
 import com.aumum.app.mobile.ui.image.ImagePickerActivity;
 import com.aumum.app.mobile.ui.user.AreaUsersActivity;
+import com.aumum.app.mobile.ui.user.TagUsersActivity;
 import com.aumum.app.mobile.ui.user.UpdateAvatarActivity;
 import com.aumum.app.mobile.ui.user.UserTagListActivity;
 import com.aumum.app.mobile.ui.view.Animation;
@@ -85,6 +86,7 @@ public class CompleteProfileActivity extends ProgressDialogActivity
 
     public static final String INTENT_USER_ID = "userId";
     private static final int GET_AREA_USERS_REQ_CODE = 100;
+    private static final int GET_TAG_USERS_REQ_CODE = 101;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -192,6 +194,8 @@ public class CompleteProfileActivity extends ProgressDialogActivity
             String area = data.getStringExtra(AreaListActivity.INTENT_AREA);
             updateArea(area);
         } else if (requestCode == GET_AREA_USERS_REQ_CODE) {
+            startTagUsersActivity(tags);
+        } else if (requestCode == GET_TAG_USERS_REQ_CODE) {
             setResult(RESULT_OK);
             finish();
         } else if (requestCode == Constants.RequestCode.GET_USER_TAG_LIST_REQ_CODE &&
@@ -404,7 +408,16 @@ public class CompleteProfileActivity extends ProgressDialogActivity
                 text += tag + "  ";
             }
             tagsText.setText(text);
+            tags.clear();
             tags.addAll(userTags);
         }
+    }
+
+    private void startTagUsersActivity(ArrayList<String> tags) {
+        final Intent intent = new Intent(this, TagUsersActivity.class);
+        intent.putExtra(TagUsersActivity.INTENT_USER_ID, userId);
+        intent.putStringArrayListExtra(TagUsersActivity.INTENT_TAGS, tags);
+        intent.putExtra(TagUsersActivity.INTENT_SHOULD_NOTIFY, true);
+        startActivityForResult(intent, GET_TAG_USERS_REQ_CODE);
     }
 }

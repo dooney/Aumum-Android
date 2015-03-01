@@ -545,6 +545,10 @@
     <!-- User -->
     <style name="TextView.User" parent="TextView.Title" />
     <style name="TextView.User.ScreenName" parent="TextView.User" />
+    <style name="TextView.User.Tag" parent="TextView.Subtitle">
+        <item name="android:background">@drawable/tag_background</item>
+        <item name="android:layout_marginRight">@dimen/margin_small</item>
+    </style>
     <style name="TextView.User.About" parent="TextView.Subtitle">
         <item name="android:maxLines">4</item>
         <item name="android:ellipsize">end</item>
