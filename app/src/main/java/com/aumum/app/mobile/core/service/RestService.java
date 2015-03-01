@@ -530,6 +530,11 @@ public class RestService {
         data.addProperty(Constants.Http.User.PARAM_EMAIL, user.getEmail());
         data.addProperty(Constants.Http.User.PARAM_CITY, user.getCity());
         data.addProperty(Constants.Http.User.PARAM_AREA, user.getArea());
+        JsonArray tags = new JsonArray();
+        for (String tag: user.getTags()) {
+            tags.add(new JsonPrimitive(tag));
+        }
+        data.add(Constants.Http.User.PARAM_TAGS, tags);
         data.addProperty(Constants.Http.User.PARAM_ABOUT, user.getAbout());
         data.addProperty(Constants.Http.User.PARAM_CHAT_ID, user.getChatId());
         return getUserService().updateById(user.getObjectId(), data);

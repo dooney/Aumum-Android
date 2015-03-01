@@ -227,6 +227,7 @@
     <string name="hint_email">邮箱地址 (找回密码)</string>
     <string name="hint_city">所在城市</string>
     <string name="hint_area">所在地区</string>
+    <string name="hint_tags">个人标签</string>
     <string name="hint_about">个人简介</string>
     <string name="label_city">所在城市</string>
     <string name="label_select_your_city">请选择您所在的城市</string>

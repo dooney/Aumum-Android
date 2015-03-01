@@ -668,6 +668,9 @@
     <style name="EditText.Account.Area" parent="EditText.Mandatory">
         <item name="android:hint">@string/hint_area</item>
     </style>
+    <style name="EditText.Account.Tags" parent="EditText.Mandatory">
+        <item name="android:hint">@string/hint_tags</item>
+    </style>
     <style name="Button.Account.SignUp" parent="Button.Primary">
         <item name="android:text">@string/label_sign_up</item>
     </style>
