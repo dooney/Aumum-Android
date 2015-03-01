@@ -154,6 +154,11 @@ public class User extends AggregateRoot implements Sortable {
         return tags;
     }
 
+    public void setTags(List<String> tags) {
+        this.tags.clear();
+        this.tags.addAll(tags);
+    }
+
     @Override
     public String getSortLetters() {
         String pinyin = Strings.getSelling(screenName);

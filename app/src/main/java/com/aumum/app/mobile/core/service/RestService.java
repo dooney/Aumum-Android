@@ -559,6 +559,16 @@ public class RestService {
         return getUserService().updateById(userId, data);
     }
 
+    public JsonObject updateUserTags(String userId, List<String> tags) {
+        JsonArray array = new JsonArray();
+        for (String tag: tags) {
+            array.add(new JsonPrimitive(tag));
+        }
+        final JsonObject data = new JsonObject();
+        data.add(Constants.Http.User.PARAM_TAGS, array);
+        return getUserService().updateById(userId, data);
+    }
+
     public JsonObject updateUserAbout(String userId, String about) {
         final JsonObject data = new JsonObject();
         data.addProperty(Constants.Http.User.PARAM_ABOUT, about);

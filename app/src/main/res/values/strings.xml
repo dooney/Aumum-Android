@@ -275,6 +275,7 @@
     <string name="label_favorite_askings">说说收藏</string>
     <string name="label_confirm_city">您确定变更城市为&lt;font color=#d9534f>%1$s&lt;/font>？</string>
     <string name="label_confirm_area">您确定变更地区为&lt;font color=#d9534f>%1$s&lt;/font>？</string>
+    <string name="label_confirm_user_tags">您的标签已更改，是否保存？</string>
 
     <!-- Settings -->
     <string name="label_notification">通知</string>

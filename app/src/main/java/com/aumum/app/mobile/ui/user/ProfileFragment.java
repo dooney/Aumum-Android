@@ -335,7 +335,7 @@ public class ProfileFragment extends LoaderFragment<User> {
             emailText.setText(user.getEmail());
             cityText.setText(user.getCity());
             areaText.setText(user.getArea());
-            updateTags(user.getTags());
+            updateTagsUI(user.getTags());
             aboutText.setText(user.getAbout());
         }
     }
@@ -433,7 +433,7 @@ public class ProfileFragment extends LoaderFragment<User> {
         }).show();
     }
 
-    private void updateTags(final List<String> tags) {
+    private void updateTagsUI(final List<String> tags) {
         for (int i = 0; i < tagsText.length; i++) {
             tagsText[i].setText("");
             tagsText[i].setVisibility(View.GONE);
@@ -442,6 +442,28 @@ public class ProfileFragment extends LoaderFragment<User> {
             tagsText[i].setText(tags.get(i));
             tagsText[i].setVisibility(View.VISIBLE);
         }
+    }
+
+    private void updateTags(final List<String> tags) {
+        final String text = getString(R.string.label_confirm_user_tags);
+        new TextViewDialog(getActivity(), text, new ConfirmDialog.OnConfirmListener() {
+            @Override
+            public void call(Object value) throws Exception {
+                restService.updateUserTags(currentUser.getObjectId(), tags);
+                currentUser.setTags(tags);
+                userStore.save(currentUser);
+            }
+
+            @Override
+            public void onException(String errorMessage) {
+                Toaster.showShort(getActivity(), errorMessage);
+            }
+
+            @Override
+            public void onSuccess(Object value) {
+                updateTagsUI(tags);
+            }
+        }).show();
     }
 
     private void showFavoriteDialog(final User user) {
