@@ -42,7 +42,8 @@ public class User extends AggregateRoot implements Sortable {
                 List<String> parties,
                 List<String> askings,
                 List<String> favParties,
-                List<String> favAskings) {
+                List<String> favAskings,
+                List<String> tags) {
         this.objectId = objectId;
         this.username = username;
         this.chatId = chatId;
@@ -63,6 +64,8 @@ public class User extends AggregateRoot implements Sortable {
         this.favParties.addAll(favParties);
         this.favAskings.clear();
         this.favAskings.addAll(favAskings);
+        this.tags.clear();
+        this.tags.addAll(tags);
     }
 
     public String getUsername() {

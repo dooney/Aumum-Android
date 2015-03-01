@@ -67,7 +67,8 @@ public class UserStore {
                 getList(userEntity.getParties()),
                 getList(userEntity.getAskings()),
                 getList(userEntity.getFavParties()),
-                getList(userEntity.getFavAskings()));
+                getList(userEntity.getFavAskings()),
+                getList(userEntity.getTags()));
     }
 
     private UserEntity map(User user) throws Exception {
@@ -87,7 +88,8 @@ public class UserStore {
                 getJsonString(user.getParties()),
                 getJsonString(user.getAskings()),
                 getJsonString(user.getFavParties()),
-                getJsonString(user.getFavAskings()));
+                getJsonString(user.getFavAskings()),
+                getJsonString(user.getTags()));
         return userEntity;
     }
 
