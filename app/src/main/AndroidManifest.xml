@@ -197,14 +197,13 @@
         <activity android:name=".ui.asking.AskingDetailsActivity" />
         <activity
             android:name=".ui.asking.AskingDetailsSingleActivity"
-            android:label="@string/title_activity_asking_details"
             android:excludeFromRecents="true"
+            android:label="@string/title_activity_asking_details"
             android:launchMode="singleTask"
             android:taskAffinity="" >
         </activity>
         <activity android:name=".ui.asking.SearchAskingActivity" />
         <activity android:name=".ui.image.ImagePickerActivity" />
-
         <activity
             android:name="com.tencent.tauth.AuthActivity"
             android:launchMode="singleTask"
@@ -214,12 +213,18 @@
 
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
+
                 <data android:scheme="tencent1104116792" />
             </intent-filter>
         </activity>
         <activity android:name="com.tencent.connect.common.AssistActivity" />
-        <meta-data android:name="UMENG_APPKEY" android:value="548989a7fd98c57e73000956" />
-        <meta-data android:name="UMENG_CHANNEL" android:value="Channel ID" />
+
+        <meta-data
+            android:name="UMENG_APPKEY"
+            android:value="548989a7fd98c57e73000956" />
+        <meta-data
+            android:name="UMENG_CHANNEL"
+            android:value="Channel ID" />
 
         <activity
             android:name="com.umeng.socialize.view.ShareActivity"
@@ -272,6 +277,10 @@
         <activity
             android:name=".ui.settings.NotificationActivity"
             android:label="@string/title_activity_notification_settings" >
+        </activity>
+        <activity
+            android:name=".ui.user.UserTagListActivity"
+            android:label="@string/title_activity_user_tag_list" >
         </activity>
     </application>
 

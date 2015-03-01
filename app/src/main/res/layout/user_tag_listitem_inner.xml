@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:gravity="center_vertical"
+    android:orientation="vertical"
+    android:background="@drawable/list_selector_transparent">
+
+    <RelativeLayout
+        android:id="@+id/layout_tag_card"
+        style="@style/RelativeLayout.ListNavButton">
+
+        <TextView
+            android:id="@+id/text_tag_name"
+            style="@style/TextView.Tag.Name"
+            android:layout_centerVertical="true"/>
+
+        <ImageView
+            android:id="@+id/checkbox"
+            style="@style/ImageView.Tag.Checkbox"
+            android:layout_alignParentRight="true"
+            android:paddingRight="@dimen/margin_large"
+            android:layout_centerVertical="true"/>
+
+    </RelativeLayout>
+
+</LinearLayout>

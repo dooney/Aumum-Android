@@ -22,6 +22,7 @@ public class User extends AggregateRoot implements Sortable {
     protected List<String> askings = new ArrayList<String>();
     protected List<String> favParties = new ArrayList<String>();
     protected List<String> favAskings = new ArrayList<String>();
+    protected List<String> tags = new ArrayList<String>();
 
     public User() {
 
@@ -147,6 +148,10 @@ public class User extends AggregateRoot implements Sortable {
 
     public List<String> getFavAskings() {
         return favAskings;
+    }
+
+    public List<String> getTags() {
+        return tags;
     }
 
     @Override

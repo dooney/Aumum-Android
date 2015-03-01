@@ -558,12 +558,22 @@
     </style>
     <style name="EditText.AddContact.Intro" parent="EditText" />
 
+    <!-- Tag -->
+    <style name="TextView.Tag.Name" parent="TextView.Title" />
+    <style name="ImageView.Tag.Checkbox" parent="ImageView">
+        <item name="android:src">@drawable/checkbox_on_focus</item>
+    </style>
+
     <!-- Profile -->
     <style name="TextView.Profile" parent="TextView.Title" />
     <style name="TextView.Profile.About" parent="TextView.Subtitle">
         <item name="android:maxLines">4</item>
         <item name="android:ellipsize">end</item>
         <item name="android:lineSpacingMultiplier">1.1</item>
+    </style>
+    <style name="TextView.Profile.Tag" parent="TextView.Subtitle">
+        <item name="android:background">@drawable/tag_background</item>
+        <item name="android:layout_marginRight">@dimen/margin_small</item>
     </style>
 
     <!-- Settings -->

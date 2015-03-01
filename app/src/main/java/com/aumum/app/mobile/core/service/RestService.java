@@ -13,6 +13,7 @@ import com.aumum.app.mobile.core.model.PartyReason;
 import com.aumum.app.mobile.core.model.PlaceRange;
 import com.aumum.app.mobile.core.model.Report;
 import com.aumum.app.mobile.core.model.User;
+import com.aumum.app.mobile.core.model.UserTag;
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
@@ -94,6 +95,10 @@ public class RestService {
 
     private CityGroupService getCityGroupService() {
         return getRestAdapter().create(CityGroupService.class);
+    }
+
+    private UserTagService getUserTagService() {
+        return getRestAdapter().create(UserTagService.class);
     }
 
     private RestAdapter getRestAdapter() {
@@ -959,5 +964,9 @@ public class RestService {
             return result.get(0);
         }
         return null;
+    }
+
+    public List<UserTag> getUserTags() {
+        return getUserTagService().getList().getResults();
     }
 }

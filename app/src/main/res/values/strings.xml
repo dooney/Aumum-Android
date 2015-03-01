@@ -13,10 +13,10 @@
     <string-array name="label_asking_pages">
         <item>我爱我家</item>
         <item>亲子教育</item>
-        <item></item>
-        <item></item>
-        <item></item>
-        <item></item>
+        <item/>
+        <item/>
+        <item/>
+        <item/>
         <item>匿名讨论</item>
     </string-array>
     <string-array name="label_party_actions">
@@ -216,6 +216,7 @@
     <string name="title_activity_area_list">请选择您所在的地区</string>
     <string name="title_activity_notification_settings">通知设置</string>
     <string name="title_activity_search_area">请选择您要指定的地区</string>
+    <string name="title_activity_user_tag_list">请选择您的标签</string>
 
     <!-- Account -->
     <string name="hint_login_phone">手机号码</string>
@@ -266,6 +267,7 @@
     <!-- Profile -->
     <string name="label_screen_name">用户昵称</string>
     <string name="label_email_address">邮箱地址</string>
+    <string name="label_tags">个人标签</string>
     <string name="label_my_parties">我的聚会</string>
     <string name="label_my_askings">我的说说</string>
     <string name="label_select_favorite_type">请选择收藏类别</string>
@@ -385,5 +387,6 @@
     <string name="title_gps_alert_dialog">GPS设置</string>
     <string name="info_gps_alert_dialog">GPS未开启，点击确定去设置菜单开启该功能。</string>
     <string name="done_label">确定</string>
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 
 </resources>
