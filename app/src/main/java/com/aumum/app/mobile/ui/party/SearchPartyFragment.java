@@ -29,7 +29,8 @@ import javax.inject.Inject;
 import it.gmariotti.cardslib.library.internal.Card;
 import it.gmariotti.cardslib.library.internal.CardArrayAdapter;
 
-public class SearchPartyFragment extends RefreshItemListFragment<Card> {
+public class SearchPartyFragment extends RefreshItemListFragment<Card>
+        implements PartyCommentClickListener {
 
     @Inject UserStore userStore;
     @Inject PartyStore partyStore;
@@ -216,7 +217,7 @@ public class SearchPartyFragment extends RefreshItemListFragment<Card> {
         }
         gpsTracker.getLocation();
         party.setDistance(gpsTracker.getLatitude(), gpsTracker.getLongitude());
-        Card card = new PartyCard(SearchPartyFragment.this, party, currentUserId);
+        Card card = new PartyCard(getActivity(), party, currentUserId, this);
         card.setOnClickListener(new Card.OnCardClickListener() {
             @Override
             public void onClick(Card card, View view) {
@@ -284,5 +285,12 @@ public class SearchPartyFragment extends RefreshItemListFragment<Card> {
         } catch (Exception e) {
             Ln.d(e);
         }
+    }
+
+    @Override
+    public void OnClick(String partyId) {
+        final Intent intent = new Intent(getActivity(), PartyCommentsActivity.class);
+        intent.putExtra(PartyCommentsActivity.INTENT_PARTY_ID, partyId);
+        startActivityForResult(intent, Constants.RequestCode.GET_PARTY_COMMENTS_REQ_CODE);
     }
 }

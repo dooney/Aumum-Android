@@ -36,6 +36,7 @@ import com.aumum.app.mobile.ui.chat.NotificationClickListener;
 import com.aumum.app.mobile.ui.chat.SendMessageListener;
 import com.aumum.app.mobile.ui.chat.TextMessageCard;
 import com.aumum.app.mobile.ui.chat.VoiceMessageCard;
+import com.aumum.app.mobile.ui.moment.MomentLikeListener;
 import com.aumum.app.mobile.ui.moment.MomentListFragment;
 import com.aumum.app.mobile.ui.moment.NewMomentActivity;
 import com.aumum.app.mobile.ui.party.PartyCalendarFragment;
@@ -165,7 +166,8 @@ import retrofit.converter.GsonConverter;
                 UserTagListFragment.class,
                 TagUsersFragment.class,
                 MomentListFragment.class,
-                NewMomentActivity.class
+                NewMomentActivity.class,
+                MomentLikeListener.class
         }
 )
 public class BootstrapModule {

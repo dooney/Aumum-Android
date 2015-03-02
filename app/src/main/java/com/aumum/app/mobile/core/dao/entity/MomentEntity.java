@@ -8,17 +8,23 @@ public class MomentEntity extends BaseEntity {
     private String userId;
     private String details;
     private String images;
+    private String likes;
+    private String comments;
 
     public MomentEntity(String objectId,
                        java.util.Date createdAt,
                        String userId,
                        String details,
-                       String images) {
+                       String images,
+                       String likes,
+                       String comments) {
         this.objectId = objectId;
         this.createdAt = createdAt;
         this.userId = userId;
         this.details = details;
         this.images = images;
+        this.likes = likes;
+        this.comments = comments;
     }
 
     public String getUserId() {
@@ -43,5 +49,21 @@ public class MomentEntity extends BaseEntity {
 
     public void setImages(String images) {
         this.images = images;
+    }
+
+    public String getLikes() {
+        return likes;
+    }
+
+    public void setLikes(String likes) {
+        this.likes = likes;
+    }
+
+    public String getComments() {
+        return comments;
+    }
+
+    public void setComments(String comments) {
+        this.comments = comments;
     }
 }

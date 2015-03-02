@@ -56,20 +56,34 @@ public class User extends AggregateRoot implements Sortable {
         this.area = area;
         this.avatarUrl = avatarUrl;
         this.about = about;
-        this.contacts.clear();
-        this.contacts.addAll(contacts);
-        this.parties.clear();
-        this.parties.addAll(parties);
-        this.askings.clear();
-        this.askings.addAll(askings);
-        this.favParties.clear();
-        this.favParties.addAll(favParties);
-        this.favAskings.clear();
-        this.favAskings.addAll(favAskings);
-        this.tags.clear();
-        this.tags.addAll(tags);
-        this.moments.clear();
-        this.moments.addAll(moments);
+        if (contacts != null) {
+            this.contacts.clear();
+            this.contacts.addAll(contacts);
+        }
+        if (parties != null) {
+            this.parties.clear();
+            this.parties.addAll(parties);
+        }
+        if (askings != null) {
+            this.askings.clear();
+            this.askings.addAll(askings);
+        }
+        if (favParties != null) {
+            this.favParties.clear();
+            this.favParties.addAll(favParties);
+        }
+        if (favAskings != null) {
+            this.favAskings.clear();
+            this.favAskings.addAll(favAskings);
+        }
+        if (tags != null) {
+            this.tags.clear();
+            this.tags.addAll(tags);
+        }
+        if (moments != null) {
+            this.moments.clear();
+            this.moments.addAll(moments);
+        }
     }
 
     public String getUsername() {

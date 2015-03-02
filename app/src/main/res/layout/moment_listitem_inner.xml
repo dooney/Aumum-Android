@@ -42,12 +42,9 @@
 
     </RelativeLayout>
 
-    <View style="@style/Divider" />
-
     <com.aumum.app.mobile.ui.view.SpannableTextView
         android:id="@+id/text_details"
         style="@style/TextView.Moment.Details"
-        android:paddingTop="@dimen/margin_medium"
         android:paddingBottom="@dimen/margin_medium"/>
 
     <GridView

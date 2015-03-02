@@ -38,8 +38,10 @@ public class Asking extends AggregateRoot {
         this.isAnonymous = isAnonymous;
         this.title = title;
         this.details = details;
-        this.images.clear();
-        this.images.addAll(images);
+        if (images != null) {
+            this.images.clear();
+            this.images.addAll(images);
+        }
     }
 
     public Asking(String objectId,
@@ -62,14 +64,22 @@ public class Asking extends AggregateRoot {
         this.isAnonymous = isAnonymous;
         this.title = title;
         this.details = details;
-        this.replies.clear();
-        this.replies.addAll(replies);
-        this.likes.clear();
-        this.likes.addAll(likes);
-        this.favorites.clear();
-        this.favorites.addAll(favorites);
-        this.images.clear();
-        this.images.addAll(images);
+        if (replies != null) {
+            this.replies.clear();
+            this.replies.addAll(replies);
+        }
+        if (likes != null) {
+            this.likes.clear();
+            this.likes.addAll(likes);
+        }
+        if (favorites != null) {
+            this.favorites.clear();
+            this.favorites.addAll(favorites);
+        }
+        if (images != null) {
+            this.images.clear();
+            this.images.addAll(images);
+        }
     }
 
     public String getUpdatedAt() {

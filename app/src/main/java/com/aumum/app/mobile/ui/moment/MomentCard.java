@@ -14,6 +14,7 @@ import com.aumum.app.mobile.ui.image.GalleryAdapter;
 import com.aumum.app.mobile.ui.user.UserListener;
 import com.aumum.app.mobile.ui.view.AvatarImageView;
 import com.aumum.app.mobile.ui.view.ImageViewDialog;
+import com.aumum.app.mobile.ui.view.LikeTextView;
 import com.aumum.app.mobile.ui.view.SpannableTextView;
 
 import java.util.ArrayList;
@@ -27,11 +28,22 @@ public class MomentCard extends Card {
 
     private Activity activity;
     private Moment moment;
+    private String currentUserId;
+    private MomentLikeListener likeListener;
+    private MomentCommentClickListener momentCommentClickListener;
 
-    public MomentCard(Activity activity, Moment moment) {
+    public MomentCard(Activity activity, Moment moment, String currentUserId,
+                      MomentCommentClickListener momentCommentClickListener) {
         super(activity, R.layout.moment_listitem_inner);
         this.activity = activity;
         this.moment = moment;
+        this.currentUserId = currentUserId;
+        likeListener = new MomentLikeListener(moment);
+        this.momentCommentClickListener = momentCommentClickListener;
+    }
+
+    public Moment getMoment() {
+        return moment;
     }
 
     @Override
@@ -81,5 +93,24 @@ public class MomentCard extends Card {
         } else {
             gridGallery.setVisibility(View.GONE);
         }
+
+        TextView commentText = (TextView) view.findViewById(R.id.text_comment);
+        int comments = moment.getCommentsCount();
+        commentText.setText(comments > 0 ? String.valueOf(comments) : view.getResources().getString(R.string.label_comment));
+        commentText.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (momentCommentClickListener != null) {
+                    momentCommentClickListener.OnClick(moment.getObjectId());
+                }
+            }
+        });
+
+        LikeTextView likeText = (LikeTextView) view.findViewById(R.id.text_like);
+        likeText.setTextResId(R.string.label_like);
+        likeText.setLikeResId(R.drawable.ic_fa_thumbs_o_up);
+        likeText.setLikedResId(R.drawable.ic_fa_thumbs_up);
+        likeText.init(moment.getLikesCount(), moment.isLiked(currentUserId));
+        likeText.setLikeListener(likeListener);
     }
 }

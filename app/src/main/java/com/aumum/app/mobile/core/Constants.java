@@ -146,6 +146,11 @@ public final class Constants {
         public static final String URL_MOMENTS_FRAG = "/1/classes/Moments";
 
         /**
+         * Moment By Id URL
+         */
+        public static final String URL_MOMENT_BY_ID_FRAG = "/1/classes/Moments/{id}";
+
+        /**
          * PARAMS for auth
          */
         public static final String PARAM_USERNAME = "username";
@@ -211,6 +216,11 @@ public final class Constants {
 
         public static final class AskingReply {
             public static final String PARAM_LIKES = "likes";
+        }
+
+        public static final class Moment {
+            public static final String PARAM_LIKES = "likes";
+            public static final String PARAM_COMMENTS = "comments";
         }
     }
 

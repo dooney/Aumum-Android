@@ -58,8 +58,10 @@ public class Party extends AggregateRoot {
         this.latitude = place.getLatitude();
         this.longitude = place.getLongitude();
         this.details = details;
-        this.images.clear();
-        this.images.addAll(images);
+        if (images != null) {
+            this.images.clear();
+            this.images.addAll(images);
+        }
         if (subscriptions != null) {
             this.subscriptions = new ArrayList<String>();
             this.subscriptions.clear();
@@ -97,18 +99,30 @@ public class Party extends AggregateRoot {
         this.location = location;
         this.details = details;
         this.groupId = groupId;
-        this.members.clear();
-        this.members.addAll(members);
-        this.likes.clear();
-        this.likes.addAll(likes);
-        this.comments.clear();
-        this.comments.addAll(comments);
-        this.reasons.clear();
-        this.reasons.addAll(reasons);
-        this.favorites.clear();
-        this.favorites.addAll(favorites);
-        this.images.clear();
-        this.images.addAll(images);
+        if (members != null) {
+            this.members.clear();
+            this.members.addAll(members);
+        }
+        if (likes != null) {
+            this.likes.clear();
+            this.likes.addAll(likes);
+        }
+        if (comments != null) {
+            this.comments.clear();
+            this.comments.addAll(comments);
+        }
+        if (reasons != null) {
+            this.reasons.clear();
+            this.reasons.addAll(reasons);
+        }
+        if (favorites != null) {
+            this.favorites.clear();
+            this.favorites.addAll(favorites);
+        }
+        if (images != null) {
+            this.images.clear();
+            this.images.addAll(images);
+        }
     }
 
     public String getDeletedAt() {

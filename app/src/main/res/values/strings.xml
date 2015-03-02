@@ -377,6 +377,7 @@
     <string name="label_moments">妈妈圈</string>
     <string name="label_new_moment_message">%1$s发了妈妈圈</string>
     <string name="hint_moment_details">文字</string>
+    <string name="label_like_moment_message">%1$s支持了您的妈妈圈</string>
 
     <!-- Report -->
     <string name="hint_report_type">违规类别</string>

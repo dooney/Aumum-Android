@@ -47,7 +47,8 @@ import it.gmariotti.cardslib.library.internal.CardArrayAdapter;
  * A simple {@link Fragment} subclass.
  *
  */
-public class PartyListFragment extends RefreshItemListFragment<Card> {
+public class PartyListFragment extends RefreshItemListFragment<Card>
+        implements PartyCommentClickListener {
 
     @Inject UserStore userStore;
     @Inject PartyStore partyStore;
@@ -188,7 +189,7 @@ public class PartyListFragment extends RefreshItemListFragment<Card> {
         }
         gpsTracker.getLocation();
         party.setDistance(gpsTracker.getLatitude(), gpsTracker.getLongitude());
-        Card card = new PartyCard(PartyListFragment.this, party, currentUserId);
+        Card card = new PartyCard(getActivity(), party, currentUserId, this);
         card.setOnClickListener(new Card.OnCardClickListener() {
             @Override
             public void onClick(Card card, View view) {
@@ -399,5 +400,12 @@ public class PartyListFragment extends RefreshItemListFragment<Card> {
         intent.putExtra(SearchPartyActivity.INTENT_TITLE, getString(R.string.label_my_parties));
         intent.putExtra(SearchPartyActivity.INTENT_USER_ID, userId);
         startActivity(intent);
+    }
+
+    @Override
+    public void OnClick(String partyId) {
+        final Intent intent = new Intent(getActivity(), PartyCommentsActivity.class);
+        intent.putExtra(PartyCommentsActivity.INTENT_PARTY_ID, partyId);
+        startActivityForResult(intent, Constants.RequestCode.GET_PARTY_COMMENTS_REQ_CODE);
     }
 }

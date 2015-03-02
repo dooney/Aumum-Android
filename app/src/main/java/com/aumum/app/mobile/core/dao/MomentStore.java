@@ -49,9 +49,13 @@ public class MomentStore {
 
     private Moment map(MomentEntity momentEntity) {
         return new Moment(
+                momentEntity.getObjectId(),
+                DateUtils.dateToString(momentEntity.getCreatedAt(), Constants.DateTime.FORMAT),
                 momentEntity.getUserId(),
                 momentEntity.getDetails(),
-                getList(momentEntity.getImages()));
+                getList(momentEntity.getImages()),
+                getList(momentEntity.getLikes()),
+                getList(momentEntity.getComments()));
     }
 
     private MomentEntity map(Moment moment) throws Exception {
@@ -61,7 +65,9 @@ public class MomentStore {
                 createdAt,
                 moment.getUserId(),
                 moment.getDetails(),
-                gson.toJson(moment.getImages()));
+                gson.toJson(moment.getImages()),
+                gson.toJson(moment.getLikes()),
+                gson.toJson(moment.getComments()));
     }
 
     public void updateOrInsert(List<Moment> momentList) throws Exception {
@@ -104,5 +110,9 @@ public class MomentStore {
             updateOrInsert(momentList);
             return momentList;
         }
+    }
+
+    public void save(Moment moment) throws Exception {
+        momentEntityDao.insertOrReplace(map(moment));
     }
 }

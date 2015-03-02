@@ -2,14 +2,12 @@ package com.aumum.app.mobile.ui.party;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.support.v4.app.Fragment;
 import android.text.Html;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.aumum.app.mobile.R;
-import com.aumum.app.mobile.core.Constants;
 import com.aumum.app.mobile.core.model.Party;
 import com.aumum.app.mobile.ui.user.UserListener;
 import com.aumum.app.mobile.ui.view.Animation;
@@ -25,9 +23,9 @@ import it.gmariotti.cardslib.library.internal.Card;
  */
 public class PartyCard extends Card {
     private Activity activity;
-    private Fragment fragment;
     private Party party;
     private String currentUserId;
+    private PartyCommentClickListener partyCommentClickListener;
     private PartyLikeListener likeListener;
     private MembersLayoutListener membersLayoutListener;
 
@@ -35,12 +33,13 @@ public class PartyCard extends Card {
         return party;
     }
 
-    public PartyCard(final Fragment fragment, Party party, String currentUserId) {
-        super(fragment.getActivity(), R.layout.party_listitem_inner);
-        this.activity = fragment.getActivity();
-        this.fragment = fragment;
+    public PartyCard(Activity activity, Party party, String currentUserId,
+                     PartyCommentClickListener partyCommentClickListener) {
+        super(activity, R.layout.party_listitem_inner);
+        this.activity = activity;
         this.party = party;
         this.currentUserId = currentUserId;
+        this.partyCommentClickListener = partyCommentClickListener;
         this.likeListener = new PartyLikeListener(party);
         this.membersLayoutListener = new MembersLayoutListener(activity, currentUserId);
     }
@@ -126,10 +125,10 @@ public class PartyCard extends Card {
         commentText.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Animation.animateTextView(view);
-                final Intent intent = new Intent(activity, PartyCommentsActivity.class);
-                intent.putExtra(PartyCommentsActivity.INTENT_PARTY_ID, party.getObjectId());
-                fragment.startActivityForResult(intent, Constants.RequestCode.GET_PARTY_COMMENTS_REQ_CODE);
+                if (partyCommentClickListener != null) {
+                    Animation.animateTextView(view);
+                    partyCommentClickListener.OnClick(party.getObjectId());
+                }
             }
         });
 

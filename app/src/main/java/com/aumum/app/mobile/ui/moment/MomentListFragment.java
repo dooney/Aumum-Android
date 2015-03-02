@@ -16,6 +16,7 @@ import com.aumum.app.mobile.Injector;
 import com.aumum.app.mobile.R;
 import com.aumum.app.mobile.core.dao.MomentStore;
 import com.aumum.app.mobile.core.dao.UserStore;
+import com.aumum.app.mobile.core.infra.security.ApiKeyProvider;
 import com.aumum.app.mobile.core.model.Moment;
 import com.aumum.app.mobile.ui.base.RefreshItemListFragment;
 import com.aumum.app.mobile.ui.view.ListViewDialog;
@@ -33,14 +34,17 @@ import it.gmariotti.cardslib.library.internal.CardArrayAdapter;
 /**
  * Created by Administrator on 2/03/2015.
  */
-public class MomentListFragment extends RefreshItemListFragment<Card> {
+public class MomentListFragment extends RefreshItemListFragment<Card>
+        implements MomentCommentClickListener {
 
     @Inject UserStore userStore;
     @Inject MomentStore momentStore;
+    @Inject ApiKeyProvider apiKeyProvider;
 
     protected List<Moment> dataSet = new ArrayList<Moment>();
 
     private static int NEW_MOMENT_REQ_CODE = 100;
+    private static int GET_MOMENT_DETAILS_REQ_CODE = 101;
 
     @Override
     public void onCreate(final Bundle savedInstanceState) {
@@ -108,10 +112,13 @@ public class MomentListFragment extends RefreshItemListFragment<Card> {
         if (moment.getUser() == null) {
             moment.setUser(userStore.getUserById(moment.getUserId()));
         }
-        Card card = new MomentCard(getActivity(), moment);
+        String currentUserId = apiKeyProvider.getAuthUserId();
+        MomentCard card = new MomentCard(getActivity(), moment, currentUserId, this);
         card.setOnClickListener(new Card.OnCardClickListener() {
             @Override
             public void onClick(Card card, View view) {
+                MomentCard momentCard = (MomentCard) card;
+                startMomentDetailsActivity(momentCard.getMoment().getObjectId());
             }
         });
         return card;
@@ -168,5 +175,16 @@ public class MomentListFragment extends RefreshItemListFragment<Card> {
     private void startNewMomentActivity() {
         final Intent intent = new Intent(getActivity(), NewMomentActivity.class);
         startActivityForResult(intent, NEW_MOMENT_REQ_CODE);
+    }
+
+    private void startMomentDetailsActivity(String momentId) {
+        /*final Intent intent = new Intent(getActivity(), MomentDetailsActivity.class);
+        intent.putExtra(MomentDetailsActivity.INTENT_MOMENT_ID, momentId);
+        startActivityForResult(intent, GET_MOMENT_DETAILS_REQ_CODE);*/
+    }
+
+    @Override
+    public void OnClick(String momentId) {
+        startMomentDetailsActivity(momentId);
     }
 }
