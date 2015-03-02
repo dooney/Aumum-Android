@@ -323,6 +323,9 @@
         <item name="android:text">@null</item>
     </style>
 
+    <!-- Circle -->
+    <style name="TextView.Circle" parent="TextView.Title" />
+
     <!-- Asking -->
     <style name="EditText.NewAsking.Title" parent="EditText.Mandatory">
         <item name="android:hint">@string/hint_asking_title</item>

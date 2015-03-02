@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <RelativeLayout
+        android:id="@+id/layout_asking"
+        style="@style/RelativeLayout.NavButton"
+        android:layout_marginTop="@dimen/margin_extra_large">
+
+        <TextView
+            android:id="@+id/text_label_asking"
+            style="@style/TextView.Circle"
+            android:layout_centerVertical="true"
+            android:text="@string/label_asking"/>
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/layout_moments"
+        style="@style/RelativeLayout.NavButton"
+        android:layout_marginTop="@dimen/margin_extra_large">
+
+        <TextView
+            android:id="@+id/text_label_moments"
+            style="@style/TextView.Circle"
+            android:layout_centerVertical="true"
+            android:text="@string/label_moments"/>
+
+    </RelativeLayout>
+
+</LinearLayout>

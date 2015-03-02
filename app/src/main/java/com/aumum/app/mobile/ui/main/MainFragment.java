@@ -144,7 +144,7 @@ public class MainFragment extends Fragment
                     getActivity().runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-                            indicator.getUnreadImage(MainTabPageIndicator.TAB_ASKING)
+                            indicator.getUnreadImage(MainTabPageIndicator.TAB_CIRCLE)
                                     .setVisibility(View.VISIBLE);
                         }
                     });
@@ -178,7 +178,7 @@ public class MainFragment extends Fragment
 
     @Subscribe
     public void onResetAskingUnreadEvent(ResetAskingUnreadEvent event) {
-        indicator.getUnreadImage(MainTabPageIndicator.TAB_ASKING)
+        indicator.getUnreadImage(MainTabPageIndicator.TAB_CIRCLE)
                 .setVisibility(View.INVISIBLE);
     }
 
