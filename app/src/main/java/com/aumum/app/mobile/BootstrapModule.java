@@ -5,6 +5,7 @@ import android.content.Context;
 
 import com.aumum.app.mobile.core.dao.AskingReplyStore;
 import com.aumum.app.mobile.core.dao.AskingStore;
+import com.aumum.app.mobile.core.dao.MomentStore;
 import com.aumum.app.mobile.core.dao.PartyReasonStore;
 import com.aumum.app.mobile.core.dao.Repository;
 import com.aumum.app.mobile.core.infra.security.ApiKeyProvider;
@@ -35,6 +36,8 @@ import com.aumum.app.mobile.ui.chat.NotificationClickListener;
 import com.aumum.app.mobile.ui.chat.SendMessageListener;
 import com.aumum.app.mobile.ui.chat.TextMessageCard;
 import com.aumum.app.mobile.ui.chat.VoiceMessageCard;
+import com.aumum.app.mobile.ui.moment.MomentListFragment;
+import com.aumum.app.mobile.ui.moment.NewMomentActivity;
 import com.aumum.app.mobile.ui.party.PartyCalendarFragment;
 import com.aumum.app.mobile.ui.party.PartyCommentCard;
 import com.aumum.app.mobile.ui.contact.ContactPickerFragment;
@@ -160,7 +163,9 @@ import retrofit.converter.GsonConverter;
                 AreaUsersFragment.class,
                 NotificationActivity.class,
                 UserTagListFragment.class,
-                TagUsersFragment.class
+                TagUsersFragment.class,
+                MomentListFragment.class,
+                NewMomentActivity.class
         }
 )
 public class BootstrapModule {
@@ -236,6 +241,12 @@ public class BootstrapModule {
     @Singleton
     AskingReplyStore provideAskingReplyStore(RestService restService) {
         return new AskingReplyStore(restService);
+    }
+
+    @Provides
+    @Singleton
+    MomentStore provideMomentStore(RestService restService, Repository repository) {
+        return new MomentStore(restService, repository);
     }
 
     @Provides

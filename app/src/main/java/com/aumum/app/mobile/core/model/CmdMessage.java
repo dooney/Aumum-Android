@@ -55,5 +55,6 @@ public class CmdMessage {
         public static final int ASKING_REPLIED = 14;
         public static final int ASKING_NEW = 15;
         public static final int USER_NEW = 21;
+        public static final int MOMENT_NEW = 31;
     }
 }

@@ -287,6 +287,14 @@
             android:name=".ui.asking.AskingActivity"
             android:label="@string/title_activity_asking" >
         </activity>
+        <activity
+            android:name=".ui.moment.MomentsActivity"
+            android:label="@string/title_activity_moments" >
+        </activity>
+        <activity
+            android:name=".ui.moment.NewMomentActivity"
+            android:label="@string/title_activity_new_moment" >
+        </activity>
     </application>
 
 </manifest>

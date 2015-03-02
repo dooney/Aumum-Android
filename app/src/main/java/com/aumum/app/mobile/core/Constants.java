@@ -141,6 +141,11 @@ public final class Constants {
         public static final String URL_USER_TAGS_FRAG = "/1/classes/UserTags";
 
         /**
+         * List Moments URL
+         */
+        public static final String URL_MOMENTS_FRAG = "/1/classes/Moments";
+
+        /**
          * PARAMS for auth
          */
         public static final String PARAM_USERNAME = "username";
@@ -193,6 +198,7 @@ public final class Constants {
             public static final String PARAM_ABOUT = "about";
             public static final String PARAM_CHAT_ID = "chatId";
             public static final String PARAM_ASKINGS = "askings";
+            public static final String PARAM_MOMENTS = "moments";
             public static final String PARAM_PARTY_FAVORITES = "favParties";
             public static final String PARAM_ASKING_FAVORITES = "favAskings";
         }

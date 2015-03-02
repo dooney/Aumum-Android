@@ -23,6 +23,7 @@ public class User extends AggregateRoot implements Sortable {
     protected List<String> favParties = new ArrayList<String>();
     protected List<String> favAskings = new ArrayList<String>();
     protected List<String> tags = new ArrayList<String>();
+    protected List<String> moments = new ArrayList<String>();
 
     public User() {
 
@@ -43,7 +44,8 @@ public class User extends AggregateRoot implements Sortable {
                 List<String> askings,
                 List<String> favParties,
                 List<String> favAskings,
-                List<String> tags) {
+                List<String> tags,
+                List<String> moments) {
         this.objectId = objectId;
         this.username = username;
         this.chatId = chatId;
@@ -66,6 +68,8 @@ public class User extends AggregateRoot implements Sortable {
         this.favAskings.addAll(favAskings);
         this.tags.clear();
         this.tags.addAll(tags);
+        this.moments.clear();
+        this.moments.addAll(moments);
     }
 
     public String getUsername() {
@@ -162,6 +166,10 @@ public class User extends AggregateRoot implements Sortable {
         this.tags.addAll(tags);
     }
 
+    public List<String> getMoments() {
+        return moments;
+    }
+
     @Override
     public String getSortLetters() {
         String pinyin = Strings.getSelling(screenName);
@@ -224,6 +232,12 @@ public class User extends AggregateRoot implements Sortable {
     public void removeAskingFavorite(String askingId) {
         if (favAskings != null && favAskings.contains(askingId)) {
             favAskings.remove(askingId);
+        }
+    }
+
+    public void addMoment(String momentId) {
+        if (moments != null && !moments.contains(momentId)) {
+            moments.add(momentId);
         }
     }
 

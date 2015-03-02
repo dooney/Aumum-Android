@@ -35,6 +35,10 @@
         <item>发表说说</item>
         <item>我的说说</item>
     </string-array>
+    <string-array name="label_moment_actions">
+        <item>发妈妈圈</item>
+        <item>我的妈妈圈</item>
+    </string-array>
     <string-array name="label_add_contacts">
         <item>手机号码/用户昵称</item>
         <item>指定标签</item>
@@ -165,6 +169,8 @@
     <string name="info_new_tag_user_message">相似标签新用户</string>
     <string name="info_welcome_new_user">%1$s刚刚加入，过去打个招呼吧！</string>
     <string name="info_tag_users_found">按标签为您找到%,d位用户</string>
+    <string name="info_empty_moment_list">暂时还没有妈妈圈记录哦，点此刷新</string>
+    <string name="info_submitting_moment">正在发妈妈圈，请稍候</string>
 
     <!-- Error Message -->
     <string name="error_bad_credentials">验证失败，请输入正确的手机号码/密码</string>
@@ -220,6 +226,8 @@
     <string name="title_activity_search_area">请选择您要指定的地区</string>
     <string name="title_activity_user_tag_list">请选择您的标签</string>
     <string name="title_activity_asking">说说</string>
+    <string name="title_activity_moments">妈妈圈</string>
+    <string name="title_activity_new_moment">发妈妈圈</string>
 
     <!-- Account -->
     <string name="hint_login_phone">手机号码</string>
@@ -367,6 +375,8 @@
 
     <!-- Moments -->
     <string name="label_moments">妈妈圈</string>
+    <string name="label_new_moment_message">%1$s发了妈妈圈</string>
+    <string name="hint_moment_details">文字</string>
 
     <!-- Report -->
     <string name="hint_report_type">违规类别</string>

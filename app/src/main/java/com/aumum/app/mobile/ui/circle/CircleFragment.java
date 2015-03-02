@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 
 import com.aumum.app.mobile.R;
 import com.aumum.app.mobile.ui.asking.AskingActivity;
+import com.aumum.app.mobile.ui.moment.MomentsActivity;
 
 /**
  * Created by Administrator on 2/03/2015.
@@ -36,10 +37,21 @@ public class CircleFragment extends Fragment {
             }
         });
         momentsLayout = view.findViewById(R.id.layout_moments);
+        momentsLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startMomentsActivity();
+            }
+        });
     }
 
     private void startAskingActivity() {
         final Intent intent = new Intent(getActivity(), AskingActivity.class);
+        startActivity(intent);
+    }
+
+    private void startMomentsActivity() {
+        final Intent intent = new Intent(getActivity(), MomentsActivity.class);
         startActivity(intent);
     }
 }

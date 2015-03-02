@@ -6,6 +6,7 @@ import com.aumum.app.mobile.core.model.Asking;
 import com.aumum.app.mobile.core.model.AskingReply;
 import com.aumum.app.mobile.core.model.CityGroup;
 import com.aumum.app.mobile.core.model.Feedback;
+import com.aumum.app.mobile.core.model.Moment;
 import com.aumum.app.mobile.core.model.PartyComment;
 import com.aumum.app.mobile.core.Constants;
 import com.aumum.app.mobile.core.model.Party;
@@ -99,6 +100,10 @@ public class RestService {
 
     private UserTagService getUserTagService() {
         return getRestAdapter().create(UserTagService.class);
+    }
+
+    private MomentService getMomentService() {
+        return getRestAdapter().create(MomentService.class);
     }
 
     private RestAdapter getRestAdapter() {
@@ -1008,5 +1013,48 @@ public class RestService {
 
     public List<UserTag> getUserTags() {
         return getUserTagService().getList().getResults();
+    }
+
+    public List<Moment> getMomentsAfter(String after, int limit) {
+        final JsonObject whereJson = new JsonObject();
+        if (after != null) {
+            whereJson.add("createdAt", buildDateTimeAfterJson(after));
+        }
+        final JsonObject liveJson = new JsonObject();
+        liveJson.addProperty("$exists", false);
+        whereJson.add("deletedAt", liveJson);
+        String where = whereJson.toString();
+        return getMomentService().getList("-createdAt", where, limit).getResults();
+    }
+
+    public List<Moment> getMomentsBefore(String before, int limit) {
+        final JsonObject whereJson = new JsonObject();
+        whereJson.add("createdAt", buildDateTimeBeforeJson(before));
+        final JsonObject liveJson = new JsonObject();
+        liveJson.addProperty("$exists", false);
+        whereJson.add("deletedAt" ,liveJson);
+        String where = whereJson.toString();
+        return getMomentService().getList("-createdAt", where, limit).getResults();
+    }
+
+    public Moment newMoment(Moment moment) {
+        Gson gson = new Gson();
+        JsonObject data = gson.toJsonTree(moment).getAsJsonObject();
+        return getMomentService().newMoment(data);
+    }
+
+    public JsonObject addUserMoment(String userId, String momentId) {
+        final JsonObject op = new JsonObject();
+        op.addProperty("__op", "AddUnique");
+        return updateUserMomentList(op, userId, momentId);
+    }
+
+    private JsonObject updateUserMomentList(JsonObject op, String userId, String momentId) {
+        final JsonObject data = new JsonObject();
+        final JsonArray userMomentList = new JsonArray();
+        userMomentList.add(new JsonPrimitive(momentId));
+        op.add("objects", userMomentList);
+        data.add(Constants.Http.User.PARAM_MOMENTS, op);
+        return getUserService().updateById(userId, data);
     }
 }
