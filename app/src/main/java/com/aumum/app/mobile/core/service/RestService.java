@@ -7,6 +7,7 @@ import com.aumum.app.mobile.core.model.AskingReply;
 import com.aumum.app.mobile.core.model.CityGroup;
 import com.aumum.app.mobile.core.model.Feedback;
 import com.aumum.app.mobile.core.model.Moment;
+import com.aumum.app.mobile.core.model.MomentComment;
 import com.aumum.app.mobile.core.model.PartyComment;
 import com.aumum.app.mobile.core.Constants;
 import com.aumum.app.mobile.core.model.Party;
@@ -104,6 +105,10 @@ public class RestService {
 
     private MomentService getMomentService() {
         return getRestAdapter().create(MomentService.class);
+    }
+
+    private MomentCommentService getMomentCommentService() {
+        return getRestAdapter().create(MomentCommentService.class);
     }
 
     private RestAdapter getRestAdapter() {
@@ -1087,6 +1092,56 @@ public class RestService {
         final JsonObject data = new JsonObject();
         DateTime now = DateTime.now(DateTimeZone.UTC);
         data.addProperty("deletedAt", now.toString(Constants.DateTime.FORMAT));
+        return getMomentService().updateById(momentId, data);
+    }
+
+    public JsonObject addMomentCommentLike(String commentId, String userId) {
+        final JsonObject op = new JsonObject();
+        op.addProperty("__op", "AddUnique");
+        return updateMomentCommentLikes(op, commentId, userId);
+    }
+
+    public JsonObject removeMomentCommentLike(String commentId, String userId) {
+        final JsonObject op = new JsonObject();
+        op.addProperty("__op", "Remove");
+        return updateMomentCommentLikes(op, commentId, userId);
+    }
+
+    private JsonObject updateMomentCommentLikes(JsonObject op, String commentId, String userId) {
+        final JsonObject data = new JsonObject();
+        final JsonArray momentCommentLikes = new JsonArray();
+        momentCommentLikes.add(new JsonPrimitive(userId));
+        op.add("objects", momentCommentLikes);
+        data.add(Constants.Http.MomentComment.PARAM_LIKES, op);
+        return getMomentCommentService().updateById(commentId, data);
+    }
+
+    public List<MomentComment> getMomentComments(List<String> idList) {
+        final JsonObject whereJson = new JsonObject();
+        whereJson.add("objectId", buildIdListJson(idList));
+        final JsonObject liveJson = new JsonObject();
+        liveJson.addProperty("$exists", false);
+        whereJson.add("deletedAt" ,liveJson);
+        String where = whereJson.toString();
+        return getMomentCommentService().getList("-createdAt", where).getResults();
+    }
+
+    public MomentComment newMomentComment(MomentComment comment) {
+        return getMomentCommentService().newMomentComment(comment);
+    }
+
+    public JsonObject addMomentComment(String partyId, String commentId) {
+        final JsonObject op = new JsonObject();
+        op.addProperty("__op", "AddUnique");
+        return updateMomentComments(op, partyId, commentId);
+    }
+
+    private JsonObject updateMomentComments(JsonObject op, String momentId, String commentId) {
+        final JsonObject data = new JsonObject();
+        final JsonArray momentComments = new JsonArray();
+        momentComments.add(new JsonPrimitive(commentId));
+        op.add("objects", momentComments);
+        data.add(Constants.Http.Moment.PARAM_COMMENTS, op);
         return getMomentService().updateById(momentId, data);
     }
 }

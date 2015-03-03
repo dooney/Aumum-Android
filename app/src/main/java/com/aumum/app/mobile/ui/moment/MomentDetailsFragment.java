@@ -5,13 +5,19 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.EditorInfo;
 import android.widget.AdapterView;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.ScrollView;
@@ -22,15 +28,22 @@ import com.aumum.app.mobile.R;
 import com.aumum.app.mobile.core.dao.MomentStore;
 import com.aumum.app.mobile.core.dao.UserStore;
 import com.aumum.app.mobile.core.infra.security.ApiKeyProvider;
+import com.aumum.app.mobile.core.model.CmdMessage;
 import com.aumum.app.mobile.core.model.Moment;
+import com.aumum.app.mobile.core.model.MomentComment;
 import com.aumum.app.mobile.core.model.User;
+import com.aumum.app.mobile.core.service.ChatService;
 import com.aumum.app.mobile.core.service.RestService;
 import com.aumum.app.mobile.core.service.ShareService;
+import com.aumum.app.mobile.events.AddMomentCommentEvent;
+import com.aumum.app.mobile.events.AddMomentCommentFinishedEvent;
+import com.aumum.app.mobile.events.ReplyMomentCommentEvent;
 import com.aumum.app.mobile.ui.base.LoaderFragment;
 import com.aumum.app.mobile.ui.base.ProgressListener;
+import com.aumum.app.mobile.ui.helper.TextWatcherAdapter;
 import com.aumum.app.mobile.ui.image.CustomGallery;
 import com.aumum.app.mobile.ui.image.GalleryAdapter;
-import com.aumum.app.mobile.ui.party.LikesLayoutListener;
+import com.aumum.app.mobile.ui.like.LikesLayoutListener;
 import com.aumum.app.mobile.ui.report.ReportActivity;
 import com.aumum.app.mobile.ui.user.UserListener;
 import com.aumum.app.mobile.ui.view.AvatarImageView;
@@ -38,8 +51,11 @@ import com.aumum.app.mobile.ui.view.ImageViewDialog;
 import com.aumum.app.mobile.ui.view.LikeTextView;
 import com.aumum.app.mobile.ui.view.ListViewDialog;
 import com.aumum.app.mobile.ui.view.SpannableTextView;
+import com.aumum.app.mobile.utils.EditTextUtils;
 import com.aumum.app.mobile.utils.SafeAsyncTask;
 import com.github.kevinsawicki.wishlist.Toaster;
+import com.squareup.otto.Bus;
+import com.squareup.otto.Subscribe;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -53,15 +69,19 @@ import retrofit.RetrofitError;
  */
 public class MomentDetailsFragment extends LoaderFragment<Moment> {
 
+    @Inject Bus bus;
     @Inject ApiKeyProvider apiKeyProvider;
     @Inject UserStore userStore;
     @Inject MomentStore momentStore;
     @Inject RestService restService;
+    @Inject ChatService chatService;
     private ShareService shareService;
 
     private String momentId;
     private Moment moment;
     private String currentUserId;
+    private User currentUser;
+    private MomentComment repliedComment;
 
     private ScrollView scrollView;
     private View mainView;
@@ -75,6 +95,10 @@ public class MomentDetailsFragment extends LoaderFragment<Moment> {
     private TextView commentText;
     private LikeTextView likeText;
     private LikesLayoutListener likesLayoutListener;
+
+    private EditText editComment;
+    private Button postCommentButton;
+    private final TextWatcher watcher = validationTextWatcher();
 
     GalleryAdapter adapter;
     private SafeAsyncTask<Boolean> task;
@@ -161,6 +185,38 @@ public class MomentDetailsFragment extends LoaderFragment<Moment> {
         likeText.setTextResId(R.string.label_like);
         likeText.setLikeResId(R.drawable.ic_fa_thumbs_o_up);
         likeText.setLikedResId(R.drawable.ic_fa_thumbs_up);
+
+        editComment = (EditText) view.findViewById(R.id.edit_comment);
+        editComment.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView textView, int actionId, KeyEvent keyEvent) {
+                if (actionId == EditorInfo.IME_ACTION_DONE || actionId == EditorInfo.IME_ACTION_SEND)
+                    submitComment();
+                return false;
+            }
+        });
+        editComment.addTextChangedListener(watcher);
+
+        postCommentButton = (Button) view.findViewById(R.id.b_post_comment);
+        postCommentButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                submitComment();
+            }
+        });
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        bus.register(this);
+        updateUIWithValidation();
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        bus.unregister(this);
     }
 
     @Override
@@ -168,6 +224,25 @@ public class MomentDetailsFragment extends LoaderFragment<Moment> {
         mainView = null;
 
         super.onDestroyView();
+    }
+
+    private TextWatcher validationTextWatcher() {
+        return new TextWatcherAdapter() {
+            public void afterTextChanged(final Editable gitDirEditText) {
+                updateUIWithValidation();
+            }
+        };
+    }
+
+    private void updateUIWithValidation() {
+        final boolean populated = populated(editComment);
+        if (postCommentButton != null) {
+            postCommentButton.setEnabled(populated);
+        }
+    }
+
+    private boolean populated(final EditText editText) {
+        return editText.length() > 0;
     }
 
     @Override
@@ -182,6 +257,7 @@ public class MomentDetailsFragment extends LoaderFragment<Moment> {
 
     @Override
     protected Moment loadDataCore(Bundle bundle) throws Exception {
+        currentUser = userStore.getCurrentUser();
         moment = momentStore.getMomentByIdFromServer(momentId);
         if (moment.getDeletedAt() != null) {
             throw new Exception(getString(R.string.error_moment_was_deleted));
@@ -339,5 +415,83 @@ public class MomentDetailsFragment extends LoaderFragment<Moment> {
         });
         likeText.setLikeListener(likeListener);
         likesLayoutListener.update(likesLayout, moment.getLikes());
+    }
+
+    private void disableSubmit() {
+        postCommentButton.setEnabled(false);
+    }
+
+    private void resetCommentBox() {
+        EditTextUtils.hideSoftInput(editComment);
+        editComment.clearFocus();
+        editComment.setText(null);
+        editComment.setHint(R.string.hint_new_moment_comment);
+    }
+
+    private void submitComment() {
+        String repliedId = null;
+        String content = editComment.getText().toString();
+        if (repliedComment != null) {
+            repliedId = repliedComment.getObjectId();
+            content = getString(R.string.hint_reply_moment_comment,
+                    repliedComment.getUser().getScreenName(), content);
+        }
+
+        bus.post(new AddMomentCommentEvent(repliedId, content));
+
+        disableSubmit();
+        resetCommentBox();
+    }
+
+    @Subscribe
+    public void onReplyMomentCommentEvent(final ReplyMomentCommentEvent event) {
+        EditTextUtils.showSoftInput(editComment, true);
+        repliedComment = event.getComment();
+        editComment.setHint(getString(R.string.hint_reply_moment_comment,
+                repliedComment.getUser().getScreenName(), repliedComment.getContent()));
+    }
+
+    @Subscribe
+    public void onAddMomentCommentFinishedEvent(final AddMomentCommentFinishedEvent event) {
+        new SafeAsyncTask<Boolean>() {
+            @Override
+            public Boolean call() throws Exception {
+                sendCommentMessage(event.getContent());
+                if (repliedComment != null) {
+                    sendRepliedMessage(repliedComment);
+                }
+                return true;
+            }
+        }.execute();
+    }
+
+    private void sendMessage(String to, CmdMessage cmdMessage) {
+        if (!to.equals(currentUser.getChatId())) {
+            chatService.sendCmdMessage(to, cmdMessage, false, null);
+        }
+    }
+
+    private void sendMomentOwnerMessage(CmdMessage cmdMessage) throws Exception {
+        User partyOwner = userStore.getUserById(moment.getUserId());
+        sendMessage(partyOwner.getChatId(), cmdMessage);
+    }
+
+    private void sendCommentMessage(String content) throws Exception {
+        String title = getString(R.string.label_comment_moment_message,
+                currentUser.getScreenName());
+        CmdMessage cmdMessage = new CmdMessage(CmdMessage.Type.MOMENT_COMMENT,
+                title, content, momentId);
+        sendMomentOwnerMessage(cmdMessage);
+    }
+
+    private void sendRepliedMessage(MomentComment repliedComment) throws Exception {
+        String title = getString(R.string.label_replied_moment_message,
+                currentUser.getScreenName());
+        CmdMessage cmdMessage = new CmdMessage(CmdMessage.Type.MOMENT_REPLY,
+                title, repliedComment.getContent(), momentId);
+        sendMomentOwnerMessage(cmdMessage);
+        if (!moment.isOwner(repliedComment.getUserId())) {
+            sendMessage(repliedComment.getUser().getChatId(), cmdMessage);
+        }
     }
 }

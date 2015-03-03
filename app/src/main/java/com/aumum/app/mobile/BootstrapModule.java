@@ -5,6 +5,7 @@ import android.content.Context;
 
 import com.aumum.app.mobile.core.dao.AskingReplyStore;
 import com.aumum.app.mobile.core.dao.AskingStore;
+import com.aumum.app.mobile.core.dao.MomentCommentStore;
 import com.aumum.app.mobile.core.dao.MomentStore;
 import com.aumum.app.mobile.core.dao.PartyReasonStore;
 import com.aumum.app.mobile.core.dao.Repository;
@@ -36,6 +37,9 @@ import com.aumum.app.mobile.ui.chat.NotificationClickListener;
 import com.aumum.app.mobile.ui.chat.SendMessageListener;
 import com.aumum.app.mobile.ui.chat.TextMessageCard;
 import com.aumum.app.mobile.ui.chat.VoiceMessageCard;
+import com.aumum.app.mobile.ui.moment.MomentCommentCard;
+import com.aumum.app.mobile.ui.moment.MomentCommentLikeListener;
+import com.aumum.app.mobile.ui.moment.MomentCommentsFragment;
 import com.aumum.app.mobile.ui.moment.MomentDetailsFragment;
 import com.aumum.app.mobile.ui.moment.MomentLikeListener;
 import com.aumum.app.mobile.ui.moment.MomentListFragment;
@@ -59,7 +63,7 @@ import com.aumum.app.mobile.ui.user.TagUsersFragment;
 import com.aumum.app.mobile.ui.user.UpdateAvatarActivity;
 import com.aumum.app.mobile.ui.main.MainFragment;
 import com.aumum.app.mobile.ui.party.PartyFavoriteListener;
-import com.aumum.app.mobile.ui.party.LikesLayoutListener;
+import com.aumum.app.mobile.ui.like.LikesLayoutListener;
 import com.aumum.app.mobile.ui.party.MembersLayoutListener;
 import com.aumum.app.mobile.ui.party.PartyLikeListener;
 import com.aumum.app.mobile.ui.party.PartyListFragment;
@@ -169,7 +173,10 @@ import retrofit.converter.GsonConverter;
                 MomentListFragment.class,
                 NewMomentActivity.class,
                 MomentLikeListener.class,
-                MomentDetailsFragment.class
+                MomentDetailsFragment.class,
+                MomentCommentsFragment.class,
+                MomentCommentCard.class,
+                MomentCommentLikeListener.class
         }
 )
 public class BootstrapModule {
@@ -251,6 +258,12 @@ public class BootstrapModule {
     @Singleton
     MomentStore provideMomentStore(RestService restService, Repository repository) {
         return new MomentStore(restService, repository);
+    }
+
+    @Provides
+    @Singleton
+    MomentCommentStore provideMomentCommentStore(RestService restService) {
+        return new MomentCommentStore(restService);
     }
 
     @Provides

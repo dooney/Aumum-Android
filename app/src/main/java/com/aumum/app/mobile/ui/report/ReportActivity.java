@@ -57,6 +57,7 @@ public class ReportActivity extends ProgressDialogActivity {
     public final static String TYPE_USER = "用户";
     public final static String TYPE_GROUP = "群组";
     public final static String TYPE_MOMENT = "妈妈圈";
+    public final static String TYPE_MOMENT_COMMENT = "妈妈圈评论";
     public final static String INTENT_ENTITY_TYPE = "entityType";
     public final static String INTENT_ENTITY_ID = "entityId";
 

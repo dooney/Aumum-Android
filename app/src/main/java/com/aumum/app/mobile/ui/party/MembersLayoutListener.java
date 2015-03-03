@@ -105,13 +105,13 @@ public class MembersLayoutListener {
             });
             if (members.contains(currentUserId)) {
                 if (size == 1) {
-                    membersCountText.setText(activity.getString(R.string.label_you_join_the_party));
+                    membersCountText.setText(activity.getString(R.string.label_you_join));
                     layoutMembersAvatars.setVisibility(View.GONE);
                 } else {
-                    membersCountText.setText(activity.getString(R.string.label_you_and_others_join_the_party, size - 1));
+                    membersCountText.setText(activity.getString(R.string.label_you_and_others_join, size - 1));
                 }
             } else {
-                membersCountText.setText(activity.getString(R.string.label_others_join_the_party, size));
+                membersCountText.setText(activity.getString(R.string.label_others_join, size));
             }
 
             if (membersLayout.getVisibility() != View.VISIBLE) {
@@ -125,7 +125,7 @@ public class MembersLayoutListener {
     private void startUserListActivity(ArrayList<String> userList) {
         final Intent intent = new Intent(activity, UserListActivity.class);
         intent.putExtra(UserListActivity.INTENT_TITLE,
-                activity.getString(R.string.label_others_join_the_party, userList.size()));
+                activity.getString(R.string.label_others_join, userList.size()));
         intent.putStringArrayListExtra(UserListActivity.INTENT_USER_LIST, userList);
         activity.startActivity(intent);
     }

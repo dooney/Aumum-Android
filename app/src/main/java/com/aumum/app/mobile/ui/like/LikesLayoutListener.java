@@ -1,4 +1,4 @@
-package com.aumum.app.mobile.ui.party;
+package com.aumum.app.mobile.ui.like;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -105,13 +105,13 @@ public class LikesLayoutListener {
             });
             if (likes.contains(currentUserId)) {
                 if (size == 1) {
-                    likesCountText.setText(activity.getString(R.string.label_you_like_the_party));
+                    likesCountText.setText(activity.getString(R.string.label_you_like));
                     layoutLikingAvatars.setVisibility(View.GONE);
                 } else {
-                    likesCountText.setText(activity.getString(R.string.label_you_and_others_like_the_party, size - 1));
+                    likesCountText.setText(activity.getString(R.string.label_you_and_others_like, size - 1));
                 }
             } else {
-                likesCountText.setText(activity.getString(R.string.label_others_like_the_party, size));
+                likesCountText.setText(activity.getString(R.string.label_others_like, size));
             }
 
             if (likesLayout.getVisibility() != View.VISIBLE) {
@@ -125,7 +125,7 @@ public class LikesLayoutListener {
     private void startUserListActivity(ArrayList<String> userList) {
         final Intent intent = new Intent(activity, UserListActivity.class);
         intent.putExtra(UserListActivity.INTENT_TITLE,
-                activity.getString(R.string.label_others_like_the_party, userList.size()));
+                activity.getString(R.string.label_others_like, userList.size()));
         intent.putStringArrayListExtra(UserListActivity.INTENT_USER_LIST, userList);
         activity.startActivity(intent);
     }

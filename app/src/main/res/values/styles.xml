@@ -358,6 +358,16 @@
         <item name="android:gravity">center_vertical</item>
         <item name="android:orientation">horizontal</item>
     </style>
+    <style name="TextView.MomentComment.UserName" parent="TextView.UserName" />
+    <style name="TextView.MomentComment.CreatedAt" parent="TextView.Subtitle" >
+        <item name="android:textSize">@dimen/text_sz_small</item>
+    </style>
+    <style name="TextView.MomentComment.Text" parent="TextView.Content.Text" />
+    <style name="TextView.MomentComment.Like" parent="TextView.Like">
+        <item name="android:drawableLeft">@drawable/ic_fa_thumbs_o_up_s</item>
+        <item name="android:textSize">@dimen/text_sz_small</item>
+        <item name="android:text">@null</item>
+    </style>
 
     <!-- Asking -->
     <style name="EditText.NewAsking.Title" parent="EditText.Mandatory">

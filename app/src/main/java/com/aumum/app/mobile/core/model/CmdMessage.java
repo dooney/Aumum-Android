@@ -57,5 +57,8 @@ public class CmdMessage {
         public static final int USER_NEW = 21;
         public static final int MOMENT_NEW = 31;
         public static final int MOMENT_LIKE = 32;
+        public static final int MOMENT_COMMENT = 33;
+        public static final int MOMENT_REPLY = 34;
+        public static final int MOMENT_COMMENT_LIKE = 35;
     }
 }

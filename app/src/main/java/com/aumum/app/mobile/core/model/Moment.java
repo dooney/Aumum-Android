@@ -121,4 +121,16 @@ public class Moment extends AggregateRoot {
             likes.remove(userId);
         }
     }
+
+    public void addComment(String commentId) {
+        if (comments != null && !comments.contains(commentId)) {
+            comments.add(commentId);
+        }
+    }
+
+    public void removeComment(String commentId) {
+        if (comments != null && comments.contains(commentId)) {
+            comments.remove(commentId);
+        }
+    }
 }

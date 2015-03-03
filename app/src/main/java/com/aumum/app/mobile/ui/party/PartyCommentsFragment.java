@@ -363,7 +363,7 @@ public class PartyCommentsFragment extends ItemListFragment<PartyComment> {
         CmdMessage cmdMessage = new CmdMessage(CmdMessage.Type.PARTY_REPLY,
                 title, repliedComment.getContent(), partyId);
         sendPartyOwnerMessage(cmdMessage);
-        if (!party.getUserId().equals(repliedComment.getUserId())) {
+        if (!party.isOwner(repliedComment.getUserId())) {
             sendMessage(repliedComment.getUser().getChatId(), cmdMessage);
         }
     }
