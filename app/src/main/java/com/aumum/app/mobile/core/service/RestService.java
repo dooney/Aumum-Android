@@ -398,6 +398,13 @@ public class RestService {
         return getUserService().getList(where, Integer.MAX_VALUE).getResults();
     }
 
+    public int getAreaUsersCount(String userId, String area) {
+        final JsonObject whereJson = buildAreaUsersJson(userId, area);
+        String where = whereJson.toString();
+        JsonObject result = getUserService().getCount(where, 1, 0);
+        return result.get("count").getAsInt();
+    }
+
     private JsonObject buildTagUsersJson(String userId, List<String> tags) {
         final JsonObject tagUsersJson = new JsonObject();
         final JsonObject userIdJson = new JsonObject();
@@ -423,8 +430,8 @@ public class RestService {
         return getUserService().getList(where, Integer.MAX_VALUE).getResults();
     }
 
-    public int getAreaUsersCount(String userId, String area) {
-        final JsonObject whereJson = buildAreaUsersJson(userId, area);
+    public int getTagUsersCount(String userId, List<String> tags) {
+        final JsonObject whereJson = buildTagUsersJson(userId, tags);
         String where = whereJson.toString();
         JsonObject result = getUserService().getCount(where, 1, 0);
         return result.get("count").getAsInt();

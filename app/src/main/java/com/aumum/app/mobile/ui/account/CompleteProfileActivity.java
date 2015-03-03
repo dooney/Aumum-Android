@@ -79,6 +79,7 @@ public class CompleteProfileActivity extends ProgressDialogActivity
     private ArrayList<String> tags;
     private String about;
     private int areaUsersCount;
+    private int tagUsersCount;
 
     private Validator validator;
     private SafeAsyncTask<Boolean> task;
@@ -194,7 +195,9 @@ public class CompleteProfileActivity extends ProgressDialogActivity
             String area = data.getStringExtra(AreaListActivity.INTENT_AREA);
             updateArea(area);
         } else if (requestCode == GET_AREA_USERS_REQ_CODE) {
-            startTagUsersActivity(tags);
+            if (tagUsersCount > 0) {
+                startTagUsersActivity(tags);
+            }
         } else if (requestCode == GET_TAG_USERS_REQ_CODE) {
             setResult(RESULT_OK);
             finish();
@@ -261,6 +264,7 @@ public class CompleteProfileActivity extends ProgressDialogActivity
                 user.setAbout(about);
                 restService.updateUserProfile(user);
                 areaUsersCount = restService.getAreaUsersCount(userId, area);
+                tagUsersCount = restService.getTagUsersCount(userId, tags);
                 joinCityGroup(user);
                 return true;
             }
@@ -279,6 +283,8 @@ public class CompleteProfileActivity extends ProgressDialogActivity
             protected void onSuccess(Boolean success) throws Exception {
                 if (areaUsersCount > 0) {
                     startAreaUsersActivity(area);
+                } else if (tagUsersCount > 0) {
+                    startTagUsersActivity(tags);
                 } else {
                     setResult(RESULT_OK);
                     finish();
