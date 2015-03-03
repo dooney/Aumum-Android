@@ -306,6 +306,7 @@
             android:launchMode="singleTask"
             android:taskAffinity="" >
         </activity>
+        <activity android:name=".ui.moment.UserMomentsActivity" />
     </application>
 
 </manifest>

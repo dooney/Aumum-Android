@@ -233,6 +233,10 @@ public class SearchPartyFragment extends RefreshItemListFragment<Card>
 
     @Override
     protected List<Card> buildCards() throws Exception {
+        int totalCount = dataSet.size();
+        if (totalCount < PartyStore.LIMIT_PER_LOAD) {
+            setMore(false);
+        }
         List<Card> cards = new ArrayList<Card>();
         if (dataSet.size() > 0) {
             for (Party party : dataSet) {

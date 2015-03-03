@@ -96,6 +96,14 @@ public class MomentStore {
         }
     }
 
+    public List<Moment> getUpwardsList(List<String> idList) throws Exception {
+        List<Moment> momentList = restService.getMoments(idList, LIMIT_PER_LOAD);
+        for (Moment moment: momentList) {
+            momentEntityDao.insertOrReplace(map(moment));
+        }
+        return momentList;
+    }
+
     public List<Moment> getBackwardsList(String time) throws Exception {
         Date date = DateUtils.stringToDate(time, Constants.DateTime.FORMAT);
         List<MomentEntity> records = momentEntityDao.queryBuilder()
@@ -107,6 +115,23 @@ public class MomentStore {
             return map(records);
         } else {
             List<Moment> momentList = restService.getMomentsBefore(time, LIMIT_PER_LOAD);
+            updateOrInsert(momentList);
+            return momentList;
+        }
+    }
+
+    public List<Moment> getBackwardsList(List<String> idList, String time) throws Exception {
+        Date date = DateUtils.stringToDate(time, Constants.DateTime.FORMAT);
+        List<MomentEntity> records = momentEntityDao.queryBuilder()
+                .where(MomentEntityDao.Properties.ObjectId.in(idList))
+                .where(MomentEntityDao.Properties.CreatedAt.lt(date))
+                .orderDesc(MomentEntityDao.Properties.CreatedAt)
+                .limit(LIMIT_PER_LOAD)
+                .list();
+        if (records.size() > 0) {
+            return map(records);
+        } else {
+            List<Moment> momentList = restService.getMomentsBefore(idList, time, LIMIT_PER_LOAD);
             updateOrInsert(momentList);
             return momentList;
         }

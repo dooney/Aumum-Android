@@ -389,6 +389,7 @@
     <string name="label_like_moment_comment_message">%1$s给您的妈妈圈评论点赞</string>
     <string name="label_comment_moment_message">%1$s评论了您的妈妈圈</string>
     <string name="label_replied_moment_message">%1$s回复了您的妈妈圈评论</string>
+    <string name="label_my_moments">我的妈妈圈</string>
 
     <!-- Report -->
     <string name="hint_report_type">违规类别</string>

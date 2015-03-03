@@ -1032,14 +1032,18 @@ public class RestService {
         return getMomentService().getList("-createdAt", where, limit).getResults();
     }
 
-    public List<Moment> getMomentsBefore(String before, int limit) {
-        final JsonObject whereJson = new JsonObject();
+    private List<Moment> getMomentsBeforeCore(JsonObject whereJson, String before, int limit) {
         whereJson.add("createdAt", buildDateTimeBeforeJson(before));
         final JsonObject liveJson = new JsonObject();
         liveJson.addProperty("$exists", false);
         whereJson.add("deletedAt" ,liveJson);
         String where = whereJson.toString();
         return getMomentService().getList("-createdAt", where, limit).getResults();
+    }
+
+    public List<Moment> getMomentsBefore(String before, int limit) {
+        final JsonObject whereJson = new JsonObject();
+        return getMomentsBeforeCore(whereJson, before, limit);
     }
 
     public Moment newMoment(Moment moment) {
@@ -1143,5 +1147,21 @@ public class RestService {
         op.add("objects", momentComments);
         data.add(Constants.Http.Moment.PARAM_COMMENTS, op);
         return getMomentService().updateById(momentId, data);
+    }
+
+    public List<Moment> getMoments(List<String> idList, int limit) {
+        final JsonObject whereJson = new JsonObject();
+        whereJson.add("objectId", buildIdListJson(idList));
+        final JsonObject liveJson = new JsonObject();
+        liveJson.addProperty("$exists", false);
+        whereJson.add("deletedAt", liveJson);
+        String where = whereJson.toString();
+        return getMomentService().getList("-createdAt", where, limit).getResults();
+    }
+
+    public List<Moment> getMomentsBefore(List<String> idList, String before, int limit) {
+        final JsonObject whereJson = new JsonObject();
+        whereJson.add("objectId", buildIdListJson(idList));
+        return getMomentsBeforeCore(whereJson, before, limit);
     }
 }
