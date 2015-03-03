@@ -350,6 +350,14 @@
         <item name="android:padding">@dimen/margin_small</item>
         <item name="android:layout_gravity">center</item>
     </style>
+    <style name="TextView.Moment.Likes" parent="LinkTextView" />
+    <style name="LinearLayout.Moment.UserAvatars" parent="LinearLayout">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">@dimen/avatar_sz_small</item>
+        <item name="android:layout_marginTop">@dimen/margin_small</item>
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:orientation">horizontal</item>
+    </style>
 
     <!-- Asking -->
     <style name="EditText.NewAsking.Title" parent="EditText.Mandatory">

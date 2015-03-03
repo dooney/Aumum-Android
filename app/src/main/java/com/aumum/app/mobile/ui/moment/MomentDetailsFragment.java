@@ -1,0 +1,343 @@
+package com.aumum.app.mobile.ui.moment;
+
+import android.app.Activity;
+import android.content.Intent;
+import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
+import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.GridView;
+import android.widget.ImageView;
+import android.widget.ScrollView;
+import android.widget.TextView;
+
+import com.aumum.app.mobile.Injector;
+import com.aumum.app.mobile.R;
+import com.aumum.app.mobile.core.dao.MomentStore;
+import com.aumum.app.mobile.core.dao.UserStore;
+import com.aumum.app.mobile.core.infra.security.ApiKeyProvider;
+import com.aumum.app.mobile.core.model.Moment;
+import com.aumum.app.mobile.core.model.User;
+import com.aumum.app.mobile.core.service.RestService;
+import com.aumum.app.mobile.core.service.ShareService;
+import com.aumum.app.mobile.ui.base.LoaderFragment;
+import com.aumum.app.mobile.ui.base.ProgressListener;
+import com.aumum.app.mobile.ui.image.CustomGallery;
+import com.aumum.app.mobile.ui.image.GalleryAdapter;
+import com.aumum.app.mobile.ui.party.LikesLayoutListener;
+import com.aumum.app.mobile.ui.report.ReportActivity;
+import com.aumum.app.mobile.ui.user.UserListener;
+import com.aumum.app.mobile.ui.view.AvatarImageView;
+import com.aumum.app.mobile.ui.view.ImageViewDialog;
+import com.aumum.app.mobile.ui.view.LikeTextView;
+import com.aumum.app.mobile.ui.view.ListViewDialog;
+import com.aumum.app.mobile.ui.view.SpannableTextView;
+import com.aumum.app.mobile.utils.SafeAsyncTask;
+import com.github.kevinsawicki.wishlist.Toaster;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.inject.Inject;
+
+import retrofit.RetrofitError;
+
+/**
+ * Created by Administrator on 3/03/2015.
+ */
+public class MomentDetailsFragment extends LoaderFragment<Moment> {
+
+    @Inject ApiKeyProvider apiKeyProvider;
+    @Inject UserStore userStore;
+    @Inject MomentStore momentStore;
+    @Inject RestService restService;
+    private ShareService shareService;
+
+    private String momentId;
+    private Moment moment;
+    private String currentUserId;
+
+    private ScrollView scrollView;
+    private View mainView;
+    private AvatarImageView avatarImage;
+    private TextView userNameText;
+    private TextView cityText;
+    private TextView createdAtText;
+    private SpannableTextView detailsText;
+    private GridView gridGallery;
+    private ViewGroup likesLayout;
+    private TextView commentText;
+    private LikeTextView likeText;
+    private LikesLayoutListener likesLayoutListener;
+
+    GalleryAdapter adapter;
+    private SafeAsyncTask<Boolean> task;
+    private ProgressListener progressListener;
+
+    private Handler handler = new Handler(){
+        @Override
+        public void handleMessage(Message msg) {
+            MomentCommentsFragment fragment = new MomentCommentsFragment();
+            fragment.setMoment(moment);
+            getActivity().getSupportFragmentManager().beginTransaction()
+                    .replace(R.id.container, fragment)
+                    .commit();
+        }
+    };
+
+    @Override
+    public void onCreate(final Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setHasOptionsMenu(true);
+        Injector.inject(this);
+
+        final Intent intent = getActivity().getIntent();
+        momentId = intent.getStringExtra(MomentDetailsActivity.INTENT_MOMENT_ID);
+        currentUserId = apiKeyProvider.getAuthUserId();
+        likesLayoutListener = new LikesLayoutListener(getActivity(), currentUserId);
+        shareService = new ShareService(getActivity());
+        progressListener = (ProgressListener) getActivity();
+    }
+
+    @Override
+    public void onCreateOptionsMenu(final Menu menu, final MenuInflater inflater) {
+        MenuItem more = menu.add(Menu.NONE, 0, Menu.NONE, null);
+        more.setActionView(R.layout.menuitem_more);
+        more.setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
+        View moreView = more.getActionView();
+        ImageView moreIcon = (ImageView) moreView.findViewById(R.id.b_more);
+        moreIcon.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (getActivity() != null && moment != null) {
+                    showActionDialog(moment.isOwner(currentUserId));
+                }
+            }
+        });
+    }
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        return inflater.inflate(R.layout.fragment_moment_details, null);
+    }
+
+    @Override
+    public void onViewCreated(final View view, final Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
+        scrollView = (ScrollView) view.findViewById(R.id.scroll_view);
+        scrollView.setHorizontalScrollBarEnabled(false);
+        scrollView.setVerticalScrollBarEnabled(false);
+
+        mainView = view.findViewById(R.id.main_view);
+        avatarImage = (AvatarImageView) view.findViewById(R.id.image_avatar);
+        userNameText = (TextView) view.findViewById(R.id.text_user_name);
+        cityText = (TextView) view.findViewById(R.id.text_city);
+        createdAtText = (TextView) view.findViewById(R.id.text_createdAt);
+        detailsText = (SpannableTextView) view.findViewById(R.id.text_details);
+        adapter = new GalleryAdapter(getActivity(), R.layout.image_collection_listitem_inner);
+
+        gridGallery = (GridView) view.findViewById(R.id.grid_gallery);
+        gridGallery.setAdapter(adapter);
+        gridGallery.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
+                String imageUrl = moment.getImages().get(position);
+                new ImageViewDialog(getActivity(), imageUrl).show();
+            }
+        });
+
+        likesLayout = (ViewGroup) view.findViewById(R.id.layout_likes);
+
+        commentText = (TextView) view.findViewById(R.id.text_comment);
+        likeText = (LikeTextView) view.findViewById(R.id.text_like);
+        likeText.setTextResId(R.string.label_like);
+        likeText.setLikeResId(R.drawable.ic_fa_thumbs_o_up);
+        likeText.setLikedResId(R.drawable.ic_fa_thumbs_up);
+    }
+
+    @Override
+    public void onDestroyView() {
+        mainView = null;
+
+        super.onDestroyView();
+    }
+
+    @Override
+    protected boolean readyToShow() {
+        return getData() != null;
+    }
+
+    @Override
+    protected View getMainView() {
+        return mainView;
+    }
+
+    @Override
+    protected Moment loadDataCore(Bundle bundle) throws Exception {
+        moment = momentStore.getMomentByIdFromServer(momentId);
+        if (moment.getDeletedAt() != null) {
+            throw new Exception(getString(R.string.error_moment_was_deleted));
+        }
+        User user = userStore.getUserById(moment.getUserId());
+        moment.setUser(user);
+        return moment;
+    }
+
+    @Override
+    protected void handleLoadResult(Moment result) {
+        if (moment != null) {
+            setData(moment);
+            updateMoment(moment);
+            handler.sendEmptyMessage(0);
+        }
+    }
+
+    private void showActionDialog(final boolean isOwner) {
+        List<String> options = new ArrayList<String>();
+        options.add(getString(R.string.label_share));
+        if (isOwner) {
+            options.add(getString(R.string.label_delete));
+        } else {
+            options.add(getString(R.string.label_report));
+        }
+        new ListViewDialog(getActivity(), null, options,
+                new ListViewDialog.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(int i) {
+                        switch (i) {
+                            case 0:
+                                showShare();
+                                break;
+                            case 1:
+                                if (isOwner) {
+                                    deleteMoment();
+                                } else {
+                                    reportMoment();
+                                }
+                                break;
+                            default:
+                                break;
+                        }
+                    }
+                }).show();
+    }
+
+    private void showShare() {
+        String imageUrl = null;
+        if (moment.getImages().size() > 0) {
+            imageUrl = moment.getImages().get(0);
+        }
+        shareService.show(moment.getDetails(), null, imageUrl);
+    }
+
+    private void deleteMoment() {
+        if (task != null) {
+            return;
+        }
+        progressListener.showProgress();
+        task = new SafeAsyncTask<Boolean>() {
+            public Boolean call() throws Exception {
+                restService.deleteMoment(momentId);
+                momentStore.deleteMoment(momentId);
+                return true;
+            }
+
+            @Override
+            protected void onException(final Exception e) throws RuntimeException {
+                if(!(e instanceof RetrofitError)) {
+                    final Throwable cause = e.getCause() != null ? e.getCause() : e;
+                    if(cause != null) {
+                        Toaster.showShort(getActivity(), cause.getMessage());
+                    }
+                }
+            }
+
+            @Override
+            public void onSuccess(final Boolean success) {
+                Toaster.showShort(getActivity(), R.string.info_moment_deleted);
+
+                final Intent intent = new Intent();
+                intent.putExtra(MomentDetailsActivity.INTENT_MOMENT_ID, momentId);
+                intent.putExtra(MomentDetailsActivity.INTENT_DELETED, true);
+                getActivity().setResult(Activity.RESULT_OK, intent);
+                getActivity().finish();
+            }
+
+            @Override
+            protected void onFinally() throws RuntimeException {
+                progressListener.hideProgress();
+                task = null;
+            }
+        };
+        task.execute();
+    }
+
+    private void reportMoment() {
+        final Intent intent = new Intent(getActivity(), ReportActivity.class);
+        intent.putExtra(ReportActivity.INTENT_ENTITY_TYPE, ReportActivity.TYPE_MOMENT);
+        intent.putExtra(ReportActivity.INTENT_ENTITY_ID, momentId);
+        startActivity(intent);
+    }
+
+    private void updateMoment(Moment moment) {
+        User user = moment.getUser();
+        avatarImage.getFromUrl(user.getAvatarUrl());
+        avatarImage.setOnClickListener(new UserListener(avatarImage.getContext(), moment.getUserId()));
+
+        userNameText.setText(user.getScreenName());
+        userNameText.setOnClickListener(new UserListener(userNameText.getContext(), moment.getUserId()));
+        cityText.setText(user.getCity());
+        createdAtText.setText(moment.getCreatedAtFormatted());
+
+        if (moment.getDetails() != null && moment.getDetails().length() > 0) {
+            detailsText.setSpannableText(moment.getDetails());
+        } else {
+            detailsText.setVisibility(View.GONE);
+        }
+
+        ArrayList<CustomGallery> list = new ArrayList<CustomGallery>();
+        for (String imageUrl: moment.getImages()) {
+            CustomGallery item = new CustomGallery();
+            item.type = CustomGallery.HTTP;
+            item.imageUri = imageUrl;
+            list.add(item);
+        }
+        if (list.size() > 0) {
+            adapter.addAll(list);
+        } else {
+            gridGallery.setVisibility(View.GONE);
+        }
+
+        int comments = moment.getCommentsCount();
+        commentText.setText(comments > 0 ? String.valueOf(comments) : getString(R.string.label_comment));
+        commentText.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+            }
+        });
+
+        likeText.init(moment.getLikesCount(), moment.isLiked(currentUserId));
+        MomentLikeListener likeListener = new MomentLikeListener(moment);
+        likeListener.setOnLikeFinishedListener(new MomentLikeListener.LikeFinishedListener() {
+            @Override
+            public void OnLikeFinished(Moment moment) {
+                likesLayoutListener.update(likesLayout, moment.getLikes());
+            }
+
+            @Override
+            public void OnUnLikeFinished(Moment moment) {
+                likesLayoutListener.update(likesLayout, moment.getLikes());
+            }
+        });
+        likeText.setLikeListener(likeListener);
+        likesLayoutListener.update(likesLayout, moment.getLikes());
+    }
+}

@@ -1078,4 +1078,15 @@ public class RestService {
         data.add(Constants.Http.Moment.PARAM_LIKES, op);
         return getMomentService().updateById(momentId, data);
     }
+
+    public Moment getMomentById(String id) {
+        return getMomentService().getById(id);
+    }
+
+    public JsonObject deleteMoment(String momentId) {
+        final JsonObject data = new JsonObject();
+        DateTime now = DateTime.now(DateTimeZone.UTC);
+        data.addProperty("deletedAt", now.toString(Constants.DateTime.FORMAT));
+        return getMomentService().updateById(momentId, data);
+    }
 }

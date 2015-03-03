@@ -20,10 +20,12 @@ import com.aumum.app.mobile.core.infra.security.ApiKeyProvider;
 import com.aumum.app.mobile.core.model.Moment;
 import com.aumum.app.mobile.ui.base.RefreshItemListFragment;
 import com.aumum.app.mobile.ui.view.ListViewDialog;
+import com.aumum.app.mobile.utils.Ln;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.Iterator;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -78,6 +80,14 @@ public class MomentListFragment extends RefreshItemListFragment<Card>
     public void onActivityResult (int requestCode, int resultCode, Intent data) {
         if (requestCode == NEW_MOMENT_REQ_CODE && resultCode == Activity.RESULT_OK) {
             refresh(null);
+        } else if (requestCode == GET_MOMENT_DETAILS_REQ_CODE &&
+                resultCode == Activity.RESULT_OK) {
+            String partyId = data.getStringExtra(MomentDetailsActivity.INTENT_MOMENT_ID);
+            if (data.hasExtra(MomentDetailsActivity.INTENT_DELETED)) {
+                onMomentDeleted(partyId);
+            } else {
+                onMomentRefresh(partyId);
+            }
         }
     }
 
@@ -145,6 +155,51 @@ public class MomentListFragment extends RefreshItemListFragment<Card>
         return new CardArrayAdapter(getActivity(), items);
     }
 
+    private void onMomentDeleted(String momentId) {
+        try {
+            List<Card> cardList = getData();
+            for (Iterator<Card> it = cardList.iterator(); it.hasNext();) {
+                Card card = it.next();
+                Moment moment = ((MomentCard) card).getMoment();
+                if (moment.getObjectId().equals(momentId)) {
+                    dataSet.remove(moment);
+                    it.remove();
+                    getActivity().runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            getListAdapter().notifyDataSetChanged();
+                        }
+                    });
+                    return;
+                }
+            }
+        } catch (Exception e) {
+            Ln.d(e);
+        }
+    }
+
+    private void onMomentRefresh(String momentId) {
+        try {
+            for (int i = 0; i < dataSet.size(); i++) {
+                Moment item = dataSet.get(i);
+                if (item.getObjectId().equals(momentId)) {
+                    Moment moment = momentStore.getMomentById(momentId);
+                    getData().set(i, buildCard(moment));
+                    dataSet.set(i, moment);
+                    getActivity().runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            getListAdapter().notifyDataSetChanged();
+                        }
+                    });
+                    return;
+                }
+            }
+        } catch (Exception e) {
+            Ln.d(e);
+        }
+    }
+
     private List<Moment> onGetUpwardsList(String after) throws Exception {
         return momentStore.getUpwardsList(after);
     }
@@ -178,9 +233,9 @@ public class MomentListFragment extends RefreshItemListFragment<Card>
     }
 
     private void startMomentDetailsActivity(String momentId) {
-        /*final Intent intent = new Intent(getActivity(), MomentDetailsActivity.class);
+        final Intent intent = new Intent(getActivity(), MomentDetailsActivity.class);
         intent.putExtra(MomentDetailsActivity.INTENT_MOMENT_ID, momentId);
-        startActivityForResult(intent, GET_MOMENT_DETAILS_REQ_CODE);*/
+        startActivityForResult(intent, GET_MOMENT_DETAILS_REQ_CODE);
     }
 
     @Override

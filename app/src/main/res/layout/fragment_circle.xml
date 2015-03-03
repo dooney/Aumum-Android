@@ -9,10 +9,19 @@
         style="@style/RelativeLayout.NavButton"
         android:layout_marginTop="@dimen/margin_extra_large">
 
+        <ImageView
+            android:id="@+id/image_asking"
+            style="@style/ImageView"
+            android:src="@drawable/ic_fa_asking"
+            android:layout_centerVertical="true"
+            android:layout_alignParentLeft="true"
+            android:paddingRight="@dimen/margin_extra_large"/>
+
         <TextView
             android:id="@+id/text_label_asking"
             style="@style/TextView.Circle"
             android:layout_centerVertical="true"
+            android:layout_toRightOf="@+id/image_asking"
             android:text="@string/label_asking"/>
 
     </RelativeLayout>
@@ -22,10 +31,19 @@
         style="@style/RelativeLayout.NavButton"
         android:layout_marginTop="@dimen/margin_extra_large">
 
+        <ImageView
+            android:id="@+id/image_circle"
+            style="@style/ImageView"
+            android:src="@drawable/ic_fa_circle"
+            android:layout_centerVertical="true"
+            android:layout_alignParentLeft="true"
+            android:paddingRight="@dimen/margin_extra_large"/>
+
         <TextView
             android:id="@+id/text_label_moments"
             style="@style/TextView.Circle"
             android:layout_centerVertical="true"
+            android:layout_toRightOf="@+id/image_circle"
             android:text="@string/label_moments"/>
 
     </RelativeLayout>

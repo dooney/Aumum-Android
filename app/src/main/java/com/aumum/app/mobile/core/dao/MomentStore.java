@@ -112,6 +112,26 @@ public class MomentStore {
         }
     }
 
+    public Moment getMomentByIdFromServer(String id) throws Exception {
+        Moment moment = restService.getMomentById(id);
+        if (moment.getDeletedAt() == null) {
+            momentEntityDao.insertOrReplace(map(moment));
+        }
+        return moment;
+    }
+
+    public Moment getMomentById(String id) throws Exception {
+        MomentEntity momentEntity = momentEntityDao.load(id);
+        if (momentEntity != null) {
+            return map(momentEntity);
+        }
+        return null;
+    }
+
+    public void deleteMoment(String momentId) {
+        momentEntityDao.deleteByKey(momentId);
+    }
+
     public void save(Moment moment) throws Exception {
         momentEntityDao.insertOrReplace(map(moment));
     }

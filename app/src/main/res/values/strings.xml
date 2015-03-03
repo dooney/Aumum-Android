@@ -171,6 +171,8 @@
     <string name="info_tag_users_found">按标签为您找到%,d位用户</string>
     <string name="info_empty_moment_list">暂时还没有妈妈圈记录哦，点此刷新</string>
     <string name="info_submitting_moment">正在发妈妈圈，请稍候</string>
+    <string name="info_deleting_moment">正在删除该妈妈圈记录，请稍候</string>
+    <string name="info_moment_deleted">该妈妈圈记录已成功删除</string>
 
     <!-- Error Message -->
     <string name="error_bad_credentials">验证失败，请输入正确的手机号码/密码</string>
@@ -195,6 +197,7 @@
     <string name="error_asking_was_deleted">该说说已被删除</string>
     <string name="error_invalid_image_file">找不到该图片%1$s</string>
     <string name="error_title_is_null_for_sharing">标题为空，无法分享</string>
+    <string name="error_moment_was_deleted">该妈妈圈记录已被删除</string>
 
     <!-- Title -->
     <string name="title_activity_login">用户登录</string>
@@ -228,6 +231,7 @@
     <string name="title_activity_asking">说说</string>
     <string name="title_activity_moments">妈妈圈</string>
     <string name="title_activity_new_moment">发妈妈圈</string>
+    <string name="title_activity_moment_details">记录详情</string>
 
     <!-- Account -->
     <string name="hint_login_phone">手机号码</string>

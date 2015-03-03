@@ -295,6 +295,10 @@
             android:name=".ui.moment.NewMomentActivity"
             android:label="@string/title_activity_new_moment" >
         </activity>
+        <activity
+            android:name=".ui.moment.MomentDetailsActivity"
+            android:label="@string/title_activity_moment_details" >
+        </activity>
     </application>
 
 </manifest>

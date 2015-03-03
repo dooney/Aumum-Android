@@ -129,16 +129,19 @@ public class PartyListFragment extends RefreshItemListFragment<Card>
 
     @Override
     public void onActivityResult (int requestCode, int resultCode, Intent data) {
-        if (requestCode == Constants.RequestCode.NEW_PARTY_REQ_CODE && resultCode == Activity.RESULT_OK) {
+        if (requestCode == Constants.RequestCode.NEW_PARTY_REQ_CODE &&
+                resultCode == Activity.RESULT_OK) {
             refresh(null);
-        } else if (requestCode == Constants.RequestCode.GET_PARTY_DETAILS_REQ_CODE && resultCode == Activity.RESULT_OK) {
+        } else if (requestCode == Constants.RequestCode.GET_PARTY_DETAILS_REQ_CODE &&
+                resultCode == Activity.RESULT_OK) {
             String partyId = data.getStringExtra(PartyDetailsActivity.INTENT_PARTY_ID);
             if (data.hasExtra(PartyDetailsActivity.INTENT_DELETED)) {
                 onPartyDeleted(partyId);
             } else {
                 onPartyRefresh(partyId);
             }
-        } else if (requestCode == Constants.RequestCode.GET_PARTY_COMMENTS_REQ_CODE && resultCode == Activity.RESULT_OK) {
+        } else if (requestCode == Constants.RequestCode.GET_PARTY_COMMENTS_REQ_CODE &&
+                resultCode == Activity.RESULT_OK) {
             String partyId = data.getStringExtra(PartyCommentsActivity.INTENT_PARTY_ID);
             onPartyRefresh(partyId);
         }

@@ -29,7 +29,7 @@ public class PagerAdapter extends FragmentPagerAdapter
 
     private int icons[] = {
             R.drawable.tab_party_icon,
-            R.drawable.tab_asking_icon,
+            R.drawable.tab_circle_icon,
             R.drawable.tab_chat_icon,
             R.drawable.tab_contact_icon,
             R.drawable.tab_profile_icon

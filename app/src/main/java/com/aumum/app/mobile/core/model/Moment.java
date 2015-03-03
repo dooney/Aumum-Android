@@ -8,6 +8,7 @@ import java.util.List;
  */
 public class Moment extends AggregateRoot {
 
+    private String deletedAt;
     private String userId;
     private String details;
     private List<String> images = new ArrayList<String>();
@@ -52,6 +53,10 @@ public class Moment extends AggregateRoot {
         }
     }
 
+    public String getDeletedAt() {
+        return deletedAt;
+    }
+
     public String getUserId() {
         return userId;
     }
@@ -78,6 +83,10 @@ public class Moment extends AggregateRoot {
 
     public List<String> getComments() {
         return comments;
+    }
+
+    public boolean isOwner(String userId) {
+        return userId.equals(this.userId);
     }
 
     public int getCommentsCount() {
