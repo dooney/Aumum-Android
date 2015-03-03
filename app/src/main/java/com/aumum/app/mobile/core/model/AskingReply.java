@@ -8,6 +8,7 @@ import java.util.List;
  */
 public class AskingReply extends AggregateRoot {
 
+    private String deletedAt;
     private String userId;
     private String content;
     private String repliedId;

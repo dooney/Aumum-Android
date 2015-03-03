@@ -63,11 +63,11 @@ public class UserMomentsFragment extends RefreshItemListFragment<Card>
     public void onActivityResult (int requestCode, int resultCode, Intent data) {
         if (requestCode == GET_MOMENT_DETAILS_REQ_CODE &&
                 resultCode == Activity.RESULT_OK) {
-            String partyId = data.getStringExtra(MomentDetailsActivity.INTENT_MOMENT_ID);
+            String momentId = data.getStringExtra(MomentDetailsActivity.INTENT_MOMENT_ID);
             if (data.hasExtra(MomentDetailsActivity.INTENT_DELETED)) {
-                onMomentDeleted(partyId);
+                onMomentDeleted(momentId);
             } else {
-                onMomentRefresh(partyId);
+                onMomentRefresh(momentId);
             }
         }
     }
@@ -88,8 +88,8 @@ public class UserMomentsFragment extends RefreshItemListFragment<Card>
 
     @Override
     protected void getUpwardsList() throws Exception {
-        List<Moment> partyList = momentStore.getUpwardsList(user.getMoments());
-        dataSet.addAll(partyList);
+        List<Moment> momentList = momentStore.getUpwardsList(user.getMoments());
+        dataSet.addAll(momentList);
     }
 
     @Override

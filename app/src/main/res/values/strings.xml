@@ -12,8 +12,8 @@
     </string-array>
     <string-array name="label_asking_pages">
         <item>我爱我家</item>
-        <item>亲子教育</item>
-        <item/>
+        <item>亲子育儿</item>
+        <item>子女教育</item>
         <item/>
         <item/>
         <item/>
@@ -199,6 +199,7 @@
     <string name="error_invalid_image_file">找不到该图片%1$s</string>
     <string name="error_title_is_null_for_sharing">标题为空，无法分享</string>
     <string name="error_moment_was_deleted">该妈妈圈记录已被删除</string>
+    <string name="error_moment_comment_was_deleted">该妈妈圈记录已被删除</string>
 
     <!-- Title -->
     <string name="title_activity_login">用户登录</string>

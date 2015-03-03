@@ -1147,6 +1147,35 @@ public class RestService {
         return updateMomentComments(op, partyId, commentId);
     }
 
+    private JsonObject buildMomentCommentRequestJson(String commentId) {
+        final JsonObject body = new JsonObject();
+        DateTime now = DateTime.now(DateTimeZone.UTC);
+        body.addProperty("deletedAt", now.toString(Constants.DateTime.FORMAT));
+        String path = Constants.Http.URL_MOMENT_COMMENTS_FRAG + "/" + commentId;
+        return buildRequestJson(path, body);
+    }
+
+    private JsonObject buildMomentCommentsRequestJson(String momentId, String commentId) {
+        final JsonObject body = new JsonObject();
+        final JsonArray momentComments = new JsonArray();
+        momentComments.add(new JsonPrimitive(commentId));
+        final JsonObject opJson = new JsonObject();
+        opJson.addProperty("__op", "Remove");
+        opJson.add("objects", momentComments);
+        body.add(Constants.Http.Moment.PARAM_COMMENTS, opJson);
+        String path = Constants.Http.URL_MOMENTS_FRAG + "/" + momentId;
+        return buildRequestJson(path, body);
+    }
+
+    public JsonArray deleteMomentComment(String commentId, String momentId) {
+        final JsonObject script = new JsonObject();
+        final JsonArray requests = new JsonArray();
+        requests.add(buildMomentCommentRequestJson(commentId));
+        requests.add(buildMomentCommentsRequestJson(momentId, commentId));
+        script.add(Constants.Http.Batch.PARAM_REQUESTS, requests);
+        return getBatchService().execute(script);
+    }
+
     private JsonObject updateMomentComments(JsonObject op, String momentId, String commentId) {
         final JsonObject data = new JsonObject();
         final JsonArray momentComments = new JsonArray();

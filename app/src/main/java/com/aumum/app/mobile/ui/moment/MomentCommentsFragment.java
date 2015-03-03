@@ -113,7 +113,7 @@ public class MomentCommentsFragment extends ItemListFragment<MomentComment> {
         currentUser = userStore.getCurrentUser();
         moment = momentStore.getMomentByIdFromServer(momentId);
         if (moment.getDeletedAt() != null) {
-            throw new Exception(getString(R.string.error_party_was_deleted));
+            throw new Exception(getString(R.string.error_moment_comment_was_deleted));
         }
         List<MomentComment> result = momentCommentStore.getMomentComments(moment.getComments());
         for (MomentComment comment : result) {
@@ -224,7 +224,7 @@ public class MomentCommentsFragment extends ItemListFragment<MomentComment> {
         card.onActionStart();
         task = new SafeAsyncTask<Boolean>() {
             public Boolean call() throws Exception {
-                restService.deletePartyComment(comment.getObjectId(), comment.getParentId());
+                restService.deleteMomentComment(comment.getObjectId(), comment.getParentId());
                 moment.removeComment(comment.getObjectId());
                 momentStore.save(moment);
                 return true;

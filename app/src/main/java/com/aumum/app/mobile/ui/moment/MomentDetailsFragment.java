@@ -472,8 +472,8 @@ public class MomentDetailsFragment extends LoaderFragment<Moment> {
     }
 
     private void sendMomentOwnerMessage(CmdMessage cmdMessage) throws Exception {
-        User partyOwner = userStore.getUserById(moment.getUserId());
-        sendMessage(partyOwner.getChatId(), cmdMessage);
+        User momentOwner = userStore.getUserById(moment.getUserId());
+        sendMessage(momentOwner.getChatId(), cmdMessage);
     }
 
     private void sendCommentMessage(String content) throws Exception {

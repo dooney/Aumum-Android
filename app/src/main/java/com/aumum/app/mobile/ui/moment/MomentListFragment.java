@@ -85,11 +85,11 @@ public class MomentListFragment extends RefreshItemListFragment<Card>
             refresh(null);
         } else if (requestCode == GET_MOMENT_DETAILS_REQ_CODE &&
                 resultCode == Activity.RESULT_OK) {
-            String partyId = data.getStringExtra(MomentDetailsActivity.INTENT_MOMENT_ID);
+            String momentId = data.getStringExtra(MomentDetailsActivity.INTENT_MOMENT_ID);
             if (data.hasExtra(MomentDetailsActivity.INTENT_DELETED)) {
-                onMomentDeleted(partyId);
+                onMomentDeleted(momentId);
             } else {
-                onMomentRefresh(partyId);
+                onMomentRefresh(momentId);
             }
         }
     }

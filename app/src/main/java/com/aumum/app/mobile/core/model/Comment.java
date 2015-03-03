@@ -8,6 +8,7 @@ import java.util.List;
  */
 public class Comment extends AggregateRoot {
 
+    private String deletedAt;
     private String parentId;
     private String repliedId;
     private String content;
