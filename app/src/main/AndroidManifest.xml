@@ -299,6 +299,13 @@
             android:name=".ui.moment.MomentDetailsActivity"
             android:label="@string/title_activity_moment_details" >
         </activity>
+        <activity
+            android:name=".ui.moment.MomentDetailsSingleActivity"
+            android:excludeFromRecents="true"
+            android:label="@string/title_activity_moment_details"
+            android:launchMode="singleTask"
+            android:taskAffinity="" >
+        </activity>
     </application>
 
 </manifest>

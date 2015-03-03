@@ -10,6 +10,7 @@ import android.support.v4.app.NotificationCompat;
 
 import com.aumum.app.mobile.R;
 import com.aumum.app.mobile.ui.asking.AskingDetailsSingleActivity;
+import com.aumum.app.mobile.ui.moment.MomentDetailsSingleActivity;
 import com.aumum.app.mobile.ui.user.UserSingleActivity;
 import com.aumum.app.mobile.utils.PreferenceUtils;
 import com.aumum.app.mobile.ui.chat.ChatActivity;
@@ -103,6 +104,15 @@ public class NotificationService {
         Intent intent = new Intent();
         intent.putExtra(UserSingleActivity.INTENT_USER_ID, userId);
         intent.setComponent(new ComponentName(context, UserSingleActivity.class));
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        notify(builder, intent);
+    }
+
+    public void pushMomentDetailsNotification(String momentId, String title, String content) {
+        NotificationCompat.Builder builder = getNotificationBuilder(title, content);
+        Intent intent = new Intent();
+        intent.putExtra(MomentDetailsSingleActivity.INTENT_MOMENT_ID, momentId);
+        intent.setComponent(new ComponentName(context, MomentDetailsSingleActivity.class));
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         notify(builder, intent);
     }

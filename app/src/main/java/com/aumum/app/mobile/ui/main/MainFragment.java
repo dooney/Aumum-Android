@@ -298,6 +298,13 @@ public class MainFragment extends Fragment
                     case CmdMessage.Type.USER_NEW:
                         handleUserDetailsCmdMessage(cmdMessage);
                         break;
+                    case CmdMessage.Type.MOMENT_NEW:
+                    case CmdMessage.Type.MOMENT_LIKE:
+                    case CmdMessage.Type.MOMENT_COMMENT:
+                    case CmdMessage.Type.MOMENT_REPLY:
+                    case CmdMessage.Type.MOMENT_COMMENT_LIKE:
+                        handleMomentDetailsCmdMessage(cmdMessage);
+                        break;
                     default:
                         break;
                 }
@@ -345,5 +352,12 @@ public class MainFragment extends Fragment
         String title = cmdMessage.getTitle();
         String content = cmdMessage.getContent();
         notificationService.pushUserDetailsNotification(userId, title, content);
+    }
+
+    private void handleMomentDetailsCmdMessage(CmdMessage cmdMessage) {
+        String momentId = cmdMessage.getPayload();
+        String title = cmdMessage.getTitle();
+        String content = cmdMessage.getContent();
+        notificationService.pushMomentDetailsNotification(momentId, title, content);
     }
 }
