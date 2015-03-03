@@ -97,7 +97,7 @@ public class PartyCommentLikeListener implements LikeTextView.OnLikeListener {
     }
 
     private void sendLikeMessage(Context context, User currentUser) throws Exception {
-        if (!comment.getUserId().equals(currentUser.getObjectId())) {
+        if (!comment.isOwner(currentUser.getObjectId())) {
             String title = context.getString(R.string.label_like_party_comment_message,
                     currentUser.getScreenName());
             CmdMessage cmdMessage = new CmdMessage(CmdMessage.Type.PARTY_COMMENT_LIKE,

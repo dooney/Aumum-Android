@@ -30,4 +30,9 @@ public interface MomentService {
 
     @GET(Constants.Http.URL_MOMENT_BY_ID_FRAG)
     Moment getById(@Path("id") String id);
+
+    @GET(Constants.Http.URL_MOMENTS_FRAG)
+    JsonObject getCount(@Query("where") String where,
+                        @Query("count") int count,
+                        @Query("limit") int limit);
 }

@@ -90,6 +90,7 @@ public class MomentCard extends Card {
         }
         if (list.size() > 0) {
             adapter.addAll(list);
+            gridGallery.setVisibility(View.VISIBLE);
         } else {
             gridGallery.setVisibility(View.GONE);
         }

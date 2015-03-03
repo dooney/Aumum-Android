@@ -1,8 +1,16 @@
 package com.aumum.app.mobile.ui.asking;
 
+import android.content.Context;
+
 import com.aumum.app.mobile.Injector;
+import com.aumum.app.mobile.R;
+import com.aumum.app.mobile.core.dao.UserStore;
 import com.aumum.app.mobile.core.infra.security.ApiKeyProvider;
+import com.aumum.app.mobile.core.model.Asking;
 import com.aumum.app.mobile.core.model.AskingReply;
+import com.aumum.app.mobile.core.model.CmdMessage;
+import com.aumum.app.mobile.core.model.User;
+import com.aumum.app.mobile.core.service.ChatService;
 import com.aumum.app.mobile.core.service.RestService;
 import com.aumum.app.mobile.ui.view.LikeTextView;
 import com.aumum.app.mobile.utils.Ln;
@@ -17,15 +25,17 @@ import retrofit.RetrofitError;
  */
 public class AskingReplyLikeListener implements LikeTextView.OnLikeListener {
 
-    private SafeAsyncTask<Boolean> task;
-
-    private AskingReply askingReply;
-
     @Inject RestService service;
-    @Inject ApiKeyProvider apiKeyProvider;
+    @Inject UserStore userStore;
+    @Inject ChatService chatService;
 
-    public AskingReplyLikeListener(AskingReply askingReply) {
+    private SafeAsyncTask<Boolean> task;
+    private AskingReply askingReply;
+    private Asking asking;
+
+    public AskingReplyLikeListener(AskingReply askingReply, Asking asking) {
         this.askingReply = askingReply;
+        this.asking = asking;
         Injector.inject(this);
     }
 
@@ -36,8 +46,8 @@ public class AskingReplyLikeListener implements LikeTextView.OnLikeListener {
         }
         task = new SafeAsyncTask<Boolean>() {
             public Boolean call() throws Exception {
-                String currentUserId = apiKeyProvider.getAuthUserId();
-                service.removeAskingReplyLike(askingReply.getObjectId(), currentUserId);
+                User user = userStore.getCurrentUser();
+                service.removeAskingReplyLike(askingReply.getObjectId(), user.getObjectId());
                 return true;
             }
 
@@ -66,8 +76,9 @@ public class AskingReplyLikeListener implements LikeTextView.OnLikeListener {
         }
         task = new SafeAsyncTask<Boolean>() {
             public Boolean call() throws Exception {
-                String currentUserId = apiKeyProvider.getAuthUserId();
-                service.addAskingReplyLike(askingReply.getObjectId(), currentUserId);
+                User user = userStore.getCurrentUser();
+                service.addAskingReplyLike(askingReply.getObjectId(), user.getObjectId());
+                sendLikeMessage(view.getContext(), user);
                 return true;
             }
 
@@ -87,5 +98,16 @@ public class AskingReplyLikeListener implements LikeTextView.OnLikeListener {
             }
         };
         task.execute();
+    }
+
+    private void sendLikeMessage(Context context, User currentUser) throws Exception {
+        if (!askingReply.isOwner(currentUser.getObjectId())) {
+            String title = context.getString(R.string.label_like_asking_reply_message,
+                    currentUser.getScreenName());
+            CmdMessage cmdMessage = new CmdMessage(CmdMessage.Type.ASKING_REPLY_LIKE,
+                    title, askingReply.getContent(), asking.getObjectId());
+            User askingOwner = userStore.getUserById(askingReply.getUserId());
+            chatService.sendCmdMessage(askingOwner.getChatId(), cmdMessage, false, null);
+        }
     }
 }

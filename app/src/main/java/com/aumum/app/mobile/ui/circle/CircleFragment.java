@@ -6,18 +6,40 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 
+import com.aumum.app.mobile.Injector;
 import com.aumum.app.mobile.R;
+import com.aumum.app.mobile.core.Constants;
+import com.aumum.app.mobile.events.NewAskingUnreadEvent;
+import com.aumum.app.mobile.events.NewMomentUnreadEvent;
+import com.aumum.app.mobile.events.ResetCircleUnreadEvent;
 import com.aumum.app.mobile.ui.asking.AskingActivity;
 import com.aumum.app.mobile.ui.moment.MomentsActivity;
+import com.squareup.otto.Bus;
+import com.squareup.otto.Subscribe;
+
+import javax.inject.Inject;
 
 /**
  * Created by Administrator on 2/03/2015.
  */
 public class CircleFragment extends Fragment {
 
+    @Inject Bus bus;
+
+    private boolean resetUnread;
+
     private View askingLayout;
+    private ImageView askingUnreadImage;
     private View momentsLayout;
+    private ImageView momentUnreadImage;
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        Injector.inject(this);
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -36,6 +58,7 @@ public class CircleFragment extends Fragment {
                 startAskingActivity();
             }
         });
+        askingUnreadImage = (ImageView) view.findViewById(R.id.image_asking_unread);
         momentsLayout = view.findViewById(R.id.layout_moments);
         momentsLayout.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -43,15 +66,53 @@ public class CircleFragment extends Fragment {
                 startMomentsActivity();
             }
         });
+        momentUnreadImage = (ImageView) view.findViewById(R.id.image_moment_unread);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        bus.register(this);
+        if (resetUnread) {
+            bus.post(new ResetCircleUnreadEvent());
+        }
+        resetUnread = false;
+    }
+
+    @Override
+    public void onPause() {
+        super.onDestroy();
+        bus.unregister(this);
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == Constants.RequestCode.GET_ASKING_LIST_REQ_CODE) {
+            askingUnreadImage.setVisibility(View.INVISIBLE);
+            resetUnread = true;
+        } else if (requestCode == Constants.RequestCode.GET_MOMENT_LIST_REQ_CODE) {
+            momentUnreadImage.setVisibility(View.INVISIBLE);
+            resetUnread = true;
+        }
     }
 
     private void startAskingActivity() {
         final Intent intent = new Intent(getActivity(), AskingActivity.class);
-        startActivity(intent);
+        startActivityForResult(intent, Constants.RequestCode.GET_ASKING_LIST_REQ_CODE);
     }
 
     private void startMomentsActivity() {
         final Intent intent = new Intent(getActivity(), MomentsActivity.class);
-        startActivity(intent);
+        startActivityForResult(intent, Constants.RequestCode.GET_MOMENT_LIST_REQ_CODE);
+    }
+
+    @Subscribe
+    public void onNewAskingUnreadEvent(NewAskingUnreadEvent event) {
+        askingUnreadImage.setVisibility(View.VISIBLE);
+    }
+
+    @Subscribe
+    public void onNewMomentUnreadEvent(NewMomentUnreadEvent event) {
+        momentUnreadImage.setVisibility(View.VISIBLE);
     }
 }

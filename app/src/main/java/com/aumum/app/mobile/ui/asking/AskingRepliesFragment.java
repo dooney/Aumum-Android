@@ -104,7 +104,7 @@ public class AskingRepliesFragment extends RefreshItemListFragment<AskingReply> 
 
     @Override
     protected ArrayAdapter<AskingReply> createAdapter(List<AskingReply> items) {
-        return new AskingRepliesAdapter(getActivity(), items);
+        return new AskingRepliesAdapter(getActivity(), items, asking);
     }
 
     @Override

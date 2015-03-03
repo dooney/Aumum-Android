@@ -8,6 +8,7 @@ import android.widget.TextView;
 import com.aumum.app.mobile.Injector;
 import com.aumum.app.mobile.R;
 import com.aumum.app.mobile.core.infra.security.ApiKeyProvider;
+import com.aumum.app.mobile.core.model.Asking;
 import com.aumum.app.mobile.core.model.AskingReply;
 import com.aumum.app.mobile.ui.delegate.ActionListener;
 import com.aumum.app.mobile.ui.user.UserListener;
@@ -25,6 +26,7 @@ public class AskingReplyCard implements ActionListener {
     @Inject ApiKeyProvider apiKeyProvider;
 
     private AskingReply askingReply;
+    private Asking asking;
 
     private Context context;
     private AvatarImageView avatarImage;
@@ -34,7 +36,7 @@ public class AskingReplyCard implements ActionListener {
     private LikeTextView likeText;
     private ProgressBar progressBar;
 
-    public AskingReplyCard(Context context, View view) {
+    public AskingReplyCard(Context context, View view, Asking asking) {
         Injector.inject(this);
         this.context = context;
         this.avatarImage = (AvatarImageView) view.findViewById(R.id.image_avatar);
@@ -43,6 +45,7 @@ public class AskingReplyCard implements ActionListener {
         this.createdAtText = (TextView) view.findViewById(R.id.text_createdAt);
         this.likeText = (LikeTextView) view.findViewById(R.id.text_like);
         this.progressBar = (ProgressBar) view.findViewById(R.id.progress);
+        this.asking = asking;
     }
 
     public AskingReply getAskingReply() {
@@ -65,7 +68,7 @@ public class AskingReplyCard implements ActionListener {
         likeText.setLikeResId(R.drawable.ic_fa_thumbs_o_up_s);
         likeText.setLikedResId(R.drawable.ic_fa_thumbs_up_s);
         likeText.init(askingReply.getLikesCount(), askingReply.isLiked(apiKeyProvider.getAuthUserId()));
-        likeText.setLikeListener(new AskingReplyLikeListener(askingReply));
+        likeText.setLikeListener(new AskingReplyLikeListener(askingReply, asking));
 
         replyText.setSpannableText(askingReply.getContent());
         if (askingReply.getObjectId() == null) {

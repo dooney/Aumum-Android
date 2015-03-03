@@ -197,6 +197,9 @@ public class CompleteProfileActivity extends ProgressDialogActivity
         } else if (requestCode == GET_AREA_USERS_REQ_CODE) {
             if (tagUsersCount > 0) {
                 startTagUsersActivity(tags);
+            } else {
+                setResult(RESULT_OK);
+                finish();
             }
         } else if (requestCode == GET_TAG_USERS_REQ_CODE) {
             setResult(RESULT_OK);

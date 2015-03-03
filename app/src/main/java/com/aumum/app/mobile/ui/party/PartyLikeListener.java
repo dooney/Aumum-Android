@@ -128,7 +128,7 @@ public class PartyLikeListener implements LikeTextView.OnLikeListener {
     }
 
     private void sendLikeMessage(Context context, User currentUser) throws Exception {
-        if (!party.getUserId().equals(currentUser.getObjectId())) {
+        if (!party.isOwner(currentUser.getObjectId())) {
             String title = context.getString(R.string.label_like_party_message,
                     currentUser.getScreenName());
             CmdMessage cmdMessage = new CmdMessage(CmdMessage.Type.PARTY_LIKE,

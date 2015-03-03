@@ -17,14 +17,17 @@ import android.widget.TextView;
 import com.aumum.app.mobile.Injector;
 import com.aumum.app.mobile.R;
 import com.aumum.app.mobile.core.dao.AskingStore;
+import com.aumum.app.mobile.core.dao.MomentStore;
 import com.aumum.app.mobile.core.dao.PartyStore;
 import com.aumum.app.mobile.core.infra.security.ApiKeyProvider;
 import com.aumum.app.mobile.core.model.CmdMessage;
 import com.aumum.app.mobile.core.service.ChatService;
 import com.aumum.app.mobile.core.service.NotificationService;
 import com.aumum.app.mobile.core.service.ScheduleService;
+import com.aumum.app.mobile.events.NewAskingUnreadEvent;
 import com.aumum.app.mobile.events.NewChatMessageEvent;
-import com.aumum.app.mobile.events.ResetAskingUnreadEvent;
+import com.aumum.app.mobile.events.NewMomentUnreadEvent;
+import com.aumum.app.mobile.events.ResetCircleUnreadEvent;
 import com.aumum.app.mobile.events.ResetChatUnreadEvent;
 import com.aumum.app.mobile.events.ResetPartyUnreadEvent;
 import com.aumum.app.mobile.ui.chat.ChatConnectionListener;
@@ -54,6 +57,7 @@ public class MainFragment extends Fragment
 
     @Inject PartyStore partyStore;
     @Inject AskingStore askingStore;
+    @Inject MomentStore momentStore;
     @Inject NotificationService notificationService;
     @Inject ChatService chatService;
     @Inject ApiKeyProvider apiKeyProvider;
@@ -148,6 +152,18 @@ public class MainFragment extends Fragment
                                     .setVisibility(View.VISIBLE);
                         }
                     });
+                    bus.post(new NewAskingUnreadEvent());
+                }
+                unreadCount = momentStore.getUnreadCount();
+                if (unreadCount > 0) {
+                    getActivity().runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            indicator.getUnreadImage(MainTabPageIndicator.TAB_CIRCLE)
+                                    .setVisibility(View.VISIBLE);
+                        }
+                    });
+                    bus.post(new NewMomentUnreadEvent());
                 }
                 return true;
             }
@@ -177,7 +193,7 @@ public class MainFragment extends Fragment
     }
 
     @Subscribe
-    public void onResetAskingUnreadEvent(ResetAskingUnreadEvent event) {
+    public void onResetCircleUnreadEvent(ResetCircleUnreadEvent event) {
         indicator.getUnreadImage(MainTabPageIndicator.TAB_CIRCLE)
                 .setVisibility(View.INVISIBLE);
     }
@@ -293,6 +309,8 @@ public class MainFragment extends Fragment
                     case CmdMessage.Type.ASKING_REPLY:
                     case CmdMessage.Type.ASKING_REPLIED:
                     case CmdMessage.Type.ASKING_NEW:
+                    case CmdMessage.Type.ASKING_LIKE:
+                    case CmdMessage.Type.ASKING_REPLY_LIKE:
                         handleAskingDetailsCmdMessage(cmdMessage);
                         break;
                     case CmdMessage.Type.USER_NEW:

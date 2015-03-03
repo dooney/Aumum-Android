@@ -1171,4 +1171,17 @@ public class RestService {
         whereJson.add("objectId", buildIdListJson(idList));
         return getMomentsBeforeCore(whereJson, before, limit);
     }
+
+    public int getMomentsCountAfter(String after) {
+        final JsonObject whereJson = new JsonObject();
+        if (after != null) {
+            whereJson.add("createdAt", buildDateTimeAfterJson(after));
+        }
+        final JsonObject liveJson = new JsonObject();
+        liveJson.addProperty("$exists", false);
+        whereJson.add("deletedAt" ,liveJson);
+        String where = whereJson.toString();
+        JsonObject result = getMomentService().getCount(where, 1, 0);
+        return result.get("count").getAsInt();
+    }
 }

@@ -153,6 +153,22 @@ public class MomentStore {
         return null;
     }
 
+    public int getUnreadCount() throws Exception {
+        String time = getLastUpdateTime();
+        return restService.getMomentsCountAfter(time);
+    }
+
+    private String getLastUpdateTime() {
+        MomentEntity momentEntity = momentEntityDao.queryBuilder()
+                .orderDesc(MomentEntityDao.Properties.CreatedAt)
+                .limit(1)
+                .unique();
+        if (momentEntity != null) {
+            return DateUtils.dateToString(momentEntity.getCreatedAt(), Constants.DateTime.FORMAT);
+        }
+        return null;
+    }
+
     public void deleteMoment(String momentId) {
         momentEntityDao.deleteByKey(momentId);
     }

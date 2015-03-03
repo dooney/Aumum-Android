@@ -24,6 +24,12 @@
             android:layout_toRightOf="@+id/image_asking"
             android:text="@string/label_asking"/>
 
+        <ImageView
+            android:id="@+id/image_asking_unread"
+            style="@style/ImageView.Unread.Small"
+            android:layout_toRightOf="@+id/text_label_asking"
+            android:visibility="gone"/>
+
     </RelativeLayout>
 
     <RelativeLayout
@@ -45,6 +51,12 @@
             android:layout_centerVertical="true"
             android:layout_toRightOf="@+id/image_circle"
             android:text="@string/label_moments"/>
+
+        <ImageView
+            android:id="@+id/image_moment_unread"
+            style="@style/ImageView.Unread.Small"
+            android:layout_toRightOf="@+id/text_label_moments"
+            android:visibility="gone"/>
 
     </RelativeLayout>
 

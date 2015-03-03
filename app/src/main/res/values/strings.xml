@@ -380,6 +380,8 @@
     <string name="label_new_asking_message">%1$s发表了说说</string>
     <string name="label_new_anonymous_asking_message">您的好友发表了匿名讨论</string>
     <string name="label_replied_asking_message">%1$s回复了您</string>
+    <string name="label_like_asking_message">%1$s给您的说说点赞</string>
+    <string name="label_like_asking_reply_message">%1$s给您的说说评论点赞</string>
 
     <!-- Moments -->
     <string name="label_moments">妈妈圈</string>
