@@ -10,18 +10,21 @@
         android:id="@+id/action_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="@dimen/margin_large"
         android:layout_alignParentBottom="true">
 
         <Button
             android:id="@+id/b_signUp"
-            style="@style/Button.Primary"
+            style="@style/Button"
+            android:layout_margin="0dp"
+            android:background="@drawable/bbuton_danger"
             android:text="@string/label_register_now"
             android:layout_weight="1"/>
 
         <Button
             android:id="@+id/b_signIn"
-            style="@style/Button.Primary"
+            style="@style/Button"
+            android:layout_margin="0dp"
+            android:background="@drawable/bbuton_primary"
             android:text="@string/label_sign_in"
             android:layout_weight="1"/>
 
