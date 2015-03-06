@@ -21,16 +21,16 @@ public class PagerAdapter extends FragmentPagerAdapter
 
     private String pages[];
 
-    public static final int PAGE_PARTY = 0;
+    public static final int PAGE_CONVERSATION = 0;
     public static final int PAGE_CIRCLE = 1;
-    public static final int PAGE_CONVERSATION = 2;
+    public static final int PAGE_PARTY = 2;
     public static final int PAGE_CONTACT = 3;
     public static final int PAGE_PROFILE = 4;
 
     private int icons[] = {
-            R.drawable.tab_party_icon,
-            R.drawable.tab_circle_icon,
             R.drawable.tab_chat_icon,
+            R.drawable.tab_circle_icon,
+            R.drawable.tab_party_icon,
             R.drawable.tab_contact_icon,
             R.drawable.tab_profile_icon
     };

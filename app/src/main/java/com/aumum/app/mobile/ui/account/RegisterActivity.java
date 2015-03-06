@@ -168,6 +168,7 @@ public class RegisterActivity extends AuthenticateActivity
         validator = new Validator(this);
         validator.setValidationListener(this);
 
+        countryText.performClick();
         Animation.flyIn(this);
     }
 

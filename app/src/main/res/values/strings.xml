@@ -4,9 +4,9 @@
     <string name="app_name">澳妈圈</string>
 
     <string-array name="label_main_pages">
-        <item>聚会</item>
-        <item>圈子</item>
         <item>聊天</item>
+        <item>圈子</item>
+        <item>聚会</item>
         <item>好友</item>
         <item>个人</item>
     </string-array>
