@@ -41,8 +41,8 @@ android {
     defaultConfig {
         minSdkVersion 14
         targetSdkVersion 19
-        versionCode 320
-        versionName 'V3.2'
+        versionCode 321
+        versionName 'V3.2.1'
     }
 
     packagingOptions {
