@@ -272,7 +272,8 @@ public final class Constants {
             "北京",
             "上海",
             "深圳",
-            "广州"
+            "广州",
+            "其他城市"
         };
 
         public static HashMap<String, Integer> CITY_ID = new HashMap<String, Integer>(){
@@ -291,6 +292,7 @@ public final class Constants {
                 put("上海", 11);
                 put("深圳", 12);
                 put("广州", 13);
+                put("其他城市", 1000);
             }
         };
     }
