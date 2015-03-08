@@ -4,13 +4,11 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
 
 import com.aumum.app.mobile.Injector;
 import com.aumum.app.mobile.R;
@@ -30,10 +28,6 @@ import javax.inject.Inject;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 import retrofit.RetrofitError;
-
-import static android.view.KeyEvent.ACTION_DOWN;
-import static android.view.KeyEvent.KEYCODE_ENTER;
-import static android.view.inputmethod.EditorInfo.IME_ACTION_DONE;
 
 public class ReportActivity extends ProgressDialogActivity {
 
@@ -81,26 +75,6 @@ public class ReportActivity extends ProgressDialogActivity {
             }
         });
         typeText.addTextChangedListener(watcher);
-        detailsText.setOnKeyListener(new View.OnKeyListener() {
-            public boolean onKey(final View v, final int keyCode, final KeyEvent event) {
-                if (event != null && ACTION_DOWN == event.getAction()
-                        && keyCode == KEYCODE_ENTER && submitButton.isEnabled()) {
-                    submit();
-                    return true;
-                }
-                return false;
-            }
-        });
-        detailsText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
-            public boolean onEditorAction(final TextView v, final int actionId,
-                                          final KeyEvent event) {
-                if (actionId == IME_ACTION_DONE && submitButton.isEnabled()) {
-                    submit();
-                    return true;
-                }
-                return false;
-            }
-        });
         detailsText.addTextChangedListener(watcher);
     }
 

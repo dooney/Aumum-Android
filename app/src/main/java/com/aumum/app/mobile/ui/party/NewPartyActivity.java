@@ -8,7 +8,6 @@ import android.support.v4.app.FragmentManager;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.text.format.DateFormat;
-import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -71,10 +70,6 @@ import javax.inject.Inject;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 import retrofit.RetrofitError;
-
-import static android.view.KeyEvent.ACTION_DOWN;
-import static android.view.KeyEvent.KEYCODE_ENTER;
-import static android.view.inputmethod.EditorInfo.IME_ACTION_DONE;
 
 public class NewPartyActivity extends ProgressDialogActivity
         implements CalendarDatePickerDialog.OnDateSetListener,
@@ -186,26 +181,6 @@ public class NewPartyActivity extends ProgressDialogActivity
         titleText.addTextChangedListener(watcher);
         addressText.setAdapter(new PlacesAutoCompleteAdapter(this, R.layout.place_autocomplete_listitem));
         addressText.addTextChangedListener(watcher);
-        detailsText.setOnKeyListener(new View.OnKeyListener() {
-            public boolean onKey(final View v, final int keyCode, final KeyEvent event) {
-                if (event != null && ACTION_DOWN == event.getAction()
-                        && keyCode == KEYCODE_ENTER && submitButton.isEnabled()) {
-                    submit();
-                    return true;
-                }
-                return false;
-            }
-        });
-        detailsText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
-            public boolean onEditorAction(final TextView v, final int actionId,
-                                          final KeyEvent event) {
-                if (actionId == IME_ACTION_DONE && submitButton.isEnabled()) {
-                    submit();
-                    return true;
-                }
-                return false;
-            }
-        });
         privacyLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
