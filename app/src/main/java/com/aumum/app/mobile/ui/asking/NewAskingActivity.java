@@ -31,8 +31,8 @@ import com.aumum.app.mobile.ui.helper.TextWatcherAdapter;
 import com.aumum.app.mobile.ui.image.CustomGallery;
 import com.aumum.app.mobile.ui.image.GalleryAdapter;
 import com.aumum.app.mobile.ui.image.ImagePickerActivity;
+import com.aumum.app.mobile.ui.image.ImageViewActivity;
 import com.aumum.app.mobile.ui.view.Animation;
-import com.aumum.app.mobile.ui.view.ImageViewDialog;
 import com.aumum.app.mobile.utils.EditTextUtils;
 import com.aumum.app.mobile.utils.ImageLoaderUtils;
 import com.aumum.app.mobile.utils.ImageUtils;
@@ -116,7 +116,9 @@ public class NewAskingActivity extends ProgressDialogActivity
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
                 String imageUrl = adapter.getItem(position).getUri();
-                new ImageViewDialog(NewAskingActivity.this, imageUrl).show();
+                final Intent intent = new Intent(NewAskingActivity.this, ImageViewActivity.class);
+                intent.putExtra(ImageViewActivity.INTENT_IMAGE_URI, imageUrl);
+                startActivity(intent);
             }
         });
 

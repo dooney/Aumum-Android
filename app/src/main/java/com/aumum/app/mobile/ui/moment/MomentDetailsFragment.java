@@ -43,11 +43,11 @@ import com.aumum.app.mobile.ui.base.ProgressListener;
 import com.aumum.app.mobile.ui.helper.TextWatcherAdapter;
 import com.aumum.app.mobile.ui.image.CustomGallery;
 import com.aumum.app.mobile.ui.image.GalleryAdapter;
+import com.aumum.app.mobile.ui.image.ImageViewActivity;
 import com.aumum.app.mobile.ui.like.LikesLayoutListener;
 import com.aumum.app.mobile.ui.report.ReportActivity;
 import com.aumum.app.mobile.ui.user.UserListener;
 import com.aumum.app.mobile.ui.view.AvatarImageView;
-import com.aumum.app.mobile.ui.view.ImageViewDialog;
 import com.aumum.app.mobile.ui.view.LikeTextView;
 import com.aumum.app.mobile.ui.view.ListViewDialog;
 import com.aumum.app.mobile.ui.view.SpannableTextView;
@@ -174,7 +174,9 @@ public class MomentDetailsFragment extends LoaderFragment<Moment> {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
                 String imageUrl = moment.getImages().get(position);
-                new ImageViewDialog(getActivity(), imageUrl).show();
+                final Intent intent = new Intent(getActivity(), ImageViewActivity.class);
+                intent.putExtra(ImageViewActivity.INTENT_IMAGE_URI, imageUrl);
+                startActivity(intent);
             }
         });
 

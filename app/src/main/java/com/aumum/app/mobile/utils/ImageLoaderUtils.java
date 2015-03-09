@@ -10,7 +10,6 @@ import com.nostra13.universalimageloader.cache.disc.naming.HashCodeFileNameGener
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
-import com.nostra13.universalimageloader.core.assist.ImageScaleType;
 import com.nostra13.universalimageloader.core.listener.PauseOnScrollListener;
 import com.nostra13.universalimageloader.core.listener.SimpleImageLoadingListener;
 
@@ -22,15 +21,12 @@ public class ImageLoaderUtils {
     public static void init(Context context) {
         DisplayImageOptions defaultOptions = new DisplayImageOptions.Builder()
                 .considerExifParams(true)
-                .imageScaleType(ImageScaleType.EXACTLY)
                 .bitmapConfig(Bitmap.Config.RGB_565)
                 .cacheOnDisk(true)
                 .cacheInMemory(true)
                 .build();
         ImageLoaderConfiguration config = new ImageLoaderConfiguration.Builder(context)
                 .defaultDisplayImageOptions(defaultOptions)
-                .memoryCacheExtraOptions(480, 640)
-                .diskCacheExtraOptions(480, 640, null)
                 .diskCacheSize(200 * 1024 * 1024)
                 .diskCacheFileNameGenerator(new HashCodeFileNameGenerator())
                 .build();

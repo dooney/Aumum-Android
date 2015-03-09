@@ -307,6 +307,7 @@
             android:taskAffinity="" >
         </activity>
         <activity android:name=".ui.moment.UserMomentsActivity" />
+        <activity android:name=".ui.image.ImageViewActivity" />
     </application>
 
 </manifest>

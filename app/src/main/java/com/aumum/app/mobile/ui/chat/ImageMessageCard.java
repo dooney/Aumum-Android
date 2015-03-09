@@ -1,12 +1,13 @@
 package com.aumum.app.mobile.ui.chat;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.aumum.app.mobile.R;
-import com.aumum.app.mobile.ui.view.ImageViewDialog;
+import com.aumum.app.mobile.ui.image.ImageViewActivity;
 import com.aumum.app.mobile.utils.ImageLoaderUtils;
 import com.easemob.chat.EMMessage;
 import com.easemob.chat.ImageMessageBody;
@@ -42,7 +43,9 @@ public class ImageMessageCard extends ChatMessageCard {
             @Override
             public void onClick(View view) {
                 String imageUrl = imageUri;
-                new ImageViewDialog(activity, imageUrl).show();
+                final Intent intent = new Intent(activity, ImageViewActivity.class);
+                intent.putExtra(ImageViewActivity.INTENT_IMAGE_URI, imageUrl);
+                activity.startActivity(intent);
             }
         });
 

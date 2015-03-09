@@ -1,6 +1,7 @@
 package com.aumum.app.mobile.ui.moment;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -11,9 +12,9 @@ import com.aumum.app.mobile.R;
 import com.aumum.app.mobile.core.model.Moment;
 import com.aumum.app.mobile.ui.image.CustomGallery;
 import com.aumum.app.mobile.ui.image.GalleryAdapter;
+import com.aumum.app.mobile.ui.image.ImageViewActivity;
 import com.aumum.app.mobile.ui.user.UserListener;
 import com.aumum.app.mobile.ui.view.AvatarImageView;
-import com.aumum.app.mobile.ui.view.ImageViewDialog;
 import com.aumum.app.mobile.ui.view.LikeTextView;
 import com.aumum.app.mobile.ui.view.SpannableTextView;
 
@@ -78,7 +79,9 @@ public class MomentCard extends Card {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
                 String imageUrl = moment.getImages().get(position);
-                new ImageViewDialog(activity, imageUrl).show();
+                final Intent intent = new Intent(activity, ImageViewActivity.class);
+                intent.putExtra(ImageViewActivity.INTENT_IMAGE_URI, imageUrl);
+                activity.startActivity(intent);
             }
         });
         ArrayList<CustomGallery> list = new ArrayList<CustomGallery>();
