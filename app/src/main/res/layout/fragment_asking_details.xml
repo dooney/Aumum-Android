@@ -64,6 +64,12 @@
                 android:numColumns="4" >
             </GridView>
 
+            <ImageView
+                android:id="@+id/image_gallery"
+                style="@style/ImageView.SingleGallery"
+                android:paddingBottom="@dimen/margin_medium"
+                android:src="@drawable/image_placeholder"/>
+
         </LinearLayout>
 
         <LinearLayout

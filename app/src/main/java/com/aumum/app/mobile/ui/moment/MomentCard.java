@@ -6,6 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.GridView;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.aumum.app.mobile.R;
@@ -17,6 +18,7 @@ import com.aumum.app.mobile.ui.user.UserListener;
 import com.aumum.app.mobile.ui.view.AvatarImageView;
 import com.aumum.app.mobile.ui.view.LikeTextView;
 import com.aumum.app.mobile.ui.view.SpannableTextView;
+import com.aumum.app.mobile.utils.ImageLoaderUtils;
 
 import java.util.ArrayList;
 
@@ -84,6 +86,13 @@ public class MomentCard extends Card {
                 activity.startActivity(intent);
             }
         });
+        ImageView imageGallery = (ImageView) view.findViewById(R.id.image_gallery);
+        imageGallery.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                clickImageByIndex(0);
+            }
+        });
         ArrayList<CustomGallery> list = new ArrayList<CustomGallery>();
         for (String imageUrl: moment.getImages()) {
             CustomGallery item = new CustomGallery();
@@ -91,11 +100,16 @@ public class MomentCard extends Card {
             item.imageUri = imageUrl;
             list.add(item);
         }
+        gridGallery.setVisibility(View.GONE);
+        imageGallery.setVisibility(View.GONE);
         if (list.size() > 0) {
-            adapter.addAll(list);
-            gridGallery.setVisibility(View.VISIBLE);
-        } else {
-            gridGallery.setVisibility(View.GONE);
+            if (list.size() > 1) {
+                adapter.addAll(list);
+                gridGallery.setVisibility(View.VISIBLE);
+            } else {
+                ImageLoaderUtils.displayImage(list.get(0).getUri(), imageGallery);
+                imageGallery.setVisibility(View.VISIBLE);
+            }
         }
 
         TextView commentText = (TextView) view.findViewById(R.id.text_comment);
@@ -116,5 +130,12 @@ public class MomentCard extends Card {
         likeText.setLikedResId(R.drawable.ic_fa_thumbs_up);
         likeText.init(moment.getLikesCount(), moment.isLiked(currentUserId));
         likeText.setLikeListener(likeListener);
+    }
+
+    private void clickImageByIndex(int index) {
+        String imageUrl = moment.getImages().get(index);
+        final Intent intent = new Intent(activity, ImageViewActivity.class);
+        intent.putExtra(ImageViewActivity.INTENT_IMAGE_URI, imageUrl);
+        activity.startActivity(intent);
     }
 }

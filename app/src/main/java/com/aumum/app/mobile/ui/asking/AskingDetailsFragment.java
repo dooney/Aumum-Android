@@ -46,6 +46,7 @@ import com.aumum.app.mobile.ui.view.LikeTextView;
 import com.aumum.app.mobile.ui.view.ListViewDialog;
 import com.aumum.app.mobile.ui.view.SpannableTextView;
 import com.aumum.app.mobile.utils.EditTextUtils;
+import com.aumum.app.mobile.utils.ImageLoaderUtils;
 import com.aumum.app.mobile.utils.SafeAsyncTask;
 import com.github.kevinsawicki.wishlist.Toaster;
 import com.squareup.otto.Bus;
@@ -79,6 +80,7 @@ public class AskingDetailsFragment extends LoaderFragment<Asking> {
     private SpannableTextView titleText;
     private SpannableTextView detailsText;
     private GridView gridGallery;
+    private ImageView imageGallery;
     private AvatarImageView avatarImage;
     private TextView userNameText;
     private TextView updatedAtText;
@@ -155,10 +157,14 @@ public class AskingDetailsFragment extends LoaderFragment<Asking> {
         gridGallery.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
-                String imageUrl = asking.getImages().get(position);
-                final Intent intent = new Intent(getActivity(), ImageViewActivity.class);
-                intent.putExtra(ImageViewActivity.INTENT_IMAGE_URI, imageUrl);
-                startActivity(intent);
+                clickImageByIndex(position);
+            }
+        });
+        imageGallery = (ImageView) view.findViewById(R.id.image_gallery);
+        imageGallery.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                clickImageByIndex(0);
             }
         });
 
@@ -245,10 +251,16 @@ public class AskingDetailsFragment extends LoaderFragment<Asking> {
             item.imageUri = imageUrl;
             list.add(item);
         }
+        gridGallery.setVisibility(View.GONE);
+        imageGallery.setVisibility(View.GONE);
         if (list.size() > 0) {
-            adapter.addAll(list);
-        } else {
-            gridGallery.setVisibility(View.GONE);
+            if (list.size() > 1) {
+                adapter.addAll(list);
+                gridGallery.setVisibility(View.VISIBLE);
+            } else {
+                ImageLoaderUtils.displayImage(list.get(0).getUri(), imageGallery);
+                imageGallery.setVisibility(View.VISIBLE);
+            }
         }
 
         if (asking.getIsAnonymous()) {
@@ -406,6 +418,13 @@ public class AskingDetailsFragment extends LoaderFragment<Asking> {
         final Intent intent = new Intent(getActivity(), ReportActivity.class);
         intent.putExtra(ReportActivity.INTENT_ENTITY_TYPE, ReportActivity.TYPE_ASKING);
         intent.putExtra(ReportActivity.INTENT_ENTITY_ID, askingId);
+        startActivity(intent);
+    }
+
+    private void clickImageByIndex(int index) {
+        String imageUrl = asking.getImages().get(index);
+        final Intent intent = new Intent(getActivity(), ImageViewActivity.class);
+        intent.putExtra(ImageViewActivity.INTENT_IMAGE_URI, imageUrl);
         startActivity(intent);
     }
 }

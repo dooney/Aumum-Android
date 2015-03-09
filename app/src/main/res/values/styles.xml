@@ -128,6 +128,11 @@
         <item name="android:minHeight">360dp</item>
         <item name="android:scaleType">fitCenter</item>
     </style>
+    <style name="ImageView.SingleGallery" parent="ImageView">
+        <item name="android:maxWidth">100dp</item>
+        <item name="android:maxHeight">108dp</item>
+        <item name="android:scaleType">fitStart</item>
+    </style>
 
     <style name="TextView" parent="android:Widget.TextView">
         <item name="android:layout_width">wrap_content</item>

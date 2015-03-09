@@ -52,6 +52,7 @@ import com.aumum.app.mobile.ui.view.LikeTextView;
 import com.aumum.app.mobile.ui.view.ListViewDialog;
 import com.aumum.app.mobile.ui.view.SpannableTextView;
 import com.aumum.app.mobile.utils.EditTextUtils;
+import com.aumum.app.mobile.utils.ImageLoaderUtils;
 import com.aumum.app.mobile.utils.SafeAsyncTask;
 import com.github.kevinsawicki.wishlist.Toaster;
 import com.squareup.otto.Bus;
@@ -91,6 +92,7 @@ public class MomentDetailsFragment extends LoaderFragment<Moment> {
     private TextView createdAtText;
     private SpannableTextView detailsText;
     private GridView gridGallery;
+    private ImageView imageGallery;
     private ViewGroup likesLayout;
     private TextView commentText;
     private LikeTextView likeText;
@@ -173,10 +175,14 @@ public class MomentDetailsFragment extends LoaderFragment<Moment> {
         gridGallery.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
-                String imageUrl = moment.getImages().get(position);
-                final Intent intent = new Intent(getActivity(), ImageViewActivity.class);
-                intent.putExtra(ImageViewActivity.INTENT_IMAGE_URI, imageUrl);
-                startActivity(intent);
+                clickImageByIndex(position);
+            }
+        });
+        imageGallery = (ImageView) view.findViewById(R.id.image_gallery);
+        imageGallery.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                clickImageByIndex(0);
             }
         });
 
@@ -388,10 +394,16 @@ public class MomentDetailsFragment extends LoaderFragment<Moment> {
             item.imageUri = imageUrl;
             list.add(item);
         }
+        gridGallery.setVisibility(View.GONE);
+        imageGallery.setVisibility(View.GONE);
         if (list.size() > 0) {
-            adapter.addAll(list);
-        } else {
-            gridGallery.setVisibility(View.GONE);
+            if (list.size() > 1) {
+                adapter.addAll(list);
+                gridGallery.setVisibility(View.VISIBLE);
+            } else {
+                ImageLoaderUtils.displayImage(list.get(0).getUri(), imageGallery);
+                imageGallery.setVisibility(View.VISIBLE);
+            }
         }
 
         int comments = moment.getCommentsCount();
@@ -495,5 +507,12 @@ public class MomentDetailsFragment extends LoaderFragment<Moment> {
         if (!moment.isOwner(repliedComment.getUserId())) {
             sendMessage(repliedComment.getUser().getChatId(), cmdMessage);
         }
+    }
+
+    private void clickImageByIndex(int index) {
+        String imageUrl = moment.getImages().get(index);
+        final Intent intent = new Intent(getActivity(), ImageViewActivity.class);
+        intent.putExtra(ImageViewActivity.INTENT_IMAGE_URI, imageUrl);
+        startActivity(intent);
     }
 }
