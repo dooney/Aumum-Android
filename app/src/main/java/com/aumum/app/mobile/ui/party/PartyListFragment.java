@@ -358,6 +358,9 @@ public class PartyListFragment extends RefreshItemListFragment<Card>
                     case 1:
                         showMyPartiesDialog();
                         break;
+                    case 2:
+                        startMyFavoritesActivity(currentUser);
+                        break;
                     default:
                         break;
                 }
@@ -402,6 +405,14 @@ public class PartyListFragment extends RefreshItemListFragment<Card>
         final Intent intent = new Intent(getActivity(), SearchPartyActivity.class);
         intent.putExtra(SearchPartyActivity.INTENT_TITLE, getString(R.string.label_my_parties));
         intent.putExtra(SearchPartyActivity.INTENT_USER_ID, userId);
+        startActivity(intent);
+    }
+
+    private void startMyFavoritesActivity(User user) {
+        final Intent intent = new Intent(getActivity(), SearchPartyActivity.class);
+        intent.putExtra(SearchPartyActivity.INTENT_TITLE, getString(R.string.label_favorite_parties));
+        intent.putExtra(SearchPartyActivity.INTENT_USER_ID, user.getObjectId());
+        intent.putExtra(SearchPartyActivity.INTENT_IS_FAVORITE, true);
         startActivity(intent);
     }
 

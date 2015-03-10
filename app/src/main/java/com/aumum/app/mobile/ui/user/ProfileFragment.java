@@ -21,10 +21,8 @@ import com.aumum.app.mobile.core.dao.UserStore;
 import com.aumum.app.mobile.core.model.User;
 import com.aumum.app.mobile.core.service.RestService;
 import com.aumum.app.mobile.ui.area.AreaListActivity;
-import com.aumum.app.mobile.ui.asking.SearchAskingActivity;
 import com.aumum.app.mobile.ui.base.LoaderFragment;
 import com.aumum.app.mobile.ui.image.ImagePickerActivity;
-import com.aumum.app.mobile.ui.party.SearchPartyActivity;
 import com.aumum.app.mobile.ui.settings.SettingsActivity;
 import com.aumum.app.mobile.ui.view.AvatarImageView;
 import com.aumum.app.mobile.ui.view.ConfirmDialog;
@@ -348,11 +346,6 @@ public class ProfileFragment extends LoaderFragment<User> {
             public void onItemClick(int i) {
                 switch (i) {
                     case 0:
-                        if (currentUser != null) {
-                            showFavoriteDialog(currentUser);
-                        }
-                        break;
-                    case 1:
                         startSettingsActivity();
                         break;
                     default:
@@ -464,44 +457,6 @@ public class ProfileFragment extends LoaderFragment<User> {
                 updateTagsUI(tags);
             }
         }).show();
-    }
-
-    private void showFavoriteDialog(final User user) {
-        String options[] = getResources().getStringArray(R.array.label_favorite_types);
-        new ListViewDialog(getActivity(),
-                getString(R.string.label_select_favorite_type),
-                Arrays.asList(options),
-                new ListViewDialog.OnItemClickListener() {
-                    @Override
-                    public void onItemClick(int i) {
-                        switch (i) {
-                            case 0:
-                                startMyFavoritePartiesActivity(user);
-                                break;
-                            case 1:
-                                startMyFavoriteAskingsActivity(user);
-                                break;
-                            default:
-                                break;
-                        }
-                    }
-                }).show();
-    }
-
-    private void startMyFavoritePartiesActivity(User user) {
-        final Intent intent = new Intent(getActivity(), SearchPartyActivity.class);
-        intent.putExtra(SearchPartyActivity.INTENT_TITLE, getString(R.string.label_favorite_parties));
-        intent.putExtra(SearchPartyActivity.INTENT_USER_ID, user.getObjectId());
-        intent.putExtra(SearchPartyActivity.INTENT_IS_FAVORITE, true);
-        startActivity(intent);
-    }
-
-    private void startMyFavoriteAskingsActivity(User user) {
-        final Intent intent = new Intent(getActivity(), SearchAskingActivity.class);
-        intent.putExtra(SearchAskingActivity.INTENT_TITLE, getString(R.string.label_favorite_askings));
-        intent.putExtra(SearchAskingActivity.INTENT_USER_ID, user.getObjectId());
-        intent.putExtra(SearchAskingActivity.INTENT_IS_FAVORITE, true);
-        startActivity(intent);
     }
 
     private void startSettingsActivity() {

@@ -101,6 +101,9 @@ public class AskingFragment extends Fragment {
                             case 1:
                                 startMyAskingsActivity();
                                 break;
+                            case 2:
+                                startMyFavoritesActivity();
+                                break;
                             default:
                                 break;
                         }
@@ -123,6 +126,15 @@ public class AskingFragment extends Fragment {
         final Intent intent = new Intent(getActivity(), SearchAskingActivity.class);
         intent.putExtra(SearchAskingActivity.INTENT_TITLE, getString(R.string.label_my_askings));
         intent.putExtra(SearchAskingActivity.INTENT_USER_ID, currentUserId);
+        startActivity(intent);
+    }
+
+    private void startMyFavoritesActivity() {
+        String currentUserId = apiKeyProvider.getAuthUserId();
+        final Intent intent = new Intent(getActivity(), SearchAskingActivity.class);
+        intent.putExtra(SearchAskingActivity.INTENT_TITLE, getString(R.string.label_favorite_askings));
+        intent.putExtra(SearchAskingActivity.INTENT_USER_ID, currentUserId);
+        intent.putExtra(SearchAskingActivity.INTENT_IS_FAVORITE, true);
         startActivity(intent);
     }
 }
