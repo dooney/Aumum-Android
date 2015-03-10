@@ -14,6 +14,8 @@ import com.aumum.app.mobile.core.model.Party;
 import com.aumum.app.mobile.core.model.PartyReason;
 import com.aumum.app.mobile.core.model.PlaceRange;
 import com.aumum.app.mobile.core.model.Report;
+import com.aumum.app.mobile.core.model.Special;
+import com.aumum.app.mobile.core.model.SpecialProduct;
 import com.aumum.app.mobile.core.model.User;
 import com.aumum.app.mobile.core.model.UserTag;
 import com.google.gson.Gson;
@@ -109,6 +111,14 @@ public class RestService {
 
     private MomentCommentService getMomentCommentService() {
         return getRestAdapter().create(MomentCommentService.class);
+    }
+
+    private SpecialService getSpecialService() {
+        return getRestAdapter().create(SpecialService.class);
+    }
+
+    private SpecialProductService getSpecialProductService() {
+        return getRestAdapter().create(SpecialProductService.class);
     }
 
     private RestAdapter getRestAdapter() {
@@ -1212,5 +1222,19 @@ public class RestService {
         String where = whereJson.toString();
         JsonObject result = getMomentService().getCount(where, 1, 0);
         return result.get("count").getAsInt();
+    }
+
+    public List<Special> getSpecialList() {
+        return getSpecialService().getList().getResults();
+    }
+
+    public List<SpecialProduct> getSpecialProductList(String specialId) {
+        final JsonObject whereJson = new JsonObject();
+        whereJson.addProperty("specialId", specialId);
+        final JsonObject liveJson = new JsonObject();
+        liveJson.addProperty("$exists", false);
+        whereJson.add("deletedAt" ,liveJson);
+        String where = whereJson.toString();
+        return getSpecialProductService().getList(where, Integer.MAX_VALUE).getResults();
     }
 }

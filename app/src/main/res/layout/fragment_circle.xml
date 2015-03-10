@@ -60,4 +60,26 @@
 
     </RelativeLayout>
 
+    <RelativeLayout
+        android:id="@+id/layout_special"
+        style="@style/RelativeLayout.NavButton"
+        android:layout_marginTop="@dimen/margin_extra_large">
+
+        <ImageView
+            android:id="@+id/image_special"
+            style="@style/ImageView"
+            android:src="@drawable/ic_fa_special"
+            android:layout_centerVertical="true"
+            android:layout_alignParentLeft="true"
+            android:paddingRight="@dimen/margin_extra_large"/>
+
+        <TextView
+            android:id="@+id/text_label_special"
+            style="@style/TextView.Circle"
+            android:layout_centerVertical="true"
+            android:layout_toRightOf="@+id/image_special"
+            android:text="@string/label_special"/>
+
+    </RelativeLayout>
+
 </LinearLayout>

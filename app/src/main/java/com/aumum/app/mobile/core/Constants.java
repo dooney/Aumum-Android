@@ -161,6 +161,16 @@ public final class Constants {
         public static final String URL_MOMENT_COMMENT_BY_ID_FRAG = "/1/classes/MomentComments/{id}";
 
         /**
+         * List Special URL
+         */
+        public static final String URL_SPECIALS_FRAG = "/1/classes/Specials";
+
+        /**
+         * List Special Products URL
+         */
+        public static final String URL_SPECIAL_PRODUCTS_FRAG = "/1/classes/SpecialProducts";
+
+        /**
          * PARAMS for auth
          */
         public static final String PARAM_USERNAME = "username";

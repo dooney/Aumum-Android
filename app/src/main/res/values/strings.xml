@@ -5,7 +5,7 @@
 
     <string-array name="label_main_pages">
         <item>聊天</item>
-        <item>圈子</item>
+        <item>发现</item>
         <item>聚会</item>
         <item>好友</item>
         <item>个人</item>
@@ -235,6 +235,8 @@
     <string name="title_activity_new_moment">发妈妈圈</string>
     <string name="title_activity_moment_details">记录详情</string>
     <string name="title_activity_user_moments">%1$s的妈妈圈</string>
+    <string name="title_activity_special">请选择您要查看的超市品牌</string>
+    <string name="title_activity_special_details">%1$s今日半价</string>
 
     <!-- Account -->
     <string name="hint_login_phone">手机号码</string>
@@ -395,6 +397,15 @@
     <string name="label_comment_moment_message">%1$s评论了您的妈妈圈</string>
     <string name="label_replied_moment_message">%1$s回复了您的妈妈圈评论</string>
     <string name="label_my_moments">我的妈妈圈</string>
+
+    <!-- Special -->
+    <string name="label_special">今日半价</string>
+    <string name="label_this_special">本期半价</string>
+    <string name="label_special_likes">共有&lt;font color=#000000>%,d&lt;/font>人点赞</string>
+
+    <!-- Special Product -->
+    <string name="label_was">原价：$%.2f</string>
+    <string name="label_now">现价：$%.2f</string>
 
     <!-- Report -->
     <string name="hint_report_type">违规类别</string>

@@ -308,6 +308,10 @@
         </activity>
         <activity android:name=".ui.moment.UserMomentsActivity" />
         <activity android:name=".ui.image.ImageViewActivity" />
+        <activity android:name=".ui.special.SpecialActivity"
+            android:label="@string/title_activity_special">
+        </activity>
+        <activity android:name=".ui.special.SpecialDetailsActivity" />
     </application>
 
 </manifest>
