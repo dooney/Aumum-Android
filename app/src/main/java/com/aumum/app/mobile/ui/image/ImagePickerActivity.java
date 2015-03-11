@@ -39,7 +39,7 @@ public class ImagePickerActivity extends ActionBarActivity {
     public static final String INTENT_ACTION = "action";
     public static final int ACTION_PICK = 1;
     public static final int ACTION_MULTIPLE_PICK = 2;
-    private static final int MAX_COUNT = 4;
+    private static final int MAX_COUNT = 9;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {

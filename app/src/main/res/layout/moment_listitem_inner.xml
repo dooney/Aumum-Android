@@ -47,14 +47,13 @@
         style="@style/TextView.Moment.Details"
         android:paddingBottom="@dimen/margin_medium"/>
 
-    <GridView
+    <com.aumum.app.mobile.ui.view.ScaleGridView
         android:id="@+id/grid_gallery"
-        android:layout_width="match_parent"
+        android:layout_width="274dp"
         android:layout_height="wrap_content"
-        android:layout_gravity="top"
-        android:paddingBottom="@dimen/margin_large"
-        android:numColumns="4" >
-    </GridView>
+        android:paddingBottom="@dimen/margin_medium"
+        android:numColumns="3" >
+    </com.aumum.app.mobile.ui.view.ScaleGridView>
 
     <ImageView
         android:id="@+id/image_gallery"
