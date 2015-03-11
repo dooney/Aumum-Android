@@ -176,6 +176,26 @@ public final class Constants {
         public static final String URL_SPECIAL_PRODUCT_BY_ID_FRAG = "/1/classes/SpecialProducts/{id}";
 
         /**
+         * List Savings URL
+         */
+        public static final String URL_SAVINGS_FRAG = "/1/classes/Savings";
+
+        /**
+         * Saving By Id URL
+         */
+        public static final String URL_SAVING_BY_ID_FRAG = "/1/classes/Savings/{id}";
+
+        /**
+         * List Saving Comments URL
+         */
+        public static final String URL_SAVING_COMMENTS_FRAG = "/1/classes/SavingComments";
+
+        /**
+         * Saving Comment By Id URL
+         */
+        public static final String URL_SAVING_COMMENT_BY_ID_FRAG = "/1/classes/SavingComments/{id}";
+
+        /**
          * PARAMS for auth
          */
         public static final String PARAM_USERNAME = "username";
@@ -260,6 +280,15 @@ public final class Constants {
         public static final class SpecialProduct {
             public static final String PARAM_LIKES = "likes";
             public static final String PARAM_FAVORITES = "favorites";
+        }
+
+        public static final class Saving {
+            public static final String PARAM_LIKES = "likes";
+            public static final String PARAM_COMMENTS = "comments";
+        }
+
+        public static final class SavingComment {
+            public static final String PARAM_LIKES = "likes";
         }
     }
 

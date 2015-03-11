@@ -14,6 +14,8 @@ import com.aumum.app.mobile.core.model.Party;
 import com.aumum.app.mobile.core.model.PartyReason;
 import com.aumum.app.mobile.core.model.PlaceRange;
 import com.aumum.app.mobile.core.model.Report;
+import com.aumum.app.mobile.core.model.Saving;
+import com.aumum.app.mobile.core.model.SavingComment;
 import com.aumum.app.mobile.core.model.Special;
 import com.aumum.app.mobile.core.model.SpecialProduct;
 import com.aumum.app.mobile.core.model.User;
@@ -119,6 +121,14 @@ public class RestService {
 
     private SpecialProductService getSpecialProductService() {
         return getRestAdapter().create(SpecialProductService.class);
+    }
+
+    private SavingService getSavingService() {
+        return getRestAdapter().create(SavingService.class);
+    }
+
+    private SavingCommentService getSavingCommentService() {
+        return getRestAdapter().create(SavingCommentService.class);
     }
 
     private RestAdapter getRestAdapter() {
@@ -1328,5 +1338,192 @@ public class RestService {
         whereJson.addProperty("specialId", specialId);
         String where = whereJson.toString();
         return getSpecialProductService().getList("-now", where, Integer.MAX_VALUE).getResults();
+    }
+
+    public List<Saving> getSavingsAfter(String after, int limit) {
+        final JsonObject whereJson = new JsonObject();
+        if (after != null) {
+            whereJson.add("createdAt", buildDateTimeAfterJson(after));
+        }
+        final JsonObject liveJson = new JsonObject();
+        liveJson.addProperty("$exists", false);
+        whereJson.add("deletedAt", liveJson);
+        String where = whereJson.toString();
+        return getSavingService().getList("-createdAt", where, limit).getResults();
+    }
+
+    private List<Saving> getSavingsBeforeCore(JsonObject whereJson, String before, int limit) {
+        whereJson.add("createdAt", buildDateTimeBeforeJson(before));
+        final JsonObject liveJson = new JsonObject();
+        liveJson.addProperty("$exists", false);
+        whereJson.add("deletedAt" ,liveJson);
+        String where = whereJson.toString();
+        return getSavingService().getList("-createdAt", where, limit).getResults();
+    }
+
+    public List<Saving> getSavingsBefore(String before, int limit) {
+        final JsonObject whereJson = new JsonObject();
+        return getSavingsBeforeCore(whereJson, before, limit);
+    }
+
+    public Saving newSaving(Saving saving) {
+        Gson gson = new Gson();
+        JsonObject data = gson.toJsonTree(saving).getAsJsonObject();
+        return getSavingService().newSaving(data);
+    }
+
+    public JsonObject addUserSaving(String userId, String savingId) {
+        final JsonObject op = new JsonObject();
+        op.addProperty("__op", "AddUnique");
+        return updateUserSavingList(op, userId, savingId);
+    }
+
+    private JsonObject updateUserSavingList(JsonObject op, String userId, String savingId) {
+        final JsonObject data = new JsonObject();
+        final JsonArray userSavingList = new JsonArray();
+        userSavingList.add(new JsonPrimitive(savingId));
+        op.add("objects", userSavingList);
+        data.add(Constants.Http.User.PARAM_MOMENTS, op);
+        return getUserService().updateById(userId, data);
+    }
+
+    public JsonObject addSavingLike(String savingId, String userId) {
+        final JsonObject op = new JsonObject();
+        op.addProperty("__op", "AddUnique");
+        return updateSavingLikes(op, savingId, userId);
+    }
+
+    public JsonObject removeSavingLike(String savingId, String userId) {
+        final JsonObject op = new JsonObject();
+        op.addProperty("__op", "Remove");
+        return updateSavingLikes(op, savingId, userId);
+    }
+
+    private JsonObject updateSavingLikes(JsonObject op, String savingId, String userId) {
+        final JsonObject data = new JsonObject();
+        final JsonArray savingLikes = new JsonArray();
+        savingLikes.add(new JsonPrimitive(userId));
+        op.add("objects", savingLikes);
+        data.add(Constants.Http.Saving.PARAM_LIKES, op);
+        return getSavingService().updateById(savingId, data);
+    }
+
+    public Saving getSavingById(String id) {
+        return getSavingService().getById(id);
+    }
+
+    public JsonObject deleteSaving(String savingId) {
+        final JsonObject data = new JsonObject();
+        DateTime now = DateTime.now(DateTimeZone.UTC);
+        data.addProperty("deletedAt", now.toString(Constants.DateTime.FORMAT));
+        return getSavingService().updateById(savingId, data);
+    }
+
+    public JsonObject addSavingCommentLike(String commentId, String userId) {
+        final JsonObject op = new JsonObject();
+        op.addProperty("__op", "AddUnique");
+        return updateSavingCommentLikes(op, commentId, userId);
+    }
+
+    public JsonObject removeSavingCommentLike(String commentId, String userId) {
+        final JsonObject op = new JsonObject();
+        op.addProperty("__op", "Remove");
+        return updateSavingCommentLikes(op, commentId, userId);
+    }
+
+    private JsonObject updateSavingCommentLikes(JsonObject op, String commentId, String userId) {
+        final JsonObject data = new JsonObject();
+        final JsonArray savingCommentLikes = new JsonArray();
+        savingCommentLikes.add(new JsonPrimitive(userId));
+        op.add("objects", savingCommentLikes);
+        data.add(Constants.Http.SavingComment.PARAM_LIKES, op);
+        return getSavingCommentService().updateById(commentId, data);
+    }
+
+    public List<SavingComment> getSavingComments(List<String> idList) {
+        final JsonObject whereJson = new JsonObject();
+        whereJson.add("objectId", buildIdListJson(idList));
+        final JsonObject liveJson = new JsonObject();
+        liveJson.addProperty("$exists", false);
+        whereJson.add("deletedAt" ,liveJson);
+        String where = whereJson.toString();
+        return getSavingCommentService().getList("-createdAt", where).getResults();
+    }
+
+    public SavingComment newSavingComment(SavingComment comment) {
+        return getSavingCommentService().newSavingComment(comment);
+    }
+
+    public JsonObject addSavingComment(String partyId, String commentId) {
+        final JsonObject op = new JsonObject();
+        op.addProperty("__op", "AddUnique");
+        return updateSavingComments(op, partyId, commentId);
+    }
+
+    private JsonObject buildSavingCommentRequestJson(String commentId) {
+        final JsonObject body = new JsonObject();
+        DateTime now = DateTime.now(DateTimeZone.UTC);
+        body.addProperty("deletedAt", now.toString(Constants.DateTime.FORMAT));
+        String path = Constants.Http.URL_MOMENT_COMMENTS_FRAG + "/" + commentId;
+        return buildRequestJson(path, body);
+    }
+
+    private JsonObject buildSavingCommentsRequestJson(String savingId, String commentId) {
+        final JsonObject body = new JsonObject();
+        final JsonArray savingComments = new JsonArray();
+        savingComments.add(new JsonPrimitive(commentId));
+        final JsonObject opJson = new JsonObject();
+        opJson.addProperty("__op", "Remove");
+        opJson.add("objects", savingComments);
+        body.add(Constants.Http.Saving.PARAM_COMMENTS, opJson);
+        String path = Constants.Http.URL_MOMENTS_FRAG + "/" + savingId;
+        return buildRequestJson(path, body);
+    }
+
+    public JsonArray deleteSavingComment(String commentId, String savingId) {
+        final JsonObject script = new JsonObject();
+        final JsonArray requests = new JsonArray();
+        requests.add(buildSavingCommentRequestJson(commentId));
+        requests.add(buildSavingCommentsRequestJson(savingId, commentId));
+        script.add(Constants.Http.Batch.PARAM_REQUESTS, requests);
+        return getBatchService().execute(script);
+    }
+
+    private JsonObject updateSavingComments(JsonObject op, String savingId, String commentId) {
+        final JsonObject data = new JsonObject();
+        final JsonArray savingComments = new JsonArray();
+        savingComments.add(new JsonPrimitive(commentId));
+        op.add("objects", savingComments);
+        data.add(Constants.Http.Saving.PARAM_COMMENTS, op);
+        return getSavingService().updateById(savingId, data);
+    }
+
+    public List<Saving> getSavings(List<String> idList, int limit) {
+        final JsonObject whereJson = new JsonObject();
+        whereJson.add("objectId", buildIdListJson(idList));
+        final JsonObject liveJson = new JsonObject();
+        liveJson.addProperty("$exists", false);
+        whereJson.add("deletedAt", liveJson);
+        String where = whereJson.toString();
+        return getSavingService().getList("-createdAt", where, limit).getResults();
+    }
+
+    public List<Saving> getSavingsBefore(List<String> idList, String before, int limit) {
+        final JsonObject whereJson = new JsonObject();
+        whereJson.add("objectId", buildIdListJson(idList));
+        return getSavingsBeforeCore(whereJson, before, limit);
+    }
+
+    public int getSavingsCountAfter(String after) {
+        final JsonObject whereJson = new JsonObject();
+        if (after != null) {
+            whereJson.add("createdAt", buildDateTimeAfterJson(after));
+        }
+        final JsonObject liveJson = new JsonObject();
+        liveJson.addProperty("$exists", false);
+        whereJson.add("deletedAt" ,liveJson);
+        String where = whereJson.toString();
+        JsonObject result = getSavingService().getCount(where, 1, 0);
+        return result.get("count").getAsInt();
     }
 }

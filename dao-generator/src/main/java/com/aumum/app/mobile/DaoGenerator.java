@@ -5,7 +5,7 @@ import de.greenrobot.daogenerator.Schema;
 
 public class DaoGenerator {
 
-    private static final int SCHEMA_VERSION = 6;
+    private static final int SCHEMA_VERSION = 7;
 
     public static void main(String args[]) throws Exception {
         Schema schema = new Schema(SCHEMA_VERSION, "com.aumum.app.mobile.core.dao.gen");
@@ -15,6 +15,7 @@ public class DaoGenerator {
         addContactRequest(schema);
         addAsking(schema);
         addMoment(schema);
+        addSaving(schema);
 
         new de.greenrobot.daogenerator.DaoGenerator().generateAll(schema, args[0]);
     }
@@ -40,6 +41,7 @@ public class DaoGenerator {
         user.addStringProperty("tags");
         user.addStringProperty("moments");
         user.addStringProperty("favSpecials");
+        user.addStringProperty("savings");
     }
 
     private static void addParty(Schema schema) {
@@ -99,5 +101,17 @@ public class DaoGenerator {
         moment.addStringProperty("images");
         moment.addStringProperty("likes");
         moment.addStringProperty("comments");
+    }
+
+    private static void addSaving(Schema schema) {
+        Entity saving = schema.addEntity("SavingEntity");
+        saving.setSuperclass("BaseEntity");
+        saving.addStringProperty("objectId").notNull().primaryKey();
+        saving.addDateProperty("createdAt").notNull();
+        saving.addStringProperty("userId");
+        saving.addDoubleProperty("amount");
+        saving.addStringProperty("images");
+        saving.addStringProperty("likes");
+        saving.addStringProperty("comments");
     }
 }

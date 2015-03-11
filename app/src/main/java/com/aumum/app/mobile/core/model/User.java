@@ -25,6 +25,7 @@ public class User extends AggregateRoot implements Sortable {
     protected List<String> tags = new ArrayList<String>();
     protected List<String> moments = new ArrayList<String>();
     protected List<String> favSpecials = new ArrayList<String>();
+    protected List<String> savings = new ArrayList<String>();
 
     public User() {
 
@@ -47,7 +48,8 @@ public class User extends AggregateRoot implements Sortable {
                 List<String> favAskings,
                 List<String> tags,
                 List<String> moments,
-                List<String> favSpecials) {
+                List<String> favSpecials,
+                List<String> savings) {
         this.objectId = objectId;
         this.username = username;
         this.chatId = chatId;
@@ -89,6 +91,10 @@ public class User extends AggregateRoot implements Sortable {
         if (favSpecials != null) {
             this.favSpecials.clear();
             this.favSpecials.addAll(favSpecials);
+        }
+        if (savings != null) {
+            this.savings.clear();
+            this.savings.addAll(savings);
         }
     }
 
@@ -194,6 +200,10 @@ public class User extends AggregateRoot implements Sortable {
         return favSpecials;
     }
 
+    public List<String> getSavings() {
+        return savings;
+    }
+
     @Override
     public String getSortLetters() {
         String pinyin = Strings.getSelling(screenName);
@@ -274,6 +284,12 @@ public class User extends AggregateRoot implements Sortable {
     public void removeSpecialFavorite(String specialId) {
         if (favSpecials != null && favSpecials.contains(specialId)) {
             favSpecials.remove(specialId);
+        }
+    }
+
+    public void addSaving(String savingId) {
+        if (savings != null && !savings.contains(savingId)) {
+            savings.add(savingId);
         }
     }
 

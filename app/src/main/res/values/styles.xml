@@ -439,6 +439,48 @@
         <item name="android:text">@null</item>
     </style>
 
+
+
+    <!-- Saving -->
+    <style name="TextView.Saving.UserName" parent="TextView.UserName" >
+        <item name="android:textSize">@dimen/text_sz_large</item>
+    </style>
+    <style name="TextView.Saving.City" parent="TextView.Subtitle" />
+    <style name="TextView.Saving.CreatedAt" parent="TextView.Subtitle.Small" />
+    <style name="TextView.Saving.Details" parent="TextView">
+        <item name="android:textSize">@dimen/text_sz_large</item>
+    </style>
+    <style name="EditText.NewSaving.Amount" parent="EditText">
+        <item name="android:hint">@string/hint_saving_amount</item>
+        <item name="android:inputType">phone</item>
+    </style>
+    <style name="TextView.NewSaving.AddMore" parent="TextView.Subtitle">
+        <item name="android:textSize">@dimen/text_sz_large</item>
+        <item name="android:text">@string/label_add_more</item>
+    </style>
+    <style name="TextView.NewSaving.Type" parent="TextView">
+        <item name="android:textColor">@color/grey_medium</item>
+        <item name="android:textSize">@dimen/text_sz_small</item>
+        <item name="android:padding">@dimen/margin_small</item>
+        <item name="android:layout_gravity">center</item>
+    </style>
+    <style name="TextView.Saving.Likes" parent="LinkTextView" />
+    <style name="LinearLayout.Saving.UserAvatars" parent="LinearLayout">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">@dimen/avatar_sz_small</item>
+        <item name="android:layout_marginTop">@dimen/margin_small</item>
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:orientation">horizontal</item>
+    </style>
+    <style name="TextView.SavingComment.UserName" parent="TextView.UserName" />
+    <style name="TextView.SavingComment.CreatedAt" parent="TextView.Subtitle" >
+        <item name="android:textSize">@dimen/text_sz_small</item>
+    </style>
+    <style name="TextView.SavingComment.Text" parent="TextView.Content.Text" />
+    <style name="TextView.SavingComment.Like" parent="TextView.Like.Small">
+        <item name="android:text">@null</item>
+    </style>
+
     <!-- Report -->
     <style name="EditText.Report.Type" parent="EditText.Mandatory">
         <item name="android:hint">@string/hint_report_type</item>

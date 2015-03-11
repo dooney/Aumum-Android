@@ -1,4 +1,4 @@
-package com.aumum.app.mobile.ui.moment;
+package com.aumum.app.mobile.ui.saving;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -14,10 +14,10 @@ import android.widget.ImageView;
 
 import com.aumum.app.mobile.Injector;
 import com.aumum.app.mobile.R;
-import com.aumum.app.mobile.core.dao.MomentStore;
+import com.aumum.app.mobile.core.dao.SavingStore;
 import com.aumum.app.mobile.core.dao.UserStore;
 import com.aumum.app.mobile.core.infra.security.ApiKeyProvider;
-import com.aumum.app.mobile.core.model.Moment;
+import com.aumum.app.mobile.core.model.Saving;
 import com.aumum.app.mobile.ui.base.RefreshItemListFragment;
 import com.aumum.app.mobile.ui.view.ListViewDialog;
 import com.aumum.app.mobile.utils.Ln;
@@ -34,28 +34,25 @@ import it.gmariotti.cardslib.library.internal.Card;
 import it.gmariotti.cardslib.library.internal.CardArrayAdapter;
 
 /**
- * Created by Administrator on 2/03/2015.
+ * Created by Administrator on 12/03/2015.
  */
-public class MomentListFragment extends RefreshItemListFragment<Card>
-        implements MomentCommentClickListener {
+public class SavingListFragment extends RefreshItemListFragment<Card> 
+        implements SavingCommentClickListener {
 
     @Inject UserStore userStore;
-    @Inject MomentStore momentStore;
+    @Inject SavingStore savingStore;
     @Inject ApiKeyProvider apiKeyProvider;
 
-    private String currentUserId;
-    protected List<Moment> dataSet = new ArrayList<Moment>();
+    protected List<Saving> dataSet = new ArrayList<Saving>();
 
-    private static int NEW_MOMENT_REQ_CODE = 100;
-    private static int GET_MOMENT_DETAILS_REQ_CODE = 101;
+    private static int NEW_SAVING_REQ_CODE = 100;
+    private static int GET_SAVING_DETAILS_REQ_CODE = 101;
 
     @Override
     public void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
         Injector.inject(this);
-
-        currentUserId = apiKeyProvider.getAuthUserId();
     }
 
     @Override
@@ -76,20 +73,20 @@ public class MomentListFragment extends RefreshItemListFragment<Card>
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_moment_list, null);
+        return inflater.inflate(R.layout.fragment_saving_list, null);
     }
 
     @Override
     public void onActivityResult (int requestCode, int resultCode, Intent data) {
-        if (requestCode == NEW_MOMENT_REQ_CODE && resultCode == Activity.RESULT_OK) {
+        if (requestCode == NEW_SAVING_REQ_CODE && resultCode == Activity.RESULT_OK) {
             refresh(null);
-        } else if (requestCode == GET_MOMENT_DETAILS_REQ_CODE &&
+        } else if (requestCode == GET_SAVING_DETAILS_REQ_CODE &&
                 resultCode == Activity.RESULT_OK) {
-            String momentId = data.getStringExtra(MomentDetailsActivity.INTENT_MOMENT_ID);
-            if (data.hasExtra(MomentDetailsActivity.INTENT_DELETED)) {
-                onMomentDeleted(momentId);
+            String savingId = data.getStringExtra(SavingDetailsActivity.INTENT_SAVING_ID);
+            if (data.hasExtra(SavingDetailsActivity.INTENT_DELETED)) {
+                onSavingDeleted(savingId);
             } else {
-                onMomentRefresh(momentId);
+                onSavingRefresh(savingId);
             }
         }
     }
@@ -100,20 +97,20 @@ public class MomentListFragment extends RefreshItemListFragment<Card>
         if (dataSet.size() > 0) {
             after = dataSet.get(0).getCreatedAt();
         }
-        List<Moment> momentList = onGetUpwardsList(after);
-        Collections.reverse(momentList);
-        for(Moment moment: momentList) {
-            dataSet.add(0, moment);
+        List<Saving> savingList = onGetUpwardsList(after);
+        Collections.reverse(savingList);
+        for(Saving saving: savingList) {
+            dataSet.add(0, saving);
         }
     }
 
     @Override
     protected void getBackwardsList() throws Exception {
         if (dataSet.size() > 0) {
-            Moment last = dataSet.get(dataSet.size() - 1);
-            List<Moment> momentList = onGetBackwardsList(last.getCreatedAt());
-            dataSet.addAll(momentList);
-            if (momentList.size() > 0) {
+            Saving last = dataSet.get(dataSet.size() - 1);
+            List<Saving> savingList = onGetBackwardsList(last.getCreatedAt());
+            dataSet.addAll(savingList);
+            if (savingList.size() > 0) {
                 setMore(true);
             } else {
                 setMore(false);
@@ -121,16 +118,17 @@ public class MomentListFragment extends RefreshItemListFragment<Card>
         }
     }
 
-    private Card buildCard(Moment moment) throws Exception {
-        if (moment.getUser() == null) {
-            moment.setUser(userStore.getUserById(moment.getUserId()));
+    private Card buildCard(Saving saving) throws Exception {
+        if (saving.getUser() == null) {
+            saving.setUser(userStore.getUserById(saving.getUserId()));
         }
-        MomentCard card = new MomentCard(getActivity(), moment, currentUserId, this);
+        String currentUserId = apiKeyProvider.getAuthUserId();
+        SavingCard card = new SavingCard(getActivity(), saving, currentUserId, this);
         card.setOnClickListener(new Card.OnCardClickListener() {
             @Override
             public void onClick(Card card, View view) {
-                MomentCard momentCard = (MomentCard) card;
-                startMomentDetailsActivity(momentCard.getMoment().getObjectId());
+                SavingCard savingCard = (SavingCard) card;
+                startSavingDetailsActivity(savingCard.getSaving().getObjectId());
             }
         });
         return card;
@@ -139,13 +137,13 @@ public class MomentListFragment extends RefreshItemListFragment<Card>
     @Override
     protected List<Card> buildCards() throws Exception {
         int totalCount = dataSet.size();
-        if (totalCount < MomentStore.LIMIT_PER_LOAD) {
+        if (totalCount < SavingStore.LIMIT_PER_LOAD) {
             setMore(false);
         }
         List<Card> cards = new ArrayList<Card>();
         if (totalCount > 0) {
-            for (Moment moment : dataSet) {
-                Card card = buildCard(moment);
+            for (Saving saving : dataSet) {
+                Card card = buildCard(saving);
                 cards.add(card);
             }
         }
@@ -157,14 +155,14 @@ public class MomentListFragment extends RefreshItemListFragment<Card>
         return new CardArrayAdapter(getActivity(), items);
     }
 
-    private void onMomentDeleted(String momentId) {
+    private void onSavingDeleted(String savingId) {
         try {
             List<Card> cardList = getData();
             for (Iterator<Card> it = cardList.iterator(); it.hasNext();) {
                 Card card = it.next();
-                Moment moment = ((MomentCard) card).getMoment();
-                if (moment.getObjectId().equals(momentId)) {
-                    dataSet.remove(moment);
+                Saving saving = ((SavingCard) card).getSaving();
+                if (saving.getObjectId().equals(savingId)) {
+                    dataSet.remove(saving);
                     it.remove();
                     getActivity().runOnUiThread(new Runnable() {
                         @Override
@@ -180,14 +178,14 @@ public class MomentListFragment extends RefreshItemListFragment<Card>
         }
     }
 
-    private void onMomentRefresh(String momentId) {
+    private void onSavingRefresh(String savingId) {
         try {
             for (int i = 0; i < dataSet.size(); i++) {
-                Moment item = dataSet.get(i);
-                if (item.getObjectId().equals(momentId)) {
-                    Moment moment = momentStore.getMomentById(momentId);
-                    getData().set(i, buildCard(moment));
-                    dataSet.set(i, moment);
+                Saving item = dataSet.get(i);
+                if (item.getObjectId().equals(savingId)) {
+                    Saving saving = savingStore.getSavingById(savingId);
+                    getData().set(i, buildCard(saving));
+                    dataSet.set(i, saving);
                     getActivity().runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
@@ -202,26 +200,26 @@ public class MomentListFragment extends RefreshItemListFragment<Card>
         }
     }
 
-    private List<Moment> onGetUpwardsList(String after) throws Exception {
-        return momentStore.getUpwardsList(after);
+    private List<Saving> onGetUpwardsList(String after) throws Exception {
+        return savingStore.getUpwardsList(after);
     }
 
-    private List<Moment> onGetBackwardsList(String before) throws Exception {
-        return momentStore.getBackwardsList(before);
+    private List<Saving> onGetBackwardsList(String before) throws Exception {
+        return savingStore.getBackwardsList(before);
     }
 
     private void showActionDialog() {
-        final String options[] = getResources().getStringArray(R.array.label_moment_actions);
+        final String options[] = getResources().getStringArray(R.array.label_saving_actions);
         new ListViewDialog(getActivity(), null, Arrays.asList(options),
                 new ListViewDialog.OnItemClickListener() {
                     @Override
                     public void onItemClick(int i) {
                         switch (i) {
                             case 0:
-                                startNewMomentActivity();
+                                startNewSavingActivity();
                                 break;
                             case 1:
-                                startMyMomentsActivity();
+                                startMySavingsActivity();
                                 break;
                             default:
                                 break;
@@ -230,26 +228,24 @@ public class MomentListFragment extends RefreshItemListFragment<Card>
                 }).show();
     }
 
-    private void startNewMomentActivity() {
-        final Intent intent = new Intent(getActivity(), NewMomentActivity.class);
-        startActivityForResult(intent, NEW_MOMENT_REQ_CODE);
+    private void startNewSavingActivity() {
+        final Intent intent = new Intent(getActivity(), NewSavingActivity.class);
+        startActivityForResult(intent, NEW_SAVING_REQ_CODE);
     }
 
-    private void startMyMomentsActivity() {
-        final Intent intent = new Intent(getActivity(), UserMomentsActivity.class);
-        intent.putExtra(UserMomentsActivity.INTENT_TITLE, getString(R.string.label_my_moments));
-        intent.putExtra(UserMomentsActivity.INTENT_USER_ID, currentUserId);
+    private void startMySavingsActivity() {
+        final Intent intent = new Intent(getActivity(), UserSavingsActivity.class);
         startActivity(intent);
     }
 
-    private void startMomentDetailsActivity(String momentId) {
-        final Intent intent = new Intent(getActivity(), MomentDetailsActivity.class);
-        intent.putExtra(MomentDetailsActivity.INTENT_MOMENT_ID, momentId);
-        startActivityForResult(intent, GET_MOMENT_DETAILS_REQ_CODE);
+    private void startSavingDetailsActivity(String savingId) {
+        final Intent intent = new Intent(getActivity(), SavingDetailsActivity.class);
+        intent.putExtra(SavingDetailsActivity.INTENT_SAVING_ID, savingId);
+        startActivityForResult(intent, GET_SAVING_DETAILS_REQ_CODE);
     }
 
     @Override
-    public void OnClick(String momentId) {
-        startMomentDetailsActivity(momentId);
+    public void OnClick(String savingId) {
+        startSavingDetailsActivity(savingId);
     }
 }

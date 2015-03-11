@@ -100,7 +100,6 @@
                 android:paddingRight="@dimen/margin_extra_large"/>
 
             <TextView
-                android:id="@+id/text_label_special"
                 style="@style/TextView.Circle"
                 android:layout_centerVertical="true"
                 android:layout_toRightOf="@+id/image_special"
@@ -109,49 +108,27 @@
         </RelativeLayout>
 
         <RelativeLayout
-            android:id="@+id/layout_show_deals"
-            style="@style/RelativeLayout.NavButton">
-
-            <ImageView
-                android:id="@+id/image_deals"
-                style="@style/ImageView"
-                android:src="@drawable/ic_fa_special"
-                android:layout_centerVertical="true"
-                android:layout_alignParentLeft="true"
-                android:paddingRight="@dimen/margin_extra_large"/>
-
-            <TextView
-                android:id="@+id/text_label_show_deals"
-                style="@style/TextView.Circle"
-                android:layout_centerVertical="true"
-                android:layout_toRightOf="@+id/image_deals"
-                android:text="@string/label_show_deals"/>
-
-        </RelativeLayout>
-
-        <RelativeLayout
-            android:id="@+id/layout_show_savings"
+            android:id="@+id/layout_savings"
             style="@style/RelativeLayout.NavButton">
 
             <ImageView
                 android:id="@+id/image_savings"
                 style="@style/ImageView"
-                android:src="@drawable/ic_fa_special"
+                android:src="@drawable/ic_fa_savings"
                 android:layout_centerVertical="true"
                 android:layout_alignParentLeft="true"
                 android:paddingRight="@dimen/margin_extra_large"/>
 
             <TextView
-                android:id="@+id/text_label_show_savings"
                 style="@style/TextView.Circle"
                 android:layout_centerVertical="true"
                 android:layout_toRightOf="@+id/image_savings"
-                android:text="@string/label_show_savings"/>
+                android:text="@string/label_savings"/>
 
         </RelativeLayout>
 
         <RelativeLayout
-            android:id="@+id/layout_savings_ranking"
+            android:id="@+id/layout_ranking"
             style="@style/RelativeLayout.NavButton">
 
             <ImageView
@@ -163,7 +140,6 @@
                 android:paddingRight="@dimen/margin_extra_large"/>
 
             <TextView
-                android:id="@+id/text_label_savings_ranking"
                 style="@style/TextView.Circle"
                 android:layout_centerVertical="true"
                 android:layout_toRightOf="@+id/image_ranking"

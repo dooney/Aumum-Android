@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/list_selector_white"
+    android:paddingTop="@dimen/margin_large"
+    android:paddingLeft="@dimen/margin_large"
+    android:paddingRight="@dimen/margin_large">
+
+    <RelativeLayout
+        android:id="@+id/layout_card_header"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingBottom="@dimen/margin_medium">
+
+        <com.aumum.app.mobile.ui.view.AvatarImageView
+            android:id="@+id/image_avatar"
+            style="@style/ImageView.Avatar"
+            android:layout_marginRight="@dimen/margin_large"
+            android:src="@drawable/ic_avatar"/>
+
+        <TextView
+            android:id="@+id/text_user_name"
+            style="@style/TextView.Saving.UserName"
+            android:layout_toRightOf="@+id/image_avatar"
+            android:layout_alignTop="@+id/image_avatar" />
+
+        <TextView
+            android:id="@+id/text_city"
+            style="@style/TextView.Saving.City"
+            android:layout_alignLeft="@+id/text_user_name"
+            android:layout_alignBottom="@+id/image_avatar" />
+
+        <TextView
+            android:id="@+id/text_createdAt"
+            style="@style/TextView.Saving.CreatedAt"
+            android:paddingLeft="@dimen/margin_medium"
+            android:layout_toRightOf="@+id/text_city"
+            android:layout_alignBaseline="@+id/text_city"/>
+
+    </RelativeLayout>
+
+    <com.aumum.app.mobile.ui.view.SpannableTextView
+        android:id="@+id/text_details"
+        style="@style/TextView.Saving.Details"
+        android:paddingBottom="@dimen/margin_medium"/>
+
+    <com.aumum.app.mobile.ui.view.ScaleGridView
+        android:id="@+id/grid_gallery"
+        android:layout_width="274dp"
+        android:layout_height="wrap_content"
+        android:paddingBottom="@dimen/margin_medium"
+        android:numColumns="3" >
+    </com.aumum.app.mobile.ui.view.ScaleGridView>
+
+    <ImageView
+        android:id="@+id/image_gallery"
+        style="@style/ImageView.SingleGallery"
+        android:paddingBottom="@dimen/margin_medium"
+        android:src="@drawable/image_placeholder"/>
+
+    <View style="@style/Divider" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/margin_medium">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:layout_weight="1">
+
+            <TextView
+                android:id="@+id/text_comment"
+                style="@style/TextView.Comment" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:layout_weight="1">
+
+            <com.aumum.app.mobile.ui.view.LikeTextView
+                android:id="@+id/text_like"
+                style="@style/TextView.Like" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</LinearLayout>

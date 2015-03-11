@@ -314,6 +314,26 @@
         <activity android:name=".ui.special.FavoriteProductsActivity"
             android:label="@string/title_activity_favorite_products">
         </activity>
+        <activity
+            android:name=".ui.saving.SavingsActivity"
+            android:label="@string/title_activity_savings" >
+        </activity>
+        <activity
+            android:name=".ui.saving.NewSavingActivity"
+            android:label="@string/title_activity_new_saving" >
+        </activity>
+        <activity
+            android:name=".ui.saving.SavingDetailsActivity"
+            android:label="@string/title_activity_saving_details" >
+        </activity>
+        <activity
+            android:name=".ui.saving.SavingDetailsSingleActivity"
+            android:excludeFromRecents="true"
+            android:label="@string/title_activity_saving_details"
+            android:launchMode="singleTask"
+            android:taskAffinity="" >
+        </activity>
+        <activity android:name=".ui.saving.UserSavingsActivity" />
     </application>
 
 </manifest>

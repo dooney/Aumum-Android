@@ -62,5 +62,10 @@ public class CmdMessage {
         public static final int MOMENT_COMMENT = 33;
         public static final int MOMENT_REPLY = 34;
         public static final int MOMENT_COMMENT_LIKE = 35;
+        public static final int SAVING_NEW = 41;
+        public static final int SAVING_LIKE = 42;
+        public static final int SAVING_COMMENT = 43;
+        public static final int SAVING_REPLY = 44;
+        public static final int SAVING_COMMENT_LIKE = 45;
     }
 }

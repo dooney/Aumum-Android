@@ -9,6 +9,8 @@ import com.aumum.app.mobile.core.dao.MomentCommentStore;
 import com.aumum.app.mobile.core.dao.MomentStore;
 import com.aumum.app.mobile.core.dao.PartyReasonStore;
 import com.aumum.app.mobile.core.dao.Repository;
+import com.aumum.app.mobile.core.dao.SavingCommentStore;
+import com.aumum.app.mobile.core.dao.SavingStore;
 import com.aumum.app.mobile.core.infra.security.ApiKeyProvider;
 import com.aumum.app.mobile.core.service.ChatService;
 import com.aumum.app.mobile.core.service.FileUploadService;
@@ -58,6 +60,14 @@ import com.aumum.app.mobile.ui.contact.ContactRequestsFragment;
 import com.aumum.app.mobile.ui.account.VerifyActivity;
 import com.aumum.app.mobile.ui.party.PartyCommentLikeListener;
 import com.aumum.app.mobile.ui.report.ReportActivity;
+import com.aumum.app.mobile.ui.saving.NewSavingActivity;
+import com.aumum.app.mobile.ui.saving.SavingCommentCard;
+import com.aumum.app.mobile.ui.saving.SavingCommentLikeListener;
+import com.aumum.app.mobile.ui.saving.SavingCommentsFragment;
+import com.aumum.app.mobile.ui.saving.SavingDetailsFragment;
+import com.aumum.app.mobile.ui.saving.SavingLikeListener;
+import com.aumum.app.mobile.ui.saving.SavingListFragment;
+import com.aumum.app.mobile.ui.saving.UserSavingsFragment;
 import com.aumum.app.mobile.ui.settings.FeedbackActivity;
 import com.aumum.app.mobile.ui.settings.NotificationActivity;
 import com.aumum.app.mobile.ui.special.FavoriteProductsFragment;
@@ -190,7 +200,15 @@ import retrofit.converter.GsonConverter;
                 SpecialProductsFragment.class,
                 SpecialProductLikeListener.class,
                 SpecialProductFavoriteListener.class,
-                FavoriteProductsFragment.class
+                FavoriteProductsFragment.class,
+                SavingListFragment.class,
+                NewSavingActivity.class,
+                SavingLikeListener.class,
+                SavingDetailsFragment.class,
+                SavingCommentsFragment.class,
+                SavingCommentCard.class,
+                SavingCommentLikeListener.class,
+                UserSavingsFragment.class,
         }
 )
 public class BootstrapModule {
@@ -278,6 +296,18 @@ public class BootstrapModule {
     @Singleton
     MomentCommentStore provideMomentCommentStore(RestService restService) {
         return new MomentCommentStore(restService);
+    }
+
+    @Provides
+    @Singleton
+    SavingStore provideSavingStore(RestService restService, Repository repository) {
+        return new SavingStore(restService, repository);
+    }
+
+    @Provides
+    @Singleton
+    SavingCommentStore provideSavingCommentStore(RestService restService) {
+        return new SavingCommentStore(restService);
     }
 
     @Provides

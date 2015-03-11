@@ -16,6 +16,7 @@ import com.aumum.app.mobile.events.NewMomentUnreadEvent;
 import com.aumum.app.mobile.events.ResetCircleUnreadEvent;
 import com.aumum.app.mobile.ui.asking.AskingActivity;
 import com.aumum.app.mobile.ui.moment.MomentsActivity;
+import com.aumum.app.mobile.ui.saving.SavingsActivity;
 import com.aumum.app.mobile.ui.special.SpecialActivity;
 import com.squareup.otto.Bus;
 import com.squareup.otto.Subscribe;
@@ -36,6 +37,7 @@ public class CircleFragment extends Fragment {
     private View momentsLayout;
     private ImageView momentUnreadImage;
     private View specialLayout;
+    private View savingsLayout;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -74,6 +76,13 @@ public class CircleFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 startSpecialActivity();
+            }
+        });
+        savingsLayout = view.findViewById(R.id.layout_savings);
+        savingsLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startSavingsActivity();
             }
         });
     }
@@ -117,6 +126,11 @@ public class CircleFragment extends Fragment {
 
     private void startSpecialActivity() {
         final Intent intent = new Intent(getActivity(), SpecialActivity.class);
+        startActivity(intent);
+    }
+
+    private void startSavingsActivity() {
+        final Intent intent = new Intent(getActivity(), SavingsActivity.class);
         startActivity(intent);
     }
 
