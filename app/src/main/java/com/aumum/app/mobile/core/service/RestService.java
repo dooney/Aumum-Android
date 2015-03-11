@@ -1235,6 +1235,98 @@ public class RestService {
         liveJson.addProperty("$exists", false);
         whereJson.add("deletedAt" ,liveJson);
         String where = whereJson.toString();
-        return getSpecialProductService().getList(where, Integer.MAX_VALUE).getResults();
+        return getSpecialProductService().getList("-now", where, Integer.MAX_VALUE).getResults();
+    }
+
+    public JsonArray addSpecialProductLike(String id, String specialId, String userId) {
+        return updateSpecialProductLikes("AddUnique", id, specialId, userId);
+    }
+
+    public JsonArray removeSpecialProductLike(String id, String specialId, String userId) {
+        return updateSpecialProductLikes("Remove", id, specialId, userId);
+    }
+
+    private JsonObject buildSpecialLikesRequestJson(String op, String specialId) {
+        final JsonObject body = new JsonObject();
+        final JsonObject opJson = new JsonObject();
+        opJson.addProperty("__op", "Increment");
+        if (op.equals("Remove")) {
+            opJson.addProperty("amount", -1);
+        } else {
+            opJson.addProperty("amount", 1);
+        }
+        body.add(Constants.Http.Special.PARAM_LIKES, opJson);
+        String path = Constants.Http.URL_SPECIALS_FRAG + "/" + specialId;
+        return buildRequestJson(path, body);
+    }
+
+    private JsonObject buildSpecialProductLikesRequestJson(String op, String id, String userId) {
+        final JsonObject body = new JsonObject();
+        final JsonArray specialProductLikes = new JsonArray();
+        specialProductLikes.add(new JsonPrimitive(userId));
+        final JsonObject opJson = new JsonObject();
+        opJson.addProperty("__op", op);
+        opJson.add("objects", specialProductLikes);
+        body.add(Constants.Http.SpecialProduct.PARAM_LIKES, opJson);
+        String path = Constants.Http.URL_SPECIAL_PRODUCTS_FRAG + "/" + id;
+        return buildRequestJson(path, body);
+    }
+
+    private JsonArray updateSpecialProductLikes(String op, String id, String specialId, String userId) {
+        final JsonObject script = new JsonObject();
+        final JsonArray requests = new JsonArray();
+        requests.add(buildSpecialLikesRequestJson(op, specialId));
+        requests.add(buildSpecialProductLikesRequestJson(op, id, userId));
+        script.add(Constants.Http.Batch.PARAM_REQUESTS, requests);
+        return getBatchService().execute(script);
+    }
+
+    public JsonArray addSpecialProductFavorite(String id, String userId) {
+        return updateSpecialProductFavorites("AddUnique", id, userId);
+    }
+
+    public JsonArray removeSpecialProductFavorite(String id, String userId) {
+        return updateSpecialProductFavorites("Remove", id, userId);
+    }
+
+    private JsonObject buildUserSpecialFavoritesRequestJson(String op, String userId, String id) {
+        final JsonObject body = new JsonObject();
+        final JsonArray userSpecialProductFavorites = new JsonArray();
+        userSpecialProductFavorites.add(new JsonPrimitive(id));
+        final JsonObject opJson = new JsonObject();
+        opJson.addProperty("__op", op);
+        opJson.add("objects", userSpecialProductFavorites);
+        body.add(Constants.Http.User.PARAM_SPECIAL_FAVORITES, opJson);
+        String path = Constants.Http.URL_USERS_FRAG + "/" + userId;
+        return buildRequestJson(path, body);
+    }
+
+    private JsonObject buildSpecialProductFavoritesRequestJson(String op, String id, String userId) {
+        final JsonObject body = new JsonObject();
+        final JsonArray specialProductFavorites = new JsonArray();
+        specialProductFavorites.add(new JsonPrimitive(userId));
+        final JsonObject opJson = new JsonObject();
+        opJson.addProperty("__op", op);
+        opJson.add("objects", specialProductFavorites);
+        body.add(Constants.Http.SpecialProduct.PARAM_FAVORITES, opJson);
+        String path = Constants.Http.URL_SPECIAL_PRODUCTS_FRAG + "/" + id;
+        return buildRequestJson(path, body);
+    }
+
+    private JsonArray updateSpecialProductFavorites(String op, String id, String userId) {
+        final JsonObject script = new JsonObject();
+        final JsonArray requests = new JsonArray();
+        requests.add(buildUserSpecialFavoritesRequestJson(op, userId, id));
+        requests.add(buildSpecialProductFavoritesRequestJson(op, id, userId));
+        script.add(Constants.Http.Batch.PARAM_REQUESTS, requests);
+        return getBatchService().execute(script);
+    }
+
+    public List<SpecialProduct> getFavoriteProductList(List<String> idList, String specialId) {
+        final JsonObject whereJson = new JsonObject();
+        whereJson.add("objectId", buildIdListJson(idList));
+        whereJson.addProperty("specialId", specialId);
+        String where = whereJson.toString();
+        return getSpecialProductService().getList("-now", where, Integer.MAX_VALUE).getResults();
     }
 }

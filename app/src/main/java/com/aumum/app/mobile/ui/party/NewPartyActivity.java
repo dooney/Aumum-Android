@@ -241,7 +241,7 @@ public class NewPartyActivity extends ProgressDialogActivity
     }
 
     @Override
-    public void onTimeSet(RadialPickerLayout radialPickerLayout,
+    public void onTimeSet(RadialTimePickerDialog radialTimePickerDialog,
                           int hourOfDay,
                           int minute) {
         time.setHour(hourOfDay);

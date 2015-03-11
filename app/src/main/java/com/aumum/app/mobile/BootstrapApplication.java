@@ -5,6 +5,7 @@ package com.aumum.app.mobile;
 import android.app.Application;
 import android.app.Instrumentation;
 import android.content.Context;
+import android.support.multidex.MultiDex;
 
 import com.aumum.app.mobile.utils.EMChatUtils;
 import com.aumum.app.mobile.utils.ImageLoaderUtils;
@@ -40,6 +41,7 @@ public class BootstrapApplication extends Application {
     public BootstrapApplication(final Context context) {
         this();
         attachBaseContext(context);
+        MultiDex.install(this);
     }
 
     @Override

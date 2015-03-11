@@ -2,84 +2,175 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:paddingTop="@dimen/margin_extra_large">
 
-    <RelativeLayout
-        android:id="@+id/layout_asking"
-        style="@style/RelativeLayout.NavButton"
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:id="@+id/layout_asking"
+            style="@style/RelativeLayout.NavButton">
+
+            <ImageView
+                android:id="@+id/image_asking"
+                style="@style/ImageView"
+                android:src="@drawable/ic_fa_asking"
+                android:layout_centerVertical="true"
+                android:layout_alignParentLeft="true"
+                android:paddingRight="@dimen/margin_extra_large"/>
+
+            <TextView
+                android:id="@+id/text_label_asking"
+                style="@style/TextView.Circle"
+                android:layout_centerVertical="true"
+                android:layout_toRightOf="@+id/image_asking"
+                android:text="@string/label_asking"/>
+
+            <ImageView
+                android:id="@+id/image_asking_unread"
+                style="@style/ImageView.Unread.Small"
+                android:layout_toRightOf="@+id/text_label_asking"
+                android:visibility="gone"/>
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/layout_moments"
+            style="@style/RelativeLayout.NavButton">
+
+            <ImageView
+                android:id="@+id/image_circle"
+                style="@style/ImageView"
+                android:src="@drawable/ic_fa_circle"
+                android:layout_centerVertical="true"
+                android:layout_alignParentLeft="true"
+                android:paddingRight="@dimen/margin_extra_large"/>
+
+            <TextView
+                android:id="@+id/text_label_moments"
+                style="@style/TextView.Circle"
+                android:layout_centerVertical="true"
+                android:layout_toRightOf="@+id/image_circle"
+                android:text="@string/label_moments"/>
+
+            <ImageView
+                android:id="@+id/image_moment_unread"
+                style="@style/ImageView.Unread.Small"
+                android:layout_toRightOf="@+id/text_label_moments"
+                android:visibility="gone"/>
+
+        </RelativeLayout>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
         android:layout_marginTop="@dimen/margin_extra_large">
 
-        <ImageView
-            android:id="@+id/image_asking"
-            style="@style/ImageView"
-            android:src="@drawable/ic_fa_asking"
-            android:layout_centerVertical="true"
-            android:layout_alignParentLeft="true"
-            android:paddingRight="@dimen/margin_extra_large"/>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:background="@color/card_background">
 
-        <TextView
-            android:id="@+id/text_label_asking"
-            style="@style/TextView.Circle"
-            android:layout_centerVertical="true"
-            android:layout_toRightOf="@+id/image_asking"
-            android:text="@string/label_asking"/>
+            <TextView
+                style="@style/TextView.Subtitle"
+                android:padding="@dimen/margin_medium"
+                android:text="@string/label_shopping_winner" />
 
-        <ImageView
-            android:id="@+id/image_asking_unread"
-            style="@style/ImageView.Unread.Small"
-            android:layout_toRightOf="@+id/text_label_asking"
-            android:visibility="gone"/>
+            <View style="@style/Divider" />
 
-    </RelativeLayout>
+        </LinearLayout>
 
-    <RelativeLayout
-        android:id="@+id/layout_moments"
-        style="@style/RelativeLayout.NavButton"
-        android:layout_marginTop="@dimen/margin_extra_large">
+        <RelativeLayout
+            android:id="@+id/layout_special"
+            style="@style/RelativeLayout.NavButton">
 
-        <ImageView
-            android:id="@+id/image_circle"
-            style="@style/ImageView"
-            android:src="@drawable/ic_fa_circle"
-            android:layout_centerVertical="true"
-            android:layout_alignParentLeft="true"
-            android:paddingRight="@dimen/margin_extra_large"/>
+            <ImageView
+                android:id="@+id/image_special"
+                style="@style/ImageView"
+                android:src="@drawable/ic_fa_special"
+                android:layout_centerVertical="true"
+                android:layout_alignParentLeft="true"
+                android:paddingRight="@dimen/margin_extra_large"/>
 
-        <TextView
-            android:id="@+id/text_label_moments"
-            style="@style/TextView.Circle"
-            android:layout_centerVertical="true"
-            android:layout_toRightOf="@+id/image_circle"
-            android:text="@string/label_moments"/>
+            <TextView
+                android:id="@+id/text_label_special"
+                style="@style/TextView.Circle"
+                android:layout_centerVertical="true"
+                android:layout_toRightOf="@+id/image_special"
+                android:text="@string/label_special"/>
 
-        <ImageView
-            android:id="@+id/image_moment_unread"
-            style="@style/ImageView.Unread.Small"
-            android:layout_toRightOf="@+id/text_label_moments"
-            android:visibility="gone"/>
+        </RelativeLayout>
 
-    </RelativeLayout>
+        <RelativeLayout
+            android:id="@+id/layout_show_deals"
+            style="@style/RelativeLayout.NavButton">
 
-    <RelativeLayout
-        android:id="@+id/layout_special"
-        style="@style/RelativeLayout.NavButton"
-        android:layout_marginTop="@dimen/margin_extra_large">
+            <ImageView
+                android:id="@+id/image_deals"
+                style="@style/ImageView"
+                android:src="@drawable/ic_fa_special"
+                android:layout_centerVertical="true"
+                android:layout_alignParentLeft="true"
+                android:paddingRight="@dimen/margin_extra_large"/>
 
-        <ImageView
-            android:id="@+id/image_special"
-            style="@style/ImageView"
-            android:src="@drawable/ic_fa_special"
-            android:layout_centerVertical="true"
-            android:layout_alignParentLeft="true"
-            android:paddingRight="@dimen/margin_extra_large"/>
+            <TextView
+                android:id="@+id/text_label_show_deals"
+                style="@style/TextView.Circle"
+                android:layout_centerVertical="true"
+                android:layout_toRightOf="@+id/image_deals"
+                android:text="@string/label_show_deals"/>
 
-        <TextView
-            android:id="@+id/text_label_special"
-            style="@style/TextView.Circle"
-            android:layout_centerVertical="true"
-            android:layout_toRightOf="@+id/image_special"
-            android:text="@string/label_special"/>
+        </RelativeLayout>
 
-    </RelativeLayout>
+        <RelativeLayout
+            android:id="@+id/layout_show_savings"
+            style="@style/RelativeLayout.NavButton">
+
+            <ImageView
+                android:id="@+id/image_savings"
+                style="@style/ImageView"
+                android:src="@drawable/ic_fa_special"
+                android:layout_centerVertical="true"
+                android:layout_alignParentLeft="true"
+                android:paddingRight="@dimen/margin_extra_large"/>
+
+            <TextView
+                android:id="@+id/text_label_show_savings"
+                style="@style/TextView.Circle"
+                android:layout_centerVertical="true"
+                android:layout_toRightOf="@+id/image_savings"
+                android:text="@string/label_show_savings"/>
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/layout_savings_ranking"
+            style="@style/RelativeLayout.NavButton">
+
+            <ImageView
+                android:id="@+id/image_ranking"
+                style="@style/ImageView"
+                android:src="@drawable/ic_fa_special"
+                android:layout_centerVertical="true"
+                android:layout_alignParentLeft="true"
+                android:paddingRight="@dimen/margin_extra_large"/>
+
+            <TextView
+                android:id="@+id/text_label_savings_ranking"
+                style="@style/TextView.Circle"
+                android:layout_centerVertical="true"
+                android:layout_toRightOf="@+id/image_ranking"
+                android:text="@string/label_savings_ranking"/>
+
+        </RelativeLayout>
+
+    </LinearLayout>
 
 </LinearLayout>

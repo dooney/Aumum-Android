@@ -1,9 +1,8 @@
-package com.aumum.app.mobile.ui.asking;
+package com.aumum.app.mobile.ui.special;
 
 import com.aumum.app.mobile.Injector;
-import com.aumum.app.mobile.core.dao.AskingStore;
 import com.aumum.app.mobile.core.dao.UserStore;
-import com.aumum.app.mobile.core.model.Asking;
+import com.aumum.app.mobile.core.model.SpecialProduct;
 import com.aumum.app.mobile.core.model.User;
 import com.aumum.app.mobile.core.service.RestService;
 import com.aumum.app.mobile.ui.view.FavoriteTextView;
@@ -15,20 +14,19 @@ import javax.inject.Inject;
 import retrofit.RetrofitError;
 
 /**
- * Created by Administrator on 2/12/2014.
+ * Created by Administrator on 11/03/2015.
  */
-public class AskingFavoriteListener implements FavoriteTextView.OnFavoriteListener {
-
-    private SafeAsyncTask<Boolean> task;
-
-    private Asking asking;
+public class SpecialProductFavoriteListener
+        implements FavoriteTextView.OnFavoriteListener {
 
     @Inject RestService restService;
-    @Inject AskingStore askingStore;
     @Inject UserStore userStore;
 
-    public AskingFavoriteListener(Asking asking) {
-        this.asking = asking;
+    private SpecialProduct specialProduct;
+    private SafeAsyncTask<Boolean> task;
+
+    public SpecialProductFavoriteListener(SpecialProduct specialProduct) {
+        this.specialProduct = specialProduct;
         Injector.inject(this);
     }
 
@@ -40,11 +38,9 @@ public class AskingFavoriteListener implements FavoriteTextView.OnFavoriteListen
         task = new SafeAsyncTask<Boolean>() {
             public Boolean call() throws Exception {
                 User currentUser = userStore.getCurrentUser();
-                restService.removeAskingFavorite(asking.getObjectId(),
+                restService.removeSpecialProductFavorite(specialProduct.getObjectId(),
                         currentUser.getObjectId());
-                asking.removeFavorite(currentUser.getObjectId());
-                askingStore.save(asking);
-                currentUser.removeAskingFavorite(asking.getObjectId());
+                currentUser.removeSpecialFavorite(specialProduct.getObjectId());
                 userStore.save(currentUser);
                 return true;
             }
@@ -75,11 +71,9 @@ public class AskingFavoriteListener implements FavoriteTextView.OnFavoriteListen
         task = new SafeAsyncTask<Boolean>() {
             public Boolean call() throws Exception {
                 User currentUser = userStore.getCurrentUser();
-                restService.addAskingFavorite(asking.getObjectId(),
+                restService.addSpecialProductFavorite(specialProduct.getObjectId(),
                         currentUser.getObjectId());
-                asking.addFavorite(currentUser.getObjectId());
-                askingStore.save(asking);
-                currentUser.addAskingFavorite(asking.getObjectId());
+                currentUser.addSpecialFavorite(specialProduct.getObjectId());
                 userStore.save(currentUser);
                 return true;
             }

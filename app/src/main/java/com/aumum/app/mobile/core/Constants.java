@@ -171,24 +171,29 @@ public final class Constants {
         public static final String URL_SPECIAL_PRODUCTS_FRAG = "/1/classes/SpecialProducts";
 
         /**
+         * Special Product By Id URL
+         */
+        public static final String URL_SPECIAL_PRODUCT_BY_ID_FRAG = "/1/classes/SpecialProducts/{id}";
+
+        /**
          * PARAMS for auth
          */
         public static final String PARAM_USERNAME = "username";
         public static final String PARAM_PASSWORD = "password";
         public static final String PARAM_EMAIL = "email";
 
-        /* Prod Keys */
+        /* Prod Keys
         public static final String PARSE_APP_ID = "1CWTxIB11kQiHz7QAY1hZzA1PstlJ2TQuAmZ8Nc6";
         public static final String PARSE_CLIENT_KEY = "Cxo0Yu68VFoZSDyHVl43qMTfYb23AG9uBrbOqgFk";
         public static final String PARSE_REST_API_KEY = "YT6Gt3CQUEtLkQsiCMMAnBIm7FrGkX8sqWMNElNx";
         public static final String PARSE_MASTER_KEY = "MMtsR9A9hywGlZ505DD43VbQwPIu7XT6KFVQpJm8";
-
-        /* Dev Keys
+        */
+        /* Dev Keys*/
         public static final String PARSE_APP_ID = "hJSBmj3YSXBuZkpXIPuFbR3nZiIZWr0uNfCFBXLl";
         public static final String PARSE_CLIENT_KEY = "8hexm2xMkmMrS5Y1vzXOpmPGr98lvCyO1IIX0ejM";
         public static final String PARSE_REST_API_KEY = "bLKzd37O5lF6o11FdQ2q0NwQferhjEEvIXFVxEcA";
         public static final String PARSE_MASTER_KEY = "2Cjggz9DM0HCCdhlmps7YuWk1SE1vnxnqjJhz3SI";
-        */
+
         public static final String HEADER_PARSE_REST_API_KEY = "X-Parse-REST-API-Key";
         public static final String HEADER_PARSE_APP_ID = "X-Parse-Application-Id";
         public static final String HEADER_PARSE_MASTER_KEY = "X-Parse-Master-Key";
@@ -226,6 +231,7 @@ public final class Constants {
             public static final String PARAM_MOMENTS = "moments";
             public static final String PARAM_PARTY_FAVORITES = "favParties";
             public static final String PARAM_ASKING_FAVORITES = "favAskings";
+            public static final String PARAM_SPECIAL_FAVORITES = "favSpecials";
         }
 
         public static final class Asking {
@@ -245,6 +251,15 @@ public final class Constants {
 
         public static final class MomentComment {
             public static final String PARAM_LIKES = "likes";
+        }
+
+        public static final class Special {
+            public static final String PARAM_LIKES = "likes";
+        }
+
+        public static final class SpecialProduct {
+            public static final String PARAM_LIKES = "likes";
+            public static final String PARAM_FAVORITES = "favorites";
         }
     }
 

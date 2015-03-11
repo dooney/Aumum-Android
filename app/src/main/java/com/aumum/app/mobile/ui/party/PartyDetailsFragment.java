@@ -233,6 +233,7 @@ public class PartyDetailsFragment extends LoaderFragment<Party> {
         likeText.setLikedResId(R.drawable.ic_fa_thumbs_up);
 
         favoriteText = (FavoriteTextView) view.findViewById(R.id.text_favorite);
+        favoriteText.setTextResId(R.string.label_favorite);
         favoriteText.setFavoriteResId(R.drawable.ic_fa_star_o);
         favoriteText.setFavoritedResId(R.drawable.ic_fa_star);
 

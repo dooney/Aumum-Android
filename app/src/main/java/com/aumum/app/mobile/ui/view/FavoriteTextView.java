@@ -12,10 +12,15 @@ import com.aumum.app.mobile.R;
 public class FavoriteTextView extends AnimateTextView {
 
     private boolean isFavorite;
+    private int textResId;
     private int favoriteResId;
     private int favoritedResId;
 
     private OnFavoriteListener favoriteListener;
+
+    public void setTextResId(int textResId) {
+        this.textResId = textResId;
+    }
 
     public void setFavoriteResId(int favoriteResId) {
         this.favoriteResId = favoriteResId;
@@ -47,9 +52,13 @@ public class FavoriteTextView extends AnimateTextView {
     }
 
     public void init(int favorites, boolean isFavorite) {
-        setText(favorites > 0 ?
-                String.valueOf(favorites) :
-                getResources().getString(R.string.label_favorite));
+        if (favorites > 0) {
+            setText(String.valueOf(favorites));
+        } else if (textResId > 0) {
+            setText(getResources().getString(textResId));
+        } else {
+            setText(null);
+        }
         this.isFavorite = isFavorite;
         toggleFavorite(isFavorite);
     }
@@ -85,8 +94,10 @@ public class FavoriteTextView extends AnimateTextView {
             }
             if (currentFavorites > 0) {
                 setText(currentFavorites.toString());
+            } else if (textResId > 0) {
+                setText(getResources().getString(textResId));
             } else {
-                setText(getResources().getString(R.string.label_favorite));
+                setText(null);
             }
         } catch (NumberFormatException e) {
             setText("1");

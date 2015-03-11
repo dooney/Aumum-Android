@@ -55,8 +55,7 @@
 
                 <com.aumum.app.mobile.ui.view.LikeTextView
                     android:id="@+id/text_like"
-                    style="@style/ButtonTextView"
-                    android:drawableLeft="@drawable/ic_fa_thumbs_o_up_s"/>
+                    style="@style/TextView.SpecialProduct.Like"/>
 
             </LinearLayout>
 
@@ -68,8 +67,7 @@
 
                 <com.aumum.app.mobile.ui.view.FavoriteTextView
                     android:id="@+id/text_favorite"
-                    style="@style/ButtonTextView"
-                    android:drawableLeft="@drawable/ic_fa_star_o_s"/>
+                    style="@style/TextView.SpecialProduct.Favorite"/>
 
             </LinearLayout>
 

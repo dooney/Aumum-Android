@@ -17,10 +17,14 @@ import java.util.List;
 public class SpecialProductsAdapter extends ArrayAdapter<SpecialProduct> {
 
     private Activity activity;
+    private String currentUserId;
 
-    public SpecialProductsAdapter(Activity activity, List<SpecialProduct> objects) {
+    public SpecialProductsAdapter(Activity activity,
+                                  List<SpecialProduct> objects,
+                                  String currentUserId) {
         super(activity, 0, objects);
         this.activity = activity;
+        this.currentUserId = currentUserId;
     }
 
     @Override
@@ -37,7 +41,7 @@ public class SpecialProductsAdapter extends ArrayAdapter<SpecialProduct> {
         }
 
         SpecialProduct specialProduct = getItem(position);
-        card.refresh(specialProduct);
+        card.refresh(specialProduct, currentUserId);
 
         return convertView;
     }

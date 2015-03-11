@@ -24,6 +24,7 @@ public class User extends AggregateRoot implements Sortable {
     protected List<String> favAskings = new ArrayList<String>();
     protected List<String> tags = new ArrayList<String>();
     protected List<String> moments = new ArrayList<String>();
+    protected List<String> favSpecials = new ArrayList<String>();
 
     public User() {
 
@@ -45,7 +46,8 @@ public class User extends AggregateRoot implements Sortable {
                 List<String> favParties,
                 List<String> favAskings,
                 List<String> tags,
-                List<String> moments) {
+                List<String> moments,
+                List<String> favSpecials) {
         this.objectId = objectId;
         this.username = username;
         this.chatId = chatId;
@@ -83,6 +85,10 @@ public class User extends AggregateRoot implements Sortable {
         if (moments != null) {
             this.moments.clear();
             this.moments.addAll(moments);
+        }
+        if (favSpecials != null) {
+            this.favSpecials.clear();
+            this.favSpecials.addAll(favSpecials);
         }
     }
 
@@ -184,6 +190,10 @@ public class User extends AggregateRoot implements Sortable {
         return moments;
     }
 
+    public List<String> getFavSpecials() {
+        return favSpecials;
+    }
+
     @Override
     public String getSortLetters() {
         String pinyin = Strings.getSelling(screenName);
@@ -252,6 +262,18 @@ public class User extends AggregateRoot implements Sortable {
     public void addMoment(String momentId) {
         if (moments != null && !moments.contains(momentId)) {
             moments.add(momentId);
+        }
+    }
+
+    public void addSpecialFavorite(String specialId) {
+        if (favSpecials != null && !favSpecials.contains(specialId)) {
+            favSpecials.add(specialId);
+        }
+    }
+
+    public void removeSpecialFavorite(String specialId) {
+        if (favSpecials != null && favSpecials.contains(specialId)) {
+            favSpecials.remove(specialId);
         }
     }
 

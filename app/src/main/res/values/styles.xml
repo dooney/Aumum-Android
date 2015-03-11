@@ -153,7 +153,6 @@
     </style>
     <style name="TextView.Subtitle.Small" parent="TextView.Subtitle">
         <item name="android:textSize">@dimen/text_sz_small</item>
-        <item name="android:textColor">@color/text_light</item>
     </style>
     <style name="ButtonTextView" parent="TextView.Subtitle">
         <item name="android:gravity">center_vertical</item>
@@ -175,9 +174,17 @@
         <item name="android:drawableLeft">@drawable/ic_fa_thumbs_o_up</item>
         <item name="android:text">@string/label_like</item>
     </style>
+    <style name="TextView.Like.Small" parent="TextView.Like">
+        <item name="android:drawableLeft">@drawable/ic_fa_thumbs_o_up_s</item>
+        <item name="android:textSize">@dimen/text_sz_small</item>
+    </style>
     <style name="TextView.Favorite" parent="ButtonTextView">
         <item name="android:drawableLeft">@drawable/ic_fa_star_o</item>
         <item name="android:text">@string/label_favorite</item>
+    </style>
+    <style name="TextView.Favorite.Small" parent="TextView.Favorite">
+        <item name="android:drawableLeft">@drawable/ic_fa_star_o_s</item>
+        <item name="android:textSize">@dimen/text_sz_small</item>
     </style>
     <style name="TextView.UserName" parent="TextView">
         <item name="android:textColor">@color/text_link</item>
@@ -318,9 +325,7 @@
         <item name="android:textSize">@dimen/text_sz_small</item>
     </style>
     <style name="TextView.PartyComment.Text" parent="TextView.Content.Text" />
-    <style name="TextView.PartyComment.Like" parent="TextView.Like">
-        <item name="android:drawableLeft">@drawable/ic_fa_thumbs_o_up_s</item>
-        <item name="android:textSize">@dimen/text_sz_small</item>
+    <style name="TextView.PartyComment.Like" parent="TextView.Like.Small">
         <item name="android:text">@null</item>
     </style>
 
@@ -365,9 +370,7 @@
         <item name="android:textSize">@dimen/text_sz_small</item>
     </style>
     <style name="TextView.MomentComment.Text" parent="TextView.Content.Text" />
-    <style name="TextView.MomentComment.Like" parent="TextView.Like">
-        <item name="android:drawableLeft">@drawable/ic_fa_thumbs_o_up_s</item>
-        <item name="android:textSize">@dimen/text_sz_small</item>
+    <style name="TextView.MomentComment.Like" parent="TextView.Like.Small">
         <item name="android:text">@null</item>
     </style>
 
@@ -403,14 +406,8 @@
         <item name="android:drawableLeft">@drawable/ic_fa_comments_o_s</item>
         <item name="android:textSize">@dimen/text_sz_small</item>
     </style>
-    <style name="TextView.Asking.Like" parent="ButtonTextView">
-        <item name="android:drawableLeft">@drawable/ic_fa_thumbs_o_up_s</item>
-        <item name="android:textSize">@dimen/text_sz_small</item>
-    </style>
-    <style name="TextView.Asking.Favorite" parent="ButtonTextView">
-        <item name="android:drawableLeft">@drawable/ic_fa_star_o_s</item>
-        <item name="android:textSize">@dimen/text_sz_small</item>
-    </style>
+    <style name="TextView.Asking.Like" parent="TextView.Like.Small" />
+    <style name="TextView.Asking.Favorite" parent="TextView.Favorite.Small" />
     <style name="TextView.AskingDetails.Title" parent="TextView.Subtitle" />
     <style name="TextView.AskingDetails.Details" parent="TextView">
         <item name="android:lineSpacingMultiplier">1.1</item>
@@ -418,20 +415,14 @@
     <style name="TextView.AskingReply.Content" parent="TextView.Content.Text" />
     <style name="TextView.AskingReply.UserName" parent="TextView.UserName" />
     <style name="TextView.AskingReply.CreatedAt" parent="TextView.Subtitle.Small" />
-    <style name="TextView.AskingReply.Like" parent="TextView.Like">
-        <item name="android:drawableLeft">@drawable/ic_fa_thumbs_o_up_s</item>
-        <item name="android:textSize">@dimen/text_sz_small</item>
+    <style name="TextView.AskingReply.Like" parent="TextView.Like.Small">
         <item name="android:text">@null</item>
     </style>
 
     <!-- Special -->
     <style name="ImageView.Special.VendorLogo" parent="ImageView" />
-    <style name="TextView.Special.Info" parent="TextView.Subtitle">
-        <item name="android:textSize">@dimen/text_sz_small</item>
-    </style>
-    <style name="TextView.Special.Likes" parent="TextView.Subtitle">
-        <item name="android:textSize">@dimen/text_sz_small</item>
-    </style>
+    <style name="TextView.Special.Info" parent="TextView.Subtitle.Small" />
+    <style name="TextView.Special.Likes" parent="TextView.Subtitle.Small" />
 
     <!-- Special Products -->
     <style name="ImageView.SpecialProduct.Preview" parent="ImageView">
@@ -439,10 +430,14 @@
         <item name="android:layout_height">100dp</item>
     </style>
     <style name="TextView.SpecialProduct.Name" parent="TextView.Subtitle" />
-    <style name="TextView.SpecialProduct.Was" parent="TextView.Subtitle">
-        <item name="android:textSize">@dimen/text_sz_small</item>
-    </style>
+    <style name="TextView.SpecialProduct.Was" parent="TextView.Subtitle.Small" />
     <style name="TextView.SpecialProduct.Now" parent="TextView.Title" />
+    <style name="TextView.SpecialProduct.Like" parent="TextView.Like.Small">
+        <item name="android:text">@null</item>
+    </style>
+    <style name="TextView.SpecialProduct.Favorite" parent="TextView.Favorite.Small">
+        <item name="android:text">@null</item>
+    </style>
 
     <!-- Report -->
     <style name="EditText.Report.Type" parent="EditText.Mandatory">

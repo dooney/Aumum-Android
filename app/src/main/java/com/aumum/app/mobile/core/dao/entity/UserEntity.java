@@ -24,6 +24,7 @@ public class UserEntity extends BaseEntity {
     private String favAskings;
     private String tags;
     private String moments;
+    private String favSpecials;
 
     public UserEntity() {
     }
@@ -48,7 +49,8 @@ public class UserEntity extends BaseEntity {
                       String favParties,
                       String favAskings,
                       String tags,
-                      String moments) {
+                      String moments,
+                      String favSpecials) {
         this.objectId = objectId;
         this.username = username;
         this.chatId = chatId;
@@ -66,6 +68,7 @@ public class UserEntity extends BaseEntity {
         this.favAskings = favAskings;
         this.tags = tags;
         this.moments = moments;
+        this.favSpecials = favSpecials;
     }
 
     public String getUsername() {
@@ -186,5 +189,13 @@ public class UserEntity extends BaseEntity {
 
     public void setMoments(String moments) {
         this.moments = moments;
+    }
+
+    public String getFavSpecials() {
+        return favSpecials;
+    }
+
+    public void setFavSpecials(String favSpecials) {
+        this.favSpecials = favSpecials;
     }
 }

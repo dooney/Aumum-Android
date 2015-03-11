@@ -41,6 +41,9 @@
         <item>发妈妈圈</item>
         <item>我的妈妈圈</item>
     </string-array>
+    <string-array name="label_special_actions">
+        <item>我的收藏</item>
+    </string-array>
     <string-array name="label_add_contacts">
         <item>手机号码/用户昵称</item>
         <item>指定标签</item>
@@ -233,7 +236,8 @@
     <string name="title_activity_moment_details">记录详情</string>
     <string name="title_activity_user_moments">%1$s的妈妈圈</string>
     <string name="title_activity_special">请选择您要查看的超市品牌</string>
-    <string name="title_activity_special_details">%1$s今日半价</string>
+    <string name="title_activity_special_details">%1$s本期半价</string>
+    <string name="title_activity_favorite_products">我的收藏</string>
 
     <!-- Account -->
     <string name="hint_login_phone">手机号码</string>
@@ -395,8 +399,12 @@
     <string name="label_my_moments">我的妈妈圈</string>
 
     <!-- Special -->
+    <string name="label_shopping_winner">超市大赢家</string>
     <string name="label_special">今日半价</string>
     <string name="label_this_special">本期半价</string>
+    <string name="label_show_deals">美物好单</string>
+    <string name="label_show_savings">省钱比拼</string>
+    <string name="label_savings_ranking">达人榜</string>
     <string name="label_special_likes">共有&lt;font color=#000000>%,d&lt;/font>人点赞</string>
 
     <!-- Special Product -->

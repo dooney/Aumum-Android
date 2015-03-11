@@ -26,6 +26,8 @@
     </style>
 
     <style name="Widget.Styled.ActionBar" parent="@style/Widget.AppCompat.ActionBar">
+        <item name="background">@color/bbutton_danger</item>
+        <item name="titleTextStyle">@style/ActionBarTitle.Text</item>
         <item name="android:background">@color/bbutton_danger</item>
         <item name="android:indeterminateProgressStyle">@style/Widget.Styled.ProgressBar</item>
         <item name="android:titleTextStyle">@style/ActionBarTitle.Text</item>

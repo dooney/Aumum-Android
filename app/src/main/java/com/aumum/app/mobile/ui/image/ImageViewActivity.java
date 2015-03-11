@@ -18,7 +18,7 @@ public class ImageViewActivity extends ActionBarActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        getActionBar().hide();
+        getSupportActionBar().hide();
         setContentView(R.layout.activity_image_view);
 
         final Intent intent = getIntent();
