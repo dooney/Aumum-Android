@@ -17,8 +17,8 @@ import java.util.ArrayList;
 public class MainTabPageIndicator extends TabPageIndicator {
 
     public static final int TAB_CHAT = 0;
-    public static final int TAB_CIRCLE = 1;
-    public static final int TAB_PARTY = 2;
+    public static final int TAB_PARTY = 1;
+    public static final int TAB_DISCOVERY = 2;
     public static final int TAB_CONTACT = 3;
     public static final int TAB_PROFILE = 4;
 

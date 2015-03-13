@@ -176,6 +176,11 @@ public final class Constants {
         public static final String URL_SPECIAL_PRODUCT_BY_ID_FRAG = "/1/classes/SpecialProducts/{id}";
 
         /**
+         * List Party Requests URL
+         */
+        public static final String URL_PARTY_REQUESTS_FRAG = "/1/classes/PartyRequests";
+
+        /**
          * PARAMS for auth
          */
         public static final String PARAM_USERNAME = "username";

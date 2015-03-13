@@ -5,8 +5,8 @@
 
     <string-array name="label_main_pages">
         <item>聊天</item>
-        <item>发现</item>
         <item>聚会</item>
+        <item>发现</item>
         <item>好友</item>
         <item>个人</item>
     </string-array>
@@ -18,6 +18,10 @@
         <item/>
         <item>时尚美容</item>
         <item>情感天空</item>
+    </string-array>
+    <string-array name="label_party_pages">
+        <item>求聚会</item>
+        <item>发聚会</item>
     </string-array>
     <string-array name="label_party_actions">
         <item>发起聚会</item>
@@ -60,8 +64,6 @@
     </string-array>
     <string-array name="label_user_actions">
         <item>她的聚会</item>
-        <item>她的说说</item>
-        <item>她的妈妈圈</item>
     </string-array>
     <string-array name="label_profile_actions">
         <item>我的设置</item>
@@ -154,7 +156,7 @@
     <string name="info_submitting_quit_group">正在处理您的退出群组请求，请稍候</string>
     <string name="info_no_users_found">没找到任何相关用户</string>
     <string name="info_confirm_quit">您确定要退出该聚会？</string>
-    <string name="info_empty_party_list">暂时还没有聚会记录哦，点此刷新</string>
+    <string name="info_empty_party_list">暂时还没人发聚会哦，点此刷新</string>
     <string name="info_empty_asking_list">暂时还没有说说记录哦，点此刷新</string>
     <string name="info_empty_conversation_list">您没有任何会话记录</string>
     <string name="info_empty_mobile_contacts">没找到任何手机联系人</string>
@@ -174,6 +176,8 @@
     <string name="info_submitting_moment">正在发妈妈圈，请稍候</string>
     <string name="info_deleting_moment">正在删除该妈妈圈记录，请稍候</string>
     <string name="info_moment_deleted">该妈妈圈记录已成功删除</string>
+    <string name="info_empty_party_request_list">暂时还没人求聚会哦，点此刷新</string>
+    <string name="info_empty_discovery">暂时还没人组织活动哦，点此刷新</string>
 
     <!-- Error Message -->
     <string name="error_bad_credentials">验证失败，请输入正确的手机号码/密码</string>
@@ -199,7 +203,7 @@
     <string name="error_invalid_image_file">找不到该图片%1$s</string>
     <string name="error_title_is_null_for_sharing">标题为空，无法分享</string>
     <string name="error_moment_was_deleted">该妈妈圈记录已被删除</string>
-    <string name="error_moment_comment_was_deleted">该妈妈圈记录已被删除</string>
+    <string name="error_moment_comment_was_deleted">该妈妈圈评论已被删除</string>
 
     <!-- Title -->
     <string name="title_activity_login">用户登录</string>
@@ -402,9 +406,6 @@
     <string name="label_shopping_winner">超市大赢家</string>
     <string name="label_special">今日半价</string>
     <string name="label_this_special">本期半价</string>
-    <string name="label_show_deals">美物好单</string>
-    <string name="label_show_savings">省钱比拼</string>
-    <string name="label_savings_ranking">达人榜</string>
     <string name="label_special_likes">共有&lt;font color=#000000>%,d&lt;/font>人点赞</string>
 
     <!-- Special Product -->
@@ -439,6 +440,5 @@
     <string name="title_gps_alert_dialog">GPS设置</string>
     <string name="info_gps_alert_dialog">GPS未开启，点击确定去设置菜单开启该功能。</string>
     <string name="done_label">确定</string>
-    <string name="hello_blank_fragment">Hello blank fragment</string>
 
 </resources>

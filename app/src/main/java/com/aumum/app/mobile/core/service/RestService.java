@@ -12,6 +12,7 @@ import com.aumum.app.mobile.core.model.PartyComment;
 import com.aumum.app.mobile.core.Constants;
 import com.aumum.app.mobile.core.model.Party;
 import com.aumum.app.mobile.core.model.PartyReason;
+import com.aumum.app.mobile.core.model.PartyRequest;
 import com.aumum.app.mobile.core.model.PlaceRange;
 import com.aumum.app.mobile.core.model.Report;
 import com.aumum.app.mobile.core.model.Special;
@@ -119,6 +120,10 @@ public class RestService {
 
     private SpecialProductService getSpecialProductService() {
         return getRestAdapter().create(SpecialProductService.class);
+    }
+
+    private PartyRequestService getPartyRequestService() {
+        return getRestAdapter().create(PartyRequestService.class);
     }
 
     private RestAdapter getRestAdapter() {
@@ -1328,5 +1333,27 @@ public class RestService {
         whereJson.addProperty("specialId", specialId);
         String where = whereJson.toString();
         return getSpecialProductService().getList("-now", where, Integer.MAX_VALUE).getResults();
+    }
+
+    public List<PartyRequest> getPartyRequestsAfter(String after, int limit) {
+        final JsonObject whereJson = new JsonObject();
+        if (after != null) {
+            whereJson.add("createdAt", buildDateTimeAfterJson(after));
+        }
+        final JsonObject liveJson = new JsonObject();
+        liveJson.addProperty("$exists", false);
+        whereJson.add("deletedAt", liveJson);
+        String where = whereJson.toString();
+        return getPartyRequestService().getList("-createdAt", where, limit).getResults();
+    }
+
+    public List<PartyRequest> getPartyRequestsBefore(String before, int limit) {
+        final JsonObject whereJson = new JsonObject();
+        whereJson.add("createdAt", buildDateTimeBeforeJson(before));
+        final JsonObject liveJson = new JsonObject();
+        liveJson.addProperty("$exists", false);
+        whereJson.add("deletedAt" ,liveJson);
+        String where = whereJson.toString();
+        return getPartyRequestService().getList("-createdAt", where, limit).getResults();
     }
 }

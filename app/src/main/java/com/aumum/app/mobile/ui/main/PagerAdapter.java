@@ -6,10 +6,10 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
 import com.aumum.app.mobile.R;
-import com.aumum.app.mobile.ui.circle.CircleFragment;
 import com.aumum.app.mobile.ui.conversation.ConversationFragment;
 import com.aumum.app.mobile.ui.contact.ContactFragment;
-import com.aumum.app.mobile.ui.party.PartyListFragment;
+import com.aumum.app.mobile.ui.discovery.DiscoveryFragment;
+import com.aumum.app.mobile.ui.party.PartyFragment;
 import com.aumum.app.mobile.ui.user.ProfileFragment;
 import com.aumum.app.mobile.ui.view.tab.IconPagerAdapter;
 
@@ -22,15 +22,15 @@ public class PagerAdapter extends FragmentPagerAdapter
     private String pages[];
 
     public static final int PAGE_CONVERSATION = 0;
-    public static final int PAGE_CIRCLE = 1;
-    public static final int PAGE_PARTY = 2;
+    public static final int PAGE_PARTY = 1;
+    public static final int PAGE_DISCOVERY = 2;
     public static final int PAGE_CONTACT = 3;
     public static final int PAGE_PROFILE = 4;
 
     private int icons[] = {
             R.drawable.tab_chat_icon,
-            R.drawable.tab_circle_icon,
             R.drawable.tab_party_icon,
+            R.drawable.tab_discovery_icon,
             R.drawable.tab_contact_icon,
             R.drawable.tab_profile_icon
     };
@@ -61,10 +61,10 @@ public class PagerAdapter extends FragmentPagerAdapter
         final Fragment result;
         switch (position) {
             case PAGE_PARTY:
-                result = new PartyListFragment();
+                result = new PartyFragment();
                 break;
-            case PAGE_CIRCLE:
-                result = new CircleFragment();
+            case PAGE_DISCOVERY:
+                result = new DiscoveryFragment();
                 break;
             case PAGE_CONVERSATION:
                 result = new ConversationFragment();

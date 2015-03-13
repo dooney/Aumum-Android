@@ -8,6 +8,7 @@ import com.aumum.app.mobile.core.dao.AskingStore;
 import com.aumum.app.mobile.core.dao.MomentCommentStore;
 import com.aumum.app.mobile.core.dao.MomentStore;
 import com.aumum.app.mobile.core.dao.PartyReasonStore;
+import com.aumum.app.mobile.core.dao.PartyRequestStore;
 import com.aumum.app.mobile.core.dao.Repository;
 import com.aumum.app.mobile.core.infra.security.ApiKeyProvider;
 import com.aumum.app.mobile.core.service.ChatService;
@@ -57,6 +58,7 @@ import com.aumum.app.mobile.ui.contact.ContactListener;
 import com.aumum.app.mobile.ui.contact.ContactRequestsFragment;
 import com.aumum.app.mobile.ui.account.VerifyActivity;
 import com.aumum.app.mobile.ui.party.PartyCommentLikeListener;
+import com.aumum.app.mobile.ui.party.PartyRequestListFragment;
 import com.aumum.app.mobile.ui.report.ReportActivity;
 import com.aumum.app.mobile.ui.settings.FeedbackActivity;
 import com.aumum.app.mobile.ui.settings.NotificationActivity;
@@ -190,7 +192,8 @@ import retrofit.converter.GsonConverter;
                 SpecialProductsFragment.class,
                 SpecialProductLikeListener.class,
                 SpecialProductFavoriteListener.class,
-                FavoriteProductsFragment.class
+                FavoriteProductsFragment.class,
+                PartyRequestListFragment.class
         }
 )
 public class BootstrapModule {
@@ -278,6 +281,12 @@ public class BootstrapModule {
     @Singleton
     MomentCommentStore provideMomentCommentStore(RestService restService) {
         return new MomentCommentStore(restService);
+    }
+
+    @Provides
+    @Singleton
+    PartyRequestStore providePartyRequestStore(RestService restService) {
+        return new PartyRequestStore(restService);
     }
 
     @Provides
