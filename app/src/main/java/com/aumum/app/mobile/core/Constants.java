@@ -345,6 +345,7 @@ public final class Constants {
         public static final int GET_USER_TAG_LIST_REQ_CODE = 40;
         public static final int GET_ASKING_LIST_REQ_CODE = 41;
         public static final int GET_MOMENT_LIST_REQ_CODE = 42;
+        public static final int NEW_PARTY_REQUEST_REQ_CODE = 43;
     }
 
     public static final class Link {

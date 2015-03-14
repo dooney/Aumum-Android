@@ -314,6 +314,9 @@
         <activity android:name=".ui.special.FavoriteProductsActivity"
             android:label="@string/title_activity_favorite_products">
         </activity>
+        <activity android:name=".ui.party.NewPartyRequestActivity"
+            android:label="@string/title_activity_new_party_request">
+        </activity>
     </application>
 
 </manifest>

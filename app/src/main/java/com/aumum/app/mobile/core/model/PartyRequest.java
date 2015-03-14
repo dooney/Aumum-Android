@@ -10,13 +10,26 @@ public class PartyRequest extends AggregateRoot {
 
     protected String deletedAt;
     protected String userId;
-    protected String type;
     protected String city;
     protected String area;
+    protected String type;
+    protected String subType;
     protected List<String> members = new ArrayList<String>();
     protected List<String> likes = new ArrayList<String>();
 
     protected User user;
+
+    public PartyRequest(String userId,
+                        String city,
+                        String area,
+                        String type,
+                        String subType) {
+        this.userId = userId;
+        this.city = city;
+        this.area = area;
+        this.type = type;
+        this.subType = subType;
+    }
 
     public String getUserId() {
         return userId;

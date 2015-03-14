@@ -1356,4 +1356,10 @@ public class RestService {
         String where = whereJson.toString();
         return getPartyRequestService().getList("-createdAt", where, limit).getResults();
     }
+
+    public PartyRequest newPartyRequest(PartyRequest partyRequest) {
+        Gson gson = new Gson();
+        JsonObject data = gson.toJsonTree(partyRequest).getAsJsonObject();
+        return getPartyRequestService().newPartyRequest(data);
+    }
 }

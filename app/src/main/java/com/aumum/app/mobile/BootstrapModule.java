@@ -47,6 +47,7 @@ import com.aumum.app.mobile.ui.moment.MomentLikeListener;
 import com.aumum.app.mobile.ui.moment.MomentListFragment;
 import com.aumum.app.mobile.ui.moment.NewMomentActivity;
 import com.aumum.app.mobile.ui.moment.UserMomentsFragment;
+import com.aumum.app.mobile.ui.party.NewPartyRequestActivity;
 import com.aumum.app.mobile.ui.party.PartyCalendarFragment;
 import com.aumum.app.mobile.ui.party.PartyCommentCard;
 import com.aumum.app.mobile.ui.contact.ContactPickerFragment;
@@ -193,7 +194,8 @@ import retrofit.converter.GsonConverter;
                 SpecialProductLikeListener.class,
                 SpecialProductFavoriteListener.class,
                 FavoriteProductsFragment.class,
-                PartyRequestListFragment.class
+                PartyRequestListFragment.class,
+                NewPartyRequestActivity.class
         }
 )
 public class BootstrapModule {

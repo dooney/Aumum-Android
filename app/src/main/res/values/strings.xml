@@ -20,8 +20,8 @@
         <item>情感天空</item>
     </string-array>
     <string-array name="label_party_pages">
-        <item>求聚会</item>
-        <item>发聚会</item>
+        <item>发布需求</item>
+        <item>报名参加</item>
     </string-array>
     <string-array name="label_party_actions">
         <item>发起聚会</item>
@@ -35,6 +35,20 @@
     <string-array name="label_search_party">
         <item>当前位置附近</item>
         <item>指定地址附近</item>
+    </string-array>
+    <string-array name="label_party_request_area">
+        <item>同城</item>
+        <item>同区</item>
+    </string-array>
+    <string-array name="label_party_request_type">
+        <item>亲子聚会</item>
+        <item>妈妈聚会</item>
+    </string-array>
+    <string-array name="label_party_request_family_sub_type">
+        <item>PlayGroup</item>
+        <item>0-1岁宝宝</item>
+        <item>1-3岁宝宝</item>
+        <item>3-6岁宝宝</item>
     </string-array>
     <string-array name="label_asking_actions">
         <item>发表说说</item>
@@ -156,7 +170,7 @@
     <string name="info_submitting_quit_group">正在处理您的退出群组请求，请稍候</string>
     <string name="info_no_users_found">没找到任何相关用户</string>
     <string name="info_confirm_quit">您确定要退出该聚会？</string>
-    <string name="info_empty_party_list">暂时还没人发聚会哦，点此刷新</string>
+    <string name="info_empty_party_list">暂时还没有可报名的聚会，点此刷新</string>
     <string name="info_empty_asking_list">暂时还没有说说记录哦，点此刷新</string>
     <string name="info_empty_conversation_list">您没有任何会话记录</string>
     <string name="info_empty_mobile_contacts">没找到任何手机联系人</string>
@@ -176,8 +190,9 @@
     <string name="info_submitting_moment">正在发妈妈圈，请稍候</string>
     <string name="info_deleting_moment">正在删除该妈妈圈记录，请稍候</string>
     <string name="info_moment_deleted">该妈妈圈记录已成功删除</string>
-    <string name="info_empty_party_request_list">暂时还没人求聚会哦，点此刷新</string>
+    <string name="info_empty_party_request_list">暂时还没有聚会需求发布，点此刷新</string>
     <string name="info_empty_discovery">暂时还没人组织活动哦，点此刷新</string>
+    <string name="info_submitting_party_request">正在提交您的请求，请稍候</string>
 
     <!-- Error Message -->
     <string name="error_bad_credentials">验证失败，请输入正确的手机号码/密码</string>
@@ -242,6 +257,7 @@
     <string name="title_activity_special">请选择您要查看的超市品牌</string>
     <string name="title_activity_special_details">%1$s本期半价</string>
     <string name="title_activity_favorite_products">我的收藏</string>
+    <string name="title_activity_new_party_request">聚会需求</string>
 
     <!-- Account -->
     <string name="hint_login_phone">手机号码</string>
@@ -368,6 +384,10 @@
     <string name="label_specify_contacts">以下好友可见</string>
     <string name="label_notify_contacts">通知以下好友</string>
     <string name="label_select_party_view">请选择显示方式</string>
+    <string name="hint_party_request_info">备注</string>
+    <string name="label_select_area">请选择区域范围</string>
+    <string name="label_select_type">请选择聚会类型</string>
+    <string name="label_select_sub_type">请选择聚会子类型</string>
 
     <!-- Like -->
     <string name="label_you_like">您已点赞</string>

@@ -3,8 +3,11 @@ package com.aumum.app.mobile.core.service;
 import com.aumum.app.mobile.core.Constants;
 import com.aumum.app.mobile.core.api.ListWrapper;
 import com.aumum.app.mobile.core.model.PartyRequest;
+import com.google.gson.JsonObject;
 
+import retrofit.http.Body;
 import retrofit.http.GET;
+import retrofit.http.POST;
 import retrofit.http.Query;
 
 /**
@@ -16,4 +19,7 @@ public interface PartyRequestService {
     ListWrapper<PartyRequest> getList(@Query("order") String order,
                                       @Query("where") String where,
                                       @Query("limit") int limit);
+
+    @POST(Constants.Http.URL_PARTY_REQUESTS_FRAG)
+    PartyRequest newPartyRequest(@Body JsonObject data);
 }
