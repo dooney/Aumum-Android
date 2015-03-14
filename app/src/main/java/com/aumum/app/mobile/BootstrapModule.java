@@ -5,6 +5,7 @@ import android.content.Context;
 
 import com.aumum.app.mobile.core.dao.AskingReplyStore;
 import com.aumum.app.mobile.core.dao.AskingStore;
+import com.aumum.app.mobile.core.dao.FeedItemStore;
 import com.aumum.app.mobile.core.dao.MomentCommentStore;
 import com.aumum.app.mobile.core.dao.MomentStore;
 import com.aumum.app.mobile.core.dao.PartyReasonStore;
@@ -39,6 +40,7 @@ import com.aumum.app.mobile.ui.chat.SendMessageListener;
 import com.aumum.app.mobile.ui.chat.TextMessageCard;
 import com.aumum.app.mobile.ui.chat.VoiceMessageCard;
 import com.aumum.app.mobile.ui.circle.CircleFragment;
+import com.aumum.app.mobile.ui.feed.FeedFragment;
 import com.aumum.app.mobile.ui.moment.MomentCommentCard;
 import com.aumum.app.mobile.ui.moment.MomentCommentLikeListener;
 import com.aumum.app.mobile.ui.moment.MomentCommentsFragment;
@@ -103,6 +105,8 @@ import com.aumum.app.mobile.ui.user.UserFragment;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.squareup.otto.Bus;
+
+import org.mcsoxford.rss.RSSReader;
 
 import javax.inject.Singleton;
 
@@ -195,7 +199,8 @@ import retrofit.converter.GsonConverter;
                 SpecialProductFavoriteListener.class,
                 FavoriteProductsFragment.class,
                 PartyRequestListFragment.class,
-                NewPartyRequestActivity.class
+                NewPartyRequestActivity.class,
+                FeedFragment.class
         }
 )
 public class BootstrapModule {
@@ -204,6 +209,12 @@ public class BootstrapModule {
     @Provides
     Bus provideOttoBus() {
         return new PostFromAnyThreadBus();
+    }
+
+    @Singleton
+    @Provides
+    RSSReader provideRSSReader() {
+        return new RSSReader();
     }
 
     @Singleton
@@ -289,6 +300,12 @@ public class BootstrapModule {
     @Singleton
     PartyRequestStore providePartyRequestStore(RestService restService) {
         return new PartyRequestStore(restService);
+    }
+
+    @Provides
+    @Singleton
+    FeedItemStore provideFeedItemStoreStore(RSSReader rssReader) {
+        return new FeedItemStore(rssReader);
     }
 
     @Provides

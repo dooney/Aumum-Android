@@ -339,6 +339,11 @@
         <item name="android:hint">@string/hint_party_request_info</item>
     </style>
 
+    <!-- Feed Item -->
+    <style name="TextView.FeedItem.Text" parent="TextView">
+        <item name="android:lineSpacingMultiplier">1.1</item>
+    </style>
+
     <!-- Circle -->
     <style name="TextView.Circle" parent="TextView.Title" />
 
@@ -349,7 +354,7 @@
     <style name="TextView.Moment.City" parent="TextView.Subtitle" />
     <style name="TextView.Moment.CreatedAt" parent="TextView.Subtitle.Small" />
     <style name="TextView.Moment.Details" parent="TextView">
-        <item name="android:textSize">@dimen/text_sz_large</item>
+        <item name="android:lineSpacingMultiplier">1.1</item>
     </style>
     <style name="EditText.NewMoment.Details" parent="EditText">
         <item name="android:background">@color/transparent</item>

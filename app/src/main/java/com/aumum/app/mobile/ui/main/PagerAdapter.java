@@ -9,6 +9,7 @@ import com.aumum.app.mobile.R;
 import com.aumum.app.mobile.ui.conversation.ConversationFragment;
 import com.aumum.app.mobile.ui.contact.ContactFragment;
 import com.aumum.app.mobile.ui.discovery.DiscoveryFragment;
+import com.aumum.app.mobile.ui.feed.FeedFragment;
 import com.aumum.app.mobile.ui.party.PartyFragment;
 import com.aumum.app.mobile.ui.user.ProfileFragment;
 import com.aumum.app.mobile.ui.view.tab.IconPagerAdapter;
@@ -64,7 +65,7 @@ public class PagerAdapter extends FragmentPagerAdapter
                 result = new PartyFragment();
                 break;
             case PAGE_DISCOVERY:
-                result = new DiscoveryFragment();
+                result = new FeedFragment();
                 break;
             case PAGE_CONVERSATION:
                 result = new ConversationFragment();

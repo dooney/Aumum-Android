@@ -34,6 +34,8 @@ dependencies {
     compile files('src/main/libs/bolts-android-1.1.4.jar')
     compile 'com.etsy.android.grid:library:1.0.5'
     compile 'com.android.support:multidex:1.0.0'
+    compile files('src/main/libs/android-rss.jar')
+    compile 'org.jsoup:jsoup:1.8.1'
 }
 
 android {
