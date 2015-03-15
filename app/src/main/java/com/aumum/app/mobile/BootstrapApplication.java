@@ -8,6 +8,7 @@ import android.content.Context;
 import android.support.multidex.MultiDex;
 
 import com.aumum.app.mobile.utils.EMChatUtils;
+import com.aumum.app.mobile.utils.EmotionUtils;
 import com.aumum.app.mobile.utils.ImageLoaderUtils;
 import com.aumum.app.mobile.utils.LocaleUtils;
 import com.aumum.app.mobile.utils.PreferenceUtils;
@@ -62,6 +63,7 @@ public class BootstrapApplication extends Application {
         EMChatUtils.init(this);
         UpYunUtils.init();
         SmsSdkUtils.init(this);
+        EmotionUtils.init();
     }
 
     private Object getRootModule() {

@@ -1,19 +1,25 @@
 package com.aumum.app.mobile.ui.view;
 
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.text.Layout;
 import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.style.ClickableSpan;
+import android.text.style.ImageSpan;
 import android.text.style.URLSpan;
 import android.text.util.Linkify;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.widget.TextView;
 
+import com.aumum.app.mobile.utils.EmotionUtils;
+import com.aumum.app.mobile.utils.ImageLoaderUtils;
 import com.aumum.app.mobile.utils.Patterns;
 import com.aumum.app.mobile.utils.UrlSpan;
+
+import java.util.regex.Matcher;
 
 /**
  * Created by Administrator on 6/12/2014.
@@ -59,6 +65,7 @@ public class SpannableTextView extends TextView {
             value.setSpan(span, start, end, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
         }
 
+        addEmotions(value);
         return value;
     }
 
@@ -94,5 +101,25 @@ public class SpannableTextView extends TextView {
             }
         }
         return ret;
+    }
+
+    private void addEmotions(SpannableString value) {
+        Matcher localMatcher = Patterns.EMOTION_URL.matcher(value);
+        while (localMatcher.find()) {
+            String str2 = localMatcher.group(0);
+            int k = localMatcher.start();
+            int m = localMatcher.end();
+            if (m - k < 8) {
+                String name = EmotionUtils.getFromGeneral(str2);
+                if (name == null) {
+                    name = EmotionUtils.getFromHuaHua(str2);
+                }
+                Bitmap bitmap = ImageLoaderUtils.loadImage("assets://" + name);
+                if (bitmap != null) {
+                    ImageSpan localImageSpan = new ImageSpan(getContext(), bitmap, ImageSpan.ALIGN_BASELINE);
+                    value.setSpan(localImageSpan, k, m, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                }
+            }
+        }
     }
 }
