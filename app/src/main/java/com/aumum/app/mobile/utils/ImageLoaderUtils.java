@@ -13,6 +13,8 @@ import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.nostra13.universalimageloader.core.listener.PauseOnScrollListener;
 import com.nostra13.universalimageloader.core.listener.SimpleImageLoadingListener;
 
+import java.io.File;
+
 /**
  * Created by Administrator on 5/11/2014.
  */
@@ -60,5 +62,9 @@ public class ImageLoaderUtils {
 
     public static AbsListView.OnScrollListener getOnScrollListener() {
         return new PauseOnScrollListener(ImageLoader.getInstance(), true, true);
+    }
+
+    public static File getFile(String imageUri) {
+        return ImageLoader.getInstance().getDiskCache().get(imageUri);
     }
 }

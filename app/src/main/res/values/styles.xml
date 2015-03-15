@@ -234,6 +234,12 @@
         <item name="android:text">@string/info_click_to_reload</item>
         <item name="android:textColor">@color/bbutton_danger</item>
     </style>
+    <style name="TextView.Gif" parent="TextView">
+        <item name="android:text">@string/label_gif</item>
+        <item name="android:textColor">@color/text</item>
+        <item name="android:textSize">@dimen/text_sz_small</item>
+        <item name="android:background">@color/grey_medium</item>
+    </style>
 
     <!-- Party -->
     <style name="TextView.Party.UserName" parent="TextView.UserName" >
@@ -344,6 +350,7 @@
 
     <!-- Feed Item -->
     <style name="TextView.FeedItem.Text" parent="TextView">
+        <item name="android:textSize">@dimen/text_sz_large</item>
         <item name="android:lineSpacingMultiplier">1.1</item>
     </style>
 

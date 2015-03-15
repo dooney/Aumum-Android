@@ -22,10 +22,22 @@
         android:numColumns="3" >
     </com.aumum.app.mobile.ui.view.ScaleGridView>
 
-    <ImageView
-        android:id="@+id/image_gallery"
-        style="@style/ImageView.SingleGallery"
-        android:paddingBottom="@dimen/margin_medium"
-        android:src="@drawable/image_placeholder"/>
+    <RelativeLayout
+        android:id="@+id/layout_single_image"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingBottom="@dimen/margin_medium">
+
+        <ImageView
+            android:id="@+id/image_gallery"
+            style="@style/ImageView.SingleGallery"
+            android:src="@drawable/image_placeholder"/>
+
+        <TextView
+            android:id="@+id/text_gif"
+            style="@style/TextView.Gif"
+            android:layout_alignParentBottom="true"/>
+
+    </RelativeLayout>
 
 </LinearLayout>

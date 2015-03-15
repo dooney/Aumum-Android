@@ -7,11 +7,13 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.GridView;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.aumum.app.mobile.R;
 import com.aumum.app.mobile.core.model.FeedItem;
 import com.aumum.app.mobile.ui.image.CustomGallery;
 import com.aumum.app.mobile.ui.image.GalleryAdapter;
+import com.aumum.app.mobile.ui.image.GifViewActivity;
 import com.aumum.app.mobile.ui.image.ImageViewActivity;
 import com.aumum.app.mobile.ui.view.SpannableTextView;
 import com.aumum.app.mobile.utils.ImageLoaderUtils;
@@ -58,6 +60,7 @@ public class FeedItemCard extends Card {
                 activity.startActivity(intent);
             }
         });
+        ViewGroup singleImageLayout = (ViewGroup) view.findViewById(R.id.layout_single_image);
         ImageView imageGallery = (ImageView) view.findViewById(R.id.image_gallery);
         imageGallery.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -73,22 +76,34 @@ public class FeedItemCard extends Card {
             list.add(item);
         }
         gridGallery.setVisibility(View.GONE);
-        imageGallery.setVisibility(View.GONE);
+        singleImageLayout.setVisibility(View.GONE);
         if (list.size() > 0) {
             if (list.size() > 1) {
                 adapter.addAll(list);
                 gridGallery.setVisibility(View.VISIBLE);
             } else {
+                TextView gifText = (TextView) view.findViewById(R.id.text_gif);
+                gifText.setVisibility(View.GONE);
+                String imageUrl = feedItem.getImages().get(0);
+                if (imageUrl.endsWith(".gif")) {
+                    gifText.setVisibility(View.VISIBLE);
+                }
                 ImageLoaderUtils.displayImage(list.get(0).getUri(), imageGallery);
-                imageGallery.setVisibility(View.VISIBLE);
+                singleImageLayout.setVisibility(View.VISIBLE);
             }
         }
     }
 
     private void clickImageByIndex(int index) {
         String imageUrl = feedItem.getImages().get(index);
-        final Intent intent = new Intent(activity, ImageViewActivity.class);
-        intent.putExtra(ImageViewActivity.INTENT_IMAGE_URI, imageUrl);
-        activity.startActivity(intent);
+        if (imageUrl.endsWith(".gif")) {
+            final Intent intent = new Intent(activity, GifViewActivity.class);
+            intent.putExtra(GifViewActivity.INTENT_IMAGE_URI, imageUrl);
+            activity.startActivity(intent);
+        } else {
+            final Intent intent = new Intent(activity, ImageViewActivity.class);
+            intent.putExtra(ImageViewActivity.INTENT_IMAGE_URI, imageUrl);
+            activity.startActivity(intent);
+        }
     }
 }

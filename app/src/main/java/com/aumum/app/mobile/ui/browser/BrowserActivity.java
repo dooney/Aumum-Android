@@ -60,6 +60,7 @@ public class BrowserActivity extends ActionBarActivity {
                     if (android.os.Build.VERSION.SDK_INT >= 14) {
                         getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LOW_PROFILE);
                     }
+                    getSupportActionBar().hide();
                 } else {
                     WindowManager.LayoutParams attrs = getWindow().getAttributes();
                     attrs.flags &= ~WindowManager.LayoutParams.FLAG_FULLSCREEN;
@@ -68,6 +69,7 @@ public class BrowserActivity extends ActionBarActivity {
                     if (android.os.Build.VERSION.SDK_INT >= 14) {
                         getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_VISIBLE);
                     }
+                    getSupportActionBar().show();
                 }
 
             }
