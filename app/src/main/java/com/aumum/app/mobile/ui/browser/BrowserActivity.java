@@ -34,7 +34,9 @@ public class BrowserActivity extends ActionBarActivity {
         ButterKnife.inject(this);
 
         final Intent intent = getIntent();
-        setTitle(intent.getStringExtra(INTENT_TITLE));
+        if (intent.hasExtra(INTENT_TITLE)) {
+            setTitle(intent.getStringExtra(INTENT_TITLE));
+        }
 
         WebSettings settings = webView.getSettings();
         settings.setJavaScriptEnabled(true);
