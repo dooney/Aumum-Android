@@ -26,12 +26,24 @@ public class PartyRequest extends AggregateRoot {
         this.subType = subType;
     }
 
-    public String getUserId() {
-        return userId;
+    public PartyRequest(String objectId,
+                        String createdAt,
+                        String userId,
+                        String city,
+                        String area,
+                        String type,
+                        String subType) {
+        this.objectId = objectId;
+        this.createdAt = createdAt;
+        this.userId = userId;
+        this.city = city;
+        this.area = area;
+        this.type = type;
+        this.subType = subType;
     }
 
-    public String getType() {
-        return type;
+    public String getUserId() {
+        return userId;
     }
 
     public String getCity() {
@@ -40,6 +52,14 @@ public class PartyRequest extends AggregateRoot {
 
     public String getArea() {
         return area;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public String getSubType() {
+        return subType;
     }
 
     public User getUser() {

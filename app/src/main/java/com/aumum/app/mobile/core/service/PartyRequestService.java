@@ -22,4 +22,9 @@ public interface PartyRequestService {
 
     @POST(Constants.Http.URL_PARTY_REQUESTS_FRAG)
     PartyRequest newPartyRequest(@Body JsonObject data);
+
+    @GET(Constants.Http.URL_PARTY_REQUESTS_FRAG)
+    JsonObject getCount(@Query("where") String where,
+                        @Query("count") int count,
+                        @Query("limit") int limit);
 }

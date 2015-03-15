@@ -16,6 +16,7 @@ import android.widget.TextView;
 
 import com.aumum.app.mobile.Injector;
 import com.aumum.app.mobile.R;
+import com.aumum.app.mobile.core.dao.PartyRequestStore;
 import com.aumum.app.mobile.core.dao.PartyStore;
 import com.aumum.app.mobile.core.infra.security.ApiKeyProvider;
 import com.aumum.app.mobile.core.model.CmdMessage;
@@ -25,6 +26,7 @@ import com.aumum.app.mobile.core.service.ScheduleService;
 import com.aumum.app.mobile.events.NewChatMessageEvent;
 import com.aumum.app.mobile.events.ResetDiscoveryUnreadEvent;
 import com.aumum.app.mobile.events.ResetChatUnreadEvent;
+import com.aumum.app.mobile.events.ResetPartyRequestUnreadEvent;
 import com.aumum.app.mobile.events.ResetPartyUnreadEvent;
 import com.aumum.app.mobile.ui.chat.ChatConnectionListener;
 import com.aumum.app.mobile.ui.chat.GroupChangeListener;
@@ -52,6 +54,7 @@ public class MainFragment extends Fragment
         implements ScheduleService.OnScheduleListener {
 
     @Inject PartyStore partyStore;
+    @Inject PartyRequestStore partyRequestStore;
     @Inject NotificationService notificationService;
     @Inject ChatService chatService;
     @Inject ApiKeyProvider apiKeyProvider;
@@ -137,6 +140,16 @@ public class MainFragment extends Fragment
                         }
                     });
                 }
+                unreadCount = partyRequestStore.getUnreadCount();
+                if (unreadCount > 0) {
+                    getActivity().runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            indicator.getUnreadImage(MainTabPageIndicator.TAB_PARTY)
+                                    .setVisibility(View.VISIBLE);
+                        }
+                    });
+                }
                 return true;
             }
 
@@ -160,6 +173,12 @@ public class MainFragment extends Fragment
 
     @Subscribe
     public void onResetPartyUnreadEvent(ResetPartyUnreadEvent event) {
+        indicator.getUnreadImage(MainTabPageIndicator.TAB_PARTY)
+                .setVisibility(View.INVISIBLE);
+    }
+
+    @Subscribe
+    public void onResetPartyRequestUnreadEvent(ResetPartyRequestUnreadEvent event) {
         indicator.getUnreadImage(MainTabPageIndicator.TAB_PARTY)
                 .setVisibility(View.INVISIBLE);
     }

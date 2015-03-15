@@ -302,8 +302,8 @@ public class BootstrapModule {
 
     @Provides
     @Singleton
-    PartyRequestStore providePartyRequestStore(RestService restService) {
-        return new PartyRequestStore(restService);
+    PartyRequestStore providePartyRequestStore(RestService restService, Repository repository) {
+        return new PartyRequestStore(restService, repository);
     }
 
     @Provides

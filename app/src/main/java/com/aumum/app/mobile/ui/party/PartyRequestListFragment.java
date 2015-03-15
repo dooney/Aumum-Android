@@ -12,6 +12,7 @@ import com.aumum.app.mobile.core.Constants;
 import com.aumum.app.mobile.core.dao.PartyRequestStore;
 import com.aumum.app.mobile.core.dao.UserStore;
 import com.aumum.app.mobile.core.model.PartyRequest;
+import com.aumum.app.mobile.events.ResetPartyRequestUnreadEvent;
 import com.aumum.app.mobile.ui.base.RefreshItemListFragment;
 import com.squareup.otto.Bus;
 
@@ -80,6 +81,7 @@ public class PartyRequestListFragment extends RefreshItemListFragment<Card> {
         for(PartyRequest partyRequest: partyRequestList) {
             dataSet.add(0, partyRequest);
         }
+        bus.post(new ResetPartyRequestUnreadEvent());
     }
 
     @Override

@@ -5,7 +5,7 @@ import de.greenrobot.daogenerator.Schema;
 
 public class DaoGenerator {
 
-    private static final int SCHEMA_VERSION = 7;
+    private static final int SCHEMA_VERSION = 8;
 
     public static void main(String args[]) throws Exception {
         Schema schema = new Schema(SCHEMA_VERSION, "com.aumum.app.mobile.core.dao.gen");
@@ -15,6 +15,7 @@ public class DaoGenerator {
         addContactRequest(schema);
         addAsking(schema);
         addMoment(schema);
+        addPartyRequest(schema);
 
         new de.greenrobot.daogenerator.DaoGenerator().generateAll(schema, args[0]);
     }
@@ -99,5 +100,17 @@ public class DaoGenerator {
         moment.addStringProperty("images");
         moment.addStringProperty("likes");
         moment.addStringProperty("comments");
+    }
+
+    private static void addPartyRequest(Schema schema) {
+        Entity partyRequest = schema.addEntity("PartyRequestEntity");
+        partyRequest.setSuperclass("BaseEntity");
+        partyRequest.addStringProperty("objectId").notNull().primaryKey();
+        partyRequest.addDateProperty("createdAt").notNull();
+        partyRequest.addStringProperty("userId");
+        partyRequest.addStringProperty("city");
+        partyRequest.addStringProperty("area");
+        partyRequest.addStringProperty("type");
+        partyRequest.addStringProperty("subType");
     }
 }

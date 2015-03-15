@@ -1368,6 +1368,19 @@ public class RestService {
         return getPartyRequestService().newPartyRequest(data);
     }
 
+    public int getPartyRequestsCountAfter(String after) {
+        final JsonObject whereJson = new JsonObject();
+        if (after != null) {
+            whereJson.add("createdAt", buildDateTimeAfterJson(after));
+        }
+        final JsonObject liveJson = new JsonObject();
+        liveJson.addProperty("$exists", false);
+        whereJson.add("deletedAt" ,liveJson);
+        String where = whereJson.toString();
+        JsonObject result = getPartyRequestService().getCount(where, 1, 0);
+        return result.get("count").getAsInt();
+    }
+
     public List<Feed> getFeedList() {
         final JsonObject whereJson = new JsonObject();
         final JsonObject liveJson = new JsonObject();
