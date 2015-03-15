@@ -5,13 +5,16 @@ import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.view.View;
-import android.webkit.WebChromeClient;
+import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.ProgressBar;
 
 import com.aumum.app.mobile.R;
+import com.aumum.app.mobile.ui.view.video.VideoEnabledWebChromeClient;
+import com.aumum.app.mobile.ui.view.video.VideoEnabledWebView;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
@@ -21,7 +24,7 @@ import butterknife.InjectView;
  */
 public class BrowserActivity extends ActionBarActivity {
 
-    @InjectView(R.id.webView) protected WebView webView;
+    @InjectView(R.id.webView) protected VideoEnabledWebView webView;
     @InjectView(R.id.pb_loading) protected ProgressBar progressBar;
 
     public static final String INTENT_TITLE = "title";
@@ -41,7 +44,35 @@ public class BrowserActivity extends ActionBarActivity {
         WebSettings settings = webView.getSettings();
         settings.setJavaScriptEnabled(true);
         webView.setScrollBarStyle(View.SCROLLBARS_INSIDE_OVERLAY);
-        webView.setWebChromeClient(new WebChromeClient());
+        View nonVideoLayout = findViewById(R.id.nonVideoLayout);
+        ViewGroup videoLayout = (ViewGroup)findViewById(R.id.videoLayout);
+        View loadingView = getLayoutInflater().inflate(R.layout.view_loading_video, null);
+        VideoEnabledWebChromeClient webChromeClient =
+                new VideoEnabledWebChromeClient(nonVideoLayout, videoLayout, loadingView, webView);
+        webChromeClient.setOnToggledFullscreen(new VideoEnabledWebChromeClient.ToggledFullscreenCallback() {
+            @Override
+            public void toggledFullscreen(boolean fullscreen) {
+                if (fullscreen) {
+                    WindowManager.LayoutParams attrs = getWindow().getAttributes();
+                    attrs.flags |= WindowManager.LayoutParams.FLAG_FULLSCREEN;
+                    attrs.flags |= WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON;
+                    getWindow().setAttributes(attrs);
+                    if (android.os.Build.VERSION.SDK_INT >= 14) {
+                        getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LOW_PROFILE);
+                    }
+                } else {
+                    WindowManager.LayoutParams attrs = getWindow().getAttributes();
+                    attrs.flags &= ~WindowManager.LayoutParams.FLAG_FULLSCREEN;
+                    attrs.flags &= ~WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON;
+                    getWindow().setAttributes(attrs);
+                    if (android.os.Build.VERSION.SDK_INT >= 14) {
+                        getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_VISIBLE);
+                    }
+                }
+
+            }
+        });
+        webView.setWebChromeClient(webChromeClient);
         webView.setWebViewClient(new WebViewClient() {
             @Override
             public void onPageStarted(WebView webView, String url, Bitmap favicon) {

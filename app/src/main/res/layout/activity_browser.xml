@@ -4,15 +4,29 @@
     android:layout_height="match_parent"
     tools:context="com.aumum.app.mobile.ui.browser.BrowserActivity">
 
-    <WebView
-        android:id="@+id/webView"
+    <RelativeLayout
+        android:id="@+id/nonVideoLayout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:visibility="gone"/>
+        android:layout_height="match_parent" >
 
-    <ProgressBar
-        android:id="@+id/pb_loading"
-        style="@style/ListSpinner"
-        android:layout_centerInParent="true" />
+        <com.aumum.app.mobile.ui.view.video.VideoEnabledWebView
+            android:id="@+id/webView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="gone"/>
+
+        <ProgressBar
+            android:id="@+id/pb_loading"
+            style="@style/ListSpinner"
+            android:layout_centerInParent="true" />
+
+        </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/videoLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" >
+
+    </RelativeLayout>
 
 </RelativeLayout>
