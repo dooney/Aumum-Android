@@ -6,6 +6,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
 import com.aumum.app.mobile.R;
+import com.aumum.app.mobile.ui.vendor.ActivityListFragment;
 
 import java.util.ArrayList;
 
@@ -29,6 +30,7 @@ public class PagerAdapter extends FragmentPagerAdapter {
         fragments = new ArrayList<Fragment>();
         fragments.add(new PartyRequestListFragment());
         fragments.add(new PartyListFragment());
+        fragments.add(new ActivityListFragment());
     }
 
     @Override

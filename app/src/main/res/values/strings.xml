@@ -20,11 +20,13 @@
         <item>情感天空</item>
     </string-array>
     <string-array name="label_party_pages">
-        <item>发布需求</item>
-        <item>报名参加</item>
+        <item>聚会需求</item>
+        <item>个人聚会</item>
+        <item>商家活动</item>
     </string-array>
     <string-array name="label_party_actions">
-        <item>发起聚会</item>
+        <item>求聚会</item>
+        <item>组织聚会</item>
         <item>我的聚会</item>
         <item>我的收藏</item>
     </string-array>
@@ -172,12 +174,12 @@
     <string name="info_no_users_found">没找到任何相关用户</string>
     <string name="info_confirm_quit">您确定要退出该聚会？</string>
     <string name="info_empty_party_list">暂时还没有可报名的聚会，点此刷新</string>
-    <string name="info_empty_asking_list">暂时还没有说说记录哦，点此刷新</string>
+    <string name="info_empty_asking_list">暂时还没有说说记录，点此刷新</string>
     <string name="info_empty_conversation_list">您没有任何会话记录</string>
     <string name="info_empty_mobile_contacts">没找到任何手机联系人</string>
     <string name="info_empty_contact_list">您还没添加任何好友</string>
     <string name="info_empty_contact_request_list">您还没收到任何好友请求</string>
-    <string name="info_empty_comment_list">暂时还有没聚会评论哦</string>
+    <string name="info_empty_comment_list">暂时还有没聚会评论</string>
     <string name="info_empty_search_list">没找到任何相关记录</string>
     <string name="info_click_to_reload">点击重试</string>
     <string name="info_submitting_feedback">正在提交您的反馈，请稍候</string>
@@ -187,12 +189,12 @@
     <string name="info_new_tag_user_message">相似标签新用户</string>
     <string name="info_welcome_new_user">%1$s刚刚加入，过去打个招呼吧！</string>
     <string name="info_tag_users_found">按标签为您找到%,d位用户</string>
-    <string name="info_empty_moment_list">暂时还没有妈妈圈记录哦，点此刷新</string>
+    <string name="info_empty_moment_list">暂时还没有妈妈圈记录，点此刷新</string>
     <string name="info_submitting_moment">正在发妈妈圈，请稍候</string>
     <string name="info_deleting_moment">正在删除该妈妈圈记录，请稍候</string>
     <string name="info_moment_deleted">该妈妈圈记录已成功删除</string>
-    <string name="info_empty_party_request_list">暂时还没有聚会需求发布，点此刷新</string>
-    <string name="info_empty_discovery">暂时还没人组织活动哦，点此刷新</string>
+    <string name="info_empty_party_request_list">暂时还没有聚会需求，点此刷新</string>
+    <string name="info_empty_activities">暂时还没有商家活动，点此刷新</string>
     <string name="info_submitting_party_request">正在提交您的请求，请稍候</string>
 
     <!-- Error Message -->
@@ -231,7 +233,7 @@
     <string name="title_activity_settings">我的设置</string>
     <string name="title_activity_party_details">聚会详情</string>
     <string name="title_activity_search_party">搜索聚会</string>
-    <string name="title_activity_new_party">发起聚会</string>
+    <string name="title_activity_new_party">组织聚会</string>
     <string name="title_activity_change_avatar">更换头像</string>
     <string name="title_activity_user_parties">%1$s的聚会</string>
     <string name="title_activity_user_askings">%1$s的说说</string>
@@ -258,7 +260,7 @@
     <string name="title_activity_special">请选择您要查看的超市品牌</string>
     <string name="title_activity_special_details">%1$s本期半价</string>
     <string name="title_activity_favorite_products">我的收藏</string>
-    <string name="title_activity_new_party_request">聚会需求</string>
+    <string name="title_activity_new_party_request">求聚会</string>
 
     <!-- Account -->
     <string name="hint_login_phone">手机号码</string>
@@ -344,7 +346,7 @@
 
     <!-- Party -->
     <string name="hint_join_reason">一句话介绍自己的情况，或报名理由</string>
-    <string name="hint_quit_reason">给聚会发起人留言</string>
+    <string name="hint_quit_reason">给聚会组织人留言</string>
     <string name="label_you_join">您已报名</string>
     <string name="label_you_and_others_join">您和其他%,d人报名</string>
     <string name="label_others_join">%,d人报名</string>
@@ -355,7 +357,7 @@
     <string name="label_createdAt">创建时间</string>
     <string name="label_join_details">报名动态</string>
     <string name="label_distance">%1$skm</string>
-    <string name="label_new_party_message">%1$s发起了聚会</string>
+    <string name="label_new_party_message">%1$s组织了聚会</string>
     <string name="label_join_party_message">%1$s报名了您的聚会</string>
     <string name="label_quit_party_message">%1$s退出了聚会</string>
     <string name="label_like_party_message">%1$s给您的聚会点赞</string>

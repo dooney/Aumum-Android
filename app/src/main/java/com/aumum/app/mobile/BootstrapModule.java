@@ -62,6 +62,7 @@ import com.aumum.app.mobile.ui.contact.ContactListener;
 import com.aumum.app.mobile.ui.contact.ContactRequestsFragment;
 import com.aumum.app.mobile.ui.account.VerifyActivity;
 import com.aumum.app.mobile.ui.party.PartyCommentLikeListener;
+import com.aumum.app.mobile.ui.party.PartyFragment;
 import com.aumum.app.mobile.ui.party.PartyRequestListFragment;
 import com.aumum.app.mobile.ui.report.ReportActivity;
 import com.aumum.app.mobile.ui.settings.FeedbackActivity;
@@ -131,6 +132,7 @@ import retrofit.converter.GsonConverter;
                 ResetPasswordActivity.class,
                 MainActivity.class,
                 NewPartyActivity.class,
+                PartyFragment.class,
                 PartyLikeListener.class,
                 PartyCommentsFragment.class,
                 PartyCommentCard.class,

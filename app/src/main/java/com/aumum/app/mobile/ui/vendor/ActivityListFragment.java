@@ -1,4 +1,4 @@
-package com.aumum.app.mobile.ui.discovery;
+package com.aumum.app.mobile.ui.vendor;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -11,11 +11,11 @@ import com.aumum.app.mobile.R;
 /**
  * Created by Administrator on 13/03/2015.
  */
-public class DiscoveryFragment extends Fragment {
+public class ActivityListFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_discovery, null);
+        return inflater.inflate(R.layout.fragment_activity_list, null);
     }
 }

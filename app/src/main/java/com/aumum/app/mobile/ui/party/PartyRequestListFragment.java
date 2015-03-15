@@ -4,13 +4,9 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.ImageView;
 
 import com.aumum.app.mobile.Injector;
 import com.aumum.app.mobile.R;
@@ -46,7 +42,6 @@ public class PartyRequestListFragment extends RefreshItemListFragment<Card> {
     @Override
     public void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setHasOptionsMenu(true);
         Injector.inject(this);
     }
 
@@ -54,23 +49,6 @@ public class PartyRequestListFragment extends RefreshItemListFragment<Card> {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         return inflater.inflate(R.layout.fragment_party_request_list, null);
-    }
-
-    @Override
-    public void onCreateOptionsMenu(final Menu menu, final MenuInflater inflater) {
-        MenuItem more = menu.add(Menu.NONE, 1, Menu.NONE, null);
-        more.setActionView(R.layout.menuitem_more);
-        more.setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
-        View moreView = more.getActionView();
-        ImageView moreIcon = (ImageView) moreView.findViewById(R.id.b_more);
-        moreIcon.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (getActivity() != null) {
-                    startNewPartyRequestActivity();
-                }
-            }
-        });
     }
 
     @Override
@@ -149,10 +127,5 @@ public class PartyRequestListFragment extends RefreshItemListFragment<Card> {
 
     private List<PartyRequest> onGetBackwardsList(String before) throws Exception {
         return partyRequestStore.getBackwardsList(before);
-    }
-
-    private void startNewPartyRequestActivity() {
-        final Intent intent = new Intent(getActivity(), NewPartyRequestActivity.class);
-        startActivityForResult(intent, Constants.RequestCode.NEW_PARTY_REQUEST_REQ_CODE);
     }
 }
