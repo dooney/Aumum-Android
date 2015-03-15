@@ -1369,6 +1369,11 @@ public class RestService {
     }
 
     public List<Feed> getFeedList() {
-        return getFeedService().getList().getResults();
+        final JsonObject whereJson = new JsonObject();
+        final JsonObject liveJson = new JsonObject();
+        liveJson.addProperty("$exists", false);
+        whereJson.add("deletedAt" ,liveJson);
+        String where = whereJson.toString();
+        return getFeedService().getList("seq", where, Integer.MAX_VALUE).getResults();
     }
 }

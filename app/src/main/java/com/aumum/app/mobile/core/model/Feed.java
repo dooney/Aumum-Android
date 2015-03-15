@@ -5,6 +5,8 @@ package com.aumum.app.mobile.core.model;
  */
 public class Feed extends AggregateRoot {
 
+    private String deletedAt;
+    private int seq;
     private String screenName;
     private String avatarUrl;
     private String uri;

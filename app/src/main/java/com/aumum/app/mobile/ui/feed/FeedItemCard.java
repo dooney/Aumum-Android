@@ -15,6 +15,7 @@ import com.aumum.app.mobile.ui.image.CustomGallery;
 import com.aumum.app.mobile.ui.image.GalleryAdapter;
 import com.aumum.app.mobile.ui.image.GifViewActivity;
 import com.aumum.app.mobile.ui.image.ImageViewActivity;
+import com.aumum.app.mobile.ui.image.ImageViewPagerActivity;
 import com.aumum.app.mobile.ui.view.SpannableTextView;
 import com.aumum.app.mobile.utils.ImageLoaderUtils;
 
@@ -54,10 +55,7 @@ public class FeedItemCard extends Card {
         gridGallery.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
-                String imageUrl = feedItem.getImages().get(position);
-                final Intent intent = new Intent(activity, ImageViewActivity.class);
-                intent.putExtra(ImageViewActivity.INTENT_IMAGE_URI, imageUrl);
-                activity.startActivity(intent);
+                clickImageByIndex(position);
             }
         });
         ViewGroup singleImageLayout = (ViewGroup) view.findViewById(R.id.layout_single_image);
@@ -99,6 +97,11 @@ public class FeedItemCard extends Card {
         if (imageUrl.endsWith(".gif")) {
             final Intent intent = new Intent(activity, GifViewActivity.class);
             intent.putExtra(GifViewActivity.INTENT_IMAGE_URI, imageUrl);
+            activity.startActivity(intent);
+        } else if (feedItem.getImages().size() > 1) {
+            final Intent intent = new Intent(activity, ImageViewPagerActivity.class);
+            intent.putExtra(ImageViewPagerActivity.INTENT_CURRENT_INDEX, index);
+            intent.putStringArrayListExtra(ImageViewPagerActivity.INTENT_IMAGES, feedItem.getImages());
             activity.startActivity(intent);
         } else {
             final Intent intent = new Intent(activity, ImageViewActivity.class);

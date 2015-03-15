@@ -319,6 +319,7 @@
         </activity>
         <activity android:name=".ui.feed.FeedActivity" />
         <activity android:name=".ui.image.GifViewActivity" />
+        <activity android:name=".ui.image.ImageViewPagerActivity" />
     </application>
 
 </manifest>
