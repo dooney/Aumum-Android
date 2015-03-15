@@ -1,8 +1,6 @@
 package com.aumum.app.mobile.ui.party;
 
 import android.os.Bundle;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -16,10 +14,8 @@ import com.aumum.app.mobile.core.model.PartyRequest;
 import com.aumum.app.mobile.core.model.User;
 import com.aumum.app.mobile.core.service.RestService;
 import com.aumum.app.mobile.ui.base.ProgressDialogActivity;
-import com.aumum.app.mobile.ui.helper.TextWatcherAdapter;
 import com.aumum.app.mobile.ui.view.Animation;
 import com.aumum.app.mobile.ui.view.ListViewDialog;
-import com.aumum.app.mobile.utils.EditTextUtils;
 import com.aumum.app.mobile.utils.SafeAsyncTask;
 import com.github.kevinsawicki.wishlist.Toaster;
 
@@ -44,9 +40,6 @@ public class NewPartyRequestActivity extends ProgressDialogActivity {
     @InjectView(R.id.et_area) protected EditText areaText;
     @InjectView(R.id.et_type) protected EditText typeText;
     @InjectView(R.id.et_sub_type) protected EditText subTypeText;
-    @InjectView(R.id.et_info) protected EditText infoText;
-
-    private final TextWatcher watcher = validationTextWatcher();
 
     String areaOptions[];
     private final int AREA_CITY = 0;
@@ -74,7 +67,6 @@ public class NewPartyRequestActivity extends ProgressDialogActivity {
         progress.setMessageId(R.string.info_submitting_party_request);
 
         areaOptions = getResources().getStringArray(R.array.label_party_request_area);
-        areaText.addTextChangedListener(watcher);
         areaText.setText(areaOptions[area]);
         areaText.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -84,7 +76,6 @@ public class NewPartyRequestActivity extends ProgressDialogActivity {
         });
 
         typeOptions = getResources().getStringArray(R.array.label_party_request_type);
-        typeText.addTextChangedListener(watcher);
         typeText.setText(typeOptions[type]);
         typeText.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -131,24 +122,7 @@ public class NewPartyRequestActivity extends ProgressDialogActivity {
                 submit();
             }
         });
-        updateUIWithValidation();
         return true;
-    }
-
-    private TextWatcher validationTextWatcher() {
-        return new TextWatcherAdapter() {
-            public void afterTextChanged(final Editable gitDirEditText) {
-                updateUIWithValidation();
-            }
-        };
-    }
-
-    private void updateUIWithValidation() {
-        final boolean populated = areaText.getText().length() > 0 &&
-                typeText.getText().length() > 0;
-        if (submitButton != null) {
-            submitButton.setEnabled(populated);
-        }
     }
 
     private void showAreaOptions() {
@@ -201,7 +175,6 @@ public class NewPartyRequestActivity extends ProgressDialogActivity {
     }
 
     private void submit() {
-        EditTextUtils.hideSoftInput(infoText);
         showProgress();
 
         if (task != null) {

@@ -18,14 +18,10 @@ import it.gmariotti.cardslib.library.internal.Card;
 public class PartyRequestCard extends Card {
 
     private PartyRequest partyRequest;
-    private String currentUserId;
-    private MembersLayoutListener membersLayoutListener;
 
-    public PartyRequestCard(Activity activity, PartyRequest partyRequest, String currentUserId) {
+    public PartyRequestCard(Activity activity, PartyRequest partyRequest) {
         super(activity, R.layout.party_request_listitem_inner);
         this.partyRequest = partyRequest;
-        this.currentUserId = currentUserId;
-        this.membersLayoutListener = new MembersLayoutListener(activity, currentUserId);
     }
 
     @Override
@@ -46,7 +42,7 @@ public class PartyRequestCard extends Card {
         TextView createdAtText = (TextView) view.findViewById(R.id.text_createdAt);
         createdAtText.setText(partyRequest.getCreatedAtFormatted());
 
-        ViewGroup membersLayout = (ViewGroup) view.findViewById(R.id.layout_members);
-        membersLayoutListener.update(membersLayout, partyRequest.getMembers());
+        TextView detailsText = (TextView) view.findViewById(R.id.text_details);
+        detailsText.setText(partyRequest.getDetails());
     }
 }

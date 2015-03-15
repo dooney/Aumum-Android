@@ -13,7 +13,7 @@ import com.aumum.app.mobile.R;
 import com.aumum.app.mobile.core.Constants;
 import com.aumum.app.mobile.events.NewAskingUnreadEvent;
 import com.aumum.app.mobile.events.NewMomentUnreadEvent;
-import com.aumum.app.mobile.events.ResetCircleUnreadEvent;
+import com.aumum.app.mobile.events.ResetDiscoveryUnreadEvent;
 import com.aumum.app.mobile.ui.asking.AskingActivity;
 import com.aumum.app.mobile.ui.moment.MomentsActivity;
 import com.aumum.app.mobile.ui.special.SpecialActivity;
@@ -83,7 +83,7 @@ public class CircleFragment extends Fragment {
         super.onResume();
         bus.register(this);
         if (resetUnread) {
-            bus.post(new ResetCircleUnreadEvent());
+            bus.post(new ResetDiscoveryUnreadEvent());
         }
         resetUnread = false;
     }

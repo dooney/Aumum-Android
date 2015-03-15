@@ -1,7 +1,5 @@
 package com.aumum.app.mobile.ui.party;
 
-import android.app.Activity;
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,7 +11,6 @@ import com.aumum.app.mobile.R;
 import com.aumum.app.mobile.core.Constants;
 import com.aumum.app.mobile.core.dao.PartyRequestStore;
 import com.aumum.app.mobile.core.dao.UserStore;
-import com.aumum.app.mobile.core.infra.security.ApiKeyProvider;
 import com.aumum.app.mobile.core.model.PartyRequest;
 import com.aumum.app.mobile.ui.base.RefreshItemListFragment;
 import com.squareup.otto.Bus;
@@ -32,12 +29,12 @@ import it.gmariotti.cardslib.library.internal.CardArrayAdapter;
  */
 public class PartyRequestListFragment extends RefreshItemListFragment<Card> {
 
-    @Inject ApiKeyProvider apiKeyProvider;
     @Inject UserStore userStore;
     @Inject PartyRequestStore partyRequestStore;
     @Inject Bus bus;
 
     protected List<PartyRequest> dataSet = new ArrayList<>();
+    private ViewGroup container;
 
     @Override
     public void onCreate(final Bundle savedInstanceState) {
@@ -48,15 +45,28 @@ public class PartyRequestListFragment extends RefreshItemListFragment<Card> {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        this.container = container;
         return inflater.inflate(R.layout.fragment_party_request_list, null);
     }
 
     @Override
-    public void onActivityResult (int requestCode, int resultCode, Intent data) {
-        if (requestCode == Constants.RequestCode.NEW_PARTY_REQUEST_REQ_CODE &&
-                resultCode == Activity.RESULT_OK) {
-            refresh(null);
+    public void onResume() {
+        super.onResume();
+        bus.register(this);
+
+        if (container.getTag() != null) {
+            int requestCode = (Integer) container.getTag();
+            if (requestCode == Constants.RequestCode.NEW_PARTY_REQUEST_REQ_CODE) {
+                refresh(null);
+                container.setTag(null);
+            }
         }
+    }
+
+    @Override
+    public void onPause() {
+        super.onDestroy();
+        bus.unregister(this);
     }
 
     @Override
@@ -86,30 +96,19 @@ public class PartyRequestListFragment extends RefreshItemListFragment<Card> {
         }
     }
 
-    private Card buildCard(PartyRequest partyRequest, String currentUserId) throws Exception {
-        if (partyRequest.getUser() == null) {
-            partyRequest.setUser(userStore.getUserById(partyRequest.getUserId()));
-        }
-        Card card = new PartyRequestCard(getActivity(), partyRequest, currentUserId);
-        card.setOnClickListener(new Card.OnCardClickListener() {
-            @Override
-            public void onClick(Card card, View view) {
-            }
-        });
-        return card;
-    }
-
     @Override
     protected List<Card> buildCards() throws Exception {
         int totalCount = dataSet.size();
         if (totalCount < PartyRequestStore.LIMIT_PER_LOAD) {
             setMore(false);
         }
-        String currentUserId = apiKeyProvider.getAuthUserId();
         List<Card> cards = new ArrayList<Card>();
         if (totalCount > 0) {
             for (PartyRequest partyRequest : dataSet) {
-                Card card = buildCard(partyRequest, currentUserId);
+                if (partyRequest.getUser() == null) {
+                    partyRequest.setUser(userStore.getUserById(partyRequest.getUserId()));
+                }
+                Card card = new PartyRequestCard(getActivity(), partyRequest);
                 cards.add(card);
             }
         }

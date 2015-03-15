@@ -337,13 +337,6 @@
     <style name="EditText.NewPartyRequest.Area" parent="EditText.Mandatory" />
     <style name="EditText.NewPartyRequest.Type" parent="EditText.Mandatory" />
     <style name="EditText.NewPartyRequest.SubType" parent="EditText.Mandatory" />
-    <style name="EditText.NewPartyRequest.Info" parent="EditText">
-        <item name="android:gravity">left|top</item>
-        <item name="android:background">@color/transparent</item>
-        <item name="android:inputType">textMultiLine</item>
-        <item name="android:lineSpacingMultiplier">1.1</item>
-        <item name="android:hint">@string/hint_party_request_info</item>
-    </style>
 
     <!-- Feed -->
     <style name="TextView.Feed.ScreenName" parent="TextView.Title" />

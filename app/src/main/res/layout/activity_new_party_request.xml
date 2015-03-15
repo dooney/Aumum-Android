@@ -20,8 +20,4 @@
         style="@style/EditText.NewPartyRequest.SubType"
         android:focusable="false"/>
 
-    <EditText
-        android:id="@+id/et_info"
-        style="@style/EditText.NewPartyRequest.Info"/>
-
 </LinearLayout>

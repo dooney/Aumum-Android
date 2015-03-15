@@ -1,5 +1,6 @@
 package com.aumum.app.mobile.ui.party;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -90,6 +91,18 @@ public class PartyFragment extends Fragment {
         pagerAdapter = new PagerAdapter(getResources(), getChildFragmentManager());
         pager.setAdapter(pagerAdapter);
         indicator.setViewPager(pager);
+    }
+
+    @Override
+    public void onActivityResult (int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == Constants.RequestCode.NEW_PARTY_REQUEST_REQ_CODE &&
+                resultCode == Activity.RESULT_OK) {
+            pager.setTag(requestCode);
+        } else if (requestCode == Constants.RequestCode.NEW_PARTY_REQ_CODE &&
+                resultCode == Activity.RESULT_OK) {
+            pager.setTag(requestCode);
+        }
     }
 
     private void showSearchPartyDialog() {

@@ -1,8 +1,5 @@
 package com.aumum.app.mobile.core.model;
 
-import java.util.ArrayList;
-import java.util.List;
-
 /**
  * Created by Administrator on 13/03/2015.
  */
@@ -14,8 +11,6 @@ public class PartyRequest extends AggregateRoot {
     protected String area;
     protected String type;
     protected String subType;
-    protected List<String> members = new ArrayList<String>();
-    protected List<String> likes = new ArrayList<String>();
 
     protected User user;
 
@@ -47,19 +42,23 @@ public class PartyRequest extends AggregateRoot {
         return area;
     }
 
-    public List<String> getMembers() {
-        return members;
-    }
-
-    public List<String> getLikes() {
-        return likes;
-    }
-
     public User getUser() {
         return user;
     }
 
     public void setUser(User user) {
         this.user = user;
+    }
+
+    public String getDetails() {
+        String details = "求" + city;
+        if (area != null) {
+            details += area + "区";
+        }
+        if (subType != null) {
+            details += subType;
+        }
+        details += type;
+        return details;
     }
 }

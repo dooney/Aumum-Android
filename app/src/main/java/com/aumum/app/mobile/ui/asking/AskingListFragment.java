@@ -16,7 +16,7 @@ import com.aumum.app.mobile.core.Constants;
 import com.aumum.app.mobile.core.dao.AskingStore;
 import com.aumum.app.mobile.core.dao.UserStore;
 import com.aumum.app.mobile.core.model.Asking;
-import com.aumum.app.mobile.events.ResetCircleUnreadEvent;
+import com.aumum.app.mobile.events.ResetDiscoveryUnreadEvent;
 import com.aumum.app.mobile.ui.base.RefreshItemListFragment;
 import com.squareup.otto.Bus;
 
@@ -158,7 +158,7 @@ public class AskingListFragment extends RefreshItemListFragment<Asking> {
             dataSet.add(0, asking);
         }
         if (askingList.size() > 0) {
-            bus.post(new ResetCircleUnreadEvent());
+            bus.post(new ResetDiscoveryUnreadEvent());
         }
     }
 

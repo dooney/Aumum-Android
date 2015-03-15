@@ -47,6 +47,7 @@ public class PartyListFragment extends RefreshItemListFragment<Card>
     protected List<Party> dataSet = new ArrayList<Party>();
 
     protected GPSTracker gpsTracker;
+    private ViewGroup container;
 
     @Override
     public void onCreate(final Bundle savedInstanceState) {
@@ -61,6 +62,7 @@ public class PartyListFragment extends RefreshItemListFragment<Card>
     @Override
     public View onCreateView(final LayoutInflater inflater, final ViewGroup container,
                              final Bundle savedInstanceState) {
+        this.container = container;
         return inflater.inflate(R.layout.fragment_party_list, null);
     }
 
@@ -80,6 +82,14 @@ public class PartyListFragment extends RefreshItemListFragment<Card>
     public void onResume() {
         super.onResume();
         bus.register(this);
+
+        if (container.getTag() != null) {
+            int requestCode = (Integer) container.getTag();
+            if (requestCode == Constants.RequestCode.NEW_PARTY_REQ_CODE) {
+                refresh(null);
+                container.setTag(null);
+            }
+        }
     }
 
     @Override
@@ -90,10 +100,7 @@ public class PartyListFragment extends RefreshItemListFragment<Card>
 
     @Override
     public void onActivityResult (int requestCode, int resultCode, Intent data) {
-        if (requestCode == Constants.RequestCode.NEW_PARTY_REQ_CODE &&
-                resultCode == Activity.RESULT_OK) {
-            refresh(null);
-        } else if (requestCode == Constants.RequestCode.GET_PARTY_DETAILS_REQ_CODE &&
+        if (requestCode == Constants.RequestCode.GET_PARTY_DETAILS_REQ_CODE &&
                 resultCode == Activity.RESULT_OK) {
             String partyId = data.getStringExtra(PartyDetailsActivity.INTENT_PARTY_ID);
             if (data.hasExtra(PartyDetailsActivity.INTENT_DELETED)) {

@@ -23,7 +23,7 @@ import com.aumum.app.mobile.core.service.ChatService;
 import com.aumum.app.mobile.core.service.NotificationService;
 import com.aumum.app.mobile.core.service.ScheduleService;
 import com.aumum.app.mobile.events.NewChatMessageEvent;
-import com.aumum.app.mobile.events.ResetCircleUnreadEvent;
+import com.aumum.app.mobile.events.ResetDiscoveryUnreadEvent;
 import com.aumum.app.mobile.events.ResetChatUnreadEvent;
 import com.aumum.app.mobile.events.ResetPartyUnreadEvent;
 import com.aumum.app.mobile.ui.chat.ChatConnectionListener;
@@ -165,7 +165,7 @@ public class MainFragment extends Fragment
     }
 
     @Subscribe
-    public void onResetCircleUnreadEvent(ResetCircleUnreadEvent event) {
+    public void onResetDiscoveryUnreadEvent(ResetDiscoveryUnreadEvent event) {
         indicator.getUnreadImage(MainTabPageIndicator.TAB_DISCOVERY)
                 .setVisibility(View.INVISIBLE);
     }
