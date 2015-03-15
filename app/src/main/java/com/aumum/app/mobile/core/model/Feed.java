@@ -10,6 +10,7 @@ public class Feed extends AggregateRoot {
     private String screenName;
     private String avatarUrl;
     private String uri;
+    private String description;
 
     public String getScreenName() {
         return screenName;
@@ -21,5 +22,9 @@ public class Feed extends AggregateRoot {
 
     public String getUri() {
         return uri;
+    }
+
+    public String getDescription() {
+        return description;
     }
 }

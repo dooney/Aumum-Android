@@ -24,5 +24,8 @@ public class FeedCard {
 
         TextView screenNameText = (TextView) view.findViewById(R.id.text_screen_name);
         screenNameText.setText(feed.getScreenName());
+
+        TextView descriptionText = (TextView) view.findViewById(R.id.text_description);
+        descriptionText.setText(feed.getDescription());
     }
 }
