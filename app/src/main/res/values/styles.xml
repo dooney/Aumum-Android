@@ -339,6 +339,9 @@
         <item name="android:hint">@string/hint_party_request_info</item>
     </style>
 
+    <!-- Feed -->
+    <style name="TextView.Feed.ScreenName" parent="TextView.Title" />
+
     <!-- Feed Item -->
     <style name="TextView.FeedItem.Text" parent="TextView">
         <item name="android:lineSpacingMultiplier">1.1</item>

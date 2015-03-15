@@ -1,5 +1,6 @@
 package com.aumum.app.mobile.ui.feed;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -21,7 +22,7 @@ import it.gmariotti.cardslib.library.internal.Card;
 import it.gmariotti.cardslib.library.internal.CardArrayAdapter;
 
 /**
- * Created by Administrator on 14/03/2015.
+ * Created by Administrator on 15/03/2015.
  */
 public class FeedFragment extends ItemListFragment<Card> {
 
@@ -34,7 +35,8 @@ public class FeedFragment extends ItemListFragment<Card> {
         super.onCreate(savedInstanceState);
         Injector.inject(this);
 
-        uri = "http://0.smyx.net/sinarss.php?uid=1820069143&item=20&v=1&type=1&key=jyEre5";
+        final Intent intent = getActivity().getIntent();
+        uri = intent.getStringExtra(FeedActivity.INTENT_URI);
     }
 
     @Override

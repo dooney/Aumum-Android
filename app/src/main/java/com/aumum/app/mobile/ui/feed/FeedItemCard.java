@@ -29,7 +29,7 @@ public class FeedItemCard extends Card {
     private FeedItem feedItem;
 
     public FeedItemCard(Activity activity, FeedItem feedItem) {
-        super(activity, R.layout.feed_listitem_inner);
+        super(activity, R.layout.feed_item_listitem_inner);
         this.activity = activity;
         this.feedItem = feedItem;
     }

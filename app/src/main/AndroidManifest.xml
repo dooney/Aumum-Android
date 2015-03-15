@@ -317,6 +317,7 @@
         <activity android:name=".ui.party.NewPartyRequestActivity"
             android:label="@string/title_activity_new_party_request">
         </activity>
+        <activity android:name=".ui.feed.FeedActivity" />
     </application>
 
 </manifest>

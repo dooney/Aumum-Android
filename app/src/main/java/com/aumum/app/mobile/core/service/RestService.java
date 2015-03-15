@@ -5,6 +5,7 @@ import com.aumum.app.mobile.core.model.Area;
 import com.aumum.app.mobile.core.model.Asking;
 import com.aumum.app.mobile.core.model.AskingReply;
 import com.aumum.app.mobile.core.model.CityGroup;
+import com.aumum.app.mobile.core.model.Feed;
 import com.aumum.app.mobile.core.model.Feedback;
 import com.aumum.app.mobile.core.model.Moment;
 import com.aumum.app.mobile.core.model.MomentComment;
@@ -124,6 +125,10 @@ public class RestService {
 
     private PartyRequestService getPartyRequestService() {
         return getRestAdapter().create(PartyRequestService.class);
+    }
+
+    private FeedService getFeedService() {
+        return getRestAdapter().create(FeedService.class);
     }
 
     private RestAdapter getRestAdapter() {
@@ -1361,5 +1366,9 @@ public class RestService {
         Gson gson = new Gson();
         JsonObject data = gson.toJsonTree(partyRequest).getAsJsonObject();
         return getPartyRequestService().newPartyRequest(data);
+    }
+
+    public List<Feed> getFeedList() {
+        return getFeedService().getList().getResults();
     }
 }
