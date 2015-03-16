@@ -52,6 +52,10 @@
         <item>1-3岁宝宝</item>
         <item>3-6岁宝宝</item>
     </string-array>
+    <string-array name="label_discovery_pages">
+        <item>频道</item>
+        <item>妈妈圈</item>
+    </string-array>
     <string-array name="label_asking_actions">
         <item>发表说说</item>
         <item>我的说说</item>
@@ -80,6 +84,7 @@
     </string-array>
     <string-array name="label_user_actions">
         <item>她的聚会</item>
+        <item>她的妈妈圈</item>
     </string-array>
     <string-array name="label_profile_actions">
         <item>我的设置</item>

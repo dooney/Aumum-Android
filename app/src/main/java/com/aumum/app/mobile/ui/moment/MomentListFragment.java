@@ -18,9 +18,11 @@ import com.aumum.app.mobile.core.dao.MomentStore;
 import com.aumum.app.mobile.core.dao.UserStore;
 import com.aumum.app.mobile.core.infra.security.ApiKeyProvider;
 import com.aumum.app.mobile.core.model.Moment;
+import com.aumum.app.mobile.events.ResetDiscoveryUnreadEvent;
 import com.aumum.app.mobile.ui.base.RefreshItemListFragment;
 import com.aumum.app.mobile.ui.view.ListViewDialog;
 import com.aumum.app.mobile.utils.Ln;
+import com.squareup.otto.Bus;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -42,6 +44,7 @@ public class MomentListFragment extends RefreshItemListFragment<Card>
     @Inject UserStore userStore;
     @Inject MomentStore momentStore;
     @Inject ApiKeyProvider apiKeyProvider;
+    @Inject Bus bus;
 
     private String currentUserId;
     protected List<Moment> dataSet = new ArrayList<Moment>();
@@ -95,6 +98,18 @@ public class MomentListFragment extends RefreshItemListFragment<Card>
     }
 
     @Override
+    public void onResume() {
+        super.onResume();
+        bus.register(this);
+    }
+
+    @Override
+    public void onPause() {
+        super.onDestroy();
+        bus.unregister(this);
+    }
+
+    @Override
     protected void getUpwardsList() throws Exception {
         String after = null;
         if (dataSet.size() > 0) {
@@ -105,6 +120,7 @@ public class MomentListFragment extends RefreshItemListFragment<Card>
         for(Moment moment: momentList) {
             dataSet.add(0, moment);
         }
+        bus.post(new ResetDiscoveryUnreadEvent());
     }
 
     @Override

@@ -16,6 +16,7 @@ import android.widget.TextView;
 
 import com.aumum.app.mobile.Injector;
 import com.aumum.app.mobile.R;
+import com.aumum.app.mobile.core.dao.MomentStore;
 import com.aumum.app.mobile.core.dao.PartyRequestStore;
 import com.aumum.app.mobile.core.dao.PartyStore;
 import com.aumum.app.mobile.core.infra.security.ApiKeyProvider;
@@ -55,6 +56,7 @@ public class MainFragment extends Fragment
 
     @Inject PartyStore partyStore;
     @Inject PartyRequestStore partyRequestStore;
+    @Inject MomentStore momentStore;
     @Inject NotificationService notificationService;
     @Inject ChatService chatService;
     @Inject ApiKeyProvider apiKeyProvider;
@@ -146,6 +148,16 @@ public class MainFragment extends Fragment
                         @Override
                         public void run() {
                             indicator.getUnreadImage(MainTabPageIndicator.TAB_PARTY)
+                                    .setVisibility(View.VISIBLE);
+                        }
+                    });
+                }
+                unreadCount = momentStore.getUnreadCount();
+                if (unreadCount > 0) {
+                    getActivity().runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            indicator.getUnreadImage(MainTabPageIndicator.TAB_DISCOVERY)
                                     .setVisibility(View.VISIBLE);
                         }
                     });

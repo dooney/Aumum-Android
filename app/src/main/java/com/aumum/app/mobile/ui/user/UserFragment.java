@@ -251,10 +251,10 @@ public class UserFragment extends LoaderFragment<User> {
                         startUserPartiesActivity(user);
                         break;
                     case 1:
-                        startUserAskingsActivity(user);
+                        startUserMomentsActivity(user);
                         break;
                     case 2:
-                        startUserMomentsActivity(user);
+                        startUserAskingsActivity(user);
                         break;
                     default:
                         break;
