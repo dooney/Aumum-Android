@@ -14,12 +14,14 @@ import com.aumum.app.mobile.core.dao.PartyRequestStore;
 import com.aumum.app.mobile.core.dao.UserStore;
 import com.aumum.app.mobile.core.model.PartyRequest;
 import com.aumum.app.mobile.core.model.User;
+import com.aumum.app.mobile.core.service.ChatService;
 import com.aumum.app.mobile.core.service.RestService;
 import com.aumum.app.mobile.events.ResetPartyRequestUnreadEvent;
 import com.aumum.app.mobile.ui.base.RefreshItemListFragment;
 import com.aumum.app.mobile.ui.view.ConfirmDialog;
 import com.aumum.app.mobile.ui.view.TextViewDialog;
 import com.aumum.app.mobile.utils.Ln;
+import com.aumum.app.mobile.utils.UMengUtils;
 import com.github.kevinsawicki.wishlist.Toaster;
 import com.squareup.otto.Bus;
 
@@ -37,15 +39,18 @@ import it.gmariotti.cardslib.library.internal.CardArrayAdapter;
  * Created by Administrator on 13/03/2015.
  */
 public class PartyRequestListFragment extends RefreshItemListFragment<Card>
-        implements PartyRequestDeleteListener {
+        implements PartyRequestDeleteListener, PartyRequestMessagingListener {
 
     @Inject UserStore userStore;
     @Inject PartyRequestStore partyRequestStore;
     @Inject RestService restService;
+    @Inject ChatService chatService;
     @Inject Bus bus;
 
     protected List<PartyRequest> dataSet = new ArrayList<>();
     private ViewGroup container;
+
+    private final String PARTY_REQUEST_EVENT_ID = "party_request_messaging";
 
     @Override
     public void onCreate(final Bundle savedInstanceState) {
@@ -122,7 +127,7 @@ public class PartyRequestListFragment extends RefreshItemListFragment<Card>
                 }
                 User currentUser = userStore.getCurrentUser();
                 Card card = new PartyRequestCard(getActivity(), partyRequest,
-                        currentUser.getObjectId(), this);
+                        currentUser.getObjectId(), this, this);
                 cards.add(card);
             }
         }
@@ -187,5 +192,12 @@ public class PartyRequestListFragment extends RefreshItemListFragment<Card>
         } catch (Exception e) {
             Ln.d(e);
         }
+    }
+
+    @Override
+    public void onMessaging(PartyRequest partyRequest) {
+        String text = partyRequest.getDetails();
+        chatService.sendSystemMessage(partyRequest.getUser().getChatId(), false, text, null);
+        UMengUtils.onEvent(getActivity(), PARTY_REQUEST_EVENT_ID);
     }
 }

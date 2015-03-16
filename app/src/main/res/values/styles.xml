@@ -133,6 +133,9 @@
         <item name="android:maxHeight">108dp</item>
         <item name="android:scaleType">fitStart</item>
     </style>
+    <style name="ImageView.Messaging" parent="ImageView">
+        <item name="android:src">@drawable/ic_fa_asking</item>
+    </style>
 
     <style name="TextView" parent="android:Widget.TextView">
         <item name="android:layout_width">wrap_content</item>
