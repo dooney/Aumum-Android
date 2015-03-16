@@ -13,6 +13,7 @@ import com.aumum.app.mobile.R;
 import com.aumum.app.mobile.core.model.Feed;
 import com.aumum.app.mobile.core.service.RestService;
 import com.aumum.app.mobile.ui.base.ItemListFragment;
+import com.aumum.app.mobile.utils.UMengUtils;
 
 import java.util.List;
 
@@ -46,6 +47,7 @@ public class FeedListFragment extends ItemListFragment<Feed> {
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 Feed feed = getData().get(i);
                 startFeedActivity(feed);
+                updateClickCount(feed.getSeq());
             }
         });
     }
@@ -65,5 +67,10 @@ public class FeedListFragment extends ItemListFragment<Feed> {
         intent.putExtra(FeedActivity.INTENT_TITLE, feed.getScreenName());
         intent.putExtra(FeedActivity.INTENT_URI, feed.getUri());
         startActivity(intent);
+    }
+
+    private void updateClickCount(int id) {
+        String eventId = "feed_seq_" + id;
+        UMengUtils.onEvent(getActivity(), eventId);
     }
 }

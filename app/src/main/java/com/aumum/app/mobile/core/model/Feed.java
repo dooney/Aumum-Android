@@ -12,6 +12,10 @@ public class Feed extends AggregateRoot {
     private String uri;
     private String description;
 
+    public int getSeq() {
+        return seq;
+    }
+
     public String getScreenName() {
         return screenName;
     }

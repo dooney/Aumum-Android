@@ -14,4 +14,8 @@ public class UMengUtils {
         MobclickAgent.openActivityDurationTrack(false);
         MobclickAgent.updateOnlineConfig(context);
     }
+
+    public static void onEvent(Context context, String eventId) {
+        MobclickAgent.onEvent(context, eventId);
+    }
 }
