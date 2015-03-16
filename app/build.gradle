@@ -46,8 +46,8 @@ android {
     defaultConfig {
         minSdkVersion 14
         targetSdkVersion 21
-        versionCode 322
-        versionName 'V3.2.2'
+        versionCode 400
+        versionName 'V4.0'
 
         // Enabling multidex support.
         multiDexEnabled true
