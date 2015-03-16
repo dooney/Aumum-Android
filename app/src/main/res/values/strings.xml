@@ -196,6 +196,8 @@
     <string name="info_empty_party_request_list">暂时还没有聚会需求，点此刷新</string>
     <string name="info_empty_activities">暂时还没有商家活动，点此刷新</string>
     <string name="info_submitting_party_request">正在提交您的请求，请稍候</string>
+    <string name="info_confirm_delete_party_request">您确定要删除该聚会需求？</string>
+    <string name="info_party_request_deleted">该聚会需求已成功删除</string>
 
     <!-- Error Message -->
     <string name="error_bad_credentials">验证失败，请输入正确的手机号码/密码</string>

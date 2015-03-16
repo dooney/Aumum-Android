@@ -1368,6 +1368,13 @@ public class RestService {
         return getPartyRequestService().newPartyRequest(data);
     }
 
+    public JsonObject deletePartyRequest(String partyRequestId) {
+        final JsonObject data = new JsonObject();
+        DateTime now = DateTime.now(DateTimeZone.UTC);
+        data.addProperty("deletedAt", now.toString(Constants.DateTime.FORMAT));
+        return getPartyRequestService().updateById(partyRequestId, data);
+    }
+
     public int getPartyRequestsCountAfter(String after) {
         final JsonObject whereJson = new JsonObject();
         if (after != null) {

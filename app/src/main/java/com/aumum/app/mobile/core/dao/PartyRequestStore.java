@@ -106,4 +106,8 @@ public class PartyRequestStore {
         }
         return null;
     }
+
+    public void deletePartyRequest(String partyRequestId) {
+        partyRequestEntityDao.deleteByKey(partyRequestId);
+    }
 }

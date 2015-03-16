@@ -3,6 +3,7 @@ package com.aumum.app.mobile.ui.party;
 import android.app.Activity;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.aumum.app.mobile.R;
@@ -18,10 +19,21 @@ import it.gmariotti.cardslib.library.internal.Card;
 public class PartyRequestCard extends Card {
 
     private PartyRequest partyRequest;
+    private String currentUserId;
+    private PartyRequestDeleteListener partyRequestDeleteListener;
 
-    public PartyRequestCard(Activity activity, PartyRequest partyRequest) {
+    public PartyRequest getPartyRequest() {
+        return partyRequest;
+    }
+
+    public PartyRequestCard(Activity activity,
+                            PartyRequest partyRequest,
+                            String currentUserId,
+                            PartyRequestDeleteListener partyRequestDeleteListener) {
         super(activity, R.layout.party_request_listitem_inner);
         this.partyRequest = partyRequest;
+        this.currentUserId = currentUserId;
+        this.partyRequestDeleteListener = partyRequestDeleteListener;
     }
 
     @Override
@@ -41,6 +53,21 @@ public class PartyRequestCard extends Card {
 
         TextView createdAtText = (TextView) view.findViewById(R.id.text_createdAt);
         createdAtText.setText(partyRequest.getCreatedAtFormatted());
+
+        ImageView deleteImage = (ImageView) view.findViewById(R.id.image_delete);
+        if (partyRequest.isOwner(currentUserId)) {
+            deleteImage.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if (partyRequestDeleteListener != null) {
+                        partyRequestDeleteListener.onDelete(partyRequest);
+                    }
+                }
+            });
+            deleteImage.setVisibility(View.VISIBLE);
+        } else {
+            deleteImage.setVisibility(View.GONE);
+        }
 
         TextView detailsText = (TextView) view.findViewById(R.id.text_details);
         detailsText.setText(partyRequest.getDetails());

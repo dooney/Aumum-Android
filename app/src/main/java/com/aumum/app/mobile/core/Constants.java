@@ -181,6 +181,11 @@ public final class Constants {
         public static final String URL_PARTY_REQUESTS_FRAG = "/1/classes/PartyRequests";
 
         /**
+         * Party Request By Id URL
+         */
+        public static final String URL_PARTY_REQUEST_BY_ID_FRAG = "/1/classes/PartyRequests/{id}";
+
+        /**
          * List Feed URL
          */
         public static final String URL_FEEDS_FRAG = "/1/classes/Feeds";

@@ -1,5 +1,6 @@
 package com.aumum.app.mobile.ui.party;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,12 +13,19 @@ import com.aumum.app.mobile.core.Constants;
 import com.aumum.app.mobile.core.dao.PartyRequestStore;
 import com.aumum.app.mobile.core.dao.UserStore;
 import com.aumum.app.mobile.core.model.PartyRequest;
+import com.aumum.app.mobile.core.model.User;
+import com.aumum.app.mobile.core.service.RestService;
 import com.aumum.app.mobile.events.ResetPartyRequestUnreadEvent;
 import com.aumum.app.mobile.ui.base.RefreshItemListFragment;
+import com.aumum.app.mobile.ui.view.ConfirmDialog;
+import com.aumum.app.mobile.ui.view.TextViewDialog;
+import com.aumum.app.mobile.utils.Ln;
+import com.github.kevinsawicki.wishlist.Toaster;
 import com.squareup.otto.Bus;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Iterator;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -28,10 +36,12 @@ import it.gmariotti.cardslib.library.internal.CardArrayAdapter;
 /**
  * Created by Administrator on 13/03/2015.
  */
-public class PartyRequestListFragment extends RefreshItemListFragment<Card> {
+public class PartyRequestListFragment extends RefreshItemListFragment<Card>
+        implements PartyRequestDeleteListener {
 
     @Inject UserStore userStore;
     @Inject PartyRequestStore partyRequestStore;
+    @Inject RestService restService;
     @Inject Bus bus;
 
     protected List<PartyRequest> dataSet = new ArrayList<>();
@@ -110,7 +120,9 @@ public class PartyRequestListFragment extends RefreshItemListFragment<Card> {
                 if (partyRequest.getUser() == null) {
                     partyRequest.setUser(userStore.getUserById(partyRequest.getUserId()));
                 }
-                Card card = new PartyRequestCard(getActivity(), partyRequest);
+                User currentUser = userStore.getCurrentUser();
+                Card card = new PartyRequestCard(getActivity(), partyRequest,
+                        currentUser.getObjectId(), this);
                 cards.add(card);
             }
         }
@@ -128,5 +140,52 @@ public class PartyRequestListFragment extends RefreshItemListFragment<Card> {
 
     private List<PartyRequest> onGetBackwardsList(String before) throws Exception {
         return partyRequestStore.getBackwardsList(before);
+    }
+
+    @Override
+    public void onDelete(final PartyRequest partyRequest) {
+        new TextViewDialog(getActivity(),
+                getString(R.string.info_confirm_delete_party_request),
+                new ConfirmDialog.OnConfirmListener() {
+                    @Override
+                    public void call(Object value) throws Exception {
+                        restService.deletePartyRequest(partyRequest.getObjectId());
+                        partyRequestStore.deletePartyRequest(partyRequest.getObjectId());
+                    }
+
+                    @Override
+                    public void onException(String errorMessage) {
+                        Toaster.showShort(getActivity(), errorMessage);
+                    }
+
+                    @Override
+                    public void onSuccess(Object value) {
+                        onPartyRequestDeletedSuccess(partyRequest.getObjectId());
+                    }
+                }).show();
+    }
+
+    private void onPartyRequestDeletedSuccess(String partyRequestId) {
+        try {
+            List<Card> cardList = getData();
+            for (Iterator<Card> it = cardList.iterator(); it.hasNext();) {
+                Card card = it.next();
+                PartyRequest partyRequest = ((PartyRequestCard) card).getPartyRequest();
+                if (partyRequest.getObjectId().equals(partyRequestId)) {
+                    dataSet.remove(partyRequest);
+                    it.remove();
+                    getActivity().runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            getListAdapter().notifyDataSetChanged();
+                        }
+                    });
+                    Toaster.showShort(getActivity(), R.string.info_party_request_deleted);
+                    return;
+                }
+            }
+        } catch (Exception e) {
+            Ln.d(e);
+        }
     }
 }

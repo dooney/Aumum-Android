@@ -81,4 +81,8 @@ public class PartyRequest extends AggregateRoot {
         details += type;
         return details;
     }
+
+    public boolean isOwner(String userId) {
+        return userId.equals(this.userId);
+    }
 }

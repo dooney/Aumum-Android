@@ -270,6 +270,9 @@
         <item name="android:gravity">center_vertical</item>
         <item name="android:orientation">horizontal</item>
     </style>
+    <style name="ImageView.Party.Delete" parent="ImageView">
+        <item name="android:src">@drawable/ic_fa_times_s</item>
+    </style>
     <style name="EditText.NewParty.Title" parent="EditText.Mandatory">
         <item name="android:hint">@string/hint_party_title</item>
     </style>
