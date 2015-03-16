@@ -39,7 +39,6 @@ import com.aumum.app.mobile.ui.chat.NotificationClickListener;
 import com.aumum.app.mobile.ui.chat.SendMessageListener;
 import com.aumum.app.mobile.ui.chat.TextMessageCard;
 import com.aumum.app.mobile.ui.chat.VoiceMessageCard;
-import com.aumum.app.mobile.ui.circle.CircleFragment;
 import com.aumum.app.mobile.ui.feed.FeedFragment;
 import com.aumum.app.mobile.ui.feed.FeedListFragment;
 import com.aumum.app.mobile.ui.moment.MomentCommentCard;
@@ -195,7 +194,6 @@ import retrofit.converter.GsonConverter;
                 MomentCommentCard.class,
                 MomentCommentLikeListener.class,
                 UserMomentsFragment.class,
-                CircleFragment.class,
                 SpecialFragment.class,
                 SpecialProductsFragment.class,
                 SpecialProductLikeListener.class,
