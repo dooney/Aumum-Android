@@ -79,6 +79,14 @@ public abstract class RefreshItemListFragment<E> extends ItemListFragment<E> {
                 });
 
         super.onViewCreated(view, savedInstanceState);
+        if (emptyText != null) {
+            emptyText.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    reload();
+                }
+            });
+        }
     }
 
     @Override
