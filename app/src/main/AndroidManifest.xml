@@ -317,7 +317,8 @@
         <activity android:name=".ui.party.NewPartyRequestActivity"
             android:label="@string/title_activity_new_party_request">
         </activity>
-        <activity android:name=".ui.feed.FeedActivity" />
+        <activity android:name=".ui.feed.channel.ChannelActivity" />
+        <activity android:name=".ui.feed.article.ArticleActivity" />
         <activity android:name=".ui.image.GifViewActivity" />
         <activity android:name=".ui.image.ImageViewPagerActivity" />
     </application>

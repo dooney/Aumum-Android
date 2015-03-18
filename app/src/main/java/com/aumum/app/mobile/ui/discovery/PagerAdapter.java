@@ -6,7 +6,8 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
 import com.aumum.app.mobile.R;
-import com.aumum.app.mobile.ui.feed.FeedListFragment;
+import com.aumum.app.mobile.ui.feed.article.ArticleListFragment;
+import com.aumum.app.mobile.ui.feed.channel.ChannelListFragment;
 import com.aumum.app.mobile.ui.moment.MomentListFragment;
 
 import java.util.ArrayList;
@@ -29,7 +30,8 @@ public class PagerAdapter extends FragmentPagerAdapter {
         super(fragmentManager);
         pages = resources.getStringArray(R.array.label_discovery_pages);
         fragments = new ArrayList<Fragment>();
-        fragments.add(new FeedListFragment());
+        fragments.add(new ChannelListFragment());
+        fragments.add(new ArticleListFragment());
         fragments.add(new MomentListFragment());
     }
 

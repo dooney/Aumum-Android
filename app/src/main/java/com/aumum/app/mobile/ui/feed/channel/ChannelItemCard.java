@@ -1,4 +1,4 @@
-package com.aumum.app.mobile.ui.feed;
+package com.aumum.app.mobile.ui.feed.channel;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -10,7 +10,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.aumum.app.mobile.R;
-import com.aumum.app.mobile.core.model.FeedItem;
+import com.aumum.app.mobile.core.model.ChannelItem;
 import com.aumum.app.mobile.ui.image.CustomGallery;
 import com.aumum.app.mobile.ui.image.GalleryAdapter;
 import com.aumum.app.mobile.ui.image.GifViewActivity;
@@ -26,15 +26,15 @@ import it.gmariotti.cardslib.library.internal.Card;
 /**
  * Created by Administrator on 14/03/2015.
  */
-public class FeedItemCard extends Card {
+public class ChannelItemCard extends Card {
 
     private Activity activity;
-    private FeedItem feedItem;
+    private ChannelItem channelItem;
 
-    public FeedItemCard(Activity activity, FeedItem feedItem) {
-        super(activity, R.layout.feed_item_listitem_inner);
+    public ChannelItemCard(Activity activity, ChannelItem channelItem) {
+        super(activity, R.layout.channel_item_listitem_inner);
         this.activity = activity;
-        this.feedItem = feedItem;
+        this.channelItem = channelItem;
     }
 
     @Override
@@ -42,8 +42,8 @@ public class FeedItemCard extends Card {
         super.setupInnerViewElements(parent, view);
 
         SpannableTextView contentText = (SpannableTextView) view.findViewById(R.id.text_content);
-        if (feedItem.getText() != null) {
-            contentText.setSpannableText(feedItem.getText());
+        if (channelItem.getText() != null) {
+            contentText.setSpannableText(channelItem.getText());
             contentText.setVisibility(View.VISIBLE);
         } else {
             contentText.setVisibility(View.GONE);
@@ -67,7 +67,7 @@ public class FeedItemCard extends Card {
             }
         });
         ArrayList<CustomGallery> list = new ArrayList<CustomGallery>();
-        for (String imageUrl: feedItem.getImages()) {
+        for (String imageUrl: channelItem.getImages()) {
             CustomGallery item = new CustomGallery();
             item.type = CustomGallery.HTTP;
             item.imageUri = imageUrl;
@@ -82,7 +82,7 @@ public class FeedItemCard extends Card {
             } else {
                 TextView gifText = (TextView) view.findViewById(R.id.text_gif);
                 gifText.setVisibility(View.GONE);
-                String imageUrl = feedItem.getImages().get(0);
+                String imageUrl = channelItem.getImages().get(0);
                 if (imageUrl.endsWith(".gif")) {
                     gifText.setVisibility(View.VISIBLE);
                 }
@@ -93,15 +93,15 @@ public class FeedItemCard extends Card {
     }
 
     private void clickImageByIndex(int index) {
-        String imageUrl = feedItem.getImages().get(index);
+        String imageUrl = channelItem.getImages().get(index);
         if (imageUrl.endsWith(".gif")) {
             final Intent intent = new Intent(activity, GifViewActivity.class);
             intent.putExtra(GifViewActivity.INTENT_IMAGE_URI, imageUrl);
             activity.startActivity(intent);
-        } else if (feedItem.getImages().size() > 1) {
+        } else if (channelItem.getImages().size() > 1) {
             final Intent intent = new Intent(activity, ImageViewPagerActivity.class);
             intent.putExtra(ImageViewPagerActivity.INTENT_CURRENT_INDEX, index);
-            intent.putStringArrayListExtra(ImageViewPagerActivity.INTENT_IMAGES, feedItem.getImages());
+            intent.putStringArrayListExtra(ImageViewPagerActivity.INTENT_IMAGES, channelItem.getImages());
             activity.startActivity(intent);
         } else {
             final Intent intent = new Intent(activity, ImageViewActivity.class);

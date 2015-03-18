@@ -3,9 +3,10 @@ package com.aumum.app.mobile;
 import android.accounts.AccountManager;
 import android.content.Context;
 
+import com.aumum.app.mobile.core.dao.ArticleItemStore;
 import com.aumum.app.mobile.core.dao.AskingReplyStore;
 import com.aumum.app.mobile.core.dao.AskingStore;
-import com.aumum.app.mobile.core.dao.FeedItemStore;
+import com.aumum.app.mobile.core.dao.ChannelItemStore;
 import com.aumum.app.mobile.core.dao.MomentCommentStore;
 import com.aumum.app.mobile.core.dao.MomentStore;
 import com.aumum.app.mobile.core.dao.PartyReasonStore;
@@ -39,8 +40,10 @@ import com.aumum.app.mobile.ui.chat.NotificationClickListener;
 import com.aumum.app.mobile.ui.chat.SendMessageListener;
 import com.aumum.app.mobile.ui.chat.TextMessageCard;
 import com.aumum.app.mobile.ui.chat.VoiceMessageCard;
-import com.aumum.app.mobile.ui.feed.FeedFragment;
-import com.aumum.app.mobile.ui.feed.FeedListFragment;
+import com.aumum.app.mobile.ui.feed.article.ArticleFragment;
+import com.aumum.app.mobile.ui.feed.channel.ChannelFragment;
+import com.aumum.app.mobile.ui.feed.article.ArticleListFragment;
+import com.aumum.app.mobile.ui.feed.channel.ChannelListFragment;
 import com.aumum.app.mobile.ui.moment.MomentCommentCard;
 import com.aumum.app.mobile.ui.moment.MomentCommentLikeListener;
 import com.aumum.app.mobile.ui.moment.MomentCommentsFragment;
@@ -201,8 +204,10 @@ import retrofit.converter.GsonConverter;
                 FavoriteProductsFragment.class,
                 PartyRequestListFragment.class,
                 NewPartyRequestActivity.class,
-                FeedListFragment.class,
-                FeedFragment.class
+                ChannelListFragment.class,
+                ChannelFragment.class,
+                ArticleListFragment.class,
+                ArticleFragment.class
         }
 )
 public class BootstrapModule {
@@ -306,8 +311,14 @@ public class BootstrapModule {
 
     @Provides
     @Singleton
-    FeedItemStore provideFeedItemStoreStore(RSSReader rssReader) {
-        return new FeedItemStore(rssReader);
+    ChannelItemStore provideChannelItemStore(RSSReader rssReader) {
+        return new ChannelItemStore(rssReader);
+    }
+
+    @Provides
+    @Singleton
+    ArticleItemStore provideArticleItemStore() {
+        return new ArticleItemStore();
     }
 
     @Provides

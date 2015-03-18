@@ -1,6 +1,5 @@
 package com.aumum.app.mobile.ui.feed;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -22,9 +21,13 @@ import javax.inject.Inject;
 /**
  * Created by Administrator on 14/03/2015.
  */
-public class FeedListFragment extends ItemListFragment<Feed> {
+public abstract class FeedListFragment extends ItemListFragment<Feed> {
 
     @Inject RestService restService;
+
+    protected int type;
+    protected final int TYPE_CHANNEL = 1;
+    protected final int TYPE_ARTICLE = 2;
 
     @Override
     public void onCreate(final Bundle savedInstanceState) {
@@ -59,18 +62,13 @@ public class FeedListFragment extends ItemListFragment<Feed> {
 
     @Override
     protected List<Feed> loadDataCore(Bundle bundle) throws Exception {
-        return restService.getFeedList();
-    }
-
-    private void startFeedActivity(Feed feed) {
-        final Intent intent = new Intent(getActivity(), FeedActivity.class);
-        intent.putExtra(FeedActivity.INTENT_TITLE, feed.getScreenName());
-        intent.putExtra(FeedActivity.INTENT_URI, feed.getUri());
-        startActivity(intent);
+        return restService.getFeedList(type);
     }
 
     private void updateClickCount(int id) {
         String eventId = "feed_seq_" + id;
         UMengUtils.onEvent(getActivity(), eventId);
     }
+
+    protected abstract void startFeedActivity(Feed feed);
 }

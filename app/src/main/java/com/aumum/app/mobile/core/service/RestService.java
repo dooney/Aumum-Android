@@ -1388,8 +1388,9 @@ public class RestService {
         return result.get("count").getAsInt();
     }
 
-    public List<Feed> getFeedList() {
+    public List<Feed> getFeedList(int type) {
         final JsonObject whereJson = new JsonObject();
+        whereJson.addProperty("type", type);
         final JsonObject liveJson = new JsonObject();
         liveJson.addProperty("$exists", false);
         whereJson.add("deletedAt" ,liveJson);

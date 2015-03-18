@@ -6,12 +6,12 @@ import java.util.List;
 /**
  * Created by Administrator on 14/03/2015.
  */
-public class FeedItem {
+public class ChannelItem {
 
     private String text;
     private ArrayList<String> images = new ArrayList<>();
 
-    public FeedItem(String text, List<String> images) {
+    public ChannelItem(String text, List<String> images) {
         this.text = text;
         if (images != null) {
             this.images.clear();

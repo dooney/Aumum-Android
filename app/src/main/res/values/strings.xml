@@ -54,6 +54,7 @@
     </string-array>
     <string-array name="label_discovery_pages">
         <item>频道</item>
+        <item>干货</item>
         <item>妈妈圈</item>
     </string-array>
     <string-array name="label_asking_actions">

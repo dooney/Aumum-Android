@@ -1,4 +1,4 @@
-package com.aumum.app.mobile.ui.feed;
+package com.aumum.app.mobile.ui.feed.channel;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -9,8 +9,8 @@ import android.widget.ArrayAdapter;
 
 import com.aumum.app.mobile.Injector;
 import com.aumum.app.mobile.R;
-import com.aumum.app.mobile.core.dao.FeedItemStore;
-import com.aumum.app.mobile.core.model.FeedItem;
+import com.aumum.app.mobile.core.dao.ChannelItemStore;
+import com.aumum.app.mobile.core.model.ChannelItem;
 import com.aumum.app.mobile.ui.base.ItemListFragment;
 
 import java.util.ArrayList;
@@ -24,9 +24,10 @@ import it.gmariotti.cardslib.library.internal.CardArrayAdapter;
 /**
  * Created by Administrator on 15/03/2015.
  */
-public class FeedFragment extends ItemListFragment<Card> {
+public class ChannelFragment extends ItemListFragment<Card> {
 
-    @Inject FeedItemStore feedItemStore;
+    @Inject
+    ChannelItemStore channelItemStore;
 
     private String uri;
 
@@ -36,13 +37,13 @@ public class FeedFragment extends ItemListFragment<Card> {
         Injector.inject(this);
 
         final Intent intent = getActivity().getIntent();
-        uri = intent.getStringExtra(FeedActivity.INTENT_URI);
+        uri = intent.getStringExtra(ChannelActivity.INTENT_URI);
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_feed, null);
+        return inflater.inflate(R.layout.fragment_channel, null);
     }
 
     @Override
@@ -52,10 +53,10 @@ public class FeedFragment extends ItemListFragment<Card> {
 
     @Override
     protected List<Card> loadDataCore(Bundle bundle) throws Exception {
-        List<FeedItem> feedItems = feedItemStore.getUpwardsList(uri);
+        List<ChannelItem> channelItems = channelItemStore.getUpwardsList(uri);
         List<Card> cards = new ArrayList<Card>();
-        for (FeedItem item : feedItems) {
-            Card card = new FeedItemCard(getActivity(), item);
+        for (ChannelItem item : channelItems) {
+            Card card = new ChannelItemCard(getActivity(), item);
             cards.add(card);
         }
         return cards;
