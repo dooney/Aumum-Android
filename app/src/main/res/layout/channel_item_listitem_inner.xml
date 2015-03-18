@@ -14,30 +14,9 @@
         style="@style/TextView.FeedItem.Text"
         android:paddingBottom="@dimen/margin_medium"/>
 
-    <com.aumum.app.mobile.ui.view.ScaleGridView
-        android:id="@+id/grid_gallery"
-        android:layout_width="274dp"
-        android:layout_height="wrap_content"
-        android:paddingBottom="@dimen/margin_medium"
-        android:numColumns="3" >
-    </com.aumum.app.mobile.ui.view.ScaleGridView>
-
-    <RelativeLayout
-        android:id="@+id/layout_single_image"
+    <include
+        layout="@layout/card_include_image_box"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:paddingBottom="@dimen/margin_medium">
-
-        <ImageView
-            android:id="@+id/image_gallery"
-            style="@style/ImageView.SingleGallery"
-            android:src="@drawable/image_placeholder"/>
-
-        <TextView
-            android:id="@+id/text_gif"
-            style="@style/TextView.Gif"
-            android:layout_alignParentBottom="true"/>
-
-    </RelativeLayout>
+        android:layout_height="wrap_content" />
 
 </LinearLayout>

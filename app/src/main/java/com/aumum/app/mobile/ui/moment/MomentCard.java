@@ -1,35 +1,23 @@
 package com.aumum.app.mobile.ui.moment;
 
 import android.app.Activity;
-import android.content.Intent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.GridView;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.aumum.app.mobile.R;
 import com.aumum.app.mobile.core.model.Moment;
-import com.aumum.app.mobile.ui.image.CustomGallery;
-import com.aumum.app.mobile.ui.image.GalleryAdapter;
-import com.aumum.app.mobile.ui.image.ImageViewActivity;
+import com.aumum.app.mobile.ui.image.ImageCard;
 import com.aumum.app.mobile.ui.user.UserListener;
 import com.aumum.app.mobile.ui.view.AvatarImageView;
 import com.aumum.app.mobile.ui.view.LikeTextView;
 import com.aumum.app.mobile.ui.view.SpannableTextView;
-import com.aumum.app.mobile.utils.ImageLoaderUtils;
-
-import java.util.ArrayList;
-
-import it.gmariotti.cardslib.library.internal.Card;
 
 /**
  * Created by Administrator on 2/03/2015.
  */
-public class MomentCard extends Card {
+public class MomentCard extends ImageCard {
 
-    private Activity activity;
     private Moment moment;
     private String currentUserId;
     private MomentLikeListener likeListener;
@@ -37,8 +25,7 @@ public class MomentCard extends Card {
 
     public MomentCard(Activity activity, Moment moment, String currentUserId,
                       MomentCommentClickListener momentCommentClickListener) {
-        super(activity, R.layout.moment_listitem_inner);
-        this.activity = activity;
+        super(activity, R.layout.moment_listitem_inner, moment.getImages());
         this.moment = moment;
         this.currentUserId = currentUserId;
         likeListener = new MomentLikeListener(moment);
@@ -74,44 +61,6 @@ public class MomentCard extends Card {
             detailsText.setVisibility(View.GONE);
         }
 
-        GalleryAdapter adapter = new GalleryAdapter(activity, R.layout.image_collection_listitem_inner);
-        GridView gridGallery = (GridView) view.findViewById(R.id.grid_gallery);
-        gridGallery.setAdapter(adapter);
-        gridGallery.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
-                String imageUrl = moment.getImages().get(position);
-                final Intent intent = new Intent(activity, ImageViewActivity.class);
-                intent.putExtra(ImageViewActivity.INTENT_IMAGE_URI, imageUrl);
-                activity.startActivity(intent);
-            }
-        });
-        ImageView imageGallery = (ImageView) view.findViewById(R.id.image_gallery);
-        imageGallery.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                clickImageByIndex(0);
-            }
-        });
-        ArrayList<CustomGallery> list = new ArrayList<CustomGallery>();
-        for (String imageUrl: moment.getImages()) {
-            CustomGallery item = new CustomGallery();
-            item.type = CustomGallery.HTTP;
-            item.imageUri = imageUrl;
-            list.add(item);
-        }
-        gridGallery.setVisibility(View.GONE);
-        imageGallery.setVisibility(View.GONE);
-        if (list.size() > 0) {
-            if (list.size() > 1) {
-                adapter.addAll(list);
-                gridGallery.setVisibility(View.VISIBLE);
-            } else {
-                ImageLoaderUtils.displayImage(list.get(0).getUri(), imageGallery);
-                imageGallery.setVisibility(View.VISIBLE);
-            }
-        }
-
         TextView commentText = (TextView) view.findViewById(R.id.text_comment);
         int comments = moment.getCommentsCount();
         commentText.setText(comments > 0 ? String.valueOf(comments) : view.getResources().getString(R.string.label_comment));
@@ -130,12 +79,5 @@ public class MomentCard extends Card {
         likeText.setLikedResId(R.drawable.ic_fa_thumbs_up);
         likeText.init(moment.getLikesCount(), moment.isLiked(currentUserId));
         likeText.setLikeListener(likeListener);
-    }
-
-    private void clickImageByIndex(int index) {
-        String imageUrl = moment.getImages().get(index);
-        final Intent intent = new Intent(activity, ImageViewActivity.class);
-        intent.putExtra(ImageViewActivity.INTENT_IMAGE_URI, imageUrl);
-        activity.startActivity(intent);
     }
 }
