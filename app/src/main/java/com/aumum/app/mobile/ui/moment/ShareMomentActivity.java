@@ -1,15 +1,12 @@
 package com.aumum.app.mobile.ui.moment;
 
-import android.app.Activity;
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
@@ -18,24 +15,19 @@ import android.widget.ScrollView;
 
 import com.aumum.app.mobile.Injector;
 import com.aumum.app.mobile.R;
-import com.aumum.app.mobile.core.Constants;
 import com.aumum.app.mobile.core.dao.UserStore;
 import com.aumum.app.mobile.core.model.CmdMessage;
 import com.aumum.app.mobile.core.model.Moment;
 import com.aumum.app.mobile.core.model.User;
 import com.aumum.app.mobile.core.service.ChatService;
-import com.aumum.app.mobile.core.service.FileUploadService;
 import com.aumum.app.mobile.core.service.RestService;
 import com.aumum.app.mobile.ui.base.ProgressDialogActivity;
 import com.aumum.app.mobile.ui.helper.TextWatcherAdapter;
 import com.aumum.app.mobile.ui.image.CustomGallery;
 import com.aumum.app.mobile.ui.image.GalleryAdapter;
-import com.aumum.app.mobile.ui.image.ImagePickerActivity;
 import com.aumum.app.mobile.ui.image.ImageViewActivity;
 import com.aumum.app.mobile.ui.view.Animation;
 import com.aumum.app.mobile.utils.EditTextUtils;
-import com.aumum.app.mobile.utils.ImageLoaderUtils;
-import com.aumum.app.mobile.utils.ImageUtils;
 import com.aumum.app.mobile.utils.SafeAsyncTask;
 import com.github.kevinsawicki.wishlist.Toaster;
 
@@ -48,30 +40,28 @@ import butterknife.InjectView;
 import retrofit.RetrofitError;
 
 /**
- * Created by Administrator on 2/03/2015.
+ * Created by Administrator on 18/03/2015.
  */
-public class NewMomentActivity extends ProgressDialogActivity
-        implements FileUploadService.OnFileUploadListener {
+public class ShareMomentActivity extends ProgressDialogActivity {
 
     @Inject UserStore userStore;
     @Inject RestService restService;
-    @Inject FileUploadService fileUploadService;
     @Inject ChatService chatService;
 
     private SafeAsyncTask<Boolean> task;
     private GalleryAdapter adapter;
-    private String imagePathList[];
     private ArrayList<String> imageUrlList;
 
     private Button submitButton;
     @InjectView(R.id.v_scroll) protected ScrollView scrollView;
     @InjectView(R.id.et_details) protected EditText detailsText;
     @InjectView(R.id.layout_add_more) protected View addMoreLayout;
-    @InjectView(R.id.layout_type_selection) protected ViewGroup typeSelectionLayout;
-    @InjectView(R.id.layout_image) protected ViewGroup imageLayout;
     @InjectView(R.id.grid_gallery) protected GridView gridGallery;
 
     private final TextWatcher watcher = validationTextWatcher();
+
+    public static final String INTENT_MOMENT_TEXT = "text";
+    public static final String INTENT_MOMENT_IMAGES = "images";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -80,39 +70,39 @@ public class NewMomentActivity extends ProgressDialogActivity
         setContentView(R.layout.activity_new_moment);
         ButterKnife.inject(this);
 
-        imageUrlList = new ArrayList<String>();
-        fileUploadService.setOnFileUploadListener(this);
+        final Intent intent = getIntent();
 
         progress.setMessageId(R.string.info_submitting_moment);
 
         scrollView.setHorizontalScrollBarEnabled(false);
         scrollView.setVerticalScrollBarEnabled(false);
+
+        String text = intent.getStringExtra(INTENT_MOMENT_TEXT);
         detailsText.addTextChangedListener(watcher);
-        addMoreLayout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                toggleTypeSelectionLayout();
-            }
-        });
-        imageLayout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                final Intent intent = new Intent(NewMomentActivity.this, ImagePickerActivity.class);
-                intent.putExtra(ImagePickerActivity.INTENT_ACTION, ImagePickerActivity.ACTION_MULTIPLE_PICK);
-                startActivityForResult(intent, Constants.RequestCode.IMAGE_PICKER_REQ_CODE);
-            }
-        });
+        detailsText.setText(text);
+
+        addMoreLayout.setVisibility(View.GONE);
+
         adapter = new GalleryAdapter(this, R.layout.image_collection_listitem_inner);
         gridGallery.setAdapter(adapter);
         gridGallery.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
                 String imageUrl = adapter.getItem(position).getUri();
-                final Intent intent = new Intent(NewMomentActivity.this, ImageViewActivity.class);
+                final Intent intent = new Intent(ShareMomentActivity.this, ImageViewActivity.class);
                 intent.putExtra(ImageViewActivity.INTENT_IMAGE_URI, imageUrl);
                 startActivity(intent);
             }
         });
+        imageUrlList = intent.getStringArrayListExtra(INTENT_MOMENT_IMAGES);
+        ArrayList<CustomGallery> list = new ArrayList<CustomGallery>();
+        for (String url : imageUrlList) {
+            CustomGallery item = new CustomGallery();
+            item.type = CustomGallery.HTTP;
+            item.imageUri = url;
+            list.add(item);
+        }
+        adapter.addAll(list);
 
         Animation.flyIn(this);
     }
@@ -132,28 +122,6 @@ public class NewMomentActivity extends ProgressDialogActivity
         });
         updateUIWithValidation();
         return true;
-    }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-
-        if (requestCode == Constants.RequestCode.IMAGE_PICKER_REQ_CODE) {
-            toggleTypeSelectionLayout();
-            if (resultCode == Activity.RESULT_OK) {
-                imagePathList = data.getStringArrayExtra(ImagePickerActivity.INTENT_ALL_PATH);
-                if (imagePathList != null) {
-                    ArrayList<CustomGallery> list = new ArrayList<CustomGallery>();
-                    for (String path : imagePathList) {
-                        CustomGallery item = new CustomGallery();
-                        item.type = CustomGallery.FILE;
-                        item.imageUri = path;
-                        list.add(item);
-                    }
-                    adapter.addAll(list);
-                }
-            }
-        }
     }
 
     private TextWatcher validationTextWatcher() {
@@ -179,42 +147,6 @@ public class NewMomentActivity extends ProgressDialogActivity
         EditTextUtils.hideSoftInput(detailsText);
         showProgress();
 
-        imageUrlList.clear();
-        if (imagePathList != null) {
-            for (String path : imagePathList) {
-                uploadImage(path);
-            }
-        } else {
-            submitNewMoment();
-        }
-    }
-
-    private void uploadImage(final String imagePath) {
-        new SafeAsyncTask<Boolean>() {
-            public Boolean call() throws Exception {
-                Bitmap bitmap = ImageLoaderUtils.loadImage("file://" + imagePath);
-                if (bitmap == null) {
-                    throw new Exception(getString(R.string.error_invalid_image_file, imagePath));
-                }
-                byte data[] = ImageUtils.getBytesBitmap(bitmap);
-                fileUploadService.upload(imagePath, data);
-                return true;
-            }
-
-            @Override
-            protected void onException(final Exception e) throws RuntimeException {
-                if(!(e instanceof RetrofitError)) {
-                    final Throwable cause = e.getCause() != null ? e.getCause() : e;
-                    if(cause != null) {
-                        Toaster.showShort(NewMomentActivity.this, cause.getMessage());
-                    }
-                }
-                hideProgress();
-            }
-        }.execute();
-    }
-
-    private void submitNewMoment() {
         if (task != null) {
             return;
         }
@@ -239,7 +171,7 @@ public class NewMomentActivity extends ProgressDialogActivity
                 if(!(e instanceof RetrofitError)) {
                     final Throwable cause = e.getCause() != null ? e.getCause() : e;
                     if(cause != null) {
-                        Toaster.showShort(NewMomentActivity.this, cause.getMessage());
+                        Toaster.showShort(ShareMomentActivity.this, cause.getMessage());
                     }
                 }
             }
@@ -257,31 +189,6 @@ public class NewMomentActivity extends ProgressDialogActivity
             }
         };
         task.execute();
-    }
-
-    private void toggleTypeSelectionLayout() {
-        if (typeSelectionLayout.getVisibility() == View.GONE) {
-            Animation.flyIn(typeSelectionLayout);
-        } else {
-            Animation.flyOut(typeSelectionLayout);
-        }
-    }
-
-    @Override
-    public void onUploadSuccess(String fileUrl) {
-        imageUrlList.add(fileUrl);
-        if (imageUrlList.size() == imagePathList.length) {
-            submitNewMoment();
-        }
-    }
-
-    @Override
-    public void onUploadFailure(Exception e) {
-        hideProgress();
-        final Throwable cause = e.getCause() != null ? e.getCause() : e;
-        if(cause != null) {
-            Toaster.showShort(NewMomentActivity.this, cause.getMessage());
-        }
     }
 
     private void notifyContacts(final User currentUser,

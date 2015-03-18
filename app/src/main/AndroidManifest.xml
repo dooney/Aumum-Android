@@ -321,6 +321,9 @@
         <activity android:name=".ui.feed.article.ArticleActivity" />
         <activity android:name=".ui.image.GifViewActivity" />
         <activity android:name=".ui.image.ImageViewPagerActivity" />
+        <activity android:name=".ui.moment.ShareMomentActivity"
+            android:label="@string/title_activity_share_moment">
+        </activity>
     </application>
 
 </manifest>
