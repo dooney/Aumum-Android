@@ -40,6 +40,7 @@ import com.aumum.app.mobile.ui.chat.NotificationClickListener;
 import com.aumum.app.mobile.ui.chat.SendMessageListener;
 import com.aumum.app.mobile.ui.chat.TextMessageCard;
 import com.aumum.app.mobile.ui.chat.VoiceMessageCard;
+import com.aumum.app.mobile.ui.discovery.DiscoveryFragment;
 import com.aumum.app.mobile.ui.feed.article.ArticleFragment;
 import com.aumum.app.mobile.ui.feed.channel.ChannelFragment;
 import com.aumum.app.mobile.ui.feed.article.ArticleListFragment;
@@ -204,6 +205,7 @@ import retrofit.converter.GsonConverter;
                 FavoriteProductsFragment.class,
                 PartyRequestListFragment.class,
                 NewPartyRequestActivity.class,
+                DiscoveryFragment.class,
                 ChannelListFragment.class,
                 ChannelFragment.class,
                 ArticleListFragment.class,

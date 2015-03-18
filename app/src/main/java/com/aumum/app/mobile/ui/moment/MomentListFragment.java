@@ -4,13 +4,9 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.ImageView;
 
 import com.aumum.app.mobile.Injector;
 import com.aumum.app.mobile.R;
@@ -19,10 +15,12 @@ import com.aumum.app.mobile.core.dao.UserStore;
 import com.aumum.app.mobile.core.infra.security.ApiKeyProvider;
 import com.aumum.app.mobile.core.model.Moment;
 import com.aumum.app.mobile.events.ResetDiscoveryUnreadEvent;
+import com.aumum.app.mobile.events.ShowMomentActionsEvent;
 import com.aumum.app.mobile.ui.base.RefreshItemListFragment;
 import com.aumum.app.mobile.ui.view.ListViewDialog;
 import com.aumum.app.mobile.utils.Ln;
 import com.squareup.otto.Bus;
+import com.squareup.otto.Subscribe;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -55,25 +53,9 @@ public class MomentListFragment extends RefreshItemListFragment<Card>
     @Override
     public void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setHasOptionsMenu(true);
         Injector.inject(this);
 
         currentUserId = apiKeyProvider.getAuthUserId();
-    }
-
-    @Override
-    public void onCreateOptionsMenu(final Menu menu, final MenuInflater inflater) {
-        MenuItem more = menu.add(Menu.NONE, 0, Menu.NONE, null);
-        more.setActionView(R.layout.menuitem_more);
-        more.setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
-        View moreView = more.getActionView();
-        ImageView moreIcon = (ImageView) moreView.findViewById(R.id.b_more);
-        moreIcon.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                showActionDialog();
-            }
-        });
     }
 
     @Override
@@ -267,5 +249,10 @@ public class MomentListFragment extends RefreshItemListFragment<Card>
     @Override
     public void OnClick(String momentId) {
         startMomentDetailsActivity(momentId);
+    }
+
+    @Subscribe
+    public void onShowMomentActionsEvent(ShowMomentActionsEvent event) {
+        showActionDialog();
     }
 }
