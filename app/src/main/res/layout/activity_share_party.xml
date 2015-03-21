@@ -1,0 +1,66 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.aumum.app.mobile.ui.party.NewPartyActivity">
+
+    <ScrollView
+        android:id="@+id/v_scroll"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true"
+        android:focusable="true"
+        android:focusableInTouchMode="true">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="@dimen/margin_large">
+
+            <EditText
+                android:id="@+id/et_title"
+                style="@style/EditText.NewParty.Title"
+                android:nextFocusDown="@+id/et_location_description"
+                android:imeOptions="actionNext"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <EditText
+                    android:id="@+id/et_date"
+                    style="@style/EditText.NewParty.Date"
+                    android:layout_weight="1"
+                    android:focusable="false"/>
+
+                <EditText
+                    android:id="@+id/et_time"
+                    style="@style/EditText.NewParty.Time"
+                    android:layout_weight="1"
+                    android:focusable="false"/>
+
+            </LinearLayout>
+
+            <EditText
+                android:id="@+id/et_address"
+                style="@style/EditText.NewParty.Address"
+                android:focusable="false"/>
+
+            <EditText
+                android:id="@+id/et_location_description"
+                style="@style/EditText.NewParty.LocationDescription"
+                android:nextFocusDown="@+id/et_details"
+                android:imeOptions="actionNext"/>
+
+            <EditText
+                android:id="@+id/et_details"
+                style="@style/EditText.NewParty.Details"
+                android:minHeight="120dp"
+                android:imeOptions="actionDone"/>
+
+        </LinearLayout>
+
+    </ScrollView>
+
+</RelativeLayout>

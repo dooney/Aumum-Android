@@ -63,4 +63,8 @@ public class Event {
     public String getDateTimeText() {
         return getDate().getDateText() + " " + getTime().getTimeText();
     }
+
+    public String getDetails() {
+        return getDescription() + " " + "查看详情" + getUrl();
+    }
 }

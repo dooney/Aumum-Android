@@ -325,6 +325,9 @@
             android:label="@string/title_activity_share_moment">
         </activity>
         <activity android:name=".ui.vendor.EventListActivity" />
+        <activity android:name=".ui.party.SharePartyActivity"
+            android:label="@string/title_activity_share_party">
+        </activity>
     </application>
 
 </manifest>

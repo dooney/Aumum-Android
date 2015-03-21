@@ -213,6 +213,7 @@
     <string name="info_confirm_delete_party_request">您确定要删除该聚会需求？</string>
     <string name="info_party_request_deleted">该聚会需求已成功删除</string>
     <string name="info_moment_shared">已成功分享到妈妈圈</string>
+    <string name="info_party_shared">已成功分享到聚会</string>
 
     <!-- Error Message -->
     <string name="error_bad_credentials">验证失败，请输入正确的手机号码/密码</string>
@@ -279,6 +280,7 @@
     <string name="title_activity_favorite_products">我的收藏</string>
     <string name="title_activity_new_party_request">求聚会</string>
     <string name="title_activity_share_moment">分享到妈妈圈</string>
+    <string name="title_activity_share_party">分享到聚会</string>
 
     <!-- Account -->
     <string name="hint_login_phone">手机号码</string>

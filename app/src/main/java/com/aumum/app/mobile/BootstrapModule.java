@@ -68,6 +68,7 @@ import com.aumum.app.mobile.ui.account.VerifyActivity;
 import com.aumum.app.mobile.ui.party.PartyCommentLikeListener;
 import com.aumum.app.mobile.ui.party.PartyFragment;
 import com.aumum.app.mobile.ui.party.PartyRequestListFragment;
+import com.aumum.app.mobile.ui.party.SharePartyActivity;
 import com.aumum.app.mobile.ui.report.ReportActivity;
 import com.aumum.app.mobile.ui.settings.FeedbackActivity;
 import com.aumum.app.mobile.ui.settings.NotificationActivity;
@@ -213,7 +214,8 @@ import retrofit.converter.GsonConverter;
                 ArticleListFragment.class,
                 ArticleFragment.class,
                 ShareMomentActivity.class,
-                EventCategoryListFragment.class
+                EventCategoryListFragment.class,
+                SharePartyActivity.class
         }
 )
 public class BootstrapModule {

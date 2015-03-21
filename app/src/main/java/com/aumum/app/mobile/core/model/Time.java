@@ -56,6 +56,11 @@ public class Time implements Serializable {
             h -= 12;
             prefix = "晚上";
         }
-        return prefix + h + "点" + getHeadingZeroString(minute);
+        String text = prefix + h + "点";
+        if (minute > 0) {
+            return text + getHeadingZeroString(minute);
+        } else {
+            return text + "整";
+        }
     }
 }
