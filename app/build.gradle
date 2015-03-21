@@ -37,6 +37,7 @@ dependencies {
     compile files('src/main/libs/android-rss.jar')
     compile 'org.jsoup:jsoup:1.8.1'
     compile 'pl.droidsonroids.gif:android-gif-drawable:1.1.+'
+    compile files('src/main/libs/httpclientandroidlib-1.2.0.jar')
 }
 
 android {

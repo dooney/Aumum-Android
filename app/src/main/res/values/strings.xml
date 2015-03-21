@@ -52,6 +52,10 @@
         <item>1-3岁宝宝</item>
         <item>3-6岁宝宝</item>
     </string-array>
+    <string-array name="label_event_actions">
+        <item>分享到妈妈圈</item>
+        <item>分享到第三方平台</item>
+    </string-array>
     <string-array name="label_discovery_pages">
         <item>图文资讯</item>
         <item>干货文章</item>
@@ -204,7 +208,7 @@
     <string name="info_deleting_moment">正在删除该妈妈圈记录，请稍候</string>
     <string name="info_moment_deleted">该妈妈圈记录已成功删除</string>
     <string name="info_empty_party_request_list">暂时还没有聚会需求，点此刷新</string>
-    <string name="info_empty_activities">暂时还没有商家活动，点此刷新</string>
+    <string name="info_empty_events">暂时还没有商家活动，点此刷新</string>
     <string name="info_submitting_party_request">正在提交您的请求，请稍候</string>
     <string name="info_confirm_delete_party_request">您确定要删除该聚会需求？</string>
     <string name="info_party_request_deleted">该聚会需求已成功删除</string>
@@ -405,6 +409,7 @@
     <string name="label_select_area">请选择区域范围</string>
     <string name="label_select_type">请选择聚会类型</string>
     <string name="label_select_sub_type">请选择聚会子类型</string>
+    <string name="label_more_details">活动详情</string>
 
     <!-- Like -->
     <string name="label_you_like">您已点赞</string>

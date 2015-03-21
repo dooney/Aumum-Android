@@ -5,6 +5,7 @@ import com.aumum.app.mobile.core.model.Area;
 import com.aumum.app.mobile.core.model.Asking;
 import com.aumum.app.mobile.core.model.AskingReply;
 import com.aumum.app.mobile.core.model.CityGroup;
+import com.aumum.app.mobile.core.model.EventCategory;
 import com.aumum.app.mobile.core.model.Feed;
 import com.aumum.app.mobile.core.model.Feedback;
 import com.aumum.app.mobile.core.model.Moment;
@@ -129,6 +130,10 @@ public class RestService {
 
     private FeedService getFeedService() {
         return getRestAdapter().create(FeedService.class);
+    }
+
+    private EventCategoryService getEventCategoryService() {
+        return getRestAdapter().create(EventCategoryService.class);
     }
 
     private RestAdapter getRestAdapter() {
@@ -1396,5 +1401,14 @@ public class RestService {
         whereJson.add("deletedAt" ,liveJson);
         String where = whereJson.toString();
         return getFeedService().getList("seq", where, Integer.MAX_VALUE).getResults();
+    }
+
+    public List<EventCategory> getEventCategoryList() {
+        final JsonObject whereJson = new JsonObject();
+        final JsonObject liveJson = new JsonObject();
+        liveJson.addProperty("$exists", false);
+        whereJson.add("deletedAt" ,liveJson);
+        String where = whereJson.toString();
+        return getEventCategoryService().getList("seq", where, Integer.MAX_VALUE).getResults();
     }
 }

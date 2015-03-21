@@ -99,6 +99,7 @@ import com.aumum.app.mobile.ui.settings.SettingsActivity;
 import com.aumum.app.mobile.ui.user.ProfileFragment;
 import com.aumum.app.mobile.ui.user.UserListFragment;
 import com.aumum.app.mobile.ui.user.UserTagListFragment;
+import com.aumum.app.mobile.ui.vendor.EventCategoryListFragment;
 import com.aumum.app.mobile.utils.PostFromAnyThreadBus;
 import com.aumum.app.mobile.core.api.RestAdapterRequestInterceptor;
 import com.aumum.app.mobile.core.api.RestErrorHandler;
@@ -211,7 +212,8 @@ import retrofit.converter.GsonConverter;
                 ChannelFragment.class,
                 ArticleListFragment.class,
                 ArticleFragment.class,
-                ShareMomentActivity.class
+                ShareMomentActivity.class,
+                EventCategoryListFragment.class
         }
 )
 public class BootstrapModule {

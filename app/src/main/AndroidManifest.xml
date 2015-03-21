@@ -324,6 +324,7 @@
         <activity android:name=".ui.moment.ShareMomentActivity"
             android:label="@string/title_activity_share_moment">
         </activity>
+        <activity android:name=".ui.vendor.EventListActivity" />
     </application>
 
 </manifest>

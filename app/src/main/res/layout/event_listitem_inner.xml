@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:background="@color/card_background"
+    android:padding="@dimen/margin_large" >
+
+    <TextView
+        android:id="@+id/text_name"
+        style="@style/TextView.Event.Name" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/text_time"
+            style="@style/TextView.Time"
+            android:paddingBottom="@dimen/margin_small" />
+
+        <TextView
+            android:id="@+id/text_address"
+            style="@style/TextView.Address"
+            android:paddingBottom="@dimen/margin_small" />
+
+    </LinearLayout>
+
+    <com.aumum.app.mobile.ui.view.SpannableTextView
+        android:id="@+id/text_description"
+        style="@style/TextView.Event.Description"/>
+
+    <TextView
+        android:id="@+id/text_link"
+        style="@style/LinkTextView"
+        android:text="@string/label_more_details"/>
+
+</LinearLayout>

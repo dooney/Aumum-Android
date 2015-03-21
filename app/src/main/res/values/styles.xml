@@ -344,6 +344,15 @@
     <style name="EditText.NewPartyRequest.Type" parent="EditText.Mandatory" />
     <style name="EditText.NewPartyRequest.SubType" parent="EditText.Mandatory" />
 
+    <!-- Event -->
+    <style name="TextView.Event.Name" parent="TextView">
+        <item name="android:textSize">@dimen/text_sz_large</item>
+    </style>
+    <style name="TextView.Event.Description" parent="TextView">
+        <item name="android:lineSpacingMultiplier">1.1</item>
+    </style>
+    <style name="TextView.EventCategory.Name" parent="TextView.Title" />
+
     <!-- Feed -->
     <style name="TextView.Feed.ScreenName" parent="TextView.Title" />
     <style name="TextView.Feed.Description" parent="TextView.Subtitle">
