@@ -8,7 +8,7 @@ public class EventCategory extends AggregateRoot {
     private String deletedAt;
     private String avatarUrl;
     private String name;
-    private String category;
+    private int category;
 
     public String getAvatarUrl() {
         return avatarUrl;
@@ -18,7 +18,7 @@ public class EventCategory extends AggregateRoot {
         return name;
     }
 
-    public String getCategory() {
+    public int getCategory() {
         return category;
     }
 }
