@@ -22,5 +22,6 @@ public class EMChatUtils {
         Uri ringUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
         options.setNotifyRingUri(ringUri);
         options.setShowNotificationInBackgroud(true);
+        options.setUseRoster(true);
     }
 }

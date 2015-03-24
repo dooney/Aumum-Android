@@ -3,7 +3,6 @@ package com.aumum.app.mobile.core.service;
 import com.aumum.app.mobile.core.model.CmdMessage;
 import com.easemob.EMCallBack;
 import com.easemob.EMConnectionListener;
-import com.easemob.EMValueCallBack;
 import com.easemob.chat.CmdMessageBody;
 import com.easemob.chat.EMChat;
 import com.easemob.chat.EMChatManager;
