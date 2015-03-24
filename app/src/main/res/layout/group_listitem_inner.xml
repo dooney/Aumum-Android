@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/list_selector_white"
+    android:paddingTop="@dimen/margin_medium"
+    android:paddingBottom="@dimen/margin_medium"
+    android:paddingLeft="@dimen/margin_large"
+    android:paddingRight="@dimen/margin_large">
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/text_group_name"
+            style="@style/TextView.Group.Name"
+            android:paddingBottom="@dimen/margin_medium"/>
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/text_screen_name"
+                style="@style/TextView.Group.ScreenName"
+                android:layout_marginRight="@dimen/margin_large" />
+
+            <TextView
+                android:id="@+id/text_group_size"
+                style="@style/TextView.Group.Size"
+                android:layout_toRightOf="@+id/text_screen_name"
+                android:layout_alignBaseline="@id/text_screen_name"/>
+
+        </RelativeLayout>
+
+    </LinearLayout>
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical">
+
+        <Button
+            android:id="@+id/b_add"
+            style="@style/Button.Group.Add" />
+
+        <TextView
+            android:id="@+id/text_added"
+            style="@style/TextView.Group.Added" />
+
+        <ProgressBar
+            android:id="@+id/progress"
+            style="@style/ProgressBar"
+            android:visibility="gone" />
+
+    </RelativeLayout>
+
+</LinearLayout>

@@ -328,6 +328,9 @@
         <activity android:name=".ui.party.SharePartyActivity"
             android:label="@string/title_activity_share_party">
         </activity>
+        <activity android:name=".ui.conversation.GroupListActivity"
+            android:label="@string/title_activity_group_list">
+        </activity>
     </application>
 
 </manifest>

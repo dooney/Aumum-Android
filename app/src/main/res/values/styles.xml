@@ -496,6 +496,22 @@
     </style>
     <style name="TextView.Conversation.TimeStamp" parent="TextView.Subtitle.Small" />
 
+    <!-- Group -->
+    <style name="TextView.Group.Name" parent="TextView.Title" />
+    <style name="TextView.Group.ScreenName" parent="TextView.UserName">
+        <item name="android:textSize">@dimen/text_sz_small</item>
+    </style>
+    <style name="TextView.Group.Size" parent="ButtonTextView">
+        <item name="android:drawableLeft">@drawable/ic_fa_user</item>
+        <item name="android:textSize">@dimen/text_sz_small</item>
+    </style>
+    <style name="Button.Group.Add" parent="Button.Action">
+        <item name="android:text">@string/label_add</item>
+    </style>
+    <style name="TextView.Group.Added" parent="TextView.Subtitle">
+        <item name="android:text">@string/label_added</item>
+    </style>
+
     <!-- Chat -->
     <style name="Button.Chat.VoiceMode" parent="Button">
         <item name="android:layout_width">@dimen/image_sz_small</item>

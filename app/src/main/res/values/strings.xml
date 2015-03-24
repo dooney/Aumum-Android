@@ -130,6 +130,10 @@
         <item>淫秽色情</item>
         <item>人身攻击</item>
     </string-array>
+    <string-array name="label_conversation_actions">
+        <item>创建群组</item>
+        <item>查找群组</item>
+    </string-array>
 
     <!-- General -->
     <string name="label_ok">确定</string>
@@ -214,6 +218,7 @@
     <string name="info_party_request_deleted">该聚会需求已成功删除</string>
     <string name="info_moment_shared">已成功分享到妈妈圈</string>
     <string name="info_party_shared">已成功分享到聚会</string>
+    <string name="info_no_group_found">没找到任何相关群组</string>
 
     <!-- Error Message -->
     <string name="error_bad_credentials">验证失败，请输入正确的手机号码/密码</string>
@@ -281,6 +286,7 @@
     <string name="title_activity_new_party_request">求聚会</string>
     <string name="title_activity_share_moment">分享到妈妈圈</string>
     <string name="title_activity_share_party">分享到聚会</string>
+    <string name="title_activity_group_list">群组列表</string>
 
     <!-- Account -->
     <string name="hint_login_phone">手机号码</string>
@@ -460,6 +466,9 @@
     <string name="hint_report_type">违规类别</string>
     <string name="label_select_report_type">请选择违规类别</string>
     <string name="hint_report_details">举报理由</string>
+
+    <!-- Conversation -->
+    <string name="hint_group_name">群组名称</string>
 
     <!-- Contact -->
     <string name="label_mobile_contacts">手机联系人</string>

@@ -40,6 +40,7 @@ import com.aumum.app.mobile.ui.chat.NotificationClickListener;
 import com.aumum.app.mobile.ui.chat.SendMessageListener;
 import com.aumum.app.mobile.ui.chat.TextMessageCard;
 import com.aumum.app.mobile.ui.chat.VoiceMessageCard;
+import com.aumum.app.mobile.ui.conversation.GroupListFragment;
 import com.aumum.app.mobile.ui.discovery.DiscoveryFragment;
 import com.aumum.app.mobile.ui.feed.article.ArticleFragment;
 import com.aumum.app.mobile.ui.feed.channel.ChannelFragment;
@@ -215,7 +216,8 @@ import retrofit.converter.GsonConverter;
                 ArticleFragment.class,
                 ShareMomentActivity.class,
                 EventCategoryListFragment.class,
-                SharePartyActivity.class
+                SharePartyActivity.class,
+                GroupListFragment.class
         }
 )
 public class BootstrapModule {

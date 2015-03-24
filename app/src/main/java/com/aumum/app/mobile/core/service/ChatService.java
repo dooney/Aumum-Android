@@ -3,6 +3,7 @@ package com.aumum.app.mobile.core.service;
 import com.aumum.app.mobile.core.model.CmdMessage;
 import com.easemob.EMCallBack;
 import com.easemob.EMConnectionListener;
+import com.easemob.EMValueCallBack;
 import com.easemob.chat.CmdMessageBody;
 import com.easemob.chat.EMChat;
 import com.easemob.chat.EMChatManager;
@@ -11,6 +12,7 @@ import com.easemob.chat.EMContactListener;
 import com.easemob.chat.EMContactManager;
 import com.easemob.chat.EMConversation;
 import com.easemob.chat.EMGroup;
+import com.easemob.chat.EMGroupInfo;
 import com.easemob.chat.EMGroupManager;
 import com.easemob.chat.EMMessage;
 import com.easemob.chat.GroupChangeListener;
@@ -130,6 +132,10 @@ public class ChatService {
 
     public void deleteGroup(String groupId) throws Exception {
         EMGroupManager.getInstance().exitAndDeleteGroup(groupId);
+    }
+
+    public List<EMGroupInfo> getPublicGroups() throws Exception {
+        return EMGroupManager.getInstance().getAllPublicGroupsFromServer();
     }
 
     public EMGroup getGroupFromServer(String groupId) throws Exception {
