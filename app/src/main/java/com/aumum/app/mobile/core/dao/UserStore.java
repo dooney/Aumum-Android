@@ -2,13 +2,16 @@ package com.aumum.app.mobile.core.dao;
 
 import com.aumum.app.mobile.core.Constants;
 import com.aumum.app.mobile.core.dao.entity.ContactRequestEntity;
+import com.aumum.app.mobile.core.dao.entity.GroupRequestEntity;
 import com.aumum.app.mobile.core.dao.entity.UserEntity;
 import com.aumum.app.mobile.core.dao.gen.ContactRequestEntityDao;
+import com.aumum.app.mobile.core.dao.gen.GroupRequestEntityDao;
 import com.aumum.app.mobile.core.dao.gen.UserEntityDao;
 import com.aumum.app.mobile.core.infra.security.ApiKeyProvider;
+import com.aumum.app.mobile.core.model.GroupRequest;
 import com.aumum.app.mobile.core.model.User;
 import com.aumum.app.mobile.core.service.RestService;
-import com.aumum.app.mobile.ui.contact.ContactRequest;
+import com.aumum.app.mobile.core.model.ContactRequest;
 import com.aumum.app.mobile.utils.DateUtils;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -26,12 +29,14 @@ public class UserStore {
     private ApiKeyProvider apiKeyProvider;
     private UserEntityDao userEntityDao;
     private ContactRequestEntityDao contactRequestEntityDao;
+    private GroupRequestEntityDao groupRequestEntityDao;
 
     public UserStore(RestService restService, ApiKeyProvider apiKeyProvider, Repository repository) {
         this.restService = restService;
         this.apiKeyProvider = apiKeyProvider;
         this.userEntityDao = repository.getUserEntityDao();
         this.contactRequestEntityDao = repository.getContactRequestEntityDao();
+        this.groupRequestEntityDao = repository.getGroupRequestEntityDao();
     }
 
     private String getJsonString(List<String> list) {
@@ -45,7 +50,8 @@ public class UserStore {
     private List<String> getList(String data) {
         if (data != null) {
             Gson gson = new Gson();
-            return gson.fromJson(data, new TypeToken<List<String>>(){}.getType());
+            return gson.fromJson(data, new TypeToken<List<String>>() {
+            }.getType());
         }
         return null;
     }
@@ -168,6 +174,45 @@ public class UserStore {
             result.add(new ContactRequest(user, entity.getIntro(), isAdded));
         }
         return result;
+    }
+
+    public void addGroupRequest(String groupId, String userId, String reason) {
+        GroupRequestEntity groupRequestEntity = groupRequestEntityDao.queryBuilder()
+                .where(GroupRequestEntityDao.Properties.GroupId.eq(groupId))
+                .where(GroupRequestEntityDao.Properties.UserId.eq(userId))
+                .unique();
+        if (groupRequestEntity != null) {
+            groupRequestEntityDao.delete(groupRequestEntity);
+        }
+        groupRequestEntity = new GroupRequestEntity(null, groupId, userId, reason,
+                GroupRequest.STATUS_NONE);
+        groupRequestEntityDao.insert(groupRequestEntity);
+    }
+
+    public List<GroupRequest> getGroupRequestList() throws Exception {
+        List<GroupRequestEntity> entities = groupRequestEntityDao.queryBuilder()
+                .orderDesc(GroupRequestEntityDao.Properties.Id)
+                .list();
+        List<GroupRequest> result = new ArrayList<>();
+        for (GroupRequestEntity entity: entities) {
+            result.add(new GroupRequest(
+                    entity.getId(),
+                    entity.getGroupId(),
+                    entity.getUserId(),
+                    entity.getReason(),
+                    entity.getStatus()));
+        }
+        return result;
+    }
+
+    public void saveGroupRequest(GroupRequest request) {
+        GroupRequestEntity entity = new GroupRequestEntity(
+                request.getId(),
+                request.getGroupId(),
+                request.getUserId(),
+                request.getReason(),
+                request.getStatus());
+        groupRequestEntityDao.insertOrReplace(entity);
     }
 
     public List<User> getContacts() throws Exception {

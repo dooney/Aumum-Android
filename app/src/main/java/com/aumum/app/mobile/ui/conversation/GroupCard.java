@@ -1,5 +1,6 @@
 package com.aumum.app.mobile.ui.conversation;
 
+import android.app.Activity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -14,9 +15,11 @@ import com.aumum.app.mobile.ui.user.UserListener;
  */
 public class GroupCard {
 
+    private Activity activity;
     private View view;
 
-    public GroupCard(View view) {
+    public GroupCard(Activity activity, View view) {
+        this.activity = activity;
         this.view = view;
     }
 
@@ -32,14 +35,15 @@ public class GroupCard {
         TextView groupSizeText = (TextView) view.findViewById(R.id.text_group_size);
         groupSizeText.setText(String.valueOf(groupDetails.getSize()));
 
-        Button addButton = (Button) view.findViewById(R.id.b_add);
-        TextView addedText = (TextView) view.findViewById(R.id.text_added);
-        addButton.setVisibility(View.GONE);
-        addedText.setVisibility(View.GONE);
-        if (groupDetails.isAdded()) {
-            addedText.setVisibility(View.VISIBLE);
+        Button joinButton = (Button) view.findViewById(R.id.b_join);
+        TextView jointText = (TextView) view.findViewById(R.id.text_joint);
+        joinButton.setVisibility(View.GONE);
+        jointText.setVisibility(View.GONE);
+        if (groupDetails.isMember()) {
+            jointText.setVisibility(View.VISIBLE);
         } else {
-            addButton.setVisibility(View.VISIBLE);
+            joinButton.setOnClickListener(new GroupJoinListener(activity, groupDetails.getId()));
+            joinButton.setVisibility(View.VISIBLE);
         }
     }
 }

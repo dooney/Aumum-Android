@@ -123,9 +123,11 @@ public class ChatService {
         EMChatManager.getInstance().clearConversation(userName);
     }
 
-    public EMGroup createGroup(String groupName) throws Exception {
+    public EMGroup createGroup(String groupName, boolean approvalRequired) throws Exception {
         String members[] = {};
-        EMGroup emGroup = EMGroupManager.getInstance().createPublicGroup(groupName, "", members, false);
+        String description = "";
+        EMGroup emGroup = EMGroupManager.getInstance().createPublicGroup(
+                groupName, description, members, approvalRequired);
         return EMGroupManager.getInstance().createOrUpdateLocalGroup(emGroup);
     }
 
@@ -148,6 +150,23 @@ public class ChatService {
             return getGroupFromServer(groupId);
         }
         return emGroup;
+    }
+
+    public void addUserToGroup(String groupId, String userId) throws Exception {
+        String users[] = { userId };
+        EMGroupManager.getInstance().addUsersToGroup(groupId, users);
+    }
+
+    public void applyJoinGroup(String groupId, String reason) throws Exception {
+        EMGroupManager.getInstance().applyJoinToGroup(groupId, reason);
+    }
+
+    public void acceptGroupApplication(String userId, String groupId) throws Exception {
+        EMGroupManager.getInstance().acceptApplication(userId, groupId);
+    }
+
+    public void declineGroupApplication(String userId, String groupId, String reason) throws Exception {
+        EMGroupManager.getInstance().declineApplication(userId, groupId, reason);
     }
 
     public void joinGroup(String groupId, String userId) throws Exception {

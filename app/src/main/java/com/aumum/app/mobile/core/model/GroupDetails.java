@@ -5,16 +5,26 @@ package com.aumum.app.mobile.core.model;
  */
 public class GroupDetails {
 
+    private String id;
     private String name;
     private User owner;
     private int size;
-    private boolean isAdded;
+    private boolean isMember;
 
-    public GroupDetails(String name, User user, int size, boolean isAdded) {
+    public GroupDetails(String id,
+                        String name,
+                        User user,
+                        int size,
+                        boolean isMember) {
+        this.id = id;
         this.name = name;
         this.owner = user;
         this.size = size;
-        this.isAdded = isAdded;
+        this.isMember = isMember;
+    }
+
+    public String getId() {
+        return id;
     }
 
     public String getName() {
@@ -29,7 +39,7 @@ public class GroupDetails {
         return size;
     }
 
-    public boolean isAdded() {
-        return isAdded;
+    public boolean isMember() {
+        return isMember;
     }
 }

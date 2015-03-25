@@ -10,6 +10,7 @@ import android.support.v4.app.NotificationCompat;
 
 import com.aumum.app.mobile.R;
 import com.aumum.app.mobile.ui.asking.AskingDetailsSingleActivity;
+import com.aumum.app.mobile.ui.conversation.GroupRequestsActivity;
 import com.aumum.app.mobile.ui.moment.MomentDetailsSingleActivity;
 import com.aumum.app.mobile.ui.user.UserSingleActivity;
 import com.aumum.app.mobile.utils.PreferenceUtils;
@@ -85,6 +86,27 @@ public class NotificationService {
         intent.putExtra(ChatActivity.INTENT_ID, userId);
         intent.putExtra(ChatActivity.INTENT_TYPE, ChatActivity.TYPE_SINGLE);
         intent.putExtra(ChatActivity.INTENT_TITLE, userName);
+        intent.setComponent(new ComponentName(context, ChatActivity.class));
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        notify(builder, intent);
+    }
+
+    public void pushGroupAppliedNotification(String userName, String groupName, String reason) {
+        String content = context.getString(R.string.label_group_applied, userName, groupName);
+        NotificationCompat.Builder builder = getNotificationBuilder(content, reason);
+        Intent intent = new Intent();
+        intent.setComponent(new ComponentName(context, GroupRequestsActivity.class));
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        notify(builder, intent);
+    }
+
+    public void pushGroupApprovedNotification(String groupId, String groupName) {
+        String content = context.getString(R.string.label_group_approved);
+        NotificationCompat.Builder builder = getNotificationBuilder(groupName, content);
+        Intent intent = new Intent();
+        intent.putExtra(ChatActivity.INTENT_ID, groupId);
+        intent.putExtra(ChatActivity.INTENT_TYPE, ChatActivity.TYPE_GROUP);
+        intent.putExtra(ChatActivity.INTENT_TITLE, groupName);
         intent.setComponent(new ComponentName(context, ChatActivity.class));
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         notify(builder, intent);

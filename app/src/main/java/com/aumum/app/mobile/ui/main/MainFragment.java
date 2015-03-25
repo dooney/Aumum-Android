@@ -233,7 +233,7 @@ public class MainFragment extends Fragment
         getActivity().registerReceiver(cmdMessageBroadcastReceiver, cmdMessageIntentFilter);
 
         chatService.setConnectionListener(new ChatConnectionListener(getActivity()));
-        chatService.setGroupChangeListener(new GroupChangeListener(getActivity(), chatService, bus));
+        chatService.setGroupChangeListener(new GroupChangeListener(getActivity()));
         chatService.setMessageNotifyListener(new MessageNotifyListener(getActivity()));
         chatService.setNotificationClickListener(new NotificationClickListener(getActivity()));
         chatService.setContactListener(new ContactListener());

@@ -45,12 +45,12 @@
         android:layout_gravity="center_vertical">
 
         <Button
-            android:id="@+id/b_add"
-            style="@style/Button.Group.Add" />
+            android:id="@+id/b_join"
+            style="@style/Button.Group.Join" />
 
         <TextView
-            android:id="@+id/text_added"
-            style="@style/TextView.Group.Added" />
+            android:id="@+id/text_joint"
+            style="@style/TextView.Group.Joint" />
 
         <ProgressBar
             android:id="@+id/progress"

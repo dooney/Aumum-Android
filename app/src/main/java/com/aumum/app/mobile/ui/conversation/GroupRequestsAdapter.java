@@ -7,37 +7,38 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 
 import com.aumum.app.mobile.R;
-import com.aumum.app.mobile.core.model.GroupDetails;
+import com.aumum.app.mobile.core.model.GroupRequest;
 
 import java.util.List;
 
 /**
- * Created by Administrator on 24/03/2015.
+ * Created by Administrator on 25/03/2015.
  */
-public class GroupsAdapter extends ArrayAdapter<GroupDetails> {
+public class GroupRequestsAdapter extends ArrayAdapter<GroupRequest> {
 
     private Activity activity;
 
-    public GroupsAdapter(Activity activity, List<GroupDetails> objects) {
+    public GroupRequestsAdapter(Activity activity,
+                                List<GroupRequest> objects) {
         super(activity, 0, objects);
         this.activity = activity;
     }
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        final GroupCard card;
+        final GroupRequestCard card;
 
         if (convertView == null) {
             LayoutInflater inflater = LayoutInflater.from(getContext());
-            convertView = inflater.inflate(R.layout.group_listitem_inner, parent, false);
-            card = new GroupCard(activity, convertView);
+            convertView = inflater.inflate(R.layout.group_request_listitem_inner, parent, false);
+            card = new GroupRequestCard(activity, convertView);
             convertView.setTag(card);
         } else {
-            card = (GroupCard) convertView.getTag();
+            card = (GroupRequestCard) convertView.getTag();
         }
 
-        GroupDetails group = getItem(position);
-        card.refresh(group);
+        GroupRequest application = getItem(position);
+        card.refresh(application);
 
         return convertView;
     }

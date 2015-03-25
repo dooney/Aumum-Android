@@ -33,6 +33,7 @@ import com.aumum.app.mobile.ui.asking.NewAskingActivity;
 import com.aumum.app.mobile.ui.asking.SearchAskingFragment;
 import com.aumum.app.mobile.ui.chat.ChatConnectionListener;
 import com.aumum.app.mobile.ui.chat.ChatFragment;
+import com.aumum.app.mobile.ui.chat.GroupChangeListener;
 import com.aumum.app.mobile.ui.chat.GroupDetailsFragment;
 import com.aumum.app.mobile.ui.chat.ImageMessageCard;
 import com.aumum.app.mobile.ui.chat.MessageNotifyListener;
@@ -40,6 +41,9 @@ import com.aumum.app.mobile.ui.chat.NotificationClickListener;
 import com.aumum.app.mobile.ui.chat.SendMessageListener;
 import com.aumum.app.mobile.ui.chat.TextMessageCard;
 import com.aumum.app.mobile.ui.chat.VoiceMessageCard;
+import com.aumum.app.mobile.ui.conversation.GroupJoinListener;
+import com.aumum.app.mobile.ui.conversation.GroupRequestProcessListener;
+import com.aumum.app.mobile.ui.conversation.GroupRequestsFragment;
 import com.aumum.app.mobile.ui.conversation.GroupListFragment;
 import com.aumum.app.mobile.ui.discovery.DiscoveryFragment;
 import com.aumum.app.mobile.ui.feed.article.ArticleFragment;
@@ -217,7 +221,11 @@ import retrofit.converter.GsonConverter;
                 ShareMomentActivity.class,
                 EventCategoryListFragment.class,
                 SharePartyActivity.class,
-                GroupListFragment.class
+                GroupListFragment.class,
+                GroupChangeListener.class,
+                GroupRequestsFragment.class,
+                GroupJoinListener.class,
+                GroupRequestProcessListener.class
         }
 )
 public class BootstrapModule {

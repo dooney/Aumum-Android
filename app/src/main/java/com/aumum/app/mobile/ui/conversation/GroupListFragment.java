@@ -59,9 +59,9 @@ public class GroupListFragment extends ItemListFragment<GroupDetails> {
             EMGroup group = chatService.getGroupById(groupId);
             User user = userStore.getUserByChatId(group.getOwner());
             int groupSize = group.getMembers().size();
-            boolean isAdded = group.getMembers().contains(currentUser.getChatId());
-            GroupDetails groupDetails = new GroupDetails(group.getGroupName(),
-                    user, groupSize, isAdded);
+            boolean isMember = group.getMembers().contains(currentUser.getChatId());
+            GroupDetails groupDetails = new GroupDetails(group.getGroupId(),
+                    group.getGroupName(), user, groupSize, isMember);
             groupList.add(groupDetails);
         }
         return groupList;

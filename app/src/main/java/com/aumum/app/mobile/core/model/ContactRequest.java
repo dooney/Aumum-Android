@@ -1,6 +1,4 @@
-package com.aumum.app.mobile.ui.contact;
-
-import com.aumum.app.mobile.core.model.User;
+package com.aumum.app.mobile.core.model;
 
 /**
  * Created by Administrator on 19/11/2014.

@@ -22,6 +22,7 @@
     <uses-permission android:name="com.google.android.c2dm.permission.RECEIVE" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.GET_TASKS" />
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
     <uses-permission android:name="android.permission.READ_CONTACTS" />
 
@@ -330,6 +331,13 @@
         </activity>
         <activity android:name=".ui.conversation.GroupListActivity"
             android:label="@string/title_activity_group_list">
+        </activity>
+        <activity
+            android:name=".ui.conversation.GroupRequestsActivity"
+            android:excludeFromRecents="true"
+            android:label="@string/title_activity_group_requests"
+            android:launchMode="singleTask"
+            android:taskAffinity="" >
         </activity>
     </application>
 

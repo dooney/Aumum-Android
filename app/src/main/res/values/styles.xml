@@ -505,12 +505,20 @@
         <item name="android:drawableLeft">@drawable/ic_fa_user</item>
         <item name="android:textSize">@dimen/text_sz_small</item>
     </style>
-    <style name="Button.Group.Add" parent="Button.Action">
-        <item name="android:text">@string/label_add</item>
+    <style name="Button.Group.Join" parent="Button.Action">
+        <item name="android:text">@string/label_join</item>
     </style>
-    <style name="TextView.Group.Added" parent="TextView.Subtitle">
-        <item name="android:text">@string/label_added</item>
+    <style name="TextView.Group.Joint" parent="TextView.Subtitle">
+        <item name="android:text">@string/label_joint</item>
     </style>
+    <style name="TextView.GroupRequest.ScreenName" parent="TextView.UserName">
+        <item name="android:textSize">@dimen/text_sz_large</item>
+    </style>
+    <style name="TextView.GroupRequest.Details" parent="TextView.Subtitle" />
+    <style name="Button.GroupRequest.Process" parent="Button.Action">
+        <item name="android:text">@string/label_process</item>
+    </style>
+    <style name="TextView.GroupRequest.Status" parent="TextView.Subtitle" />
 
     <!-- Chat -->
     <style name="Button.Chat.VoiceMode" parent="Button">

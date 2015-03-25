@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/layout_group_request"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/list_selector_white"
+    android:padding="@dimen/margin_large">
+
+    <RelativeLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1">
+
+        <com.aumum.app.mobile.ui.view.AvatarImageView
+            android:id="@+id/image_avatar"
+            style="@style/ImageView.Avatar"
+            android:layout_marginRight="@dimen/margin_large"
+            android:src="@drawable/ic_avatar"/>
+
+        <TextView
+            android:id="@+id/text_screen_name"
+            style="@style/TextView.GroupRequest.ScreenName"
+            android:layout_toRightOf="@+id/image_avatar" />
+
+        <TextView
+            android:id="@+id/text_details"
+            style="@style/TextView.GroupRequest.Details"
+            android:layout_alignLeft="@+id/text_screen_name"
+            android:layout_below="@+id/text_screen_name"/>
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical">
+
+        <Button
+            android:id="@+id/b_process"
+            style="@style/Button.GroupRequest.Process" />
+
+        <TextView
+            android:id="@+id/text_status"
+            style="@style/TextView.GroupRequest.Status" />
+
+        <ProgressBar
+            android:id="@+id/progress"
+            style="@style/ProgressBar"
+            android:visibility="gone" />
+
+    </RelativeLayout>
+
+</LinearLayout>

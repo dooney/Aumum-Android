@@ -1,13 +1,13 @@
 package com.aumum.app.mobile.ui.contact;
 
 import android.app.Activity;
-import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 
 import com.aumum.app.mobile.R;
+import com.aumum.app.mobile.core.model.ContactRequest;
 
 import java.util.List;
 

@@ -104,11 +104,16 @@
         <item>中国(86)</item>
     </string-array>
     <string-array name="label_group_owner_actions">
+        <item>添加成员</item>
         <item>删除该群组</item>
     </string-array>
     <string-array name="label_group_member_actions">
         <item>举报</item>
         <item>退出</item>
+    </string-array>
+    <string-array name="label_group_process_options">
+        <item>同意</item>
+        <item>拒绝</item>
     </string-array>
     <string-array name="label_party_privacy">
         <item>完全公开</item>
@@ -133,6 +138,7 @@
     <string-array name="label_conversation_actions">
         <item>创建群组</item>
         <item>查找群组</item>
+        <item>入群请求</item>
     </string-array>
 
     <!-- General -->
@@ -219,6 +225,8 @@
     <string name="info_moment_shared">已成功分享到妈妈圈</string>
     <string name="info_party_shared">已成功分享到聚会</string>
     <string name="info_no_group_found">没找到任何相关群组</string>
+    <string name="info_empty_group_application_list">您还没收到任何入群请求</string>
+    <string name="info_join_group_sent">发送成功，请等待群主验证</string>
 
     <!-- Error Message -->
     <string name="error_bad_credentials">验证失败，请输入正确的手机号码/密码</string>
@@ -287,6 +295,7 @@
     <string name="title_activity_share_moment">分享到妈妈圈</string>
     <string name="title_activity_share_party">分享到聚会</string>
     <string name="title_activity_group_list">群组列表</string>
+    <string name="title_activity_group_requests">入群请求</string>
 
     <!-- Account -->
     <string name="hint_login_phone">手机号码</string>
@@ -485,6 +494,17 @@
     <string name="label_group_created">%1$s刚刚创建了群组</string>
     <string name="label_group_joint">%1$s刚刚加入了群组</string>
     <string name="label_group_quit">%1$s刚刚退出了群组</string>
+    <string name="label_application_declined">%1$s拒绝了您的入群申请</string>
+    <string name="label_group_applied">%1$s请求加入%2$s</string>
+    <string name="hint_join_group_reason">验证信息</string>
+    <string name="label_process">处理</string>
+    <string name="label_join">加入</string>
+    <string name="label_joint">已加入</string>
+    <string name="label_approved">已同意</string>
+    <string name="label_rejected">已拒绝</string>
+    <string name="hint_decline_reason">拒绝理由</string>
+    <string name="label_group_approved">您的入群请求已被批准</string>
+    <string name="label_group_request_details">请求加入%1$s：%2$s</string>
 
     <!-- Widgets -->
     <string name="pull_to_refresh_pull_label">下拉刷新</string>

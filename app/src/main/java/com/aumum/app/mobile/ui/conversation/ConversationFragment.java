@@ -160,6 +160,9 @@ public class ConversationFragment extends ItemListFragment<Conversation> {
                             case 1:
                                 showSearchGroupDialog();
                                 break;
+                            case 2:
+                                startGroupRequestsActivity();
+                                break;
                             default:
                                 break;
                         }
@@ -176,7 +179,7 @@ public class ConversationFragment extends ItemListFragment<Conversation> {
             public void call(Object value) throws Exception {
                 String groupName = (String) value;
                 User user = userStore.getCurrentUser();
-                EMGroup group = chatService.createGroup(groupName);
+                EMGroup group = chatService.createGroup(groupName, true);
                 chatService.addGroupMember(group.getGroupId(), user.getChatId());
                 String groupCreatedText = getString(R.string.label_group_created,
                         user.getScreenName());
@@ -237,6 +240,11 @@ public class ConversationFragment extends ItemListFragment<Conversation> {
     private void startGroupListActivity(ArrayList<String> groupList) {
         final Intent intent = new Intent(getActivity(), GroupListActivity.class);
         intent.putStringArrayListExtra(GroupListActivity.INTENT_GROUP_LIST, groupList);
+        startActivity(intent);
+    }
+
+    private void startGroupRequestsActivity() {
+        final Intent intent = new Intent(getActivity(), GroupRequestsActivity.class);
         startActivity(intent);
     }
 }

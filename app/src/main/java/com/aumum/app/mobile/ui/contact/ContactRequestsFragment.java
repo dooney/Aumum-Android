@@ -10,6 +10,7 @@ import android.widget.ArrayAdapter;
 import com.aumum.app.mobile.Injector;
 import com.aumum.app.mobile.R;
 import com.aumum.app.mobile.core.dao.UserStore;
+import com.aumum.app.mobile.core.model.ContactRequest;
 import com.aumum.app.mobile.ui.base.ItemListFragment;
 
 import java.util.List;
