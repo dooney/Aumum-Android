@@ -12,6 +12,7 @@ public class Game extends AggregateRoot {
     private String uri;
     private String description;
     private int orientation;
+    private int clicks;
 
     private final int ORIENTATION_PORTRAIT = 0;
     private final int ORIENTATION_LANDSCAPE = 1;
@@ -38,5 +39,9 @@ public class Game extends AggregateRoot {
 
     public boolean isLandscape() {
         return orientation == ORIENTATION_LANDSCAPE;
+    }
+
+    public int getClicks() {
+        return clicks;
     }
 }

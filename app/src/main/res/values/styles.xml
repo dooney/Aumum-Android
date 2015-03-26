@@ -361,6 +361,9 @@
     <style name="TextView.Game.Description" parent="TextView.Subtitle">
         <item name="android:textSize">@dimen/text_sz_small</item>
     </style>
+    <style name="Button.Game.Play" parent="Button.Action">
+        <item name="android:text">@string/label_play</item>
+    </style>
 
     <!-- Feed -->
     <style name="TextView.Feed.ScreenName" parent="TextView.Title" />

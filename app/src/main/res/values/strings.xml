@@ -11,9 +11,9 @@
         <item>个人</item>
     </string-array>
     <string-array name="label_recreation_pages">
-        <item>会话</item>
+        <item>最近会话</item>
         <item>热门群组</item>
-        <item>小游戏</item>
+        <item>逗比游戏</item>
     </string-array>
     <string-array name="label_asking_pages">
         <item>我爱我家</item>
@@ -487,6 +487,10 @@
 
     <!-- Conversation -->
     <string name="hint_group_name">群组名称</string>
+
+    <!-- Game -->
+    <string name="label_play">马上玩</string>
+    <string name="label_play_count">%,d人玩</string>
 
     <!-- Contact -->
     <string name="label_mobile_contacts">手机联系人</string>

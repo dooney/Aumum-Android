@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 
 import com.aumum.app.mobile.Injector;
@@ -26,7 +25,8 @@ import javax.inject.Inject;
 /**
  * Created by Administrator on 26/03/2015.
  */
-public class GameListFragment extends ItemListFragment<Game> {
+public class GameListFragment extends ItemListFragment<Game>
+        implements GameClickListener {
 
     @Inject Bus bus;
     @Inject RestService restService;
@@ -44,20 +44,6 @@ public class GameListFragment extends ItemListFragment<Game> {
     }
 
     @Override
-    public void onViewCreated(View view, Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-
-        getListView().setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                Game game = getData().get(i);
-                startGameActivity(game);
-                updateClickCount(game.getSeq());
-            }
-        });
-    }
-
-    @Override
     public void onResume() {
         super.onResume();
         bus.register(this);
@@ -71,7 +57,7 @@ public class GameListFragment extends ItemListFragment<Game> {
 
     @Override
     protected ArrayAdapter<Game> createAdapter(List<Game> items) {
-        return new GamesAdapter(getActivity(), items);
+        return new GamesAdapter(getActivity(), items, this);
     }
 
     @Override
@@ -96,5 +82,11 @@ public class GameListFragment extends ItemListFragment<Game> {
     public void onRefreshGameEvent(RefreshGameEvent event) {
         getMainView().setVisibility(View.GONE);
         reload();
+    }
+
+    @Override
+    public void onClick(Game game) {
+        startGameActivity(game);
+        updateClickCount(game.getSeq());
     }
 }

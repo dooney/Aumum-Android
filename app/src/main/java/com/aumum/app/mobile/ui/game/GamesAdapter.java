@@ -16,8 +16,13 @@ import java.util.List;
  */
 public class GamesAdapter extends ArrayAdapter<Game> {
 
-    public GamesAdapter(Context context, List<Game> objects) {
+    private GameClickListener listener;
+
+    public GamesAdapter(Context context,
+                        List<Game> objects,
+                        GameClickListener listener) {
         super(context, 0, objects);
+        this.listener = listener;
     }
 
     @Override
@@ -27,7 +32,7 @@ public class GamesAdapter extends ArrayAdapter<Game> {
         if (convertView == null) {
             LayoutInflater inflater = LayoutInflater.from(getContext());
             convertView = inflater.inflate(R.layout.game_listitem_inner, parent, false);
-            card = new GameCard(convertView);
+            card = new GameCard(convertView, listener);
             convertView.setTag(card);
         } else {
             card = (GameCard) convertView.getTag();

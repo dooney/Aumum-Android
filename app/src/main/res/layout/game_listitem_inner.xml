@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/layout_game_card"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/list_selector_white"
@@ -28,6 +29,22 @@
         <TextView
             android:id="@+id/text_description"
             style="@style/TextView.Game.Description"/>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingTop="@dimen/margin_small">
+
+            <Button
+                android:id="@+id/b_play"
+                style="@style/Button.Game.Play" />
+
+            <TextView
+                android:id="@+id/text_count"
+                style="@style/TextView.Game.Description"
+                android:paddingLeft="@dimen/margin_medium"/>
+
+        </LinearLayout>
 
     </LinearLayout>
 
