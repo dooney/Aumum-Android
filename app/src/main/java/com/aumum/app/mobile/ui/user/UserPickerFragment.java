@@ -14,7 +14,6 @@ import android.widget.Button;
 import com.aumum.app.mobile.R;
 import com.aumum.app.mobile.core.model.User;
 import com.aumum.app.mobile.ui.base.ItemListFragment;
-import com.aumum.app.mobile.ui.contact.ContactPickerActivity;
 import com.aumum.app.mobile.ui.view.sort.InitialComparator;
 import com.aumum.app.mobile.ui.view.sort.SideBar;
 import com.github.kevinsawicki.wishlist.Toaster;
@@ -56,7 +55,7 @@ public abstract class UserPickerFragment extends ItemListFragment<User>
             @Override
             public void onClick(View view) {
                 final Intent intent = new Intent();
-                intent.putStringArrayListExtra(ContactPickerActivity.INTENT_SELECTED_CONTACTS, userList);
+                intent.putStringArrayListExtra("userList", userList);
                 getActivity().setResult(Activity.RESULT_OK, intent);
                 getActivity().finish();
             }

@@ -10,7 +10,7 @@ import com.aumum.app.mobile.R;
  */
 public class GroupMemberPickerActivity extends ActionBarActivity {
 
-    public static final String INTENT_SELECTED_MEMBERS = "selectedMembers";
+    public static final String INTENT_SELECTED_MEMBERS = "userList";
     public static final String INTENT_ALL_MEMBERS = "allMembers";
 
     @Override

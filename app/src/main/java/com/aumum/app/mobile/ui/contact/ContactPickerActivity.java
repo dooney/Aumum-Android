@@ -7,7 +7,7 @@ import com.aumum.app.mobile.R;
 
 public class ContactPickerActivity extends ActionBarActivity {
 
-    public static String INTENT_SELECTED_CONTACTS = "selectedContacts";
+    public static String INTENT_SELECTED_CONTACTS = "userList";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
