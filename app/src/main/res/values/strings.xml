@@ -27,7 +27,7 @@
     <string-array name="label_party_pages">
         <item>聚会需求</item>
         <item>个人聚会</item>
-        <item>商家活动</item>
+        <item>公开活动</item>
     </string-array>
     <string-array name="label_party_actions">
         <item>求聚会</item>
