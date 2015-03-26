@@ -29,6 +29,7 @@ public class BrowserActivity extends ActionBarActivity {
 
     public static final String INTENT_TITLE = "title";
     public static final String INTENT_URL = "url";
+    public static final String INTENT_FULLSCREEN = "fullscreen";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,6 +40,9 @@ public class BrowserActivity extends ActionBarActivity {
         final Intent intent = getIntent();
         if (intent.hasExtra(INTENT_TITLE)) {
             setTitle(intent.getStringExtra(INTENT_TITLE));
+        }
+        if (intent.getBooleanExtra(INTENT_FULLSCREEN, false)) {
+            getSupportActionBar().hide();
         }
 
         WebSettings settings = webView.getSettings();

@@ -1,0 +1,34 @@
+package com.aumum.app.mobile.core.model;
+
+/**
+ * Created by Administrator on 26/03/2015.
+ */
+public class Game extends AggregateRoot {
+
+    private String deletedAt;
+    private int seq;
+    private String screenName;
+    private String avatarUrl;
+    private String uri;
+    private String description;
+
+    public int getSeq() {
+        return seq;
+    }
+
+    public String getScreenName() {
+        return screenName;
+    }
+
+    public String getAvatarUrl() {
+        return avatarUrl;
+    }
+
+    public String getUri() {
+        return uri;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+}

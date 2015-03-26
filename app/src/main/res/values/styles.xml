@@ -356,6 +356,14 @@
     </style>
     <style name="TextView.EventCategory.Name" parent="TextView.Title" />
 
+    <!-- Game -->
+    <style name="TextView.Game.ScreenName" parent="TextView.Title" />
+    <style name="TextView.Game.Description" parent="TextView.Subtitle">
+        <item name="android:textSize">@dimen/text_sz_small</item>
+        <item name="android:maxLines">1</item>
+        <item name="android:ellipsize">end</item>
+    </style>
+
     <!-- Feed -->
     <style name="TextView.Feed.ScreenName" parent="TextView.Title" />
     <style name="TextView.Feed.Description" parent="TextView.Subtitle">

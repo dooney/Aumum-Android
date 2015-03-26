@@ -196,6 +196,11 @@ public final class Constants {
         public static final String URL_EVENT_CATEGORIES_FRAG = "/1/classes/EventCategories";
 
         /**
+         * List Game URL
+         */
+        public static final String URL_GAMES_FRAG = "/1/classes/Games";
+
+        /**
          * PARAMS for auth
          */
         public static final String PARAM_USERNAME = "username";

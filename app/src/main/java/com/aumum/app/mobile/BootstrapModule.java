@@ -33,6 +33,7 @@ import com.aumum.app.mobile.ui.asking.NewAskingActivity;
 import com.aumum.app.mobile.ui.asking.SearchAskingFragment;
 import com.aumum.app.mobile.ui.chat.ChatConnectionListener;
 import com.aumum.app.mobile.ui.chat.ChatFragment;
+import com.aumum.app.mobile.ui.game.GameListFragment;
 import com.aumum.app.mobile.ui.group.GroupChangeListener;
 import com.aumum.app.mobile.ui.group.GroupDetailsFragment;
 import com.aumum.app.mobile.ui.chat.ImageMessageCard;
@@ -228,7 +229,8 @@ import retrofit.converter.GsonConverter;
                 GroupJoinListener.class,
                 GroupRequestProcessListener.class,
                 RecreationFragment.class,
-                GroupFragment.class
+                GroupFragment.class,
+                GameListFragment.class
         }
 )
 public class BootstrapModule {
