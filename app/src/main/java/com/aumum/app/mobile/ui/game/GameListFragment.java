@@ -12,9 +12,12 @@ import com.aumum.app.mobile.Injector;
 import com.aumum.app.mobile.R;
 import com.aumum.app.mobile.core.model.Game;
 import com.aumum.app.mobile.core.service.RestService;
+import com.aumum.app.mobile.events.RefreshGameEvent;
 import com.aumum.app.mobile.ui.base.ItemListFragment;
 import com.aumum.app.mobile.ui.browser.BrowserActivity;
 import com.aumum.app.mobile.utils.UMengUtils;
+import com.squareup.otto.Bus;
+import com.squareup.otto.Subscribe;
 
 import java.util.List;
 
@@ -25,6 +28,7 @@ import javax.inject.Inject;
  */
 public class GameListFragment extends ItemListFragment<Game> {
 
+    @Inject Bus bus;
     @Inject RestService restService;
 
     @Override
@@ -54,6 +58,18 @@ public class GameListFragment extends ItemListFragment<Game> {
     }
 
     @Override
+    public void onResume() {
+        super.onResume();
+        bus.register(this);
+    }
+
+    @Override
+    public void onPause() {
+        super.onDestroy();
+        bus.unregister(this);
+    }
+
+    @Override
     protected ArrayAdapter<Game> createAdapter(List<Game> items) {
         return new GamesAdapter(getActivity(), items);
     }
@@ -74,5 +90,11 @@ public class GameListFragment extends ItemListFragment<Game> {
         intent.putExtra(BrowserActivity.INTENT_FULLSCREEN, true);
         intent.putExtra(BrowserActivity.INTENT_LANDSCAPE, game.isLandscape());
         startActivity(intent);
+    }
+
+    @Subscribe
+    public void onRefreshGameEvent(RefreshGameEvent event) {
+        getMainView().setVisibility(View.GONE);
+        reload();
     }
 }

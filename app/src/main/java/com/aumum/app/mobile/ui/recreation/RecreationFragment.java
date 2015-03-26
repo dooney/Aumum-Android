@@ -13,6 +13,7 @@ import android.widget.ImageView;
 
 import com.aumum.app.mobile.Injector;
 import com.aumum.app.mobile.R;
+import com.aumum.app.mobile.events.RefreshGameEvent;
 import com.aumum.app.mobile.events.RefreshGroupEvent;
 import com.aumum.app.mobile.events.ShowConversationActionsEvent;
 import com.squareup.otto.Bus;
@@ -33,6 +34,7 @@ public class RecreationFragment extends Fragment {
 
     private MenuItem conversationMenu;
     private MenuItem groupMenu;
+    private MenuItem gameMenu;
     private PagerAdapter pagerAdapter;
 
     @Override
@@ -90,12 +92,23 @@ public class RecreationFragment extends Fragment {
         groupMenu = menu.add(Menu.NONE, 0, Menu.NONE, null);
         groupMenu.setActionView(R.layout.menuitem_refresh);
         groupMenu.setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
-        View refreshView = groupMenu.getActionView();
-        ImageView refreshIcon = (ImageView) refreshView.findViewById(R.id.b_refresh);
-        refreshIcon.setOnClickListener(new View.OnClickListener() {
+        View groupRefreshView = groupMenu.getActionView();
+        ImageView groupRefreshIcon = (ImageView) groupRefreshView.findViewById(R.id.b_refresh);
+        groupRefreshIcon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 bus.post(new RefreshGroupEvent());
+            }
+        });
+        gameMenu = menu.add(Menu.NONE, 0, Menu.NONE, null);
+        gameMenu.setActionView(R.layout.menuitem_refresh);
+        gameMenu.setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
+        View gameRefreshView = gameMenu.getActionView();
+        ImageView gameRefreshIcon = (ImageView) gameRefreshView.findViewById(R.id.b_refresh);
+        gameRefreshIcon.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                bus.post(new RefreshGameEvent());
             }
         });
         toggleMenuItem(pager.getCurrentItem());
@@ -116,12 +129,16 @@ public class RecreationFragment extends Fragment {
     private void toggleMenuItem(int position) {
         conversationMenu.setVisible(false);
         groupMenu.setVisible(false);
+        gameMenu.setVisible(false);
         switch (position) {
             case RecreationTabPageIndicator.TAB_CONVERSATION:
                 conversationMenu.setVisible(true);
                 break;
             case RecreationTabPageIndicator.TAB_GROUP:
                 groupMenu.setVisible(true);
+                break;
+            case RecreationTabPageIndicator.TAB_GAME:
+                gameMenu.setVisible(true);
                 break;
             default:
                 break;
