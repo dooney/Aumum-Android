@@ -69,7 +69,7 @@ public class GroupFragment extends ItemListFragment<GroupDetails> {
         List<EMGroupInfo> groupInfoList = chatService.getPublicGroups();
         ArrayList<EMGroup> groups = new ArrayList<>();
         for (EMGroupInfo groupInfo: groupInfoList) {
-            EMGroup group = chatService.getGroupById(groupInfo.getGroupId());
+            EMGroup group = chatService.getGroupFromServer(groupInfo.getGroupId());
             groups.add(group);
         }
         ArrayList<GroupDetails> groupList = new ArrayList<>();

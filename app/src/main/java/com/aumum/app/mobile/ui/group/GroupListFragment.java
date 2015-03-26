@@ -56,7 +56,7 @@ public class GroupListFragment extends ItemListFragment<GroupDetails> {
         ArrayList<GroupDetails> groupList = new ArrayList<>();
         User currentUser = userStore.getCurrentUser();
         for (String groupId: groups) {
-            EMGroup group = chatService.getGroupById(groupId);
+            EMGroup group = chatService.getGroupFromServer(groupId);
             User user = userStore.getUserByChatId(group.getOwner());
             int groupSize = group.getMembers().size();
             boolean isMember = group.getMembers().contains(currentUser.getChatId());
