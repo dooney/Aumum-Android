@@ -1,4 +1,4 @@
-package com.aumum.app.mobile.ui.chat;
+package com.aumum.app.mobile.ui.group;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -53,6 +53,7 @@ public class GroupDetailsFragment extends ItemListFragment<User> {
     private EMGroup group;
     private SafeAsyncTask<Boolean> task;
     private ProgressListener progressListener;
+    private MenuItem moreMenu;
 
     private final int ADD_USERS_REQ_CODE = 100;
     private final int REMOVE_USERS_REQ_CODE = 101;
@@ -77,10 +78,10 @@ public class GroupDetailsFragment extends ItemListFragment<User> {
 
     @Override
     public void onCreateOptionsMenu(final Menu menu, final MenuInflater inflater) {
-        MenuItem more = menu.add(Menu.NONE, 0, Menu.NONE, null);
-        more.setActionView(R.layout.menuitem_more);
-        more.setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
-        View moreView = more.getActionView();
+        moreMenu = menu.add(Menu.NONE, 0, Menu.NONE, null);
+        moreMenu.setActionView(R.layout.menuitem_more);
+        moreMenu.setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
+        View moreView = moreMenu.getActionView();
         ImageView moreIcon = (ImageView) moreView.findViewById(R.id.b_more);
         moreIcon.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -120,7 +121,16 @@ public class GroupDetailsFragment extends ItemListFragment<User> {
     protected List<User> loadDataCore(Bundle bundle) throws Exception {
         currentUser = userStore.getCurrentUser();
         group = chatService.getGroupFromServer(groupId);
-        return userStore.getGroupUsers(group.getMembers());
+        final List<String> members = group.getMembers();
+        getActivity().runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                if (!members.contains(currentUser.getChatId())) {
+                    moreMenu.setVisible(false);
+                }
+            }
+        });
+        return userStore.getGroupUsers(members);
     }
 
     @Override

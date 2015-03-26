@@ -1,4 +1,4 @@
-package com.aumum.app.mobile.ui.conversation;
+package com.aumum.app.mobile.ui.group;
 
 import android.app.Activity;
 import android.view.LayoutInflater;

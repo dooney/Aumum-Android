@@ -2,9 +2,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.aumum.app.mobile.ui.conversation.GroupListActivity">
+    tools:context="com.aumum.app.mobile.ui.group.GroupListActivity">
 
-    <fragment android:name="com.aumum.app.mobile.ui.conversation.GroupListFragment"
+    <fragment android:name="com.aumum.app.mobile.ui.group.GroupListFragment"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent" />
 

@@ -1,4 +1,4 @@
-package com.aumum.app.mobile.ui.chat;
+package com.aumum.app.mobile.ui.group;
 
 import android.content.Intent;
 import android.os.Bundle;

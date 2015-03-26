@@ -10,7 +10,7 @@ import android.support.v4.app.NotificationCompat;
 
 import com.aumum.app.mobile.R;
 import com.aumum.app.mobile.ui.asking.AskingDetailsSingleActivity;
-import com.aumum.app.mobile.ui.conversation.GroupRequestsActivity;
+import com.aumum.app.mobile.ui.group.GroupRequestsActivity;
 import com.aumum.app.mobile.ui.moment.MomentDetailsSingleActivity;
 import com.aumum.app.mobile.ui.user.UserSingleActivity;
 import com.aumum.app.mobile.utils.PreferenceUtils;

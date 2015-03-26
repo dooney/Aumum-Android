@@ -3,7 +3,7 @@ package com.aumum.app.mobile.ui.view.sort;
 /**
  * Created by Administrator on 18/12/2014.
  */
-public interface Sortable {
+public interface InitialSortable {
 
     String getSortLetters();
 }

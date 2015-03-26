@@ -1,7 +1,9 @@
-package com.aumum.app.mobile.ui.conversation;
+package com.aumum.app.mobile.ui.group;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
@@ -23,7 +25,17 @@ public class GroupCard {
         this.view = view;
     }
 
-    public void refresh(GroupDetails groupDetails) {
+    public void refresh(final GroupDetails groupDetails) {
+        ViewGroup layout = (ViewGroup) view.findViewById(R.id.layout_group_card);
+        layout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                final Intent intent = new Intent(activity, GroupDetailsActivity.class);
+                intent.putExtra(GroupDetailsActivity.INTENT_GROUP_ID, groupDetails.getId());
+                activity.startActivity(intent);
+            }
+        });
+
         TextView groupNameText = (TextView) view.findViewById(R.id.text_group_name);
         groupNameText.setText(groupDetails.getName());
 

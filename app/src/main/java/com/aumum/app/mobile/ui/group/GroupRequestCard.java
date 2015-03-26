@@ -1,4 +1,4 @@
-package com.aumum.app.mobile.ui.conversation;
+package com.aumum.app.mobile.ui.group;
 
 import android.app.Activity;
 import android.view.View;
@@ -12,7 +12,6 @@ import com.aumum.app.mobile.core.model.GroupRequest;
 import com.aumum.app.mobile.core.model.User;
 import com.aumum.app.mobile.ui.user.UserListener;
 import com.aumum.app.mobile.ui.view.AvatarImageView;
-import com.github.kevinsawicki.wishlist.Toaster;
 
 /**
  * Created by Administrator on 25/03/2015.

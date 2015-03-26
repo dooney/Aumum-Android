@@ -10,6 +10,11 @@
         <item>好友</item>
         <item>个人</item>
     </string-array>
+    <string-array name="label_recreation_pages">
+        <item>会话</item>
+        <item>热门群组</item>
+        <item>小游戏</item>
+    </string-array>
     <string-array name="label_asking_pages">
         <item>我爱我家</item>
         <item>亲子教育</item>

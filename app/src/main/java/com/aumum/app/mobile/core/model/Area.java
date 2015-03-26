@@ -1,12 +1,12 @@
 package com.aumum.app.mobile.core.model;
 
-import com.aumum.app.mobile.ui.view.sort.Sortable;
+import com.aumum.app.mobile.ui.view.sort.InitialSortable;
 import com.aumum.app.mobile.utils.Strings;
 
 /**
  * Created by Administrator on 14/01/2015.
  */
-public class Area extends AggregateRoot implements Sortable {
+public class Area extends AggregateRoot implements InitialSortable {
 
     private String name;
 

@@ -5,9 +5,9 @@ import java.util.Comparator;
 /**
  * Created by Administrator on 18/12/2014.
  */
-public class InitialComparator implements Comparator<Sortable> {
+public class InitialComparator implements Comparator<InitialSortable> {
 
-    public int compare(Sortable o1, Sortable o2) {
+    public int compare(InitialSortable o1, InitialSortable o2) {
         if (o1.getSortLetters().equals("@")
                 || o2.getSortLetters().equals("#")) {
             return -1;

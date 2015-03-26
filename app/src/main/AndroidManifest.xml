@@ -247,7 +247,7 @@
             android:label="@string/title_activity_mobile_contacts" >
         </activity>
         <activity
-            android:name=".ui.chat.GroupDetailsActivity"
+            android:name=".ui.group.GroupDetailsActivity"
             android:label="@string/title_activity_group_details" >
         </activity>
         <activity
@@ -329,17 +329,17 @@
         <activity android:name=".ui.party.SharePartyActivity"
             android:label="@string/title_activity_share_party">
         </activity>
-        <activity android:name=".ui.conversation.GroupListActivity"
+        <activity android:name=".ui.group.GroupListActivity"
             android:label="@string/title_activity_group_list">
         </activity>
         <activity
-            android:name=".ui.conversation.GroupRequestsActivity"
+            android:name=".ui.group.GroupRequestsActivity"
             android:excludeFromRecents="true"
             android:label="@string/title_activity_group_requests"
             android:launchMode="singleTask"
             android:taskAffinity="" >
         </activity>
-        <activity android:name=".ui.chat.GroupMemberPickerActivity"
+        <activity android:name=".ui.group.GroupMemberPickerActivity"
             android:label="@string/title_activity_group_member_picker">
         </activity>
     </application>

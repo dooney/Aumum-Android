@@ -1,9 +1,11 @@
 package com.aumum.app.mobile.core.model;
 
+import com.aumum.app.mobile.ui.view.sort.SizeSortable;
+
 /**
  * Created by Administrator on 24/03/2015.
  */
-public class GroupDetails {
+public class GroupDetails implements SizeSortable {
 
     private String id;
     private String name;
@@ -41,5 +43,10 @@ public class GroupDetails {
 
     public boolean isMember() {
         return isMember;
+    }
+
+    @Override
+    public Integer getSortSize() {
+        return size;
     }
 }

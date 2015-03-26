@@ -121,14 +121,20 @@ public class UserStore {
 
     public User getUserByScreenNameFromServer(String screenName) throws Exception {
         User user = restService.getUserByScreenName(screenName);
-        userEntityDao.insertOrReplace(map(user));
-        return user;
+        if (user != null) {
+            userEntityDao.insertOrReplace(map(user));
+            return user;
+        }
+        return null;
     }
 
     public User getUserByChatIdFromServer(String id) throws Exception {
         User user = restService.getUserByChatId(id);
-        userEntityDao.insertOrReplace(map(user));
-        return user;
+        if (user != null) {
+            userEntityDao.insertOrReplace(map(user));
+            return user;
+        }
+        return null;
     }
 
     public User getUserById(String id) throws Exception {

@@ -1,12 +1,12 @@
 package com.aumum.app.mobile.core.model;
 
-import com.aumum.app.mobile.ui.view.sort.Sortable;
+import com.aumum.app.mobile.ui.view.sort.InitialSortable;
 import com.aumum.app.mobile.utils.Strings;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class User extends AggregateRoot implements Sortable {
+public class User extends AggregateRoot implements InitialSortable {
 
     protected String username;
     protected String chatId;

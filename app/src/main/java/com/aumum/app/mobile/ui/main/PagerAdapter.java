@@ -7,9 +7,9 @@ import android.support.v4.app.FragmentPagerAdapter;
 
 import com.aumum.app.mobile.R;
 import com.aumum.app.mobile.ui.contact.ContactFragment;
-import com.aumum.app.mobile.ui.conversation.ConversationFragment;
 import com.aumum.app.mobile.ui.discovery.DiscoveryFragment;
 import com.aumum.app.mobile.ui.party.PartyFragment;
+import com.aumum.app.mobile.ui.recreation.RecreationFragment;
 import com.aumum.app.mobile.ui.user.ProfileFragment;
 import com.aumum.app.mobile.ui.view.tab.IconPagerAdapter;
 
@@ -21,7 +21,7 @@ public class PagerAdapter extends FragmentPagerAdapter
 
     private String pages[];
 
-    public static final int PAGE_CONVERSATION = 0;
+    public static final int PAGE_RECREATION = 0;
     public static final int PAGE_PARTY = 1;
     public static final int PAGE_DISCOVERY = 2;
     public static final int PAGE_CONTACT = 3;
@@ -66,8 +66,8 @@ public class PagerAdapter extends FragmentPagerAdapter
             case PAGE_DISCOVERY:
                 result = new DiscoveryFragment();
                 break;
-            case PAGE_CONVERSATION:
-                result = new ConversationFragment();
+            case PAGE_RECREATION:
+                result = new RecreationFragment();
                 break;
             case PAGE_CONTACT:
                 result = new ContactFragment();

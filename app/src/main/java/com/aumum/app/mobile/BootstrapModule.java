@@ -33,9 +33,8 @@ import com.aumum.app.mobile.ui.asking.NewAskingActivity;
 import com.aumum.app.mobile.ui.asking.SearchAskingFragment;
 import com.aumum.app.mobile.ui.chat.ChatConnectionListener;
 import com.aumum.app.mobile.ui.chat.ChatFragment;
-import com.aumum.app.mobile.ui.chat.GroupChangeListener;
-import com.aumum.app.mobile.ui.chat.GroupDetailsFragment;
-import com.aumum.app.mobile.ui.chat.GroupMemberPickerFragment;
+import com.aumum.app.mobile.ui.group.GroupChangeListener;
+import com.aumum.app.mobile.ui.group.GroupDetailsFragment;
 import com.aumum.app.mobile.ui.chat.ImageMessageCard;
 import com.aumum.app.mobile.ui.chat.MessageNotifyListener;
 import com.aumum.app.mobile.ui.chat.NotificationClickListener;
@@ -43,10 +42,11 @@ import com.aumum.app.mobile.ui.chat.SendMessageListener;
 import com.aumum.app.mobile.ui.chat.TextMessageCard;
 import com.aumum.app.mobile.ui.chat.VoiceMessageCard;
 import com.aumum.app.mobile.ui.contact.ContactFragment;
-import com.aumum.app.mobile.ui.conversation.GroupJoinListener;
-import com.aumum.app.mobile.ui.conversation.GroupRequestProcessListener;
-import com.aumum.app.mobile.ui.conversation.GroupRequestsFragment;
-import com.aumum.app.mobile.ui.conversation.GroupListFragment;
+import com.aumum.app.mobile.ui.group.GroupFragment;
+import com.aumum.app.mobile.ui.group.GroupJoinListener;
+import com.aumum.app.mobile.ui.group.GroupRequestProcessListener;
+import com.aumum.app.mobile.ui.group.GroupRequestsFragment;
+import com.aumum.app.mobile.ui.group.GroupListFragment;
 import com.aumum.app.mobile.ui.discovery.DiscoveryFragment;
 import com.aumum.app.mobile.ui.feed.article.ArticleFragment;
 import com.aumum.app.mobile.ui.feed.channel.ChannelFragment;
@@ -75,6 +75,7 @@ import com.aumum.app.mobile.ui.party.PartyCommentLikeListener;
 import com.aumum.app.mobile.ui.party.PartyFragment;
 import com.aumum.app.mobile.ui.party.PartyRequestListFragment;
 import com.aumum.app.mobile.ui.party.SharePartyActivity;
+import com.aumum.app.mobile.ui.recreation.RecreationFragment;
 import com.aumum.app.mobile.ui.report.ReportActivity;
 import com.aumum.app.mobile.ui.settings.FeedbackActivity;
 import com.aumum.app.mobile.ui.settings.NotificationActivity;
@@ -225,7 +226,9 @@ import retrofit.converter.GsonConverter;
                 GroupChangeListener.class,
                 GroupRequestsFragment.class,
                 GroupJoinListener.class,
-                GroupRequestProcessListener.class
+                GroupRequestProcessListener.class,
+                RecreationFragment.class,
+                GroupFragment.class
         }
 )
 public class BootstrapModule {
