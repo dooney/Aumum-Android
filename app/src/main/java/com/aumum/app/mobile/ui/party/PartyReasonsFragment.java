@@ -184,7 +184,7 @@ public class PartyReasonsFragment extends ItemListFragment<PartyReason> {
                         currentUser.getScreenName());
                 chatService.sendSystemMessage(party.getGroupId(), true, text, null);
                 CmdMessage cmdMessage = new CmdMessage(CmdMessage.Type.GROUP_JOIN,
-                        null, null, party.getGroupId());
+                        null, currentUser.getObjectId(), party.getGroupId());
                 chatService.sendCmdMessage(party.getGroupId(), cmdMessage, true, null);
                 return true;
             }

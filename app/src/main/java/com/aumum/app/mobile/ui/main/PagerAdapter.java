@@ -6,8 +6,8 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
 import com.aumum.app.mobile.R;
-import com.aumum.app.mobile.ui.conversation.ConversationFragment;
 import com.aumum.app.mobile.ui.contact.ContactFragment;
+import com.aumum.app.mobile.ui.conversation.ConversationFragment;
 import com.aumum.app.mobile.ui.discovery.DiscoveryFragment;
 import com.aumum.app.mobile.ui.party.PartyFragment;
 import com.aumum.app.mobile.ui.user.ProfileFragment;

@@ -136,6 +136,9 @@
     <style name="ImageView.Messaging" parent="ImageView">
         <item name="android:src">@drawable/ic_fa_asking</item>
     </style>
+    <style name="ImageView.Checkbox" parent="ImageView">
+        <item name="android:src">@drawable/checkbox_on_focus</item>
+    </style>
 
     <style name="TextView" parent="android:Widget.TextView">
         <item name="android:layout_width">wrap_content</item>
@@ -636,8 +639,6 @@
     </style>
 
     <!-- Contact -->
-    <style name="TextView.Contact" parent="TextView.Title" />
-    <style name="TextView.Contact.ScreenName" parent="TextView.Contact" />
     <style name="TextView.ContactRequest.ScreenName" parent="TextView.Title" />
     <style name="TextView.ContactRequest.Intro" parent="TextView.Subtitle">
         <item name="android:maxLines">1</item>
@@ -658,9 +659,6 @@
     </style>
     <style name="TextView.UserContact.Added" parent="TextView.Subtitle">
         <item name="android:text">@string/label_added</item>
-    </style>
-    <style name="ImageView.ContactPicker.Checkbox" parent="ImageView">
-        <item name="android:src">@drawable/checkbox_on_focus</item>
     </style>
 
     <!-- User -->

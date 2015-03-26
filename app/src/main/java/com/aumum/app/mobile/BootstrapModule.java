@@ -35,12 +35,14 @@ import com.aumum.app.mobile.ui.chat.ChatConnectionListener;
 import com.aumum.app.mobile.ui.chat.ChatFragment;
 import com.aumum.app.mobile.ui.chat.GroupChangeListener;
 import com.aumum.app.mobile.ui.chat.GroupDetailsFragment;
+import com.aumum.app.mobile.ui.chat.GroupMemberPickerFragment;
 import com.aumum.app.mobile.ui.chat.ImageMessageCard;
 import com.aumum.app.mobile.ui.chat.MessageNotifyListener;
 import com.aumum.app.mobile.ui.chat.NotificationClickListener;
 import com.aumum.app.mobile.ui.chat.SendMessageListener;
 import com.aumum.app.mobile.ui.chat.TextMessageCard;
 import com.aumum.app.mobile.ui.chat.VoiceMessageCard;
+import com.aumum.app.mobile.ui.contact.ContactFragment;
 import com.aumum.app.mobile.ui.conversation.GroupJoinListener;
 import com.aumum.app.mobile.ui.conversation.GroupRequestProcessListener;
 import com.aumum.app.mobile.ui.conversation.GroupRequestsFragment;
@@ -66,7 +68,6 @@ import com.aumum.app.mobile.ui.contact.ContactPickerFragment;
 import com.aumum.app.mobile.ui.contact.MobileContactsActivity;
 import com.aumum.app.mobile.ui.conversation.ConversationFragment;
 import com.aumum.app.mobile.ui.contact.AcceptContactListener;
-import com.aumum.app.mobile.ui.contact.ContactFragment;
 import com.aumum.app.mobile.ui.contact.ContactListener;
 import com.aumum.app.mobile.ui.contact.ContactRequestsFragment;
 import com.aumum.app.mobile.ui.account.VerifyActivity;
@@ -114,7 +115,6 @@ import com.aumum.app.mobile.core.dao.UserStore;
 import com.aumum.app.mobile.ui.main.MainActivity;
 import com.aumum.app.mobile.ui.party.PartyCommentsFragment;
 import com.aumum.app.mobile.ui.party.PartyDetailsFragment;
-import com.aumum.app.mobile.ui.user.UserFragment;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.squareup.otto.Bus;
@@ -147,7 +147,7 @@ import retrofit.converter.GsonConverter;
                 PartyLikeListener.class,
                 PartyCommentsFragment.class,
                 PartyCommentCard.class,
-                UserFragment.class,
+                com.aumum.app.mobile.ui.user.UserFragment.class,
                 PartyDetailsFragment.class,
                 PartyReasonsFragment.class,
                 PartyCommentLikeListener.class,

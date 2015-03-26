@@ -22,7 +22,7 @@
 
         <TextView
             android:id="@+id/text_name"
-            style="@style/TextView.Contact.ScreenName"
+            style="@style/TextView.Title"
             android:layout_centerVertical="true"/>
 
     </RelativeLayout>

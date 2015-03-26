@@ -17,7 +17,7 @@
         android:text="A"/>
 
     <RelativeLayout
-        android:id="@+id/layout_contact_card"
+        android:id="@+id/layout_user_card"
         style="@style/RelativeLayout.ListNavButton">
 
         <com.aumum.app.mobile.ui.view.AvatarImageView
@@ -28,7 +28,7 @@
 
         <TextView
             android:id="@+id/text_screen_name"
-            style="@style/TextView.Contact.ScreenName"
+            style="@style/TextView.Title"
             android:layout_toRightOf="@+id/image_avatar"
             android:layout_centerVertical="true"/>
 

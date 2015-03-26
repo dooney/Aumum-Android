@@ -86,7 +86,7 @@ public class GroupRequestProcessListener implements View.OnClickListener {
                         user.getScreenName());
                 chatService.sendSystemMessage(groupId, true, text, null);
                 CmdMessage cmdMessage = new CmdMessage(CmdMessage.Type.GROUP_JOIN,
-                        null, null, groupId);
+                        null, request.getUserId(), groupId);
                 chatService.sendCmdMessage(groupId, cmdMessage, true, null);
                 request.setStatus(GroupRequest.STATUS_APPROVED);
                 userStore.saveGroupRequest(request);

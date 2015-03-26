@@ -1,4 +1,4 @@
-package com.aumum.app.mobile.ui.contact;
+package com.aumum.app.mobile.ui.user;
 
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,34 +13,34 @@ import com.aumum.app.mobile.ui.view.AvatarImageView;
 /**
  * Created by Administrator on 25/12/2014.
  */
-public class ContactPickerCard {
+public class UserPickerCard {
 
     private TextView catalogText;
-    private ViewGroup contactCardLayout;
+    private ViewGroup userCardLayout;
     private AvatarImageView avatarImage;
     private TextView screenNameText;
     private ImageView checkbox;
-    private ContactClickListener contactClickListener;
+    private UserClickListener userClickListener;
 
-    public ContactPickerCard(View view, ContactClickListener contactClickListener) {
+    public UserPickerCard(View view, UserClickListener userClickListener) {
         catalogText = (TextView) view.findViewById(R.id.text_catalog);
-        contactCardLayout = (ViewGroup) view.findViewById(R.id.layout_contact_card);
+        userCardLayout = (ViewGroup) view.findViewById(R.id.layout_user_card);
         avatarImage = (AvatarImageView) view.findViewById(R.id.image_avatar);
         screenNameText = (TextView) view.findViewById(R.id.text_screen_name);
         checkbox = (ImageView) view.findViewById(R.id.checkbox);
-        this.contactClickListener = contactClickListener;
+        this.userClickListener = userClickListener;
     }
 
     public void refresh(final User user) {
         avatarImage.getFromUrl(user.getAvatarUrl());
         screenNameText.setText(user.getScreenName());
-        checkbox.setSelected(contactClickListener.isSelected(user.getObjectId()));
+        checkbox.setSelected(userClickListener.isSelected(user.getObjectId()));
 
-        contactCardLayout.setOnClickListener(new View.OnClickListener() {
+        userCardLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (contactClickListener != null) {
-                    if (contactClickListener.onContactClick(user.getObjectId())) {
+                if (userClickListener != null) {
+                    if (userClickListener.onUserClick(user.getObjectId())) {
                         checkbox.setSelected(!checkbox.isSelected());
                         Animation.scaleIn(checkbox, Animation.Duration.SHORT);
                     }

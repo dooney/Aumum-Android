@@ -6,6 +6,7 @@ import android.widget.TextView;
 
 import com.aumum.app.mobile.R;
 import com.aumum.app.mobile.core.model.User;
+import com.aumum.app.mobile.ui.user.UserClickListener;
 import com.aumum.app.mobile.ui.view.AvatarImageView;
 
 /**
@@ -17,14 +18,14 @@ public class ContactCard {
     private ViewGroup contactCardLayout;
     private AvatarImageView avatarImage;
     private TextView screenNameText;
-    private ContactClickListener contactClickListener;
+    private UserClickListener userClickListener;
 
-    public ContactCard(View view, ContactClickListener contactClickListener) {
+    public ContactCard(View view, UserClickListener userClickListener) {
         catalogText = (TextView) view.findViewById(R.id.text_catalog);
-        contactCardLayout = (ViewGroup) view.findViewById(R.id.layout_contact_card);
+        contactCardLayout = (ViewGroup) view.findViewById(R.id.layout_user_card);
         avatarImage = (AvatarImageView) view.findViewById(R.id.image_avatar);
         screenNameText = (TextView) view.findViewById(R.id.text_screen_name);
-        this.contactClickListener = contactClickListener;
+        this.userClickListener = userClickListener;
     }
 
     public void refresh(final User user) {
@@ -34,8 +35,8 @@ public class ContactCard {
         contactCardLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (contactClickListener != null) {
-                    contactClickListener.onContactClick(user.getObjectId());
+                if (userClickListener != null) {
+                    userClickListener.onUserClick(user.getObjectId());
                 }
             }
         });

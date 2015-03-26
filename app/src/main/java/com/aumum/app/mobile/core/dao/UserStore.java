@@ -189,6 +189,15 @@ public class UserStore {
         groupRequestEntityDao.insert(groupRequestEntity);
     }
 
+    public void deleteGroupRequests(String groupId) {
+        List<GroupRequestEntity> entities = groupRequestEntityDao.queryBuilder()
+                .where(GroupRequestEntityDao.Properties.GroupId.eq(groupId))
+                .list();
+        for (GroupRequestEntity entity: entities) {
+            groupRequestEntityDao.deleteByKey(entity.getId());
+        }
+    }
+
     public List<GroupRequest> getGroupRequestList() throws Exception {
         List<GroupRequestEntity> entities = groupRequestEntityDao.queryBuilder()
                 .orderDesc(GroupRequestEntityDao.Properties.Id)

@@ -31,6 +31,7 @@ import com.aumum.app.mobile.R;
 import com.aumum.app.mobile.core.Constants;
 import com.aumum.app.mobile.core.dao.UserStore;
 import com.aumum.app.mobile.core.service.ChatService;
+import com.aumum.app.mobile.events.GroupDeletedEvent;
 import com.aumum.app.mobile.ui.helper.TextWatcherAdapter;
 import com.aumum.app.mobile.ui.image.ImagePickerActivity;
 import com.aumum.app.mobile.ui.report.ReportActivity;
@@ -46,6 +47,8 @@ import com.easemob.chat.EMMessage;
 import com.easemob.chat.ImageMessageBody;
 import com.easemob.util.VoiceRecorder;
 import com.github.kevinsawicki.wishlist.Toaster;
+import com.squareup.otto.Bus;
+import com.squareup.otto.Subscribe;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -63,6 +66,7 @@ public class ChatFragment extends Fragment
 
     @Inject ChatService chatService;
     @Inject UserStore userStore;
+    @Inject Bus bus;
 
     private String id;
     private boolean isGroup;
@@ -268,8 +272,15 @@ public class ChatFragment extends Fragment
     }
 
     @Override
+    public void onResume() {
+        super.onResume();
+        bus.register(this);
+    }
+
+    @Override
     public void onPause() {
         super.onPause();
+        bus.unregister(this);
         if (wakeLock.isHeld()) {
             wakeLock.release();
         }
@@ -580,5 +591,10 @@ public class ChatFragment extends Fragment
         intent.putExtra(ReportActivity.INTENT_ENTITY_TYPE, type);
         intent.putExtra(ReportActivity.INTENT_ENTITY_ID, id);
         startActivity(intent);
+    }
+
+    @Subscribe
+    public void onGroupDeletedEvent(GroupDeletedEvent event) {
+        getActivity().finish();
     }
 }

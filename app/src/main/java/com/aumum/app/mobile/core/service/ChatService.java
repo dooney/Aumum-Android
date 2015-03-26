@@ -157,6 +157,10 @@ public class ChatService {
         EMGroupManager.getInstance().addUsersToGroup(groupId, users);
     }
 
+    public void removeUserFromGroup(String groupId, String userId) throws Exception {
+        EMGroupManager.getInstance().removeUserFromGroup(groupId, userId);
+    }
+
     public void applyJoinGroup(String groupId, String reason) throws Exception {
         EMGroupManager.getInstance().applyJoinToGroup(groupId, reason);
     }

@@ -233,7 +233,7 @@ public class MainFragment extends Fragment
         getActivity().registerReceiver(cmdMessageBroadcastReceiver, cmdMessageIntentFilter);
 
         chatService.setConnectionListener(new ChatConnectionListener(getActivity()));
-        chatService.setGroupChangeListener(new GroupChangeListener(getActivity()));
+        chatService.setGroupChangeListener(new GroupChangeListener(getActivity(), bus));
         chatService.setMessageNotifyListener(new MessageNotifyListener(getActivity()));
         chatService.setNotificationClickListener(new NotificationClickListener(getActivity()));
         chatService.setContactListener(new ContactListener());
@@ -304,10 +304,10 @@ public class MainFragment extends Fragment
                     case CmdMessage.Type.PARTY_COMMENT_LIKE:
                         handlePartyCommentsCmdMessage(cmdMessage);
                     case CmdMessage.Type.GROUP_JOIN:
-                        handleGroupJoinCmdMessage(cmdMessage, message.getFrom());
+                        handleGroupJoinCmdMessage(cmdMessage);
                         break;
                     case CmdMessage.Type.GROUP_QUIT:
-                        handleGroupQuitCmdMessage(cmdMessage, message.getFrom());
+                        handleGroupQuitCmdMessage(cmdMessage);
                         break;
                     case CmdMessage.Type.ASKING_REPLY:
                     case CmdMessage.Type.ASKING_REPLIED:
@@ -323,6 +323,7 @@ public class MainFragment extends Fragment
                     case CmdMessage.Type.MOMENT_COMMENT:
                     case CmdMessage.Type.MOMENT_REPLY:
                     case CmdMessage.Type.MOMENT_COMMENT_LIKE:
+                        handleMomentDetailsCmdMessage(cmdMessage);
                         break;
                     default:
                         break;
@@ -349,13 +350,15 @@ public class MainFragment extends Fragment
         notificationService.pushPartyCommentsNotification(partyId, title, content);
     }
 
-    private void handleGroupJoinCmdMessage(CmdMessage cmdMessage, String userId) {
+    private void handleGroupJoinCmdMessage(CmdMessage cmdMessage) {
         String groupId = cmdMessage.getPayload();
+        String userId = cmdMessage.getContent();
         chatService.addGroupMember(groupId, userId);
     }
 
-    private void handleGroupQuitCmdMessage(CmdMessage cmdMessage, String userId) {
+    private void handleGroupQuitCmdMessage(CmdMessage cmdMessage) {
         String groupId = cmdMessage.getPayload();
+        String userId = cmdMessage.getContent();
         chatService.removeGroupMember(groupId, userId);
     }
 

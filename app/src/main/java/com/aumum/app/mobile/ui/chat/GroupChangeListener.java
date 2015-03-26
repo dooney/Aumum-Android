@@ -20,14 +20,16 @@ import javax.inject.Inject;
  */
 public class GroupChangeListener implements com.easemob.chat.GroupChangeListener {
 
-    private Activity activity;
     @Inject UserStore userStore;
     @Inject ChatService chatService;
     @Inject NotificationService notificationService;
-    @Inject Bus bus;
 
-    public GroupChangeListener(Activity activity) {
+    private Activity activity;
+    private Bus bus;
+
+    public GroupChangeListener(Activity activity, Bus bus) {
         this.activity = activity;
+        this.bus = bus;
         Injector.inject(this);
     }
 
@@ -90,15 +92,36 @@ public class GroupChangeListener implements com.easemob.chat.GroupChangeListener
     }
 
     @Override
-    public void onUserRemoved(String groupId, String groupName) {
+    public void onUserRemoved(final String groupId, final String groupName) {
+        new SafeAsyncTask<Boolean>() {
+            @Override
+            public Boolean call() throws Exception {
+                return chatService.deleteGroupConversation(groupId);
+            }
 
+            @Override
+            protected void onSuccess(Boolean success) throws Exception {
+                bus.post(new GroupDeletedEvent());
+                Toaster.showShort(activity,
+                        activity.getString(R.string.info_user_was_removed, groupName));
+            }
+        }.execute();
     }
 
     @Override
-    public void onGroupDestroy(String groupId, String groupName) {
-        if (chatService.deleteGroupConversation(groupId)) {
-            bus.post(new GroupDeletedEvent());
-            Toaster.showShort(activity, activity.getString(R.string.info_group_name_deleted, groupName));
-        }
+    public void onGroupDestroy(final String groupId, final String groupName) {
+        new SafeAsyncTask<Boolean>() {
+            @Override
+            public Boolean call() throws Exception {
+                return chatService.deleteGroupConversation(groupId);
+            }
+
+            @Override
+            protected void onSuccess(Boolean success) throws Exception {
+                bus.post(new GroupDeletedEvent());
+                Toaster.showShort(activity,
+                        activity.getString(R.string.info_group_name_deleted, groupName));
+            }
+        }.execute();
     }
 }

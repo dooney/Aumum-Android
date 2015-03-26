@@ -339,6 +339,9 @@
             android:launchMode="singleTask"
             android:taskAffinity="" >
         </activity>
+        <activity android:name=".ui.chat.GroupMemberPickerActivity"
+            android:label="@string/title_activity_group_member_picker">
+        </activity>
     </application>
 
 </manifest>

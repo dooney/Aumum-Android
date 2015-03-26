@@ -29,9 +29,11 @@ import com.aumum.app.mobile.utils.SafeAsyncTask;
 import com.easemob.EMCallBack;
 import com.easemob.chat.EMGroup;
 import com.github.kevinsawicki.wishlist.Toaster;
+import com.google.gson.Gson;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Iterator;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -52,7 +54,8 @@ public class GroupDetailsFragment extends ItemListFragment<User> {
     private SafeAsyncTask<Boolean> task;
     private ProgressListener progressListener;
 
-    private final int INVITE_CONTACT_REQ_CODE = 100;
+    private final int ADD_USERS_REQ_CODE = 100;
+    private final int REMOVE_USERS_REQ_CODE = 101;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -93,11 +96,17 @@ public class GroupDetailsFragment extends ItemListFragment<User> {
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        if (requestCode == INVITE_CONTACT_REQ_CODE && resultCode == Activity.RESULT_OK) {
+        if (requestCode == ADD_USERS_REQ_CODE && resultCode == Activity.RESULT_OK) {
             ArrayList<String> selectedContacts = data.getStringArrayListExtra(
                     ContactPickerActivity.INTENT_SELECTED_CONTACTS);
             if (selectedContacts != null) {
-                inviteContacts(selectedContacts);
+                addUsers(selectedContacts);
+            }
+        } else if (requestCode == REMOVE_USERS_REQ_CODE && resultCode == Activity.RESULT_OK) {
+            ArrayList<String> selectedMembers = data.getStringArrayListExtra(
+                    GroupMemberPickerActivity.INTENT_SELECTED_MEMBERS);
+            if (selectedMembers != null) {
+                removeUsers(selectedMembers);
             }
         }
     }
@@ -117,8 +126,12 @@ public class GroupDetailsFragment extends ItemListFragment<User> {
     @Override
     protected void handleLoadResult(List<User> result) {
         super.handleLoadResult(result);
+        setTitle(group.getMembers().size());
+    }
+
+    private void setTitle(int groupSize) {
         String title = String.format("%s (%d)",
-                getString(R.string.title_activity_group_details), group.getMembers().size());
+                getString(R.string.title_activity_group_details), groupSize);
         getActivity().setTitle(title);
     }
 
@@ -160,7 +173,7 @@ public class GroupDetailsFragment extends ItemListFragment<User> {
                     @Override
                     public void onSuccess(final Boolean success) {
                         CmdMessage cmdMessage = new CmdMessage(CmdMessage.Type.GROUP_QUIT,
-                                null, null, groupId);
+                                null, currentUser.getObjectId(), groupId);
                         chatService.sendCmdMessage(groupId, cmdMessage, true, null);
                         chatService.deleteGroupConversation(groupId);
                         Toaster.showShort(getActivity(), getActivity().getString(R.string.info_group_quit));
@@ -199,6 +212,7 @@ public class GroupDetailsFragment extends ItemListFragment<User> {
         task = new SafeAsyncTask<Boolean>() {
             public Boolean call() throws Exception {
                 chatService.deleteGroup(groupId);
+                userStore.deleteGroupRequests(groupId);
                 return true;
             }
 
@@ -237,9 +251,12 @@ public class GroupDetailsFragment extends ItemListFragment<User> {
             public void onItemClick(int i) {
                 switch (i) {
                     case 0:
-                        startInviteContactActivity();
+                        startAddUsersActivity();
                         break;
                     case 1:
+                        startRemoveUsersActivity();
+                        break;
+                    case 2:
                         delete();
                         break;
                     default:
@@ -276,12 +293,12 @@ public class GroupDetailsFragment extends ItemListFragment<User> {
         startActivity(intent);
     }
 
-    private void startInviteContactActivity() {
+    private void startAddUsersActivity() {
         final Intent intent = new Intent(getActivity(), ContactPickerActivity.class);
-        startActivityForResult(intent, INVITE_CONTACT_REQ_CODE);
+        startActivityForResult(intent, ADD_USERS_REQ_CODE);
     }
 
-    private void inviteContacts(final ArrayList<String> contacts) {
+    private void addUsers(final ArrayList<String> contacts) {
         final List<User> userList = getData();
         new SafeAsyncTask<Boolean>() {
             @Override
@@ -297,6 +314,7 @@ public class GroupDetailsFragment extends ItemListFragment<User> {
 
             @Override
             public void onSuccess(final Boolean success) {
+                setTitle(userList.size());
                 getListAdapter().notifyDataSetChanged();
             }
         }.execute();
@@ -311,9 +329,58 @@ public class GroupDetailsFragment extends ItemListFragment<User> {
                                 user.getScreenName() + "加入群组";
                         chatService.sendSystemMessage(groupId, true, text, null);
                         CmdMessage cmdMessage = new CmdMessage(CmdMessage.Type.GROUP_JOIN,
-                                null, null, groupId);
+                                null, contactId, groupId);
                         chatService.sendCmdMessage(groupId, cmdMessage, true, null);
                     }
+                }
+                return true;
+            }
+        }.execute();
+    }
+
+    private void startRemoveUsersActivity() {
+        final Intent intent = new Intent(getActivity(), GroupMemberPickerActivity.class);
+        Gson gson = new Gson();
+        String allMembers = gson.toJson(getData());
+        intent.putExtra(GroupMemberPickerActivity.INTENT_ALL_MEMBERS, allMembers);
+        startActivityForResult(intent, REMOVE_USERS_REQ_CODE);
+    }
+
+    private void removeUsers(final ArrayList<String> contacts) {
+        final List<User> userList = getData();
+        new SafeAsyncTask<Boolean>() {
+            @Override
+            public Boolean call() throws Exception {
+                for (final String contactId : contacts) {
+                    if (!group.getMembers().contains(contactId)) {
+                        for (Iterator<User> it = userList.iterator(); it.hasNext();) {
+                            User user = it.next();
+                            if (user.getObjectId().equals(contactId)) {
+                                it.remove();
+                            }
+                        }
+                    }
+                }
+                return true;
+            }
+
+            @Override
+            public void onSuccess(final Boolean success) {
+                setTitle(userList.size());
+                getListAdapter().notifyDataSetChanged();
+            }
+        }.execute();
+        new SafeAsyncTask<Boolean>() {
+            @Override
+            public Boolean call() throws Exception {
+                for (final String contactId: contacts) {
+                    chatService.removeUserFromGroup(groupId, contactId);
+                    User user = userStore.getUserById(contactId);
+                    String text = user.getScreenName() + "已被移出群组";
+                    chatService.sendSystemMessage(groupId, true, text, null);
+                    CmdMessage cmdMessage = new CmdMessage(CmdMessage.Type.GROUP_QUIT,
+                            null, contactId, groupId);
+                    chatService.sendCmdMessage(groupId, cmdMessage, true, null);
                 }
                 return true;
             }

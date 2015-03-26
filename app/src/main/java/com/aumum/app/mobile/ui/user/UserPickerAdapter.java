@@ -1,4 +1,4 @@
-package com.aumum.app.mobile.ui.contact;
+package com.aumum.app.mobile.ui.user;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -15,28 +15,28 @@ import java.util.List;
 /**
  * Created by Administrator on 25/12/2014.
  */
-public class ContactPickerAdapter extends ArrayAdapter<User>
+public class UserPickerAdapter extends ArrayAdapter<User>
         implements SectionIndexer {
 
-    private ContactClickListener contactClickListener;
+    private UserClickListener userClickListener;
 
-    public ContactPickerAdapter(Context context, List<User> objects,
-                                ContactClickListener contactClickListener) {
+    public UserPickerAdapter(Context context, List<User> objects,
+                             UserClickListener userClickListener) {
         super(context, 0, objects);
-        this.contactClickListener = contactClickListener;
+        this.userClickListener = userClickListener;
     }
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        final ContactPickerCard card;
+        final UserPickerCard card;
 
         if (convertView == null) {
             LayoutInflater inflater = LayoutInflater.from(getContext());
-            convertView = inflater.inflate(R.layout.contact_picker_listitem_inner, parent, false);
-            card = new ContactPickerCard(convertView, contactClickListener);
+            convertView = inflater.inflate(R.layout.user_picker_listitem_inner, parent, false);
+            card = new UserPickerCard(convertView, userClickListener);
             convertView.setTag(card);
         } else {
-            card = (ContactPickerCard) convertView.getTag();
+            card = (UserPickerCard) convertView.getTag();
         }
 
         User user = getItem(position);

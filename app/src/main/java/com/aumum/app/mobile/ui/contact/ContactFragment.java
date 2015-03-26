@@ -24,6 +24,7 @@ import com.aumum.app.mobile.ui.base.ItemListFragment;
 import com.aumum.app.mobile.ui.user.AreaUsersActivity;
 import com.aumum.app.mobile.ui.user.TagUsersActivity;
 import com.aumum.app.mobile.ui.user.UserActivity;
+import com.aumum.app.mobile.ui.user.UserClickListener;
 import com.aumum.app.mobile.ui.user.UserTagListActivity;
 import com.aumum.app.mobile.ui.view.ConfirmDialog;
 import com.aumum.app.mobile.ui.view.ListViewDialog;
@@ -44,7 +45,7 @@ import javax.inject.Inject;
  *
  */
 public class ContactFragment extends ItemListFragment<User>
-        implements ContactClickListener {
+        implements UserClickListener {
 
     @Inject UserStore userStore;
     @Inject RestService restService;
@@ -159,15 +160,15 @@ public class ContactFragment extends ItemListFragment<User>
     }
 
     @Override
-    public boolean onContactClick(String contactId) {
+    public boolean onUserClick(String userId) {
         final Intent intent = new Intent(getActivity(), UserActivity.class);
-        intent.putExtra(UserActivity.INTENT_USER_ID, contactId);
+        intent.putExtra(UserActivity.INTENT_USER_ID, userId);
         startActivity(intent);
         return true;
     }
 
     @Override
-    public boolean isSelected(String contactId) {
+    public boolean isSelected(String userId) {
         return true;
     }
 
