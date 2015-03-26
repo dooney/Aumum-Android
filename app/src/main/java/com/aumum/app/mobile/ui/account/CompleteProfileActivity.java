@@ -392,7 +392,7 @@ public class CompleteProfileActivity extends ProgressDialogActivity
                     String text = getString(R.string.label_group_joint, user.getScreenName());
                     chatService.sendSystemMessage(groupId, true, text, null);
                     CmdMessage cmdMessage = new CmdMessage(CmdMessage.Type.GROUP_JOIN,
-                            null, null, groupId);
+                            null, userId, groupId);
                     chatService.sendCmdMessage(groupId, cmdMessage, true, null);
                 }
                 return true;
