@@ -1,6 +1,7 @@
 package com.aumum.app.mobile.ui.browser;
 
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
@@ -30,6 +31,7 @@ public class BrowserActivity extends ActionBarActivity {
     public static final String INTENT_TITLE = "title";
     public static final String INTENT_URL = "url";
     public static final String INTENT_FULLSCREEN = "fullscreen";
+    public static final String INTENT_LANDSCAPE = "landscape";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,6 +45,9 @@ public class BrowserActivity extends ActionBarActivity {
         }
         if (intent.getBooleanExtra(INTENT_FULLSCREEN, false)) {
             getSupportActionBar().hide();
+        }
+        if (intent.getBooleanExtra(INTENT_LANDSCAPE, false)) {
+            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_SENSOR_LANDSCAPE);
         }
 
         WebSettings settings = webView.getSettings();

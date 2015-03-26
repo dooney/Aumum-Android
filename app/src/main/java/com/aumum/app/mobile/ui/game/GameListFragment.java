@@ -72,6 +72,7 @@ public class GameListFragment extends ItemListFragment<Game> {
         final Intent intent = new Intent(getActivity(), BrowserActivity.class);
         intent.putExtra(BrowserActivity.INTENT_URL, game.getUri());
         intent.putExtra(BrowserActivity.INTENT_FULLSCREEN, true);
+        intent.putExtra(BrowserActivity.INTENT_LANDSCAPE, game.isLandscape());
         startActivity(intent);
     }
 }

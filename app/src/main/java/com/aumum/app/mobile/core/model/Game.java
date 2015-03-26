@@ -11,6 +11,10 @@ public class Game extends AggregateRoot {
     private String avatarUrl;
     private String uri;
     private String description;
+    private int orientation;
+
+    private final int ORIENTATION_PORTRAIT = 0;
+    private final int ORIENTATION_LANDSCAPE = 1;
 
     public int getSeq() {
         return seq;
@@ -30,5 +34,9 @@ public class Game extends AggregateRoot {
 
     public String getDescription() {
         return description;
+    }
+
+    public boolean isLandscape() {
+        return orientation == ORIENTATION_LANDSCAPE;
     }
 }

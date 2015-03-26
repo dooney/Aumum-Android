@@ -360,8 +360,6 @@
     <style name="TextView.Game.ScreenName" parent="TextView.Title" />
     <style name="TextView.Game.Description" parent="TextView.Subtitle">
         <item name="android:textSize">@dimen/text_sz_small</item>
-        <item name="android:maxLines">1</item>
-        <item name="android:ellipsize">end</item>
     </style>
 
     <!-- Feed -->
