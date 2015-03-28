@@ -5,6 +5,8 @@ import com.aumum.app.mobile.core.model.Area;
 import com.aumum.app.mobile.core.model.Asking;
 import com.aumum.app.mobile.core.model.AskingReply;
 import com.aumum.app.mobile.core.model.CityGroup;
+import com.aumum.app.mobile.core.model.CreditGift;
+import com.aumum.app.mobile.core.model.CreditOrder;
 import com.aumum.app.mobile.core.model.EventCategory;
 import com.aumum.app.mobile.core.model.Feed;
 import com.aumum.app.mobile.core.model.Feedback;
@@ -139,6 +141,14 @@ public class RestService {
 
     private GameService getGameService() {
         return getRestAdapter().create(GameService.class);
+    }
+
+    private CreditGiftService getCreditGiftService() {
+        return getRestAdapter().create(CreditGiftService.class);
+    }
+
+    private CreditOrderService getCreditOrderService() {
+        return getRestAdapter().create(CreditOrderService.class);
     }
 
     private RestAdapter getRestAdapter() {
@@ -649,6 +659,12 @@ public class RestService {
     public JsonObject updateUserAbout(String userId, String about) {
         final JsonObject data = new JsonObject();
         data.addProperty(Constants.Http.User.PARAM_ABOUT, about);
+        return getUserService().updateById(userId, data);
+    }
+
+    public JsonObject updateUserCredit(String userId, int credit) {
+        final JsonObject data = new JsonObject();
+        data.addProperty(Constants.Http.User.PARAM_CREDIT, credit);
         return getUserService().updateById(userId, data);
     }
 
@@ -1424,5 +1440,18 @@ public class RestService {
         whereJson.add("deletedAt" ,liveJson);
         String where = whereJson.toString();
         return getGameService().getList("seq", where, Integer.MAX_VALUE).getResults();
+    }
+
+    public List<CreditGift> getCreditGiftList() {
+        final JsonObject whereJson = new JsonObject();
+        final JsonObject liveJson = new JsonObject();
+        liveJson.addProperty("$exists", false);
+        whereJson.add("deletedAt" ,liveJson);
+        String where = whereJson.toString();
+        return getCreditGiftService().getList("seq", where, Integer.MAX_VALUE).getResults();
+    }
+
+    public CreditOrder newCreditOrder(CreditOrder creditOrder) {
+        return getCreditOrderService().newCreditOrder(creditOrder);
     }
 }

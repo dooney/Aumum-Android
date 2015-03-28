@@ -5,7 +5,7 @@ import de.greenrobot.daogenerator.Schema;
 
 public class DaoGenerator {
 
-    private static final int SCHEMA_VERSION = 11;
+    private static final int SCHEMA_VERSION = 12;
 
     public static void main(String args[]) throws Exception {
         Schema schema = new Schema(SCHEMA_VERSION, "com.aumum.app.mobile.core.dao.gen");
@@ -42,6 +42,7 @@ public class DaoGenerator {
         user.addStringProperty("tags");
         user.addStringProperty("moments");
         user.addStringProperty("favSpecials");
+        user.addIntProperty("credit");
     }
 
     private static void addParty(Schema schema) {

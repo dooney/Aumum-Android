@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/layout_cedit_gift_card"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/list_selector_white"
+    android:paddingTop="@dimen/margin_medium"
+    android:paddingBottom="@dimen/margin_medium"
+    android:paddingLeft="@dimen/margin_large"
+    android:paddingRight="@dimen/margin_large">
+
+    <com.aumum.app.mobile.ui.view.AvatarImageView
+        android:id="@+id/image_avatar"
+        style="@style/ImageView.Avatar.Large"
+        android:layout_marginRight="@dimen/margin_large"
+        android:src="@drawable/ic_avatar"/>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_toRightOf="@+id/image_avatar">
+
+        <TextView
+            android:id="@+id/text_screen_name"
+            style="@style/TextView.CreditGift.ScreenName"/>
+
+        <TextView
+            android:id="@+id/text_description"
+            style="@style/TextView.CreditGift.Description"/>
+
+        <TextView
+            android:id="@+id/text_cost"
+            style="@style/TextView.CreditGift.Cost"
+            android:paddingBottom="@dimen/margin_small"/>
+
+        <Button
+            android:id="@+id/b_purchase"
+            style="@style/Button.CreditGift.Purchase"/>
+
+    </LinearLayout>
+
+</RelativeLayout>

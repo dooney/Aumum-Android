@@ -25,6 +25,7 @@ public class User extends AggregateRoot implements InitialSortable {
     protected List<String> tags = new ArrayList<String>();
     protected List<String> moments = new ArrayList<String>();
     protected List<String> favSpecials = new ArrayList<String>();
+    protected Integer credit;
 
     public User() {
 
@@ -47,7 +48,8 @@ public class User extends AggregateRoot implements InitialSortable {
                 List<String> favAskings,
                 List<String> tags,
                 List<String> moments,
-                List<String> favSpecials) {
+                List<String> favSpecials,
+                Integer credit) {
         this.objectId = objectId;
         this.username = username;
         this.chatId = chatId;
@@ -90,6 +92,7 @@ public class User extends AggregateRoot implements InitialSortable {
             this.favSpecials.clear();
             this.favSpecials.addAll(favSpecials);
         }
+        this.credit = credit;
     }
 
     public String getUsername() {
@@ -192,6 +195,17 @@ public class User extends AggregateRoot implements InitialSortable {
 
     public List<String> getFavSpecials() {
         return favSpecials;
+    }
+
+    public Integer getCredit() {
+        if (credit != null) {
+            return credit;
+        }
+        return 0;
+    }
+
+    public void setCredit(int credit) {
+        this.credit = credit;
     }
 
     @Override

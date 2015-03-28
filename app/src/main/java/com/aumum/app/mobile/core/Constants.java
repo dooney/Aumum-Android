@@ -201,6 +201,16 @@ public final class Constants {
         public static final String URL_GAMES_FRAG = "/1/classes/Games";
 
         /**
+         * List Credit Gift URL
+         */
+        public static final String URL_CREDIT_GIFTS_FRAG = "/1/classes/CreditGifts";
+
+        /**
+         * List Credit Order URL
+         */
+        public static final String URL_CREDIT_ORDERS_FRAG = "/1/classes/CreditOrders";
+
+        /**
          * PARAMS for auth
          */
         public static final String PARAM_USERNAME = "username";
@@ -257,6 +267,7 @@ public final class Constants {
             public static final String PARAM_PARTY_FAVORITES = "favParties";
             public static final String PARAM_ASKING_FAVORITES = "favAskings";
             public static final String PARAM_SPECIAL_FAVORITES = "favSpecials";
+            public static final String PARAM_CREDIT = "credit";
         }
 
         public static final class Asking {
@@ -366,6 +377,7 @@ public final class Constants {
         public static final int GET_ASKING_LIST_REQ_CODE = 41;
         public static final int GET_MOMENT_LIST_REQ_CODE = 42;
         public static final int NEW_PARTY_REQUEST_REQ_CODE = 43;
+        public static final int CREDIT_PURCHASE_REQ_CODE = 44;
     }
 
     public static final class Link {
@@ -375,6 +387,7 @@ public final class Constants {
         public static final String HOME = "http://www.aumums.com";
         public static final String VERSION_DETAILS = "http://www.aumums.com/version";
         public static final String AGREEMENT = "http://www.aumums.com/agreement";
+        public static final String CREDIT = "http://www.aumums.com/credit";
     }
 }
 

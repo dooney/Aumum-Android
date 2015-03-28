@@ -22,6 +22,8 @@ import com.aumum.app.mobile.core.model.User;
 import com.aumum.app.mobile.core.service.RestService;
 import com.aumum.app.mobile.ui.area.AreaListActivity;
 import com.aumum.app.mobile.ui.base.LoaderFragment;
+import com.aumum.app.mobile.ui.browser.BrowserActivity;
+import com.aumum.app.mobile.ui.credit.CreditPurchaseActivity;
 import com.aumum.app.mobile.ui.image.ImagePickerActivity;
 import com.aumum.app.mobile.ui.settings.SettingsActivity;
 import com.aumum.app.mobile.ui.view.AvatarImageView;
@@ -59,6 +61,9 @@ public class ProfileFragment extends LoaderFragment<User> {
     private AvatarImageView avatarImage;
     private View screenNameLayout;
     private TextView screenNameText;
+    private View creditLayout;
+    private TextView creditText;
+    private TextView creditInfoText;
     private View emailLayout;
     private TextView emailText;
     private View cityLayout;
@@ -141,6 +146,15 @@ public class ProfileFragment extends LoaderFragment<User> {
             }
         });
         screenNameText = (TextView) view.findViewById(R.id.text_screen_name);
+        creditLayout = view.findViewById(R.id.layout_credit);
+        creditText = (TextView) view.findViewById(R.id.text_credit);
+        creditInfoText = (TextView) view.findViewById(R.id.text_credit_info);
+        creditInfoText.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startCreditInfoActivity();
+            }
+        });
         emailLayout = view.findViewById(R.id.layout_email);
         emailLayout.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -298,6 +312,11 @@ public class ProfileFragment extends LoaderFragment<User> {
             final ArrayList<String> userTags =
                     data.getStringArrayListExtra(UserTagListActivity.INTENT_USER_TAGS);
             updateTags(userTags);
+        } else if (requestCode == Constants.RequestCode.CREDIT_PURCHASE_REQ_CODE &&
+                resultCode == Activity.RESULT_OK) {
+            int credit = data.getIntExtra(CreditPurchaseActivity.INTENT_CURRENT_CREDIT,
+                    currentUser.getCredit());
+            creditText.setText(String.valueOf(credit));
         }
     }
 
@@ -330,6 +349,7 @@ public class ProfileFragment extends LoaderFragment<User> {
                 }
             });
             screenNameText.setText(user.getScreenName());
+            creditText.setText(String.valueOf(user.getCredit()));
             emailText.setText(user.getEmail());
             cityText.setText(user.getCity());
             areaText.setText(user.getArea());
@@ -346,6 +366,9 @@ public class ProfileFragment extends LoaderFragment<User> {
             public void onItemClick(int i) {
                 switch (i) {
                     case 0:
+                        startCreditPurchaseActivity();
+                        break;
+                    case 1:
                         startSettingsActivity();
                         break;
                     default:
@@ -467,5 +490,16 @@ public class ProfileFragment extends LoaderFragment<User> {
     private void startUserTagListActivity() {
         final Intent intent = new Intent(getActivity(), UserTagListActivity.class);
         startActivityForResult(intent, Constants.RequestCode.GET_USER_TAG_LIST_REQ_CODE);
+    }
+
+    private void startCreditPurchaseActivity() {
+        final Intent intent = new Intent(getActivity(), CreditPurchaseActivity.class);
+        startActivityForResult(intent, Constants.RequestCode.CREDIT_PURCHASE_REQ_CODE);
+    }
+
+    private void startCreditInfoActivity() {
+        final Intent intent = new Intent(getActivity(), BrowserActivity.class);
+        intent.putExtra(BrowserActivity.INTENT_URL, Constants.Link.CREDIT);
+        startActivity(intent);
     }
 }
