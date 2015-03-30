@@ -1,19 +1,141 @@
 <?xml version="1.0" encoding="utf-8"?>
-
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <com.aumum.app.mobile.ui.discovery.DiscoveryTabPageIndicator
-        android:id="@+id/tpi_header"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_marginTop="@dimen/margin_extra_large">
 
-    <android.support.v4.view.ViewPager
-        android:id="@+id/vp_pages"
+        <RelativeLayout
+            android:id="@+id/layout_weibo"
+            style="@style/RelativeLayout.NavButton">
+
+            <ImageView
+                android:id="@+id/image_weibo"
+                style="@style/ImageView"
+                android:src="@drawable/ic_fa_weibo"
+                android:layout_centerVertical="true"
+                android:layout_alignParentLeft="true"
+                android:paddingRight="@dimen/margin_extra_large"/>
+
+            <TextView
+                android:id="@+id/text_label_weibo"
+                style="@style/TextView.Title"
+                android:layout_centerVertical="true"
+                android:layout_toRightOf="@+id/image_weibo"
+                android:text="@string/label_weibo"/>
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/layout_wechat"
+            style="@style/RelativeLayout.NavButton">
+
+            <ImageView
+                android:id="@+id/image_wechat"
+                style="@style/ImageView"
+                android:src="@drawable/ic_fa_wechat"
+                android:layout_centerVertical="true"
+                android:layout_alignParentLeft="true"
+                android:paddingRight="@dimen/margin_extra_large"/>
+
+            <TextView
+                android:id="@+id/text_label_wechat"
+                style="@style/TextView.Title"
+                android:layout_centerVertical="true"
+                android:layout_toRightOf="@+id/image_wechat"
+                android:text="@string/label_wechat"/>
+
+        </RelativeLayout>
+
+    </LinearLayout>
+
+    <RelativeLayout
+        android:id="@+id/layout_game"
+        style="@style/RelativeLayout.NavButton"
+        android:layout_marginTop="@dimen/margin_extra_large">
+
+        <ImageView
+            android:id="@+id/image_game"
+            style="@style/ImageView"
+            android:src="@drawable/ic_fa_game"
+            android:layout_centerVertical="true"
+            android:layout_alignParentLeft="true"
+            android:paddingRight="@dimen/margin_extra_large"/>
+
+        <TextView
+            android:id="@+id/text_label_game"
+            style="@style/TextView.Title"
+            android:layout_centerVertical="true"
+            android:layout_toRightOf="@+id/image_game"
+            android:text="@string/label_game"/>
+
+    </RelativeLayout>
+
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1" />
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_marginTop="@dimen/margin_extra_large">
+
+        <RelativeLayout
+            android:id="@+id/layout_party"
+            style="@style/RelativeLayout.NavButton">
+
+            <ImageView
+                android:id="@+id/image_party"
+                style="@style/ImageView"
+                android:src="@drawable/ic_fa_party"
+                android:layout_centerVertical="true"
+                android:layout_alignParentLeft="true"
+                android:paddingRight="@dimen/margin_extra_large"/>
+
+            <TextView
+                android:id="@+id/text_label_party"
+                style="@style/TextView.Title"
+                android:layout_centerVertical="true"
+                android:layout_toRightOf="@+id/image_party"
+                android:text="@string/label_party"/>
+
+            <ImageView
+                android:id="@+id/image_party_unread"
+                style="@style/ImageView.Unread.Small"
+                android:layout_toRightOf="@+id/text_label_party"
+                android:visibility="gone"/>
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/layout_moment"
+            style="@style/RelativeLayout.NavButton">
+
+            <ImageView
+                android:id="@+id/image_moment"
+                style="@style/ImageView"
+                android:src="@drawable/ic_fa_moment"
+                android:layout_centerVertical="true"
+                android:layout_alignParentLeft="true"
+                android:paddingRight="@dimen/margin_extra_large"/>
+
+            <TextView
+                android:id="@+id/text_label_moment"
+                style="@style/TextView.Title"
+                android:layout_centerVertical="true"
+                android:layout_toRightOf="@+id/image_moment"
+                android:text="@string/label_moment"/>
+
+            <ImageView
+                android:id="@+id/image_moment_unread"
+                style="@style/ImageView.Unread.Small"
+                android:layout_toRightOf="@+id/text_label_moment"
+                android:visibility="gone"/>
+
+        </RelativeLayout>
+
+    </LinearLayout>
 
 </LinearLayout>

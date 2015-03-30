@@ -4,9 +4,13 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 
 import com.aumum.app.mobile.Injector;
 import com.aumum.app.mobile.R;
@@ -14,13 +18,9 @@ import com.aumum.app.mobile.core.dao.MomentStore;
 import com.aumum.app.mobile.core.dao.UserStore;
 import com.aumum.app.mobile.core.infra.security.ApiKeyProvider;
 import com.aumum.app.mobile.core.model.Moment;
-import com.aumum.app.mobile.events.ResetDiscoveryUnreadEvent;
-import com.aumum.app.mobile.events.ShowMomentActionsEvent;
 import com.aumum.app.mobile.ui.base.RefreshItemListFragment;
 import com.aumum.app.mobile.ui.view.ListViewDialog;
 import com.aumum.app.mobile.utils.Ln;
-import com.squareup.otto.Bus;
-import com.squareup.otto.Subscribe;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -42,7 +42,6 @@ public class MomentListFragment extends RefreshItemListFragment<Card>
     @Inject UserStore userStore;
     @Inject MomentStore momentStore;
     @Inject ApiKeyProvider apiKeyProvider;
-    @Inject Bus bus;
 
     private String currentUserId;
     protected List<Moment> dataSet = new ArrayList<Moment>();
@@ -53,6 +52,7 @@ public class MomentListFragment extends RefreshItemListFragment<Card>
     @Override
     public void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setHasOptionsMenu(true);
         Injector.inject(this);
 
         currentUserId = apiKeyProvider.getAuthUserId();
@@ -62,6 +62,21 @@ public class MomentListFragment extends RefreshItemListFragment<Card>
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         return inflater.inflate(R.layout.fragment_moment_list, null);
+    }
+
+    @Override
+    public void onCreateOptionsMenu(final Menu menu, final MenuInflater inflater) {
+        MenuItem more = menu.add(Menu.NONE, 0, Menu.NONE, null);
+        more.setActionView(R.layout.menuitem_more);
+        more.setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
+        View moreView = more.getActionView();
+        ImageView moreIcon = (ImageView) moreView.findViewById(R.id.b_more);
+        moreIcon.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                showActionDialog();
+            }
+        });
     }
 
     @Override
@@ -80,18 +95,6 @@ public class MomentListFragment extends RefreshItemListFragment<Card>
     }
 
     @Override
-    public void onResume() {
-        super.onResume();
-        bus.register(this);
-    }
-
-    @Override
-    public void onPause() {
-        super.onDestroy();
-        bus.unregister(this);
-    }
-
-    @Override
     protected void getUpwardsList() throws Exception {
         String after = null;
         if (dataSet.size() > 0) {
@@ -102,7 +105,6 @@ public class MomentListFragment extends RefreshItemListFragment<Card>
         for(Moment moment: momentList) {
             dataSet.add(0, moment);
         }
-        bus.post(new ResetDiscoveryUnreadEvent());
     }
 
     @Override
@@ -249,10 +251,5 @@ public class MomentListFragment extends RefreshItemListFragment<Card>
     @Override
     public void OnClick(String momentId) {
         startMomentDetailsActivity(momentId);
-    }
-
-    @Subscribe
-    public void onShowMomentActionsEvent(ShowMomentActionsEvent event) {
-        showActionDialog();
     }
 }

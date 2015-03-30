@@ -110,7 +110,8 @@ public class AskingListFragment extends RefreshItemListFragment<Asking> {
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == Constants.RequestCode.GET_ASKING_DETAILS_REQ_CODE && resultCode == Activity.RESULT_OK) {
+        if (requestCode == Constants.RequestCode.GET_ASKING_DETAILS_REQ_CODE &&
+                resultCode == Activity.RESULT_OK) {
             String askingId = data.getStringExtra(AskingDetailsActivity.INTENT_ASKING_ID);
             if (askingId != null) {
                 onAskingDeleted(askingId);
@@ -166,7 +167,8 @@ public class AskingListFragment extends RefreshItemListFragment<Asking> {
     protected void getBackwardsList() throws Exception {
         if (dataSet.size() > 0) {
             Asking last = dataSet.get(dataSet.size() - 1);
-            List<Asking> askingList = askingStore.getBackwardsList(category, last.getUpdatedAt());
+            List<Asking> askingList = askingStore.getBackwardsList(category,
+                    last.getUpdatedAt());
             dataSet.addAll(askingList);
             if (askingList.size() > 0) {
                 setMore(true);

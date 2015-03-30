@@ -16,6 +16,7 @@ import android.widget.TextView;
 
 import com.aumum.app.mobile.Injector;
 import com.aumum.app.mobile.R;
+import com.aumum.app.mobile.core.dao.AskingStore;
 import com.aumum.app.mobile.core.dao.MomentStore;
 import com.aumum.app.mobile.core.dao.PartyRequestStore;
 import com.aumum.app.mobile.core.dao.PartyStore;
@@ -24,11 +25,13 @@ import com.aumum.app.mobile.core.model.CmdMessage;
 import com.aumum.app.mobile.core.service.ChatService;
 import com.aumum.app.mobile.core.service.NotificationService;
 import com.aumum.app.mobile.core.service.ScheduleService;
+import com.aumum.app.mobile.events.NewAskingUnreadEvent;
 import com.aumum.app.mobile.events.NewChatMessageEvent;
+import com.aumum.app.mobile.events.NewMomentUnreadEvent;
+import com.aumum.app.mobile.events.NewPartyUnreadEvent;
+import com.aumum.app.mobile.events.ResetAskingUnreadEvent;
 import com.aumum.app.mobile.events.ResetDiscoveryUnreadEvent;
 import com.aumum.app.mobile.events.ResetChatUnreadEvent;
-import com.aumum.app.mobile.events.ResetPartyRequestUnreadEvent;
-import com.aumum.app.mobile.events.ResetPartyUnreadEvent;
 import com.aumum.app.mobile.ui.chat.ChatConnectionListener;
 import com.aumum.app.mobile.ui.group.GroupChangeListener;
 import com.aumum.app.mobile.ui.chat.MessageNotifyListener;
@@ -42,6 +45,8 @@ import com.easemob.chat.EMMessage;
 import com.squareup.otto.Bus;
 import com.squareup.otto.Subscribe;
 
+import java.util.List;
+
 import javax.inject.Inject;
 
 import butterknife.ButterKnife;
@@ -54,6 +59,7 @@ import retrofit.RetrofitError;
 public class MainFragment extends Fragment
         implements ScheduleService.OnScheduleListener {
 
+    @Inject AskingStore askingStore;
     @Inject PartyStore partyStore;
     @Inject PartyRequestStore partyRequestStore;
     @Inject MomentStore momentStore;
@@ -132,28 +138,42 @@ public class MainFragment extends Fragment
         task = new SafeAsyncTask<Boolean>() {
             public Boolean call() throws Exception {
                 String currentUserId = apiKeyProvider.getAuthUserId();
-                int unreadCount = partyStore.getUnreadCount(currentUserId);
-                if (unreadCount > 0) {
+                List<Integer> categories = askingStore.getUnreadCategories();
+                if (categories.size() > 0) {
+                    bus.post(new NewAskingUnreadEvent(categories));
                     getActivity().runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-                            indicator.getUnreadImage(MainTabPageIndicator.TAB_PARTY)
+                            indicator.getUnreadImage(MainTabPageIndicator.TAB_ASKING)
+                                    .setVisibility(View.VISIBLE);
+                        }
+                    });
+                }
+                int unreadCount = partyStore.getUnreadCount(currentUserId);
+                if (unreadCount > 0) {
+                    bus.post(new NewPartyUnreadEvent());
+                    getActivity().runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            indicator.getUnreadImage(MainTabPageIndicator.TAB_DISCOVERY)
                                     .setVisibility(View.VISIBLE);
                         }
                     });
                 }
                 unreadCount = partyRequestStore.getUnreadCount();
                 if (unreadCount > 0) {
+                    bus.post(new NewPartyUnreadEvent());
                     getActivity().runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-                            indicator.getUnreadImage(MainTabPageIndicator.TAB_PARTY)
+                            indicator.getUnreadImage(MainTabPageIndicator.TAB_DISCOVERY)
                                     .setVisibility(View.VISIBLE);
                         }
                     });
                 }
                 unreadCount = momentStore.getUnreadCount();
                 if (unreadCount > 0) {
+                    bus.post(new NewMomentUnreadEvent());
                     getActivity().runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
@@ -184,14 +204,8 @@ public class MainFragment extends Fragment
     }
 
     @Subscribe
-    public void onResetPartyUnreadEvent(ResetPartyUnreadEvent event) {
-        indicator.getUnreadImage(MainTabPageIndicator.TAB_PARTY)
-                .setVisibility(View.INVISIBLE);
-    }
-
-    @Subscribe
-    public void onResetPartyRequestUnreadEvent(ResetPartyRequestUnreadEvent event) {
-        indicator.getUnreadImage(MainTabPageIndicator.TAB_PARTY)
+    public void onResetAskingUnreadEvent(ResetAskingUnreadEvent event) {
+        indicator.getUnreadImage(MainTabPageIndicator.TAB_ASKING)
                 .setVisibility(View.INVISIBLE);
     }
 
@@ -314,6 +328,7 @@ public class MainFragment extends Fragment
                     case CmdMessage.Type.ASKING_NEW:
                     case CmdMessage.Type.ASKING_LIKE:
                     case CmdMessage.Type.ASKING_REPLY_LIKE:
+                        handleAskingDetailsCmdMessage(cmdMessage);
                         break;
                     case CmdMessage.Type.USER_NEW:
                         handleUserDetailsCmdMessage(cmdMessage);

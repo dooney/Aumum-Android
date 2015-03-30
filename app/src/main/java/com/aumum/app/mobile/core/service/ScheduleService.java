@@ -11,7 +11,7 @@ public class ScheduleService {
     private ScheduledThreadPoolExecutor exec;
     private OnScheduleListener onScheduleListener;
     private final long INIT_DELAY_IN_MILLISECONDS = 60000;
-    private final long INTERVAL_IN_MILLISECONDS = 30000;
+    private final long INTERVAL_IN_MILLISECONDS = 60000;
 
     public static interface OnScheduleListener {
         public void onAction();

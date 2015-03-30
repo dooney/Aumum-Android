@@ -1,6 +1,5 @@
 package com.aumum.app.mobile.ui.party;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,14 +15,12 @@ import com.aumum.app.mobile.core.model.PartyRequest;
 import com.aumum.app.mobile.core.model.User;
 import com.aumum.app.mobile.core.service.ChatService;
 import com.aumum.app.mobile.core.service.RestService;
-import com.aumum.app.mobile.events.ResetPartyRequestUnreadEvent;
 import com.aumum.app.mobile.ui.base.RefreshItemListFragment;
 import com.aumum.app.mobile.ui.view.ConfirmDialog;
 import com.aumum.app.mobile.ui.view.TextViewDialog;
 import com.aumum.app.mobile.utils.Ln;
 import com.aumum.app.mobile.utils.UMengUtils;
 import com.github.kevinsawicki.wishlist.Toaster;
-import com.squareup.otto.Bus;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -45,7 +42,6 @@ public class PartyRequestListFragment extends RefreshItemListFragment<Card>
     @Inject PartyRequestStore partyRequestStore;
     @Inject RestService restService;
     @Inject ChatService chatService;
-    @Inject Bus bus;
 
     protected List<PartyRequest> dataSet = new ArrayList<>();
     private ViewGroup container;
@@ -68,7 +64,6 @@ public class PartyRequestListFragment extends RefreshItemListFragment<Card>
     @Override
     public void onResume() {
         super.onResume();
-        bus.register(this);
 
         if (container.getTag() != null) {
             int requestCode = (Integer) container.getTag();
@@ -77,12 +72,6 @@ public class PartyRequestListFragment extends RefreshItemListFragment<Card>
                 container.setTag(null);
             }
         }
-    }
-
-    @Override
-    public void onPause() {
-        super.onDestroy();
-        bus.unregister(this);
     }
 
     @Override
@@ -96,7 +85,6 @@ public class PartyRequestListFragment extends RefreshItemListFragment<Card>
         for(PartyRequest partyRequest: partyRequestList) {
             dataSet.add(0, partyRequest);
         }
-        bus.post(new ResetPartyRequestUnreadEvent());
     }
 
     @Override

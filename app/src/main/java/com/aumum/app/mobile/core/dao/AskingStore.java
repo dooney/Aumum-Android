@@ -163,9 +163,9 @@ public class AskingStore {
         return askingList;
     }
 
-    public int getUnreadCount() throws Exception {
+    public List<Integer> getUnreadCategories() throws Exception {
         String time = getLastUpdateTime();
-        return restService.getAskingsCountAfter(time);
+        return restService.getAskingUnreadCategories(time);
     }
 
     private String getLastUpdateTime() {

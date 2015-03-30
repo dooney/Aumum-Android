@@ -771,7 +771,7 @@ public class RestService {
         return getAskingService().getList("-updatedAt", where, limit).getResults();
     }
 
-    public int getAskingsCountAfter(String after) {
+    public List<Integer> getAskingUnreadCategories(String after) {
         final JsonObject whereJson = new JsonObject();
         if (after != null) {
             whereJson.add("createdAt", buildDateTimeAfterJson(after));
@@ -780,8 +780,13 @@ public class RestService {
         liveJson.addProperty("$exists", false);
         whereJson.add("deletedAt" ,liveJson);
         String where = whereJson.toString();
-        JsonObject result = getAskingService().getCount(where, 1, 0);
-        return result.get("count").getAsInt();
+        JsonObject json = getAskingService().getUnread(where, "category");
+        ArrayList<Integer> categories = new ArrayList<>();
+        JsonArray array = json.get("category").getAsJsonArray();
+        for (Iterator<JsonElement> it = array.iterator(); it.hasNext();) {
+            categories.add(it.next().getAsInt());
+        }
+        return categories;
     }
 
     public Asking newAsking(Asking asking) {

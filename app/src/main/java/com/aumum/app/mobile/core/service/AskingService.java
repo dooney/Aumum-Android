@@ -32,7 +32,6 @@ public interface AskingService {
     JsonObject updateById(@Path("id") String id, @Body JsonObject data);
 
     @GET(Constants.Http.URL_ASKINGS_FRAG)
-    JsonObject getCount(@Query("where") String where,
-                        @Query("count") int count,
-                        @Query("limit") int limit);
+    JsonObject getUnread(@Query("where") String where,
+                         @Query("keys") String keys);
 }

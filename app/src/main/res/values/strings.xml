@@ -5,7 +5,7 @@
 
     <string-array name="label_main_pages">
         <item>聊天</item>
-        <item>聚会</item>
+        <item>说说</item>
         <item>发现</item>
         <item>好友</item>
         <item>个人</item>
@@ -59,11 +59,6 @@
     <string-array name="label_event_actions">
         <item>分享到聚会</item>
         <item>分享到第三方平台</item>
-    </string-array>
-    <string-array name="label_discovery_pages">
-        <item>图文资讯</item>
-        <item>干货文章</item>
-        <item>逗比游戏</item>
     </string-array>
     <string-array name="label_channel_item_actions">
         <item>分享到妈妈圈</item>
@@ -314,6 +309,11 @@
     <string name="title_activity_group_requests">入群请求</string>
     <string name="title_activity_group_member_picker">选择群组成员</string>
     <string name="title_activity_credit">积分换购</string>
+    <string name="title_activity_channel_list">微博资讯</string>
+    <string name="title_activity_article_list">公众号文章</string>
+    <string name="title_activity_game_list">小游戏</string>
+    <string name="title_activity_party">聚会</string>
+    <string name="title_activity_moment_list">妈妈圈</string>
 
     <!-- Account -->
     <string name="hint_login_phone">手机号码</string>
@@ -400,6 +400,7 @@
     <string name="label_website_title">澳妈圈官网</string>
 
     <!-- Party -->
+    <string name="label_party">聚会</string>
     <string name="hint_join_reason">一句话介绍自己的情况，或报名理由</string>
     <string name="hint_quit_reason">给聚会组织人留言</string>
     <string name="label_you_join">您已报名</string>
@@ -454,7 +455,6 @@
     <string name="label_others_like">%,d人点赞</string>
 
     <!-- Asking -->
-    <string name="label_asking">说说</string>
     <string name="hint_asking_title">说说标题</string>
     <string name="hint_asking_details">说说内容</string>
     <string name="hint_new_reply">说两句</string>
@@ -469,8 +469,13 @@
     <string name="label_like_asking_message">%1$s给您的说说点赞</string>
     <string name="label_like_asking_reply_message">%1$s给您的说说评论点赞</string>
 
+    <!-- Discovery -->
+    <string name="label_weibo">微博资讯</string>
+    <string name="label_wechat">公众号文章</string>
+    <string name="label_game">小游戏</string>
+
     <!-- Moments -->
-    <string name="label_moments">妈妈圈</string>
+    <string name="label_moment">妈妈圈</string>
     <string name="label_new_moment_message">%1$s发了妈妈圈</string>
     <string name="hint_moment_details">文字</string>
     <string name="label_like_moment_message">%1$s给您的妈妈圈点赞</string>

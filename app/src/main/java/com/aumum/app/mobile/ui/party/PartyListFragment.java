@@ -16,11 +16,9 @@ import com.aumum.app.mobile.core.dao.PartyStore;
 import com.aumum.app.mobile.core.dao.UserStore;
 import com.aumum.app.mobile.core.model.Party;
 import com.aumum.app.mobile.core.model.User;
-import com.aumum.app.mobile.events.ResetPartyUnreadEvent;
 import com.aumum.app.mobile.ui.base.RefreshItemListFragment;
 import com.aumum.app.mobile.utils.GPSTracker;
 import com.aumum.app.mobile.utils.Ln;
-import com.squareup.otto.Bus;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -41,7 +39,6 @@ public class PartyListFragment extends RefreshItemListFragment<Card>
 
     @Inject UserStore userStore;
     @Inject PartyStore partyStore;
-    @Inject Bus bus;
 
     protected User currentUser;
     protected List<Party> dataSet = new ArrayList<Party>();
@@ -81,7 +78,6 @@ public class PartyListFragment extends RefreshItemListFragment<Card>
     @Override
     public void onResume() {
         super.onResume();
-        bus.register(this);
 
         if (container.getTag() != null) {
             int requestCode = (Integer) container.getTag();
@@ -90,12 +86,6 @@ public class PartyListFragment extends RefreshItemListFragment<Card>
                 container.setTag(null);
             }
         }
-    }
-
-    @Override
-    public void onPause() {
-        super.onPause();
-        bus.unregister(this);
     }
 
     @Override
@@ -137,7 +127,6 @@ public class PartyListFragment extends RefreshItemListFragment<Card>
         for(Party party: partyList) {
             dataSet.add(0, party);
         }
-        bus.post(new ResetPartyUnreadEvent());
     }
 
     @Override
