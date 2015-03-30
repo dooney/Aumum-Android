@@ -10,6 +10,7 @@ import android.widget.TextView;
 import com.aumum.app.mobile.R;
 import com.aumum.app.mobile.core.model.GroupDetails;
 import com.aumum.app.mobile.core.model.User;
+import com.aumum.app.mobile.ui.chat.ChatActivity;
 import com.aumum.app.mobile.ui.user.UserListener;
 
 /**
@@ -30,9 +31,11 @@ public class GroupCard {
         layout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                final Intent intent = new Intent(activity, GroupDetailsActivity.class);
-                intent.putExtra(GroupDetailsActivity.INTENT_GROUP_ID, groupDetails.getId());
-                activity.startActivity(intent);
+                if (groupDetails.isMember()) {
+                    startChatActivity(groupDetails);
+                } else {
+                    startGroupDetailsActivity(groupDetails);
+                }
             }
         });
 
@@ -57,5 +60,19 @@ public class GroupCard {
             joinButton.setOnClickListener(new GroupJoinListener(activity, groupDetails.getId()));
             joinButton.setVisibility(View.VISIBLE);
         }
+    }
+
+    private void startChatActivity(GroupDetails groupDetails) {
+        final Intent intent = new Intent(activity, ChatActivity.class);
+        intent.putExtra(ChatActivity.INTENT_TITLE, groupDetails.getName());
+        intent.putExtra(ChatActivity.INTENT_TYPE, ChatActivity.TYPE_GROUP);
+        intent.putExtra(ChatActivity.INTENT_ID, groupDetails.getId());
+        activity.startActivity(intent);
+    }
+
+    private void startGroupDetailsActivity(GroupDetails groupDetails) {
+        final Intent intent = new Intent(activity, GroupDetailsActivity.class);
+        intent.putExtra(GroupDetailsActivity.INTENT_GROUP_ID, groupDetails.getId());
+        activity.startActivity(intent);
     }
 }
