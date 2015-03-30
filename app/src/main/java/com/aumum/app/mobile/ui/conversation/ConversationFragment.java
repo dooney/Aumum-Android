@@ -1,6 +1,5 @@
 package com.aumum.app.mobile.ui.conversation;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -20,15 +19,12 @@ import com.aumum.app.mobile.events.NewChatMessageEvent;
 import com.aumum.app.mobile.events.ResetChatUnreadEvent;
 import com.aumum.app.mobile.events.ShowConversationActionsEvent;
 import com.aumum.app.mobile.ui.base.ItemListFragment;
-import com.aumum.app.mobile.ui.group.GroupListActivity;
-import com.aumum.app.mobile.ui.group.GroupRequestsActivity;
 import com.aumum.app.mobile.ui.view.ConfirmDialog;
-import com.aumum.app.mobile.ui.view.EditTextDialog;
 import com.aumum.app.mobile.ui.view.ListViewDialog;
+import com.aumum.app.mobile.ui.view.TextViewDialog;
 import com.aumum.app.mobile.utils.SafeAsyncTask;
 import com.easemob.chat.EMConversation;
 import com.easemob.chat.EMGroup;
-import com.easemob.chat.EMGroupInfo;
 import com.easemob.chat.EMMessage;
 import com.github.kevinsawicki.wishlist.Toaster;
 import com.squareup.otto.Bus;
@@ -142,13 +138,7 @@ public class ConversationFragment extends ItemListFragment<Conversation> {
                     public void onItemClick(int i) {
                         switch (i) {
                             case 0:
-                                showNewGroupDialog();
-                                break;
-                            case 1:
-                                showSearchGroupDialog();
-                                break;
-                            case 2:
-                                startGroupRequestsActivity();
+                                showClearListDialog();
                                 break;
                             default:
                                 break;
@@ -157,60 +147,13 @@ public class ConversationFragment extends ItemListFragment<Conversation> {
                 }).show();
     }
 
-    private void showNewGroupDialog() {
-        new EditTextDialog(getActivity(),
-                R.layout.dialog_edit_text,
-                R.string.hint_group_name,
-                new ConfirmDialog.OnConfirmListener() {
-            @Override
-            public void call(Object value) throws Exception {
-                String groupName = (String) value;
-                User user = userStore.getCurrentUser();
-                EMGroup group = chatService.createGroup(groupName, true);
-                chatService.addGroupMember(group.getGroupId(), user.getChatId());
-                String groupCreatedText = getString(R.string.label_group_created,
-                        user.getScreenName());
-                chatService.sendSystemMessage(group.getGroupId(),
-                        true, groupCreatedText, null);
-            }
-
-            @Override
-            public void onException(String errorMessage) {
-                Toaster.showShort(getActivity(), errorMessage);
-            }
-
-            @Override
-            public void onSuccess(Object value) {
-                refresh(null);
-            }
-        }).show();
-    }
-
-    private void showSearchGroupDialog() {
-        new EditTextDialog(getActivity(),
-                R.layout.dialog_edit_text,
-                R.string.hint_group_name,
+    private void showClearListDialog() {
+        new TextViewDialog(getActivity(),
+                getString(R.string.info_confirm_clear_conversation_list),
                 new ConfirmDialog.OnConfirmListener() {
                     @Override
                     public void call(Object value) throws Exception {
-                        final String groupName = (String) value;
-                        List<EMGroupInfo> groups = chatService.getPublicGroups();
-                        final ArrayList<String> groupList = new ArrayList<>();
-                        for(EMGroupInfo groupInfo: groups) {
-                            if (groupInfo.getGroupName().contains(groupName)) {
-                                groupList.add(groupInfo.getGroupId());
-                            }
-                        }
-                        getActivity().runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                if (groupList.size() > 0) {
-                                    startGroupListActivity(groupList);
-                                } else {
-                                    Toaster.showShort(getActivity(), R.string.info_no_group_found);
-                                }
-                            }
-                        });
+                        chatService.deleteAllConversation();
                     }
 
                     @Override
@@ -220,18 +163,9 @@ public class ConversationFragment extends ItemListFragment<Conversation> {
 
                     @Override
                     public void onSuccess(Object value) {
+                        getData().clear();
+                        getListAdapter().notifyDataSetChanged();
                     }
                 }).show();
-    }
-
-    private void startGroupListActivity(ArrayList<String> groupList) {
-        final Intent intent = new Intent(getActivity(), GroupListActivity.class);
-        intent.putStringArrayListExtra(GroupListActivity.INTENT_GROUP_LIST, groupList);
-        startActivity(intent);
-    }
-
-    private void startGroupRequestsActivity() {
-        final Intent intent = new Intent(getActivity(), GroupRequestsActivity.class);
-        startActivity(intent);
     }
 }

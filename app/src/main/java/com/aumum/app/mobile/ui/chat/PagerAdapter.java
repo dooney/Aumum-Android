@@ -1,4 +1,4 @@
-package com.aumum.app.mobile.ui.recreation;
+package com.aumum.app.mobile.ui.chat;
 
 import android.content.res.Resources;
 import android.support.v4.app.Fragment;
@@ -7,7 +7,6 @@ import android.support.v4.app.FragmentPagerAdapter;
 
 import com.aumum.app.mobile.R;
 import com.aumum.app.mobile.ui.conversation.ConversationFragment;
-import com.aumum.app.mobile.ui.game.GameListFragment;
 import com.aumum.app.mobile.ui.group.GroupFragment;
 
 import java.util.ArrayList;
@@ -28,11 +27,10 @@ public class PagerAdapter extends FragmentPagerAdapter {
      */
     public PagerAdapter(final Resources resources, final FragmentManager fragmentManager) {
         super(fragmentManager);
-        pages = resources.getStringArray(R.array.label_recreation_pages);
+        pages = resources.getStringArray(R.array.label_chat_tab_pages);
         fragments = new ArrayList<>();
         fragments.add(new ConversationFragment());
         fragments.add(new GroupFragment());
-        fragments.add(new GameListFragment());
     }
 
     @Override

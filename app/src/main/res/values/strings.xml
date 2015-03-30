@@ -10,10 +10,9 @@
         <item>好友</item>
         <item>个人</item>
     </string-array>
-    <string-array name="label_recreation_pages">
+    <string-array name="label_chat_tab_pages">
         <item>最近会话</item>
         <item>热门群组</item>
-        <item>逗比游戏</item>
     </string-array>
     <string-array name="label_asking_pages">
         <item>我爱我家</item>
@@ -143,9 +142,13 @@
         <item>人身攻击</item>
     </string-array>
     <string-array name="label_conversation_actions">
+        <item>清空列表</item>
+    </string-array>
+    <string-array name="label_group_actions">
         <item>创建群组</item>
         <item>查找群组</item>
         <item>入群请求</item>
+        <item>刷新列表</item>
     </string-array>
 
     <!-- General -->
@@ -239,6 +242,7 @@
     <string name="info_insufficient_credit">您的用户积分不足</string>
     <string name="info_not_supported_by_your_country">您所在的国家不支持该换购</string>
     <string name="info_gift_purchase_submitted">换购已成功提交，我们会在发货前与您确认</string>
+    <string name="info_confirm_clear_conversation_list">您确定要清空会话列表？</string>
 
     <!-- Error Message -->
     <string name="error_bad_credentials">验证失败，请输入正确的手机号码/密码</string>

@@ -6,10 +6,10 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
 import com.aumum.app.mobile.R;
+import com.aumum.app.mobile.ui.chat.ChatTabFragment;
 import com.aumum.app.mobile.ui.contact.ContactFragment;
 import com.aumum.app.mobile.ui.discovery.DiscoveryFragment;
 import com.aumum.app.mobile.ui.party.PartyFragment;
-import com.aumum.app.mobile.ui.recreation.RecreationFragment;
 import com.aumum.app.mobile.ui.user.ProfileFragment;
 import com.aumum.app.mobile.ui.view.tab.IconPagerAdapter;
 
@@ -67,7 +67,7 @@ public class PagerAdapter extends FragmentPagerAdapter
                 result = new DiscoveryFragment();
                 break;
             case PAGE_RECREATION:
-                result = new RecreationFragment();
+                result = new ChatTabFragment();
                 break;
             case PAGE_CONTACT:
                 result = new ContactFragment();

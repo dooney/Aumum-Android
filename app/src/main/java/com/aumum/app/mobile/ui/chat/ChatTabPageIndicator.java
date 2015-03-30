@@ -1,4 +1,4 @@
-package com.aumum.app.mobile.ui.recreation;
+package com.aumum.app.mobile.ui.chat;
 
 import android.content.Context;
 import android.util.AttributeSet;
@@ -11,17 +11,16 @@ import com.aumum.app.mobile.ui.view.tab.TabPageIndicator;
 /**
  * Created by Administrator on 26/03/2015.
  */
-public class RecreationTabPageIndicator extends TabPageIndicator {
+public class ChatTabPageIndicator extends TabPageIndicator {
 
     public static final int TAB_CONVERSATION = 0;
     public static final int TAB_GROUP = 1;
-    public static final int TAB_GAME = 2;
 
-    public RecreationTabPageIndicator(Context context) {
+    public ChatTabPageIndicator(Context context) {
         super(context, null);
     }
 
-    public RecreationTabPageIndicator(Context context, AttributeSet attrs) {
+    public ChatTabPageIndicator(Context context, AttributeSet attrs) {
         super(context, attrs);
     }
 

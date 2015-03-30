@@ -33,6 +33,7 @@ import com.aumum.app.mobile.ui.asking.NewAskingActivity;
 import com.aumum.app.mobile.ui.asking.SearchAskingFragment;
 import com.aumum.app.mobile.ui.chat.ChatConnectionListener;
 import com.aumum.app.mobile.ui.chat.ChatFragment;
+import com.aumum.app.mobile.ui.chat.ChatTabFragment;
 import com.aumum.app.mobile.ui.credit.CreditPurchaseFragment;
 import com.aumum.app.mobile.ui.game.GameListFragment;
 import com.aumum.app.mobile.ui.group.GroupChangeListener;
@@ -77,7 +78,6 @@ import com.aumum.app.mobile.ui.party.PartyCommentLikeListener;
 import com.aumum.app.mobile.ui.party.PartyFragment;
 import com.aumum.app.mobile.ui.party.PartyRequestListFragment;
 import com.aumum.app.mobile.ui.party.SharePartyActivity;
-import com.aumum.app.mobile.ui.recreation.RecreationFragment;
 import com.aumum.app.mobile.ui.report.ReportActivity;
 import com.aumum.app.mobile.ui.settings.FeedbackActivity;
 import com.aumum.app.mobile.ui.settings.NotificationActivity;
@@ -229,7 +229,7 @@ import retrofit.converter.GsonConverter;
                 GroupRequestsFragment.class,
                 GroupJoinListener.class,
                 GroupRequestProcessListener.class,
-                RecreationFragment.class,
+                ChatTabFragment.class,
                 GroupFragment.class,
                 GameListFragment.class,
                 CreditPurchaseFragment.class
