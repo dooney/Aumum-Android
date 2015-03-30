@@ -15,7 +15,7 @@ public class DiscoveryTabPageIndicator extends TabPageIndicator {
 
     public static final int TAB_CHANNEL = 0;
     public static final int TAB_ARTICLE = 1;
-    public static final int TAB_MOMENT = 2;
+    public static final int TAB_GAME = 2;
 
     public DiscoveryTabPageIndicator(Context context) {
         super(context, null);

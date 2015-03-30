@@ -8,7 +8,7 @@ import android.support.v4.app.FragmentPagerAdapter;
 import com.aumum.app.mobile.R;
 import com.aumum.app.mobile.ui.feed.article.ArticleListFragment;
 import com.aumum.app.mobile.ui.feed.channel.ChannelListFragment;
-import com.aumum.app.mobile.ui.moment.MomentListFragment;
+import com.aumum.app.mobile.ui.game.GameListFragment;
 
 import java.util.ArrayList;
 
@@ -32,7 +32,7 @@ public class PagerAdapter extends FragmentPagerAdapter {
         fragments = new ArrayList<Fragment>();
         fragments.add(new ChannelListFragment());
         fragments.add(new ArticleListFragment());
-        fragments.add(new MomentListFragment());
+        fragments.add(new GameListFragment());
     }
 
     @Override

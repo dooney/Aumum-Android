@@ -13,7 +13,9 @@ import android.widget.ImageView;
 
 import com.aumum.app.mobile.Injector;
 import com.aumum.app.mobile.R;
-import com.aumum.app.mobile.events.ShowMomentActionsEvent;
+import com.aumum.app.mobile.events.RefreshArticleEvent;
+import com.aumum.app.mobile.events.RefreshChannelEvent;
+import com.aumum.app.mobile.events.RefreshGameEvent;
 import com.squareup.otto.Bus;
 
 import javax.inject.Inject;
@@ -31,7 +33,6 @@ public class DiscoveryFragment extends Fragment {
     @InjectView(R.id.tpi_header)protected DiscoveryTabPageIndicator indicator;
     @InjectView(R.id.vp_pages)protected ViewPager pager;
 
-    private MenuItem momentMenu;
     private PagerAdapter pagerAdapter;
 
     @Override
@@ -55,44 +56,34 @@ public class DiscoveryFragment extends Fragment {
         pagerAdapter = new PagerAdapter(getResources(), getChildFragmentManager());
         pager.setAdapter(pagerAdapter);
         indicator.setViewPager(pager);
-        indicator.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
-            @Override
-            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-
-            }
-
-            @Override
-            public void onPageSelected(int position) {
-                if (position == DiscoveryTabPageIndicator.TAB_MOMENT) {
-                    momentMenu.setVisible(true);
-                } else {
-                    momentMenu.setVisible(false);
-                }
-            }
-
-            @Override
-            public void onPageScrollStateChanged(int state) {
-
-            }
-        });
     }
 
     @Override
     public void onCreateOptionsMenu(final Menu menu, final MenuInflater inflater) {
-        momentMenu = menu.add(Menu.NONE, 0, Menu.NONE, null);
-        momentMenu.setActionView(R.layout.menuitem_more);
-        momentMenu.setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
-        View moreView = momentMenu.getActionView();
-        ImageView moreIcon = (ImageView) moreView.findViewById(R.id.b_more);
-        moreIcon.setOnClickListener(new View.OnClickListener() {
+        MenuItem menuItem = menu.add(Menu.NONE, 0, Menu.NONE, null);
+        menuItem.setActionView(R.layout.menuitem_refresh);
+        menuItem.setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
+        View refreshView = menuItem.getActionView();
+        ImageView refreshIcon = (ImageView) refreshView.findViewById(R.id.b_refresh);
+        refreshIcon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                bus.post(new ShowMomentActionsEvent());
+                int position = pager.getCurrentItem();
+                switch (position) {
+                    case DiscoveryTabPageIndicator.TAB_CHANNEL:
+                        bus.post(new RefreshChannelEvent());
+                        break;
+                    case DiscoveryTabPageIndicator.TAB_ARTICLE:
+                        bus.post(new RefreshArticleEvent());
+                        break;
+                    case DiscoveryTabPageIndicator.TAB_GAME:
+                        bus.post(new RefreshGameEvent());
+                        break;
+                    default:
+                        break;
+                }
             }
         });
-        if (pager.getCurrentItem() != DiscoveryTabPageIndicator.TAB_MOMENT) {
-            momentMenu.setVisible(false);
-        }
     }
 
     @Override

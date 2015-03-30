@@ -13,6 +13,7 @@ import com.aumum.app.mobile.core.model.Feed;
 import com.aumum.app.mobile.core.service.RestService;
 import com.aumum.app.mobile.ui.base.ItemListFragment;
 import com.aumum.app.mobile.utils.UMengUtils;
+import com.squareup.otto.Bus;
 
 import java.util.List;
 
@@ -24,6 +25,7 @@ import javax.inject.Inject;
 public abstract class FeedListFragment extends ItemListFragment<Feed> {
 
     @Inject RestService restService;
+    @Inject Bus bus;
 
     protected int type;
     protected final int TYPE_CHANNEL = 1;
@@ -53,6 +55,18 @@ public abstract class FeedListFragment extends ItemListFragment<Feed> {
                 updateClickCount(feed.getSeq());
             }
         });
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        bus.register(this);
+    }
+
+    @Override
+    public void onPause() {
+        super.onDestroy();
+        bus.unregister(this);
     }
 
     @Override
