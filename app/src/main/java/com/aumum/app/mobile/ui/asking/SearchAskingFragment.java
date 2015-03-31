@@ -39,8 +39,8 @@ public class SearchAskingFragment extends RefreshItemListFragment<Asking> {
     private User user;
     private List<Asking> dataSet;
 
-    private final int USER_ASKINGS = 0;
-    private final int FAVORITE_ASKINGS = 1;
+    private final int USER_ASKING_LIST = 0;
+    private final int FAVORITE_ASKING_LIST = 1;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -50,10 +50,10 @@ public class SearchAskingFragment extends RefreshItemListFragment<Asking> {
         final Intent intent = getActivity().getIntent();
         userId = intent.getStringExtra(SearchAskingActivity.INTENT_USER_ID);
         if (userId != null) {
-            mode = USER_ASKINGS;
+            mode = USER_ASKING_LIST;
         }
         if (intent.getBooleanExtra(SearchAskingActivity.INTENT_IS_FAVORITE, false)) {
-            mode = FAVORITE_ASKINGS;
+            mode = FAVORITE_ASKING_LIST;
         }
 
         dataSet = new ArrayList<Asking>();
@@ -75,8 +75,6 @@ public class SearchAskingFragment extends RefreshItemListFragment<Asking> {
                 Asking asking = getData().get(position);
                 final Intent intent = new Intent(getActivity(), AskingDetailsActivity.class);
                 intent.putExtra(AskingDetailsActivity.INTENT_ASKING_ID, asking.getObjectId());
-                String pages[] = getResources().getStringArray(R.array.label_asking_pages);
-                intent.putExtra(AskingDetailsActivity.INTENT_TITLE, pages[asking.getCategory()]);
                 startActivityForResult(intent, Constants.RequestCode.GET_ASKING_DETAILS_REQ_CODE);
             }
         });
@@ -96,11 +94,11 @@ public class SearchAskingFragment extends RefreshItemListFragment<Asking> {
     @Override
     protected void getUpwardsList() throws Exception {
         switch (mode) {
-            case USER_ASKINGS:
-                getUserAskings();
+            case USER_ASKING_LIST:
+                getUserAskingList();
                 break;
-            case FAVORITE_ASKINGS:
-                getUserFavoriteAskings();
+            case FAVORITE_ASKING_LIST:
+                getUserFavoriteAskingList();
                 break;
             default:
                 throw new Exception("Invalid mode: " + mode);
@@ -112,11 +110,11 @@ public class SearchAskingFragment extends RefreshItemListFragment<Asking> {
         if (dataSet.size() > 0) {
             Asking last = dataSet.get(dataSet.size() - 1);
             switch (mode) {
-                case USER_ASKINGS:
-                    getUserAskingsBefore(last.getUpdatedAt());
+                case USER_ASKING_LIST:
+                    getUserAskingListBefore(last.getUpdatedAt());
                     break;
-                case FAVORITE_ASKINGS:
-                    getUserFavoriteAskingsBefore(last.getUpdatedAt());
+                case FAVORITE_ASKING_LIST:
+                    getUserFavoriteAskingListBefore(last.getUpdatedAt());
                     break;
                 default:
                     throw new Exception("Invalid mode: " + mode);
@@ -136,27 +134,27 @@ public class SearchAskingFragment extends RefreshItemListFragment<Asking> {
         return dataSet;
     }
 
-    private void getUserAskings() throws Exception {
+    private void getUserAskingList() throws Exception {
         String currentUserId = apiKeyProvider.getAuthUserId();
         boolean excludesAnonymous = !currentUserId.equals(userId);
         List<Asking> askingList = askingStore.getList(user.getAskings(), excludesAnonymous);
         dataSet.addAll(askingList);
     }
 
-    private void getUserAskingsBefore(String time) throws Exception {
-        getAskingsBefore(user.getAskings(), time);
+    private void getUserAskingListBefore(String time) throws Exception {
+        getAskingListBefore(user.getAskings(), time);
     }
 
-    private void getUserFavoriteAskings() throws Exception {
+    private void getUserFavoriteAskingList() throws Exception {
         List<Asking> askingList = askingStore.getList(user.getFavAskings(), false);
         dataSet.addAll(askingList);
     }
 
-    private void getUserFavoriteAskingsBefore(String time) throws Exception {
-        getAskingsBefore(user.getFavAskings(), time);
+    private void getUserFavoriteAskingListBefore(String time) throws Exception {
+        getAskingListBefore(user.getFavAskings(), time);
     }
 
-    private void getAskingsBefore(List<String> idList, String time) throws Exception {
+    private void getAskingListBefore(List<String> idList, String time) throws Exception {
         List<Asking> askingList = askingStore.getBackwardsList(idList, time);
         if (askingList.size() > 0) {
             dataSet.addAll(askingList);

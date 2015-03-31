@@ -62,6 +62,7 @@ public class NewAskingActivity extends ProgressDialogActivity
     private String imagePathList[];
     private ArrayList<String> imageUrlList;
 
+    public static final String INTENT_TITLE = "title";
     public static final String INTENT_CATEGORY = "category";
     public static final String INTENT_IS_ANONYMOUS = "isAnonymous";
 
@@ -86,9 +87,9 @@ public class NewAskingActivity extends ProgressDialogActivity
         imageUrlList = new ArrayList<String>();
         fileUploadService.setOnFileUploadListener(this);
 
+        String title = getIntent().getStringExtra(INTENT_TITLE);
+        setTitle(title);
         category = getIntent().getIntExtra(INTENT_CATEGORY, 0);
-        String pages[] = getResources().getStringArray(R.array.label_asking_pages);
-        setTitle(pages[category]);
         isAnonymous = getIntent().getBooleanExtra(INTENT_IS_ANONYMOUS, false);
 
         progress.setMessageId(R.string.info_submitting_asking);

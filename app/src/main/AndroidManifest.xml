@@ -194,7 +194,9 @@
             android:label="@string/title_activity_settings" >
         </activity>
         <activity android:name=".ui.asking.NewAskingActivity" />
-        <activity android:name=".ui.asking.AskingDetailsActivity" />
+        <activity android:name=".ui.asking.AskingDetailsActivity"
+            android:label="@string/title_activity_asking_details">
+        </activity>
         <activity
             android:name=".ui.asking.AskingDetailsSingleActivity"
             android:excludeFromRecents="true"

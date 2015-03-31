@@ -248,13 +248,13 @@ public class UserFragment extends LoaderFragment<User> {
             public void onItemClick(int i) {
                 switch (i) {
                     case 0:
-                        startUserPartiesActivity(user);
+                        startUserAskingsActivity(user);
                         break;
                     case 1:
-                        startUserMomentsActivity(user);
+                        startUserPartiesActivity(user);
                         break;
                     case 2:
-                        startUserAskingsActivity(user);
+                        startUserMomentsActivity(user);
                         break;
                     default:
                         break;

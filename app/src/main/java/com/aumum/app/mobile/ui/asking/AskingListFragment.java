@@ -5,10 +5,14 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 
 import com.aumum.app.mobile.Injector;
 import com.aumum.app.mobile.R;
@@ -41,6 +45,7 @@ public class AskingListFragment extends RefreshItemListFragment<Asking> {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setHasOptionsMenu(true);
         Injector.inject(this);
 
         final Intent intent = getActivity().getIntent();
@@ -48,6 +53,26 @@ public class AskingListFragment extends RefreshItemListFragment<Asking> {
         title = intent.getStringExtra(AskingListActivity.INTENT_TITLE);
 
         dataSet = new ArrayList<>();
+    }
+
+    @Override
+    public void onCreateOptionsMenu(final Menu menu, final MenuInflater inflater) {
+        MenuItem plus = menu.add(Menu.NONE, 0, Menu.NONE, null);
+        plus.setActionView(R.layout.menuitem_plus);
+        plus.setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
+        View plusView = plus.getActionView();
+        ImageView plusIcon = (ImageView) plusView.findViewById(R.id.b_plus);
+        plusIcon.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (getActivity() != null) {
+                    final Intent intent = new Intent(getActivity(), NewAskingActivity.class);
+                    intent.putExtra(NewAskingActivity.INTENT_TITLE, title);
+                    intent.putExtra(NewAskingActivity.INTENT_CATEGORY, category);
+                    startActivityForResult(intent, Constants.RequestCode.NEW_ASKING_REQ_CODE);
+                }
+            }
+        });
     }
 
     @Override
@@ -87,6 +112,9 @@ public class AskingListFragment extends RefreshItemListFragment<Asking> {
             if (askingId != null) {
                 onAskingDeleted(askingId);
             }
+        } else if (requestCode == Constants.RequestCode.NEW_ASKING_REQ_CODE &&
+                resultCode == Activity.RESULT_OK) {
+            refresh(null);
         }
     }
 

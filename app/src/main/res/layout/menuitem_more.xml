@@ -4,6 +4,5 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/b_more"
     style="@style/ImageView"
-    android:paddingLeft="@dimen/margin_extreme_large"
     android:paddingRight="@dimen/margin_large"
     android:src="@drawable/ic_fa_ellipsis_v" />
