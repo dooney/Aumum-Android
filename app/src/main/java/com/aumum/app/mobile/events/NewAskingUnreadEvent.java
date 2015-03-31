@@ -11,5 +11,9 @@ public class NewAskingUnreadEvent {
 
     public NewAskingUnreadEvent(List<Integer> categories) {
         this.categories = categories;
+}
+
+    public List<Integer> getCategories() {
+        return categories;
     }
 }

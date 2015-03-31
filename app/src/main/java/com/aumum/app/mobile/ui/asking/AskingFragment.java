@@ -1,43 +1,47 @@
 package com.aumum.app.mobile.ui.asking;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 
 import com.aumum.app.mobile.Injector;
 import com.aumum.app.mobile.R;
 import com.aumum.app.mobile.core.Constants;
 import com.aumum.app.mobile.core.infra.security.ApiKeyProvider;
+import com.aumum.app.mobile.core.model.AskingCategory;
+import com.aumum.app.mobile.core.service.RestService;
+import com.aumum.app.mobile.events.NewAskingUnreadEvent;
+import com.aumum.app.mobile.events.ResetAskingUnreadEvent;
+import com.aumum.app.mobile.ui.base.ItemListFragment;
 import com.aumum.app.mobile.ui.view.ListViewDialog;
+import com.squareup.otto.Bus;
+import com.squareup.otto.Subscribe;
 
 import java.util.Arrays;
+import java.util.List;
 
 import javax.inject.Inject;
-
-import butterknife.ButterKnife;
-import butterknife.InjectView;
 
 /**
  * A simple {@link Fragment} subclass.
  *
  */
-public class AskingFragment extends Fragment {
+public class AskingFragment extends ItemListFragment<AskingCategory> {
 
     @Inject ApiKeyProvider apiKeyProvider;
+    @Inject RestService restService;
+    @Inject Bus bus;
 
-    @InjectView(R.id.tpi_header)protected AskingTabPageIndicator indicator;
-    @InjectView(R.id.vp_pages)protected ViewPager pager;
-
-    private PagerAdapter pagerAdapter;
+    private int position;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -70,22 +74,60 @@ public class AskingFragment extends Fragment {
     }
 
     @Override
-    public void onActivityCreated(Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
+    public void onViewCreated(View view, Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
 
-        ButterKnife.inject(this, getView());
-        pagerAdapter = new PagerAdapter(getResources(), getChildFragmentManager());
-        pager.setAdapter(pagerAdapter);
-        indicator.setViewPager(pager);
+        getListView().setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                position = i;
+                startAskingListActivity(position);
+            }
+        });
     }
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == Constants.RequestCode.NEW_ASKING_REQ_CODE && resultCode == Activity.RESULT_OK) {
-            int category = pagerAdapter.getCategory(pager.getCurrentItem());
-            pager.setTag(category);
+        if (requestCode == Constants.RequestCode.GET_ASKING_LIST_REQ_CODE) {
+            AskingCategory askingCategory = getData().get(position);
+            askingCategory.setUnread(false);
+            getListAdapter().notifyDataSetChanged();
         }
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        bus.register(this);
+
+        boolean allRead = true;
+        List<AskingCategory> askingCategoryList = getData();
+        for (AskingCategory askingCategory: askingCategoryList) {
+            if (askingCategory.isUnread()) {
+                allRead = false;
+                break;
+            }
+        }
+        if (allRead) {
+            bus.post(new ResetAskingUnreadEvent());
+        }
+    }
+
+    @Override
+    public void onPause() {
+        super.onDestroy();
+        bus.unregister(this);
+    }
+
+    @Override
+    protected ArrayAdapter<AskingCategory> createAdapter(List<AskingCategory> items) {
+        return new AskingCategoryAdapter(getActivity(), items);
+    }
+
+    @Override
+    protected List<AskingCategory> loadDataCore(Bundle bundle) throws Exception {
+        return restService.getAskingCategoryList();
     }
 
     private void showActionDialog() {
@@ -96,12 +138,9 @@ public class AskingFragment extends Fragment {
                     public void onItemClick(int i) {
                         switch (i) {
                             case 0:
-                                startNewAskingActivity();
+                                startMyAskingListActivity();
                                 break;
                             case 1:
-                                startMyAskingsActivity();
-                                break;
-                            case 2:
                                 startMyFavoritesActivity();
                                 break;
                             default:
@@ -111,17 +150,7 @@ public class AskingFragment extends Fragment {
                 }).show();
     }
 
-    private void startNewAskingActivity() {
-        final Intent intent = new Intent(getActivity(), NewAskingActivity.class);
-        int category = pagerAdapter.getCategory(pager.getCurrentItem());
-        intent.putExtra(NewAskingActivity.INTENT_CATEGORY, category);
-        if (pager.getCurrentItem() == pagerAdapter.getCount() - 1) {
-            intent.putExtra(NewAskingActivity.INTENT_IS_ANONYMOUS, true);
-        }
-        startActivityForResult(intent, Constants.RequestCode.NEW_ASKING_REQ_CODE);
-    }
-
-    private void startMyAskingsActivity() {
+    private void startMyAskingListActivity() {
         String currentUserId = apiKeyProvider.getAuthUserId();
         final Intent intent = new Intent(getActivity(), SearchAskingActivity.class);
         intent.putExtra(SearchAskingActivity.INTENT_TITLE, getString(R.string.label_my_askings));
@@ -136,5 +165,27 @@ public class AskingFragment extends Fragment {
         intent.putExtra(SearchAskingActivity.INTENT_USER_ID, currentUserId);
         intent.putExtra(SearchAskingActivity.INTENT_IS_FAVORITE, true);
         startActivity(intent);
+    }
+
+    private void startAskingListActivity(int index) {
+        AskingCategory askingCategory = getData().get(index);
+        final Intent intent = new Intent(getActivity(), AskingListActivity.class);
+        intent.putExtra(AskingListActivity.INTENT_TITLE, askingCategory.getScreenName());
+        intent.putExtra(AskingListActivity.INTENT_CATEGORY, askingCategory.getCategory());
+        startActivityForResult(intent, Constants.RequestCode.GET_ASKING_LIST_REQ_CODE);
+    }
+
+    @Subscribe
+    public void onNewAskingUnreadEvent(NewAskingUnreadEvent event) {
+        List<Integer> categories = event.getCategories();
+        List<AskingCategory> askingCategoryList = getData();
+        for(Integer category: categories) {
+            for (AskingCategory askingCategory: askingCategoryList) {
+                if (category.equals(askingCategory.getCategory())) {
+                    askingCategory.setUnread(true);
+                }
+            }
+        }
+        getListAdapter().notifyDataSetChanged();
     }
 }

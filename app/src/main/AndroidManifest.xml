@@ -360,6 +360,7 @@
         <activity android:name=".ui.moment.MomentListActivity"
             android:label="@string/title_activity_moment_list">
         </activity>
+        <activity android:name=".ui.asking.AskingListActivity" />
     </application>
 
 </manifest>

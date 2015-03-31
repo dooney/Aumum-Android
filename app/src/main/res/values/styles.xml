@@ -477,6 +477,12 @@
     <style name="TextView.AskingReply.Like" parent="TextView.Like.Small">
         <item name="android:text">@null</item>
     </style>
+    <style name="TextView.AskingCategory.ScreenName" parent="TextView.Title" />
+    <style name="TextView.AskingCategory.Description" parent="TextView.Subtitle">
+        <item name="android:textSize">@dimen/text_sz_small</item>
+        <item name="android:maxLines">1</item>
+        <item name="android:ellipsize">end</item>
+    </style>
 
     <!-- Special -->
     <style name="ImageView.Special.VendorLogo" parent="ImageView" />

@@ -14,15 +14,6 @@
         <item>最近会话</item>
         <item>热门群组</item>
     </string-array>
-    <string-array name="label_asking_pages">
-        <item>我爱我家</item>
-        <item>亲子教育</item>
-        <item>母婴用品</item>
-        <item/>
-        <item/>
-        <item>时尚美容</item>
-        <item>情感天空</item>
-    </string-array>
     <string-array name="label_party_pages">
         <item>聚会需求</item>
         <item>个人聚会</item>

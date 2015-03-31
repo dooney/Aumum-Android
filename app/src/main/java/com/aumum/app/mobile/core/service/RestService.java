@@ -3,6 +3,7 @@ package com.aumum.app.mobile.core.service;
 
 import com.aumum.app.mobile.core.model.Area;
 import com.aumum.app.mobile.core.model.Asking;
+import com.aumum.app.mobile.core.model.AskingCategory;
 import com.aumum.app.mobile.core.model.AskingReply;
 import com.aumum.app.mobile.core.model.CityGroup;
 import com.aumum.app.mobile.core.model.CreditGift;
@@ -149,6 +150,10 @@ public class RestService {
 
     private CreditOrderService getCreditOrderService() {
         return getRestAdapter().create(CreditOrderService.class);
+    }
+
+    private AskingCategoryService getAskingCategoryService() {
+        return getRestAdapter().create(AskingCategoryService.class);
     }
 
     private RestAdapter getRestAdapter() {
@@ -1458,5 +1463,14 @@ public class RestService {
 
     public CreditOrder newCreditOrder(CreditOrder creditOrder) {
         return getCreditOrderService().newCreditOrder(creditOrder);
+    }
+
+    public List<AskingCategory> getAskingCategoryList() {
+        final JsonObject whereJson = new JsonObject();
+        final JsonObject liveJson = new JsonObject();
+        liveJson.addProperty("$exists", false);
+        whereJson.add("deletedAt" ,liveJson);
+        String where = whereJson.toString();
+        return getAskingCategoryService().getList("seq", where, Integer.MAX_VALUE).getResults();
     }
 }
