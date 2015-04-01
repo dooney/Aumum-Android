@@ -8,7 +8,7 @@ public class AskingEntity extends BaseEntity  {
 
     private java.util.Date updatedAt;
     private String userId;
-    private Integer category;
+    private String groupId;
     private Boolean isAnonymous;
     private String title;
     private String details;
@@ -28,7 +28,7 @@ public class AskingEntity extends BaseEntity  {
                         java.util.Date createdAt,
                         java.util.Date updatedAt,
                         String userId,
-                        Integer category,
+                        String groupId,
                         Boolean isAnonymous,
                         String title,
                         String details,
@@ -40,7 +40,7 @@ public class AskingEntity extends BaseEntity  {
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
         this.userId = userId;
-        this.category = category;
+        this.groupId = groupId;
         this.isAnonymous = isAnonymous;
         this.title = title;
         this.details = details;
@@ -66,12 +66,12 @@ public class AskingEntity extends BaseEntity  {
         this.userId = userId;
     }
 
-    public Integer getCategory() {
-        return category;
+    public String getGroupId() {
+        return groupId;
     }
 
-    public void setCategory(Integer category) {
-        this.category = category;
+    public void setGroupId(String groupId) {
+        this.groupId = groupId;
     }
 
     public Boolean getIsAnonymous() {

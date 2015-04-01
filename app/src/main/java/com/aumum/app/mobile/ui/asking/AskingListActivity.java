@@ -12,7 +12,7 @@ import com.aumum.app.mobile.R;
 public class AskingListActivity extends ActionBarActivity {
 
     public static final String INTENT_TITLE = "title";
-    public static final String INTENT_CATEGORY = "category";
+    public static final String INTENT_GROUP_ID = "category";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

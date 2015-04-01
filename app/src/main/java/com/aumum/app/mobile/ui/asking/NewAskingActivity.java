@@ -55,7 +55,7 @@ public class NewAskingActivity extends ProgressDialogActivity
     @Inject FileUploadService fileUploadService;
     @Inject ChatService chatService;
 
-    private int category;
+    private String groupId;
     private boolean isAnonymous;
     private SafeAsyncTask<Boolean> task;
     private GalleryAdapter adapter;
@@ -63,7 +63,7 @@ public class NewAskingActivity extends ProgressDialogActivity
     private ArrayList<String> imageUrlList;
 
     public static final String INTENT_TITLE = "title";
-    public static final String INTENT_CATEGORY = "category";
+    public static final String INTENT_GROUP_ID = "groupId";
     public static final String INTENT_IS_ANONYMOUS = "isAnonymous";
 
     private Button submitButton;
@@ -89,7 +89,7 @@ public class NewAskingActivity extends ProgressDialogActivity
 
         String title = getIntent().getStringExtra(INTENT_TITLE);
         setTitle(title);
-        category = getIntent().getIntExtra(INTENT_CATEGORY, 0);
+        groupId = getIntent().getStringExtra(INTENT_GROUP_ID);
         isAnonymous = getIntent().getBooleanExtra(INTENT_IS_ANONYMOUS, false);
 
         progress.setMessageId(R.string.info_submitting_asking);
@@ -232,7 +232,7 @@ public class NewAskingActivity extends ProgressDialogActivity
                 User currentUser = userStore.getCurrentUser();
                 Asking asking = new Asking(
                         currentUser.getObjectId(),
-                        category,
+                        groupId,
                         isAnonymous,
                         titleText.getText().toString(),
                         detailsText.getText().toString(),

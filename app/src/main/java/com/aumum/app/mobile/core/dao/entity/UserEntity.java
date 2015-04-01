@@ -25,6 +25,7 @@ public class UserEntity extends BaseEntity {
     private String tags;
     private String moments;
     private String favSpecials;
+    private String askingGroups;
     private Integer credit;
 
     public UserEntity() {
@@ -52,6 +53,7 @@ public class UserEntity extends BaseEntity {
                       String tags,
                       String moments,
                       String favSpecials,
+                      String askingGroups,
                       Integer credit) {
         this.objectId = objectId;
         this.username = username;
@@ -71,6 +73,7 @@ public class UserEntity extends BaseEntity {
         this.tags = tags;
         this.moments = moments;
         this.favSpecials = favSpecials;
+        this.askingGroups = askingGroups;
         this.credit = credit;
     }
 
@@ -200,6 +203,14 @@ public class UserEntity extends BaseEntity {
 
     public void setFavSpecials(String favSpecials) {
         this.favSpecials = favSpecials;
+    }
+
+    public String getAskingGroups() {
+        return askingGroups;
+    }
+
+    public void setAskingGroups(String askingGroups) {
+        this.askingGroups = askingGroups;
     }
 
     public Integer getCredit() {

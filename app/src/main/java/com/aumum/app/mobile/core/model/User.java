@@ -25,6 +25,7 @@ public class User extends AggregateRoot implements InitialSortable {
     protected List<String> tags = new ArrayList<String>();
     protected List<String> moments = new ArrayList<String>();
     protected List<String> favSpecials = new ArrayList<String>();
+    protected List<String> askingGroups = new ArrayList<>();
     protected Integer credit;
 
     public User() {
@@ -49,6 +50,7 @@ public class User extends AggregateRoot implements InitialSortable {
                 List<String> tags,
                 List<String> moments,
                 List<String> favSpecials,
+                List<String> askingGroups,
                 Integer credit) {
         this.objectId = objectId;
         this.username = username;
@@ -91,6 +93,10 @@ public class User extends AggregateRoot implements InitialSortable {
         if (favSpecials != null) {
             this.favSpecials.clear();
             this.favSpecials.addAll(favSpecials);
+        }
+        if (askingGroups != null) {
+            this.askingGroups.clear();
+            this.askingGroups.addAll(askingGroups);
         }
         this.credit = credit;
     }
@@ -197,6 +203,10 @@ public class User extends AggregateRoot implements InitialSortable {
         return favSpecials;
     }
 
+    public List<String> getAskingGroups() {
+        return askingGroups;
+    }
+
     public Integer getCredit() {
         if (credit != null) {
             return credit;
@@ -288,6 +298,18 @@ public class User extends AggregateRoot implements InitialSortable {
     public void removeSpecialFavorite(String specialId) {
         if (favSpecials != null && favSpecials.contains(specialId)) {
             favSpecials.remove(specialId);
+        }
+    }
+
+    public void addAskingGroup(String askingGroupId) {
+        if (askingGroups != null && !askingGroups.contains(askingGroupId)) {
+            askingGroups.add(askingGroupId);
+        }
+    }
+
+    public void removeAskingGroup(String askingGroupId) {
+        if (askingGroups != null && askingGroups.contains(askingGroupId)) {
+            askingGroups.remove(askingGroupId);
         }
     }
 

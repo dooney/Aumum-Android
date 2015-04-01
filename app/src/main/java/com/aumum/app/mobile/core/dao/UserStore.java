@@ -77,6 +77,7 @@ public class UserStore {
                 getList(userEntity.getTags()),
                 getList(userEntity.getMoments()),
                 getList(userEntity.getFavSpecials()),
+                getList(userEntity.getAskingGroups()),
                 userEntity.getCredit());
     }
 
@@ -101,6 +102,7 @@ public class UserStore {
                 getJsonString(user.getTags()),
                 getJsonString(user.getMoments()),
                 getJsonString(user.getFavSpecials()),
+                getJsonString(user.getAskingGroups()),
                 user.getCredit());
         return userEntity;
     }

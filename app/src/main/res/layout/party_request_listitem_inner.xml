@@ -47,7 +47,7 @@
 
         <ImageView
             android:id="@+id/image_delete"
-            style="@style/ImageView.Party.Delete"
+            style="@style/ImageView.Delete"
             android:layout_alignParentRight="true"/>
 
     </RelativeLayout>

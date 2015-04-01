@@ -7,13 +7,13 @@ import java.util.List;
  */
 public class NewAskingUnreadEvent {
 
-    private List<Integer> categories;
+    private List<String> groups;
 
-    public NewAskingUnreadEvent(List<Integer> categories) {
-        this.categories = categories;
+    public NewAskingUnreadEvent(List<String> groups) {
+        this.groups = groups;
 }
 
-    public List<Integer> getCategories() {
-        return categories;
+    public List<String> getGroups() {
+        return groups;
     }
 }

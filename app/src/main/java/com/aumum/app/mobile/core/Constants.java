@@ -211,9 +211,9 @@ public final class Constants {
         public static final String URL_CREDIT_ORDERS_FRAG = "/1/classes/CreditOrders";
 
         /**
-         * List Asking Category URL
+         * List Asking Group URL
          */
-        public static final String URL_ASKING_CATEGORIES_FRAG = "/1/classes/AskingCategories";
+        public static final String URL_ASKING_GROUPS_FRAG = "/1/classes/AskingGroups";
 
         /**
          * PARAMS for auth
@@ -272,6 +272,7 @@ public final class Constants {
             public static final String PARAM_PARTY_FAVORITES = "favParties";
             public static final String PARAM_ASKING_FAVORITES = "favAskings";
             public static final String PARAM_SPECIAL_FAVORITES = "favSpecials";
+            public static final String PARAM_ASKING_GROUPS = "askingGroups";
             public static final String PARAM_CREDIT = "credit";
         }
 
@@ -384,6 +385,7 @@ public final class Constants {
         public static final int NEW_PARTY_REQUEST_REQ_CODE = 43;
         public static final int CREDIT_PURCHASE_REQ_CODE = 44;
         public static final int GET_ASKING_LIST_REQ_CODE = 45;
+        public static final int GET_RECOMMEND_ASKING_GROUP_REQ_CODE = 46;
     }
 
     public static final class Link {

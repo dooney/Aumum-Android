@@ -3,7 +3,7 @@ package com.aumum.app.mobile.core.service;
 
 import com.aumum.app.mobile.core.model.Area;
 import com.aumum.app.mobile.core.model.Asking;
-import com.aumum.app.mobile.core.model.AskingCategory;
+import com.aumum.app.mobile.core.model.AskingGroup;
 import com.aumum.app.mobile.core.model.AskingReply;
 import com.aumum.app.mobile.core.model.CityGroup;
 import com.aumum.app.mobile.core.model.CreditGift;
@@ -152,8 +152,8 @@ public class RestService {
         return getRestAdapter().create(CreditOrderService.class);
     }
 
-    private AskingCategoryService getAskingCategoryService() {
-        return getRestAdapter().create(AskingCategoryService.class);
+    private AskingGroupService getAskingGroupService() {
+        return getRestAdapter().create(AskingGroupService.class);
     }
 
     private RestAdapter getRestAdapter() {
@@ -741,9 +741,9 @@ public class RestService {
         return getPartyReasonService().getList("-createdAt", where).getResults();
     }
 
-    public List<Asking> getAskingListAfter(int category, String after, int limit) {
+    public List<Asking> getAskingListAfter(String groupId, String after, int limit) {
         final JsonObject whereJson = new JsonObject();
-        whereJson.addProperty("category", category);
+        whereJson.addProperty("groupId", groupId);
         if (after != null) {
             whereJson.add("updatedAt", buildDateTimeAfterJson(after));
         }
@@ -754,9 +754,9 @@ public class RestService {
         return getAskingService().getList("-updatedAt", where, limit).getResults();
     }
 
-    public List<Asking> getAskingListBefore(int category, String before, int limit) {
+    public List<Asking> getAskingListBefore(String groupId, String before, int limit) {
         final JsonObject whereJson = new JsonObject();
-        whereJson.addProperty("category", category);
+        whereJson.addProperty("groupId", groupId);
         whereJson.add("updatedAt", buildDateTimeBeforeJson(before));
         final JsonObject liveJson = new JsonObject();
         liveJson.addProperty("$exists", false);
@@ -776,22 +776,23 @@ public class RestService {
         return getAskingService().getList("-updatedAt", where, limit).getResults();
     }
 
-    public List<Integer> getAskingUnreadCategories(String after) {
+    public List<String> getAskingUnreadGroups(List<String> idList, String after) {
         final JsonObject whereJson = new JsonObject();
         if (after != null) {
             whereJson.add("createdAt", buildDateTimeAfterJson(after));
         }
         final JsonObject liveJson = new JsonObject();
         liveJson.addProperty("$exists", false);
-        whereJson.add("deletedAt" ,liveJson);
+        whereJson.add("deletedAt", liveJson);
+        whereJson.add("groupId", buildIdListJson(idList));
         String where = whereJson.toString();
-        JsonObject json = getAskingService().getUnread(where, "category");
-        ArrayList<Integer> categories = new ArrayList<>();
-        JsonArray array = json.get("category").getAsJsonArray();
+        JsonObject json = getAskingService().getUnread(where, "groupId");
+        ArrayList<String> groups = new ArrayList<>();
+        JsonArray array = json.get("groupId").getAsJsonArray();
         for (Iterator<JsonElement> it = array.iterator(); it.hasNext();) {
-            categories.add(it.next().getAsInt());
+            groups.add(it.next().getAsString());
         }
-        return categories;
+        return groups;
     }
 
     public Asking newAsking(Asking asking) {
@@ -812,6 +813,27 @@ public class RestService {
         userAskingList.add(new JsonPrimitive(askingId));
         op.add("objects", userAskingList);
         data.add(Constants.Http.User.PARAM_ASKINGS, op);
+        return getUserService().updateById(userId, data);
+    }
+
+    public JsonObject addUserAskingGroup(String userId, String askingGroupId) {
+        final JsonObject op = new JsonObject();
+        op.addProperty("__op", "AddUnique");
+        return updateUserAskingGroupList(op, userId, askingGroupId);
+    }
+
+    public JsonObject removeUserAskingGroup(String userId, String askingGroupId) {
+        final JsonObject op = new JsonObject();
+        op.addProperty("__op", "Remove");
+        return updateUserAskingGroupList(op, userId, askingGroupId);
+    }
+
+    private JsonObject updateUserAskingGroupList(JsonObject op, String userId, String askingGroupId) {
+        final JsonObject data = new JsonObject();
+        final JsonArray userAskingGroupList = new JsonArray();
+        userAskingGroupList.add(new JsonPrimitive(askingGroupId));
+        op.add("objects", userAskingGroupList);
+        data.add(Constants.Http.User.PARAM_ASKING_GROUPS, op);
         return getUserService().updateById(userId, data);
     }
 
@@ -1465,12 +1487,23 @@ public class RestService {
         return getCreditOrderService().newCreditOrder(creditOrder);
     }
 
-    public List<AskingCategory> getAskingCategoryList() {
+    public List<AskingGroup> getAskingGroupList(List<String> idList) {
+        final JsonObject whereJson = new JsonObject();
+        final JsonObject liveJson = new JsonObject();
+        liveJson.addProperty("$exists", false);
+        whereJson.add("deletedAt", liveJson);
+        whereJson.add("objectId", buildIdListJson(idList));
+        String where = whereJson.toString();
+        return getAskingGroupService().getList("seq", where, Integer.MAX_VALUE).getResults();
+    }
+
+    public List<AskingGroup> getAskingGroupListByKeywords(List<String> keywords) {
         final JsonObject whereJson = new JsonObject();
         final JsonObject liveJson = new JsonObject();
         liveJson.addProperty("$exists", false);
         whereJson.add("deletedAt" ,liveJson);
+        whereJson.add("keyword", buildIdListJson(keywords));
         String where = whereJson.toString();
-        return getAskingCategoryService().getList("seq", where, Integer.MAX_VALUE).getResults();
+        return getAskingGroupService().getList("seq", where, Integer.MAX_VALUE).getResults();
     }
 }

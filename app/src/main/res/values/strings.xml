@@ -150,6 +150,7 @@
     <string name="label_share">分享</string>
     <string name="label_add">添加</string>
     <string name="label_gif">GIF</string>
+    <string name="label_join">加入</string>
 
     <!-- Info Message -->
     <string name="info_authenticating">正在验证您的账号信息，请稍候</string>
@@ -192,8 +193,8 @@
     <string name="info_submitting_quit_group">正在处理您的退出群组请求，请稍候</string>
     <string name="info_no_users_found">没找到任何相关用户</string>
     <string name="info_confirm_quit">您确定要退出该聚会？</string>
-    <string name="info_empty_party_list">暂时还没有可报名的聚会，点此刷新</string>
-    <string name="info_empty_asking_list">暂时还没有说说记录，点此刷新</string>
+    <string name="info_empty_party_list">暂时还没有可报名的聚会，点击刷新</string>
+    <string name="info_empty_asking_list">暂时还没有说说记录，点击刷新</string>
     <string name="info_empty_conversation_list">您没有任何会话记录</string>
     <string name="info_empty_mobile_contacts">没找到任何手机联系人</string>
     <string name="info_empty_contact_list">您还没添加任何好友</string>
@@ -208,12 +209,12 @@
     <string name="info_new_tag_user_message">相似标签新用户</string>
     <string name="info_welcome_new_user">%1$s刚刚加入，过去打个招呼吧！</string>
     <string name="info_tag_users_found">按标签为您找到%,d位用户</string>
-    <string name="info_empty_moment_list">暂时还没有妈妈圈记录，点此刷新</string>
+    <string name="info_empty_moment_list">暂时还没有妈妈圈记录，点击刷新</string>
     <string name="info_submitting_moment">正在发妈妈圈，请稍候</string>
     <string name="info_deleting_moment">正在删除该妈妈圈记录，请稍候</string>
     <string name="info_moment_deleted">该妈妈圈记录已成功删除</string>
-    <string name="info_empty_party_request_list">暂时还没有聚会需求，点此刷新</string>
-    <string name="info_empty_events">暂时还没有商家活动，点此刷新</string>
+    <string name="info_empty_party_request_list">暂时还没有聚会需求，点击刷新</string>
+    <string name="info_empty_events">暂时还没有商家活动，点击刷新</string>
     <string name="info_submitting_party_request">正在提交您的请求，请稍候</string>
     <string name="info_confirm_delete_party_request">您确定要删除该聚会需求？</string>
     <string name="info_party_request_deleted">该聚会需求已成功删除</string>
@@ -228,6 +229,8 @@
     <string name="info_not_supported_by_your_country">您所在的国家不支持该换购</string>
     <string name="info_gift_purchase_submitted">换购已成功提交，我们会在发货前与您确认</string>
     <string name="info_confirm_clear_conversation_list">您确定要清空会话列表？</string>
+    <string name="info_empty_asking_group_list">您还没有加入任何说说组，点击查看</string>
+    <string name="info_confirm_quit_asking_group">您确定要退出该说说组？</string>
 
     <!-- Error Message -->
     <string name="error_bad_credentials">验证失败，请输入正确的手机号码/密码</string>
@@ -304,6 +307,7 @@
     <string name="title_activity_game_list">小游戏</string>
     <string name="title_activity_party">聚会</string>
     <string name="title_activity_moment_list">妈妈圈</string>
+    <string name="title_activity_recommend_asking_group">为您推荐的说说组</string>
 
     <!-- Account -->
     <string name="hint_login_phone">手机号码</string>
@@ -522,7 +526,6 @@
     <string name="label_group_applied">%1$s请求加入%2$s</string>
     <string name="hint_join_group_reason">验证信息</string>
     <string name="label_process">处理</string>
-    <string name="label_join">加入</string>
     <string name="label_approved">已同意</string>
     <string name="label_rejected">已拒绝</string>
     <string name="hint_decline_reason">拒绝理由</string>

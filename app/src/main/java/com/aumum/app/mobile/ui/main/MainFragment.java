@@ -20,8 +20,10 @@ import com.aumum.app.mobile.core.dao.AskingStore;
 import com.aumum.app.mobile.core.dao.MomentStore;
 import com.aumum.app.mobile.core.dao.PartyRequestStore;
 import com.aumum.app.mobile.core.dao.PartyStore;
+import com.aumum.app.mobile.core.dao.UserStore;
 import com.aumum.app.mobile.core.infra.security.ApiKeyProvider;
 import com.aumum.app.mobile.core.model.CmdMessage;
+import com.aumum.app.mobile.core.model.User;
 import com.aumum.app.mobile.core.service.ChatService;
 import com.aumum.app.mobile.core.service.NotificationService;
 import com.aumum.app.mobile.core.service.ScheduleService;
@@ -59,6 +61,7 @@ import retrofit.RetrofitError;
 public class MainFragment extends Fragment
         implements ScheduleService.OnScheduleListener {
 
+    @Inject UserStore userStore;
     @Inject AskingStore askingStore;
     @Inject PartyStore partyStore;
     @Inject PartyRequestStore partyRequestStore;
@@ -137,10 +140,10 @@ public class MainFragment extends Fragment
         }
         task = new SafeAsyncTask<Boolean>() {
             public Boolean call() throws Exception {
-                String currentUserId = apiKeyProvider.getAuthUserId();
-                List<Integer> categories = askingStore.getUnreadCategories();
-                if (categories.size() > 0) {
-                    bus.post(new NewAskingUnreadEvent(categories));
+                User currentUser = userStore.getCurrentUser();
+                List<String> groups = askingStore.getUnreadGroups(currentUser.getAskingGroups());
+                if (groups.size() > 0) {
+                    bus.post(new NewAskingUnreadEvent(groups));
                     getActivity().runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
@@ -149,7 +152,7 @@ public class MainFragment extends Fragment
                         }
                     });
                 }
-                int unreadCount = partyStore.getUnreadCount(currentUserId);
+                int unreadCount = partyStore.getUnreadCount(currentUser.getObjectId());
                 if (unreadCount > 0) {
                     bus.post(new NewPartyUnreadEvent());
                     getActivity().runOnUiThread(new Runnable() {

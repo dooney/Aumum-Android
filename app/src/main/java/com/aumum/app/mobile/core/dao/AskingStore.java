@@ -54,7 +54,7 @@ public class AskingStore {
                 DateUtils.dateToString(askingEntity.getCreatedAt(), Constants.DateTime.FORMAT),
                 DateUtils.dateToString(askingEntity.getUpdatedAt(), Constants.DateTime.FORMAT),
                 askingEntity.getUserId(),
-                askingEntity.getCategory(),
+                askingEntity.getGroupId(),
                 askingEntity.getIsAnonymous(),
                 askingEntity.getTitle(),
                 askingEntity.getDetails(),
@@ -72,7 +72,7 @@ public class AskingStore {
                 createdAt,
                 updatedAt,
                 asking.getUserId(),
-                asking.getCategory(),
+                asking.getGroupId(),
                 asking.getIsAnonymous(),
                 asking.getTitle(),
                 asking.getDetails(),
@@ -92,9 +92,9 @@ public class AskingStore {
         askingEntityDao.insertOrReplace(map(asking));
     }
 
-    public List<Asking> getUpwardsList(int category, String time) throws Exception {
+    public List<Asking> getUpwardsList(String groupId, String time) throws Exception {
         QueryBuilder<AskingEntity> query = askingEntityDao.queryBuilder()
-                .where(AskingEntityDao.Properties.Category.eq(category));
+                .where(AskingEntityDao.Properties.GroupId.eq(groupId));
         if (time != null) {
             Date updatedAt = DateUtils.stringToDate(time, Constants.DateTime.FORMAT);
             query = query.where(AskingEntityDao.Properties.UpdatedAt.gt(updatedAt));
@@ -107,16 +107,16 @@ public class AskingStore {
             return map(records);
         } else {
             int limit = time != null ? Integer.MAX_VALUE : LIMIT_PER_LOAD;
-            List<Asking> askingList = restService.getAskingListAfter(category, time, limit);
+            List<Asking> askingList = restService.getAskingListAfter(groupId, time, limit);
             updateOrInsert(askingList);
             return askingList;
         }
     }
 
-    public List<Asking> getBackwardsList(int category, String time) throws Exception {
+    public List<Asking> getBackwardsList(String groupId, String time) throws Exception {
         Date date = DateUtils.stringToDate(time, Constants.DateTime.FORMAT);
         List<AskingEntity> records = askingEntityDao.queryBuilder()
-                .where(AskingEntityDao.Properties.Category.eq(category))
+                .where(AskingEntityDao.Properties.GroupId.eq(groupId))
                 .where(AskingEntityDao.Properties.UpdatedAt.lt(date))
                 .orderDesc(AskingEntityDao.Properties.UpdatedAt)
                 .limit(LIMIT_PER_LOAD)
@@ -124,7 +124,7 @@ public class AskingStore {
         if (records.size() > 0) {
             return map(records);
         } else {
-            List<Asking> askingList = restService.getAskingListBefore(category, time, LIMIT_PER_LOAD);
+            List<Asking> askingList = restService.getAskingListBefore(groupId, time, LIMIT_PER_LOAD);
             updateOrInsert(askingList);
             return askingList;
         }
@@ -163,9 +163,9 @@ public class AskingStore {
         return askingList;
     }
 
-    public List<Integer> getUnreadCategories() throws Exception {
+    public List<String> getUnreadGroups(List<String> idList) throws Exception {
         String time = getLastUpdateTime();
-        return restService.getAskingUnreadCategories(time);
+        return restService.getAskingUnreadGroups(idList, time);
     }
 
     private String getLastUpdateTime() {

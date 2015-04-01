@@ -38,7 +38,7 @@ public class AskingListFragment extends RefreshItemListFragment<Asking> {
     @Inject AskingStore askingStore;
     @Inject UserStore userStore;
 
-    private int category;
+    private String groupId;
     private String title;
     private List<Asking> dataSet;
 
@@ -49,7 +49,7 @@ public class AskingListFragment extends RefreshItemListFragment<Asking> {
         Injector.inject(this);
 
         final Intent intent = getActivity().getIntent();
-        category = intent.getIntExtra(AskingListActivity.INTENT_CATEGORY, 0);
+        groupId = intent.getStringExtra(AskingListActivity.INTENT_GROUP_ID);
         title = intent.getStringExtra(AskingListActivity.INTENT_TITLE);
 
         dataSet = new ArrayList<>();
@@ -68,7 +68,7 @@ public class AskingListFragment extends RefreshItemListFragment<Asking> {
                 if (getActivity() != null) {
                     final Intent intent = new Intent(getActivity(), NewAskingActivity.class);
                     intent.putExtra(NewAskingActivity.INTENT_TITLE, title);
-                    intent.putExtra(NewAskingActivity.INTENT_CATEGORY, category);
+                    intent.putExtra(NewAskingActivity.INTENT_GROUP_ID, groupId);
                     startActivityForResult(intent, Constants.RequestCode.NEW_ASKING_REQ_CODE);
                 }
             }
@@ -145,7 +145,7 @@ public class AskingListFragment extends RefreshItemListFragment<Asking> {
         if (dataSet.size() > 0) {
             after = dataSet.get(0).getUpdatedAt();
         }
-        List<Asking> askingList = askingStore.getUpwardsList(category, after);
+        List<Asking> askingList = askingStore.getUpwardsList(groupId, after);
         Collections.reverse(askingList);
         for(Asking asking: askingList) {
             for (Iterator<Asking> it = dataSet.iterator(); it.hasNext();) {
@@ -163,7 +163,7 @@ public class AskingListFragment extends RefreshItemListFragment<Asking> {
     protected void getBackwardsList() throws Exception {
         if (dataSet.size() > 0) {
             Asking last = dataSet.get(dataSet.size() - 1);
-            List<Asking> askingList = askingStore.getBackwardsList(category,
+            List<Asking> askingList = askingStore.getBackwardsList(groupId,
                     last.getUpdatedAt());
             dataSet.addAll(askingList);
             if (askingList.size() > 0) {
@@ -198,6 +198,6 @@ public class AskingListFragment extends RefreshItemListFragment<Asking> {
 
     @Override
     protected String getFragmentName() {
-        return getClass().getSimpleName() + category;
+        return getClass().getSimpleName() + groupId;
     }
 }

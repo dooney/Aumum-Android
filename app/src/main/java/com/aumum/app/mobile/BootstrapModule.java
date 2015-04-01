@@ -24,12 +24,14 @@ import com.aumum.app.mobile.ui.area.AreaListFragment;
 import com.aumum.app.mobile.ui.asking.AskingDetailsFragment;
 import com.aumum.app.mobile.ui.asking.AskingFavoriteListener;
 import com.aumum.app.mobile.ui.asking.AskingFragment;
+import com.aumum.app.mobile.ui.asking.AskingGroupJoinListener;
 import com.aumum.app.mobile.ui.asking.AskingLikeListener;
 import com.aumum.app.mobile.ui.asking.AskingListFragment;
 import com.aumum.app.mobile.ui.asking.AskingRepliesFragment;
 import com.aumum.app.mobile.ui.asking.AskingReplyCard;
 import com.aumum.app.mobile.ui.asking.AskingReplyLikeListener;
 import com.aumum.app.mobile.ui.asking.NewAskingActivity;
+import com.aumum.app.mobile.ui.asking.RecommendAskingGroupFragment;
 import com.aumum.app.mobile.ui.asking.SearchAskingFragment;
 import com.aumum.app.mobile.ui.chat.ChatConnectionListener;
 import com.aumum.app.mobile.ui.chat.ChatFragment;
@@ -232,7 +234,9 @@ import retrofit.converter.GsonConverter;
                 ChatTabFragment.class,
                 GroupFragment.class,
                 GameListFragment.class,
-                CreditPurchaseFragment.class
+                CreditPurchaseFragment.class,
+                RecommendAskingGroupFragment.class,
+                AskingGroupJoinListener.class
         }
 )
 public class BootstrapModule {
