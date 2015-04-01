@@ -538,9 +538,6 @@
     <style name="Button.Group.Join" parent="Button.Action">
         <item name="android:text">@string/label_join</item>
     </style>
-    <style name="TextView.Group.Joint" parent="TextView.Subtitle">
-        <item name="android:text">@string/label_joint</item>
-    </style>
     <style name="TextView.GroupRequest.ScreenName" parent="TextView.UserName">
         <item name="android:textSize">@dimen/text_sz_large</item>
     </style>

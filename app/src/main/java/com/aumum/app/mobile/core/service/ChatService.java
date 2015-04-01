@@ -139,6 +139,10 @@ public class ChatService {
         EMGroupManager.getInstance().exitAndDeleteGroup(groupId);
     }
 
+    public List<EMGroup> getAllGroups() {
+        return EMGroupManager.getInstance().getAllGroups();
+    }
+
     public List<EMGroupInfo> getPublicGroups() throws Exception {
         return EMGroupManager.getInstance().getAllPublicGroupsFromServer();
     }

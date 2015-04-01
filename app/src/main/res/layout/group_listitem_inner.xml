@@ -49,10 +49,6 @@
             android:id="@+id/b_join"
             style="@style/Button.Group.Join" />
 
-        <TextView
-            android:id="@+id/text_joint"
-            style="@style/TextView.Group.Joint" />
-
         <ProgressBar
             android:id="@+id/progress"
             style="@style/ProgressBar"

@@ -72,22 +72,19 @@ public class GroupFragment extends ItemListFragment<GroupDetails> {
 
     @Override
     protected List<GroupDetails> loadDataCore(Bundle bundle) throws Exception {
-        List<EMGroupInfo> groupInfoList = chatService.getPublicGroups();
-        ArrayList<EMGroup> groups = new ArrayList<>();
-        for (EMGroupInfo groupInfo: groupInfoList) {
-            EMGroup group = chatService.getGroupById(groupInfo.getGroupId());
-            groups.add(group);
-        }
+        List<EMGroup> groups = chatService.getAllGroups();
         ArrayList<GroupDetails> groupList = new ArrayList<>();
         User currentUser = userStore.getCurrentUser();
         for (EMGroup group: groups) {
             User user = userStore.getUserByChatId(group.getOwner());
             if (user != null) {
-                int groupSize = group.getMembers().size();
                 boolean isMember = group.getMembers().contains(currentUser.getChatId());
-                GroupDetails groupDetails = new GroupDetails(group.getGroupId(),
-                        group.getGroupName(), user, groupSize, isMember);
-                groupList.add(groupDetails);
+                if (isMember) {
+                    int groupSize = group.getMembers().size();
+                    GroupDetails groupDetails = new GroupDetails(group.getGroupId(),
+                            group.getGroupName(), user, groupSize, true);
+                    groupList.add(groupDetails);
+                }
             }
         }
         Collections.sort(groupList, new SizeComparator());
@@ -115,9 +112,6 @@ public class GroupFragment extends ItemListFragment<GroupDetails> {
                             case 2:
                                 startGroupRequestsActivity();
                                 break;
-                            case 3:
-                                getMainView().setVisibility(View.GONE);
-                                reload();
                             default:
                                 break;
                         }

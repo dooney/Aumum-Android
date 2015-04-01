@@ -51,12 +51,8 @@ public class GroupCard {
         groupSizeText.setText(String.valueOf(groupDetails.getSize()));
 
         Button joinButton = (Button) view.findViewById(R.id.b_join);
-        TextView jointText = (TextView) view.findViewById(R.id.text_joint);
         joinButton.setVisibility(View.GONE);
-        jointText.setVisibility(View.GONE);
-        if (groupDetails.isMember()) {
-            jointText.setVisibility(View.VISIBLE);
-        } else {
+        if (!groupDetails.isMember()) {
             joinButton.setOnClickListener(new GroupJoinListener(activity, groupDetails.getId()));
             joinButton.setVisibility(View.VISIBLE);
         }

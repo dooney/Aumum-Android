@@ -49,7 +49,6 @@ public class ConversationFragment extends ItemListFragment<Conversation> {
     @Override
     public void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setHasOptionsMenu(true);
         Injector.inject(this);
     }
 

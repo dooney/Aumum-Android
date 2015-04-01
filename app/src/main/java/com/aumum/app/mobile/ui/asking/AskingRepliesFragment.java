@@ -64,7 +64,6 @@ public class AskingRepliesFragment extends RefreshItemListFragment<AskingReply> 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setHasOptionsMenu(true);
         Injector.inject(this);
 
         dataSet = new ArrayList<AskingReply>();

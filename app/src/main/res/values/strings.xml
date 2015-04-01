@@ -12,7 +12,7 @@
     </string-array>
     <string-array name="label_chat_tab_pages">
         <item>最近会话</item>
-        <item>热门群组</item>
+        <item>我的群组</item>
     </string-array>
     <string-array name="label_party_pages">
         <item>聚会需求</item>
@@ -134,7 +134,6 @@
         <item>创建群组</item>
         <item>查找群组</item>
         <item>入群请求</item>
-        <item>刷新列表</item>
     </string-array>
 
     <!-- General -->
@@ -524,7 +523,6 @@
     <string name="hint_join_group_reason">验证信息</string>
     <string name="label_process">处理</string>
     <string name="label_join">加入</string>
-    <string name="label_joint">已加入</string>
     <string name="label_approved">已同意</string>
     <string name="label_rejected">已拒绝</string>
     <string name="hint_decline_reason">拒绝理由</string>
