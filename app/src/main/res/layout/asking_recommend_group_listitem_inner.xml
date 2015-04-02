@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/list_selector_white"
+    android:padding="@dimen/margin_large">
+
+    <com.aumum.app.mobile.ui.view.AvatarImageView
+        android:id="@+id/image_avatar"
+        style="@style/ImageView.Avatar"
+        android:layout_marginRight="@dimen/margin_medium"/>
+
+    <RelativeLayout
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/text_screen_name"
+                style="@style/TextView.AskingGroup.ScreenName"/>
+
+            <TextView
+                android:id="@+id/text_description"
+                android:layout_height="match_parent"
+                style="@style/TextView.AskingGroup.Description"
+                android:gravity="bottom"/>
+
+        </LinearLayout>
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_alignParentRight="true">
+
+            <Button
+                android:id="@+id/b_join"
+                style="@style/Button.Group.Join"
+                android:layout_centerVertical="true"/>
+
+            <ProgressBar
+                android:id="@+id/progress"
+                style="@style/ProgressBar"
+                android:layout_centerVertical="true"
+                android:visibility="gone" />
+
+        </RelativeLayout>
+
+    </RelativeLayout>
+
+</LinearLayout>

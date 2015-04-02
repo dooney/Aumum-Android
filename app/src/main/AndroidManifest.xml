@@ -363,9 +363,6 @@
             android:label="@string/title_activity_moment_list">
         </activity>
         <activity android:name=".ui.asking.AskingListActivity" />
-        <activity android:name=".ui.asking.RecommendAskingGroupActivity"
-            android:label="@string/title_activity_recommend_asking_group">
-        </activity>
     </application>
 
 </manifest>

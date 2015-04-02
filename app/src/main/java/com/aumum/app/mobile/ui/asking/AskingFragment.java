@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.aumum.app.mobile.Injector;
 import com.aumum.app.mobile.R;
@@ -21,6 +22,8 @@ import com.aumum.app.mobile.core.model.AskingGroup;
 import com.aumum.app.mobile.core.model.User;
 import com.aumum.app.mobile.core.service.RestService;
 import com.aumum.app.mobile.events.NewAskingUnreadEvent;
+import com.aumum.app.mobile.events.RefreshMyAskingGroupsEvent;
+import com.aumum.app.mobile.events.RefreshRecommendAskingGroupsEvent;
 import com.aumum.app.mobile.events.ResetAskingUnreadEvent;
 import com.aumum.app.mobile.ui.base.ItemListFragment;
 import com.aumum.app.mobile.ui.view.ConfirmDialog;
@@ -31,7 +34,6 @@ import com.squareup.otto.Bus;
 import com.squareup.otto.Subscribe;
 
 import java.util.Arrays;
-import java.util.Iterator;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -49,6 +51,9 @@ public class AskingFragment extends ItemListFragment<AskingGroup>
 
     private User currentUser;
     private int position;
+
+    private View scrollView;
+    private TextView myGroupsText;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -84,6 +89,10 @@ public class AskingFragment extends ItemListFragment<AskingGroup>
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        scrollView = view.findViewById(R.id.scroll_view);
+        scrollView.setHorizontalScrollBarEnabled(false);
+        scrollView.setVerticalScrollBarEnabled(false);
+        myGroupsText = (TextView) view.findViewById(R.id.text_my_asking_groups);
         getListView().setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
@@ -100,8 +109,6 @@ public class AskingFragment extends ItemListFragment<AskingGroup>
             AskingGroup askingGroup = getData().get(position);
             askingGroup.setUnread(false);
             getListAdapter().notifyDataSetChanged();
-        } else if (requestCode == Constants.RequestCode.GET_RECOMMEND_ASKING_GROUP_REQ_CODE) {
-            refresh(null);
         }
     }
 
@@ -130,6 +137,11 @@ public class AskingFragment extends ItemListFragment<AskingGroup>
     }
 
     @Override
+    public View getMainView() {
+        return scrollView;
+    }
+
+    @Override
     protected ArrayAdapter<AskingGroup> createAdapter(List<AskingGroup> items) {
         return new AskingGroupAdapter(getActivity(), items, this);
     }
@@ -148,9 +160,7 @@ public class AskingFragment extends ItemListFragment<AskingGroup>
     @Override
     protected void handleLoadResult(List<AskingGroup> result) {
         super.handleLoadResult(result);
-        if (result.size() == 0) {
-            startRecommendAskingGroupActivity();
-        }
+        myGroupsText.setText(getString(R.string.label_my_asking_groups, result.size()));
     }
 
     private void showActionDialog() {
@@ -210,11 +220,6 @@ public class AskingFragment extends ItemListFragment<AskingGroup>
         getListAdapter().notifyDataSetChanged();
     }
 
-    private void startRecommendAskingGroupActivity() {
-        final Intent intent = new Intent(getActivity(), RecommendAskingGroupActivity.class);
-        startActivityForResult(intent, Constants.RequestCode.GET_RECOMMEND_ASKING_GROUP_REQ_CODE);
-    }
-
     @Override
     public void onQuit(final AskingGroup askingGroup) {
         new TextViewDialog(getActivity(),
@@ -236,16 +241,14 @@ public class AskingFragment extends ItemListFragment<AskingGroup>
 
                     @Override
                     public void onSuccess(Object value) {
-                        List<AskingGroup> list = getData();
-                        for (Iterator<AskingGroup> it = list.iterator(); it.hasNext();) {
-                            AskingGroup group = it.next();
-                            if (group.getObjectId().equals(askingGroup.getObjectId())) {
-                                it.remove();
-                                getListAdapter().notifyDataSetChanged();
-                                return;
-                            }
-                        }
+                        bus.post(new RefreshRecommendAskingGroupsEvent());
+                        refresh(null);
                     }
                 }).show();
+    }
+
+    @Subscribe
+    public void onRefreshMyAskingGroupsEvent(RefreshMyAskingGroupsEvent event) {
+        refresh(null);
     }
 }

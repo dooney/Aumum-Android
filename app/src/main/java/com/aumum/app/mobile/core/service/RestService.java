@@ -164,14 +164,22 @@ public class RestService {
         return getUserService().authenticate(username, password);
     }
 
-    private JsonObject buildIdListJson(List<String> idList) {
+    private JsonObject buildListJson(String op, List<String> idList) {
         final JsonArray idListJson = new JsonArray();
         for (String id: idList) {
             idListJson.add(new JsonPrimitive(id));
         }
         final JsonObject objectIdInJson = new JsonObject();
-        objectIdInJson.add("$in", idListJson);
+        objectIdInJson.add(op, idListJson);
         return objectIdInJson;
+    }
+
+    private JsonObject buildIdListJson(List<String> idList) {
+        return buildListJson("$in", idList);
+    }
+
+    private JsonObject buildNotIdListJson(List<String> idList) {
+        return buildListJson("$nin", idList);
     }
 
     private JsonObject buildDateTimeAfterJson(String dateTime) {
@@ -1497,12 +1505,13 @@ public class RestService {
         return getAskingGroupService().getList("seq", where, Integer.MAX_VALUE).getResults();
     }
 
-    public List<AskingGroup> getAskingGroupListByKeywords(List<String> keywords) {
+    public List<AskingGroup> getRecommendAskingGroupList(List<String> keywords, List<String> excludes) {
         final JsonObject whereJson = new JsonObject();
         final JsonObject liveJson = new JsonObject();
         liveJson.addProperty("$exists", false);
-        whereJson.add("deletedAt" ,liveJson);
+        whereJson.add("deletedAt", liveJson);
         whereJson.add("keyword", buildIdListJson(keywords));
+        whereJson.add("objectId", buildNotIdListJson(excludes));
         String where = whereJson.toString();
         return getAskingGroupService().getList("seq", where, Integer.MAX_VALUE).getResults();
     }

@@ -483,6 +483,9 @@
         <item name="android:maxLines">1</item>
         <item name="android:ellipsize">end</item>
     </style>
+    <style name="TextView.AskingGroup.Subtitle" parent="TextView.Subtitle">
+        <item name="android:textSize">@dimen/text_sz_small</item>
+    </style>
 
     <!-- Special -->
     <style name="ImageView.Special.VendorLogo" parent="ImageView" />

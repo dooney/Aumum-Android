@@ -5,22 +5,57 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <ListView
-        android:id="@android:id/list"
+    <ScrollView
+        android:id="@+id/scroll_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:visibility="gone" />
+        android:fillViewport="true"
+        android:visibility="gone">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/text_my_asking_groups"
+                    style="@style/TextView.AskingGroup.Subtitle"
+                    android:paddingTop="@dimen/margin_small"
+                    android:paddingBottom="@dimen/margin_small"
+                    android:paddingLeft="@dimen/margin_large"/>
+
+                <View style="@style/Divider" />
+
+                <ListView
+                    android:id="@android:id/list"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent" />
+
+                <TextView
+                    android:id="@+id/text_more"
+                    style="@style/TextView.Notification"
+                    android:layout_gravity="center_horizontal"
+                    android:padding="@dimen/margin_large"
+                    android:text="@string/info_more_asking_groups"/>
+
+            </LinearLayout>
+
+            <fragment android:name="com.aumum.app.mobile.ui.asking.RecommendAskingGroupFragment"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+        </LinearLayout>
+
+    </ScrollView>
 
     <ProgressBar
         android:id="@+id/pb_loading"
         style="@style/ListSpinner"
         android:layout_centerInParent="true" />
-
-    <TextView
-        android:id="@+id/text_empty"
-        style="@style/TextView.Empty"
-        android:layout_centerInParent="true"
-        android:text="@string/info_empty_asking_group_list"
-        android:visibility="gone"/>
 
 </RelativeLayout>

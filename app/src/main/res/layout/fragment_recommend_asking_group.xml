@@ -1,19 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<RelativeLayout
+<LinearLayout
+    android:id="@+id/main_view"
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:visibility="gone">
+
+    <TextView
+        style="@style/TextView.AskingGroup.Subtitle"
+        android:paddingTop="@dimen/margin_small"
+        android:paddingBottom="@dimen/margin_small"
+        android:paddingLeft="@dimen/margin_large"
+        android:text="@string/label_recommend_asking_groups"/>
+
+    <View style="@style/Divider" />
 
     <ListView
         android:id="@android:id/list"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:visibility="gone" />
+        android:layout_height="wrap_content" />
 
-    <ProgressBar
-        android:id="@+id/pb_loading"
-        style="@style/ListSpinner"
-        android:layout_centerInParent="true" />
-
-</RelativeLayout>
+</LinearLayout>

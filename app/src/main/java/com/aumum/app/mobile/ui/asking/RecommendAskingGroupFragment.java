@@ -12,7 +12,11 @@ import com.aumum.app.mobile.core.dao.UserStore;
 import com.aumum.app.mobile.core.model.AskingGroup;
 import com.aumum.app.mobile.core.model.User;
 import com.aumum.app.mobile.core.service.RestService;
+import com.aumum.app.mobile.events.RefreshMyAskingGroupsEvent;
+import com.aumum.app.mobile.events.RefreshRecommendAskingGroupsEvent;
 import com.aumum.app.mobile.ui.base.ItemListFragment;
+import com.squareup.otto.Bus;
+import com.squareup.otto.Subscribe;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,10 +27,13 @@ import javax.inject.Inject;
  * Created by Administrator on 1/04/2015.
  */
 public class RecommendAskingGroupFragment extends ItemListFragment<AskingGroup>
-        implements AskingGroupQuitListener {
+        implements AskingRecommendGroupJoinListener {
 
     @Inject UserStore userStore;
     @Inject RestService restService;
+    @Inject Bus bus;
+
+    private View mainView;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -41,8 +48,32 @@ public class RecommendAskingGroupFragment extends ItemListFragment<AskingGroup>
     }
 
     @Override
+    public void onViewCreated(View view, Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
+        mainView = view.findViewById(R.id.main_view);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        bus.register(this);
+    }
+
+    @Override
+    public void onPause() {
+        super.onDestroy();
+        bus.unregister(this);
+    }
+
+    @Override
+    protected View getMainView() {
+        return mainView;
+    }
+
+    @Override
     protected ArrayAdapter<AskingGroup> createAdapter(List<AskingGroup> items) {
-        return new AskingGroupAdapter(getActivity(), items, this);
+        return new AskingRecommendGroupAdapter(getActivity(), items, this);
     }
 
     @Override
@@ -53,11 +84,18 @@ public class RecommendAskingGroupFragment extends ItemListFragment<AskingGroup>
         for (String tag: currentUser.getTags()) {
             keywords.add(tag);
         }
-        return restService.getAskingGroupListByKeywords(keywords);
+        return restService.getRecommendAskingGroupList(keywords,
+                currentUser.getAskingGroups());
     }
 
     @Override
-    public void onQuit(AskingGroup askingGroup) {
+    public void onSuccess() {
+        bus.post(new RefreshMyAskingGroupsEvent());
+        refresh(null);
+    }
 
+    @Subscribe
+    public void onRefreshRecommendAskingGroupsEvent(RefreshRecommendAskingGroupsEvent event) {
+        refresh(null);
     }
 }
