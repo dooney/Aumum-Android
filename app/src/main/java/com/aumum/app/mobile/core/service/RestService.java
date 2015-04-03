@@ -1515,7 +1515,14 @@ public class RestService {
         final JsonObject liveJson = new JsonObject();
         liveJson.addProperty("$exists", false);
         whereJson.add("deletedAt", liveJson);
-        whereJson.add("keyword", buildIdListJson(keywords));
+        final JsonArray keywordJson = new JsonArray();
+        final JsonObject keywordListJson = new JsonObject();
+        keywordListJson.add("keyword", buildIdListJson(keywords));
+        keywordJson.add(keywordListJson);
+        final JsonObject keywordLiveJson = new JsonObject();
+        keywordLiveJson.add("keyword", liveJson);
+        keywordJson.add(keywordLiveJson);
+        whereJson.add("$or", keywordJson);
         whereJson.add("objectId", buildNotIdListJson(excludes));
         String where = whereJson.toString();
         return getAskingGroupService().getList("seq", where, Integer.MAX_VALUE).getResults();
