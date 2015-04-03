@@ -54,6 +54,7 @@ public class UserFragment extends LoaderFragment<User> {
 
     private View mainView;
     private AvatarImageView avatarImage;
+    private TextView creditText;
     private TextView screenNameText;
     private TextView cityText;
     private TextView areaText;
@@ -108,6 +109,7 @@ public class UserFragment extends LoaderFragment<User> {
 
         mainView = view.findViewById(R.id.main_view);
         avatarImage = (AvatarImageView) view.findViewById(R.id.image_avatar);
+        creditText = (TextView) view.findViewById(R.id.text_credit);
         screenNameText = (TextView) view.findViewById(R.id.text_screen_name);
         cityText = (TextView) view.findViewById(R.id.text_city);
         areaText = (TextView) view.findViewById(R.id.text_area);
@@ -153,6 +155,7 @@ public class UserFragment extends LoaderFragment<User> {
             setData(user);
 
             avatarImage.getFromUrl(user.getAvatarUrl());
+            creditText.setText(getString(R.string.label_user_credit, user.getCredit()));
             screenNameText.setText(user.getScreenName());
             cityText.setText(user.getCity());
             areaText.setText(user.getArea());

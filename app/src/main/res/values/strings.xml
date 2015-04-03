@@ -355,6 +355,7 @@
     <string name="label_accept">同意</string>
     <string name="label_added">已添加</string>
     <string name="label_contact_agreed">已经同意您的添加好友请求</string>
+    <string name="label_user_credit">用户积分：%,d</string>
 
     <!-- Profile -->
     <string name="label_screen_name">用户昵称</string>
