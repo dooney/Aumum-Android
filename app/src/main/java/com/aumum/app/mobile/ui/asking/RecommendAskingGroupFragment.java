@@ -58,6 +58,7 @@ public class RecommendAskingGroupFragment extends ItemListFragment<AskingGroup>
     public void onResume() {
         super.onResume();
         bus.register(this);
+        refresh(null);
     }
 
     @Override
@@ -95,7 +96,8 @@ public class RecommendAskingGroupFragment extends ItemListFragment<AskingGroup>
     }
 
     @Subscribe
-    public void onRefreshRecommendAskingGroupsEvent(RefreshRecommendAskingGroupsEvent event) {
+    public void onRefreshRecommendAskingGroupsEvent(
+            RefreshRecommendAskingGroupsEvent event) {
         refresh(null);
     }
 }

@@ -216,6 +216,11 @@ public final class Constants {
         public static final String URL_ASKING_GROUPS_FRAG = "/1/classes/AskingGroups";
 
         /**
+         * List Asking Board URL
+         */
+        public static final String URL_ASKING_BOARDS_FRAG = "/1/classes/AskingBoards";
+
+        /**
          * PARAMS for auth
          */
         public static final String PARAM_USERNAME = "username";
@@ -385,6 +390,7 @@ public final class Constants {
         public static final int NEW_PARTY_REQUEST_REQ_CODE = 43;
         public static final int CREDIT_PURCHASE_REQ_CODE = 44;
         public static final int GET_ASKING_LIST_REQ_CODE = 45;
+        public static final int GET_ASKING_BOARD_REQ_CODE = 46;
     }
 
     public static final class Link {

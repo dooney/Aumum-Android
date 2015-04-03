@@ -123,13 +123,6 @@ public class UserFragment extends LoaderFragment<User> {
     }
 
     @Override
-    public void onDestroyView() {
-        mainView = null;
-
-        super.onDestroyView();
-    }
-
-    @Override
     protected boolean readyToShow() {
         return getData() != null;
     }

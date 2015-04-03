@@ -13,6 +13,18 @@ public class AskingGroup extends AggregateRoot {
     private boolean unread;
     private boolean isMember;
 
+    public AskingGroup(String objectId,
+                       String avatarUrl,
+                       String screenName,
+                       String description,
+                       int seq) {
+        this.objectId = objectId;
+        this.avatarUrl = avatarUrl;
+        this.screenName = screenName;
+        this.description = description;
+        this.seq = seq;
+    }
+
     public String getAvatarUrl() {
         return avatarUrl;
     }
@@ -23,6 +35,10 @@ public class AskingGroup extends AggregateRoot {
 
     public String getDescription() {
         return description;
+    }
+
+    public int getSeq() {
+        return seq;
     }
 
     public boolean isUnread() {

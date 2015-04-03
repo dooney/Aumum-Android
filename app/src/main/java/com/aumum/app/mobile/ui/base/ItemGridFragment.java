@@ -26,13 +26,6 @@ public abstract class ItemGridFragment<E> extends LoaderFragment<List<E>> {
     }
 
     @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-
-        gridView = null;
-    }
-
-    @Override
     public void onViewCreated(final View view, final Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 

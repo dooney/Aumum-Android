@@ -307,6 +307,7 @@
     <string name="title_activity_game_list">小游戏</string>
     <string name="title_activity_party">聚会</string>
     <string name="title_activity_moment_list">妈妈圈</string>
+    <string name="title_activity_asking_board">话题分类</string>
 
     <!-- Account -->
     <string name="hint_login_phone">手机号码</string>

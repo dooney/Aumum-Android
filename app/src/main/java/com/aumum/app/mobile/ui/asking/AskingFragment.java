@@ -17,6 +17,7 @@ import android.widget.TextView;
 import com.aumum.app.mobile.Injector;
 import com.aumum.app.mobile.R;
 import com.aumum.app.mobile.core.Constants;
+import com.aumum.app.mobile.core.dao.AskingGroupStore;
 import com.aumum.app.mobile.core.dao.UserStore;
 import com.aumum.app.mobile.core.model.AskingGroup;
 import com.aumum.app.mobile.core.model.User;
@@ -46,6 +47,7 @@ public class AskingFragment extends ItemListFragment<AskingGroup>
         implements AskingGroupQuitListener {
 
     @Inject UserStore userStore;
+    @Inject AskingGroupStore askingGroupStore;
     @Inject RestService restService;
     @Inject Bus bus;
 
@@ -54,6 +56,7 @@ public class AskingFragment extends ItemListFragment<AskingGroup>
 
     private View scrollView;
     private TextView myGroupsText;
+    private TextView moreText;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -93,6 +96,13 @@ public class AskingFragment extends ItemListFragment<AskingGroup>
         scrollView.setHorizontalScrollBarEnabled(false);
         scrollView.setVerticalScrollBarEnabled(false);
         myGroupsText = (TextView) view.findViewById(R.id.text_my_asking_groups);
+        moreText = (TextView) view.findViewById(R.id.text_more);
+        moreText.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startAskingGroupActivity();
+            }
+        });
         getListView().setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
@@ -109,6 +119,8 @@ public class AskingFragment extends ItemListFragment<AskingGroup>
             AskingGroup askingGroup = getData().get(position);
             askingGroup.setUnread(false);
             getListAdapter().notifyDataSetChanged();
+        } else if (requestCode == Constants.RequestCode.GET_ASKING_BOARD_REQ_CODE) {
+            refresh(null);
         }
     }
 
@@ -142,6 +154,11 @@ public class AskingFragment extends ItemListFragment<AskingGroup>
     }
 
     @Override
+    protected boolean readyToShow() {
+        return true;
+    }
+
+    @Override
     protected ArrayAdapter<AskingGroup> createAdapter(List<AskingGroup> items) {
         return new AskingGroupAdapter(getActivity(), items, this);
     }
@@ -149,7 +166,7 @@ public class AskingFragment extends ItemListFragment<AskingGroup>
     @Override
     protected List<AskingGroup> loadDataCore(Bundle bundle) throws Exception {
         currentUser = userStore.getCurrentUser();
-        List<AskingGroup> askingGroupList = restService.getAskingGroupList(
+        List<AskingGroup> askingGroupList = askingGroupStore.getList(
                 currentUser.getAskingGroups());
         for(AskingGroup askingGroup: askingGroupList) {
             askingGroup.setMember(true);
@@ -250,5 +267,10 @@ public class AskingFragment extends ItemListFragment<AskingGroup>
     @Subscribe
     public void onRefreshMyAskingGroupsEvent(RefreshMyAskingGroupsEvent event) {
         refresh(null);
+    }
+
+    private void startAskingGroupActivity() {
+        final Intent intent = new Intent(getActivity(), AskingBoardActivity.class);
+        startActivityForResult(intent, Constants.RequestCode.GET_ASKING_BOARD_REQ_CODE);
     }
 }

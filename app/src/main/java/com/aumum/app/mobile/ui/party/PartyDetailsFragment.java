@@ -264,13 +264,6 @@ public class PartyDetailsFragment extends LoaderFragment<Party> {
     }
 
     @Override
-    public void onDestroyView() {
-        mainView = null;
-
-        super.onDestroyView();
-    }
-
-    @Override
     public void onActivityResult (int requestCode, int resultCode, Intent data) {
         if (requestCode == Constants.RequestCode.GET_PARTY_COMMENTS_REQ_CODE &&
                 resultCode == Activity.RESULT_OK) {

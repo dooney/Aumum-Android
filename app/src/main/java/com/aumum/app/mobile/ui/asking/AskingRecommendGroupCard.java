@@ -39,13 +39,18 @@ public class AskingRecommendGroupCard implements AskingGroupJoinListener.OnActio
         avatarImage.getFromUrl(askingGroup.getAvatarUrl());
         screenNameText.setText(askingGroup.getScreenName());
         descriptionText.setText(askingGroup.getDescription());
-        final AskingGroupJoinListener listener = new AskingGroupJoinListener();
-        joinButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                listener.onJoin(activity, askingGroup, AskingRecommendGroupCard.this);
-            }
-        });
+        if (askingGroup.isMember()) {
+            joinButton.setVisibility(View.GONE);
+        } else {
+            final AskingGroupJoinListener listener = new AskingGroupJoinListener();
+            joinButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    listener.onJoin(activity, askingGroup, AskingRecommendGroupCard.this);
+                }
+            });
+            joinButton.setVisibility(View.VISIBLE);
+        }
     }
 
     @Override

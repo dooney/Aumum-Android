@@ -29,13 +29,6 @@ public abstract class ItemListFragment<E> extends LoaderFragment<List<E>> {
     }
 
     @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-
-        listView = null;
-    }
-
-    @Override
     public void onViewCreated(final View view, final Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 

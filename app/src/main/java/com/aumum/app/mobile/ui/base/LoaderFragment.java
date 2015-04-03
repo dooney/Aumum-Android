@@ -51,16 +51,6 @@ public abstract class LoaderFragment<E> extends Fragment
     }
 
     @Override
-    public void onDestroyView() {
-        isShown = false;
-        progressBar = null;
-        emptyText = null;
-        reloadText = null;
-
-        super.onDestroyView();
-    }
-
-    @Override
     public void onViewCreated(final View view, final Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 

@@ -227,13 +227,6 @@ public class MomentDetailsFragment extends LoaderFragment<Moment> {
         bus.unregister(this);
     }
 
-    @Override
-    public void onDestroyView() {
-        mainView = null;
-
-        super.onDestroyView();
-    }
-
     private TextWatcher validationTextWatcher() {
         return new TextWatcherAdapter() {
             public void afterTextChanged(final Editable gitDirEditText) {

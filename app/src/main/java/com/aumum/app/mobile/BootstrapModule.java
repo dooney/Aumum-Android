@@ -4,6 +4,7 @@ import android.accounts.AccountManager;
 import android.content.Context;
 
 import com.aumum.app.mobile.core.dao.ArticleItemStore;
+import com.aumum.app.mobile.core.dao.AskingGroupStore;
 import com.aumum.app.mobile.core.dao.AskingReplyStore;
 import com.aumum.app.mobile.core.dao.AskingStore;
 import com.aumum.app.mobile.core.dao.ChannelItemStore;
@@ -21,10 +22,12 @@ import com.aumum.app.mobile.ui.LaunchActivity;
 import com.aumum.app.mobile.ui.account.CompleteProfileActivity;
 import com.aumum.app.mobile.ui.account.ResetPasswordSuccessActivity;
 import com.aumum.app.mobile.ui.area.AreaListFragment;
+import com.aumum.app.mobile.ui.asking.AskingBoardFragment;
 import com.aumum.app.mobile.ui.asking.AskingDetailsFragment;
 import com.aumum.app.mobile.ui.asking.AskingFavoriteListener;
 import com.aumum.app.mobile.ui.asking.AskingFragment;
 import com.aumum.app.mobile.ui.asking.AskingGroupJoinListener;
+import com.aumum.app.mobile.ui.asking.AskingGroupListFragment;
 import com.aumum.app.mobile.ui.asking.AskingLikeListener;
 import com.aumum.app.mobile.ui.asking.AskingListFragment;
 import com.aumum.app.mobile.ui.asking.AskingRepliesFragment;
@@ -236,7 +239,9 @@ import retrofit.converter.GsonConverter;
                 GameListFragment.class,
                 CreditPurchaseFragment.class,
                 RecommendAskingGroupFragment.class,
-                AskingGroupJoinListener.class
+                AskingGroupJoinListener.class,
+                AskingBoardFragment.class,
+                AskingGroupListFragment.class
         }
 )
 public class BootstrapModule {
@@ -348,6 +353,12 @@ public class BootstrapModule {
     @Singleton
     ArticleItemStore provideArticleItemStore() {
         return new ArticleItemStore();
+    }
+
+    @Provides
+    @Singleton
+    AskingGroupStore provideAskingGroupStore(RestService restService, Repository repository) {
+        return new AskingGroupStore(restService, repository);
     }
 
     @Provides

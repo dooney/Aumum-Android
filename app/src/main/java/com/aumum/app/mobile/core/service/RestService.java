@@ -3,6 +3,7 @@ package com.aumum.app.mobile.core.service;
 
 import com.aumum.app.mobile.core.model.Area;
 import com.aumum.app.mobile.core.model.Asking;
+import com.aumum.app.mobile.core.model.AskingBoard;
 import com.aumum.app.mobile.core.model.AskingGroup;
 import com.aumum.app.mobile.core.model.AskingReply;
 import com.aumum.app.mobile.core.model.CityGroup;
@@ -154,6 +155,10 @@ public class RestService {
 
     private AskingGroupService getAskingGroupService() {
         return getRestAdapter().create(AskingGroupService.class);
+    }
+
+    private AskingBoardService getAskingBoardService() {
+        return getRestAdapter().create(AskingBoardService.class);
     }
 
     private RestAdapter getRestAdapter() {
@@ -1512,6 +1517,25 @@ public class RestService {
         whereJson.add("deletedAt", liveJson);
         whereJson.add("keyword", buildIdListJson(keywords));
         whereJson.add("objectId", buildNotIdListJson(excludes));
+        String where = whereJson.toString();
+        return getAskingGroupService().getList("seq", where, Integer.MAX_VALUE).getResults();
+    }
+
+    public List<AskingBoard> getAskingBoardList() {
+        final JsonObject whereJson = new JsonObject();
+        final JsonObject liveJson = new JsonObject();
+        liveJson.addProperty("$exists", false);
+        whereJson.add("deletedAt" ,liveJson);
+        String where = whereJson.toString();
+        return getAskingBoardService().getList("seq", where, Integer.MAX_VALUE).getResults();
+    }
+
+    public List<AskingGroup> getAskingGroupListByBoardId(String boardId) {
+        final JsonObject whereJson = new JsonObject();
+        whereJson.addProperty("boardId", boardId);
+        final JsonObject liveJson = new JsonObject();
+        liveJson.addProperty("$exists", false);
+        whereJson.add("deletedAt", liveJson);
         String where = whereJson.toString();
         return getAskingGroupService().getList("seq", where, Integer.MAX_VALUE).getResults();
     }

@@ -209,13 +209,6 @@ public class AskingDetailsFragment extends LoaderFragment<Asking> {
     }
 
     @Override
-    public void onDestroyView() {
-        mainView = null;
-
-        super.onDestroyView();
-    }
-
-    @Override
     protected boolean readyToShow() {
         return getData() != null;
     }
