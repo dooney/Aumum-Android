@@ -10,6 +10,7 @@ public class AskingGroup extends AggregateRoot {
     private String screenName;
     private String description;
     private int seq;
+    private String boardId;
     private boolean unread;
     private boolean isMember;
 
@@ -17,12 +18,14 @@ public class AskingGroup extends AggregateRoot {
                        String avatarUrl,
                        String screenName,
                        String description,
-                       int seq) {
+                       int seq,
+                       String boardId) {
         this.objectId = objectId;
         this.avatarUrl = avatarUrl;
         this.screenName = screenName;
         this.description = description;
         this.seq = seq;
+        this.boardId = boardId;
     }
 
     public String getAvatarUrl() {
@@ -39,6 +42,10 @@ public class AskingGroup extends AggregateRoot {
 
     public int getSeq() {
         return seq;
+    }
+
+    public String getBoardId() {
+        return boardId;
     }
 
     public boolean isUnread() {

@@ -11,6 +11,7 @@ public class AskingGroupEntity extends BaseEntity {
     private String screenName;
     private String description;
     private Integer seq;
+    private String boardId;
 
     public AskingGroupEntity() {
     }
@@ -19,12 +20,18 @@ public class AskingGroupEntity extends BaseEntity {
         this.objectId = objectId;
     }
 
-    public AskingGroupEntity(String objectId, String avatarUrl, String screenName, String description, Integer seq) {
+    public AskingGroupEntity(String objectId,
+                             String avatarUrl,
+                             String screenName,
+                             String description,
+                             Integer seq,
+                             String boardId) {
         this.objectId = objectId;
         this.avatarUrl = avatarUrl;
         this.screenName = screenName;
         this.description = description;
         this.seq = seq;
+        this.boardId = boardId;
     }
 
     /** Not-null value. */
@@ -67,5 +74,13 @@ public class AskingGroupEntity extends BaseEntity {
 
     public void setSeq(Integer seq) {
         this.seq = seq;
+    }
+
+    public String getBoardId() {
+        return boardId;
+    }
+
+    public void setBoardId(String boardId) {
+        this.boardId = boardId;
     }
 }

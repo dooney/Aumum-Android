@@ -695,6 +695,10 @@
         <item name="android:background">@drawable/tag_background</item>
         <item name="android:layout_marginRight">@dimen/margin_small</item>
     </style>
+    <style name="TextView.User.Interest" parent="LinkTextView">
+        <item name="android:maxLines">1</item>
+        <item name="android:ellipsize">end</item>
+    </style>
     <style name="TextView.User.About" parent="TextView.Subtitle">
         <item name="android:lineSpacingMultiplier">1.1</item>
     </style>

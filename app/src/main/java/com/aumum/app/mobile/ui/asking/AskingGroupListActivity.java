@@ -13,6 +13,7 @@ public class AskingGroupListActivity extends ActionBarActivity {
 
     public static final String INTENT_TITLE = "title";
     public static final String INTENT_BOARD_ID = "boardId";
+    public static final String INTENT_GROUP_LIST = "groupList";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

@@ -8,6 +8,7 @@ import android.widget.ArrayAdapter;
 
 import com.aumum.app.mobile.Injector;
 import com.aumum.app.mobile.R;
+import com.aumum.app.mobile.core.dao.AskingGroupStore;
 import com.aumum.app.mobile.core.dao.UserStore;
 import com.aumum.app.mobile.core.model.AskingGroup;
 import com.aumum.app.mobile.core.model.User;
@@ -30,6 +31,7 @@ public class RecommendAskingGroupFragment extends ItemListFragment<AskingGroup>
         implements AskingRecommendGroupJoinListener {
 
     @Inject UserStore userStore;
+    @Inject AskingGroupStore askingGroupStore;
     @Inject RestService restService;
     @Inject Bus bus;
 
@@ -85,8 +87,10 @@ public class RecommendAskingGroupFragment extends ItemListFragment<AskingGroup>
         for (String tag: currentUser.getTags()) {
             keywords.add(tag);
         }
-        return restService.getRecommendAskingGroupList(keywords,
-                currentUser.getAskingGroups());
+        List<AskingGroup> askingGroupList = restService.getRecommendAskingGroupList(
+                keywords, currentUser.getAskingGroups());
+        askingGroupStore.updateOrInsert(askingGroupList);
+        return askingGroupList;
     }
 
     @Override
