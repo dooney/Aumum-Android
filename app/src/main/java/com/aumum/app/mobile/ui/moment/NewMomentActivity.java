@@ -19,8 +19,10 @@ import android.widget.ScrollView;
 import com.aumum.app.mobile.Injector;
 import com.aumum.app.mobile.R;
 import com.aumum.app.mobile.core.Constants;
+import com.aumum.app.mobile.core.dao.CreditRuleStore;
 import com.aumum.app.mobile.core.dao.UserStore;
 import com.aumum.app.mobile.core.model.CmdMessage;
+import com.aumum.app.mobile.core.model.CreditRule;
 import com.aumum.app.mobile.core.model.Moment;
 import com.aumum.app.mobile.core.model.User;
 import com.aumum.app.mobile.core.service.ChatService;
@@ -54,6 +56,7 @@ public class NewMomentActivity extends ProgressDialogActivity
         implements FileUploadService.OnFileUploadListener {
 
     @Inject UserStore userStore;
+    @Inject CreditRuleStore creditRuleStore;
     @Inject RestService restService;
     @Inject FileUploadService fileUploadService;
     @Inject ChatService chatService;
@@ -230,6 +233,7 @@ public class NewMomentActivity extends ProgressDialogActivity
                 restService.addUserMoment(currentUser.getObjectId(), moment.getObjectId());
                 currentUser.addMoment(moment.getObjectId());
                 userStore.save(currentUser);
+                updateCredit(currentUser, CreditRule.ADD_MOMENT);
                 notifyContacts(currentUser, moment);
                 return true;
             }
@@ -298,5 +302,22 @@ public class NewMomentActivity extends ProgressDialogActivity
                 return true;
             }
         }.execute();
+    }
+
+    private void updateCredit(User currentUser, int seq) throws Exception {
+        final CreditRule creditRule = creditRuleStore.getCreditRuleBySeq(seq);
+        if (creditRule != null) {
+            final int credit = creditRule.getCredit();
+            restService.updateUserCredit(currentUser.getObjectId(), credit);
+            currentUser.updateCredit(credit);
+            userStore.save(currentUser);
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    Toaster.showShort(NewMomentActivity.this, getString(R.string.info_got_credit,
+                            creditRule.getDescription(), credit));
+                }
+            });
+        }
     }
 }

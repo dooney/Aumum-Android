@@ -25,10 +25,12 @@ import android.widget.TextView;
 
 import com.aumum.app.mobile.Injector;
 import com.aumum.app.mobile.R;
+import com.aumum.app.mobile.core.dao.CreditRuleStore;
 import com.aumum.app.mobile.core.dao.MomentStore;
 import com.aumum.app.mobile.core.dao.UserStore;
 import com.aumum.app.mobile.core.infra.security.ApiKeyProvider;
 import com.aumum.app.mobile.core.model.CmdMessage;
+import com.aumum.app.mobile.core.model.CreditRule;
 import com.aumum.app.mobile.core.model.Moment;
 import com.aumum.app.mobile.core.model.MomentComment;
 import com.aumum.app.mobile.core.model.User;
@@ -74,6 +76,7 @@ public class MomentDetailsFragment extends LoaderFragment<Moment> {
     @Inject ApiKeyProvider apiKeyProvider;
     @Inject UserStore userStore;
     @Inject MomentStore momentStore;
+    @Inject CreditRuleStore creditRuleStore;
     @Inject RestService restService;
     @Inject ChatService chatService;
     private ShareService shareService;
@@ -324,6 +327,7 @@ public class MomentDetailsFragment extends LoaderFragment<Moment> {
             public Boolean call() throws Exception {
                 restService.deleteMoment(momentId);
                 momentStore.deleteMoment(momentId);
+                updateCredit(currentUser, CreditRule.DELETE_MOMENT);
                 return true;
             }
 
@@ -507,5 +511,24 @@ public class MomentDetailsFragment extends LoaderFragment<Moment> {
         final Intent intent = new Intent(getActivity(), ImageViewActivity.class);
         intent.putExtra(ImageViewActivity.INTENT_IMAGE_URI, imageUrl);
         startActivity(intent);
+    }
+
+    private void updateCredit(User currentUser, int seq) throws Exception {
+        final CreditRule creditRule = creditRuleStore.getCreditRuleBySeq(seq);
+        if (creditRule != null) {
+            final int credit = creditRule.getCredit();
+            restService.updateUserCredit(currentUser.getObjectId(), credit);
+            currentUser.updateCredit(credit);
+            userStore.save(currentUser);
+            if (credit > 0) {
+                getActivity().runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        Toaster.showShort(getActivity(), getString(R.string.info_got_credit,
+                                creditRule.getDescription(), credit));
+                    }
+                });
+            }
+        }
     }
 }
