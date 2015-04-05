@@ -22,10 +22,12 @@ import android.widget.TextView;
 
 import com.aumum.app.mobile.Injector;
 import com.aumum.app.mobile.R;
+import com.aumum.app.mobile.core.dao.CreditRuleStore;
 import com.aumum.app.mobile.core.infra.security.ApiKeyProvider;
 import com.aumum.app.mobile.core.Constants;
 import com.aumum.app.mobile.core.dao.PartyStore;
 import com.aumum.app.mobile.core.model.CmdMessage;
+import com.aumum.app.mobile.core.model.CreditRule;
 import com.aumum.app.mobile.core.model.Party;
 import com.aumum.app.mobile.core.model.PartyReason;
 import com.aumum.app.mobile.core.dao.UserStore;
@@ -76,6 +78,7 @@ public class PartyDetailsFragment extends LoaderFragment<Party> {
     @Inject Bus bus;
     @Inject UserStore userStore;
     @Inject PartyStore partyStore;
+    @Inject CreditRuleStore creditRuleStore;
     @Inject RestService restService;
     @Inject ChatService chatService;
     private ShareService shareService;
@@ -468,6 +471,8 @@ public class PartyDetailsFragment extends LoaderFragment<Party> {
             public Boolean call() throws Exception {
                 restService.deleteParty(partyId);
                 partyStore.deleteParty(partyId);
+                User currentUser = userStore.getCurrentUser();
+                updateCredit(currentUser, CreditRule.DELETE_PARTY);
                 sendCancelMessage();
                 return true;
             }
@@ -613,5 +618,15 @@ public class PartyDetailsFragment extends LoaderFragment<Party> {
         final Intent intent = new Intent(getActivity(), ImageViewActivity.class);
         intent.putExtra(ImageViewActivity.INTENT_IMAGE_URI, imageUrl);
         startActivity(intent);
+    }
+
+    private void updateCredit(User currentUser, int seq) throws Exception {
+        final CreditRule creditRule = creditRuleStore.getCreditRuleBySeq(seq);
+        if (creditRule != null) {
+            final int credit = creditRule.getCredit();
+            restService.updateUserCredit(currentUser.getObjectId(), credit);
+            currentUser.updateCredit(credit);
+            userStore.save(currentUser);
+        }
     }
 }

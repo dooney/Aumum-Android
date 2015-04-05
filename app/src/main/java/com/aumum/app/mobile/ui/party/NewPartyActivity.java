@@ -24,8 +24,10 @@ import android.widget.TextView;
 import com.aumum.app.mobile.Injector;
 import com.aumum.app.mobile.R;
 import com.aumum.app.mobile.core.Constants;
+import com.aumum.app.mobile.core.dao.CreditRuleStore;
 import com.aumum.app.mobile.core.dao.UserStore;
 import com.aumum.app.mobile.core.model.CmdMessage;
+import com.aumum.app.mobile.core.model.CreditRule;
 import com.aumum.app.mobile.core.model.Date;
 import com.aumum.app.mobile.core.model.Party;
 import com.aumum.app.mobile.core.model.Place;
@@ -78,6 +80,7 @@ public class NewPartyActivity extends ProgressDialogActivity
 
     @Inject RestService restService;
     @Inject UserStore userStore;
+    @Inject CreditRuleStore creditRuleStore;
     @Inject FileUploadService fileUploadService;
     @Inject ChatService chatService;
 
@@ -489,6 +492,7 @@ public class NewPartyActivity extends ProgressDialogActivity
                 restService.joinParty(party.getObjectId(), currentUser.getObjectId(), null);
                 currentUser.addParty(party.getObjectId());
                 userStore.save(currentUser);
+                updateCredit(currentUser, CreditRule.ADD_PARTY);
                 if (groupType == GROUP_TYPE_NEW) {
                     createPartyGroup(party, currentUser);
                 }
@@ -683,5 +687,22 @@ public class NewPartyActivity extends ProgressDialogActivity
         intent.putExtra(UserListActivity.INTENT_TITLE, title);
         intent.putStringArrayListExtra(UserListActivity.INTENT_USER_LIST, userList);
         startActivity(intent);
+    }
+
+    private void updateCredit(User currentUser, int seq) throws Exception {
+        final CreditRule creditRule = creditRuleStore.getCreditRuleBySeq(seq);
+        if (creditRule != null) {
+            final int credit = creditRule.getCredit();
+            restService.updateUserCredit(currentUser.getObjectId(), credit);
+            currentUser.updateCredit(credit);
+            userStore.save(currentUser);
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    Toaster.showShort(NewPartyActivity.this, getString(R.string.info_got_credit,
+                            creditRule.getDescription(), credit));
+                }
+            });
+        }
     }
 }

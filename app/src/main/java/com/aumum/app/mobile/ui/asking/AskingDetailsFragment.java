@@ -381,7 +381,6 @@ public class AskingDetailsFragment extends LoaderFragment<Asking> {
                 askingStore.deleteAsking(askingId);
                 User currentUser = userStore.getCurrentUser();
                 updateCredit(currentUser, CreditRule.DELETE_ASKING);
-                userStore.save(currentUser);
                 return true;
             }
 

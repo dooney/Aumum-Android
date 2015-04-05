@@ -189,16 +189,17 @@ public class AskingRepliesFragment extends RefreshItemListFragment<AskingReply> 
                         reply.getContent(), reply.getRepliedId(), reply.getIsAnonymous());
                 AskingReply response = restService.newAskingReply(newReply);
                 restService.addAskingReplies(asking.getObjectId(), response.getObjectId());
-                updateCredit(currentUser, CreditRule.ADD_ASKING_REPLY);
                 asking.addReply(response.getObjectId());
                 askingStore.save(asking);
                 if (!asking.isOwner(currentUser.getObjectId())) {
                     sendAskingReplyMessage(asking, newReply);
+                    updateCredit(currentUser, CreditRule.ADD_ASKING_REPLY);
                 }
                 if (replied != null &&
                     !asking.isOwner(replied.getUserId()) &&
                     !replied.isOwner(currentUser.getObjectId())) {
                     sendAskingRepliedMessage(asking, replied, newReply);
+                    updateCredit(currentUser, CreditRule.ADD_ASKING_REPLY);
                 }
                 return true;
             }
