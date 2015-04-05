@@ -467,8 +467,13 @@ public class MomentDetailsFragment extends LoaderFragment<Moment> {
         new SafeAsyncTask<Boolean>() {
             @Override
             public Boolean call() throws Exception {
-                sendCommentMessage(event.getContent());
-                if (repliedComment != null) {
+                if (!moment.isOwner(currentUserId)) {
+                    sendCommentMessage(event.getContent());
+                    updateCredit(currentUser, CreditRule.ADD_MOMENT_COMMENT);
+                }
+                if (repliedComment != null &&
+                    !moment.isOwner(repliedComment.getUserId()) &&
+                    !repliedComment.isOwner(currentUserId)) {
                     sendRepliedMessage(repliedComment);
                 }
                 return true;
@@ -476,34 +481,21 @@ public class MomentDetailsFragment extends LoaderFragment<Moment> {
         }.execute();
     }
 
-    private void sendMessage(String to, CmdMessage cmdMessage) {
-        if (!to.equals(currentUser.getChatId())) {
-            chatService.sendCmdMessage(to, cmdMessage, false, null);
-        }
-    }
-
-    private void sendMomentOwnerMessage(CmdMessage cmdMessage) throws Exception {
-        User momentOwner = userStore.getUserById(moment.getUserId());
-        sendMessage(momentOwner.getChatId(), cmdMessage);
-    }
-
     private void sendCommentMessage(String content) throws Exception {
         String title = getString(R.string.label_comment_moment_message,
                 currentUser.getScreenName());
         CmdMessage cmdMessage = new CmdMessage(CmdMessage.Type.MOMENT_COMMENT,
                 title, content, momentId);
-        sendMomentOwnerMessage(cmdMessage);
+        User momentOwner = userStore.getUserById(moment.getUserId());
+        chatService.sendCmdMessage(momentOwner.getChatId(), cmdMessage, false, null);
     }
 
-    private void sendRepliedMessage(MomentComment repliedComment) throws Exception {
+    private void sendRepliedMessage(MomentComment replied) throws Exception {
         String title = getString(R.string.label_replied_moment_message,
                 currentUser.getScreenName());
         CmdMessage cmdMessage = new CmdMessage(CmdMessage.Type.MOMENT_REPLY,
-                title, repliedComment.getContent(), momentId);
-        sendMomentOwnerMessage(cmdMessage);
-        if (!moment.isOwner(repliedComment.getUserId())) {
-            sendMessage(repliedComment.getUser().getChatId(), cmdMessage);
-        }
+                title, replied.getContent(), momentId);
+        chatService.sendCmdMessage(replied.getUser().getChatId(), cmdMessage, false, null);
     }
 
     private void clickImageByIndex(int index) {

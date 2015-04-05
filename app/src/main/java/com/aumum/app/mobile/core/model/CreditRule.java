@@ -22,6 +22,7 @@ public class CreditRule extends AggregateRoot {
     public static int ADD_PARTY_COMMENT = 10;
     public static int ADD_PARTY_REQUEST = 11;
     public static int ADD_MOMENT = 12;
+    public static int ADD_MOMENT_COMMENT = 13;
 
     // negative credit
     public static int DELETE_CONTACT = 101;
@@ -33,6 +34,7 @@ public class CreditRule extends AggregateRoot {
     public static int DELETE_PARTY_COMMENT = 107;
     public static int DELETE_PARTY_REQUEST = 108;
     public static int DELETE_MOMENT = 109;
+    public static int DELETE_MOMENT_COMMENT = 110;
 
     public CreditRule(String objectId,
                       int seq,

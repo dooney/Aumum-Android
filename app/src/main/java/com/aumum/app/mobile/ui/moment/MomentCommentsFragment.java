@@ -10,9 +10,11 @@ import android.widget.ArrayAdapter;
 
 import com.aumum.app.mobile.Injector;
 import com.aumum.app.mobile.R;
+import com.aumum.app.mobile.core.dao.CreditRuleStore;
 import com.aumum.app.mobile.core.dao.MomentCommentStore;
 import com.aumum.app.mobile.core.dao.MomentStore;
 import com.aumum.app.mobile.core.dao.UserStore;
+import com.aumum.app.mobile.core.model.CreditRule;
 import com.aumum.app.mobile.core.model.Moment;
 import com.aumum.app.mobile.core.model.MomentComment;
 import com.aumum.app.mobile.core.model.User;
@@ -46,6 +48,7 @@ public class MomentCommentsFragment extends ItemListFragment<MomentComment> {
     @Inject UserStore userStore;
     @Inject MomentStore momentStore;
     @Inject MomentCommentStore momentCommentStore;
+    @Inject CreditRuleStore creditRuleStore;
 
     private ViewGroup mainView;
 
@@ -227,6 +230,7 @@ public class MomentCommentsFragment extends ItemListFragment<MomentComment> {
                 restService.deleteMomentComment(comment.getObjectId(), comment.getParentId());
                 moment.removeComment(comment.getObjectId());
                 momentStore.save(moment);
+                updateCredit(currentUser, CreditRule.DELETE_MOMENT_COMMENT);
                 return true;
             }
 
@@ -277,5 +281,15 @@ public class MomentCommentsFragment extends ItemListFragment<MomentComment> {
         intent.putExtra(ReportActivity.INTENT_ENTITY_TYPE, ReportActivity.TYPE_MOMENT_COMMENT);
         intent.putExtra(ReportActivity.INTENT_ENTITY_ID, comment.getObjectId());
         startActivity(intent);
+    }
+
+    private void updateCredit(User currentUser, int seq) throws Exception {
+        final CreditRule creditRule = creditRuleStore.getCreditRuleBySeq(seq);
+        if (creditRule != null) {
+            final int credit = creditRule.getCredit();
+            restService.updateUserCredit(currentUser.getObjectId(), credit);
+            currentUser.updateCredit(credit);
+            userStore.save(currentUser);
+        }
     }
 }
