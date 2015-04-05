@@ -3,8 +3,10 @@ package com.aumum.app.mobile.ui.asking;
 import android.app.Activity;
 
 import com.aumum.app.mobile.Injector;
+import com.aumum.app.mobile.core.dao.CreditRuleStore;
 import com.aumum.app.mobile.core.dao.UserStore;
 import com.aumum.app.mobile.core.model.AskingGroup;
+import com.aumum.app.mobile.core.model.CreditRule;
 import com.aumum.app.mobile.core.model.User;
 import com.aumum.app.mobile.core.service.RestService;
 import com.aumum.app.mobile.utils.SafeAsyncTask;
@@ -21,6 +23,7 @@ public class AskingGroupJoinListener {
 
     @Inject RestService restService;
     @Inject UserStore userStore;
+    @Inject CreditRuleStore creditRuleStore;
 
     public interface OnActionListener {
         public void onStart();
@@ -44,6 +47,7 @@ public class AskingGroupJoinListener {
             public Boolean call() throws Exception {
                 User currentUser = userStore.getCurrentUser();
                 restService.addUserAskingGroup(currentUser.getObjectId(), askingGroup.getObjectId());
+                updateCredit(currentUser, CreditRule.ADD_ASKING_GROUP);
                 currentUser.addAskingGroup(askingGroup.getObjectId());
                 userStore.save(currentUser);
                 return true;
@@ -69,5 +73,14 @@ public class AskingGroupJoinListener {
                 }
             }
         }.execute();
+    }
+
+    private void updateCredit(User currentUser, int seq) {
+        CreditRule creditRule = creditRuleStore.getCreditRuleBySeq(seq);
+        if (creditRule != null) {
+            int credit = creditRule.getCredit();
+            restService.updateUserCredit(currentUser.getObjectId(), credit);
+            currentUser.updateCredit(credit);
+        }
     }
 }

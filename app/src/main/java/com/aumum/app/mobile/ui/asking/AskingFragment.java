@@ -18,8 +18,10 @@ import com.aumum.app.mobile.Injector;
 import com.aumum.app.mobile.R;
 import com.aumum.app.mobile.core.Constants;
 import com.aumum.app.mobile.core.dao.AskingGroupStore;
+import com.aumum.app.mobile.core.dao.CreditRuleStore;
 import com.aumum.app.mobile.core.dao.UserStore;
 import com.aumum.app.mobile.core.model.AskingGroup;
+import com.aumum.app.mobile.core.model.CreditRule;
 import com.aumum.app.mobile.core.model.User;
 import com.aumum.app.mobile.core.service.RestService;
 import com.aumum.app.mobile.events.NewAskingUnreadEvent;
@@ -48,6 +50,7 @@ public class AskingFragment extends ItemListFragment<AskingGroup>
 
     @Inject UserStore userStore;
     @Inject AskingGroupStore askingGroupStore;
+    @Inject CreditRuleStore creditRuleStore;
     @Inject RestService restService;
     @Inject Bus bus;
 
@@ -247,6 +250,7 @@ public class AskingFragment extends ItemListFragment<AskingGroup>
                         User currentUser = userStore.getCurrentUser();
                         restService.removeUserAskingGroup(currentUser.getObjectId(),
                                 askingGroup.getObjectId());
+                        updateCredit(currentUser, CreditRule.REMOVE_ASKING_GROUP);
                         currentUser.removeAskingGroup(askingGroup.getObjectId());
                         userStore.save(currentUser);
                     }
@@ -272,5 +276,14 @@ public class AskingFragment extends ItemListFragment<AskingGroup>
     private void startAskingGroupActivity() {
         final Intent intent = new Intent(getActivity(), AskingBoardActivity.class);
         startActivityForResult(intent, Constants.RequestCode.GET_ASKING_BOARD_REQ_CODE);
+    }
+
+    private void updateCredit(User currentUser, int seq) {
+        CreditRule creditRule = creditRuleStore.getCreditRuleBySeq(seq);
+        if (creditRule != null) {
+            int credit = creditRule.getCredit();
+            restService.updateUserCredit(currentUser.getObjectId(), credit);
+            currentUser.updateCredit(credit);
+        }
     }
 }

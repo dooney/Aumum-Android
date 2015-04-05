@@ -14,9 +14,11 @@ public class CreditRule extends AggregateRoot {
     public static int ADD_TAGS = 2;
     public static int ADD_ABOUT = 3;
     public static int ADD_CONTACT = 4;
+    public static int ADD_ASKING_GROUP = 5;
 
     // negative credit
     public static int REMOVE_CONTACT = 101;
+    public static int REMOVE_ASKING_GROUP = 102;
 
     public CreditRule(String objectId,
                       int seq,
