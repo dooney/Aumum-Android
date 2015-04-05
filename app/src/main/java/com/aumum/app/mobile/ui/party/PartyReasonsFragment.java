@@ -9,10 +9,12 @@ import android.widget.ArrayAdapter;
 
 import com.aumum.app.mobile.Injector;
 import com.aumum.app.mobile.R;
+import com.aumum.app.mobile.core.dao.CreditRuleStore;
 import com.aumum.app.mobile.core.dao.PartyReasonStore;
 import com.aumum.app.mobile.core.dao.PartyStore;
 import com.aumum.app.mobile.core.dao.UserStore;
 import com.aumum.app.mobile.core.model.CmdMessage;
+import com.aumum.app.mobile.core.model.CreditRule;
 import com.aumum.app.mobile.core.model.Party;
 import com.aumum.app.mobile.core.model.PartyReason;
 import com.aumum.app.mobile.core.model.User;
@@ -38,12 +40,13 @@ import retrofit.RetrofitError;
  */
 public class PartyReasonsFragment extends ItemListFragment<PartyReason> {
 
-    @Inject RestService service;
-    @Inject Bus bus;
+    @Inject RestService restService;
     @Inject UserStore userStore;
     @Inject PartyStore partyStore;
     @Inject PartyReasonStore partyReasonStore;
+    @Inject CreditRuleStore creditRuleStore;
     @Inject ChatService chatService;
+    @Inject Bus bus;
 
     private SafeAsyncTask<Boolean> task;
 
@@ -124,11 +127,11 @@ public class PartyReasonsFragment extends ItemListFragment<PartyReason> {
                         reason.getType(),
                         reason.getContent(),
                         reason.getUserId());
-                PartyReason response = service.newPartyReason(newReason);
+                PartyReason response = restService.newPartyReason(newReason);
                 party.addReason(response.getObjectId());
                 String partyId = party.getObjectId();
                 if (reason.getType() == PartyReason.JOIN) {
-                    service.joinParty(partyId, currentUser.getObjectId(), response.getObjectId());
+                    restService.joinParty(partyId, currentUser.getObjectId(), response.getObjectId());
                     party.addMember(currentUser.getObjectId());
                     currentUser.addParty(partyId);
                     if (party.getGroupId() != null) {
@@ -137,13 +140,15 @@ public class PartyReasonsFragment extends ItemListFragment<PartyReason> {
                     if (!partyId.equals(currentUser.getObjectId())) {
                         sendJoinMessage();
                     }
+                    updateCredit(currentUser, CreditRule.ADD_PARTY_MEMBER);
                 } else if (reason.getType() == PartyReason.QUIT) {
-                    service.quitParty(partyId, currentUser.getObjectId(), response.getObjectId());
+                    restService.quitParty(partyId, currentUser.getObjectId(), response.getObjectId());
                     party.removeMember(currentUser.getObjectId());
                     currentUser.removeParty(partyId);
                     if (!partyId.equals(currentUser.getObjectId())) {
                         sendQuitMessage();
                     }
+                    updateCredit(currentUser, CreditRule.DELETE_PARTY_MEMBER);
                 }
                 partyStore.save(party);
                 userStore.save(currentUser);
@@ -219,5 +224,24 @@ public class PartyReasonsFragment extends ItemListFragment<PartyReason> {
                 return true;
             }
         }.execute();
+    }
+
+    private void updateCredit(User currentUser, int seq) throws Exception {
+        final CreditRule creditRule = creditRuleStore.getCreditRuleBySeq(seq);
+        if (creditRule != null) {
+            final int credit = creditRule.getCredit();
+            restService.updateUserCredit(currentUser.getObjectId(), credit);
+            currentUser.updateCredit(credit);
+            userStore.save(currentUser);
+            if (credit > 0) {
+                getActivity().runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        Toaster.showShort(getActivity(), getString(R.string.info_got_credit,
+                                creditRule.getDescription(), credit));
+                    }
+                });
+            }
+        }
     }
 }
