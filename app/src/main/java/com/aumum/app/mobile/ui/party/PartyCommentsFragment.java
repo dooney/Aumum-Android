@@ -18,8 +18,10 @@ import android.widget.TextView;
 
 import com.aumum.app.mobile.Injector;
 import com.aumum.app.mobile.R;
+import com.aumum.app.mobile.core.dao.CreditRuleStore;
 import com.aumum.app.mobile.core.dao.PartyStore;
 import com.aumum.app.mobile.core.model.CmdMessage;
+import com.aumum.app.mobile.core.model.CreditRule;
 import com.aumum.app.mobile.core.model.Party;
 import com.aumum.app.mobile.core.model.PartyComment;
 import com.aumum.app.mobile.core.model.User;
@@ -48,10 +50,12 @@ import retrofit.RetrofitError;
  *
  */
 public class PartyCommentsFragment extends ItemListFragment<PartyComment> {
-    @Inject RestService service;
+
+    @Inject RestService restService;
     @Inject UserStore userStore;
     @Inject PartyStore partyStore;
     @Inject PartyCommentStore partyCommentStore;
+    @Inject CreditRuleStore creditRuleStore;
     @Inject ChatService chatService;
 
     private String partyId;
@@ -199,12 +203,17 @@ public class PartyCommentsFragment extends ItemListFragment<PartyComment> {
                         comment.getRepliedId(),
                         comment.getContent(),
                         comment.getUserId());
-                PartyComment response = service.newPartyComment(newComment);
-                service.addPartyComment(partyId, response.getObjectId());
+                PartyComment response = restService.newPartyComment(newComment);
+                restService.addPartyComment(partyId, response.getObjectId());
                 party.addComment(response.getObjectId());
                 partyStore.save(party);
-                sendCommentMessage(comment);
-                if (repliedComment != null) {
+                if (!party.isOwner(currentUser.getObjectId())) {
+                    sendCommentMessage(comment);
+                    updateCredit(currentUser, CreditRule.ADD_PARTY_COMMENT);
+                }
+                if (repliedComment != null &&
+                    !party.isOwner(repliedComment.getUserId()) &&
+                    !repliedComment.isOwner(currentUser.getObjectId())) {
                     sendRepliedMessage(repliedComment);
                 }
                 return true;
@@ -249,9 +258,10 @@ public class PartyCommentsFragment extends ItemListFragment<PartyComment> {
         card.onActionStart();
         task = new SafeAsyncTask<Boolean>() {
             public Boolean call() throws Exception {
-                service.deletePartyComment(comment.getObjectId(), comment.getParentId());
+                restService.deletePartyComment(comment.getObjectId(), comment.getParentId());
                 party.removeComment(comment.getObjectId());
                 partyStore.save(party);
+                updateCredit(currentUser, CreditRule.DELETE_PARTY_COMMENT);
                 return true;
             }
 
@@ -338,33 +348,39 @@ public class PartyCommentsFragment extends ItemListFragment<PartyComment> {
         }
     }
 
-    private void sendMessage(String to, CmdMessage cmdMessage) {
-        if (!to.equals(currentUser.getChatId())) {
-            chatService.sendCmdMessage(to, cmdMessage, false, null);
-        }
-    }
-
-    private void sendPartyOwnerMessage(CmdMessage cmdMessage) throws Exception {
-        User partyOwner = userStore.getUserById(party.getUserId());
-        sendMessage(partyOwner.getChatId(), cmdMessage);
-    }
-
     private void sendCommentMessage(PartyComment comment) throws Exception {
         String title = getString(R.string.label_comment_party_message,
                 currentUser.getScreenName());
         CmdMessage cmdMessage = new CmdMessage(CmdMessage.Type.PARTY_COMMENT,
                 title, comment.getContent(), partyId);
-        sendPartyOwnerMessage(cmdMessage);
+        User partyOwner = userStore.getUserById(party.getUserId());
+        chatService.sendCmdMessage(partyOwner.getChatId(), cmdMessage, false, null);
     }
 
-    private void sendRepliedMessage(PartyComment repliedComment) throws Exception {
+    private void sendRepliedMessage(PartyComment replied) throws Exception {
         String title = getString(R.string.label_replied_party_message,
                 currentUser.getScreenName());
         CmdMessage cmdMessage = new CmdMessage(CmdMessage.Type.PARTY_REPLY,
-                title, repliedComment.getContent(), partyId);
-        sendPartyOwnerMessage(cmdMessage);
-        if (!party.isOwner(repliedComment.getUserId())) {
-            sendMessage(repliedComment.getUser().getChatId(), cmdMessage);
+                title, replied.getContent(), partyId);
+        chatService.sendCmdMessage(replied.getUser().getChatId(), cmdMessage, false, null);
+    }
+
+    private void updateCredit(User currentUser, int seq) throws Exception {
+        final CreditRule creditRule = creditRuleStore.getCreditRuleBySeq(seq);
+        if (creditRule != null) {
+            final int credit = creditRule.getCredit();
+            restService.updateUserCredit(currentUser.getObjectId(), credit);
+            currentUser.updateCredit(credit);
+            userStore.save(currentUser);
+            if (credit > 0) {
+                getActivity().runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        Toaster.showShort(getActivity(), getString(R.string.info_got_credit,
+                                creditRule.getDescription(), credit));
+                    }
+                });
+            }
         }
     }
 }

@@ -199,7 +199,6 @@ public class AskingRepliesFragment extends RefreshItemListFragment<AskingReply> 
                     !asking.isOwner(replied.getUserId()) &&
                     !replied.isOwner(currentUser.getObjectId())) {
                     sendAskingRepliedMessage(asking, replied, newReply);
-                    updateCredit(currentUser, CreditRule.ADD_ASKING_REPLY);
                 }
                 return true;
             }
