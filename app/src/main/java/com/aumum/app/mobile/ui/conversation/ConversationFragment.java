@@ -85,20 +85,18 @@ public class ConversationFragment extends ItemListFragment<Conversation> {
     private List<Conversation> getAllConversations() throws Exception {
         List<Conversation> result = new ArrayList<Conversation>();
         List<EMConversation> emConversations = chatService.getAllConversations();
+        final ArrayList<String> chatIdList = new ArrayList<>();
         for (final EMConversation emConversation: emConversations) {
             Conversation conversation = new Conversation(emConversation);
             if (emConversation.isGroup()) {
                 EMGroup emGroup = chatService.getGroupById(emConversation.getUserName());
                 if (emGroup != null) {
-                    new SafeAsyncTask<Boolean>() {
-                        @Override
-                        public Boolean call() throws Exception {
-                            for (EMMessage emMessage: emConversation.getAllMessages()) {
-                                userStore.getUserByChatId(emMessage.getFrom());
-                            }
-                            return true;
+                    for (EMMessage emMessage: emConversation.getAllMessages()) {
+                        String chatId = emMessage.getFrom();
+                        if (!chatIdList.contains(chatId)) {
+                            chatIdList.add(chatId);
                         }
-                    }.execute();
+                    }
                     Group group = new Group(emGroup.getGroupId(), emGroup.getGroupName());
                     conversation.setGroup(group);
                     result.add(conversation);
@@ -110,6 +108,15 @@ public class ConversationFragment extends ItemListFragment<Conversation> {
                     result.add(conversation);
                 }
             }
+        }
+        if (chatIdList.size() > 0) {
+            new SafeAsyncTask<Boolean>() {
+                @Override
+                public Boolean call() throws Exception {
+                    userStore.getGroupUsers(chatIdList);
+                    return true;
+                }
+            }.execute();
         }
         return result;
     }
