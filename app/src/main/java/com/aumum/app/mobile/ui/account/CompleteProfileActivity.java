@@ -15,8 +15,10 @@ import android.widget.ImageView;
 import com.aumum.app.mobile.Injector;
 import com.aumum.app.mobile.R;
 import com.aumum.app.mobile.core.Constants;
+import com.aumum.app.mobile.core.dao.CreditRuleStore;
 import com.aumum.app.mobile.core.model.CityGroup;
 import com.aumum.app.mobile.core.model.CmdMessage;
+import com.aumum.app.mobile.core.model.CreditRule;
 import com.aumum.app.mobile.core.model.User;
 import com.aumum.app.mobile.core.service.ChatService;
 import com.aumum.app.mobile.core.service.RestService;
@@ -56,6 +58,7 @@ public class CompleteProfileActivity extends ProgressDialogActivity
 
     @Inject RestService restService;
     @Inject ChatService chatService;
+    @Inject CreditRuleStore creditRuleStore;
 
     private Button saveButton;
     @InjectView(R.id.container) protected View container;
@@ -72,6 +75,7 @@ public class CompleteProfileActivity extends ProgressDialogActivity
     @InjectView(R.id.et_about) protected EditText aboutText;
 
     private String userId;
+    private String avatarUrl;
     private String screenName;
     private String email;
     private String city;
@@ -266,6 +270,12 @@ public class CompleteProfileActivity extends ProgressDialogActivity
                 user.setTags(tags);
                 user.setAbout(about);
                 restService.updateUserProfile(user);
+                if (avatarUrl != null) {
+                    updateCredit(userId, CreditRule.ADD_AVATAR);
+                }
+                if (about != null) {
+                    updateCredit(userId, CreditRule.ADD_ABOUT);
+                }
                 areaUsersCount = restService.getAreaUsersCount(userId, area);
                 tagUsersCount = restService.getTagUsersCount(userId, tags);
                 joinCityGroup(user);
@@ -334,6 +344,11 @@ public class CompleteProfileActivity extends ProgressDialogActivity
                         Toaster.showShort(CompleteProfileActivity.this, cause.getMessage());
                     }
                 }
+            }
+
+            @Override
+            protected void onSuccess(Boolean success) throws Exception {
+                avatarUrl = fileUrl;
             }
 
             @Override
@@ -428,5 +443,12 @@ public class CompleteProfileActivity extends ProgressDialogActivity
         intent.putStringArrayListExtra(TagUsersActivity.INTENT_TAGS, tags);
         intent.putExtra(TagUsersActivity.INTENT_SHOULD_NOTIFY, true);
         startActivityForResult(intent, GET_TAG_USERS_REQ_CODE);
+    }
+
+    private void updateCredit(String userId, int seq) {
+        CreditRule creditRule = creditRuleStore.getCreditRuleBySeq(seq);
+        if (creditRule != null) {
+            restService.updateUserCredit(userId, creditRule.getCredit());
+        }
     }
 }
