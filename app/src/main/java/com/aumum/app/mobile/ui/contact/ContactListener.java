@@ -65,7 +65,7 @@ public class ContactListener implements EMContactListener {
                     User user = userStore.getUserByChatId(contactId);
                     chatService.deleteConversation(contactId);
                     restService.removeContact(currentUser.getObjectId(), user.getObjectId());
-                    updateCredit(currentUser, CreditRule.REMOVE_CONTACT);
+                    updateCredit(currentUser, CreditRule.DELETE_CONTACT);
                     currentUser.removeContact(user.getObjectId());
                     userStore.save(user);
                 }
@@ -108,12 +108,13 @@ public class ContactListener implements EMContactListener {
         return;
     }
 
-    private void updateCredit(User currentUser, int seq) {
+    private void updateCredit(User currentUser, int seq) throws Exception {
         final CreditRule creditRule = creditRuleStore.getCreditRuleBySeq(seq);
         if (creditRule != null) {
             final int credit = creditRule.getCredit();
             restService.updateUserCredit(currentUser.getObjectId(), credit);
             currentUser.updateCredit(credit);
+            userStore.save(currentUser);
             if (credit > 0) {
                 activity.runOnUiThread(new Runnable() {
                     @Override

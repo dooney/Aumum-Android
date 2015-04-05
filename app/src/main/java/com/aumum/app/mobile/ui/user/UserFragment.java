@@ -202,7 +202,7 @@ public class UserFragment extends LoaderFragment<User> {
                                         chatService.deleteContact(userId);
                                         String currentUserId = currentUser.getObjectId();
                                         restService.removeContact(currentUserId, userId);
-                                        updateCredit(currentUser, CreditRule.REMOVE_CONTACT);
+                                        updateCredit(currentUser, CreditRule.DELETE_CONTACT);
                                         currentUser.removeContact(userId);
                                         userStore.save(currentUser);
                                     }
@@ -338,12 +338,13 @@ public class UserFragment extends LoaderFragment<User> {
         startActivity(intent);
     }
 
-    private void updateCredit(User currentUser, int seq) {
+    private void updateCredit(User currentUser, int seq) throws Exception {
         CreditRule creditRule = creditRuleStore.getCreditRuleBySeq(seq);
         if (creditRule != null) {
             int credit = creditRule.getCredit();
             restService.updateUserCredit(currentUser.getObjectId(), credit);
             currentUser.updateCredit(credit);
+            userStore.save(currentUser);
         }
     }
 }

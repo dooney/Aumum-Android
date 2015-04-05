@@ -12,10 +12,12 @@ import com.aumum.app.mobile.Injector;
 import com.aumum.app.mobile.R;
 import com.aumum.app.mobile.core.dao.AskingReplyStore;
 import com.aumum.app.mobile.core.dao.AskingStore;
+import com.aumum.app.mobile.core.dao.CreditRuleStore;
 import com.aumum.app.mobile.core.dao.UserStore;
 import com.aumum.app.mobile.core.model.Asking;
 import com.aumum.app.mobile.core.model.AskingReply;
 import com.aumum.app.mobile.core.model.CmdMessage;
+import com.aumum.app.mobile.core.model.CreditRule;
 import com.aumum.app.mobile.core.model.User;
 import com.aumum.app.mobile.core.service.ChatService;
 import com.aumum.app.mobile.core.service.RestService;
@@ -44,6 +46,7 @@ public class AskingRepliesFragment extends RefreshItemListFragment<AskingReply> 
     @Inject AskingStore askingStore;
     @Inject AskingReplyStore askingReplyStore;
     @Inject UserStore userStore;
+    @Inject CreditRuleStore creditRuleStore;
     @Inject Bus bus;
     @Inject ChatService chatService;
     private ShareService shareService;
@@ -186,6 +189,7 @@ public class AskingRepliesFragment extends RefreshItemListFragment<AskingReply> 
                         reply.getContent(), reply.getRepliedId(), reply.getIsAnonymous());
                 AskingReply response = restService.newAskingReply(newReply);
                 restService.addAskingReplies(asking.getObjectId(), response.getObjectId());
+                updateCredit(currentUser, CreditRule.ADD_ASKING_REPLY);
                 asking.addReply(response.getObjectId());
                 askingStore.save(asking);
                 if (!asking.isOwner(currentUser.getObjectId())) {
@@ -310,6 +314,7 @@ public class AskingRepliesFragment extends RefreshItemListFragment<AskingReply> 
         task = new SafeAsyncTask<Boolean>() {
             public Boolean call() throws Exception {
                 restService.deleteAskingReply(askingReply.getObjectId(), asking.getObjectId());
+                updateCredit(currentUser, CreditRule.DELETE_ASKING_REPLY);
                 asking.removeReply(askingReply.getObjectId());
                 askingStore.save(asking);
                 return true;
@@ -353,6 +358,25 @@ public class AskingRepliesFragment extends RefreshItemListFragment<AskingReply> 
                 });
                 Toaster.showShort(getActivity(), R.string.info_asking_reply_deleted);
                 return;
+            }
+        }
+    }
+
+    private void updateCredit(User currentUser, int seq) throws Exception {
+        final CreditRule creditRule = creditRuleStore.getCreditRuleBySeq(seq);
+        if (creditRule != null) {
+            final int credit = creditRule.getCredit();
+            restService.updateUserCredit(currentUser.getObjectId(), credit);
+            currentUser.updateCredit(credit);
+            userStore.save(currentUser);
+            if (credit > 0) {
+                getActivity().runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        Toaster.showShort(getActivity(), getString(R.string.info_got_credit,
+                                creditRule.getDescription(), credit));
+                    }
+                });
             }
         }
     }

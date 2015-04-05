@@ -250,7 +250,7 @@ public class AskingFragment extends ItemListFragment<AskingGroup>
                         User currentUser = userStore.getCurrentUser();
                         restService.removeUserAskingGroup(currentUser.getObjectId(),
                                 askingGroup.getObjectId());
-                        updateCredit(currentUser, CreditRule.REMOVE_ASKING_GROUP);
+                        updateCredit(currentUser, CreditRule.DELETE_ASKING_GROUP);
                         currentUser.removeAskingGroup(askingGroup.getObjectId());
                         userStore.save(currentUser);
                     }
@@ -278,12 +278,13 @@ public class AskingFragment extends ItemListFragment<AskingGroup>
         startActivityForResult(intent, Constants.RequestCode.GET_ASKING_BOARD_REQ_CODE);
     }
 
-    private void updateCredit(User currentUser, int seq) {
+    private void updateCredit(User currentUser, int seq) throws Exception {
         CreditRule creditRule = creditRuleStore.getCreditRuleBySeq(seq);
         if (creditRule != null) {
             int credit = creditRule.getCredit();
             restService.updateUserCredit(currentUser.getObjectId(), credit);
             currentUser.updateCredit(credit);
+            userStore.save(currentUser);
         }
     }
 }

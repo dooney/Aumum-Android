@@ -494,12 +494,13 @@ public class ProfileFragment extends LoaderFragment<User> {
         }).show();
     }
 
-    private void updateCredit(int seq) {
+    private void updateCredit(int seq) throws Exception {
         final CreditRule creditRule = creditRuleStore.getCreditRuleBySeq(seq);
         if (creditRule != null) {
             final int credit = creditRule.getCredit();
             restService.updateUserCredit(currentUser.getObjectId(), credit);
             currentUser.updateCredit(credit);
+            userStore.save(currentUser);
             getActivity().runOnUiThread(new Runnable() {
                 @Override
                 public void run() {

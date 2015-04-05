@@ -380,7 +380,7 @@ public class AskingDetailsFragment extends LoaderFragment<Asking> {
                 restService.deleteAsking(askingId);
                 askingStore.deleteAsking(askingId);
                 User currentUser = userStore.getCurrentUser();
-                updateCredit(currentUser, CreditRule.REMOVE_ASKING);
+                updateCredit(currentUser, CreditRule.DELETE_ASKING);
                 userStore.save(currentUser);
                 return true;
             }
@@ -428,12 +428,13 @@ public class AskingDetailsFragment extends LoaderFragment<Asking> {
         startActivity(intent);
     }
 
-    private void updateCredit(User currentUser, int seq) {
+    private void updateCredit(User currentUser, int seq) throws Exception {
         CreditRule creditRule = creditRuleStore.getCreditRuleBySeq(seq);
         if (creditRule != null) {
             int credit = creditRule.getCredit();
             restService.updateUserCredit(currentUser.getObjectId(), credit);
             currentUser.updateCredit(credit);
+            userStore.save(currentUser);
         }
     }
 }

@@ -120,12 +120,13 @@ public class AcceptContactListener implements View.OnClickListener {
         task.execute();
     }
 
-    private void updateCredit(User currentUser, int seq) {
+    private void updateCredit(User currentUser, int seq) throws Exception {
         final CreditRule creditRule = creditRuleStore.getCreditRuleBySeq(seq);
         if (creditRule != null) {
             final int credit = creditRule.getCredit();
             restService.updateUserCredit(currentUser.getObjectId(), credit);
             currentUser.updateCredit(credit);
+            userStore.save(currentUser);
             activity.runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
