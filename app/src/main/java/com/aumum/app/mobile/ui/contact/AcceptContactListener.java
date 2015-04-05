@@ -5,7 +5,9 @@ import android.view.View;
 
 import com.aumum.app.mobile.Injector;
 import com.aumum.app.mobile.R;
+import com.aumum.app.mobile.core.dao.CreditRuleStore;
 import com.aumum.app.mobile.core.dao.UserStore;
+import com.aumum.app.mobile.core.model.CreditRule;
 import com.aumum.app.mobile.core.model.User;
 import com.aumum.app.mobile.core.service.ChatService;
 import com.aumum.app.mobile.core.service.RestService;
@@ -23,6 +25,7 @@ public class AcceptContactListener implements View.OnClickListener {
     @Inject ChatService chatService;
     @Inject RestService restService;
     @Inject UserStore userStore;
+    @Inject CreditRuleStore creditRuleStore;
 
     private String userId;
     private SafeAsyncTask<Boolean> task;
@@ -71,6 +74,7 @@ public class AcceptContactListener implements View.OnClickListener {
                 chatService.acceptInvitation(userId);
                 User currentUser = userStore.getCurrentUser();
                 restService.addContact(currentUser.getObjectId(), userId);
+                updateCredit(currentUser, CreditRule.ADD_CONTACT);
                 currentUser.addContact(userId);
                 userStore.save(currentUser);
 
@@ -109,5 +113,14 @@ public class AcceptContactListener implements View.OnClickListener {
             }
         };
         task.execute();
+    }
+
+    private void updateCredit(User currentUser, int seq) {
+        CreditRule creditRule = creditRuleStore.getCreditRuleBySeq(seq);
+        if (creditRule != null) {
+            int credit = creditRule.getCredit();
+            restService.updateUserCredit(currentUser.getObjectId(), credit);
+            currentUser.updateCredit(credit);
+        }
     }
 }

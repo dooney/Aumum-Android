@@ -1,7 +1,9 @@
 package com.aumum.app.mobile.ui.contact;
 
 import com.aumum.app.mobile.Injector;
+import com.aumum.app.mobile.core.dao.CreditRuleStore;
 import com.aumum.app.mobile.core.dao.UserStore;
+import com.aumum.app.mobile.core.model.CreditRule;
 import com.aumum.app.mobile.core.model.User;
 import com.aumum.app.mobile.core.service.ChatService;
 import com.aumum.app.mobile.core.service.NotificationService;
@@ -19,6 +21,7 @@ import javax.inject.Inject;
 public class ContactListener implements EMContactListener {
 
     @Inject UserStore userStore;
+    @Inject CreditRuleStore creditRuleStore;
     @Inject RestService restService;
     @Inject NotificationService notificationService;
     @Inject ChatService chatService;
@@ -36,6 +39,7 @@ public class ContactListener implements EMContactListener {
                 for (String contactId : contacts) {
                     User user = userStore.getUserByChatId(contactId);
                     restService.addContact(currentUser.getObjectId(), user.getObjectId());
+                    updateCredit(currentUser, CreditRule.ADD_CONTACT);
                     currentUser.addContact(user.getObjectId());
                     userStore.save(currentUser);
                 }
@@ -54,6 +58,7 @@ public class ContactListener implements EMContactListener {
                     User user = userStore.getUserByChatId(contactId);
                     chatService.deleteConversation(contactId);
                     restService.removeContact(currentUser.getObjectId(), user.getObjectId());
+                    updateCredit(currentUser, CreditRule.REMOVE_CONTACT);
                     currentUser.removeContact(user.getObjectId());
                     userStore.save(user);
                 }
@@ -94,5 +99,14 @@ public class ContactListener implements EMContactListener {
     @Override
     public void onContactRefused(String userName) {
         return;
+    }
+
+    private void updateCredit(User currentUser, int seq) {
+        CreditRule creditRule = creditRuleStore.getCreditRuleBySeq(seq);
+        if (creditRule != null) {
+            int credit = creditRule.getCredit();
+            restService.updateUserCredit(currentUser.getObjectId(), credit);
+            currentUser.updateCredit(credit);
+        }
     }
 }

@@ -17,8 +17,10 @@ import android.widget.TextView;
 import com.aumum.app.mobile.Injector;
 import com.aumum.app.mobile.R;
 import com.aumum.app.mobile.core.dao.AskingGroupStore;
+import com.aumum.app.mobile.core.dao.CreditRuleStore;
 import com.aumum.app.mobile.core.dao.UserStore;
 import com.aumum.app.mobile.core.model.AskingGroup;
+import com.aumum.app.mobile.core.model.CreditRule;
 import com.aumum.app.mobile.core.model.User;
 import com.aumum.app.mobile.core.service.ChatService;
 import com.aumum.app.mobile.core.service.RestService;
@@ -49,6 +51,7 @@ public class UserFragment extends LoaderFragment<User> {
 
     @Inject UserStore userStore;
     @Inject AskingGroupStore askingGroupStore;
+    @Inject CreditRuleStore creditRuleStore;
     @Inject ChatService chatService;
     @Inject RestService restService;
 
@@ -199,6 +202,7 @@ public class UserFragment extends LoaderFragment<User> {
                                         chatService.deleteContact(userId);
                                         String currentUserId = currentUser.getObjectId();
                                         restService.removeContact(currentUserId, userId);
+                                        updateCredit(currentUser, CreditRule.REMOVE_CONTACT);
                                         currentUser.removeContact(userId);
                                         userStore.save(currentUser);
                                     }
@@ -332,5 +336,14 @@ public class UserFragment extends LoaderFragment<User> {
                 getString(R.string.label_user_interests, user.getScreenName()));
         intent.putStringArrayListExtra(AskingGroupListActivity.INTENT_GROUP_LIST, groups);
         startActivity(intent);
+    }
+
+    private void updateCredit(User currentUser, int seq) {
+        CreditRule creditRule = creditRuleStore.getCreditRuleBySeq(seq);
+        if (creditRule != null) {
+            int credit = creditRule.getCredit();
+            restService.updateUserCredit(currentUser.getObjectId(), credit);
+            currentUser.updateCredit(credit);
+        }
     }
 }
