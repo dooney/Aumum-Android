@@ -365,10 +365,10 @@ public class ProfileFragment extends LoaderFragment<User> {
             @Override
             public void onItemClick(int i) {
                 switch (i) {
-                    case 0:
+                    case 1:
                         startCreditPurchaseActivity();
                         break;
-                    case 1:
+                    case 0:
                         startSettingsActivity();
                         break;
                     default:

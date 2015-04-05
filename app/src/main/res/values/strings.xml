@@ -86,7 +86,6 @@
         <item>她的妈妈圈</item>
     </string-array>
     <string-array name="label_profile_actions">
-        <item>积分换购</item>
         <item>我的设置</item>
     </string-array>
     <string-array name="label_country_code_list">
@@ -225,13 +224,13 @@
     <string name="info_join_group_sent">发送成功，请等待群主验证</string>
     <string name="info_user_was_removed">您已被从群%1$s里移出</string>
     <string name="info_empty_member_list">该群组没有其他成员</string>
-    <string name="info_insufficient_credit">您的用户积分不足</string>
+    <string name="info_insufficient_credit">您的积分不足</string>
     <string name="info_not_supported_by_your_country">您所在的国家不支持该换购</string>
     <string name="info_gift_purchase_submitted">换购已成功提交，我们会在发货前与您确认</string>
     <string name="info_confirm_clear_conversation_list">您确定要清空会话列表？</string>
     <string name="info_more_asking_groups">点击加入更多兴趣圈子</string>
     <string name="info_confirm_quit_asking_group">您确定要退出该圈子？</string>
-    <string name="info_got_credit">%1$s：获得用户积分%2$d</string>
+    <string name="info_got_credit">%1$s：获得积分%2$d</string>
 
     <!-- Error Message -->
     <string name="error_bad_credentials">验证失败，请输入正确的手机号码/密码</string>
@@ -510,7 +509,7 @@
 
     <!-- Credit Gift -->
     <string name="label_purchase_gift">换购</string>"
-    <string name="label_credit_gift_cost">花费：&lt;font color=#d9534f>%,d&lt;/font>用户积分</string>
+    <string name="label_credit_gift_cost">花费：&lt;font color=#d9534f>%,d&lt;/font>积分</string>
     <string name="hint_delivery_details">您的姓名和邮寄地址</string>
 
     <!-- Contact -->
