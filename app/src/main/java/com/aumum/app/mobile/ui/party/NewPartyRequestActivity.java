@@ -9,7 +9,9 @@ import android.widget.EditText;
 
 import com.aumum.app.mobile.Injector;
 import com.aumum.app.mobile.R;
+import com.aumum.app.mobile.core.dao.CreditRuleStore;
 import com.aumum.app.mobile.core.dao.UserStore;
+import com.aumum.app.mobile.core.model.CreditRule;
 import com.aumum.app.mobile.core.model.PartyRequest;
 import com.aumum.app.mobile.core.model.User;
 import com.aumum.app.mobile.core.service.RestService;
@@ -35,6 +37,7 @@ public class NewPartyRequestActivity extends ProgressDialogActivity {
 
     @Inject RestService restService;
     @Inject UserStore userStore;
+    @Inject CreditRuleStore creditRuleStore;
 
     private Button submitButton;
     @InjectView(R.id.et_area) protected EditText areaText;
@@ -196,6 +199,7 @@ public class NewPartyRequestActivity extends ProgressDialogActivity {
                 PartyRequest partyRequest = new PartyRequest(currentUser.getObjectId(),
                         city, areaValue, type, subTypeValue);
                 restService.newPartyRequest(partyRequest);
+                updateCredit(currentUser, CreditRule.ADD_PARTY_REQUEST);
                 return true;
             }
 
@@ -222,5 +226,22 @@ public class NewPartyRequestActivity extends ProgressDialogActivity {
             }
         };
         task.execute();
+    }
+
+    private void updateCredit(User currentUser, int seq) throws Exception {
+        final CreditRule creditRule = creditRuleStore.getCreditRuleBySeq(seq);
+        if (creditRule != null) {
+            final int credit = creditRule.getCredit();
+            restService.updateUserCredit(currentUser.getObjectId(), credit);
+            currentUser.updateCredit(credit);
+            userStore.save(currentUser);
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    Toaster.showShort(NewPartyRequestActivity.this, getString(R.string.info_got_credit,
+                            creditRule.getDescription(), credit));
+                }
+            });
+        }
     }
 }

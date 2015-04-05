@@ -9,8 +9,10 @@ import android.widget.ArrayAdapter;
 import com.aumum.app.mobile.Injector;
 import com.aumum.app.mobile.R;
 import com.aumum.app.mobile.core.Constants;
+import com.aumum.app.mobile.core.dao.CreditRuleStore;
 import com.aumum.app.mobile.core.dao.PartyRequestStore;
 import com.aumum.app.mobile.core.dao.UserStore;
+import com.aumum.app.mobile.core.model.CreditRule;
 import com.aumum.app.mobile.core.model.PartyRequest;
 import com.aumum.app.mobile.core.model.User;
 import com.aumum.app.mobile.core.service.ChatService;
@@ -40,6 +42,7 @@ public class PartyRequestListFragment extends RefreshItemListFragment<Card>
 
     @Inject UserStore userStore;
     @Inject PartyRequestStore partyRequestStore;
+    @Inject CreditRuleStore creditRuleStore;
     @Inject RestService restService;
     @Inject ChatService chatService;
 
@@ -144,6 +147,8 @@ public class PartyRequestListFragment extends RefreshItemListFragment<Card>
                     public void call(Object value) throws Exception {
                         restService.deletePartyRequest(partyRequest.getObjectId());
                         partyRequestStore.deletePartyRequest(partyRequest.getObjectId());
+                        User currentUser = userStore.getCurrentUser();
+                        updateCredit(currentUser, CreditRule.DELETE_PARTY_REQUEST);
                     }
 
                     @Override
@@ -187,5 +192,15 @@ public class PartyRequestListFragment extends RefreshItemListFragment<Card>
         String text = partyRequest.getDetails();
         chatService.sendSystemMessage(partyRequest.getUser().getChatId(), false, text, null);
         UMengUtils.onEvent(getActivity(), PARTY_REQUEST_EVENT_ID);
+    }
+
+    private void updateCredit(User currentUser, int seq) throws Exception {
+        final CreditRule creditRule = creditRuleStore.getCreditRuleBySeq(seq);
+        if (creditRule != null) {
+            final int credit = creditRule.getCredit();
+            restService.updateUserCredit(currentUser.getObjectId(), credit);
+            currentUser.updateCredit(credit);
+            userStore.save(currentUser);
+        }
     }
 }
