@@ -22,7 +22,7 @@ public class AskingGroupStore {
     }
 
     private List<AskingGroup> map(List<AskingGroupEntity> askingGroupList) {
-        List<AskingGroup> result = new ArrayList<AskingGroup>();
+        List<AskingGroup> result = new ArrayList<>();
         for (AskingGroupEntity askingGroupEntity: askingGroupList) {
             AskingGroup asking = map(askingGroupEntity);
             result.add(asking);
@@ -75,16 +75,8 @@ public class AskingGroupStore {
     }
 
     public List<AskingGroup> getListByBoardId(String boardId) throws Exception {
-        List<AskingGroupEntity> records = askingGroupEntityDao.queryBuilder()
-                .where(AskingGroupEntityDao.Properties.BoardId.eq(boardId))
-                .orderAsc(AskingGroupEntityDao.Properties.Seq)
-                .list();
-        if (records.size() > 0) {
-            return map(records);
-        } else {
-            List<AskingGroup> askingGroupList = restService.getAskingGroupListByBoardId(boardId);
-            updateOrInsert(askingGroupList);
-            return askingGroupList;
-        }
+        List<AskingGroup> askingGroupList = restService.getAskingGroupListByBoardId(boardId);
+        updateOrInsert(askingGroupList);
+        return askingGroupList;
     }
 }

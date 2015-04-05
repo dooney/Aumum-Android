@@ -26,9 +26,10 @@ public class CreditGiftCard {
         AvatarImageView avatarImage = (AvatarImageView) view.findViewById(R.id.image_avatar);
         avatarImage.getFromUrl(creditGift.getAvatarUrl());
 
+        int cost = Math.abs(creditGift.getCost());
         TextView textView = (TextView) view.findViewById(R.id.text_cost);
         textView.setText(Html.fromHtml(view.getContext()
-                .getString(R.string.label_credit_gift_cost, creditGift.getCost())));
+                .getString(R.string.label_credit_gift_cost, cost)));
 
         TextView screenNameText = (TextView) view.findViewById(R.id.text_screen_name);
         screenNameText.setText(creditGift.getScreenName());

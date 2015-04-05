@@ -228,7 +228,7 @@
     <string name="info_not_supported_by_your_country">您所在的国家不支持该换购</string>
     <string name="info_gift_purchase_submitted">换购已成功提交，我们会在发货前与您确认</string>
     <string name="info_confirm_clear_conversation_list">您确定要清空会话列表？</string>
-    <string name="info_more_asking_groups">点击加入更多兴趣圈子</string>
+    <string name="info_more_asking_groups">点击加入更多话题圈子</string>
     <string name="info_confirm_quit_asking_group">您确定要退出该圈子？</string>
     <string name="info_got_credit">%1$s：获得积分%2$d</string>
 
@@ -307,7 +307,7 @@
     <string name="title_activity_game_list">小游戏</string>
     <string name="title_activity_party">聚会</string>
     <string name="title_activity_moment_list">妈妈圈</string>
-    <string name="title_activity_asking_board">兴趣分类</string>
+    <string name="title_activity_asking_board">话题分类</string>
 
     <!-- Account -->
     <string name="hint_login_phone">手机号码</string>
@@ -356,8 +356,8 @@
     <string name="label_added">已添加</string>
     <string name="label_contact_agreed">已经同意您的添加好友请求</string>
     <string name="label_user_credit">积分：%,d</string>
-    <string name="label_interests">兴趣圈子</string>
-    <string name="label_user_interests">%1$s的兴趣圈子</string>
+    <string name="label_interests">话题圈子</string>
+    <string name="label_user_interests">%1$s的话题圈子</string>
 
     <!-- Profile -->
     <string name="label_screen_name">用户昵称</string>
@@ -465,7 +465,7 @@
     <string name="label_replied_asking_message">%1$s回复了您</string>
     <string name="label_like_asking_message">%1$s给您的说说点赞</string>
     <string name="label_like_asking_reply_message">%1$s给您的说说评论点赞</string>
-    <string name="label_my_asking_groups">我的兴趣圈子(%,d)</string>
+    <string name="label_my_asking_groups">我的话题圈子(%,d)</string>
     <string name="label_recommend_asking_groups">为您推荐</string>
 
     <!-- Discovery -->
