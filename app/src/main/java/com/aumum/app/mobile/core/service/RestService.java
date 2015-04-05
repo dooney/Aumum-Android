@@ -9,6 +9,7 @@ import com.aumum.app.mobile.core.model.AskingReply;
 import com.aumum.app.mobile.core.model.CityGroup;
 import com.aumum.app.mobile.core.model.CreditGift;
 import com.aumum.app.mobile.core.model.CreditOrder;
+import com.aumum.app.mobile.core.model.CreditRule;
 import com.aumum.app.mobile.core.model.EventCategory;
 import com.aumum.app.mobile.core.model.Feed;
 import com.aumum.app.mobile.core.model.Feedback;
@@ -159,6 +160,10 @@ public class RestService {
 
     private AskingBoardService getAskingBoardService() {
         return getRestAdapter().create(AskingBoardService.class);
+    }
+
+    private CreditRuleService getCreditRuleService() {
+        return getRestAdapter().create(CreditRuleService.class);
     }
 
     private RestAdapter getRestAdapter() {
@@ -681,9 +686,15 @@ public class RestService {
     }
 
     public JsonObject updateUserCredit(String userId, int credit) {
-        final JsonObject data = new JsonObject();
-        data.addProperty(Constants.Http.User.PARAM_CREDIT, credit);
-        return getUserService().updateById(userId, data);
+        if (credit != 0) {
+            final JsonObject data = new JsonObject();
+            final JsonObject opJson = new JsonObject();
+            opJson.addProperty("__op", "Increment");
+            opJson.addProperty("amount", credit);
+            data.add(Constants.Http.User.PARAM_CREDIT, opJson);
+            return getUserService().updateById(userId, data);
+        }
+        return null;
     }
 
     public JsonObject deleteParty(String partyId) {
@@ -1545,5 +1556,14 @@ public class RestService {
         whereJson.add("deletedAt", liveJson);
         String where = whereJson.toString();
         return getAskingGroupService().getList("seq", where, Integer.MAX_VALUE).getResults();
+    }
+
+    public List<CreditRule> getCreditRuleList() {
+        final JsonObject whereJson = new JsonObject();
+        final JsonObject liveJson = new JsonObject();
+        liveJson.addProperty("$exists", false);
+        whereJson.add("deletedAt" ,liveJson);
+        String where = whereJson.toString();
+        return getCreditRuleService().getList("seq", where, Integer.MAX_VALUE).getResults();
     }
 }

@@ -214,8 +214,8 @@ public class User extends AggregateRoot implements InitialSortable {
         return 0;
     }
 
-    public void setCredit(int credit) {
-        this.credit = credit;
+    public void updateCredit(int delta) {
+        this.credit = getCredit() + delta;
     }
 
     @Override

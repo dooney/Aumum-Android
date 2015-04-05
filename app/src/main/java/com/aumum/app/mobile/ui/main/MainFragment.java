@@ -17,6 +17,7 @@ import android.widget.TextView;
 import com.aumum.app.mobile.Injector;
 import com.aumum.app.mobile.R;
 import com.aumum.app.mobile.core.dao.AskingStore;
+import com.aumum.app.mobile.core.dao.CreditRuleStore;
 import com.aumum.app.mobile.core.dao.MomentStore;
 import com.aumum.app.mobile.core.dao.PartyRequestStore;
 import com.aumum.app.mobile.core.dao.PartyStore;
@@ -66,6 +67,7 @@ public class MainFragment extends Fragment
     @Inject PartyStore partyStore;
     @Inject PartyRequestStore partyRequestStore;
     @Inject MomentStore momentStore;
+    @Inject CreditRuleStore creditRuleStore;
     @Inject NotificationService notificationService;
     @Inject ChatService chatService;
     @Inject ApiKeyProvider apiKeyProvider;
@@ -104,6 +106,7 @@ public class MainFragment extends Fragment
         initChatServer();
         initImageServer();
         initScheduleService();
+        initCreditRules();
     }
 
     @Override
@@ -231,6 +234,16 @@ public class MainFragment extends Fragment
 
     private void initScheduleService() {
         scheduleService = new ScheduleService(this);
+    }
+
+    private void initCreditRules() {
+        new SafeAsyncTask<Boolean>() {
+            @Override
+            public Boolean call() throws Exception {
+                creditRuleStore.getAll();
+                return true;
+            }
+        }.execute();
     }
 
     private void initChatServer() {

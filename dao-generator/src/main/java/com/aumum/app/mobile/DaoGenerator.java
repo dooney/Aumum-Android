@@ -5,7 +5,7 @@ import de.greenrobot.daogenerator.Schema;
 
 public class DaoGenerator {
 
-    private static final int SCHEMA_VERSION = 16;
+    private static final int SCHEMA_VERSION = 18;
 
     public static void main(String args[]) throws Exception {
         Schema schema = new Schema(SCHEMA_VERSION, "com.aumum.app.mobile.core.dao.gen");
@@ -18,6 +18,7 @@ public class DaoGenerator {
         addPartyRequest(schema);
         addGroupRequest(schema);
         addAskingGroup(schema);
+        addCreditRule(schema);
 
         new de.greenrobot.daogenerator.DaoGenerator().generateAll(schema, args[0]);
     }
@@ -136,5 +137,14 @@ public class DaoGenerator {
         askingGroup.addStringProperty("description");
         askingGroup.addIntProperty("seq");
         askingGroup.addStringProperty("boardId");
+    }
+
+    private static void addCreditRule(Schema schema) {
+        Entity creditRule = schema.addEntity("CreditRuleEntity");
+        creditRule.setSuperclass("BaseEntity");
+        creditRule.addStringProperty("objectId").notNull().primaryKey();
+        creditRule.addIntProperty("seq");
+        creditRule.addIntProperty("credit");
+        creditRule.addStringProperty("description");
     }
 }

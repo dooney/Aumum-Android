@@ -8,6 +8,7 @@ import com.aumum.app.mobile.core.dao.AskingGroupStore;
 import com.aumum.app.mobile.core.dao.AskingReplyStore;
 import com.aumum.app.mobile.core.dao.AskingStore;
 import com.aumum.app.mobile.core.dao.ChannelItemStore;
+import com.aumum.app.mobile.core.dao.CreditRuleStore;
 import com.aumum.app.mobile.core.dao.MomentCommentStore;
 import com.aumum.app.mobile.core.dao.MomentStore;
 import com.aumum.app.mobile.core.dao.PartyReasonStore;
@@ -359,6 +360,12 @@ public class BootstrapModule {
     @Singleton
     AskingGroupStore provideAskingGroupStore(RestService restService, Repository repository) {
         return new AskingGroupStore(restService, repository);
+    }
+
+    @Provides
+    @Singleton
+    CreditRuleStore provideCreditRuleStore(RestService restService, Repository repository) {
+        return new CreditRuleStore(restService, repository);
     }
 
     @Provides

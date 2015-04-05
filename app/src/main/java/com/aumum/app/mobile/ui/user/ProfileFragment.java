@@ -17,7 +17,9 @@ import android.widget.TextView;
 import com.aumum.app.mobile.Injector;
 import com.aumum.app.mobile.R;
 import com.aumum.app.mobile.core.Constants;
+import com.aumum.app.mobile.core.dao.CreditRuleStore;
 import com.aumum.app.mobile.core.dao.UserStore;
+import com.aumum.app.mobile.core.model.CreditRule;
 import com.aumum.app.mobile.core.model.User;
 import com.aumum.app.mobile.core.service.RestService;
 import com.aumum.app.mobile.ui.area.AreaListActivity;
@@ -52,6 +54,7 @@ public class ProfileFragment extends LoaderFragment<User> {
 
     @Inject RestService restService;
     @Inject UserStore userStore;
+    @Inject CreditRuleStore creditRuleStore;
 
     private User currentUser;
     private SafeAsyncTask<Boolean> task;
@@ -255,6 +258,9 @@ public class ProfileFragment extends LoaderFragment<User> {
                             public void call(Object value) throws Exception {
                                 String about = (String) value;
                                 restService.updateUserAbout(currentUser.getObjectId(), about);
+                                if (currentUser.getAbout() == null) {
+                                    updateCredit(CreditRule.ADD_ABOUT);
+                                }
                                 currentUser.setAbout(about);
                                 userStore.save(currentUser);
                             }
@@ -268,6 +274,7 @@ public class ProfileFragment extends LoaderFragment<User> {
                             public void onSuccess(Object value) {
                                 String about = (String) value;
                                 aboutText.setText(about);
+                                creditText.setText(String.valueOf(currentUser.getCredit()));
                             }
                 }).show();
             }
@@ -391,6 +398,9 @@ public class ProfileFragment extends LoaderFragment<User> {
         task = new SafeAsyncTask<Boolean>() {
             public Boolean call() throws Exception {
                 restService.updateUserAvatar(currentUser.getObjectId(), fileUrl);
+                if (currentUser.getAvatarUrl() == null) {
+                    updateCredit(CreditRule.ADD_AVATAR);
+                }
                 currentUser.setAvatarUrl(fileUrl);
                 userStore.save(currentUser);
                 return true;
@@ -404,6 +414,11 @@ public class ProfileFragment extends LoaderFragment<User> {
                         Toaster.showShort(getActivity(), cause.getMessage());
                     }
                 }
+            }
+
+            @Override
+            protected void onSuccess(Boolean success) throws Exception {
+                creditText.setText(String.valueOf(currentUser.getCredit()));
             }
 
             @Override
@@ -459,6 +474,9 @@ public class ProfileFragment extends LoaderFragment<User> {
             @Override
             public void call(Object value) throws Exception {
                 restService.updateUserTags(currentUser.getObjectId(), tags);
+                if (currentUser.getTags().size() == 0) {
+                    updateCredit(CreditRule.ADD_TAGS);
+                }
                 currentUser.setTags(tags);
                 userStore.save(currentUser);
             }
@@ -471,8 +489,25 @@ public class ProfileFragment extends LoaderFragment<User> {
             @Override
             public void onSuccess(Object value) {
                 updateTagsUI(tags);
+                creditText.setText(String.valueOf(currentUser.getCredit()));
             }
         }).show();
+    }
+
+    private void updateCredit(int seq) {
+        final CreditRule creditRule = creditRuleStore.getCreditRuleBySeq(seq);
+        if (creditRule != null) {
+            final int credit = creditRule.getCredit();
+            restService.updateUserCredit(currentUser.getObjectId(), credit);
+            currentUser.updateCredit(credit);
+            getActivity().runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    Toaster.showShort(getActivity(), getString(R.string.info_got_credit,
+                            creditRule.getDescription(), credit));
+                }
+            });
+        }
     }
 
     private void startSettingsActivity() {

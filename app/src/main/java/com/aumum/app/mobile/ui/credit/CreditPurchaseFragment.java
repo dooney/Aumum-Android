@@ -79,12 +79,12 @@ public class CreditPurchaseFragment extends ItemListFragment<CreditGift>
                         currentUser = userStore.getCurrentUserFromServer();
                         int cost = creditGift.getCost();
                         int currentCredit = currentUser.getCredit();
-                        if (currentCredit < cost) {
+                        if (currentCredit < Math.abs(cost)) {
                             throw new Exception(getString(R.string.info_insufficient_credit));
                         }
-                        currentUser.setCredit(currentCredit - cost);
+                        restService.updateUserCredit(currentUser.getObjectId(), cost);
+                        currentUser.updateCredit(cost);
                         userStore.save(currentUser);
-                        restService.updateUserCredit(currentUser.getObjectId(), currentUser.getCredit());
                         String deliveryDetails = (String) value;
                         CreditOrder creditOrder = new CreditOrder(currentUser.getObjectId(),
                                 creditGift.getObjectId(), deliveryDetails, creditGift.getCost());

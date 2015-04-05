@@ -63,6 +63,7 @@ public class UserTagListFragment extends ItemListFragment<UserTag>
                 getActivity().finish();
             }
         });
+        updateUIWithValidation();
     }
 
     @Override
@@ -93,11 +94,19 @@ public class UserTagListFragment extends ItemListFragment<UserTag>
             }
             userTags.add(name);
         }
+        updateUIWithValidation();
         return true;
     }
 
     @Override
     public boolean isSelected(String name) {
         return userTags.contains(name);
+    }
+
+    private void updateUIWithValidation() {
+        final boolean populated = userTags.size() > 0;
+        if (confirmButton != null) {
+            confirmButton.setEnabled(populated);
+        }
     }
 }

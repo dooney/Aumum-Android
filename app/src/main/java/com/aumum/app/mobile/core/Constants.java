@@ -221,6 +221,11 @@ public final class Constants {
         public static final String URL_ASKING_BOARDS_FRAG = "/1/classes/AskingBoards";
 
         /**
+         * List Credit Rules URL
+         */
+        public static final String URL_CREDIT_RULES_FRAG = "/1/classes/CreditRules";
+
+        /**
          * PARAMS for auth
          */
         public static final String PARAM_USERNAME = "username";
