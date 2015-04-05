@@ -19,9 +19,11 @@ import android.widget.ScrollView;
 import com.aumum.app.mobile.Injector;
 import com.aumum.app.mobile.R;
 import com.aumum.app.mobile.core.Constants;
+import com.aumum.app.mobile.core.dao.CreditRuleStore;
 import com.aumum.app.mobile.core.dao.UserStore;
 import com.aumum.app.mobile.core.model.Asking;
 import com.aumum.app.mobile.core.model.CmdMessage;
+import com.aumum.app.mobile.core.model.CreditRule;
 import com.aumum.app.mobile.core.model.User;
 import com.aumum.app.mobile.core.service.ChatService;
 import com.aumum.app.mobile.core.service.FileUploadService;
@@ -51,6 +53,7 @@ public class NewAskingActivity extends ProgressDialogActivity
         implements FileUploadService.OnFileUploadListener {
 
     @Inject UserStore userStore;
+    @Inject CreditRuleStore creditRuleStore;
     @Inject RestService restService;
     @Inject FileUploadService fileUploadService;
     @Inject ChatService chatService;
@@ -240,6 +243,7 @@ public class NewAskingActivity extends ProgressDialogActivity
                 Asking response = restService.newAsking(asking);
                 asking.setObjectId(response.getObjectId());
                 restService.addUserAsking(currentUser.getObjectId(), asking.getObjectId());
+                updateCredit(currentUser, CreditRule.ADD_ASKING);
                 currentUser.addAsking(asking.getObjectId());
                 userStore.save(currentUser);
                 notifyContacts(currentUser, asking);
@@ -313,5 +317,21 @@ public class NewAskingActivity extends ProgressDialogActivity
                 return true;
             }
         }.execute();
+    }
+
+    private void updateCredit(User currentUser, int seq) {
+        final CreditRule creditRule = creditRuleStore.getCreditRuleBySeq(seq);
+        if (creditRule != null) {
+            final int credit = creditRule.getCredit();
+            restService.updateUserCredit(currentUser.getObjectId(), credit);
+            currentUser.updateCredit(credit);
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    Toaster.showShort(NewAskingActivity.this, getString(R.string.info_got_credit,
+                            creditRule.getDescription(), credit));
+                }
+            });
+        }
     }
 }

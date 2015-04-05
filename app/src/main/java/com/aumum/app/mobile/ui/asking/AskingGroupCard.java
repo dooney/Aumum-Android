@@ -49,7 +49,7 @@ public class AskingGroupCard implements AskingGroupJoinListener.OnActionListener
         } else {
             unreadImage.setVisibility(View.INVISIBLE);
         }
-        final AskingGroupJoinListener joinListener = new AskingGroupJoinListener();
+        final AskingGroupJoinListener joinListener = new AskingGroupJoinListener(activity);
         if (askingGroup.isMember()) {
             joinButton.setVisibility(View.GONE);
             deleteImage.setVisibility(View.VISIBLE);

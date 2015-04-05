@@ -1,5 +1,6 @@
 package com.aumum.app.mobile.ui.contact;
 
+import android.app.Activity;
 import android.content.Context;
 import android.view.View;
 
@@ -13,6 +14,7 @@ import com.aumum.app.mobile.core.service.ChatService;
 import com.aumum.app.mobile.core.service.RestService;
 import com.aumum.app.mobile.utils.Ln;
 import com.aumum.app.mobile.utils.SafeAsyncTask;
+import com.github.kevinsawicki.wishlist.Toaster;
 
 import javax.inject.Inject;
 
@@ -22,11 +24,13 @@ import retrofit.RetrofitError;
  * Created by Administrator on 20/11/2014.
  */
 public class AcceptContactListener implements View.OnClickListener {
+
     @Inject ChatService chatService;
     @Inject RestService restService;
     @Inject UserStore userStore;
     @Inject CreditRuleStore creditRuleStore;
 
+    private Activity activity;
     private String userId;
     private SafeAsyncTask<Boolean> task;
 
@@ -52,8 +56,9 @@ public class AcceptContactListener implements View.OnClickListener {
         public void onAcceptContactFinish();
     }
 
-    public AcceptContactListener(String userId) {
+    public AcceptContactListener(Activity activity, String userId) {
         Injector.inject(this);
+        this.activity = activity;
         this.userId = userId;
     }
 
@@ -116,11 +121,18 @@ public class AcceptContactListener implements View.OnClickListener {
     }
 
     private void updateCredit(User currentUser, int seq) {
-        CreditRule creditRule = creditRuleStore.getCreditRuleBySeq(seq);
+        final CreditRule creditRule = creditRuleStore.getCreditRuleBySeq(seq);
         if (creditRule != null) {
-            int credit = creditRule.getCredit();
+            final int credit = creditRule.getCredit();
             restService.updateUserCredit(currentUser.getObjectId(), credit);
             currentUser.updateCredit(credit);
+            activity.runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    Toaster.showShort(activity, activity.getString(R.string.info_got_credit,
+                            creditRule.getDescription(), credit));
+                }
+            });
         }
     }
 }

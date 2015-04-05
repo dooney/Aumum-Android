@@ -24,9 +24,11 @@ import android.widget.TextView;
 import com.aumum.app.mobile.Injector;
 import com.aumum.app.mobile.R;
 import com.aumum.app.mobile.core.dao.AskingStore;
+import com.aumum.app.mobile.core.dao.CreditRuleStore;
 import com.aumum.app.mobile.core.dao.UserStore;
 import com.aumum.app.mobile.core.infra.security.ApiKeyProvider;
 import com.aumum.app.mobile.core.model.Asking;
+import com.aumum.app.mobile.core.model.CreditRule;
 import com.aumum.app.mobile.core.model.User;
 import com.aumum.app.mobile.core.service.RestService;
 import com.aumum.app.mobile.core.service.ShareService;
@@ -68,6 +70,7 @@ public class AskingDetailsFragment extends LoaderFragment<Asking> {
     @Inject RestService restService;
     @Inject UserStore userStore;
     @Inject AskingStore askingStore;
+    @Inject CreditRuleStore creditRuleStore;
     @Inject Bus bus;
     @Inject ApiKeyProvider apiKeyProvider;
     private ShareService shareService;
@@ -376,6 +379,9 @@ public class AskingDetailsFragment extends LoaderFragment<Asking> {
             public Boolean call() throws Exception {
                 restService.deleteAsking(askingId);
                 askingStore.deleteAsking(askingId);
+                User currentUser = userStore.getCurrentUser();
+                updateCredit(currentUser, CreditRule.REMOVE_ASKING);
+                userStore.save(currentUser);
                 return true;
             }
 
@@ -420,5 +426,14 @@ public class AskingDetailsFragment extends LoaderFragment<Asking> {
         final Intent intent = new Intent(getActivity(), ImageViewActivity.class);
         intent.putExtra(ImageViewActivity.INTENT_IMAGE_URI, imageUrl);
         startActivity(intent);
+    }
+
+    private void updateCredit(User currentUser, int seq) {
+        CreditRule creditRule = creditRuleStore.getCreditRuleBySeq(seq);
+        if (creditRule != null) {
+            int credit = creditRule.getCredit();
+            restService.updateUserCredit(currentUser.getObjectId(), credit);
+            currentUser.updateCredit(credit);
+        }
     }
 }

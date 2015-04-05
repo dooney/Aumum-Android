@@ -3,6 +3,7 @@ package com.aumum.app.mobile.ui.asking;
 import android.app.Activity;
 
 import com.aumum.app.mobile.Injector;
+import com.aumum.app.mobile.R;
 import com.aumum.app.mobile.core.dao.CreditRuleStore;
 import com.aumum.app.mobile.core.dao.UserStore;
 import com.aumum.app.mobile.core.model.AskingGroup;
@@ -25,14 +26,17 @@ public class AskingGroupJoinListener {
     @Inject UserStore userStore;
     @Inject CreditRuleStore creditRuleStore;
 
+    private Activity activity;
+
     public interface OnActionListener {
         public void onStart();
         public void onException(Exception e);
         public void onSuccess();
     }
 
-    public AskingGroupJoinListener() {
+    public AskingGroupJoinListener(Activity activity) {
         Injector.inject(this);
+        this.activity = activity;
     }
 
     public void onJoin(final Activity activity,
@@ -76,11 +80,18 @@ public class AskingGroupJoinListener {
     }
 
     private void updateCredit(User currentUser, int seq) {
-        CreditRule creditRule = creditRuleStore.getCreditRuleBySeq(seq);
+        final CreditRule creditRule = creditRuleStore.getCreditRuleBySeq(seq);
         if (creditRule != null) {
-            int credit = creditRule.getCredit();
+            final int credit = creditRule.getCredit();
             restService.updateUserCredit(currentUser.getObjectId(), credit);
             currentUser.updateCredit(credit);
+            activity.runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    Toaster.showShort(activity, activity.getString(R.string.info_got_credit,
+                            creditRule.getDescription(), credit));
+                }
+            });
         }
     }
 }

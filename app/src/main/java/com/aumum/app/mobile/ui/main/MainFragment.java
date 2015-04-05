@@ -266,7 +266,7 @@ public class MainFragment extends Fragment
         chatService.setGroupChangeListener(new GroupChangeListener(getActivity(), bus));
         chatService.setMessageNotifyListener(new MessageNotifyListener(getActivity()));
         chatService.setNotificationClickListener(new NotificationClickListener(getActivity()));
-        chatService.setContactListener(new ContactListener());
+        chatService.setContactListener(new ContactListener(getActivity()));
         chatService.setAppInitialized();
         chatService.loadAllResources();
     }

@@ -42,7 +42,7 @@ public class AskingRecommendGroupCard implements AskingGroupJoinListener.OnActio
         if (askingGroup.isMember()) {
             joinButton.setVisibility(View.GONE);
         } else {
-            final AskingGroupJoinListener listener = new AskingGroupJoinListener();
+            final AskingGroupJoinListener listener = new AskingGroupJoinListener(activity);
             joinButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {

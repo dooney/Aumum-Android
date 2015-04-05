@@ -1,6 +1,9 @@
 package com.aumum.app.mobile.ui.contact;
 
+import android.app.Activity;
+
 import com.aumum.app.mobile.Injector;
+import com.aumum.app.mobile.R;
 import com.aumum.app.mobile.core.dao.CreditRuleStore;
 import com.aumum.app.mobile.core.dao.UserStore;
 import com.aumum.app.mobile.core.model.CreditRule;
@@ -10,6 +13,7 @@ import com.aumum.app.mobile.core.service.NotificationService;
 import com.aumum.app.mobile.core.service.RestService;
 import com.aumum.app.mobile.utils.SafeAsyncTask;
 import com.easemob.chat.EMContactListener;
+import com.github.kevinsawicki.wishlist.Toaster;
 
 import java.util.List;
 
@@ -26,8 +30,11 @@ public class ContactListener implements EMContactListener {
     @Inject NotificationService notificationService;
     @Inject ChatService chatService;
 
-    public ContactListener() {
+    private Activity activity;
+
+    public ContactListener(Activity activity) {
         Injector.inject(this);
+        this.activity = activity;
     }
 
     @Override
@@ -102,11 +109,20 @@ public class ContactListener implements EMContactListener {
     }
 
     private void updateCredit(User currentUser, int seq) {
-        CreditRule creditRule = creditRuleStore.getCreditRuleBySeq(seq);
+        final CreditRule creditRule = creditRuleStore.getCreditRuleBySeq(seq);
         if (creditRule != null) {
-            int credit = creditRule.getCredit();
+            final int credit = creditRule.getCredit();
             restService.updateUserCredit(currentUser.getObjectId(), credit);
             currentUser.updateCredit(credit);
+            if (credit > 0) {
+                activity.runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        Toaster.showShort(activity, activity.getString(R.string.info_got_credit,
+                                creditRule.getDescription(), credit));
+                    }
+                });
+            }
         }
     }
 }

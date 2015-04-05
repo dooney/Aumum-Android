@@ -54,7 +54,8 @@ public class ContactRequestCard implements AcceptContactListener.OnActionListene
             addedText.setVisibility(View.VISIBLE);
         } else {
             acceptButton.setVisibility(View.VISIBLE);
-            AcceptContactListener acceptContactListener = new AcceptContactListener(user.getObjectId());
+            AcceptContactListener acceptContactListener =
+                    new AcceptContactListener(activity, user.getObjectId());
             acceptContactListener.setOnActionListener(this);
             acceptContactListener.setOnProgressListener(this);
             acceptButton.setOnClickListener(acceptContactListener);
