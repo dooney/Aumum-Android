@@ -810,11 +810,10 @@ public class RestService {
         whereJson.add("deletedAt", liveJson);
         whereJson.add("groupId", buildIdListJson(idList));
         String where = whereJson.toString();
-        JsonObject json = getAskingService().getUnread(where, "groupId");
+        List<Asking> askingList = getAskingService().getUnread(where, "groupId").getResults();
         ArrayList<String> groups = new ArrayList<>();
-        JsonArray array = json.get("groupId").getAsJsonArray();
-        for (Iterator<JsonElement> it = array.iterator(); it.hasNext();) {
-            groups.add(it.next().getAsString());
+        for (Asking asking: askingList) {
+            groups.add(asking.getGroupId());
         }
         return groups;
     }

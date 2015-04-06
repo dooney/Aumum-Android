@@ -104,15 +104,15 @@ public class DiscoveryFragment extends Fragment {
             momentUnreadImage.setVisibility(View.GONE);
             unreadMoment = false;
         }
-        if (!unreadParty && !unreadMoment) {
-            bus.post(new ResetDiscoveryUnreadEvent());
-        }
     }
 
     @Override
     public void onResume() {
         super.onResume();
         bus.register(this);
+        if (!unreadParty && !unreadMoment) {
+            bus.post(new ResetDiscoveryUnreadEvent());
+        }
     }
 
     @Override

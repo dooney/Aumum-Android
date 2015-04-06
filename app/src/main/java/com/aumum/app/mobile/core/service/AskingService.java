@@ -3,6 +3,7 @@ package com.aumum.app.mobile.core.service;
 import com.aumum.app.mobile.core.Constants;
 import com.aumum.app.mobile.core.api.ListWrapper;
 import com.aumum.app.mobile.core.model.Asking;
+import com.aumum.app.mobile.core.model.AskingGroup;
 import com.google.gson.JsonObject;
 
 import retrofit.http.Body;
@@ -32,6 +33,6 @@ public interface AskingService {
     JsonObject updateById(@Path("id") String id, @Body JsonObject data);
 
     @GET(Constants.Http.URL_ASKINGS_FRAG)
-    JsonObject getUnread(@Query("where") String where,
-                         @Query("keys") String keys);
+    ListWrapper<Asking> getUnread(@Query("where") String where,
+                                  @Query("keys") String keys);
 }
