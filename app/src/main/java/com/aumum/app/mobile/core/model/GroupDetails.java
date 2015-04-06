@@ -1,6 +1,9 @@
 package com.aumum.app.mobile.core.model;
 
 import com.aumum.app.mobile.ui.view.sort.SizeSortable;
+import com.aumum.app.mobile.utils.Ln;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
 /**
  * Created by Administrator on 24/03/2015.
@@ -9,20 +12,41 @@ public class GroupDetails implements SizeSortable {
 
     private String id;
     private String name;
-    private User owner;
+    private DescriptionJson description;
     private int size;
     private boolean isMember;
 
+    class DescriptionJson {
+        private String avatarUrl;
+        private String description;
+
+        public String getAvatarUrl() {
+            return avatarUrl;
+        }
+
+        public String getDescription() {
+            return description;
+        }
+    }
+
     public GroupDetails(String id,
                         String name,
-                        User user,
+                        String description,
                         int size,
                         boolean isMember) {
         this.id = id;
         this.name = name;
-        this.owner = user;
         this.size = size;
         this.isMember = isMember;
+
+        try {
+            Gson gson = new Gson();
+            this.description = gson.fromJson(description,
+                    new TypeToken<DescriptionJson>() {
+                    }.getType());
+        } catch (Exception e) {
+            Ln.i(e);
+        }
     }
 
     public String getId() {
@@ -31,10 +55,6 @@ public class GroupDetails implements SizeSortable {
 
     public String getName() {
         return name;
-    }
-
-    public User getOwner() {
-        return owner;
     }
 
     public int getSize() {
@@ -48,5 +68,19 @@ public class GroupDetails implements SizeSortable {
     @Override
     public Integer getSortSize() {
         return size;
+    }
+
+    public String getAvatarUrl() {
+        if (description != null) {
+            return description.getAvatarUrl();
+        }
+        return null;
+    }
+
+    public String getDescription() {
+        if (description != null) {
+            return description.getDescription();
+        }
+        return name;
     }
 }

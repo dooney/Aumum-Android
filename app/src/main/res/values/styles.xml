@@ -531,13 +531,8 @@
 
     <!-- Group -->
     <style name="TextView.Group.Name" parent="TextView.Title" />
-    <style name="TextView.Group.ScreenName" parent="TextView.UserName">
-        <item name="android:textSize">@dimen/text_sz_small</item>
-    </style>
-    <style name="TextView.Group.Size" parent="ButtonTextView">
-        <item name="android:drawableLeft">@drawable/ic_fa_user</item>
-        <item name="android:textSize">@dimen/text_sz_small</item>
-    </style>
+    <style name="TextView.Group.Description" parent="TextView.Subtitle.Small" />
+    <style name="TextView.Group.Size" parent="TextView.Subtitle.Small" />
     <style name="Button.Group.Join" parent="Button.Action">
         <item name="android:text">@string/label_join</item>
     </style>

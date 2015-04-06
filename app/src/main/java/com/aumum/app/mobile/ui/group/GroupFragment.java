@@ -76,15 +76,12 @@ public class GroupFragment extends ItemListFragment<GroupDetails> {
         ArrayList<GroupDetails> groupList = new ArrayList<>();
         User currentUser = userStore.getCurrentUser();
         for (EMGroup group: groups) {
-            User user = userStore.getUserByChatId(group.getOwner());
-            if (user != null) {
-                boolean isMember = group.getMembers().contains(currentUser.getChatId());
-                if (isMember) {
-                    int groupSize = group.getMembers().size();
-                    GroupDetails groupDetails = new GroupDetails(group.getGroupId(),
-                            group.getGroupName(), user, groupSize, true);
-                    groupList.add(groupDetails);
-                }
+            boolean isMember = group.getMembers().contains(currentUser.getChatId());
+            if (isMember) {
+                int groupSize = group.getMembers().size();
+                GroupDetails groupDetails = new GroupDetails(group.getGroupId(),
+                        group.getGroupName(), group.getDescription(), groupSize, true);
+                groupList.add(groupDetails);
             }
         }
         Collections.sort(groupList, new SizeComparator());
