@@ -533,7 +533,9 @@ public class NewPartyActivity extends ProgressDialogActivity
         new SafeAsyncTask<Boolean>() {
             @Override
             public Boolean call() throws Exception {
-                EMGroup group = chatService.createGroup(party.getTitle(), false);
+                String name = party.getTitle();
+                String description = party.getTitle();
+                EMGroup group = chatService.createGroup(name, description, false);
                 chatService.addGroupMember(group.getGroupId(), user.getChatId());
                 restService.addPartyGroup(party.getObjectId(),
                         group.getGroupId());

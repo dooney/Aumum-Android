@@ -367,6 +367,9 @@
             android:label="@string/title_activity_asking_board">
          </activity>
         <activity android:name=".ui.asking.AskingGroupListActivity" />
+        <activity android:name=".ui.group.NewGroupActivity"
+            android:label="@string/title_activity_new_group">
+        </activity>
     </application>
 
 </manifest>

@@ -127,11 +127,12 @@ public class ChatService {
         EMChatManager.getInstance().clearConversation(userName);
     }
 
-    public EMGroup createGroup(String groupName, boolean approvalRequired) throws Exception {
+    public EMGroup createGroup(String name,
+                               String description,
+                               boolean approvalRequired) throws Exception {
         String members[] = {};
-        String description = "";
         EMGroup emGroup = EMGroupManager.getInstance().createPublicGroup(
-                groupName, description, members, approvalRequired);
+                name, description, members, approvalRequired);
         return EMGroupManager.getInstance().createOrUpdateLocalGroup(emGroup);
     }
 

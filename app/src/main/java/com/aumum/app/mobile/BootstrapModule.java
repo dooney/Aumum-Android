@@ -61,6 +61,7 @@ import com.aumum.app.mobile.ui.feed.article.ArticleFragment;
 import com.aumum.app.mobile.ui.feed.channel.ChannelFragment;
 import com.aumum.app.mobile.ui.feed.article.ArticleListFragment;
 import com.aumum.app.mobile.ui.feed.channel.ChannelListFragment;
+import com.aumum.app.mobile.ui.group.NewGroupActivity;
 import com.aumum.app.mobile.ui.moment.MomentCommentCard;
 import com.aumum.app.mobile.ui.moment.MomentCommentLikeListener;
 import com.aumum.app.mobile.ui.moment.MomentCommentsFragment;
@@ -242,7 +243,8 @@ import retrofit.converter.GsonConverter;
                 RecommendAskingGroupFragment.class,
                 AskingGroupJoinListener.class,
                 AskingBoardFragment.class,
-                AskingGroupListFragment.class
+                AskingGroupListFragment.class,
+                NewGroupActivity.class
         }
 )
 public class BootstrapModule {

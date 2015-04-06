@@ -396,6 +396,7 @@ public final class Constants {
         public static final int CREDIT_PURCHASE_REQ_CODE = 44;
         public static final int GET_ASKING_LIST_REQ_CODE = 45;
         public static final int GET_ASKING_BOARD_REQ_CODE = 46;
+        public static final int NEW_GROUP_REQ_CODE = 47;
     }
 
     public static final class Link {

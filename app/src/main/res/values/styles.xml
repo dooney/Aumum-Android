@@ -536,6 +536,15 @@
     <style name="Button.Group.Join" parent="Button.Action">
         <item name="android:text">@string/label_join</item>
     </style>
+    <style name="EditText.NewGroup.Name" parent="EditText.Mandatory">
+        <item name="android:hint">@string/hint_group_name</item>
+    </style>
+    <style name="EditText.NewGroup.Description" parent="EditText">
+        <item name="android:background">@color/transparent</item>
+        <item name="android:inputType">textMultiLine</item>
+        <item name="android:lineSpacingMultiplier">1.1</item>
+        <item name="android:hint">@string/hint_group_description</item>
+    </style>
     <style name="TextView.GroupRequest.ScreenName" parent="TextView.UserName">
         <item name="android:textSize">@dimen/text_sz_large</item>
     </style>

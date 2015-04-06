@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+
+    <ScrollView
+        android:id="@+id/scroll_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true">
+
+        <LinearLayout
+            android:id="@+id/container"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:padding="@dimen/margin_large"
+            android:orientation="vertical"
+            android:focusable="true"
+            android:focusableInTouchMode="true" >
+
+            <com.aumum.app.mobile.ui.view.AvatarImageView
+                android:id="@+id/image_avatar"
+                style="@style/ImageView.Avatar.Large"
+                android:src="@drawable/ic_avatar"
+                android:layout_gravity="center_horizontal" />
+
+            <com.aumum.app.mobile.ui.view.ClearEditText
+                android:id="@+id/et_name"
+                style="@style/EditText.NewGroup.Name"
+                android:imeOptions="actionNext"
+                android:nextFocusDown="@+id/et_description" />
+
+            <EditText
+                android:id="@+id/et_description"
+                style="@style/EditText.NewGroup.Description" />
+
+        </LinearLayout>
+
+    </ScrollView>
+
+</RelativeLayout>

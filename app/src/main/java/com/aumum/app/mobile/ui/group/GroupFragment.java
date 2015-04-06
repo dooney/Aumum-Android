@@ -1,5 +1,6 @@
 package com.aumum.app.mobile.ui.group;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -9,6 +10,7 @@ import android.widget.ArrayAdapter;
 
 import com.aumum.app.mobile.Injector;
 import com.aumum.app.mobile.R;
+import com.aumum.app.mobile.core.Constants;
 import com.aumum.app.mobile.core.dao.UserStore;
 import com.aumum.app.mobile.core.model.GroupDetails;
 import com.aumum.app.mobile.core.model.User;
@@ -51,6 +53,15 @@ public class GroupFragment extends ItemListFragment<GroupDetails> {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         return inflater.inflate(R.layout.fragment_group, null);
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == Constants.RequestCode.NEW_GROUP_REQ_CODE &&
+                resultCode == Activity.RESULT_OK) {
+            refresh(null);
+        }
     }
 
     @Override
@@ -101,7 +112,7 @@ public class GroupFragment extends ItemListFragment<GroupDetails> {
                     public void onItemClick(int i) {
                         switch (i) {
                             case 0:
-                                showNewGroupDialog();
+                                startNewGroupActivity();
                                 break;
                             case 1:
                                 showSearchGroupDialog();
@@ -112,35 +123,6 @@ public class GroupFragment extends ItemListFragment<GroupDetails> {
                             default:
                                 break;
                         }
-                    }
-                }).show();
-    }
-
-    private void showNewGroupDialog() {
-        new EditTextDialog(getActivity(),
-                R.layout.dialog_edit_text,
-                R.string.hint_group_name,
-                new ConfirmDialog.OnConfirmListener() {
-                    @Override
-                    public void call(Object value) throws Exception {
-                        String groupName = (String) value;
-                        User user = userStore.getCurrentUser();
-                        EMGroup group = chatService.createGroup(groupName, true);
-                        chatService.addGroupMember(group.getGroupId(), user.getChatId());
-                        String groupCreatedText = getString(R.string.label_group_created,
-                                user.getScreenName());
-                        chatService.sendSystemMessage(group.getGroupId(),
-                                true, groupCreatedText, null);
-                    }
-
-                    @Override
-                    public void onException(String errorMessage) {
-                        Toaster.showShort(getActivity(), errorMessage);
-                    }
-
-                    @Override
-                    public void onSuccess(Object value) {
-                        refresh(null);
                     }
                 }).show();
     }
@@ -192,5 +174,10 @@ public class GroupFragment extends ItemListFragment<GroupDetails> {
     private void startGroupRequestsActivity() {
         final Intent intent = new Intent(getActivity(), GroupRequestsActivity.class);
         startActivity(intent);
+    }
+
+    private void startNewGroupActivity() {
+        final Intent intent = new Intent(getActivity(), NewGroupActivity.class);
+        startActivityForResult(intent, Constants.RequestCode.NEW_GROUP_REQ_CODE);
     }
 }

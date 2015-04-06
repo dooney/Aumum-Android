@@ -231,6 +231,7 @@
     <string name="info_more_asking_groups">点击加入更多话题圈子</string>
     <string name="info_confirm_quit_asking_group">您确定要退出该圈子？</string>
     <string name="info_got_credit">%1$s：获得积分%2$d</string>
+    <string name="info_submitting_group">正在提交您的群组，请稍候</string>
 
     <!-- Error Message -->
     <string name="error_bad_credentials">验证失败，请输入正确的手机号码/密码</string>
@@ -308,6 +309,7 @@
     <string name="title_activity_party">聚会</string>
     <string name="title_activity_moment_list">妈妈圈</string>
     <string name="title_activity_asking_board">话题分类</string>
+    <string name="title_activity_new_group">创建群组</string>
 
     <!-- Account -->
     <string name="hint_login_phone">手机号码</string>
@@ -502,6 +504,7 @@
 
     <!-- Conversation -->
     <string name="hint_group_name">群组名称</string>
+    <string name="hint_group_description">群组描述</string>
     <string name="label_group_size">%,d人在线</string>
 
     <!-- Game -->

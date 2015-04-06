@@ -12,22 +12,9 @@ public class GroupDetails implements SizeSortable {
 
     private String id;
     private String name;
-    private DescriptionJson description;
+    private GroupDescription description;
     private int size;
     private boolean isMember;
-
-    class DescriptionJson {
-        private String avatarUrl;
-        private String description;
-
-        public String getAvatarUrl() {
-            return avatarUrl;
-        }
-
-        public String getDescription() {
-            return description;
-        }
-    }
 
     public GroupDetails(String id,
                         String name,
@@ -42,7 +29,7 @@ public class GroupDetails implements SizeSortable {
         try {
             Gson gson = new Gson();
             this.description = gson.fromJson(description,
-                    new TypeToken<DescriptionJson>() {
+                    new TypeToken<GroupDescription>() {
                     }.getType());
         } catch (Exception e) {
             Ln.i(e);
