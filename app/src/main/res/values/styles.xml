@@ -478,14 +478,8 @@
         <item name="android:text">@null</item>
     </style>
     <style name="TextView.AskingGroup.ScreenName" parent="TextView.Title" />
-    <style name="TextView.AskingGroup.Description" parent="TextView.Subtitle">
-        <item name="android:textSize">@dimen/text_sz_small</item>
-        <item name="android:maxLines">1</item>
-        <item name="android:ellipsize">end</item>
-    </style>
-    <style name="TextView.AskingGroup.Subtitle" parent="TextView.Subtitle">
-        <item name="android:textSize">@dimen/text_sz_small</item>
-    </style>
+    <style name="TextView.AskingGroup.Description" parent="TextView.Subtitle.Small" />
+    <style name="TextView.AskingGroup.Subtitle" parent="TextView.Subtitle.Small" />
 
     <!-- Special -->
     <style name="ImageView.Special.VendorLogo" parent="ImageView" />

@@ -6,50 +6,44 @@
     android:background="@drawable/list_selector_white"
     android:padding="@dimen/margin_large">
 
-    <com.aumum.app.mobile.ui.view.AvatarImageView
-        android:id="@+id/image_avatar"
-        style="@style/ImageView.Avatar"
-        android:layout_marginRight="@dimen/margin_medium"/>
-
     <RelativeLayout
         android:layout_width="0dp"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:layout_weight="1">
 
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:orientation="vertical">
+        <com.aumum.app.mobile.ui.view.AvatarImageView
+            android:id="@+id/image_avatar"
+            style="@style/ImageView.Avatar"
+            android:layout_marginRight="@dimen/margin_medium"/>
 
-            <TextView
-                android:id="@+id/text_screen_name"
-                style="@style/TextView.AskingGroup.ScreenName"/>
+        <TextView
+            android:id="@+id/text_screen_name"
+            style="@style/TextView.AskingGroup.ScreenName"
+            android:layout_toRightOf="@id/image_avatar"
+            android:layout_alignTop="@+id/image_avatar"/>
 
-            <TextView
-                android:id="@+id/text_description"
-                android:layout_height="match_parent"
-                style="@style/TextView.AskingGroup.Description"
-                android:gravity="bottom"/>
+        <TextView
+            android:id="@+id/text_description"
+            style="@style/TextView.AskingGroup.Description"
+            android:layout_alignLeft="@+id/text_screen_name"
+            android:layout_alignBottom="@+id/image_avatar"/>
 
-        </LinearLayout>
+    </RelativeLayout>
 
-        <RelativeLayout
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_alignParentRight="true">
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent">
 
-            <Button
-                android:id="@+id/b_join"
-                style="@style/Button.Group.Join"
-                android:layout_centerVertical="true"/>
+        <Button
+            android:id="@+id/b_join"
+            style="@style/Button.Group.Join"
+            android:layout_centerVertical="true"/>
 
-            <ProgressBar
-                android:id="@+id/progress"
-                style="@style/ProgressBar"
-                android:layout_centerVertical="true"
-                android:visibility="gone" />
-
-        </RelativeLayout>
+        <ProgressBar
+            android:id="@+id/progress"
+            style="@style/ProgressBar"
+            android:layout_centerVertical="true"
+            android:visibility="gone" />
 
     </RelativeLayout>
 

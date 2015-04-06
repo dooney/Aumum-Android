@@ -7,70 +7,65 @@
     android:padding="@dimen/margin_large">
 
     <RelativeLayout
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:paddingRight="@dimen/margin_medium">
-
-        <com.aumum.app.mobile.ui.view.AvatarImageView
-            android:id="@+id/image_avatar"
-            style="@style/ImageView.Avatar" />
-
-        <FrameLayout
-            android:layout_width="@dimen/avatar_sz_medium"
-            android:layout_height="wrap_content">
-
-            <ImageView
-                android:id="@+id/image_unread"
-                style="@style/ImageView.Unread.Small"
-                android:layout_gravity="right"/>
-
-        </FrameLayout>
-
-    </RelativeLayout>
-
-    <RelativeLayout
         android:layout_width="0dp"
         android:layout_height="match_parent"
         android:layout_weight="1">
 
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:orientation="vertical">
-
-            <TextView
-                android:id="@+id/text_screen_name"
-                style="@style/TextView.AskingGroup.ScreenName"/>
-
-            <TextView
-                android:id="@+id/text_description"
-                android:layout_height="match_parent"
-                style="@style/TextView.AskingGroup.Description"
-                android:gravity="bottom"/>
-
-        </LinearLayout>
-
         <RelativeLayout
+            android:id="@+id/layout_avatar"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:layout_alignParentRight="true">
+            android:layout_marginRight="@dimen/margin_medium">
 
-            <Button
-                android:id="@+id/b_join"
-                style="@style/Button.Group.Join"
-                android:layout_centerVertical="true"/>
+            <com.aumum.app.mobile.ui.view.AvatarImageView
+                android:id="@+id/image_avatar"
+                style="@style/ImageView.Avatar" />
 
-            <ImageView
-                android:id="@+id/image_delete"
-                style="@style/ImageView.Delete"/>
+            <FrameLayout
+                android:layout_width="@dimen/avatar_sz_medium"
+                android:layout_height="wrap_content">
 
-            <ProgressBar
-                android:id="@+id/progress"
-                style="@style/ProgressBar"
-                android:layout_centerVertical="true"
-                android:visibility="gone" />
+                <ImageView
+                    android:id="@+id/image_unread"
+                    style="@style/ImageView.Unread.Small"
+                    android:layout_gravity="right"/>
+
+            </FrameLayout>
 
         </RelativeLayout>
+
+        <TextView
+            android:id="@+id/text_screen_name"
+            style="@style/TextView.AskingGroup.ScreenName"
+            android:layout_toRightOf="@+id/layout_avatar"
+            android:layout_alignTop="@+id/layout_avatar"/>
+
+        <TextView
+            android:id="@+id/text_description"
+            style="@style/TextView.AskingGroup.Description"
+            android:layout_alignLeft="@+id/text_screen_name"
+            android:layout_alignBottom="@+id/layout_avatar"/>
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent">
+
+        <Button
+            android:id="@+id/b_join"
+            style="@style/Button.Group.Join"
+            android:layout_centerVertical="true"/>
+
+        <ImageView
+            android:id="@+id/image_delete"
+            style="@style/ImageView.Delete"/>
+
+        <ProgressBar
+            android:id="@+id/progress"
+            style="@style/ProgressBar"
+            android:layout_centerVertical="true"
+            android:visibility="gone" />
 
     </RelativeLayout>
 
