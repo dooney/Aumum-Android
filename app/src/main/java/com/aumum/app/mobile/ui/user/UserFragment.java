@@ -310,19 +310,21 @@ public class UserFragment extends LoaderFragment<User> {
 
     private void updateInterestsUI(final User user,
                                    final List<AskingGroup> askingGroups) {
-        String interests = "";
-        for (AskingGroup askingGroup: askingGroups) {
-            interests += askingGroup.getScreenName() + "  ";
-        }
-        interestsText.setText(interests);
-        interestsText.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (askingGroups.size() > 0) {
-                    startAskingGroupListActivity(user, askingGroups);
-                }
+        if (askingGroups != null) {
+            String interests = "";
+            for (AskingGroup askingGroup : askingGroups) {
+                interests += askingGroup.getScreenName() + "  ";
             }
-        });
+            interestsText.setText(interests);
+            interestsText.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if (askingGroups.size() > 0) {
+                        startAskingGroupListActivity(user, askingGroups);
+                    }
+                }
+            });
+        }
     }
 
     private void startAskingGroupListActivity(User user,
