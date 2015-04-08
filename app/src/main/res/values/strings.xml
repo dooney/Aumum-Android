@@ -469,6 +469,7 @@
     <string name="label_like_asking_reply_message">%1$s给您的说说评论点赞</string>
     <string name="label_my_asking_groups">我的话题圈子(%,d)</string>
     <string name="label_recommend_asking_groups">为您推荐</string>
+    <string name="label_asking_replies">最新回复</string>
 
     <!-- Discovery -->
     <string name="label_weibo">微博资讯</string>

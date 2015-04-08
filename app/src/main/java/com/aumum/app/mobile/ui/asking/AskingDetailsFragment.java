@@ -19,6 +19,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.GridView;
 import android.widget.ImageView;
+import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.aumum.app.mobile.Injector;
@@ -79,6 +80,7 @@ public class AskingDetailsFragment extends LoaderFragment<Asking> {
     private String askingId;
     private String currentUserId;
 
+    private ScrollView scrollView;
     private View mainView;
     private SpannableTextView titleText;
     private SpannableTextView detailsText;
@@ -105,7 +107,7 @@ public class AskingDetailsFragment extends LoaderFragment<Asking> {
             AskingRepliesFragment fragment = new AskingRepliesFragment();
             fragment.setAsking(asking);
             getActivity().getSupportFragmentManager().beginTransaction()
-                    .replace(R.id.scroll_view, fragment)
+                    .replace(R.id.container, fragment)
                     .commit();
         }
     };
@@ -149,6 +151,10 @@ public class AskingDetailsFragment extends LoaderFragment<Asking> {
     @Override
     public void onViewCreated(final View view, final Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
+        scrollView = (ScrollView) view.findViewById(R.id.scroll_view);
+        scrollView.setHorizontalScrollBarEnabled(false);
+        scrollView.setVerticalScrollBarEnabled(false);
 
         mainView = view.findViewById(R.id.main_view);
         titleText = (SpannableTextView) view.findViewById(R.id.text_title);
