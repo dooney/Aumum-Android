@@ -17,7 +17,7 @@
 
     <View style="@style/Divider" />
 
-    <ListView
+    <com.aumum.app.mobile.ui.view.ListViewForScrollView
         android:id="@android:id/list"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
