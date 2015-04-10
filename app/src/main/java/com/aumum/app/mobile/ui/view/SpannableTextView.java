@@ -98,6 +98,8 @@ public class SpannableTextView extends TextView {
                     link[0].onClick(this);
                 }
                 ret = true;
+            } else {
+                performClick();
             }
         }
         return ret;

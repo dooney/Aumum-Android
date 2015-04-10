@@ -30,13 +30,17 @@ import com.aumum.app.mobile.Injector;
 import com.aumum.app.mobile.R;
 import com.aumum.app.mobile.core.Constants;
 import com.aumum.app.mobile.core.dao.UserStore;
+import com.aumum.app.mobile.core.infra.security.ApiKeyProvider;
 import com.aumum.app.mobile.core.service.ChatService;
+import com.aumum.app.mobile.events.DeleteChatMessageEvent;
 import com.aumum.app.mobile.events.GroupDeletedEvent;
 import com.aumum.app.mobile.ui.group.GroupDetailsActivity;
 import com.aumum.app.mobile.ui.helper.TextWatcherAdapter;
 import com.aumum.app.mobile.ui.image.ImagePickerActivity;
 import com.aumum.app.mobile.ui.report.ReportActivity;
+import com.aumum.app.mobile.ui.view.ConfirmDialog;
 import com.aumum.app.mobile.ui.view.ListViewDialog;
+import com.aumum.app.mobile.ui.view.TextViewDialog;
 import com.aumum.app.mobile.utils.EditTextUtils;
 import com.aumum.app.mobile.utils.ImageLoaderUtils;
 import com.aumum.app.mobile.utils.Ln;
@@ -67,6 +71,7 @@ public class ChatFragment extends Fragment
 
     @Inject ChatService chatService;
     @Inject UserStore userStore;
+    @Inject ApiKeyProvider apiKeyProvider;
     @Inject Bus bus;
 
     private String id;
@@ -116,7 +121,7 @@ public class ChatFragment extends Fragment
         conversation.resetUnreadMsgCount();
         int type = intent.getIntExtra(ChatActivity.INTENT_TYPE, ChatActivity.TYPE_SINGLE);
         isGroup = type == ChatActivity.TYPE_GROUP;
-        adapter = new ChatMessagesAdapter(getActivity(), isGroup);
+        adapter = new ChatMessagesAdapter(getActivity(), bus, isGroup);
         adapter.addAll(conversation.getAllMessages());
 
         newMessageBroadcastReceiver = new NewMessageBroadcastReceiver();
@@ -597,5 +602,27 @@ public class ChatFragment extends Fragment
     @Subscribe
     public void onGroupDeletedEvent(GroupDeletedEvent event) {
         getActivity().finish();
+    }
+
+    @Subscribe
+    public void onDeleteChatMessageEvent(final DeleteChatMessageEvent event) {
+        new TextViewDialog(getActivity(),
+                getString(R.string.info_confirm_delete_chat_message),
+                new ConfirmDialog.OnConfirmListener() {
+                    @Override
+                    public void call(Object value) throws Exception {
+                        conversation.removeMessage(event.getMessageId());
+                    }
+
+                    @Override
+                    public void onException(String errorMessage) {
+                        Toaster.showShort(getActivity(), errorMessage);
+                    }
+
+                    @Override
+                    public void onSuccess(Object value) {
+                        adapter.addAll(conversation.getAllMessages());
+                    }
+                }).show();
     }
 }

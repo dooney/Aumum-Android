@@ -9,12 +9,14 @@ import android.widget.TextView;
 import com.aumum.app.mobile.Injector;
 import com.aumum.app.mobile.R;
 import com.aumum.app.mobile.core.dao.UserStore;
+import com.aumum.app.mobile.core.infra.security.ApiKeyProvider;
 import com.aumum.app.mobile.core.model.User;
 import com.aumum.app.mobile.ui.user.UserListener;
 import com.aumum.app.mobile.ui.view.AvatarImageView;
 import com.aumum.app.mobile.utils.Ln;
 import com.easemob.chat.EMMessage;
 import com.easemob.util.DateUtils;
+import com.squareup.otto.Bus;
 
 import java.util.Date;
 
@@ -28,18 +30,24 @@ public abstract class ChatMessageCard
                    ChatMessageListener {
 
     @Inject UserStore userStore;
-    private SendMessageListener listener;
+    @Inject ApiKeyProvider apiKeyProvider;
+    protected Bus bus;
+    protected String chatId;
+    protected Activity activity;
 
-    private Activity activity;
     private TextView timeStampText;
     private AvatarImageView avatarImage;
     private TextView userNameText;
     private ProgressBar progressBar;
     private ImageView resendImage;
+    private SendMessageListener listener;
 
-    public ChatMessageCard(Activity activity, View view) {
+    public ChatMessageCard(Activity activity,
+                           Bus bus,
+                           View view) {
         Injector.inject(this);
         this.activity = activity;
+        this.bus = bus;
         timeStampText = (TextView) view.findViewById(R.id.text_time_stamp);
         avatarImage = (AvatarImageView) view.findViewById(R.id.image_avatar);
         userNameText = (TextView) view.findViewById(R.id.text_user_name);
@@ -47,6 +55,7 @@ public abstract class ChatMessageCard
         resendImage = (ImageView) view.findViewById(R.id.image_sent_failed);
         listener = new SendMessageListener();
         listener.setListener(this);
+        chatId = apiKeyProvider.getAuthUserId().toLowerCase();
     }
 
     @Override

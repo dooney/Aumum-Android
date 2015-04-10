@@ -148,6 +148,7 @@
     <string name="label_voice">语音</string>
     <string name="label_share">分享</string>
     <string name="label_add">添加</string>
+    <string name="label_copy">复制</string>
     <string name="label_gif">GIF</string>
     <string name="label_join">加入</string>
 
@@ -232,6 +233,8 @@
     <string name="info_confirm_quit_asking_group">您确定要退出该圈子？</string>
     <string name="info_got_credit">%1$s：获得积分%2$d</string>
     <string name="info_submitting_group">正在提交您的群组，请稍候</string>
+    <string name="info_confirm_delete_chat_message">您确定要删除该聊天记录？</string>
+    <string name="info_chat_text_copied">文本已复制到粘贴板</string>
 
     <!-- Error Message -->
     <string name="error_bad_credentials">验证失败，请输入正确的手机号码/密码</string>

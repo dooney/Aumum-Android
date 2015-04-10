@@ -10,6 +10,7 @@ import com.aumum.app.mobile.R;
 import com.aumum.app.mobile.utils.Ln;
 import com.easemob.chat.EMMessage;
 import com.easemob.util.DateUtils;
+import com.squareup.otto.Bus;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,6 +21,7 @@ import java.util.List;
 public class ChatMessagesAdapter extends BaseAdapter {
 
     private Activity activity;
+    private Bus bus;
     private boolean isGroup;
     private ArrayList<EMMessage> data;
 
@@ -31,8 +33,11 @@ public class ChatMessagesAdapter extends BaseAdapter {
     private static final int MESSAGE_TYPE_RECV_IMAGE = 5;
     private static final int MESSAGE_TYPE_SENT_IMAGE = 6;
 
-    public ChatMessagesAdapter(Activity activity, boolean isGroup) {
+    public ChatMessagesAdapter(Activity activity,
+                               Bus bus,
+                               boolean isGroup) {
         this.activity = activity;
+        this.bus = bus;
         this.isGroup = isGroup;
         data = new ArrayList<EMMessage>();
     }
@@ -93,12 +98,12 @@ public class ChatMessagesAdapter extends BaseAdapter {
                         viewId = R.layout.chat_text_received_listitem_inner;
                     }
                     convertView = inflater.inflate(viewId, parent, false);
-                    card = new TextMessageCard(activity, convertView);
+                    card = new TextMessageCard(activity, bus, convertView);
                     break;
                 case MESSAGE_TYPE_SENT_TXT:
                     viewId = R.layout.chat_text_sent_listitem_inner;
                     convertView = inflater.inflate(viewId, parent, false);
-                    card = new TextMessageCard(activity, convertView);
+                    card = new TextMessageCard(activity, bus, convertView);
                     break;
                 case MESSAGE_TYPE_RECV_VOICE:
                     if (isGroup) {
@@ -107,12 +112,12 @@ public class ChatMessagesAdapter extends BaseAdapter {
                         viewId = R.layout.chat_voice_received_listitem_inner;
                     }
                     convertView = inflater.inflate(viewId, parent, false);
-                    card = new VoiceMessageCard(activity, convertView);
+                    card = new VoiceMessageCard(activity, bus, convertView);
                     break;
                 case MESSAGE_TYPE_SENT_VOICE:
                     viewId = R.layout.chat_voice_sent_listitem_inner;
                     convertView = inflater.inflate(viewId, parent, false);
-                    card = new VoiceMessageCard(activity, convertView);
+                    card = new VoiceMessageCard(activity, bus, convertView);
                     break;
                 case MESSAGE_TYPE_RECV_IMAGE:
                     if (isGroup) {
@@ -121,12 +126,12 @@ public class ChatMessagesAdapter extends BaseAdapter {
                         viewId = R.layout.chat_image_received_listitem_inner;
                     }
                     convertView = inflater.inflate(viewId, parent, false);
-                    card = new ImageMessageCard(activity, convertView);
+                    card = new ImageMessageCard(activity, bus, convertView);
                     break;
                 case MESSAGE_TYPE_SENT_IMAGE:
                     viewId = R.layout.chat_image_sent_listitem_inner;
                     convertView = inflater.inflate(viewId, parent, false);
-                    card = new ImageMessageCard(activity, convertView);
+                    card = new ImageMessageCard(activity, bus, convertView);
                     break;
                 default:
                     Ln.e(String.format("Invalid type: %d", type));
