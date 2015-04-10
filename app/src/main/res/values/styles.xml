@@ -467,8 +467,9 @@
     </style>
     <style name="TextView.Asking.Like" parent="TextView.Like.Small" />
     <style name="TextView.Asking.Favorite" parent="TextView.Favorite.Small" />
-    <style name="TextView.AskingDetails.Title" parent="TextView.Title">
-        <item name="android:lineSpacingMultiplier">1.1</item>
+    <style name="TextView.AskingDetails.Title" parent="TextView">
+        <item name="android:textSize">@dimen/text_sz_large</item>
+        <item name="android:textColor">@color/black</item>
     </style>
     <style name="TextView.AskingDetails.Details" parent="TextView">
         <item name="android:lineSpacingMultiplier">1.1</item>
