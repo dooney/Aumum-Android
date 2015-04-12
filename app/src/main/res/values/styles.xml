@@ -457,7 +457,10 @@
         <item name="android:textSize">@dimen/text_sz_small</item>
     </style>
     <style name="TextView.Asking.UpdatedAt" parent="TextView.Subtitle.Small" />
-    <style name="TextView.Asking.Title" parent="TextView.Content.Text" />
+    <style name="TextView.Asking.Title" parent="TextView">
+        <item name="android:textSize">@dimen/text_sz_large</item>
+        <item name="android:textColor">@color/black</item>
+    </style>
     <style name="ImageView.Asking.HasPic" parent="ImageView">
         <item name="android:src">@drawable/ic_fa_image_s</item>
     </style>
