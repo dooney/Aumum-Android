@@ -304,26 +304,6 @@
         <item name="android:text">@null</item>
     </style>
 
-    <!-- Special -->
-    <style name="ImageView.Special.VendorLogo" parent="ImageView" />
-    <style name="TextView.Special.Info" parent="TextView.Subtitle.Small" />
-    <style name="TextView.Special.Likes" parent="TextView.Subtitle.Small" />
-
-    <!-- Special Products -->
-    <style name="ImageView.SpecialProduct.Preview" parent="ImageView">
-        <item name="android:layout_width">100dp</item>
-        <item name="android:layout_height">100dp</item>
-    </style>
-    <style name="TextView.SpecialProduct.Name" parent="TextView.Subtitle" />
-    <style name="TextView.SpecialProduct.Was" parent="TextView.Subtitle.Small" />
-    <style name="TextView.SpecialProduct.Now" parent="TextView.Title" />
-    <style name="TextView.SpecialProduct.Like" parent="TextView.Like.Small">
-        <item name="android:text">@null</item>
-    </style>
-    <style name="TextView.SpecialProduct.Favorite" parent="TextView.Favorite.Small">
-        <item name="android:text">@null</item>
-    </style>
-
     <!-- Report -->
     <style name="EditText.Report.Type" parent="EditText.Mandatory">
         <item name="android:hint">@string/hint_report_type</item>

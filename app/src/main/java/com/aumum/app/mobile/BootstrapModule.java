@@ -54,11 +54,6 @@ import com.aumum.app.mobile.ui.account.VerifyActivity;
 import com.aumum.app.mobile.ui.report.ReportActivity;
 import com.aumum.app.mobile.ui.settings.FeedbackActivity;
 import com.aumum.app.mobile.ui.settings.NotificationActivity;
-import com.aumum.app.mobile.ui.special.FavoriteProductsFragment;
-import com.aumum.app.mobile.ui.special.SpecialFragment;
-import com.aumum.app.mobile.ui.special.SpecialProductFavoriteListener;
-import com.aumum.app.mobile.ui.special.SpecialProductLikeListener;
-import com.aumum.app.mobile.ui.special.SpecialProductsFragment;
 import com.aumum.app.mobile.ui.user.AreaUsersFragment;
 import com.aumum.app.mobile.ui.user.TagUsersFragment;
 import com.aumum.app.mobile.ui.user.UpdateAvatarActivity;
@@ -145,11 +140,6 @@ import retrofit.converter.GsonConverter;
                 MomentCommentCard.class,
                 MomentCommentLikeListener.class,
                 UserMomentsFragment.class,
-                SpecialFragment.class,
-                SpecialProductsFragment.class,
-                SpecialProductLikeListener.class,
-                SpecialProductFavoriteListener.class,
-                FavoriteProductsFragment.class,
                 ShareMomentActivity.class,
                 GroupListFragment.class,
                 GroupChangeListener.class,

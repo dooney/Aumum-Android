@@ -11,8 +11,6 @@ import com.aumum.app.mobile.core.model.Moment;
 import com.aumum.app.mobile.core.model.MomentComment;
 import com.aumum.app.mobile.core.Constants;
 import com.aumum.app.mobile.core.model.Report;
-import com.aumum.app.mobile.core.model.Special;
-import com.aumum.app.mobile.core.model.SpecialProduct;
 import com.aumum.app.mobile.core.model.User;
 import com.aumum.app.mobile.core.model.UserTag;
 import com.google.gson.Gson;
@@ -86,14 +84,6 @@ public class RestService {
 
     private MomentCommentService getMomentCommentService() {
         return getRestAdapter().create(MomentCommentService.class);
-    }
-
-    private SpecialService getSpecialService() {
-        return getRestAdapter().create(SpecialService.class);
-    }
-
-    private SpecialProductService getSpecialProductService() {
-        return getRestAdapter().create(SpecialProductService.class);
     }
 
     private CreditGiftService getCreditGiftService() {
@@ -876,20 +866,6 @@ public class RestService {
         return result.get("count").getAsInt();
     }
 
-    public List<Special> getSpecialList() {
-        return getSpecialService().getList().getResults();
-    }
-
-    public List<SpecialProduct> getSpecialProductList(String specialId) {
-        final JsonObject whereJson = new JsonObject();
-        whereJson.addProperty("specialId", specialId);
-        final JsonObject liveJson = new JsonObject();
-        liveJson.addProperty("$exists", false);
-        whereJson.add("deletedAt" ,liveJson);
-        String where = whereJson.toString();
-        return getSpecialProductService().getList("-now", where, Integer.MAX_VALUE).getResults();
-    }
-
     public JsonArray addSpecialProductLike(String id, String specialId, String userId) {
         return updateSpecialProductLikes("AddUnique", id, specialId, userId);
     }
@@ -972,14 +948,6 @@ public class RestService {
         requests.add(buildSpecialProductFavoritesRequestJson(op, id, userId));
         script.add(Constants.Http.Batch.PARAM_REQUESTS, requests);
         return getBatchService().execute(script);
-    }
-
-    public List<SpecialProduct> getFavoriteProductList(List<String> idList, String specialId) {
-        final JsonObject whereJson = new JsonObject();
-        whereJson.add("objectId", buildIdListJson(idList));
-        whereJson.addProperty("specialId", specialId);
-        String where = whereJson.toString();
-        return getSpecialProductService().getList("-now", where, Integer.MAX_VALUE).getResults();
     }
 
     public List<CreditGift> getCreditGiftList() {

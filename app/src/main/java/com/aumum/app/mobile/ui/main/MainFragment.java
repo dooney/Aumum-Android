@@ -25,7 +25,6 @@ import com.aumum.app.mobile.core.service.NotificationService;
 import com.aumum.app.mobile.core.service.ScheduleService;
 import com.aumum.app.mobile.events.NewChatMessageEvent;
 import com.aumum.app.mobile.events.NewMomentUnreadEvent;
-import com.aumum.app.mobile.events.ResetDiscoveryUnreadEvent;
 import com.aumum.app.mobile.events.ResetChatUnreadEvent;
 import com.aumum.app.mobile.ui.chat.ChatConnectionListener;
 import com.aumum.app.mobile.ui.group.GroupChangeListener;
@@ -135,8 +134,6 @@ public class MainFragment extends Fragment
                     getActivity().runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-                            indicator.getUnreadImage(MainTabPageIndicator.TAB_DISCOVERY)
-                                    .setVisibility(View.VISIBLE);
                         }
                     });
                 }
@@ -159,12 +156,6 @@ public class MainFragment extends Fragment
             }
         };
         task.execute();
-    }
-
-    @Subscribe
-    public void onResetDiscoveryUnreadEvent(ResetDiscoveryUnreadEvent event) {
-        indicator.getUnreadImage(MainTabPageIndicator.TAB_DISCOVERY)
-                .setVisibility(View.INVISIBLE);
     }
 
     @Subscribe

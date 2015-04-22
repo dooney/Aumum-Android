@@ -261,13 +261,6 @@
         </activity>
         <activity android:name=".ui.moment.UserMomentsActivity" />
         <activity android:name=".ui.image.ImageViewActivity" />
-        <activity android:name=".ui.special.SpecialActivity"
-            android:label="@string/title_activity_special">
-        </activity>
-        <activity android:name=".ui.special.SpecialDetailsActivity" />
-        <activity android:name=".ui.special.FavoriteProductsActivity"
-            android:label="@string/title_activity_favorite_products">
-        </activity>
         <activity android:name=".ui.image.GifViewActivity" />
         <activity android:name=".ui.image.ImageViewPagerActivity" />
         <activity android:name=".ui.moment.ShareMomentActivity"
