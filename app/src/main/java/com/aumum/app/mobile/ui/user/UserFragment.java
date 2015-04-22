@@ -25,7 +25,6 @@ import com.aumum.app.mobile.core.service.RestService;
 import com.aumum.app.mobile.ui.base.LoaderFragment;
 import com.aumum.app.mobile.ui.chat.ChatActivity;
 import com.aumum.app.mobile.ui.moment.UserMomentsActivity;
-import com.aumum.app.mobile.ui.party.SearchPartyActivity;
 import com.aumum.app.mobile.ui.view.AvatarImageView;
 import com.aumum.app.mobile.ui.view.ConfirmDialog;
 import com.aumum.app.mobile.ui.view.EditTextDialog;
@@ -247,7 +246,6 @@ public class UserFragment extends LoaderFragment<User> {
             public void onItemClick(int i) {
                 switch (i) {
                     case 1:
-                        startUserPartiesActivity(user);
                         break;
                     case 2:
                         startUserMomentsActivity(user);
@@ -257,14 +255,6 @@ public class UserFragment extends LoaderFragment<User> {
                 }
             }
         }).show();
-    }
-
-    private void startUserPartiesActivity(User user) {
-        final Intent intent = new Intent(getActivity(), SearchPartyActivity.class);
-        intent.putExtra(SearchPartyActivity.INTENT_TITLE,
-                getString(R.string.title_activity_user_parties, user.getScreenName()));
-        intent.putExtra(SearchPartyActivity.INTENT_USER_ID, user.getObjectId());
-        startActivity(intent);
     }
 
     private void startUserMomentsActivity(User user) {

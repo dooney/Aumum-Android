@@ -68,13 +68,6 @@
             android:layout_alignParentLeft="true"
             android:paddingRight="@dimen/margin_extra_large"/>
 
-        <TextView
-            android:id="@+id/text_label_party"
-            style="@style/TextView.Title"
-            android:layout_centerVertical="true"
-            android:layout_toRightOf="@+id/image_party"
-            android:text="@string/label_party"/>
-
         <ImageView
             android:id="@+id/image_party_unread"
             style="@style/ImageView.Unread.Small"

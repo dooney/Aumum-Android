@@ -12,13 +12,11 @@ import com.aumum.app.mobile.Injector;
 import com.aumum.app.mobile.R;
 import com.aumum.app.mobile.core.Constants;
 import com.aumum.app.mobile.events.NewMomentUnreadEvent;
-import com.aumum.app.mobile.events.NewPartyUnreadEvent;
 import com.aumum.app.mobile.events.ResetDiscoveryUnreadEvent;
 import com.aumum.app.mobile.ui.feed.article.ArticleListActivity;
 import com.aumum.app.mobile.ui.feed.channel.ChannelListActivity;
 import com.aumum.app.mobile.ui.game.GameListActivity;
 import com.aumum.app.mobile.ui.moment.MomentListActivity;
-import com.aumum.app.mobile.ui.party.PartyActivity;
 import com.squareup.otto.Bus;
 import com.squareup.otto.Subscribe;
 
@@ -80,12 +78,6 @@ public class DiscoveryFragment extends Fragment {
                 startGameListActivity();
             }
         });
-        partyLayout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                startPartyActivity();
-            }
-        });
         momentLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -136,20 +128,9 @@ public class DiscoveryFragment extends Fragment {
         startActivity(intent);
     }
 
-    private void startPartyActivity() {
-        final Intent intent = new Intent(getActivity(), PartyActivity.class);
-        startActivityForResult(intent, Constants.RequestCode.GET_PARTY_REQ_CODE);
-    }
-
     private void startMomentListActivity() {
         final Intent intent = new Intent(getActivity(), MomentListActivity.class);
         startActivityForResult(intent, Constants.RequestCode.GET_MOMENT_REQ_CODE);
-    }
-
-    @Subscribe
-    public void onNewPartyUnreadEvent(NewPartyUnreadEvent event) {
-        partyUnreadImage.setVisibility(View.VISIBLE);
-        unreadParty = true;
     }
 
     @Subscribe

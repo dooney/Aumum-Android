@@ -6,18 +6,12 @@ import com.aumum.app.mobile.core.model.CityGroup;
 import com.aumum.app.mobile.core.model.CreditGift;
 import com.aumum.app.mobile.core.model.CreditOrder;
 import com.aumum.app.mobile.core.model.CreditRule;
-import com.aumum.app.mobile.core.model.EventCategory;
 import com.aumum.app.mobile.core.model.Feed;
 import com.aumum.app.mobile.core.model.Feedback;
 import com.aumum.app.mobile.core.model.Game;
 import com.aumum.app.mobile.core.model.Moment;
 import com.aumum.app.mobile.core.model.MomentComment;
-import com.aumum.app.mobile.core.model.PartyComment;
 import com.aumum.app.mobile.core.Constants;
-import com.aumum.app.mobile.core.model.Party;
-import com.aumum.app.mobile.core.model.PartyReason;
-import com.aumum.app.mobile.core.model.PartyRequest;
-import com.aumum.app.mobile.core.model.PlaceRange;
 import com.aumum.app.mobile.core.model.Report;
 import com.aumum.app.mobile.core.model.Special;
 import com.aumum.app.mobile.core.model.SpecialProduct;
@@ -32,9 +26,7 @@ import com.google.gson.JsonPrimitive;
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 
 import retrofit.RestAdapter;
@@ -68,18 +60,6 @@ public class RestService {
 
     private UserService getUserService() {
         return getRestAdapter().create(UserService.class);
-    }
-
-    private PartyService getPartyService() {
-        return getRestAdapter().create(PartyService.class);
-    }
-
-    private PartyCommentService getPartyCommentService() {
-        return getRestAdapter().create(PartyCommentService.class);
-    }
-
-    private PartyReasonService getPartyReasonService() {
-        return getRestAdapter().create(PartyReasonService.class);
     }
 
     private ReportService getReportService() {
@@ -118,16 +98,8 @@ public class RestService {
         return getRestAdapter().create(SpecialProductService.class);
     }
 
-    private PartyRequestService getPartyRequestService() {
-        return getRestAdapter().create(PartyRequestService.class);
-    }
-
     private FeedService getFeedService() {
         return getRestAdapter().create(FeedService.class);
-    }
-
-    private EventCategoryService getEventCategoryService() {
-        return getRestAdapter().create(EventCategoryService.class);
     }
 
     private GameService getGameService() {
@@ -166,10 +138,6 @@ public class RestService {
 
     private JsonObject buildIdListJson(List<String> idList) {
         return buildListJson("$in", idList);
-    }
-
-    private JsonObject buildNotIdListJson(List<String> idList) {
-        return buildListJson("$nin", idList);
     }
 
     private JsonObject buildDateTimeAfterJson(String dateTime) {
@@ -232,31 +200,6 @@ public class RestService {
         return getUserService().resetPassword(data);
     }
 
-    public Party newParty(Party party) {
-        Gson gson = new Gson();
-        JsonObject data = gson.toJsonTree(party).getAsJsonObject();
-        final JsonObject dtJson = new JsonObject();
-        dtJson.addProperty("__type", "Date");
-        dtJson.addProperty("iso", party.getDateTime());
-        data.add("dateTime", dtJson);
-        return getPartyService().newParty(data);
-    }
-
-    public Party getPartyById(String id) {
-        return getPartyService().getById(id);
-    }
-
-    private List<Party> getPartiesAfterCore(JsonObject whereJson, String after, int limit) {
-        if (after != null) {
-            whereJson.add("createdAt", buildDateTimeAfterJson(after));
-        }
-        final JsonObject liveJson = new JsonObject();
-        liveJson.addProperty("$exists", false);
-        whereJson.add("deletedAt", liveJson);
-        String where = whereJson.toString();
-        return getPartyService().getList("-createdAt", where, limit).getResults();
-    }
-
     private JsonElement buildSubscriptionJson(String userId, boolean includeOwner) {
         JsonArray jsonArray = new JsonArray();
         if (includeOwner) {
@@ -273,85 +216,6 @@ public class RestService {
         inJson.addProperty("subscriptions", userId);
         jsonArray.add(inJson);
         return jsonArray;
-    }
-
-    public List<Party> getPartiesAfter(String userId, String after, int limit) {
-        final JsonObject whereJson = new JsonObject();
-        whereJson.add("$or", buildSubscriptionJson(userId, true));
-        return getPartiesAfterCore(whereJson, after, limit);
-    }
-
-    public int getPartiesCountAfter(String userId, String after) {
-        final JsonObject whereJson = new JsonObject();
-        JsonObject notOwnerJson = new JsonObject();
-        notOwnerJson.addProperty("$ne", userId);
-        whereJson.add("userId", notOwnerJson);
-        whereJson.add("$or", buildSubscriptionJson(userId, false));
-        if (after != null) {
-            whereJson.add("createdAt", buildDateTimeAfterJson(after));
-        }
-        final JsonObject liveJson = new JsonObject();
-        liveJson.addProperty("$exists", false);
-        whereJson.add("deletedAt" ,liveJson);
-        String where = whereJson.toString();
-        JsonObject result = getPartyService().getCount(where, 1, 0);
-        return result.get("count").getAsInt();
-    }
-
-    private List<Party> getPartiesBeforeCore(JsonObject whereJson, String before, int limit) {
-        whereJson.add("createdAt", buildDateTimeBeforeJson(before));
-        final JsonObject liveJson = new JsonObject();
-        liveJson.addProperty("$exists", false);
-        whereJson.add("deletedAt" ,liveJson);
-        String where = whereJson.toString();
-        return getPartyService().getList("-createdAt", where, limit).getResults();
-    }
-
-    public List<Party> getPartiesBefore(String userId, String before, int limit) {
-        final JsonObject whereJson = new JsonObject();
-        whereJson.add("$or", buildSubscriptionJson(userId, true));
-        return getPartiesBeforeCore(whereJson, before, limit);
-    }
-
-    public List<Party> getPartiesBefore(List<String> idList, String before, int limit) {
-        final JsonObject whereJson = new JsonObject();
-        whereJson.add("objectId", buildIdListJson(idList));
-        return getPartiesBeforeCore(whereJson, before, limit);
-    }
-
-    public List<Party> getParties(String userId, List<String> idList, int limit) {
-        final JsonObject whereJson = new JsonObject();
-        whereJson.add("$or", buildSubscriptionJson(userId, true));
-        whereJson.add("objectId", buildIdListJson(idList));
-        final JsonObject liveJson = new JsonObject();
-        liveJson.addProperty("$exists", false);
-        whereJson.add("deletedAt", liveJson);
-        String where = whereJson.toString();
-        return getPartyService().getList("-createdAt", where, limit).getResults();
-    }
-
-    public List<Party> getNearByPartiesBefore(String userId, PlaceRange range, String before, int limit) {
-        final JsonObject whereJson = new JsonObject();
-        whereJson.add("$or", buildSubscriptionJson(userId, true));
-        if (before != null) {
-            whereJson.add("createdAt", buildDateTimeBeforeJson(before));
-        }
-        final JsonObject liveJson = new JsonObject();
-        liveJson.addProperty("$exists", false);
-        whereJson.add("deletedAt" ,liveJson);
-
-        JsonObject latJson = new JsonObject();
-        latJson.addProperty("$gt", range.getMinLat());
-        latJson.addProperty("$lt", range.getMaxLat());
-        whereJson.add("latitude", latJson);
-
-        JsonObject lngJson = new JsonObject();
-        lngJson.addProperty("$gt", range.getMinLng());
-        lngJson.addProperty("$lt", range.getMaxLng());
-        whereJson.add("longitude", lngJson);
-
-        String where = whereJson.toString();
-        return getPartyService().getList("-createdAt", where, limit).getResults();
     }
 
     private JsonObject updateContact(JsonObject op, String userId, String contactId) {
@@ -536,73 +400,6 @@ public class RestService {
         return updatePartyMembers("Remove", partyId, userId, reasonId);
     }
 
-    public List<String> getPartyMembers(String partyId) {
-        JsonObject json = getPartyService().getMembers(partyId,
-                Constants.Http.Party.PARAM_MEMBERS);
-        ArrayList<String> members = new ArrayList<String>();
-        JsonArray array = json.get(Constants.Http.Party.PARAM_MEMBERS).getAsJsonArray();
-        for (Iterator<JsonElement> it = array.iterator(); it.hasNext();) {
-            members.add(it.next().getAsString());
-        }
-        return members;
-    }
-
-    public JsonObject addPartyLike(String partyId, String userId) {
-        final JsonObject op = new JsonObject();
-        op.addProperty("__op", "AddUnique");
-        return updatePartyLikes(op, partyId, userId);
-    }
-
-    public JsonObject removePartyLike(String partyId, String userId) {
-        final JsonObject op = new JsonObject();
-        op.addProperty("__op", "Remove");
-        return updatePartyLikes(op, partyId, userId);
-    }
-
-    private JsonObject updatePartyLikes(JsonObject op, String partyId, String userId) {
-        final JsonObject data = new JsonObject();
-        final JsonArray partyLikes = new JsonArray();
-        partyLikes.add(new JsonPrimitive(userId));
-        op.add("objects", partyLikes);
-        data.add(Constants.Http.Party.PARAM_LIKES, op);
-        return getPartyService().updateById(partyId, data);
-    }
-
-    public List<PartyComment> getPartyComments(List<String> idList) {
-        final JsonObject whereJson = new JsonObject();
-        whereJson.add("objectId", buildIdListJson(idList));
-        final JsonObject liveJson = new JsonObject();
-        liveJson.addProperty("$exists", false);
-        whereJson.add("deletedAt" ,liveJson);
-        String where = whereJson.toString();
-        return getPartyCommentService().getList("-createdAt", where).getResults();
-    }
-
-    public PartyComment newPartyComment(PartyComment comment) {
-        return getPartyCommentService().newPartyComment(comment);
-    }
-
-    public JsonObject addPartyComment(String partyId, String commentId) {
-        final JsonObject op = new JsonObject();
-        op.addProperty("__op", "AddUnique");
-        return updatePartyComments(op, partyId, commentId);
-    }
-
-    private JsonObject updatePartyComments(JsonObject op, String partyId, String commentId) {
-        final JsonObject data = new JsonObject();
-        final JsonArray partyComments = new JsonArray();
-        partyComments.add(new JsonPrimitive(commentId));
-        op.add("objects", partyComments);
-        data.add(Constants.Http.Party.PARAM_COMMENTS, op);
-        return getPartyService().updateById(partyId, data);
-    }
-
-    public JsonObject addPartyGroup(String partyId, String groupId) {
-        final JsonObject data = new JsonObject();
-        data.addProperty(Constants.Http.Party.PARAM_GROUP_ID, groupId);
-        return getPartyService().updateById(partyId, data);
-    }
-
     public JsonObject updateUserAvatar(String userId, String avatarUrl) {
         final JsonObject data = new JsonObject();
         data.addProperty(Constants.Http.User.PARAM_AVATAR_URL, avatarUrl);
@@ -677,13 +474,6 @@ public class RestService {
         return null;
     }
 
-    public JsonObject deleteParty(String partyId) {
-        final JsonObject data = new JsonObject();
-        DateTime now = DateTime.now(DateTimeZone.UTC);
-        data.addProperty("deletedAt", now.toString(Constants.DateTime.FORMAT));
-        return getPartyService().updateById(partyId, data);
-    }
-
     private JsonObject buildPartyCommentRequestJson(String commentId) {
         final JsonObject body = new JsonObject();
         DateTime now = DateTime.now(DateTimeZone.UTC);
@@ -711,38 +501,6 @@ public class RestService {
         requests.add(buildPartyCommentsRequestJson(partyId, commentId));
         script.add(Constants.Http.Batch.PARAM_REQUESTS, requests);
         return getBatchService().execute(script);
-    }
-
-    public JsonObject addPartyCommentLike(String commentId, String userId) {
-        final JsonObject op = new JsonObject();
-        op.addProperty("__op", "AddUnique");
-        return updatePartyCommentLikes(op, commentId, userId);
-    }
-
-    public JsonObject removePartyCommentLike(String commentId, String userId) {
-        final JsonObject op = new JsonObject();
-        op.addProperty("__op", "Remove");
-        return updatePartyCommentLikes(op, commentId, userId);
-    }
-
-    private JsonObject updatePartyCommentLikes(JsonObject op, String commentId, String userId) {
-        final JsonObject data = new JsonObject();
-        final JsonArray partyCommentLikes = new JsonArray();
-        partyCommentLikes.add(new JsonPrimitive(userId));
-        op.add("objects", partyCommentLikes);
-        data.add(Constants.Http.PartyComment.PARAM_LIKES, op);
-        return getPartyCommentService().updateById(commentId, data);
-    }
-
-    public PartyReason newPartyReason(PartyReason reason) {
-        return getPartyReasonService().newPartyReason(reason);
-    }
-
-    public List<PartyReason> getPartyReasons(List<String> idList) {
-        final JsonObject whereJson = new JsonObject();
-        whereJson.add("objectId", buildIdListJson(idList));
-        String where = whereJson.toString();
-        return getPartyReasonService().getList("-createdAt", where).getResults();
     }
 
     public JsonObject addUserAsking(String userId, String askingId) {
@@ -1234,54 +992,6 @@ public class RestService {
         return getSpecialProductService().getList("-now", where, Integer.MAX_VALUE).getResults();
     }
 
-    public List<PartyRequest> getPartyRequestsAfter(String after, int limit) {
-        final JsonObject whereJson = new JsonObject();
-        if (after != null) {
-            whereJson.add("createdAt", buildDateTimeAfterJson(after));
-        }
-        final JsonObject liveJson = new JsonObject();
-        liveJson.addProperty("$exists", false);
-        whereJson.add("deletedAt", liveJson);
-        String where = whereJson.toString();
-        return getPartyRequestService().getList("-createdAt", where, limit).getResults();
-    }
-
-    public List<PartyRequest> getPartyRequestsBefore(String before, int limit) {
-        final JsonObject whereJson = new JsonObject();
-        whereJson.add("createdAt", buildDateTimeBeforeJson(before));
-        final JsonObject liveJson = new JsonObject();
-        liveJson.addProperty("$exists", false);
-        whereJson.add("deletedAt" ,liveJson);
-        String where = whereJson.toString();
-        return getPartyRequestService().getList("-createdAt", where, limit).getResults();
-    }
-
-    public PartyRequest newPartyRequest(PartyRequest partyRequest) {
-        Gson gson = new Gson();
-        JsonObject data = gson.toJsonTree(partyRequest).getAsJsonObject();
-        return getPartyRequestService().newPartyRequest(data);
-    }
-
-    public JsonObject deletePartyRequest(String partyRequestId) {
-        final JsonObject data = new JsonObject();
-        DateTime now = DateTime.now(DateTimeZone.UTC);
-        data.addProperty("deletedAt", now.toString(Constants.DateTime.FORMAT));
-        return getPartyRequestService().updateById(partyRequestId, data);
-    }
-
-    public int getPartyRequestsCountAfter(String after) {
-        final JsonObject whereJson = new JsonObject();
-        if (after != null) {
-            whereJson.add("createdAt", buildDateTimeAfterJson(after));
-        }
-        final JsonObject liveJson = new JsonObject();
-        liveJson.addProperty("$exists", false);
-        whereJson.add("deletedAt" ,liveJson);
-        String where = whereJson.toString();
-        JsonObject result = getPartyRequestService().getCount(where, 1, 0);
-        return result.get("count").getAsInt();
-    }
-
     public List<Feed> getFeedList(int type) {
         final JsonObject whereJson = new JsonObject();
         whereJson.addProperty("type", type);
@@ -1290,15 +1000,6 @@ public class RestService {
         whereJson.add("deletedAt" ,liveJson);
         String where = whereJson.toString();
         return getFeedService().getList("seq", where, Integer.MAX_VALUE).getResults();
-    }
-
-    public List<EventCategory> getEventCategoryList() {
-        final JsonObject whereJson = new JsonObject();
-        final JsonObject liveJson = new JsonObject();
-        liveJson.addProperty("$exists", false);
-        whereJson.add("deletedAt" ,liveJson);
-        String where = whereJson.toString();
-        return getEventCategoryService().getList("seq", where, Integer.MAX_VALUE).getResults();
     }
 
     public List<Game> getGameList() {

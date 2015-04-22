@@ -8,8 +8,6 @@ import com.aumum.app.mobile.core.dao.ChannelItemStore;
 import com.aumum.app.mobile.core.dao.CreditRuleStore;
 import com.aumum.app.mobile.core.dao.MomentCommentStore;
 import com.aumum.app.mobile.core.dao.MomentStore;
-import com.aumum.app.mobile.core.dao.PartyReasonStore;
-import com.aumum.app.mobile.core.dao.PartyRequestStore;
 import com.aumum.app.mobile.core.dao.Repository;
 import com.aumum.app.mobile.core.infra.security.ApiKeyProvider;
 import com.aumum.app.mobile.core.service.ChatService;
@@ -54,9 +52,6 @@ import com.aumum.app.mobile.ui.moment.MomentListFragment;
 import com.aumum.app.mobile.ui.moment.NewMomentActivity;
 import com.aumum.app.mobile.ui.moment.ShareMomentActivity;
 import com.aumum.app.mobile.ui.moment.UserMomentsFragment;
-import com.aumum.app.mobile.ui.party.NewPartyRequestActivity;
-import com.aumum.app.mobile.ui.party.PartyCalendarFragment;
-import com.aumum.app.mobile.ui.party.PartyCommentCard;
 import com.aumum.app.mobile.ui.contact.ContactPickerFragment;
 import com.aumum.app.mobile.ui.contact.MobileContactsActivity;
 import com.aumum.app.mobile.ui.conversation.ConversationFragment;
@@ -64,10 +59,6 @@ import com.aumum.app.mobile.ui.contact.AcceptContactListener;
 import com.aumum.app.mobile.ui.contact.ContactListener;
 import com.aumum.app.mobile.ui.contact.ContactRequestsFragment;
 import com.aumum.app.mobile.ui.account.VerifyActivity;
-import com.aumum.app.mobile.ui.party.PartyCommentLikeListener;
-import com.aumum.app.mobile.ui.party.PartyFragment;
-import com.aumum.app.mobile.ui.party.PartyRequestListFragment;
-import com.aumum.app.mobile.ui.party.SharePartyActivity;
 import com.aumum.app.mobile.ui.report.ReportActivity;
 import com.aumum.app.mobile.ui.settings.FeedbackActivity;
 import com.aumum.app.mobile.ui.settings.NotificationActivity;
@@ -80,34 +71,22 @@ import com.aumum.app.mobile.ui.user.AreaUsersFragment;
 import com.aumum.app.mobile.ui.user.TagUsersFragment;
 import com.aumum.app.mobile.ui.user.UpdateAvatarActivity;
 import com.aumum.app.mobile.ui.main.MainFragment;
-import com.aumum.app.mobile.ui.party.PartyFavoriteListener;
 import com.aumum.app.mobile.ui.like.LikesLayoutListener;
-import com.aumum.app.mobile.ui.party.MembersLayoutListener;
-import com.aumum.app.mobile.ui.party.PartyLikeListener;
-import com.aumum.app.mobile.ui.party.PartyListFragment;
-import com.aumum.app.mobile.ui.party.PartyReasonsFragment;
-import com.aumum.app.mobile.ui.party.NewPartyActivity;
 import com.aumum.app.mobile.ui.account.ResetPasswordActivity;
 import com.aumum.app.mobile.ui.account.LoginActivity;
 import com.aumum.app.mobile.core.service.LogoutService;
-import com.aumum.app.mobile.ui.party.SearchPartyFragment;
 import com.aumum.app.mobile.ui.account.RegisterActivity;
 import com.aumum.app.mobile.core.Constants;
-import com.aumum.app.mobile.core.dao.PartyCommentStore;
-import com.aumum.app.mobile.core.dao.PartyStore;
 import com.aumum.app.mobile.ui.settings.SettingsActivity;
 import com.aumum.app.mobile.ui.user.ProfileFragment;
 import com.aumum.app.mobile.ui.user.UserListFragment;
 import com.aumum.app.mobile.ui.user.UserTagListFragment;
-import com.aumum.app.mobile.ui.vendor.EventCategoryListFragment;
 import com.aumum.app.mobile.utils.PostFromAnyThreadBus;
 import com.aumum.app.mobile.core.api.RestAdapterRequestInterceptor;
 import com.aumum.app.mobile.core.api.RestErrorHandler;
 import com.aumum.app.mobile.core.api.UserAgentProvider;
 import com.aumum.app.mobile.core.dao.UserStore;
 import com.aumum.app.mobile.ui.main.MainActivity;
-import com.aumum.app.mobile.ui.party.PartyCommentsFragment;
-import com.aumum.app.mobile.ui.party.PartyDetailsFragment;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.squareup.otto.Bus;
@@ -135,21 +114,10 @@ import retrofit.converter.GsonConverter;
                 RegisterActivity.class,
                 ResetPasswordActivity.class,
                 MainActivity.class,
-                NewPartyActivity.class,
-                PartyFragment.class,
-                PartyLikeListener.class,
-                PartyCommentsFragment.class,
-                PartyCommentCard.class,
                 com.aumum.app.mobile.ui.user.UserFragment.class,
-                PartyDetailsFragment.class,
-                PartyReasonsFragment.class,
-                PartyCommentLikeListener.class,
                 ConversationFragment.class,
                 ChatFragment.class,
                 SendMessageListener.class,
-                PartyListFragment.class,
-                SearchPartyFragment.class,
-                MembersLayoutListener.class,
                 LikesLayoutListener.class,
                 MainFragment.class,
                 ContactListener.class,
@@ -159,7 +127,6 @@ import retrofit.converter.GsonConverter;
                 TextMessageCard.class,
                 ProfileFragment.class,
                 SettingsActivity.class,
-                PartyFavoriteListener.class,
                 VoiceMessageCard.class,
                 ImageMessageCard.class,
                 UpdateAvatarActivity.class,
@@ -174,7 +141,6 @@ import retrofit.converter.GsonConverter;
                 UserListFragment.class,
                 ReportActivity.class,
                 ChatConnectionListener.class,
-                PartyCalendarFragment.class,
                 FeedbackActivity.class,
                 AreaListFragment.class,
                 AreaUsersFragment.class,
@@ -194,16 +160,12 @@ import retrofit.converter.GsonConverter;
                 SpecialProductLikeListener.class,
                 SpecialProductFavoriteListener.class,
                 FavoriteProductsFragment.class,
-                PartyRequestListFragment.class,
-                NewPartyRequestActivity.class,
                 DiscoveryFragment.class,
                 ChannelListFragment.class,
                 ChannelFragment.class,
                 ArticleListFragment.class,
                 ArticleFragment.class,
                 ShareMomentActivity.class,
-                EventCategoryListFragment.class,
-                SharePartyActivity.class,
                 GroupListFragment.class,
                 GroupChangeListener.class,
                 GroupRequestsFragment.class,
@@ -269,24 +231,6 @@ public class BootstrapModule {
 
     @Provides
     @Singleton
-    PartyStore providePartyStore(RestService restService, Repository repository) {
-        return new PartyStore(restService, repository);
-    }
-
-    @Provides
-    @Singleton
-    PartyCommentStore providePartyCommentStore(RestService restService) {
-        return new PartyCommentStore(restService);
-    }
-
-    @Provides
-    @Singleton
-    PartyReasonStore providePartyReasonStore(RestService restService) {
-        return new PartyReasonStore(restService);
-    }
-
-    @Provides
-    @Singleton
     MomentStore provideMomentStore(RestService restService, Repository repository) {
         return new MomentStore(restService, repository);
     }
@@ -295,12 +239,6 @@ public class BootstrapModule {
     @Singleton
     MomentCommentStore provideMomentCommentStore(RestService restService) {
         return new MomentCommentStore(restService);
-    }
-
-    @Provides
-    @Singleton
-    PartyRequestStore providePartyRequestStore(RestService restService, Repository repository) {
-        return new PartyRequestStore(restService, repository);
     }
 
     @Provides

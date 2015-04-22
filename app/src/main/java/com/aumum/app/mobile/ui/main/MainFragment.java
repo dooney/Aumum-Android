@@ -18,18 +18,13 @@ import com.aumum.app.mobile.Injector;
 import com.aumum.app.mobile.R;
 import com.aumum.app.mobile.core.dao.CreditRuleStore;
 import com.aumum.app.mobile.core.dao.MomentStore;
-import com.aumum.app.mobile.core.dao.PartyRequestStore;
-import com.aumum.app.mobile.core.dao.PartyStore;
-import com.aumum.app.mobile.core.dao.UserStore;
 import com.aumum.app.mobile.core.infra.security.ApiKeyProvider;
 import com.aumum.app.mobile.core.model.CmdMessage;
-import com.aumum.app.mobile.core.model.User;
 import com.aumum.app.mobile.core.service.ChatService;
 import com.aumum.app.mobile.core.service.NotificationService;
 import com.aumum.app.mobile.core.service.ScheduleService;
 import com.aumum.app.mobile.events.NewChatMessageEvent;
 import com.aumum.app.mobile.events.NewMomentUnreadEvent;
-import com.aumum.app.mobile.events.NewPartyUnreadEvent;
 import com.aumum.app.mobile.events.ResetDiscoveryUnreadEvent;
 import com.aumum.app.mobile.events.ResetChatUnreadEvent;
 import com.aumum.app.mobile.ui.chat.ChatConnectionListener;
@@ -57,9 +52,6 @@ import retrofit.RetrofitError;
 public class MainFragment extends Fragment
         implements ScheduleService.OnScheduleListener {
 
-    @Inject UserStore userStore;
-    @Inject PartyStore partyStore;
-    @Inject PartyRequestStore partyRequestStore;
     @Inject MomentStore momentStore;
     @Inject CreditRuleStore creditRuleStore;
     @Inject NotificationService notificationService;
@@ -137,30 +129,7 @@ public class MainFragment extends Fragment
         }
         task = new SafeAsyncTask<Boolean>() {
             public Boolean call() throws Exception {
-                User currentUser = userStore.getCurrentUser();
-                int unreadCount = partyStore.getUnreadCount(currentUser.getObjectId());
-                if (unreadCount > 0) {
-                    bus.post(new NewPartyUnreadEvent());
-                    getActivity().runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            indicator.getUnreadImage(MainTabPageIndicator.TAB_DISCOVERY)
-                                    .setVisibility(View.VISIBLE);
-                        }
-                    });
-                }
-                unreadCount = partyRequestStore.getUnreadCount();
-                if (unreadCount > 0) {
-                    bus.post(new NewPartyUnreadEvent());
-                    getActivity().runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            indicator.getUnreadImage(MainTabPageIndicator.TAB_DISCOVERY)
-                                    .setVisibility(View.VISIBLE);
-                        }
-                    });
-                }
-                unreadCount = momentStore.getUnreadCount();
+                int unreadCount = momentStore.getUnreadCount();
                 if (unreadCount > 0) {
                     bus.post(new NewMomentUnreadEvent());
                     getActivity().runOnUiThread(new Runnable() {
@@ -299,17 +268,6 @@ public class MainFragment extends Fragment
                 EMMessage message = intent.getParcelableExtra("message");
                 CmdMessage cmdMessage = chatService.getCmdMessage(message);
                 switch (cmdMessage.getType()) {
-                    case CmdMessage.Type.PARTY_NEW:
-                    case CmdMessage.Type.PARTY_JOIN:
-                    case CmdMessage.Type.PARTY_QUIT:
-                    case CmdMessage.Type.PARTY_LIKE:
-                    case CmdMessage.Type.PARTY_CANCEL:
-                        handlePartyDetailsCmdMessage(cmdMessage);
-                        break;
-                    case CmdMessage.Type.PARTY_COMMENT:
-                    case CmdMessage.Type.PARTY_REPLY:
-                    case CmdMessage.Type.PARTY_COMMENT_LIKE:
-                        handlePartyCommentsCmdMessage(cmdMessage);
                     case CmdMessage.Type.GROUP_JOIN:
                         handleGroupJoinCmdMessage(cmdMessage);
                         break;
@@ -335,20 +293,6 @@ public class MainFragment extends Fragment
 
             return;
         }
-    }
-
-    private void handlePartyDetailsCmdMessage(CmdMessage cmdMessage) {
-        String partyId = cmdMessage.getPayload();
-        String title = cmdMessage.getTitle();
-        String content = cmdMessage.getContent();
-        notificationService.pushPartyDetailsNotification(partyId, title, content);
-    }
-
-    private void handlePartyCommentsCmdMessage(CmdMessage cmdMessage) {
-        String partyId = cmdMessage.getPayload();
-        String title = cmdMessage.getTitle();
-        String content = cmdMessage.getContent();
-        notificationService.pushPartyCommentsNotification(partyId, title, content);
     }
 
     private void handleGroupJoinCmdMessage(CmdMessage cmdMessage) {

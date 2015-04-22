@@ -11,10 +11,8 @@ public class DaoGenerator {
         Schema schema = new Schema(SCHEMA_VERSION, "com.aumum.app.mobile.core.dao.gen");
 
         addUser(schema);
-        addParty(schema);
         addContactRequest(schema);
         addMoment(schema);
-        addPartyRequest(schema);
         addGroupRequest(schema);
         addCreditRule(schema);
 
@@ -46,29 +44,6 @@ public class DaoGenerator {
         user.addIntProperty("credit");
     }
 
-    private static void addParty(Schema schema) {
-        Entity party = schema.addEntity("PartyEntity");
-        party.setSuperclass("BaseEntity");
-        party.addStringProperty("objectId").notNull().primaryKey();
-        party.addDateProperty("createdAt").notNull();
-        party.addStringProperty("userId");
-        party.addStringProperty("title");
-        party.addStringProperty("date");
-        party.addStringProperty("time");
-        party.addStringProperty("address");
-        party.addDoubleProperty("latitude");
-        party.addDoubleProperty("longitude");
-        party.addStringProperty("location");
-        party.addStringProperty("details");
-        party.addStringProperty("groupId");
-        party.addStringProperty("members");
-        party.addStringProperty("likes");
-        party.addStringProperty("comments");
-        party.addStringProperty("reasons");
-        party.addStringProperty("favorites");
-        party.addStringProperty("images");
-    }
-
     private static void addContactRequest(Schema schema) {
         Entity request = schema.addEntity("ContactRequestEntity");
         request.addIdProperty();
@@ -95,18 +70,6 @@ public class DaoGenerator {
         moment.addStringProperty("images");
         moment.addStringProperty("likes");
         moment.addStringProperty("comments");
-    }
-
-    private static void addPartyRequest(Schema schema) {
-        Entity partyRequest = schema.addEntity("PartyRequestEntity");
-        partyRequest.setSuperclass("BaseEntity");
-        partyRequest.addStringProperty("objectId").notNull().primaryKey();
-        partyRequest.addDateProperty("createdAt").notNull();
-        partyRequest.addStringProperty("userId");
-        partyRequest.addStringProperty("city");
-        partyRequest.addStringProperty("area");
-        partyRequest.addStringProperty("type");
-        partyRequest.addStringProperty("subType");
     }
 
     private static void addCreditRule(Schema schema) {

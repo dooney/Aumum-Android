@@ -8,8 +8,6 @@ import com.aumum.app.mobile.core.dao.gen.CreditRuleEntityDao;
 import com.aumum.app.mobile.core.dao.gen.DaoMaster;
 import com.aumum.app.mobile.core.dao.gen.GroupRequestEntityDao;
 import com.aumum.app.mobile.core.dao.gen.MomentEntityDao;
-import com.aumum.app.mobile.core.dao.gen.PartyEntityDao;
-import com.aumum.app.mobile.core.dao.gen.PartyRequestEntityDao;
 import com.aumum.app.mobile.core.dao.gen.UserEntityDao;
 
 /**
@@ -29,10 +27,8 @@ public class Repository {
 
     public void reset() {
         getUserEntityDao().deleteAll();
-        getPartyEntityDao().deleteAll();
         getContactRequestEntityDao().deleteAll();
         getMomentEntityDao().deleteAll();
-        getPartyRequestEntityDao().deleteAll();
         getGroupRequestEntityDao().deleteAll();
         getCreditRuleEntityDao().deleteAll();
     }
@@ -41,20 +37,12 @@ public class Repository {
         return daoMaster.newSession().getUserEntityDao();
     }
 
-    public PartyEntityDao getPartyEntityDao() {
-        return daoMaster.newSession().getPartyEntityDao();
-    }
-
     public ContactRequestEntityDao getContactRequestEntityDao() {
         return daoMaster.newSession().getContactRequestEntityDao();
     }
 
     public MomentEntityDao getMomentEntityDao() {
         return daoMaster.newSession().getMomentEntityDao();
-    }
-
-    public PartyRequestEntityDao getPartyRequestEntityDao() {
-        return daoMaster.newSession().getPartyRequestEntityDao();
     }
 
     public GroupRequestEntityDao getGroupRequestEntityDao() {

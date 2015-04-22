@@ -135,39 +135,7 @@
             android:name="com.parse.push.notification_icon"
             android:resource="@drawable/ic_launcher_notification" />
 
-        <activity
-            android:name=".ui.party.PartyCommentsActivity"
-            android:label="@string/title_activity_party_comments"
-            android:windowSoftInputMode="adjustResize" >
-        </activity>
-        <activity
-            android:name=".ui.party.PartyCommentsSingleActivity"
-            android:excludeFromRecents="true"
-            android:label="@string/title_activity_party_comments"
-            android:launchMode="singleTask"
-            android:taskAffinity=""
-            android:windowSoftInputMode="adjustResize" >
-        </activity>
-        <activity
-            android:name=".ui.party.PartyDetailsActivity"
-            android:label="@string/title_activity_party_details" >
-        </activity>
-        <activity
-            android:name=".ui.party.PartyDetailsSingleActivity"
-            android:excludeFromRecents="true"
-            android:label="@string/title_activity_party_details"
-            android:launchMode="singleTask"
-            android:taskAffinity="" >
-        </activity>
         <activity android:name=".ui.user.UpdateAvatarActivity" />
-        <activity
-            android:name=".ui.party.NewPartyActivity"
-            android:label="@string/title_activity_new_party" >
-        </activity>
-        <activity
-            android:name=".ui.party.SearchPartyActivity"
-            android:label="@string/title_activity_search_party" >
-        </activity>
 
         <meta-data
             android:name="EASEMOB_APPKEY"
@@ -249,7 +217,6 @@
             android:name=".ui.report.ReportActivity"
             android:label="@string/title_activity_report_details" >
         </activity>
-        <activity android:name=".ui.party.PartyCalendarActivity" />
         <activity
             android:name=".ui.settings.FeedbackActivity"
             android:label="@string/title_activity_feedback" >
@@ -301,19 +268,12 @@
         <activity android:name=".ui.special.FavoriteProductsActivity"
             android:label="@string/title_activity_favorite_products">
         </activity>
-        <activity android:name=".ui.party.NewPartyRequestActivity"
-            android:label="@string/title_activity_new_party_request">
-        </activity>
         <activity android:name=".ui.feed.channel.ChannelActivity" />
         <activity android:name=".ui.feed.article.ArticleActivity" />
         <activity android:name=".ui.image.GifViewActivity" />
         <activity android:name=".ui.image.ImageViewPagerActivity" />
         <activity android:name=".ui.moment.ShareMomentActivity"
             android:label="@string/title_activity_share_moment">
-        </activity>
-        <activity android:name=".ui.vendor.EventListActivity" />
-        <activity android:name=".ui.party.SharePartyActivity"
-            android:label="@string/title_activity_share_party">
         </activity>
         <activity android:name=".ui.group.GroupListActivity"
             android:label="@string/title_activity_group_list">
@@ -339,9 +299,6 @@
         </activity>
         <activity android:name=".ui.game.GameListActivity"
             android:label="@string/title_activity_game_list">
-        </activity>
-        <activity android:name=".ui.party.PartyActivity"
-            android:label="@string/title_activity_party">
         </activity>
         <activity android:name=".ui.moment.MomentListActivity"
             android:label="@string/title_activity_moment_list">

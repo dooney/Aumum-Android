@@ -41,14 +41,6 @@ public class CmdMessage {
 
     public static class Type {
         public static final int DELETED = 0;
-        public static final int PARTY_NEW = 1;
-        public static final int PARTY_JOIN = 2;
-        public static final int PARTY_QUIT = 3;
-        public static final int PARTY_LIKE = 4;
-        public static final int PARTY_COMMENT = 5;
-        public static final int PARTY_REPLY = 6;
-        public static final int PARTY_CANCEL = 7;
-        public static final int PARTY_COMMENT_LIKE = 8;
         public static final int GROUP_JOIN = 11;
         public static final int GROUP_QUIT = 12;
         public static final int USER_NEW = 21;
