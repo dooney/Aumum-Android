@@ -2,10 +2,6 @@
 package com.aumum.app.mobile.core.service;
 
 import com.aumum.app.mobile.core.model.Area;
-import com.aumum.app.mobile.core.model.Asking;
-import com.aumum.app.mobile.core.model.AskingBoard;
-import com.aumum.app.mobile.core.model.AskingGroup;
-import com.aumum.app.mobile.core.model.AskingReply;
 import com.aumum.app.mobile.core.model.CityGroup;
 import com.aumum.app.mobile.core.model.CreditGift;
 import com.aumum.app.mobile.core.model.CreditOrder;
@@ -86,14 +82,6 @@ public class RestService {
         return getRestAdapter().create(PartyReasonService.class);
     }
 
-    private AskingService getAskingService() {
-        return getRestAdapter().create(AskingService.class);
-    }
-
-    private AskingReplyService getAskingReplyService() {
-        return getRestAdapter().create(AskingReplyService.class);
-    }
-
     private ReportService getReportService() {
         return getRestAdapter().create(ReportService.class);
     }
@@ -152,14 +140,6 @@ public class RestService {
 
     private CreditOrderService getCreditOrderService() {
         return getRestAdapter().create(CreditOrderService.class);
-    }
-
-    private AskingGroupService getAskingGroupService() {
-        return getRestAdapter().create(AskingGroupService.class);
-    }
-
-    private AskingBoardService getAskingBoardService() {
-        return getRestAdapter().create(AskingBoardService.class);
     }
 
     private CreditRuleService getCreditRuleService() {
@@ -765,65 +745,6 @@ public class RestService {
         return getPartyReasonService().getList("-createdAt", where).getResults();
     }
 
-    public List<Asking> getAskingListAfter(String groupId, String after, int limit) {
-        final JsonObject whereJson = new JsonObject();
-        whereJson.addProperty("groupId", groupId);
-        if (after != null) {
-            whereJson.add("updatedAt", buildDateTimeAfterJson(after));
-        }
-        final JsonObject liveJson = new JsonObject();
-        liveJson.addProperty("$exists", false);
-        whereJson.add("deletedAt" ,liveJson);
-        String where = whereJson.toString();
-        return getAskingService().getList("-updatedAt", where, limit).getResults();
-    }
-
-    public List<Asking> getAskingListBefore(String groupId, String before, int limit) {
-        final JsonObject whereJson = new JsonObject();
-        whereJson.addProperty("groupId", groupId);
-        whereJson.add("updatedAt", buildDateTimeBeforeJson(before));
-        final JsonObject liveJson = new JsonObject();
-        liveJson.addProperty("$exists", false);
-        whereJson.add("deletedAt" ,liveJson);
-        String where = whereJson.toString();
-        return getAskingService().getList("-updatedAt", where, limit).getResults();
-    }
-
-    public List<Asking> getAskingListBefore(List<String> idList, String before, int limit) {
-        final JsonObject whereJson = new JsonObject();
-        whereJson.add("objectId", buildIdListJson(idList));
-        whereJson.add("updatedAt", buildDateTimeBeforeJson(before));
-        final JsonObject liveJson = new JsonObject();
-        liveJson.addProperty("$exists", false);
-        whereJson.add("deletedAt" ,liveJson);
-        String where = whereJson.toString();
-        return getAskingService().getList("-updatedAt", where, limit).getResults();
-    }
-
-    public List<String> getAskingUnreadGroups(List<String> idList, String after) {
-        final JsonObject whereJson = new JsonObject();
-        if (after != null) {
-            whereJson.add("createdAt", buildDateTimeAfterJson(after));
-        }
-        final JsonObject liveJson = new JsonObject();
-        liveJson.addProperty("$exists", false);
-        whereJson.add("deletedAt", liveJson);
-        whereJson.add("groupId", buildIdListJson(idList));
-        String where = whereJson.toString();
-        List<Asking> askingList = getAskingService().getUnread(where, "groupId").getResults();
-        ArrayList<String> groups = new ArrayList<>();
-        for (Asking asking: askingList) {
-            groups.add(asking.getGroupId());
-        }
-        return groups;
-    }
-
-    public Asking newAsking(Asking asking) {
-        Gson gson = new Gson();
-        JsonObject data = gson.toJsonTree(asking).getAsJsonObject();
-        return getAskingService().newAsking(data);
-    }
-
     public JsonObject addUserAsking(String userId, String askingId) {
         final JsonObject op = new JsonObject();
         op.addProperty("__op", "AddUnique");
@@ -858,72 +779,6 @@ public class RestService {
         op.add("objects", userAskingGroupList);
         data.add(Constants.Http.User.PARAM_ASKING_GROUPS, op);
         return getUserService().updateById(userId, data);
-    }
-
-    public Asking getAskingById(String id) {
-        return getAskingService().getById(id);
-    }
-
-    public List<AskingReply> getAskingReplies(List<String> idList, int limit) {
-        final JsonObject whereJson = new JsonObject();
-        whereJson.add("objectId", buildIdListJson(idList));
-        final JsonObject liveJson = new JsonObject();
-        liveJson.addProperty("$exists", false);
-        whereJson.add("deletedAt" ,liveJson);
-        String where = whereJson.toString();
-        return getAskingReplyService().getList("-createdAt", where, limit).getResults();
-    }
-
-    public List<AskingReply> getAskingRepliesBefore(List<String> idList, String before, int limit) {
-        final JsonObject whereJson = new JsonObject();
-        whereJson.add("objectId", buildIdListJson(idList));
-        whereJson.add("createdAt", buildDateTimeBeforeJson(before));
-        final JsonObject liveJson = new JsonObject();
-        liveJson.addProperty("$exists", false);
-        whereJson.add("deletedAt" ,liveJson);
-        String where = whereJson.toString();
-        return getAskingReplyService().getList("-createdAt", where, limit).getResults();
-    }
-
-    public AskingReply newAskingReply(AskingReply askingReply) {
-        Gson gson = new Gson();
-        JsonObject data = gson.toJsonTree(askingReply).getAsJsonObject();
-        return getAskingReplyService().newAskingReply(data);
-    }
-
-    public JsonObject addAskingReplies(String askingId, String replyId) {
-        final JsonObject op = new JsonObject();
-        op.addProperty("__op", "AddUnique");
-        return updateAskingReplies(op, askingId, replyId);
-    }
-
-    private JsonObject updateAskingReplies(JsonObject op, String askingId, String replyId) {
-        final JsonObject data = new JsonObject();
-        final JsonArray askingReplies = new JsonArray();
-        askingReplies.add(new JsonPrimitive(replyId));
-        op.add("objects", askingReplies);
-        data.add(Constants.Http.Asking.PARAM_REPLIES, op);
-        return getAskingService().updateById(askingId, data);
-    }
-
-    public List<Asking> getAskingList(List<String> idList, boolean excludesAnonymous, int limit) {
-        final JsonObject whereJson = new JsonObject();
-        whereJson.add("objectId", buildIdListJson(idList));
-        final JsonObject liveJson = new JsonObject();
-        liveJson.addProperty("$exists", false);
-        whereJson.add("deletedAt" ,liveJson);
-        if (excludesAnonymous) {
-            whereJson.addProperty("isAnonymous", false);
-        }
-        String where = whereJson.toString();
-        return getAskingService().getList("-updatedAt", where, limit).getResults();
-    }
-
-    public JsonObject deleteAsking(String askingId) {
-        final JsonObject data = new JsonObject();
-        DateTime now = DateTime.now(DateTimeZone.UTC);
-        data.addProperty("deletedAt", now.toString(Constants.DateTime.FORMAT));
-        return getAskingService().updateById(askingId, data);
     }
 
     public JsonArray addPartyFavorite(String partyId, String userId) {
@@ -967,27 +822,6 @@ public class RestService {
         return getBatchService().execute(script);
     }
 
-    public JsonObject addAskingLike(String askingId, String userId) {
-        final JsonObject op = new JsonObject();
-        op.addProperty("__op", "AddUnique");
-        return updateAskingLikes(op, askingId, userId);
-    }
-
-    public JsonObject removeAskingLike(String askingId, String userId) {
-        final JsonObject op = new JsonObject();
-        op.addProperty("__op", "Remove");
-        return updateAskingLikes(op, askingId, userId);
-    }
-
-    private JsonObject updateAskingLikes(JsonObject op, String askingId, String userId) {
-        final JsonObject data = new JsonObject();
-        final JsonArray askingLikes = new JsonArray();
-        askingLikes.add(new JsonPrimitive(userId));
-        op.add("objects", askingLikes);
-        data.add(Constants.Http.Asking.PARAM_LIKES, op);
-        return getAskingService().updateById(askingId, data);
-    }
-
     public JsonArray addAskingFavorite(String askingId, String userId) {
         return updateAskingFavorites("AddUnique", askingId, userId);
     }
@@ -1027,27 +861,6 @@ public class RestService {
         requests.add(buildAskingFavoritesRequestJson(op, askingId, userId));
         script.add(Constants.Http.Batch.PARAM_REQUESTS, requests);
         return getBatchService().execute(script);
-    }
-
-    public JsonObject addAskingReplyLike(String askingReplyId, String userId) {
-        final JsonObject op = new JsonObject();
-        op.addProperty("__op", "AddUnique");
-        return updateAskingReplyLikes(op, askingReplyId, userId);
-    }
-
-    public JsonObject removeAskingReplyLike(String askingReplyId, String userId) {
-        final JsonObject op = new JsonObject();
-        op.addProperty("__op", "Remove");
-        return updateAskingReplyLikes(op, askingReplyId, userId);
-    }
-
-    private JsonObject updateAskingReplyLikes(JsonObject op, String askingReplyId, String userId) {
-        final JsonObject data = new JsonObject();
-        final JsonArray askingReplyLikes = new JsonArray();
-        askingReplyLikes.add(new JsonPrimitive(userId));
-        op.add("objects", askingReplyLikes);
-        data.add(Constants.Http.AskingReply.PARAM_LIKES, op);
-        return getAskingReplyService().updateById(askingReplyId, data);
     }
 
     private JsonObject buildAskingReplyRequestJson(String askingReplyId) {
@@ -1508,53 +1321,6 @@ public class RestService {
 
     public CreditOrder newCreditOrder(CreditOrder creditOrder) {
         return getCreditOrderService().newCreditOrder(creditOrder);
-    }
-
-    public List<AskingGroup> getAskingGroupList(List<String> idList) {
-        final JsonObject whereJson = new JsonObject();
-        final JsonObject liveJson = new JsonObject();
-        liveJson.addProperty("$exists", false);
-        whereJson.add("deletedAt", liveJson);
-        whereJson.add("objectId", buildIdListJson(idList));
-        String where = whereJson.toString();
-        return getAskingGroupService().getList("seq", where, Integer.MAX_VALUE).getResults();
-    }
-
-    public List<AskingGroup> getRecommendAskingGroupList(List<String> keywords, List<String> excludes) {
-        final JsonObject whereJson = new JsonObject();
-        final JsonObject liveJson = new JsonObject();
-        liveJson.addProperty("$exists", false);
-        whereJson.add("deletedAt", liveJson);
-        final JsonArray keywordJson = new JsonArray();
-        final JsonObject keywordListJson = new JsonObject();
-        keywordListJson.add("keyword", buildIdListJson(keywords));
-        keywordJson.add(keywordListJson);
-        final JsonObject keywordLiveJson = new JsonObject();
-        keywordLiveJson.add("keyword", liveJson);
-        keywordJson.add(keywordLiveJson);
-        whereJson.add("$or", keywordJson);
-        whereJson.add("objectId", buildNotIdListJson(excludes));
-        String where = whereJson.toString();
-        return getAskingGroupService().getList("seq", where, Integer.MAX_VALUE).getResults();
-    }
-
-    public List<AskingBoard> getAskingBoardList() {
-        final JsonObject whereJson = new JsonObject();
-        final JsonObject liveJson = new JsonObject();
-        liveJson.addProperty("$exists", false);
-        whereJson.add("deletedAt" ,liveJson);
-        String where = whereJson.toString();
-        return getAskingBoardService().getList("seq", where, Integer.MAX_VALUE).getResults();
-    }
-
-    public List<AskingGroup> getAskingGroupListByBoardId(String boardId) {
-        final JsonObject whereJson = new JsonObject();
-        whereJson.addProperty("boardId", boardId);
-        final JsonObject liveJson = new JsonObject();
-        liveJson.addProperty("$exists", false);
-        whereJson.add("deletedAt", liveJson);
-        String where = whereJson.toString();
-        return getAskingGroupService().getList("seq", where, Integer.MAX_VALUE).getResults();
     }
 
     public List<CreditRule> getCreditRuleList() {

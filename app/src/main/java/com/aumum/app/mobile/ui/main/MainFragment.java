@@ -16,7 +16,6 @@ import android.widget.TextView;
 
 import com.aumum.app.mobile.Injector;
 import com.aumum.app.mobile.R;
-import com.aumum.app.mobile.core.dao.AskingStore;
 import com.aumum.app.mobile.core.dao.CreditRuleStore;
 import com.aumum.app.mobile.core.dao.MomentStore;
 import com.aumum.app.mobile.core.dao.PartyRequestStore;
@@ -28,11 +27,9 @@ import com.aumum.app.mobile.core.model.User;
 import com.aumum.app.mobile.core.service.ChatService;
 import com.aumum.app.mobile.core.service.NotificationService;
 import com.aumum.app.mobile.core.service.ScheduleService;
-import com.aumum.app.mobile.events.NewAskingUnreadEvent;
 import com.aumum.app.mobile.events.NewChatMessageEvent;
 import com.aumum.app.mobile.events.NewMomentUnreadEvent;
 import com.aumum.app.mobile.events.NewPartyUnreadEvent;
-import com.aumum.app.mobile.events.ResetAskingUnreadEvent;
 import com.aumum.app.mobile.events.ResetDiscoveryUnreadEvent;
 import com.aumum.app.mobile.events.ResetChatUnreadEvent;
 import com.aumum.app.mobile.ui.chat.ChatConnectionListener;
@@ -48,8 +45,6 @@ import com.easemob.chat.EMMessage;
 import com.squareup.otto.Bus;
 import com.squareup.otto.Subscribe;
 
-import java.util.List;
-
 import javax.inject.Inject;
 
 import butterknife.ButterKnife;
@@ -63,7 +58,6 @@ public class MainFragment extends Fragment
         implements ScheduleService.OnScheduleListener {
 
     @Inject UserStore userStore;
-    @Inject AskingStore askingStore;
     @Inject PartyStore partyStore;
     @Inject PartyRequestStore partyRequestStore;
     @Inject MomentStore momentStore;
@@ -144,17 +138,6 @@ public class MainFragment extends Fragment
         task = new SafeAsyncTask<Boolean>() {
             public Boolean call() throws Exception {
                 User currentUser = userStore.getCurrentUser();
-                List<String> groups = askingStore.getUnreadGroups(currentUser.getAskingGroups());
-                if (groups.size() > 0) {
-                    bus.post(new NewAskingUnreadEvent(groups));
-                    getActivity().runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            indicator.getUnreadImage(MainTabPageIndicator.TAB_ASKING)
-                                    .setVisibility(View.VISIBLE);
-                        }
-                    });
-                }
                 int unreadCount = partyStore.getUnreadCount(currentUser.getObjectId());
                 if (unreadCount > 0) {
                     bus.post(new NewPartyUnreadEvent());
@@ -207,12 +190,6 @@ public class MainFragment extends Fragment
             }
         };
         task.execute();
-    }
-
-    @Subscribe
-    public void onResetAskingUnreadEvent(ResetAskingUnreadEvent event) {
-        indicator.getUnreadImage(MainTabPageIndicator.TAB_ASKING)
-                .setVisibility(View.INVISIBLE);
     }
 
     @Subscribe
@@ -339,13 +316,6 @@ public class MainFragment extends Fragment
                     case CmdMessage.Type.GROUP_QUIT:
                         handleGroupQuitCmdMessage(cmdMessage);
                         break;
-                    case CmdMessage.Type.ASKING_REPLY:
-                    case CmdMessage.Type.ASKING_REPLIED:
-                    case CmdMessage.Type.ASKING_NEW:
-                    case CmdMessage.Type.ASKING_LIKE:
-                    case CmdMessage.Type.ASKING_REPLY_LIKE:
-                        handleAskingDetailsCmdMessage(cmdMessage);
-                        break;
                     case CmdMessage.Type.USER_NEW:
                         handleUserDetailsCmdMessage(cmdMessage);
                         break;
@@ -391,13 +361,6 @@ public class MainFragment extends Fragment
         String groupId = cmdMessage.getPayload();
         String userId = cmdMessage.getContent();
         chatService.removeGroupMember(groupId, userId);
-    }
-
-    private void handleAskingDetailsCmdMessage(CmdMessage cmdMessage) {
-        String askingId = cmdMessage.getPayload();
-        String title = cmdMessage.getTitle();
-        String content = cmdMessage.getContent();
-        notificationService.pushAskingDetailsNotification(askingId, title, content);
     }
 
     private void handleUserDetailsCmdMessage(CmdMessage cmdMessage) {

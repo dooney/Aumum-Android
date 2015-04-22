@@ -34,7 +34,7 @@
         </FrameLayout>
 
         <TextView
-            style="@style/TextView.NewAsking.Type"
+            style="@style/TextView.NewParty.Type"
             android:text="@string/label_image"/>
 
     </LinearLayout>

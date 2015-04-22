@@ -3,8 +3,6 @@ package com.aumum.app.mobile.core.dao;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 
-import com.aumum.app.mobile.core.dao.gen.AskingEntityDao;
-import com.aumum.app.mobile.core.dao.gen.AskingGroupEntityDao;
 import com.aumum.app.mobile.core.dao.gen.ContactRequestEntityDao;
 import com.aumum.app.mobile.core.dao.gen.CreditRuleEntityDao;
 import com.aumum.app.mobile.core.dao.gen.DaoMaster;
@@ -33,11 +31,9 @@ public class Repository {
         getUserEntityDao().deleteAll();
         getPartyEntityDao().deleteAll();
         getContactRequestEntityDao().deleteAll();
-        getAskingEntityDao().deleteAll();
         getMomentEntityDao().deleteAll();
         getPartyRequestEntityDao().deleteAll();
         getGroupRequestEntityDao().deleteAll();
-        getAskingGroupEntityDao().deleteAll();
         getCreditRuleEntityDao().deleteAll();
     }
 
@@ -53,10 +49,6 @@ public class Repository {
         return daoMaster.newSession().getContactRequestEntityDao();
     }
 
-    public AskingEntityDao getAskingEntityDao() {
-        return daoMaster.newSession().getAskingEntityDao();
-    }
-
     public MomentEntityDao getMomentEntityDao() {
         return daoMaster.newSession().getMomentEntityDao();
     }
@@ -67,10 +59,6 @@ public class Repository {
 
     public GroupRequestEntityDao getGroupRequestEntityDao() {
         return daoMaster.newSession().getGroupRequestEntityDao();
-    }
-
-    public AskingGroupEntityDao getAskingGroupEntityDao() {
-        return daoMaster.newSession().getAskingGroupEntityDao();
     }
 
     public CreditRuleEntityDao getCreditRuleEntityDao() {

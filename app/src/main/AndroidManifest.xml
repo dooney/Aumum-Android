@@ -193,18 +193,6 @@
             android:name=".ui.settings.SettingsActivity"
             android:label="@string/title_activity_settings" >
         </activity>
-        <activity android:name=".ui.asking.NewAskingActivity" />
-        <activity android:name=".ui.asking.AskingDetailsActivity"
-            android:label="@string/title_activity_asking_details">
-        </activity>
-        <activity
-            android:name=".ui.asking.AskingDetailsSingleActivity"
-            android:excludeFromRecents="true"
-            android:label="@string/title_activity_asking_details"
-            android:launchMode="singleTask"
-            android:taskAffinity="" >
-        </activity>
-        <activity android:name=".ui.asking.SearchAskingActivity" />
         <activity android:name=".ui.image.ImagePickerActivity" />
         <activity
             android:name="com.tencent.tauth.AuthActivity"
@@ -286,10 +274,6 @@
         </activity>
         <activity android:name=".ui.user.TagUsersActivity" />
         <activity
-            android:name=".ui.asking.AskingActivity"
-            android:label="@string/title_activity_asking" >
-        </activity>
-        <activity
             android:name=".ui.moment.MomentsActivity"
             android:label="@string/title_activity_moments" >
         </activity>
@@ -362,11 +346,6 @@
         <activity android:name=".ui.moment.MomentListActivity"
             android:label="@string/title_activity_moment_list">
         </activity>
-        <activity android:name=".ui.asking.AskingListActivity" />
-        <activity android:name=".ui.asking.AskingBoardActivity"
-            android:label="@string/title_activity_asking_board">
-         </activity>
-        <activity android:name=".ui.asking.AskingGroupListActivity" />
         <activity android:name=".ui.group.NewGroupActivity"
             android:label="@string/title_activity_new_group">
         </activity>

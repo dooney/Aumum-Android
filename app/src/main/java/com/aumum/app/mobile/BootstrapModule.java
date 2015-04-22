@@ -4,9 +4,6 @@ import android.accounts.AccountManager;
 import android.content.Context;
 
 import com.aumum.app.mobile.core.dao.ArticleItemStore;
-import com.aumum.app.mobile.core.dao.AskingGroupStore;
-import com.aumum.app.mobile.core.dao.AskingReplyStore;
-import com.aumum.app.mobile.core.dao.AskingStore;
 import com.aumum.app.mobile.core.dao.ChannelItemStore;
 import com.aumum.app.mobile.core.dao.CreditRuleStore;
 import com.aumum.app.mobile.core.dao.MomentCommentStore;
@@ -23,20 +20,6 @@ import com.aumum.app.mobile.ui.LaunchActivity;
 import com.aumum.app.mobile.ui.account.CompleteProfileActivity;
 import com.aumum.app.mobile.ui.account.ResetPasswordSuccessActivity;
 import com.aumum.app.mobile.ui.area.AreaListFragment;
-import com.aumum.app.mobile.ui.asking.AskingBoardFragment;
-import com.aumum.app.mobile.ui.asking.AskingDetailsFragment;
-import com.aumum.app.mobile.ui.asking.AskingFavoriteListener;
-import com.aumum.app.mobile.ui.asking.AskingFragment;
-import com.aumum.app.mobile.ui.asking.AskingGroupJoinListener;
-import com.aumum.app.mobile.ui.asking.AskingGroupListFragment;
-import com.aumum.app.mobile.ui.asking.AskingLikeListener;
-import com.aumum.app.mobile.ui.asking.AskingListFragment;
-import com.aumum.app.mobile.ui.asking.AskingRepliesFragment;
-import com.aumum.app.mobile.ui.asking.AskingReplyCard;
-import com.aumum.app.mobile.ui.asking.AskingReplyLikeListener;
-import com.aumum.app.mobile.ui.asking.NewAskingActivity;
-import com.aumum.app.mobile.ui.asking.RecommendAskingGroupFragment;
-import com.aumum.app.mobile.ui.asking.SearchAskingFragment;
 import com.aumum.app.mobile.ui.chat.ChatConnectionListener;
 import com.aumum.app.mobile.ui.chat.ChatFragment;
 import com.aumum.app.mobile.ui.chat.ChatTabFragment;
@@ -176,17 +159,7 @@ import retrofit.converter.GsonConverter;
                 TextMessageCard.class,
                 ProfileFragment.class,
                 SettingsActivity.class,
-                AskingFragment.class,
-                AskingListFragment.class,
-                NewAskingActivity.class,
-                AskingDetailsFragment.class,
-                AskingRepliesFragment.class,
-                SearchAskingFragment.class,
                 PartyFavoriteListener.class,
-                AskingLikeListener.class,
-                AskingFavoriteListener.class,
-                AskingReplyLikeListener.class,
-                AskingReplyCard.class,
                 VoiceMessageCard.class,
                 ImageMessageCard.class,
                 UpdateAvatarActivity.class,
@@ -240,10 +213,6 @@ import retrofit.converter.GsonConverter;
                 GroupFragment.class,
                 GameListFragment.class,
                 CreditPurchaseFragment.class,
-                RecommendAskingGroupFragment.class,
-                AskingGroupJoinListener.class,
-                AskingBoardFragment.class,
-                AskingGroupListFragment.class,
                 NewGroupActivity.class
         }
 )
@@ -318,18 +287,6 @@ public class BootstrapModule {
 
     @Provides
     @Singleton
-    AskingStore provideAskingStore(RestService restService, Repository repository) {
-        return new AskingStore(restService, repository);
-    }
-
-    @Provides
-    @Singleton
-    AskingReplyStore provideAskingReplyStore(RestService restService) {
-        return new AskingReplyStore(restService);
-    }
-
-    @Provides
-    @Singleton
     MomentStore provideMomentStore(RestService restService, Repository repository) {
         return new MomentStore(restService, repository);
     }
@@ -356,12 +313,6 @@ public class BootstrapModule {
     @Singleton
     ArticleItemStore provideArticleItemStore() {
         return new ArticleItemStore();
-    }
-
-    @Provides
-    @Singleton
-    AskingGroupStore provideAskingGroupStore(RestService restService, Repository repository) {
-        return new AskingGroupStore(restService, repository);
     }
 
     @Provides

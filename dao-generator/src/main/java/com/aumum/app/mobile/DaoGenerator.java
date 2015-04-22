@@ -5,7 +5,7 @@ import de.greenrobot.daogenerator.Schema;
 
 public class DaoGenerator {
 
-    private static final int SCHEMA_VERSION = 18;
+    private static final int SCHEMA_VERSION = 19;
 
     public static void main(String args[]) throws Exception {
         Schema schema = new Schema(SCHEMA_VERSION, "com.aumum.app.mobile.core.dao.gen");
@@ -13,11 +13,9 @@ public class DaoGenerator {
         addUser(schema);
         addParty(schema);
         addContactRequest(schema);
-        addAsking(schema);
         addMoment(schema);
         addPartyRequest(schema);
         addGroupRequest(schema);
-        addAskingGroup(schema);
         addCreditRule(schema);
 
         new de.greenrobot.daogenerator.DaoGenerator().generateAll(schema, args[0]);
@@ -87,23 +85,6 @@ public class DaoGenerator {
         request.addIntProperty("status");
     }
 
-    private static void addAsking(Schema schema) {
-        Entity asking = schema.addEntity("AskingEntity");
-        asking.setSuperclass("BaseEntity");
-        asking.addStringProperty("objectId").notNull().primaryKey();
-        asking.addDateProperty("createdAt").notNull();
-        asking.addDateProperty("updatedAt").notNull();
-        asking.addStringProperty("userId");
-        asking.addStringProperty("groupId");
-        asking.addBooleanProperty("isAnonymous");
-        asking.addStringProperty("title");
-        asking.addStringProperty("details");
-        asking.addStringProperty("replies");
-        asking.addStringProperty("likes");
-        asking.addStringProperty("favorites");
-        asking.addStringProperty("images");
-    }
-
     private static void addMoment(Schema schema) {
         Entity moment = schema.addEntity("MomentEntity");
         moment.setSuperclass("BaseEntity");
@@ -126,17 +107,6 @@ public class DaoGenerator {
         partyRequest.addStringProperty("area");
         partyRequest.addStringProperty("type");
         partyRequest.addStringProperty("subType");
-    }
-
-    private static void addAskingGroup(Schema schema) {
-        Entity askingGroup = schema.addEntity("AskingGroupEntity");
-        askingGroup.setSuperclass("BaseEntity");
-        askingGroup.addStringProperty("objectId").notNull().primaryKey();
-        askingGroup.addStringProperty("avatarUrl");
-        askingGroup.addStringProperty("screenName");
-        askingGroup.addStringProperty("description");
-        askingGroup.addIntProperty("seq");
-        askingGroup.addStringProperty("boardId");
     }
 
     private static void addCreditRule(Schema schema) {

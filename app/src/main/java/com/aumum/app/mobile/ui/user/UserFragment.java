@@ -16,16 +16,12 @@ import android.widget.TextView;
 
 import com.aumum.app.mobile.Injector;
 import com.aumum.app.mobile.R;
-import com.aumum.app.mobile.core.dao.AskingGroupStore;
 import com.aumum.app.mobile.core.dao.CreditRuleStore;
 import com.aumum.app.mobile.core.dao.UserStore;
-import com.aumum.app.mobile.core.model.AskingGroup;
 import com.aumum.app.mobile.core.model.CreditRule;
 import com.aumum.app.mobile.core.model.User;
 import com.aumum.app.mobile.core.service.ChatService;
 import com.aumum.app.mobile.core.service.RestService;
-import com.aumum.app.mobile.ui.asking.AskingGroupListActivity;
-import com.aumum.app.mobile.ui.asking.SearchAskingActivity;
 import com.aumum.app.mobile.ui.base.LoaderFragment;
 import com.aumum.app.mobile.ui.chat.ChatActivity;
 import com.aumum.app.mobile.ui.moment.UserMomentsActivity;
@@ -37,7 +33,6 @@ import com.aumum.app.mobile.ui.view.ListViewDialog;
 import com.aumum.app.mobile.ui.view.TextViewDialog;
 import com.github.kevinsawicki.wishlist.Toaster;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -50,7 +45,6 @@ import javax.inject.Inject;
 public class UserFragment extends LoaderFragment<User> {
 
     @Inject UserStore userStore;
-    @Inject AskingGroupStore askingGroupStore;
     @Inject CreditRuleStore creditRuleStore;
     @Inject ChatService chatService;
     @Inject RestService restService;
@@ -59,7 +53,6 @@ public class UserFragment extends LoaderFragment<User> {
     private String screenName;
     private User currentUser;
     private User user;
-    private List<AskingGroup> askingGroups;
 
     private View mainView;
     private AvatarImageView avatarImage;
@@ -68,7 +61,6 @@ public class UserFragment extends LoaderFragment<User> {
     private TextView cityText;
     private TextView areaText;
     private TextView tagsText[];
-    private TextView interestsText;
     private TextView aboutText;
     private Button addContactButton;
     private ViewGroup actionLayout;
@@ -127,7 +119,6 @@ public class UserFragment extends LoaderFragment<User> {
         tagsText[0] = (TextView) view.findViewById(R.id.text_tag1);
         tagsText[1] = (TextView) view.findViewById(R.id.text_tag2);
         tagsText[2] = (TextView) view.findViewById(R.id.text_tag3);
-        interestsText = (TextView) view.findViewById(R.id.text_interests);
         aboutText = (TextView) view.findViewById(R.id.text_about);
         addContactButton = (Button) view.findViewById(R.id.b_add_contact);
         actionLayout = (ViewGroup) view.findViewById(R.id.layout_action);
@@ -157,7 +148,6 @@ public class UserFragment extends LoaderFragment<User> {
             user = userStore.getUserByScreenNameFromServer(screenName);
             userId = user.getObjectId();
         }
-        askingGroups = askingGroupStore.getList(user.getAskingGroups());
         return user;
     }
 
@@ -172,7 +162,6 @@ public class UserFragment extends LoaderFragment<User> {
             cityText.setText(user.getCity());
             areaText.setText(user.getArea());
             updateTagsUI(user.getTags());
-            updateInterestsUI(user, askingGroups);
             aboutText.setText(user.getAbout());
             addContactButton.setVisibility(View.GONE);
             actionLayout.setVisibility(View.GONE);
@@ -257,9 +246,6 @@ public class UserFragment extends LoaderFragment<User> {
             @Override
             public void onItemClick(int i) {
                 switch (i) {
-                    case 0:
-                        startUserAskingsActivity(user);
-                        break;
                     case 1:
                         startUserPartiesActivity(user);
                         break;
@@ -281,14 +267,6 @@ public class UserFragment extends LoaderFragment<User> {
         startActivity(intent);
     }
 
-    private void startUserAskingsActivity(User user) {
-        final Intent intent = new Intent(getActivity(), SearchAskingActivity.class);
-        intent.putExtra(SearchAskingActivity.INTENT_TITLE,
-                getString(R.string.title_activity_user_askings, user.getScreenName()));
-        intent.putExtra(SearchAskingActivity.INTENT_USER_ID, user.getObjectId());
-        startActivity(intent);
-    }
-
     private void startUserMomentsActivity(User user) {
         final Intent intent = new Intent(getActivity(), UserMomentsActivity.class);
         intent.putExtra(UserMomentsActivity.INTENT_TITLE,
@@ -306,38 +284,6 @@ public class UserFragment extends LoaderFragment<User> {
             tagsText[i].setText(tags.get(i));
             tagsText[i].setVisibility(View.VISIBLE);
         }
-    }
-
-    private void updateInterestsUI(final User user,
-                                   final List<AskingGroup> askingGroups) {
-        if (askingGroups != null) {
-            String interests = "";
-            for (AskingGroup askingGroup : askingGroups) {
-                interests += askingGroup.getScreenName() + "  ";
-            }
-            interestsText.setText(interests);
-            interestsText.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    if (askingGroups.size() > 0) {
-                        startAskingGroupListActivity(user, askingGroups);
-                    }
-                }
-            });
-        }
-    }
-
-    private void startAskingGroupListActivity(User user,
-                                              List<AskingGroup> askingGroups) {
-        final Intent intent = new Intent(getActivity(), AskingGroupListActivity.class);
-        ArrayList<String> groups = new ArrayList<>();
-        for (AskingGroup askingGroup: askingGroups) {
-            groups.add(askingGroup.getObjectId());
-        }
-        intent.putExtra(AskingGroupListActivity.INTENT_TITLE,
-                getString(R.string.label_user_interests, user.getScreenName()));
-        intent.putStringArrayListExtra(AskingGroupListActivity.INTENT_GROUP_LIST, groups);
-        startActivity(intent);
     }
 
     private void updateCredit(User currentUser, int seq) throws Exception {

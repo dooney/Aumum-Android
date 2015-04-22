@@ -151,6 +151,7 @@
     <string name="label_copy">复制</string>
     <string name="label_gif">GIF</string>
     <string name="label_join">加入</string>
+    <string name="label_add_more">添加更多</string>
 
     <!-- Info Message -->
     <string name="info_authenticating">正在验证您的账号信息，请稍候</string>
@@ -455,24 +456,6 @@
     <string name="label_you_like">您已点赞</string>
     <string name="label_you_and_others_like">您和其他%,d人点赞</string>
     <string name="label_others_like">%,d人点赞</string>
-
-    <!-- Asking -->
-    <string name="hint_asking_title">说说标题</string>
-    <string name="hint_asking_details">说说内容</string>
-    <string name="hint_new_reply">说两句</string>
-    <string name="hint_reply_asking_reply">回复@%1$s: %2$s</string>
-    <string name="label_add_more">添加更多</string>
-    <string name="label_reply_asking_message">%1$s回复了您的说说</string>
-    <string name="label_post_owner">楼主</string>
-    <string name="label_anonymous">匿名</string>
-    <string name="label_new_asking_message">%1$s发了说说</string>
-    <string name="label_new_anonymous_asking_message">您的好友发了匿名讨论</string>
-    <string name="label_replied_asking_message">%1$s回复了您</string>
-    <string name="label_like_asking_message">%1$s给您的说说点赞</string>
-    <string name="label_like_asking_reply_message">%1$s给您的说说评论点赞</string>
-    <string name="label_my_asking_groups">我的话题圈子(%,d)</string>
-    <string name="label_recommend_asking_groups">为您推荐</string>
-    <string name="label_asking_replies">最新回复</string>
 
     <!-- Discovery -->
     <string name="label_weibo">微博资讯</string>

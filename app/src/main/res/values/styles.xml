@@ -327,6 +327,12 @@
     <style name="TextView.NewParty.Notify" parent="TextView">
         <item name="android:textSize">@dimen/text_sz_large</item>
     </style>
+    <style name="TextView.NewParty.Type" parent="TextView">
+        <item name="android:textColor">@color/grey_medium</item>
+        <item name="android:textSize">@dimen/text_sz_small</item>
+        <item name="android:padding">@dimen/margin_small</item>
+        <item name="android:layout_gravity">center</item>
+    </style>
     <style name="TextView.NewParty.AddMore" parent="TextView.Subtitle">
         <item name="android:textSize">@dimen/text_sz_large</item>
         <item name="android:text">@string/label_add_more</item>
@@ -432,60 +438,6 @@
     <style name="TextView.MomentComment.Like" parent="TextView.Like.Small">
         <item name="android:text">@null</item>
     </style>
-
-    <!-- Asking -->
-    <style name="EditText.NewAsking.Title" parent="EditText.Mandatory">
-        <item name="android:hint">@string/hint_asking_title</item>
-    </style>
-    <style name="EditText.NewAsking.Details" parent="EditText">
-        <item name="android:background">@color/transparent</item>
-        <item name="android:inputType">textMultiLine</item>
-        <item name="android:lineSpacingMultiplier">1.1</item>
-        <item name="android:hint">@string/hint_asking_details</item>
-    </style>
-    <style name="TextView.NewAsking.AddMore" parent="TextView.Subtitle">
-        <item name="android:textSize">@dimen/text_sz_large</item>
-        <item name="android:text">@string/label_add_more</item>
-    </style>
-    <style name="TextView.NewAsking.Type" parent="TextView">
-        <item name="android:textColor">@color/grey_medium</item>
-        <item name="android:textSize">@dimen/text_sz_small</item>
-        <item name="android:padding">@dimen/margin_small</item>
-        <item name="android:layout_gravity">center</item>
-    </style>
-    <style name="TextView.Asking.UserName" parent="TextView.UserName">
-        <item name="android:textSize">@dimen/text_sz_small</item>
-    </style>
-    <style name="TextView.Asking.UpdatedAt" parent="TextView.Subtitle.Small" />
-    <style name="TextView.Asking.Title" parent="TextView">
-        <item name="android:textSize">@dimen/text_sz_large</item>
-        <item name="android:textColor">@color/black</item>
-    </style>
-    <style name="ImageView.Asking.HasPic" parent="ImageView">
-        <item name="android:src">@drawable/ic_fa_image_s</item>
-    </style>
-    <style name="TextView.Asking.Reply" parent="ButtonTextView">
-        <item name="android:drawableLeft">@drawable/ic_fa_comments_o_s</item>
-        <item name="android:textSize">@dimen/text_sz_small</item>
-    </style>
-    <style name="TextView.Asking.Like" parent="TextView.Like.Small" />
-    <style name="TextView.Asking.Favorite" parent="TextView.Favorite.Small" />
-    <style name="TextView.AskingDetails.Title" parent="TextView">
-        <item name="android:textSize">@dimen/text_sz_large</item>
-        <item name="android:textColor">@color/black</item>
-    </style>
-    <style name="TextView.AskingDetails.Details" parent="TextView">
-        <item name="android:lineSpacingMultiplier">1.1</item>
-    </style>
-    <style name="TextView.AskingReply.Content" parent="TextView.Content.Text" />
-    <style name="TextView.AskingReply.UserName" parent="TextView.UserName" />
-    <style name="TextView.AskingReply.CreatedAt" parent="TextView.Subtitle.Small" />
-    <style name="TextView.AskingReply.Like" parent="TextView.Like.Small">
-        <item name="android:text">@null</item>
-    </style>
-    <style name="TextView.AskingGroup.ScreenName" parent="TextView.Title" />
-    <style name="TextView.AskingGroup.Description" parent="TextView.Subtitle.Small" />
-    <style name="TextView.AskingGroup.Subtitle" parent="TextView.Subtitle.Small" />
 
     <!-- Special -->
     <style name="ImageView.Special.VendorLogo" parent="ImageView" />
