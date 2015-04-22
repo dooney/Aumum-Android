@@ -6,9 +6,7 @@ import com.aumum.app.mobile.core.model.CityGroup;
 import com.aumum.app.mobile.core.model.CreditGift;
 import com.aumum.app.mobile.core.model.CreditOrder;
 import com.aumum.app.mobile.core.model.CreditRule;
-import com.aumum.app.mobile.core.model.Feed;
 import com.aumum.app.mobile.core.model.Feedback;
-import com.aumum.app.mobile.core.model.Game;
 import com.aumum.app.mobile.core.model.Moment;
 import com.aumum.app.mobile.core.model.MomentComment;
 import com.aumum.app.mobile.core.Constants;
@@ -96,14 +94,6 @@ public class RestService {
 
     private SpecialProductService getSpecialProductService() {
         return getRestAdapter().create(SpecialProductService.class);
-    }
-
-    private FeedService getFeedService() {
-        return getRestAdapter().create(FeedService.class);
-    }
-
-    private GameService getGameService() {
-        return getRestAdapter().create(GameService.class);
     }
 
     private CreditGiftService getCreditGiftService() {
@@ -990,25 +980,6 @@ public class RestService {
         whereJson.addProperty("specialId", specialId);
         String where = whereJson.toString();
         return getSpecialProductService().getList("-now", where, Integer.MAX_VALUE).getResults();
-    }
-
-    public List<Feed> getFeedList(int type) {
-        final JsonObject whereJson = new JsonObject();
-        whereJson.addProperty("type", type);
-        final JsonObject liveJson = new JsonObject();
-        liveJson.addProperty("$exists", false);
-        whereJson.add("deletedAt" ,liveJson);
-        String where = whereJson.toString();
-        return getFeedService().getList("seq", where, Integer.MAX_VALUE).getResults();
-    }
-
-    public List<Game> getGameList() {
-        final JsonObject whereJson = new JsonObject();
-        final JsonObject liveJson = new JsonObject();
-        liveJson.addProperty("$exists", false);
-        whereJson.add("deletedAt" ,liveJson);
-        String where = whereJson.toString();
-        return getGameService().getList("seq", where, Integer.MAX_VALUE).getResults();
     }
 
     public List<CreditGift> getCreditGiftList() {

@@ -409,11 +409,6 @@
     <string name="label_you_and_others_like">您和其他%,d人点赞</string>
     <string name="label_others_like">%,d人点赞</string>
 
-    <!-- Discovery -->
-    <string name="label_weibo">微博资讯</string>
-    <string name="label_wechat">公众号文章</string>
-    <string name="label_game">小游戏</string>
-
     <!-- Moments -->
     <string name="label_moment">妈妈圈</string>
     <string name="label_new_moment_message">%1$s发了妈妈圈</string>
@@ -445,10 +440,6 @@
     <string name="hint_group_name">群组名称</string>
     <string name="hint_group_description">群组描述</string>
     <string name="label_group_size">%,d人在线</string>
-
-    <!-- Game -->
-    <string name="label_play">马上玩</string>
-    <string name="label_play_count">%,d人玩</string>
 
     <!-- Credit Gift -->
     <string name="label_purchase_gift">换购</string>"

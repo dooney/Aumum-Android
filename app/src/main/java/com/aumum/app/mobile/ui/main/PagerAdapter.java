@@ -8,7 +8,6 @@ import android.support.v4.app.FragmentPagerAdapter;
 import com.aumum.app.mobile.R;
 import com.aumum.app.mobile.ui.chat.ChatTabFragment;
 import com.aumum.app.mobile.ui.contact.ContactFragment;
-import com.aumum.app.mobile.ui.discovery.DiscoveryFragment;
 import com.aumum.app.mobile.ui.user.ProfileFragment;
 import com.aumum.app.mobile.ui.view.tab.IconPagerAdapter;
 
@@ -21,13 +20,11 @@ public class PagerAdapter extends FragmentPagerAdapter
     private String pages[];
 
     public static final int PAGE_CHAT = 0;
-    public static final int PAGE_DISCOVERY = 1;
-    public static final int PAGE_CONTACT = 2;
-    public static final int PAGE_PROFILE = 3;
+    public static final int PAGE_CONTACT = 1;
+    public static final int PAGE_PROFILE = 2;
 
     private int icons[] = {
             R.drawable.tab_chat_icon,
-            R.drawable.tab_discovery_icon,
             R.drawable.tab_contact_icon,
             R.drawable.tab_profile_icon
     };
@@ -59,9 +56,6 @@ public class PagerAdapter extends FragmentPagerAdapter
         switch (position) {
             case PAGE_CHAT:
                 result = new ChatTabFragment();
-                break;
-            case PAGE_DISCOVERY:
-                result = new DiscoveryFragment();
                 break;
             case PAGE_CONTACT:
                 result = new ContactFragment();

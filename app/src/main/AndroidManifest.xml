@@ -268,8 +268,6 @@
         <activity android:name=".ui.special.FavoriteProductsActivity"
             android:label="@string/title_activity_favorite_products">
         </activity>
-        <activity android:name=".ui.feed.channel.ChannelActivity" />
-        <activity android:name=".ui.feed.article.ArticleActivity" />
         <activity android:name=".ui.image.GifViewActivity" />
         <activity android:name=".ui.image.ImageViewPagerActivity" />
         <activity android:name=".ui.moment.ShareMomentActivity"
@@ -290,15 +288,6 @@
         </activity>
         <activity android:name=".ui.credit.CreditPurchaseActivity"
             android:label="@string/title_activity_credit">
-        </activity>
-        <activity android:name=".ui.feed.channel.ChannelListActivity"
-            android:label="@string/title_activity_channel_list">
-        </activity>
-        <activity android:name=".ui.feed.article.ArticleListActivity"
-            android:label="@string/title_activity_article_list">
-        </activity>
-        <activity android:name=".ui.game.GameListActivity"
-            android:label="@string/title_activity_game_list">
         </activity>
         <activity android:name=".ui.moment.MomentListActivity"
             android:label="@string/title_activity_moment_list">

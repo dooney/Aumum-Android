@@ -3,8 +3,6 @@ package com.aumum.app.mobile;
 import android.accounts.AccountManager;
 import android.content.Context;
 
-import com.aumum.app.mobile.core.dao.ArticleItemStore;
-import com.aumum.app.mobile.core.dao.ChannelItemStore;
 import com.aumum.app.mobile.core.dao.CreditRuleStore;
 import com.aumum.app.mobile.core.dao.MomentCommentStore;
 import com.aumum.app.mobile.core.dao.MomentStore;
@@ -22,7 +20,6 @@ import com.aumum.app.mobile.ui.chat.ChatConnectionListener;
 import com.aumum.app.mobile.ui.chat.ChatFragment;
 import com.aumum.app.mobile.ui.chat.ChatTabFragment;
 import com.aumum.app.mobile.ui.credit.CreditPurchaseFragment;
-import com.aumum.app.mobile.ui.game.GameListFragment;
 import com.aumum.app.mobile.ui.group.GroupChangeListener;
 import com.aumum.app.mobile.ui.group.GroupDetailsFragment;
 import com.aumum.app.mobile.ui.chat.ImageMessageCard;
@@ -37,11 +34,6 @@ import com.aumum.app.mobile.ui.group.GroupJoinListener;
 import com.aumum.app.mobile.ui.group.GroupRequestProcessListener;
 import com.aumum.app.mobile.ui.group.GroupRequestsFragment;
 import com.aumum.app.mobile.ui.group.GroupListFragment;
-import com.aumum.app.mobile.ui.discovery.DiscoveryFragment;
-import com.aumum.app.mobile.ui.feed.article.ArticleFragment;
-import com.aumum.app.mobile.ui.feed.channel.ChannelFragment;
-import com.aumum.app.mobile.ui.feed.article.ArticleListFragment;
-import com.aumum.app.mobile.ui.feed.channel.ChannelListFragment;
 import com.aumum.app.mobile.ui.group.NewGroupActivity;
 import com.aumum.app.mobile.ui.moment.MomentCommentCard;
 import com.aumum.app.mobile.ui.moment.MomentCommentLikeListener;
@@ -90,8 +82,6 @@ import com.aumum.app.mobile.ui.main.MainActivity;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.squareup.otto.Bus;
-
-import org.mcsoxford.rss.RSSReader;
 
 import javax.inject.Singleton;
 
@@ -160,11 +150,6 @@ import retrofit.converter.GsonConverter;
                 SpecialProductLikeListener.class,
                 SpecialProductFavoriteListener.class,
                 FavoriteProductsFragment.class,
-                DiscoveryFragment.class,
-                ChannelListFragment.class,
-                ChannelFragment.class,
-                ArticleListFragment.class,
-                ArticleFragment.class,
                 ShareMomentActivity.class,
                 GroupListFragment.class,
                 GroupChangeListener.class,
@@ -173,7 +158,6 @@ import retrofit.converter.GsonConverter;
                 GroupRequestProcessListener.class,
                 ChatTabFragment.class,
                 GroupFragment.class,
-                GameListFragment.class,
                 CreditPurchaseFragment.class,
                 NewGroupActivity.class
         }
@@ -184,12 +168,6 @@ public class BootstrapModule {
     @Provides
     Bus provideOttoBus() {
         return new PostFromAnyThreadBus();
-    }
-
-    @Singleton
-    @Provides
-    RSSReader provideRSSReader() {
-        return new RSSReader();
     }
 
     @Singleton
@@ -239,18 +217,6 @@ public class BootstrapModule {
     @Singleton
     MomentCommentStore provideMomentCommentStore(RestService restService) {
         return new MomentCommentStore(restService);
-    }
-
-    @Provides
-    @Singleton
-    ChannelItemStore provideChannelItemStore(RSSReader rssReader) {
-        return new ChannelItemStore(rssReader);
-    }
-
-    @Provides
-    @Singleton
-    ArticleItemStore provideArticleItemStore() {
-        return new ArticleItemStore();
     }
 
     @Provides

@@ -250,15 +250,6 @@
         <item name="android:background">@color/grey_medium</item>
     </style>
 
-    <!-- Game -->
-    <style name="TextView.Game.ScreenName" parent="TextView.Title" />
-    <style name="TextView.Game.Description" parent="TextView.Subtitle">
-        <item name="android:textSize">@dimen/text_sz_small</item>
-    </style>
-    <style name="Button.Game.Play" parent="Button.Action">
-        <item name="android:text">@string/label_play</item>
-    </style>
-
     <!-- Credit Gift -->
     <style name="TextView.CreditGift.ScreenName" parent="TextView.Title" />
     <style name="TextView.CreditGift.Cost" parent="TextView.Subtitle">
@@ -269,20 +260,6 @@
     </style>
     <style name="Button.CreditGift.Purchase" parent="Button.Action">
         <item name="android:text">@string/label_purchase_gift</item>
-    </style>
-
-    <!-- Feed -->
-    <style name="TextView.Feed.ScreenName" parent="TextView.Title" />
-    <style name="TextView.Feed.Description" parent="TextView.Subtitle">
-        <item name="android:textSize">@dimen/text_sz_small</item>
-        <item name="android:maxLines">1</item>
-        <item name="android:ellipsize">end</item>
-    </style>
-
-    <!-- Feed Item -->
-    <style name="TextView.FeedItem.Text" parent="TextView">
-        <item name="android:textSize">@dimen/text_sz_large</item>
-        <item name="android:lineSpacingMultiplier">1.1</item>
     </style>
 
     <!-- Moment -->
