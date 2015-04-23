@@ -8,10 +8,6 @@
         <item>好友</item>
         <item>个人</item>
     </string-array>
-    <string-array name="label_chat_tab_pages">
-        <item>最近会话</item>
-        <item>我的群组</item>
-    </string-array>
     <string-array name="label_add_contacts">
         <item>手机号码/用户昵称</item>
         <item>指定标签</item>

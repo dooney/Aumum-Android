@@ -18,14 +18,7 @@ public class User extends AggregateRoot implements InitialSortable {
     protected String avatarUrl;
     protected String about;
     protected List<String> contacts = new ArrayList<String>();
-    protected List<String> parties = new ArrayList<String>();
-    protected List<String> askings = new ArrayList<String>();
-    protected List<String> favParties = new ArrayList<String>();
-    protected List<String> favAskings = new ArrayList<String>();
-    protected List<String> tags = new ArrayList<String>();
-    protected List<String> moments = new ArrayList<String>();
-    protected List<String> favSpecials = new ArrayList<String>();
-    protected List<String> askingGroups = new ArrayList<>();
+    protected List<String> tags = new ArrayList<>();
     protected Integer credit;
 
     public User() {
@@ -43,14 +36,7 @@ public class User extends AggregateRoot implements InitialSortable {
                 String avatarUrl,
                 String about,
                 List<String> contacts,
-                List<String> parties,
-                List<String> askings,
-                List<String> favParties,
-                List<String> favAskings,
                 List<String> tags,
-                List<String> moments,
-                List<String> favSpecials,
-                List<String> askingGroups,
                 Integer credit) {
         this.objectId = objectId;
         this.username = username;
@@ -66,37 +52,9 @@ public class User extends AggregateRoot implements InitialSortable {
             this.contacts.clear();
             this.contacts.addAll(contacts);
         }
-        if (parties != null) {
-            this.parties.clear();
-            this.parties.addAll(parties);
-        }
-        if (askings != null) {
-            this.askings.clear();
-            this.askings.addAll(askings);
-        }
-        if (favParties != null) {
-            this.favParties.clear();
-            this.favParties.addAll(favParties);
-        }
-        if (favAskings != null) {
-            this.favAskings.clear();
-            this.favAskings.addAll(favAskings);
-        }
         if (tags != null) {
             this.tags.clear();
             this.tags.addAll(tags);
-        }
-        if (moments != null) {
-            this.moments.clear();
-            this.moments.addAll(moments);
-        }
-        if (favSpecials != null) {
-            this.favSpecials.clear();
-            this.favSpecials.addAll(favSpecials);
-        }
-        if (askingGroups != null) {
-            this.askingGroups.clear();
-            this.askingGroups.addAll(askingGroups);
         }
         this.credit = credit;
     }
@@ -170,22 +128,6 @@ public class User extends AggregateRoot implements InitialSortable {
         return contacts;
     }
 
-    public List<String> getParties() {
-        return parties;
-    }
-
-    public List<String> getAskings() {
-        return askings;
-    }
-
-    public List<String> getFavParties() {
-        return favParties;
-    }
-
-    public List<String> getFavAskings() {
-        return favAskings;
-    }
-
     public List<String> getTags() {
         return tags;
     }
@@ -193,18 +135,6 @@ public class User extends AggregateRoot implements InitialSortable {
     public void setTags(List<String> tags) {
         this.tags.clear();
         this.tags.addAll(tags);
-    }
-
-    public List<String> getMoments() {
-        return moments;
-    }
-
-    public List<String> getFavSpecials() {
-        return favSpecials;
-    }
-
-    public List<String> getAskingGroups() {
-        return askingGroups;
     }
 
     public Integer getCredit() {
@@ -238,78 +168,6 @@ public class User extends AggregateRoot implements InitialSortable {
     public void removeContact(String contactId) {
         if (contacts != null && contacts.contains(contactId)) {
             contacts.remove(contactId);
-        }
-    }
-
-    public void addParty(String partyId) {
-        if (parties != null && !parties.contains(partyId)) {
-            parties.add(partyId);
-        }
-    }
-
-    public void removeParty(String partyId) {
-        if (parties != null && parties.contains(partyId)) {
-            parties.remove(partyId);
-        }
-    }
-
-    public void addPartyFavorite(String partyId) {
-        if (favParties != null && !favParties.contains(partyId)) {
-            favParties.add(partyId);
-        }
-    }
-
-    public void removePartyFavorite(String partyId) {
-        if (favParties != null && favParties.contains(partyId)) {
-            favParties.remove(partyId);
-        }
-    }
-
-    public void addAsking(String askingId) {
-        if (askings != null && !askings.contains(askingId)) {
-            askings.add(askingId);
-        }
-    }
-
-    public void addAskingFavorite(String askingId) {
-        if (favAskings != null && !favAskings.contains(askingId)) {
-            favAskings.add(askingId);
-        }
-    }
-
-    public void removeAskingFavorite(String askingId) {
-        if (favAskings != null && favAskings.contains(askingId)) {
-            favAskings.remove(askingId);
-        }
-    }
-
-    public void addMoment(String momentId) {
-        if (moments != null && !moments.contains(momentId)) {
-            moments.add(momentId);
-        }
-    }
-
-    public void addSpecialFavorite(String specialId) {
-        if (favSpecials != null && !favSpecials.contains(specialId)) {
-            favSpecials.add(specialId);
-        }
-    }
-
-    public void removeSpecialFavorite(String specialId) {
-        if (favSpecials != null && favSpecials.contains(specialId)) {
-            favSpecials.remove(specialId);
-        }
-    }
-
-    public void addAskingGroup(String askingGroupId) {
-        if (askingGroups != null && !askingGroups.contains(askingGroupId)) {
-            askingGroups.add(askingGroupId);
-        }
-    }
-
-    public void removeAskingGroup(String askingGroupId) {
-        if (askingGroups != null && askingGroups.contains(askingGroupId)) {
-            askingGroups.remove(askingGroupId);
         }
     }
 

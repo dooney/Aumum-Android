@@ -30,7 +30,6 @@ import com.aumum.app.mobile.Injector;
 import com.aumum.app.mobile.R;
 import com.aumum.app.mobile.core.Constants;
 import com.aumum.app.mobile.core.dao.UserStore;
-import com.aumum.app.mobile.core.infra.security.ApiKeyProvider;
 import com.aumum.app.mobile.core.service.ChatService;
 import com.aumum.app.mobile.events.DeleteChatMessageEvent;
 import com.aumum.app.mobile.events.GroupDeletedEvent;
@@ -71,7 +70,6 @@ public class ChatFragment extends Fragment
 
     @Inject ChatService chatService;
     @Inject UserStore userStore;
-    @Inject ApiKeyProvider apiKeyProvider;
     @Inject Bus bus;
 
     private String id;

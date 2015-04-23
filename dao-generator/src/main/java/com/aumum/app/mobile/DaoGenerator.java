@@ -32,14 +32,7 @@ public class DaoGenerator {
         user.addStringProperty("avatarUrl");
         user.addStringProperty("about");
         user.addStringProperty("contacts");
-        user.addStringProperty("parties");
-        user.addStringProperty("askings");
-        user.addStringProperty("favParties");
-        user.addStringProperty("favAskings");
         user.addStringProperty("tags");
-        user.addStringProperty("moments");
-        user.addStringProperty("favSpecials");
-        user.addStringProperty("askingGroups");
         user.addIntProperty("credit");
     }
 

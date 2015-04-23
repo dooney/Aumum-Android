@@ -22,10 +22,8 @@ import com.aumum.app.mobile.ui.base.ItemListFragment;
 import com.aumum.app.mobile.ui.view.ConfirmDialog;
 import com.aumum.app.mobile.ui.view.ListViewDialog;
 import com.aumum.app.mobile.ui.view.TextViewDialog;
-import com.aumum.app.mobile.utils.SafeAsyncTask;
 import com.easemob.chat.EMConversation;
 import com.easemob.chat.EMGroup;
-import com.easemob.chat.EMMessage;
 import com.github.kevinsawicki.wishlist.Toaster;
 import com.squareup.otto.Bus;
 import com.squareup.otto.Subscribe;
@@ -85,18 +83,11 @@ public class ConversationFragment extends ItemListFragment<Conversation> {
     private List<Conversation> getAllConversations() throws Exception {
         List<Conversation> result = new ArrayList<Conversation>();
         List<EMConversation> emConversations = chatService.getAllConversations();
-        final ArrayList<String> chatIdList = new ArrayList<>();
         for (final EMConversation emConversation: emConversations) {
             Conversation conversation = new Conversation(emConversation);
             if (emConversation.isGroup()) {
                 EMGroup emGroup = chatService.getGroupById(emConversation.getUserName());
                 if (emGroup != null) {
-                    for (EMMessage emMessage: emConversation.getAllMessages()) {
-                        String chatId = emMessage.getFrom();
-                        if (!chatIdList.contains(chatId)) {
-                            chatIdList.add(chatId);
-                        }
-                    }
                     Group group = new Group(emGroup.getGroupId(), emGroup.getGroupName());
                     conversation.setGroup(group);
                     result.add(conversation);
@@ -108,15 +99,6 @@ public class ConversationFragment extends ItemListFragment<Conversation> {
                     result.add(conversation);
                 }
             }
-        }
-        if (chatIdList.size() > 0) {
-            new SafeAsyncTask<Boolean>() {
-                @Override
-                public Boolean call() throws Exception {
-                    userStore.getGroupUsers(chatIdList);
-                    return true;
-                }
-            }.execute();
         }
         return result;
     }

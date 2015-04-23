@@ -70,14 +70,7 @@ public class UserStore {
                 userEntity.getAvatarUrl(),
                 userEntity.getAbout(),
                 getList(userEntity.getContacts()),
-                getList(userEntity.getParties()),
-                getList(userEntity.getAskings()),
-                getList(userEntity.getFavParties()),
-                getList(userEntity.getFavAskings()),
                 getList(userEntity.getTags()),
-                getList(userEntity.getMoments()),
-                getList(userEntity.getFavSpecials()),
-                getList(userEntity.getAskingGroups()),
                 userEntity.getCredit());
     }
 
@@ -95,14 +88,7 @@ public class UserStore {
                 user.getAvatarUrl(),
                 user.getAbout(),
                 getJsonString(user.getContacts()),
-                getJsonString(user.getParties()),
-                getJsonString(user.getAskings()),
-                getJsonString(user.getFavParties()),
-                getJsonString(user.getFavAskings()),
                 getJsonString(user.getTags()),
-                getJsonString(user.getMoments()),
-                getJsonString(user.getFavSpecials()),
-                getJsonString(user.getAskingGroups()),
                 user.getCredit());
         return userEntity;
     }

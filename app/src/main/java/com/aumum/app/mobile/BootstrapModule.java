@@ -16,7 +16,6 @@ import com.aumum.app.mobile.ui.account.ResetPasswordSuccessActivity;
 import com.aumum.app.mobile.ui.area.AreaListFragment;
 import com.aumum.app.mobile.ui.chat.ChatConnectionListener;
 import com.aumum.app.mobile.ui.chat.ChatFragment;
-import com.aumum.app.mobile.ui.chat.ChatTabFragment;
 import com.aumum.app.mobile.ui.group.GroupChangeListener;
 import com.aumum.app.mobile.ui.group.GroupDetailsFragment;
 import com.aumum.app.mobile.ui.chat.ImageMessageCard;
@@ -125,7 +124,6 @@ import retrofit.converter.GsonConverter;
                 GroupRequestsFragment.class,
                 GroupJoinListener.class,
                 GroupRequestProcessListener.class,
-                ChatTabFragment.class,
                 GroupFragment.class,
                 NewGroupActivity.class
         }

@@ -18,14 +18,7 @@ public class UserEntity extends BaseEntity {
     private String avatarUrl;
     private String about;
     private String contacts;
-    private String parties;
-    private String askings;
-    private String favParties;
-    private String favAskings;
     private String tags;
-    private String moments;
-    private String favSpecials;
-    private String askingGroups;
     private Integer credit;
 
     public UserEntity() {
@@ -46,14 +39,7 @@ public class UserEntity extends BaseEntity {
                       String avatarUrl,
                       String about,
                       String contacts,
-                      String parties,
-                      String askings,
-                      String favParties,
-                      String favAskings,
                       String tags,
-                      String moments,
-                      String favSpecials,
-                      String askingGroups,
                       Integer credit) {
         this.objectId = objectId;
         this.username = username;
@@ -66,14 +52,7 @@ public class UserEntity extends BaseEntity {
         this.avatarUrl = avatarUrl;
         this.about = about;
         this.contacts = contacts;
-        this.parties = parties;
-        this.askings = askings;
-        this.favParties = favParties;
-        this.favAskings = favAskings;
         this.tags = tags;
-        this.moments = moments;
-        this.favSpecials = favSpecials;
-        this.askingGroups = askingGroups;
         this.credit = credit;
     }
 
@@ -149,68 +128,12 @@ public class UserEntity extends BaseEntity {
         this.contacts = contacts;
     }
 
-    public String getParties() {
-        return parties;
-    }
-
-    public void setParties(String parties) {
-        this.parties = parties;
-    }
-
-    public String getAskings() {
-        return askings;
-    }
-
-    public void setAskings(String askings) {
-        this.askings = askings;
-    }
-
-    public String getFavParties() {
-        return favParties;
-    }
-
-    public void setFavParties(String favParties) {
-        this.favParties = favParties;
-    }
-
-    public String getFavAskings() {
-        return favAskings;
-    }
-
-    public void setFavAskings(String favAskings) {
-        this.favAskings = favAskings;
-    }
-
     public String getTags() {
         return tags;
     }
 
     public void setTags(String tags) {
         this.tags = tags;
-    }
-
-    public String getMoments() {
-        return moments;
-    }
-
-    public void setMoments(String moments) {
-        this.moments = moments;
-    }
-
-    public String getFavSpecials() {
-        return favSpecials;
-    }
-
-    public void setFavSpecials(String favSpecials) {
-        this.favSpecials = favSpecials;
-    }
-
-    public String getAskingGroups() {
-        return askingGroups;
-    }
-
-    public void setAskingGroups(String askingGroups) {
-        this.askingGroups = askingGroups;
     }
 
     public Integer getCredit() {
