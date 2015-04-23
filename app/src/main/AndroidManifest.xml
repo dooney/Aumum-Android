@@ -240,32 +240,9 @@
             android:label="@string/title_activity_user_tag_list" >
         </activity>
         <activity android:name=".ui.user.TagUsersActivity" />
-        <activity
-            android:name=".ui.moment.MomentsActivity"
-            android:label="@string/title_activity_moments" >
-        </activity>
-        <activity
-            android:name=".ui.moment.NewMomentActivity"
-            android:label="@string/title_activity_new_moment" >
-        </activity>
-        <activity
-            android:name=".ui.moment.MomentDetailsActivity"
-            android:label="@string/title_activity_moment_details" >
-        </activity>
-        <activity
-            android:name=".ui.moment.MomentDetailsSingleActivity"
-            android:excludeFromRecents="true"
-            android:label="@string/title_activity_moment_details"
-            android:launchMode="singleTask"
-            android:taskAffinity="" >
-        </activity>
-        <activity android:name=".ui.moment.UserMomentsActivity" />
         <activity android:name=".ui.image.ImageViewActivity" />
         <activity android:name=".ui.image.GifViewActivity" />
         <activity android:name=".ui.image.ImageViewPagerActivity" />
-        <activity android:name=".ui.moment.ShareMomentActivity"
-            android:label="@string/title_activity_share_moment">
-        </activity>
         <activity android:name=".ui.group.GroupListActivity"
             android:label="@string/title_activity_group_list">
         </activity>
@@ -281,9 +258,6 @@
         </activity>
         <activity android:name=".ui.credit.CreditPurchaseActivity"
             android:label="@string/title_activity_credit">
-        </activity>
-        <activity android:name=".ui.moment.MomentListActivity"
-            android:label="@string/title_activity_moment_list">
         </activity>
         <activity android:name=".ui.group.NewGroupActivity"
             android:label="@string/title_activity_new_group">

@@ -4,8 +4,6 @@ import android.accounts.AccountManager;
 import android.content.Context;
 
 import com.aumum.app.mobile.core.dao.CreditRuleStore;
-import com.aumum.app.mobile.core.dao.MomentCommentStore;
-import com.aumum.app.mobile.core.dao.MomentStore;
 import com.aumum.app.mobile.core.dao.Repository;
 import com.aumum.app.mobile.core.infra.security.ApiKeyProvider;
 import com.aumum.app.mobile.core.service.ChatService;
@@ -35,15 +33,6 @@ import com.aumum.app.mobile.ui.group.GroupRequestProcessListener;
 import com.aumum.app.mobile.ui.group.GroupRequestsFragment;
 import com.aumum.app.mobile.ui.group.GroupListFragment;
 import com.aumum.app.mobile.ui.group.NewGroupActivity;
-import com.aumum.app.mobile.ui.moment.MomentCommentCard;
-import com.aumum.app.mobile.ui.moment.MomentCommentLikeListener;
-import com.aumum.app.mobile.ui.moment.MomentCommentsFragment;
-import com.aumum.app.mobile.ui.moment.MomentDetailsFragment;
-import com.aumum.app.mobile.ui.moment.MomentLikeListener;
-import com.aumum.app.mobile.ui.moment.MomentListFragment;
-import com.aumum.app.mobile.ui.moment.NewMomentActivity;
-import com.aumum.app.mobile.ui.moment.ShareMomentActivity;
-import com.aumum.app.mobile.ui.moment.UserMomentsFragment;
 import com.aumum.app.mobile.ui.contact.ContactPickerFragment;
 import com.aumum.app.mobile.ui.contact.MobileContactsActivity;
 import com.aumum.app.mobile.ui.conversation.ConversationFragment;
@@ -132,15 +121,6 @@ import retrofit.converter.GsonConverter;
                 NotificationActivity.class,
                 UserTagListFragment.class,
                 TagUsersFragment.class,
-                MomentListFragment.class,
-                NewMomentActivity.class,
-                MomentLikeListener.class,
-                MomentDetailsFragment.class,
-                MomentCommentsFragment.class,
-                MomentCommentCard.class,
-                MomentCommentLikeListener.class,
-                UserMomentsFragment.class,
-                ShareMomentActivity.class,
                 GroupListFragment.class,
                 GroupChangeListener.class,
                 GroupRequestsFragment.class,
@@ -195,18 +175,6 @@ public class BootstrapModule {
     @Singleton
     UserStore provideUserStore(RestService restService, ApiKeyProvider apiKeyProvider, Repository repository) {
         return new UserStore(restService, apiKeyProvider, repository);
-    }
-
-    @Provides
-    @Singleton
-    MomentStore provideMomentStore(RestService restService, Repository repository) {
-        return new MomentStore(restService, repository);
-    }
-
-    @Provides
-    @Singleton
-    MomentCommentStore provideMomentCommentStore(RestService restService) {
-        return new MomentCommentStore(restService);
     }
 
     @Provides

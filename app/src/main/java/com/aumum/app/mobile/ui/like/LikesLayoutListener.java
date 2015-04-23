@@ -43,7 +43,7 @@ public class LikesLayoutListener {
         Injector.inject(this);
     }
 
-    public void update(ViewGroup likesLayout, List<String> likeList) {
+    /*public void update(ViewGroup likesLayout, List<String> likeList) {
         ArrayList<String> likes = new ArrayList<String>();
         likes.addAll(likeList);
         Collections.reverse(likes);
@@ -120,7 +120,7 @@ public class LikesLayoutListener {
         } else {
             Animation.fadeOut(likesLayout, Animation.Duration.SHORT);
         }
-    }
+    }*/
 
     private void startUserListActivity(ArrayList<String> userList) {
         final Intent intent = new Intent(activity, UserListActivity.class);

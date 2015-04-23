@@ -409,18 +409,6 @@
     <string name="label_you_and_others_like">您和其他%,d人点赞</string>
     <string name="label_others_like">%,d人点赞</string>
 
-    <!-- Moments -->
-    <string name="label_moment">妈妈圈</string>
-    <string name="label_new_moment_message">%1$s发了妈妈圈</string>
-    <string name="hint_moment_details">文字</string>
-    <string name="label_like_moment_message">%1$s给您的妈妈圈点赞</string>
-    <string name="hint_new_moment_comment">写评论</string>
-    <string name="hint_reply_moment_comment">回复@%1$s: %2$s</string>
-    <string name="label_like_moment_comment_message">%1$s给您的妈妈圈评论点赞</string>
-    <string name="label_comment_moment_message">%1$s评论了您的妈妈圈</string>
-    <string name="label_replied_moment_message">%1$s回复了您的妈妈圈评论</string>
-    <string name="label_my_moments">我的妈妈圈</string>
-
     <!-- Report -->
     <string name="hint_report_type">违规类别</string>
     <string name="label_select_report_type">请选择违规类别</string>

@@ -12,7 +12,6 @@ public class DaoGenerator {
 
         addUser(schema);
         addContactRequest(schema);
-        addMoment(schema);
         addGroupRequest(schema);
         addCreditRule(schema);
 
@@ -58,18 +57,6 @@ public class DaoGenerator {
         request.addStringProperty("userId").notNull();
         request.addStringProperty("reason");
         request.addIntProperty("status");
-    }
-
-    private static void addMoment(Schema schema) {
-        Entity moment = schema.addEntity("MomentEntity");
-        moment.setSuperclass("BaseEntity");
-        moment.addStringProperty("objectId").notNull().primaryKey();
-        moment.addDateProperty("createdAt").notNull();
-        moment.addStringProperty("userId");
-        moment.addStringProperty("details");
-        moment.addStringProperty("images");
-        moment.addStringProperty("likes");
-        moment.addStringProperty("comments");
     }
 
     private static void addCreditRule(Schema schema) {

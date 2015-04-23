@@ -17,14 +17,12 @@ import android.widget.TextView;
 import com.aumum.app.mobile.Injector;
 import com.aumum.app.mobile.R;
 import com.aumum.app.mobile.core.dao.CreditRuleStore;
-import com.aumum.app.mobile.core.dao.MomentStore;
 import com.aumum.app.mobile.core.infra.security.ApiKeyProvider;
 import com.aumum.app.mobile.core.model.CmdMessage;
 import com.aumum.app.mobile.core.service.ChatService;
 import com.aumum.app.mobile.core.service.NotificationService;
 import com.aumum.app.mobile.core.service.ScheduleService;
 import com.aumum.app.mobile.events.NewChatMessageEvent;
-import com.aumum.app.mobile.events.NewMomentUnreadEvent;
 import com.aumum.app.mobile.events.ResetChatUnreadEvent;
 import com.aumum.app.mobile.ui.chat.ChatConnectionListener;
 import com.aumum.app.mobile.ui.group.GroupChangeListener;
@@ -51,7 +49,6 @@ import retrofit.RetrofitError;
 public class MainFragment extends Fragment
         implements ScheduleService.OnScheduleListener {
 
-    @Inject MomentStore momentStore;
     @Inject CreditRuleStore creditRuleStore;
     @Inject NotificationService notificationService;
     @Inject ChatService chatService;
@@ -128,15 +125,6 @@ public class MainFragment extends Fragment
         }
         task = new SafeAsyncTask<Boolean>() {
             public Boolean call() throws Exception {
-                int unreadCount = momentStore.getUnreadCount();
-                if (unreadCount > 0) {
-                    bus.post(new NewMomentUnreadEvent());
-                    getActivity().runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                        }
-                    });
-                }
                 return true;
             }
 
@@ -268,13 +256,6 @@ public class MainFragment extends Fragment
                     case CmdMessage.Type.USER_NEW:
                         handleUserDetailsCmdMessage(cmdMessage);
                         break;
-                    case CmdMessage.Type.MOMENT_NEW:
-                    case CmdMessage.Type.MOMENT_LIKE:
-                    case CmdMessage.Type.MOMENT_COMMENT:
-                    case CmdMessage.Type.MOMENT_REPLY:
-                    case CmdMessage.Type.MOMENT_COMMENT_LIKE:
-                        handleMomentDetailsCmdMessage(cmdMessage);
-                        break;
                     default:
                         break;
                 }
@@ -303,12 +284,5 @@ public class MainFragment extends Fragment
         String title = cmdMessage.getTitle();
         String content = cmdMessage.getContent();
         notificationService.pushUserDetailsNotification(userId, title, content);
-    }
-
-    private void handleMomentDetailsCmdMessage(CmdMessage cmdMessage) {
-        String momentId = cmdMessage.getPayload();
-        String title = cmdMessage.getTitle();
-        String content = cmdMessage.getContent();
-        notificationService.pushMomentDetailsNotification(momentId, title, content);
     }
 }

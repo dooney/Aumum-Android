@@ -35,7 +35,7 @@ public abstract class RefreshItemListFragment<E> extends ItemListFragment<E> {
 
     @Override
     public void onViewCreated(final View view, final Bundle savedInstanceState) {
-        pullToRefreshLayout = (PullToRefreshLayout) view.findViewById(R.id.ptr_layout);
+        //pullToRefreshLayout = (PullToRefreshLayout) view.findViewById(R.id.ptr_layout);
         if (pullToRefreshLayout != null) {
             ActionBarPullToRefresh.from(getActivity()).allChildrenArePullable().listener(new OnRefreshListener() {
                 @Override

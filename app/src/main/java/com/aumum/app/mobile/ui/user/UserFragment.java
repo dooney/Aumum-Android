@@ -24,7 +24,6 @@ import com.aumum.app.mobile.core.service.ChatService;
 import com.aumum.app.mobile.core.service.RestService;
 import com.aumum.app.mobile.ui.base.LoaderFragment;
 import com.aumum.app.mobile.ui.chat.ChatActivity;
-import com.aumum.app.mobile.ui.moment.UserMomentsActivity;
 import com.aumum.app.mobile.ui.view.AvatarImageView;
 import com.aumum.app.mobile.ui.view.ConfirmDialog;
 import com.aumum.app.mobile.ui.view.EditTextDialog;
@@ -248,21 +247,12 @@ public class UserFragment extends LoaderFragment<User> {
                     case 1:
                         break;
                     case 2:
-                        startUserMomentsActivity(user);
                         break;
                     default:
                         break;
                 }
             }
         }).show();
-    }
-
-    private void startUserMomentsActivity(User user) {
-        final Intent intent = new Intent(getActivity(), UserMomentsActivity.class);
-        intent.putExtra(UserMomentsActivity.INTENT_TITLE,
-                getString(R.string.title_activity_user_moments, user.getScreenName()));
-        intent.putExtra(UserMomentsActivity.INTENT_USER_ID, user.getObjectId());
-        startActivity(intent);
     }
 
     private void updateTagsUI(final List<String> tags) {
