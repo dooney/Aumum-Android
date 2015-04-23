@@ -55,7 +55,6 @@
     <string-array name="label_group_actions">
         <item>创建群组</item>
         <item>查找群组</item>
-        <item>入群请求</item>
     </string-array>
 
     <!-- General -->
@@ -124,10 +123,6 @@
     <string name="info_join_group_sent">发送成功，请等待群主验证</string>
     <string name="info_user_was_removed">您已被从群%1$s里移出</string>
     <string name="info_empty_member_list">该群组没有其他成员</string>
-    <string name="info_insufficient_credit">您的积分不足</string>
-    <string name="info_not_supported_by_your_country">您所在的国家不支持该换购</string>
-    <string name="info_gift_purchase_submitted">换购已成功提交，我们会在发货前与您确认</string>
-    <string name="info_confirm_clear_conversation_list">您确定要清空会话列表？</string>
     <string name="info_got_credit">%1$s：获得积分%2$d</string>
     <string name="info_submitting_group">正在提交您的群组，请稍候</string>
     <string name="info_confirm_delete_chat_message">您确定要删除该聊天记录？</string>

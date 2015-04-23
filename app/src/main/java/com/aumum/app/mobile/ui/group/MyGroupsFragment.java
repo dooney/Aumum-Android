@@ -4,9 +4,13 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 
 import com.aumum.app.mobile.Injector;
 import com.aumum.app.mobile.R;
@@ -42,7 +46,25 @@ public class MyGroupsFragment extends ItemListFragment<GroupDetails> {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setHasOptionsMenu(true);
         Injector.inject(this);
+    }
+
+    @Override
+    public void onCreateOptionsMenu(final Menu menu, final MenuInflater inflater) {
+        MenuItem plus = menu.add(Menu.NONE, 0, Menu.NONE, null);
+        plus.setActionView(R.layout.menuitem_plus);
+        plus.setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
+        View plusView = plus.getActionView();
+        ImageView plusIcon = (ImageView) plusView.findViewById(R.id.b_plus);
+        plusIcon.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (getActivity() != null) {
+                    showActionDialog();
+                }
+            }
+        });
     }
 
     @Override
@@ -96,9 +118,6 @@ public class MyGroupsFragment extends ItemListFragment<GroupDetails> {
                             case 1:
                                 showSearchGroupDialog();
                                 break;
-                            case 2:
-                                startGroupRequestsActivity();
-                                break;
                             default:
                                 break;
                         }
@@ -147,11 +166,6 @@ public class MyGroupsFragment extends ItemListFragment<GroupDetails> {
     private void startGroupListActivity(ArrayList<String> groupList) {
         final Intent intent = new Intent(getActivity(), GroupListActivity.class);
         intent.putStringArrayListExtra(GroupListActivity.INTENT_GROUP_LIST, groupList);
-        startActivity(intent);
-    }
-
-    private void startGroupRequestsActivity() {
-        final Intent intent = new Intent(getActivity(), GroupRequestsActivity.class);
         startActivity(intent);
     }
 
