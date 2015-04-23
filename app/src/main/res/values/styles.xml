@@ -250,18 +250,6 @@
         <item name="android:background">@color/grey_medium</item>
     </style>
 
-    <!-- Credit Gift -->
-    <style name="TextView.CreditGift.ScreenName" parent="TextView.Title" />
-    <style name="TextView.CreditGift.Cost" parent="TextView.Subtitle">
-        <item name="android:textSize">@dimen/text_sz_small</item>
-    </style>
-    <style name="TextView.CreditGift.Description" parent="TextView.Subtitle">
-        <item name="android:textSize">@dimen/text_sz_small</item>
-    </style>
-    <style name="Button.CreditGift.Purchase" parent="Button.Action">
-        <item name="android:text">@string/label_purchase_gift</item>
-    </style>
-
     <!-- Report -->
     <style name="EditText.Report.Type" parent="EditText.Mandatory">
         <item name="android:hint">@string/hint_report_type</item>

@@ -419,11 +419,6 @@
     <string name="hint_group_description">群组描述</string>
     <string name="label_group_size">%,d人在线</string>
 
-    <!-- Credit Gift -->
-    <string name="label_purchase_gift">换购</string>"
-    <string name="label_credit_gift_cost">花费：&lt;font color=#d9534f>%,d&lt;/font>积分</string>
-    <string name="hint_delivery_details">您的姓名和邮寄地址</string>
-
     <!-- Contact -->
     <string name="label_mobile_contacts">手机联系人</string>
     <string name="label_invite">邀请</string>

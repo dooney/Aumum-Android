@@ -256,9 +256,6 @@
         <activity android:name=".ui.group.GroupMemberPickerActivity"
             android:label="@string/title_activity_group_member_picker">
         </activity>
-        <activity android:name=".ui.credit.CreditPurchaseActivity"
-            android:label="@string/title_activity_credit">
-        </activity>
         <activity android:name=".ui.group.NewGroupActivity"
             android:label="@string/title_activity_new_group">
         </activity>

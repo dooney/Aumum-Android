@@ -379,24 +379,13 @@ public final class Constants {
 
         }
 
-        public static final int NEW_PARTY_REQ_CODE = 30;
-        public static final int GET_PARTY_DETAILS_REQ_CODE = 31;
-        public static final int SETTINGS_REQ_CODE = 32;
-        public static final int IMAGE_PICKER_REQ_CODE = 33;
-        public static final int CROP_PROFILE_IMAGE_REQ_CODE = 34;
-        public static final int NEW_ASKING_REQ_CODE = 35;
-        public static final int GET_ASKING_DETAILS_REQ_CODE = 36;
-        public static final int GET_PARTY_COMMENTS_REQ_CODE = 37;
-        public static final int GET_GROUP_DETAILS_REQ_CODE = 38;
-        public static final int GET_AREA_LIST_REQ_CODE = 39;
-        public static final int GET_USER_TAG_LIST_REQ_CODE = 40;
-        public static final int GET_PARTY_REQ_CODE = 41;
-        public static final int GET_MOMENT_REQ_CODE = 42;
-        public static final int NEW_PARTY_REQUEST_REQ_CODE = 43;
-        public static final int CREDIT_PURCHASE_REQ_CODE = 44;
-        public static final int GET_ASKING_LIST_REQ_CODE = 45;
-        public static final int GET_ASKING_BOARD_REQ_CODE = 46;
-        public static final int NEW_GROUP_REQ_CODE = 47;
+        public static final int SETTINGS_REQ_CODE = 30;
+        public static final int IMAGE_PICKER_REQ_CODE = 31;
+        public static final int CROP_PROFILE_IMAGE_REQ_CODE = 32;
+        public static final int GET_GROUP_DETAILS_REQ_CODE = 33;
+        public static final int GET_AREA_LIST_REQ_CODE = 34;
+        public static final int GET_USER_TAG_LIST_REQ_CODE = 35;
+        public static final int NEW_GROUP_REQ_CODE = 36;
     }
 
     public static final class Link {

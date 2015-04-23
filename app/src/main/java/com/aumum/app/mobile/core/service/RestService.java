@@ -3,8 +3,6 @@ package com.aumum.app.mobile.core.service;
 
 import com.aumum.app.mobile.core.model.Area;
 import com.aumum.app.mobile.core.model.CityGroup;
-import com.aumum.app.mobile.core.model.CreditGift;
-import com.aumum.app.mobile.core.model.CreditOrder;
 import com.aumum.app.mobile.core.model.CreditRule;
 import com.aumum.app.mobile.core.model.Feedback;
 import com.aumum.app.mobile.core.Constants;
@@ -74,14 +72,6 @@ public class RestService {
 
     private UserTagService getUserTagService() {
         return getRestAdapter().create(UserTagService.class);
-    }
-
-    private CreditGiftService getCreditGiftService() {
-        return getRestAdapter().create(CreditGiftService.class);
-    }
-
-    private CreditOrderService getCreditOrderService() {
-        return getRestAdapter().create(CreditOrderService.class);
     }
 
     private CreditRuleService getCreditRuleService() {
@@ -667,19 +657,6 @@ public class RestService {
 
     public List<UserTag> getUserTags() {
         return getUserTagService().getList().getResults();
-    }
-
-    public List<CreditGift> getCreditGiftList() {
-        final JsonObject whereJson = new JsonObject();
-        final JsonObject liveJson = new JsonObject();
-        liveJson.addProperty("$exists", false);
-        whereJson.add("deletedAt" ,liveJson);
-        String where = whereJson.toString();
-        return getCreditGiftService().getList("seq", where, Integer.MAX_VALUE).getResults();
-    }
-
-    public CreditOrder newCreditOrder(CreditOrder creditOrder) {
-        return getCreditOrderService().newCreditOrder(creditOrder);
     }
 
     public List<CreditRule> getCreditRuleList() {

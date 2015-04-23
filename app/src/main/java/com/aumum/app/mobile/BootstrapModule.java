@@ -17,7 +17,6 @@ import com.aumum.app.mobile.ui.area.AreaListFragment;
 import com.aumum.app.mobile.ui.chat.ChatConnectionListener;
 import com.aumum.app.mobile.ui.chat.ChatFragment;
 import com.aumum.app.mobile.ui.chat.ChatTabFragment;
-import com.aumum.app.mobile.ui.credit.CreditPurchaseFragment;
 import com.aumum.app.mobile.ui.group.GroupChangeListener;
 import com.aumum.app.mobile.ui.group.GroupDetailsFragment;
 import com.aumum.app.mobile.ui.chat.ImageMessageCard;
@@ -128,7 +127,6 @@ import retrofit.converter.GsonConverter;
                 GroupRequestProcessListener.class,
                 ChatTabFragment.class,
                 GroupFragment.class,
-                CreditPurchaseFragment.class,
                 NewGroupActivity.class
         }
 )

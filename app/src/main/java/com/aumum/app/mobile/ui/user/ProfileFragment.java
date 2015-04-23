@@ -25,7 +25,6 @@ import com.aumum.app.mobile.core.service.RestService;
 import com.aumum.app.mobile.ui.area.AreaListActivity;
 import com.aumum.app.mobile.ui.base.LoaderFragment;
 import com.aumum.app.mobile.ui.browser.BrowserActivity;
-import com.aumum.app.mobile.ui.credit.CreditPurchaseActivity;
 import com.aumum.app.mobile.ui.image.ImagePickerActivity;
 import com.aumum.app.mobile.ui.settings.SettingsActivity;
 import com.aumum.app.mobile.ui.view.AvatarImageView;
@@ -312,11 +311,6 @@ public class ProfileFragment extends LoaderFragment<User> {
             final ArrayList<String> userTags =
                     data.getStringArrayListExtra(UserTagListActivity.INTENT_USER_TAGS);
             updateTags(userTags);
-        } else if (requestCode == Constants.RequestCode.CREDIT_PURCHASE_REQ_CODE &&
-                resultCode == Activity.RESULT_OK) {
-            int credit = data.getIntExtra(CreditPurchaseActivity.INTENT_CURRENT_CREDIT,
-                    currentUser.getCredit());
-            creditText.setText(String.valueOf(credit));
         }
     }
 
@@ -366,7 +360,6 @@ public class ProfileFragment extends LoaderFragment<User> {
             public void onItemClick(int i) {
                 switch (i) {
                     case 1:
-                        startCreditPurchaseActivity();
                         break;
                     case 0:
                         startSettingsActivity();
@@ -519,11 +512,6 @@ public class ProfileFragment extends LoaderFragment<User> {
     private void startUserTagListActivity() {
         final Intent intent = new Intent(getActivity(), UserTagListActivity.class);
         startActivityForResult(intent, Constants.RequestCode.GET_USER_TAG_LIST_REQ_CODE);
-    }
-
-    private void startCreditPurchaseActivity() {
-        final Intent intent = new Intent(getActivity(), CreditPurchaseActivity.class);
-        startActivityForResult(intent, Constants.RequestCode.CREDIT_PURCHASE_REQ_CODE);
     }
 
     private void startCreditInfoActivity() {
