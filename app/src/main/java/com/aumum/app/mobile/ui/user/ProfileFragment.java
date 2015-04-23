@@ -63,7 +63,6 @@ public class ProfileFragment extends LoaderFragment<User> {
     private AvatarImageView avatarImage;
     private View screenNameLayout;
     private TextView screenNameText;
-    private View creditLayout;
     private TextView creditText;
     private TextView creditInfoText;
     private View emailLayout;
@@ -86,16 +85,16 @@ public class ProfileFragment extends LoaderFragment<User> {
 
     @Override
     public void onCreateOptionsMenu(final Menu menu, final MenuInflater inflater) {
-        MenuItem more = menu.add(Menu.NONE, 0, Menu.NONE, null);
-        more.setActionView(R.layout.menuitem_more);
-        more.setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
-        View moreView = more.getActionView();
-        ImageView moreIcon = (ImageView) moreView.findViewById(R.id.b_more);
-        moreIcon.setOnClickListener(new View.OnClickListener() {
+        MenuItem settings = menu.add(Menu.NONE, 0, Menu.NONE, null);
+        settings.setActionView(R.layout.menuitem_settings);
+        settings.setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
+        View settingsView = settings.getActionView();
+        ImageView settingsIcon = (ImageView) settingsView.findViewById(R.id.b_settings);
+        settingsIcon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if (getActivity() != null) {
-                    showActionDialog();
+                    startSettingsActivity();
                 }
             }
         });
@@ -148,7 +147,6 @@ public class ProfileFragment extends LoaderFragment<User> {
             }
         });
         screenNameText = (TextView) view.findViewById(R.id.text_screen_name);
-        creditLayout = view.findViewById(R.id.layout_credit);
         creditText = (TextView) view.findViewById(R.id.text_credit);
         creditInfoText = (TextView) view.findViewById(R.id.text_credit_info);
         creditInfoText.setOnClickListener(new View.OnClickListener() {
@@ -350,25 +348,6 @@ public class ProfileFragment extends LoaderFragment<User> {
             updateTagsUI(user.getTags());
             aboutText.setText(user.getAbout());
         }
-    }
-
-    private void showActionDialog() {
-        String options[] = getResources().getStringArray(R.array.label_profile_actions);
-        new ListViewDialog(getActivity(), null, Arrays.asList(options),
-                new ListViewDialog.OnItemClickListener() {
-            @Override
-            public void onItemClick(int i) {
-                switch (i) {
-                    case 1:
-                        break;
-                    case 0:
-                        startSettingsActivity();
-                        break;
-                    default:
-                        break;
-                }
-            }
-        }).show();
     }
 
     private void startImagePickerActivity() {
