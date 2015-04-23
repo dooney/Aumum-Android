@@ -25,14 +25,13 @@ import com.aumum.app.mobile.ui.chat.SendMessageListener;
 import com.aumum.app.mobile.ui.chat.TextMessageCard;
 import com.aumum.app.mobile.ui.chat.VoiceMessageCard;
 import com.aumum.app.mobile.ui.contact.ContactFragment;
-import com.aumum.app.mobile.ui.group.GroupFragment;
+import com.aumum.app.mobile.ui.group.MyGroupsFragment;
 import com.aumum.app.mobile.ui.group.GroupJoinListener;
 import com.aumum.app.mobile.ui.group.GroupRequestProcessListener;
 import com.aumum.app.mobile.ui.group.GroupRequestsFragment;
 import com.aumum.app.mobile.ui.group.GroupListFragment;
 import com.aumum.app.mobile.ui.group.NewGroupActivity;
 import com.aumum.app.mobile.ui.contact.ContactPickerFragment;
-import com.aumum.app.mobile.ui.contact.MobileContactsActivity;
 import com.aumum.app.mobile.ui.conversation.ConversationFragment;
 import com.aumum.app.mobile.ui.contact.AcceptContactListener;
 import com.aumum.app.mobile.ui.contact.ContactListener;
@@ -107,7 +106,6 @@ import retrofit.converter.GsonConverter;
                 ResetPasswordSuccessActivity.class,
                 MessageNotifyListener.class,
                 NotificationClickListener.class,
-                MobileContactsActivity.class,
                 GroupDetailsFragment.class,
                 ContactPickerFragment.class,
                 UserListFragment.class,
@@ -124,7 +122,7 @@ import retrofit.converter.GsonConverter;
                 GroupRequestsFragment.class,
                 GroupJoinListener.class,
                 GroupRequestProcessListener.class,
-                GroupFragment.class,
+                MyGroupsFragment.class,
                 NewGroupActivity.class
         }
 )

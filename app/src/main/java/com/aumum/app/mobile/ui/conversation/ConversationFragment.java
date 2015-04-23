@@ -17,19 +17,13 @@ import com.aumum.app.mobile.core.service.ChatService;
 import com.aumum.app.mobile.events.GroupDeletedEvent;
 import com.aumum.app.mobile.events.NewChatMessageEvent;
 import com.aumum.app.mobile.events.ResetChatUnreadEvent;
-import com.aumum.app.mobile.events.ShowConversationActionsEvent;
 import com.aumum.app.mobile.ui.base.ItemListFragment;
-import com.aumum.app.mobile.ui.view.ConfirmDialog;
-import com.aumum.app.mobile.ui.view.ListViewDialog;
-import com.aumum.app.mobile.ui.view.TextViewDialog;
 import com.easemob.chat.EMConversation;
 import com.easemob.chat.EMGroup;
-import com.github.kevinsawicki.wishlist.Toaster;
 import com.squareup.otto.Bus;
 import com.squareup.otto.Subscribe;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -111,49 +105,5 @@ public class ConversationFragment extends ItemListFragment<Conversation> {
     @Subscribe
     public void onNewChatMessageEvent(NewChatMessageEvent event) {
         refresh(null);
-    }
-
-    @Subscribe
-    public void onShowConversationActionsEvent(ShowConversationActionsEvent event) {
-        showActionDialog();
-    }
-
-    private void showActionDialog() {
-        String options[] = getResources().getStringArray(R.array.label_conversation_actions);
-        new ListViewDialog(getActivity(), null, Arrays.asList(options),
-                new ListViewDialog.OnItemClickListener() {
-                    @Override
-                    public void onItemClick(int i) {
-                        switch (i) {
-                            case 0:
-                                showClearListDialog();
-                                break;
-                            default:
-                                break;
-                        }
-                    }
-                }).show();
-    }
-
-    private void showClearListDialog() {
-        new TextViewDialog(getActivity(),
-                getString(R.string.info_confirm_clear_conversation_list),
-                new ConfirmDialog.OnConfirmListener() {
-                    @Override
-                    public void call(Object value) throws Exception {
-                        chatService.deleteAllConversation();
-                    }
-
-                    @Override
-                    public void onException(String errorMessage) {
-                        Toaster.showShort(getActivity(), errorMessage);
-                    }
-
-                    @Override
-                    public void onSuccess(Object value) {
-                        getData().clear();
-                        getListAdapter().notifyDataSetChanged();
-                    }
-                }).show();
     }
 }

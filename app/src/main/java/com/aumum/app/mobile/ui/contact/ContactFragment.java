@@ -11,7 +11,9 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.HeaderViewListAdapter;
 import android.widget.ImageView;
+import android.widget.ListView;
 
 import com.aumum.app.mobile.Injector;
 import com.aumum.app.mobile.R;
@@ -21,6 +23,7 @@ import com.aumum.app.mobile.core.model.User;
 import com.aumum.app.mobile.core.service.RestService;
 import com.aumum.app.mobile.ui.area.AreaListActivity;
 import com.aumum.app.mobile.ui.base.ItemListFragment;
+import com.aumum.app.mobile.ui.group.MyGroupsActivity;
 import com.aumum.app.mobile.ui.user.AreaUsersActivity;
 import com.aumum.app.mobile.ui.user.TagUsersActivity;
 import com.aumum.app.mobile.ui.user.UserActivity;
@@ -79,20 +82,6 @@ public class ContactFragment extends ItemListFragment<User>
                 }
             }
         });
-
-        MenuItem more = menu.add(Menu.NONE, 1, Menu.NONE, null);
-        more.setActionView(R.layout.menuitem_more);
-        more.setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
-        View moreView = more.getActionView();
-        ImageView moreIcon = (ImageView) moreView.findViewById(R.id.b_more);
-        moreIcon.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (getActivity() != null) {
-                    showActionDialog();
-                }
-            }
-        });
     }
 
     @Override
@@ -106,6 +95,28 @@ public class ContactFragment extends ItemListFragment<User>
         super.onViewCreated(view, savedInstanceState);
 
         mainView = view.findViewById(R.id.main_view);
+
+        LayoutInflater inflater = getActivity().getLayoutInflater();
+        ListView listView = (ListView) view.findViewById(android.R.id.list);
+        View footerView = inflater.inflate(R.layout.listview_contact_header, null);
+        listView.addHeaderView(footerView, null, false);
+        listView.setHeaderDividersEnabled(false);
+
+        View myGroupsLayout = view.findViewById(R.id.layout_my_groups);
+        myGroupsLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startMyGroupsActivity();
+            }
+        });
+        View contactRequestsLayout = view.findViewById(R.id.layout_contact_requests);
+        contactRequestsLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startContactRequestActivity();
+            }
+        });
+
         SideBar sideBar = (SideBar) view.findViewById(R.id.sideBar);
         sideBar.setOnTouchingLetterChangedListener(new SideBar.OnTouchingLetterChangedListener() {
             @Override
@@ -137,14 +148,20 @@ public class ContactFragment extends ItemListFragment<User>
     }
 
     @Override
+    public void onResume() {
+        super.onResume();
+        refresh(null);
+    }
+
+    @Override
     protected View getMainView() {
         return mainView;
     }
 
     @Override
-    public void onResume() {
-        super.onResume();
-        refresh(null);
+    protected ArrayAdapter<User> getListAdapter() {
+        HeaderViewListAdapter adapter = (HeaderViewListAdapter)getListView().getAdapter();
+        return (ArrayAdapter<User>)adapter.getWrappedAdapter();
     }
 
     @Override
@@ -204,26 +221,6 @@ public class ContactFragment extends ItemListFragment<User>
                 }).show();
     }
 
-    private void showActionDialog() {
-        String options[] = getResources().getStringArray(R.array.label_contact_actions);
-        new ListViewDialog(getActivity(), null, Arrays.asList(options),
-                new ListViewDialog.OnItemClickListener() {
-            @Override
-            public void onItemClick(int i) {
-                switch (i) {
-                    case 0:
-                        startAddMobileContactsActivity();
-                        break;
-                    case 1:
-                        startContactRequestActivity();
-                        break;
-                    default:
-                        break;
-                }
-            }
-        }).show();
-    }
-
     private void showSearchUserDialog() {
         final ArrayList<String> userList = new ArrayList<String>();
         new SearchUserDialog(getActivity(), new ConfirmDialog.OnConfirmListener() {
@@ -258,9 +255,8 @@ public class ContactFragment extends ItemListFragment<User>
         startActivity(intent);
     }
 
-    private void startAddMobileContactsActivity() {
-        final Intent intent = new Intent(getActivity(), MobileContactsActivity.class);
-        intent.putExtra(MobileContactsActivity.INTENT_USER_ID, currentUser.getObjectId());
+    private void startMyGroupsActivity() {
+        final Intent intent = new Intent(getActivity(), MyGroupsActivity.class);
         startActivity(intent);
     }
 

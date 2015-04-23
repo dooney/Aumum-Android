@@ -15,7 +15,6 @@ import com.aumum.app.mobile.core.dao.UserStore;
 import com.aumum.app.mobile.core.model.GroupDetails;
 import com.aumum.app.mobile.core.model.User;
 import com.aumum.app.mobile.core.service.ChatService;
-import com.aumum.app.mobile.events.ShowGroupActionsEvent;
 import com.aumum.app.mobile.ui.base.ItemListFragment;
 import com.aumum.app.mobile.ui.view.ConfirmDialog;
 import com.aumum.app.mobile.ui.view.EditTextDialog;
@@ -24,8 +23,6 @@ import com.aumum.app.mobile.ui.view.sort.SizeComparator;
 import com.easemob.chat.EMGroup;
 import com.easemob.chat.EMGroupInfo;
 import com.github.kevinsawicki.wishlist.Toaster;
-import com.squareup.otto.Bus;
-import com.squareup.otto.Subscribe;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -37,9 +34,8 @@ import javax.inject.Inject;
 /**
  * Created by Administrator on 26/03/2015.
  */
-public class GroupFragment extends ItemListFragment<GroupDetails> {
+public class MyGroupsFragment extends ItemListFragment<GroupDetails> {
 
-    @Inject Bus bus;
     @Inject UserStore userStore;
     @Inject ChatService chatService;
 
@@ -52,7 +48,7 @@ public class GroupFragment extends ItemListFragment<GroupDetails> {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_group, null);
+        return inflater.inflate(R.layout.fragment_my_groups, null);
     }
 
     @Override
@@ -62,18 +58,6 @@ public class GroupFragment extends ItemListFragment<GroupDetails> {
                 resultCode == Activity.RESULT_OK) {
             refresh(null);
         }
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        bus.register(this);
-    }
-
-    @Override
-    public void onPause() {
-        super.onDestroy();
-        bus.unregister(this);
     }
 
     @Override
@@ -97,11 +81,6 @@ public class GroupFragment extends ItemListFragment<GroupDetails> {
         }
         Collections.sort(groupList, new SizeComparator());
         return groupList;
-    }
-
-    @Subscribe
-    public void onShowGroupActionsEvent(ShowGroupActionsEvent event) {
-        showActionDialog();
     }
 
     private void showActionDialog() {

@@ -95,7 +95,6 @@
     <string name="info_submitting_profile">正在保存您的个人资料，请稍候</string>
     <string name="info_profile_not_completed_yet">您还没填写完个人资料</string>
     <string name="info_verification_sms_sent">验证码短信已成功发送，请注意查收</string>
-    <string name="info_invitation">澳妈圈，澳新领先的华人移动社区。安卓版下载地址https://play.google.com/store/apps/details?id=com.aumum.app.mobile iOS版即将上线，敬请期待。</string>
     <string name="info_reset_password_tip">验证邮件24小时内有效，请尽快登陆您的邮箱点击验证链接完成验证。若未收到邮件请先确认是否在垃圾邮件中。</string>
     <string name="info_sending_reset_password_email">正在发送密码重置邮件，请稍候</string>
     <string name="info_reset_password_email_sent">重置密码邮件发送成功</string>
@@ -181,6 +180,7 @@
     <string name="title_activity_group_requests">入群请求</string>
     <string name="title_activity_group_member_picker">选择群组成员</string>
     <string name="title_activity_new_group">创建群组</string>
+    <string name="title_activity_my_groups">我的群组</string>
 
     <!-- Account -->
     <string name="hint_login_phone">手机号码</string>
@@ -279,6 +279,8 @@
     <string name="label_group_size">%,d人在线</string>
 
     <!-- Contact -->
+    <string name="label_my_groups">我的群组</string>
+    <string name="label_contact_requests">好友请求</string>
     <string name="label_mobile_contacts">手机联系人</string>
     <string name="label_invite">邀请</string>
     <string name="hint_search_user">手机号码/用户昵称</string>
