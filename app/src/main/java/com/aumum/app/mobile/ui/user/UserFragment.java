@@ -5,13 +5,9 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.aumum.app.mobile.Injector;
@@ -27,11 +23,9 @@ import com.aumum.app.mobile.ui.chat.ChatActivity;
 import com.aumum.app.mobile.ui.view.AvatarImageView;
 import com.aumum.app.mobile.ui.view.ConfirmDialog;
 import com.aumum.app.mobile.ui.view.EditTextDialog;
-import com.aumum.app.mobile.ui.view.ListViewDialog;
 import com.aumum.app.mobile.ui.view.TextViewDialog;
 import com.github.kevinsawicki.wishlist.Toaster;
 
-import java.util.Arrays;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -78,23 +72,6 @@ public class UserFragment extends LoaderFragment<User> {
             int index = d.lastIndexOf("@");
             screenName = d.substring(index + 1);
         }
-    }
-
-    @Override
-    public void onCreateOptionsMenu(final Menu menu, final MenuInflater inflater) {
-        MenuItem more = menu.add(Menu.NONE, 0, Menu.NONE, null);
-        more.setActionView(R.layout.menuitem_more);
-        more.setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
-        View moreView = more.getActionView();
-        ImageView moreIcon = (ImageView) moreView.findViewById(R.id.b_more);
-        moreIcon.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (getActivity() != null && user != null) {
-                    showActionDialog(user);
-                }
-            }
-        });
     }
 
     @Override
@@ -235,24 +212,6 @@ public class UserFragment extends LoaderFragment<User> {
                 });
             }
         }
-    }
-
-    private void showActionDialog(final User user) {
-        String options[] = getResources().getStringArray(R.array.label_user_actions);
-        new ListViewDialog(getActivity(), null, Arrays.asList(options),
-                new ListViewDialog.OnItemClickListener() {
-            @Override
-            public void onItemClick(int i) {
-                switch (i) {
-                    case 1:
-                        break;
-                    case 2:
-                        break;
-                    default:
-                        break;
-                }
-            }
-        }).show();
     }
 
     private void updateTagsUI(final List<String> tags) {

@@ -129,24 +129,6 @@
                     style="@style/RelativeLayout.NavButton">
 
                     <TextView
-                        android:id="@+id/text_label_interests"
-                        style="@style/TextView.User"
-                        android:layout_centerVertical="true"
-                        android:layout_marginRight="@dimen/margin_large"
-                        android:text="@string/label_interests"/>
-
-                    <TextView
-                        android:id="@+id/text_interests"
-                        style="@style/TextView.User.Interest"
-                        android:layout_toRightOf="@+id/text_label_interests"
-                        android:layout_alignBaseline="@+id/text_label_interests"/>
-
-                </RelativeLayout>
-
-                <RelativeLayout
-                    style="@style/RelativeLayout.NavButton">
-
-                    <TextView
                         android:id="@+id/text_label_about"
                         style="@style/TextView.User"
                         android:layout_centerVertical="true"

@@ -5,66 +5,12 @@
 
     <string-array name="label_main_pages">
         <item>聊天</item>
-        <item>说说</item>
-        <item>发现</item>
         <item>好友</item>
         <item>个人</item>
     </string-array>
     <string-array name="label_chat_tab_pages">
         <item>最近会话</item>
         <item>我的群组</item>
-    </string-array>
-    <string-array name="label_party_pages">
-        <item>聚会需求</item>
-        <item>个人聚会</item>
-        <item>公开活动</item>
-    </string-array>
-    <string-array name="label_party_actions">
-        <item>求聚会</item>
-        <item>组织聚会</item>
-        <item>我的聚会</item>
-        <item>我的收藏</item>
-    </string-array>
-    <string-array name="label_my_parties">
-        <item>日历</item>
-        <item>列表</item>
-    </string-array>
-    <string-array name="label_search_party">
-        <item>当前位置附近</item>
-        <item>指定地址附近</item>
-    </string-array>
-    <string-array name="label_party_request_area">
-        <item>同城</item>
-        <item>同区</item>
-    </string-array>
-    <string-array name="label_party_request_type">
-        <item>亲子聚会</item>
-        <item>妈妈聚会</item>
-    </string-array>
-    <string-array name="label_party_request_family_sub_type">
-        <item>PlayGroup</item>
-        <item>0-1岁宝宝</item>
-        <item>1-3岁宝宝</item>
-        <item>3-6岁宝宝</item>
-    </string-array>
-    <string-array name="label_event_actions">
-        <item>分享到聚会</item>
-        <item>分享到第三方平台</item>
-    </string-array>
-    <string-array name="label_channel_item_actions">
-        <item>分享到妈妈圈</item>
-        <item>分享到第三方平台</item>
-    </string-array>
-    <string-array name="label_asking_actions">
-        <item>我的说说</item>
-        <item>我的收藏</item>
-    </string-array>
-    <string-array name="label_moment_actions">
-        <item>发妈妈圈</item>
-        <item>我的妈妈圈</item>
-    </string-array>
-    <string-array name="label_special_actions">
-        <item>我的收藏</item>
     </string-array>
     <string-array name="label_add_contacts">
         <item>手机号码/用户昵称</item>
@@ -79,11 +25,6 @@
     <string-array name="label_single_chat_actions">
         <item>清除聊天记录</item>
         <item>举报</item>
-    </string-array>
-    <string-array name="label_user_actions">
-        <item>她的说说</item>
-        <item>她的聚会</item>
-        <item>她的妈妈圈</item>
     </string-array>
     <string-array name="label_profile_actions">
         <item>我的设置</item>
@@ -105,20 +46,6 @@
     <string-array name="label_group_process_options">
         <item>同意</item>
         <item>拒绝</item>
-    </string-array>
-    <string-array name="label_party_privacy">
-        <item>完全公开</item>
-        <item>仅好友可见</item>
-        <item>指定好友可见</item>
-    </string-array>
-    <string-array name="label_party_group">
-        <item>自动创建</item>
-        <item>不创建</item>
-    </string-array>
-    <string-array name="label_party_notify">
-        <item>所有好友</item>
-        <item>指定好友</item>
-        <item>不通知</item>
     </string-array>
     <string-array name="label_report_types">
         <item>垃圾营销</item>
@@ -153,25 +80,17 @@
     <string name="label_join">加入</string>
     <string name="label_comment">评论</string>
     <string name="label_like">点赞</string>
-    <string name="label_add_more">添加更多</string>
 
     <!-- Info Message -->
     <string name="info_authenticating">正在验证您的账号信息，请稍候</string>
     <string name="info_submitting_registration">正在提交您的注册请求，请稍候</string>
     <string name="info_submitting_password_reset">正在提交您的重置密码请求，请稍候</string>
-    <string name="info_submitting_party">正在提交您的聚会，请稍候</string>
     <string name="info_uploading_avatar">正在上传头像图片，请稍候</string>
-    <string name="info_party_deleted">该聚会已成功删除</string>
-    <string name="info_comment_deleted">该评论已成功删除</string>
-    <string name="info_click_back_again">再按一次返回桌面</string>
     <string name="info_add_contact_sent">发送添加好友请求成功，等待对方验证</string>
     <string name="info_contact_deleted">该好友已成功移除</string>
     <string name="info_group_quit">您已成功退出了该群组</string>
     <string name="info_confirm_delete_contact">您确定要移除该好友？</string>
     <string name="info_confirm_logout">您确定要退出登录？</string>
-    <string name="info_submitting_asking">正在提交您的说说，请稍候</string>
-    <string name="info_asking_deleted">该说说已成功删除</string>
-    <string name="info_asking_reply_deleted">该回复已成功删除</string>
     <string name="info_loading">正在加载</string>
     <string name="info_no_more">已加载所有项</string>
     <string name="info_downloading_voice">正在下载语音，请稍候</string>
@@ -190,20 +109,13 @@
     <string name="info_group_name_deleted">群组#%1$s#已被删除</string>
     <string name="info_submitting_report">正在提交您的举报，请稍候</string>
     <string name="info_report_submitted">举报已成功提交，请等待审核</string>
-    <string name="info_deleting_party">正在删除该聚会，请稍候</string>
-    <string name="info_deleting_asking">正在删除该说说，请稍候</string>
     <string name="info_deleting_group">正在删除该群组，请稍候</string>
     <string name="info_submitting_quit_group">正在处理您的退出群组请求，请稍候</string>
     <string name="info_no_users_found">没找到任何相关用户</string>
-    <string name="info_confirm_quit">您确定要退出该聚会？</string>
-    <string name="info_empty_party_list">暂时还没有可报名的聚会，点击刷新</string>
-    <string name="info_empty_asking_list">暂时还没有说说记录，点击刷新</string>
     <string name="info_empty_conversation_list">您没有任何会话记录</string>
     <string name="info_empty_mobile_contacts">没找到任何手机联系人</string>
     <string name="info_empty_contact_list">您还没添加任何好友</string>
     <string name="info_empty_contact_request_list">您还没收到任何好友请求</string>
-    <string name="info_empty_comment_list">暂时还有没聚会评论</string>
-    <string name="info_empty_search_list">没找到任何相关记录</string>
     <string name="info_click_to_reload">点击重试</string>
     <string name="info_submitting_feedback">正在提交您的反馈，请稍候</string>
     <string name="info_feedback_submitted">反馈已成功提交，感谢您的支持！</string>
@@ -212,17 +124,6 @@
     <string name="info_new_tag_user_message">相似标签新用户</string>
     <string name="info_welcome_new_user">%1$s刚刚加入，过去打个招呼吧！</string>
     <string name="info_tag_users_found">按标签为您找到%,d位用户</string>
-    <string name="info_empty_moment_list">暂时还没有妈妈圈记录，点击刷新</string>
-    <string name="info_submitting_moment">正在发妈妈圈，请稍候</string>
-    <string name="info_deleting_moment">正在删除该妈妈圈记录，请稍候</string>
-    <string name="info_moment_deleted">该妈妈圈记录已成功删除</string>
-    <string name="info_empty_party_request_list">暂时还没有聚会需求，点击刷新</string>
-    <string name="info_empty_events">暂时还没有商家活动，点击刷新</string>
-    <string name="info_submitting_party_request">正在提交您的请求，请稍候</string>
-    <string name="info_confirm_delete_party_request">您确定要删除该聚会需求？</string>
-    <string name="info_party_request_deleted">该聚会需求已成功删除</string>
-    <string name="info_moment_shared">已成功分享到妈妈圈</string>
-    <string name="info_party_shared">已成功分享到聚会</string>
     <string name="info_no_group_found">没找到任何相关群组</string>
     <string name="info_empty_group_application_list">您还没收到任何入群请求</string>
     <string name="info_join_group_sent">发送成功，请等待群主验证</string>
@@ -232,8 +133,6 @@
     <string name="info_not_supported_by_your_country">您所在的国家不支持该换购</string>
     <string name="info_gift_purchase_submitted">换购已成功提交，我们会在发货前与您确认</string>
     <string name="info_confirm_clear_conversation_list">您确定要清空会话列表？</string>
-    <string name="info_more_asking_groups">点击加入更多话题圈子</string>
-    <string name="info_confirm_quit_asking_group">您确定要退出该圈子？</string>
     <string name="info_got_credit">%1$s：获得积分%2$d</string>
     <string name="info_submitting_group">正在提交您的群组，请稍候</string>
     <string name="info_confirm_delete_chat_message">您确定要删除该聊天记录？</string>
@@ -241,7 +140,6 @@
 
     <!-- Error Message -->
     <string name="error_bad_credentials">验证失败，请输入正确的手机号码/密码</string>
-    <string name="error_invalid_party_address">%1$s 不是一个有效的Google地图地址，请确认后重新输入</string>
     <string name="error_accept_contact">同意添加好友失败</string>
     <string name="error_sdcard_needed_for_voice">发送语音需要SD卡支持</string>
     <string name="error_recoding_failed">录音失败</string>
@@ -258,28 +156,17 @@
     <string name="error_incorrect_email_format">邮箱地址格式无效</string>
     <string name="error_selection_no_more_than">最多只能选%,d项</string>
     <string name="error_no_network">无法找到有效的网络，请检查您的网络连接</string>
-    <string name="error_party_was_deleted">该聚会已被删除</string>
-    <string name="error_asking_was_deleted">该说说已被删除</string>
     <string name="error_invalid_image_file">找不到该图片%1$s</string>
     <string name="error_title_is_null_for_sharing">标题为空，无法分享</string>
-    <string name="error_moment_was_deleted">该妈妈圈记录已被删除</string>
-    <string name="error_moment_comment_was_deleted">该妈妈圈评论已被删除</string>
 
     <!-- Title -->
     <string name="title_activity_login">用户登录</string>
     <string name="title_activity_register">注册新用户</string>
     <string name="title_activity_reset_password">找回密码</string>
     <string name="title_activity_user">用户详情</string>
-    <string name="title_activity_party_comments">聚会评论</string>
     <string name="title_activity_contact_requests">好友请求</string>
     <string name="title_activity_settings">我的设置</string>
-    <string name="title_activity_party_details">聚会详情</string>
-    <string name="title_activity_search_party">搜索聚会</string>
-    <string name="title_activity_new_party">组织聚会</string>
     <string name="title_activity_change_avatar">更换头像</string>
-    <string name="title_activity_user_parties">%1$s的聚会</string>
-    <string name="title_activity_user_askings">%1$s的说说</string>
-    <string name="title_activity_asking_details">说说详情</string>
     <string name="title_activity_choose_image">选择图片</string>
     <string name="title_activity_add_image">添加图片</string>
     <string name="title_activity_complete_profile">完善个人资料</string>
@@ -294,27 +181,9 @@
     <string name="title_activity_notification_settings">通知设置</string>
     <string name="title_activity_search_area">请选择您要指定的地区</string>
     <string name="title_activity_user_tag_list">请选择您的标签</string>
-    <string name="title_activity_asking">说说</string>
-    <string name="title_activity_moments">妈妈圈</string>
-    <string name="title_activity_new_moment">发妈妈圈</string>
-    <string name="title_activity_moment_details">记录详情</string>
-    <string name="title_activity_user_moments">%1$s的妈妈圈</string>
-    <string name="title_activity_special">请选择您要查看的超市品牌</string>
-    <string name="title_activity_special_details">%1$s本期半价</string>
-    <string name="title_activity_favorite_products">我的收藏</string>
-    <string name="title_activity_new_party_request">求聚会</string>
-    <string name="title_activity_share_moment">分享到妈妈圈</string>
-    <string name="title_activity_share_party">分享到聚会</string>
     <string name="title_activity_group_list">群组列表</string>
     <string name="title_activity_group_requests">入群请求</string>
     <string name="title_activity_group_member_picker">选择群组成员</string>
-    <string name="title_activity_credit">积分换购</string>
-    <string name="title_activity_channel_list">微博资讯</string>
-    <string name="title_activity_article_list">公众号文章</string>
-    <string name="title_activity_game_list">小游戏</string>
-    <string name="title_activity_party">聚会</string>
-    <string name="title_activity_moment_list">妈妈圈</string>
-    <string name="title_activity_asking_board">话题分类</string>
     <string name="title_activity_new_group">创建群组</string>
 
     <!-- Account -->
@@ -364,17 +233,11 @@
     <string name="label_added">已添加</string>
     <string name="label_contact_agreed">已经同意您的添加好友请求</string>
     <string name="label_user_credit">积分：%,d</string>
-    <string name="label_interests">话题圈子</string>
-    <string name="label_user_interests">%1$s的话题圈子</string>
 
     <!-- Profile -->
     <string name="label_screen_name">用户昵称</string>
     <string name="label_email_address">邮箱地址</string>
     <string name="label_tags">个人标签</string>
-    <string name="label_my_parties">我的聚会</string>
-    <string name="label_my_askings">我的说说</string>
-    <string name="label_favorite_parties">聚会收藏</string>
-    <string name="label_favorite_askings">说说收藏</string>
     <string name="label_confirm_city">您确定变更城市为&lt;font color=#d9534f>%1$s&lt;/font>？</string>
     <string name="label_confirm_area">您确定变更地区为&lt;font color=#d9534f>%1$s&lt;/font>？</string>
     <string name="label_confirm_user_tags">您的标签已更改，是否保存？</string>
