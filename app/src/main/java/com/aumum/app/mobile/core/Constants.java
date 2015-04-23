@@ -44,7 +44,6 @@ public final class Constants {
          */
         public static final String URL_BASE = "https://api.parse.com";
 
-
         /**
          * Login URL
          */
@@ -71,51 +70,6 @@ public final class Constants {
         public static final String URL_USER_BY_ID_FRAG = "/1/users/{id}";
 
         /**
-         * List Parties URL
-         */
-        public static final String URL_PARTIES_FRAG = "/1/classes/Parties";
-
-        /**
-         * Party By Id URL
-         */
-        public static final String URL_PARTY_BY_ID_FRAG = "/1/classes/Parties/{id}";
-
-        /**
-         * List Party Comments URL
-         */
-        public static final String URL_PARTY_COMMENTS_FRAG = "/1/classes/PartyComments";
-
-        /**
-         * Party Comment By Id URL
-         */
-        public static final String URL_PARTY_COMMENT_BY_ID_FRAG = "/1/classes/PartyComments/{id}";
-
-        /**
-         * List Party Reasons URL
-         */
-        public static final String URL_PARTY_REASONS_FRAG = "/1/classes/PartyReasons";
-
-        /**
-         * List Askings URL
-         */
-        public static final String URL_ASKINGS_FRAG = "/1/classes/Askings";
-
-        /**
-         * Asking By Id URL
-         */
-        public static final String URL_ASKING_BY_ID_FRAG = "/1/classes/Askings/{id}";
-
-        /**
-         * List Asking Reply URL
-         */
-        public static final String URL_ASKING_REPLIES_FRAG = "/1/classes/AskingReplies";
-
-        /**
-         * Asking Reply By Id URL
-         */
-        public static final String URL_ASKING_REPLY_BY_ID_FRAG = "/1/classes/AskingReplies/{id}";
-
-        /**
          * List Report URL
          */
         public static final String URL_REPORTS_FRAG = "/1/classes/Reports";
@@ -139,86 +93,6 @@ public final class Constants {
          * List User Tags URL
          */
         public static final String URL_USER_TAGS_FRAG = "/1/classes/UserTags";
-
-        /**
-         * List Moments URL
-         */
-        public static final String URL_MOMENTS_FRAG = "/1/classes/Moments";
-
-        /**
-         * Moment By Id URL
-         */
-        public static final String URL_MOMENT_BY_ID_FRAG = "/1/classes/Moments/{id}";
-
-        /**
-         * List Moment Comments URL
-         */
-        public static final String URL_MOMENT_COMMENTS_FRAG = "/1/classes/MomentComments";
-
-        /**
-         * Moment Comment By Id URL
-         */
-        public static final String URL_MOMENT_COMMENT_BY_ID_FRAG = "/1/classes/MomentComments/{id}";
-
-        /**
-         * List Special URL
-         */
-        public static final String URL_SPECIALS_FRAG = "/1/classes/Specials";
-
-        /**
-         * List Special Products URL
-         */
-        public static final String URL_SPECIAL_PRODUCTS_FRAG = "/1/classes/SpecialProducts";
-
-        /**
-         * Special Product By Id URL
-         */
-        public static final String URL_SPECIAL_PRODUCT_BY_ID_FRAG = "/1/classes/SpecialProducts/{id}";
-
-        /**
-         * List Party Requests URL
-         */
-        public static final String URL_PARTY_REQUESTS_FRAG = "/1/classes/PartyRequests";
-
-        /**
-         * Party Request By Id URL
-         */
-        public static final String URL_PARTY_REQUEST_BY_ID_FRAG = "/1/classes/PartyRequests/{id}";
-
-        /**
-         * List Feed URL
-         */
-        public static final String URL_FEEDS_FRAG = "/1/classes/Feeds";
-
-        /**
-         * List Event Category URL
-         */
-        public static final String URL_EVENT_CATEGORIES_FRAG = "/1/classes/EventCategories";
-
-        /**
-         * List Game URL
-         */
-        public static final String URL_GAMES_FRAG = "/1/classes/Games";
-
-        /**
-         * List Credit Gift URL
-         */
-        public static final String URL_CREDIT_GIFTS_FRAG = "/1/classes/CreditGifts";
-
-        /**
-         * List Credit Order URL
-         */
-        public static final String URL_CREDIT_ORDERS_FRAG = "/1/classes/CreditOrders";
-
-        /**
-         * List Asking Group URL
-         */
-        public static final String URL_ASKING_GROUPS_FRAG = "/1/classes/AskingGroups";
-
-        /**
-         * List Asking Board URL
-         */
-        public static final String URL_ASKING_BOARDS_FRAG = "/1/classes/AskingBoards";
 
         /**
          * List Credit Rules URL
@@ -253,19 +127,6 @@ public final class Constants {
             public static final String PARAM_REQUESTS = "requests";
         }
 
-        public static final class Party {
-            public static final String PARAM_MEMBERS = "members";
-            public static final String PARAM_LIKES = "likes";
-            public static final String PARAM_COMMENTS = "comments";
-            public static final String PARAM_REASONS = "reasons";
-            public static final String PARAM_FAVORITES = "favorites";
-            public static final String PARAM_GROUP_ID = "groupId";
-        }
-
-        public static final class PartyComment {
-            public static final String PARAM_LIKES = "likes";
-        }
-
         public static final class User {
             public static final String PARAM_CONTACTS = "contacts";
             public static final String PARAM_PARTIES = "parties";
@@ -277,41 +138,7 @@ public final class Constants {
             public static final String PARAM_TAGS = "tags";
             public static final String PARAM_ABOUT = "about";
             public static final String PARAM_CHAT_ID = "chatId";
-            public static final String PARAM_ASKINGS = "askings";
-            public static final String PARAM_MOMENTS = "moments";
-            public static final String PARAM_PARTY_FAVORITES = "favParties";
-            public static final String PARAM_ASKING_FAVORITES = "favAskings";
-            public static final String PARAM_SPECIAL_FAVORITES = "favSpecials";
-            public static final String PARAM_ASKING_GROUPS = "askingGroups";
             public static final String PARAM_CREDIT = "credit";
-        }
-
-        public static final class Asking {
-            public static final String PARAM_REPLIES = "replies";
-            public static final String PARAM_LIKES = "likes";
-            public static final String PARAM_FAVORITES = "favorites";
-        }
-
-        public static final class AskingReply {
-            public static final String PARAM_LIKES = "likes";
-        }
-
-        public static final class Moment {
-            public static final String PARAM_LIKES = "likes";
-            public static final String PARAM_COMMENTS = "comments";
-        }
-
-        public static final class MomentComment {
-            public static final String PARAM_LIKES = "likes";
-        }
-
-        public static final class Special {
-            public static final String PARAM_LIKES = "likes";
-        }
-
-        public static final class SpecialProduct {
-            public static final String PARAM_LIKES = "likes";
-            public static final String PARAM_FAVORITES = "favorites";
         }
     }
 
