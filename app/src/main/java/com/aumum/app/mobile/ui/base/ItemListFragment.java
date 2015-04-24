@@ -62,10 +62,6 @@ public abstract class ItemListFragment<E> extends LoaderFragment<List<E>> {
         return this;
     }
 
-    protected void scrollToTop() {
-        listView.setSelection(0);
-    }
-
     @Override
     protected boolean readyToShow() {
         return !getData().isEmpty();

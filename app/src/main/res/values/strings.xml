@@ -87,8 +87,6 @@
     <string name="info_group_quit">您已成功退出了该群组</string>
     <string name="info_confirm_delete_contact">您确定要移除该好友？</string>
     <string name="info_confirm_logout">您确定要退出登录？</string>
-    <string name="info_loading">正在加载</string>
-    <string name="info_no_more">已加载所有项</string>
     <string name="info_downloading_voice">正在下载语音，请稍候</string>
     <string name="info_sending_verification_sms">正在发送验证码短信，请稍候</string>
     <string name="info_verifying_mobile">正在验证手机号码，请稍候</string>
@@ -301,11 +299,13 @@
     <string name="label_group_request_details">请求加入%1$s：%2$s</string>
 
     <!-- Widgets -->
-    <string name="pull_to_refresh_pull_label">下拉刷新</string>
-    <string name="pull_to_refresh_release_label">放开以刷新</string>
-    <string name="pull_to_refresh_refreshing_label">正在加载</string>
+    <string name="header_hint_refresh_normal">下拉刷新</string>
+    <string name="header_hint_refresh_ready">放开以刷新</string>
+    <string name="header_hint_refresh_loading">正在刷新&#8230;</string>
+    <string name="header_hint_refresh_time">时间：</string>
+    <string name="footer_hint_load_normal">加载更多</string>
+    <string name="footer_hint_load_ready">放开以加载</string>
     <string name="title_gps_alert_dialog">GPS设置</string>
     <string name="info_gps_alert_dialog">GPS未开启，点击确定去设置菜单开启该功能。</string>
-    <string name="done_label">确定</string>
 
 </resources>

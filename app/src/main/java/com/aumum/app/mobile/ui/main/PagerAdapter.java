@@ -8,7 +8,7 @@ import android.support.v4.app.FragmentPagerAdapter;
 import com.aumum.app.mobile.R;
 import com.aumum.app.mobile.ui.contact.ContactFragment;
 import com.aumum.app.mobile.ui.conversation.ConversationFragment;
-import com.aumum.app.mobile.ui.photo.PhotoFragment;
+import com.aumum.app.mobile.ui.moment.MomentFragment;
 import com.aumum.app.mobile.ui.user.ProfileFragment;
 import com.aumum.app.mobile.ui.view.tab.IconPagerAdapter;
 
@@ -58,7 +58,7 @@ public class PagerAdapter extends FragmentPagerAdapter
         final Fragment result;
         switch (position) {
             case PAGE_PHOTO:
-                result = new PhotoFragment();
+                result = new MomentFragment();
                 break;
             case PAGE_CHAT:
                 result = new ConversationFragment();
