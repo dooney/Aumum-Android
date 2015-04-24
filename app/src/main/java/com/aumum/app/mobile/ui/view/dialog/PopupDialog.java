@@ -1,4 +1,4 @@
-package com.aumum.app.mobile.ui.view.tab;
+package com.aumum.app.mobile.ui.view.dialog;
 
 import android.app.Dialog;
 import android.content.Context;

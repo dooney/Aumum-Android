@@ -21,9 +21,9 @@ import com.aumum.app.mobile.core.service.RestService;
 import com.aumum.app.mobile.ui.base.LoaderFragment;
 import com.aumum.app.mobile.ui.chat.ChatActivity;
 import com.aumum.app.mobile.ui.view.AvatarImageView;
-import com.aumum.app.mobile.ui.view.ConfirmDialog;
-import com.aumum.app.mobile.ui.view.EditTextDialog;
-import com.aumum.app.mobile.ui.view.TextViewDialog;
+import com.aumum.app.mobile.ui.view.dialog.ConfirmDialog;
+import com.aumum.app.mobile.ui.view.dialog.EditTextDialog;
+import com.aumum.app.mobile.ui.view.dialog.TextViewDialog;
 import com.github.kevinsawicki.wishlist.Toaster;
 
 import java.util.List;

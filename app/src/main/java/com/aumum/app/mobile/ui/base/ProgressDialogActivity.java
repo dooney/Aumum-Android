@@ -3,7 +3,7 @@ package com.aumum.app.mobile.ui.base;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 
-import com.aumum.app.mobile.ui.view.ProgressDialog;
+import com.aumum.app.mobile.ui.view.dialog.ProgressDialog;
 import com.umeng.analytics.MobclickAgent;
 
 /**

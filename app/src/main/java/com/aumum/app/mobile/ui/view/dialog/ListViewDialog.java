@@ -1,4 +1,4 @@
-package com.aumum.app.mobile.ui.view;
+package com.aumum.app.mobile.ui.view.dialog;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -10,7 +10,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.aumum.app.mobile.R;
-import com.aumum.app.mobile.ui.view.tab.PopupDialog;
+import com.aumum.app.mobile.ui.view.dialog.PopupDialog;
 
 import java.util.List;
 

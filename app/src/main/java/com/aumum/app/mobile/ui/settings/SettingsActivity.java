@@ -10,8 +10,8 @@ import com.aumum.app.mobile.R;
 import com.aumum.app.mobile.core.service.ChatService;
 import com.aumum.app.mobile.core.service.LogoutService;
 import com.aumum.app.mobile.ui.view.Animation;
-import com.aumum.app.mobile.ui.view.ConfirmDialog;
-import com.aumum.app.mobile.ui.view.TextViewDialog;
+import com.aumum.app.mobile.ui.view.dialog.ConfirmDialog;
+import com.aumum.app.mobile.ui.view.dialog.TextViewDialog;
 import com.github.kevinsawicki.wishlist.Toaster;
 
 import javax.inject.Inject;

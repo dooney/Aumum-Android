@@ -9,7 +9,7 @@ import android.widget.TextView;
 import com.aumum.app.mobile.R;
 import com.aumum.app.mobile.events.DeleteChatMessageEvent;
 import com.aumum.app.mobile.ui.image.ImageViewActivity;
-import com.aumum.app.mobile.ui.view.ListViewDialog;
+import com.aumum.app.mobile.ui.view.dialog.ListViewDialog;
 import com.aumum.app.mobile.utils.ImageLoaderUtils;
 import com.easemob.chat.EMMessage;
 import com.easemob.chat.ImageMessageBody;

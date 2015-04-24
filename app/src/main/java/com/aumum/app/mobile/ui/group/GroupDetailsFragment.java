@@ -24,7 +24,7 @@ import com.aumum.app.mobile.ui.base.ProgressListener;
 import com.aumum.app.mobile.ui.contact.ContactPickerActivity;
 import com.aumum.app.mobile.ui.report.ReportActivity;
 import com.aumum.app.mobile.ui.user.UserListAdapter;
-import com.aumum.app.mobile.ui.view.ListViewDialog;
+import com.aumum.app.mobile.ui.view.dialog.ListViewDialog;
 import com.aumum.app.mobile.utils.SafeAsyncTask;
 import com.easemob.EMCallBack;
 import com.easemob.chat.EMGroup;

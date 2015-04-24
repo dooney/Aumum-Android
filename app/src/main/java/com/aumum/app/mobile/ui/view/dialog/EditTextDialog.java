@@ -1,4 +1,4 @@
-package com.aumum.app.mobile.ui.view;
+package com.aumum.app.mobile.ui.view.dialog;
 
 import android.content.Context;
 import android.text.Editable;
@@ -11,6 +11,7 @@ import android.widget.TextView;
 
 import com.aumum.app.mobile.R;
 import com.aumum.app.mobile.ui.helper.TextWatcherAdapter;
+import com.aumum.app.mobile.ui.view.dialog.ConfirmDialog;
 import com.aumum.app.mobile.utils.EditTextUtils;
 
 import static android.view.KeyEvent.ACTION_DOWN;

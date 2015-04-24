@@ -10,9 +10,9 @@ import com.aumum.app.mobile.core.model.CmdMessage;
 import com.aumum.app.mobile.core.model.GroupRequest;
 import com.aumum.app.mobile.core.model.User;
 import com.aumum.app.mobile.core.service.ChatService;
-import com.aumum.app.mobile.ui.view.ConfirmDialog;
-import com.aumum.app.mobile.ui.view.EditTextDialog;
-import com.aumum.app.mobile.ui.view.ListViewDialog;
+import com.aumum.app.mobile.ui.view.dialog.ConfirmDialog;
+import com.aumum.app.mobile.ui.view.dialog.EditTextDialog;
+import com.aumum.app.mobile.ui.view.dialog.ListViewDialog;
 import com.aumum.app.mobile.utils.SafeAsyncTask;
 import com.github.kevinsawicki.wishlist.Toaster;
 

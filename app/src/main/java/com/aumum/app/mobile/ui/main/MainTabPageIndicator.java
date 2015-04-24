@@ -16,9 +16,10 @@ import java.util.ArrayList;
  */
 public class MainTabPageIndicator extends TabPageIndicator {
 
-    public static final int TAB_CHAT = 0;
-    public static final int TAB_CONTACT = 1;
-    public static final int TAB_PROFILE = 2;
+    public static final int TAB_PHOTO = 0;
+    public static final int TAB_CHAT = 1;
+    public static final int TAB_CONTACT = 2;
+    public static final int TAB_PROFILE = 3;
 
     private ArrayList<ImageView> unreadImages = new ArrayList<ImageView>();
 

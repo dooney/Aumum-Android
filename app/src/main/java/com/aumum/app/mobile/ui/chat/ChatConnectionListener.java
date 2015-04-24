@@ -6,7 +6,7 @@ import com.aumum.app.mobile.Injector;
 import com.aumum.app.mobile.R;
 import com.aumum.app.mobile.core.service.LogoutService;
 import com.aumum.app.mobile.events.LogoutEvent;
-import com.aumum.app.mobile.ui.view.ConfirmDialog;
+import com.aumum.app.mobile.ui.view.dialog.ConfirmDialog;
 import com.easemob.EMConnectionListener;
 import com.easemob.EMError;
 import com.squareup.otto.Bus;

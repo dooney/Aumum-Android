@@ -8,7 +8,7 @@ import android.view.View;
 
 import com.aumum.app.mobile.R;
 import com.aumum.app.mobile.events.DeleteChatMessageEvent;
-import com.aumum.app.mobile.ui.view.ListViewDialog;
+import com.aumum.app.mobile.ui.view.dialog.ListViewDialog;
 import com.aumum.app.mobile.ui.view.SpannableTextView;
 import com.easemob.chat.EMMessage;
 import com.easemob.chat.TextMessageBody;

@@ -6,8 +6,8 @@ import android.view.View;
 import com.aumum.app.mobile.Injector;
 import com.aumum.app.mobile.R;
 import com.aumum.app.mobile.core.service.ChatService;
-import com.aumum.app.mobile.ui.view.ConfirmDialog;
-import com.aumum.app.mobile.ui.view.EditTextDialog;
+import com.aumum.app.mobile.ui.view.dialog.ConfirmDialog;
+import com.aumum.app.mobile.ui.view.dialog.EditTextDialog;
 import com.github.kevinsawicki.wishlist.Toaster;
 
 import javax.inject.Inject;
