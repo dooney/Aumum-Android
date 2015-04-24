@@ -14,6 +14,7 @@ import android.widget.ArrayAdapter;
 import android.widget.HeaderViewListAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.aumum.app.mobile.Injector;
 import com.aumum.app.mobile.R;
@@ -57,6 +58,7 @@ public class ContactFragment extends ItemListFragment<User>
     private InitialComparator initialComparator;
 
     private View mainView;
+    private TextView contactsCountText;
     private ContactAdapter adapter;
 
     @Override
@@ -98,9 +100,13 @@ public class ContactFragment extends ItemListFragment<User>
 
         LayoutInflater inflater = getActivity().getLayoutInflater();
         ListView listView = (ListView) view.findViewById(android.R.id.list);
-        View footerView = inflater.inflate(R.layout.listview_contact_header, null);
-        listView.addHeaderView(footerView, null, false);
+        View headerView = inflater.inflate(R.layout.listview_contact_header, null);
+        listView.addHeaderView(headerView, null, false);
         listView.setHeaderDividersEnabled(false);
+        View footerView = inflater.inflate(R.layout.listview_contact_footer, null);
+        listView.addFooterView(footerView, null, false);
+        listView.setFooterDividersEnabled(false);
+        contactsCountText = (TextView) footerView.findViewById(R.id.text_count);
 
         View myGroupsLayout = view.findViewById(R.id.layout_my_groups);
         myGroupsLayout.setOnClickListener(new View.OnClickListener() {
@@ -159,6 +165,11 @@ public class ContactFragment extends ItemListFragment<User>
     }
 
     @Override
+    protected boolean readyToShow() {
+        return true;
+    }
+
+    @Override
     protected ArrayAdapter<User> getListAdapter() {
         HeaderViewListAdapter adapter = (HeaderViewListAdapter)getListView().getAdapter();
         return (ArrayAdapter<User>)adapter.getWrappedAdapter();
@@ -168,6 +179,12 @@ public class ContactFragment extends ItemListFragment<User>
     protected List<User> loadDataCore(Bundle bundle) throws Exception {
         currentUser = userStore.getCurrentUser();
         return getSortedContacts();
+    }
+
+    @Override
+    protected void handleLoadResult(List<User> result) {
+        super.handleLoadResult(result);
+        contactsCountText.setText(getString(R.string.label_contact_counts, result.size()));
     }
 
     @Override
