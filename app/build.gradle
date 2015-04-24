@@ -34,7 +34,7 @@ dependencies {
     compile 'com.android.support:multidex:1.0.0'
     compile 'org.jsoup:jsoup:1.8.1'
     compile 'pl.droidsonroids.gif:android-gif-drawable:1.1.+'
-    compile files('src/main/libs/easemobchat_2.1.7.jar')
+    compile files('src/main/libs/easemobchat_2.1.8.jar')
 }
 
 android {

@@ -74,7 +74,9 @@ public class ChatService {
     }
 
     public void logOut() {
-        EMChatManager.getInstance().logout();
+        if (EMChat.getInstance().isLoggedIn()) {
+            EMChatManager.getInstance().logout();
+        }
     }
 
     private void sortConversationByLastChatTime(List<EMConversation> conversationList) {
