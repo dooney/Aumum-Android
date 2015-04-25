@@ -13,6 +13,7 @@ import android.widget.Button;
 
 import com.aumum.app.mobile.R;
 import com.aumum.app.mobile.core.model.User;
+import com.aumum.app.mobile.core.model.UserInfo;
 import com.aumum.app.mobile.ui.base.ItemListFragment;
 import com.aumum.app.mobile.ui.view.sort.InitialComparator;
 import com.aumum.app.mobile.ui.view.sort.SideBar;
@@ -24,7 +25,7 @@ import java.util.List;
 /**
  * A simple {@link Fragment} subclass.
  */
-public abstract class UserPickerFragment extends ItemListFragment<User>
+public abstract class UserPickerFragment extends ItemListFragment<UserInfo>
         implements UserClickListener {
 
     protected ArrayList<String> userList;
@@ -86,7 +87,7 @@ public abstract class UserPickerFragment extends ItemListFragment<User>
     }
 
     @Override
-    protected ArrayAdapter<User> createAdapter(List<User> items) {
+    protected ArrayAdapter<UserInfo> createAdapter(List<UserInfo> items) {
         adapter = new UserPickerAdapter(getActivity(), items, this);
         return adapter;
     }

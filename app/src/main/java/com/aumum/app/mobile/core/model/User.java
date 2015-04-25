@@ -1,12 +1,9 @@
 package com.aumum.app.mobile.core.model;
 
-import com.aumum.app.mobile.ui.view.sort.InitialSortable;
-import com.aumum.app.mobile.utils.Strings;
-
 import java.util.ArrayList;
 import java.util.List;
 
-public class User extends AggregateRoot implements InitialSortable {
+public class User extends AggregateRoot {
 
     protected String username;
     protected String chatId;
@@ -146,17 +143,6 @@ public class User extends AggregateRoot implements InitialSortable {
 
     public void updateCredit(int delta) {
         this.credit = getCredit() + delta;
-    }
-
-    @Override
-    public String getSortLetters() {
-        String pinyin = Strings.getSelling(screenName);
-        String sortString = pinyin.substring(0, 1).toUpperCase();
-        if (sortString.matches("[A-Z]")) {
-            return sortString.toUpperCase();
-        } else {
-            return "#";
-        }
     }
 
     public void addContact(String contactId) {

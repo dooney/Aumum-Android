@@ -324,7 +324,7 @@ public class ProfileFragment extends LoaderFragment<User> {
 
     @Override
     protected User loadDataCore(Bundle bundle) throws Exception {
-        currentUser = userStore.getCurrentUserFromServer();
+        currentUser = userStore.getCurrentUser();
         return currentUser;
     }
 

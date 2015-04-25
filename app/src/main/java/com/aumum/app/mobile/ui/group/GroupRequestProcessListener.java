@@ -8,7 +8,7 @@ import com.aumum.app.mobile.R;
 import com.aumum.app.mobile.core.dao.UserStore;
 import com.aumum.app.mobile.core.model.CmdMessage;
 import com.aumum.app.mobile.core.model.GroupRequest;
-import com.aumum.app.mobile.core.model.User;
+import com.aumum.app.mobile.core.model.UserInfo;
 import com.aumum.app.mobile.core.service.ChatService;
 import com.aumum.app.mobile.ui.view.dialog.ConfirmDialog;
 import com.aumum.app.mobile.ui.view.dialog.EditTextDialog;
@@ -78,7 +78,7 @@ public class GroupRequestProcessListener implements View.OnClickListener {
 
             @Override
             public Boolean call() throws Exception {
-                User user = request.getUser();
+                UserInfo user = request.getUser();
                 String groupId = request.getGroupId();
                 chatService.acceptGroupApplication(request.getUserId(), groupId);
                 chatService.joinGroup(groupId, user.getChatId());

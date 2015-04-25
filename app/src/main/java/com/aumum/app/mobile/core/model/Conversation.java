@@ -6,7 +6,7 @@ import com.easemob.chat.EMConversation;
  * Created by Administrator on 21/11/2014.
  */
 public class Conversation {
-    private User contact;
+    private UserInfo contact;
     private Group group;
     private EMConversation emConversation;
 
@@ -14,7 +14,7 @@ public class Conversation {
         this.emConversation = emConversation;
     }
 
-    public void setContact(User contact) {
+    public void setContact(UserInfo contact) {
         this.contact = contact;
     }
 
@@ -22,7 +22,7 @@ public class Conversation {
         this.group = group;
     }
 
-    public User getContact() {
+    public UserInfo getContact() {
         return contact;
     }
 

@@ -76,7 +76,7 @@ public class LikesLayoutListener {
                     while (it.hasNext()) {
                         Map.Entry<String, AvatarImageView> pair = (Map.Entry<String, AvatarImageView>) it.next();
                         String userId = pair.getKey();
-                        User user = userStore.getUserById(userId);
+                        User user = userStore.getInfoById(userId);
                         avatarUrls.put(userId, user.getAvatarUrl());
                     }
                     return true;

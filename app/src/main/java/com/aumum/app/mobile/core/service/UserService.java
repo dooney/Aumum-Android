@@ -3,6 +3,7 @@ package com.aumum.app.mobile.core.service;
 import com.aumum.app.mobile.core.Constants;
 import com.aumum.app.mobile.core.api.ListWrapper;
 import com.aumum.app.mobile.core.model.User;
+import com.aumum.app.mobile.core.model.UserInfo;
 import com.google.gson.JsonObject;
 
 import retrofit.http.Body;
@@ -43,17 +44,21 @@ public interface UserService {
     @GET(Constants.Http.URL_USER_BY_ID_FRAG)
     User getById(@Path("id") String id);
 
-    @GET(Constants.Http.URL_USERS_FRAG)
-    ListWrapper<User> getList(@Query("where") String where,
-                              @Query("limit") int limit);
+    @GET(Constants.Http.URL_USER_BY_ID_FRAG)
+    User getById(@Path("id") String id,
+                 @Query("keys") String keys);
+
+    @GET(Constants.Http.URL_USER_BY_ID_FRAG)
+    UserInfo getInfoById(@Path("id") String id,
+                         @Query("keys") String keys);
 
     @GET(Constants.Http.URL_USERS_FRAG)
-    ListWrapper<JsonObject> getList(@Query("keys") String keys,
-                                    @Query("where") String where);
+    ListWrapper<User> getList(@Query("keys") String keys,
+                              @Query("where") String where);
 
     @GET(Constants.Http.URL_USERS_FRAG)
-    ListWrapper<User> getByScreenName(@Query("where") String where,
-                                      @Query("limit") int limit);
+    ListWrapper<UserInfo> getInfoList(@Query("keys") String keys,
+                                      @Query("where") String where);
 
     @GET(Constants.Http.URL_USERS_FRAG)
     JsonObject getCount(@Query("where") String where,

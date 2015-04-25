@@ -9,13 +9,14 @@ import com.aumum.app.mobile.core.Constants;
 import com.aumum.app.mobile.core.model.Moment;
 import com.aumum.app.mobile.core.model.Report;
 import com.aumum.app.mobile.core.model.User;
+import com.aumum.app.mobile.core.model.UserInfo;
 import com.aumum.app.mobile.core.model.UserTag;
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonPrimitive;
 
-import java.util.HashMap;
 import java.util.List;
 
 import retrofit.RestAdapter;
@@ -87,57 +88,68 @@ public class RestService {
         return getUserService().authenticate(username, password);
     }
 
+    private JsonObject opJson(String op, JsonElement value) {
+        final JsonObject opJson = new JsonObject();
+        opJson.add(op, value);
+        return opJson;
+    }
+
     private JsonObject buildListJson(String op, List<String> idList) {
         final JsonArray idListJson = new JsonArray();
         for (String id: idList) {
             idListJson.add(new JsonPrimitive(id));
         }
-        final JsonObject objectIdInJson = new JsonObject();
-        objectIdInJson.add(op, idListJson);
-        return objectIdInJson;
+        return opJson(op, idListJson);
     }
 
     private JsonObject buildIdListJson(List<String> idList) {
         return buildListJson("$in", idList);
     }
 
-    private JsonObject buildDateTimeAfterJson(String dateTime) {
+    private JsonObject buildDateTimeJson(String op, String dateTime) {
         final JsonObject timeJson = new JsonObject();
         timeJson.addProperty("__type", "Date");
         timeJson.addProperty("iso", dateTime);
-        final JsonObject gtJson = new JsonObject();
-        gtJson.add("$gt", timeJson);
-        return gtJson;
+        return opJson(op, timeJson);
+    }
+
+    private JsonObject buildDateTimeAfterJson(String dateTime) {
+        return buildDateTimeJson("$gt", dateTime);
     }
 
     private JsonObject buildDateTimeBeforeJson(String dateTime) {
-        final JsonObject timeJson = new JsonObject();
-        timeJson.addProperty("__type", "Date");
-        timeJson.addProperty("iso", dateTime);
-        final JsonObject ltJson = new JsonObject();
-        ltJson.add("$lt", timeJson);
-        return ltJson;
+        return buildDateTimeJson("$lt", dateTime);
+    }
+
+    private JsonObject buildLiveJson(JsonObject where) {
+        final JsonObject liveJson = new JsonObject();
+        liveJson.addProperty("$exists", false);
+        where.add(Constants.Http.PARAM_DELETED_AT ,liveJson);
+        return where;
     }
 
     public boolean getMobileRegistered(String mobile) {
         final JsonObject whereJson = new JsonObject();
         whereJson.addProperty(Constants.Http.PARAM_USERNAME, mobile);
         String where = whereJson.toString();
-        return getUserService().getList(where, 1).getResults().size() > 0;
+        JsonObject result = getUserService().getCount(where, 1, 0);
+        return result.get("count").getAsInt() > 0;
     }
 
     public boolean getScreenNameRegistered(String screenName) {
         final JsonObject whereJson = new JsonObject();
         whereJson.addProperty(Constants.Http.User.PARAM_SCREEN_NAME, screenName);
         String where = whereJson.toString();
-        return getUserService().getList(where, 1).getResults().size() > 0;
+        JsonObject result = getUserService().getCount(where, 1, 0);
+        return result.get("count").getAsInt() > 0;
     }
 
     public boolean getEmailRegistered(String email) {
         final JsonObject whereJson = new JsonObject();
         whereJson.addProperty(Constants.Http.User.PARAM_EMAIL, email);
         String where = whereJson.toString();
-        return getUserService().getList(where, 1).getResults().size() > 0;
+        JsonObject result = getUserService().getCount(where, 1, 0);
+        return result.get("count").getAsInt() > 0;
     }
 
     public User register(String mobile, String password) {
@@ -174,53 +186,85 @@ public class RestService {
         return updateContact(op, userId, contactId);
     }
 
-    public User getUserById(String id) {
+    public User getProfileById(String id) {
         return getUserService().getById(id);
+    }
+
+    private String getUserFields() {
+        return String.format("%s,%s,%s,%s,%s,%s,%s",
+                Constants.Http.User.PARAM_SCREEN_NAME,
+                Constants.Http.User.PARAM_AVATAR_URL,
+                Constants.Http.User.PARAM_CITY,
+                Constants.Http.User.PARAM_AREA,
+                Constants.Http.User.PARAM_TAGS,
+                Constants.Http.User.PARAM_ABOUT,
+                Constants.Http.User.PARAM_CREDIT);
+    }
+
+    public User getUserById(String id) {
+        return getUserService().getById(id, getUserFields());
+    }
+
+    private String getUserInfoFields() {
+        return String.format("%s,%s,%s",
+                Constants.Http.User.PARAM_CHAT_ID,
+                Constants.Http.User.PARAM_SCREEN_NAME,
+                Constants.Http.User.PARAM_AVATAR_URL);
+    }
+
+    public UserInfo getUserInfoById(String id) {
+        return getUserService().getInfoById(id, getUserInfoFields());
     }
 
     public User getUserByScreenName(String screenName) {
         final JsonObject whereJson = new JsonObject();
-        whereJson.addProperty("screenName", screenName);
+        whereJson.addProperty(Constants.Http.User.PARAM_SCREEN_NAME, screenName);
         String where = whereJson.toString();
-        List<User> result = getUserService().getByScreenName(where, 1).getResults();
+        List<User> result = getUserService()
+                .getList(getUserFields(), where).getResults();
         if (result.size() > 0) {
             return result.get(0);
         }
         return null;
     }
 
-    public User getUserByChatId(String id) {
+    public UserInfo getUserInfoByChatId(String id) {
         final JsonObject whereJson = new JsonObject();
-        whereJson.addProperty("chatId", id);
+        whereJson.addProperty(Constants.Http.User.PARAM_CHAT_ID, id);
         String where = whereJson.toString();
-        List<User> result = getUserService().getList(where, 1).getResults();
+        List<UserInfo> result = getUserService()
+                .getInfoList(getUserInfoFields(), where)
+                .getResults();
         if (result.size() > 0) {
             return result.get(0);
         }
         return null;
     }
 
-    public List<User> getGroupUsers(List<String> chatIds) {
+    public List<UserInfo> getGroupUsers(List<String> chatIds) {
         final JsonObject whereJson = new JsonObject();
-        whereJson.add("chatId", buildIdListJson(chatIds));
+        whereJson.add(Constants.Http.User.PARAM_CHAT_ID, buildIdListJson(chatIds));
         String where = whereJson.toString();
-        return getUserService().getList(where, Integer.MAX_VALUE).getResults();
+        return getUserService()
+                .getInfoList(getUserInfoFields(), where)
+                .getResults();
     }
 
     public String getUserByName(String name) {
         final JsonObject whereJson = new JsonObject();
         JsonArray jsonArray = new JsonArray();
         JsonObject screenNameJson = new JsonObject();
-        screenNameJson.addProperty("screenName", name);
+        screenNameJson.addProperty(Constants.Http.User.PARAM_SCREEN_NAME, name);
         jsonArray.add(screenNameJson);
         JsonObject userNameJson = new JsonObject();
         userNameJson.addProperty(Constants.Http.PARAM_USERNAME, name);
         jsonArray.add(userNameJson);
         whereJson.add("$or", jsonArray);
         String where = whereJson.toString();
-        List<JsonObject> results = getUserService().getList("objectId", where).getResults();
+        List<User> results = getUserService()
+                .getList(Constants.Http.PARAM_OBJECT_ID, where).getResults();
         if (results.size() > 0) {
-            return results.get(0).get("objectId").getAsString();
+            return results.get(0).getObjectId();
         }
         return null;
     }
@@ -229,15 +273,17 @@ public class RestService {
         final JsonObject areaUsersJson = new JsonObject();
         final JsonObject userIdJson = new JsonObject();
         userIdJson.addProperty("$ne", userId);
-        areaUsersJson.add("objectId", userIdJson);
-        areaUsersJson.addProperty("area", area);
+        areaUsersJson.add(Constants.Http.PARAM_OBJECT_ID, userIdJson);
+        areaUsersJson.addProperty(Constants.Http.User.PARAM_AREA, area);
         return areaUsersJson;
     }
 
-    public List<User> getAreaUsers(String userId, String area) {
+    public List<UserInfo> getAreaUsers(String userId, String area) {
         final JsonObject whereJson = buildAreaUsersJson(userId, area);
         String where = whereJson.toString();
-        return getUserService().getList(where, Integer.MAX_VALUE).getResults();
+        return getUserService()
+                .getInfoList(getUserInfoFields(), where)
+                .getResults();
     }
 
     public int getAreaUsersCount(String userId, String area) {
@@ -251,25 +297,27 @@ public class RestService {
         final JsonObject tagUsersJson = new JsonObject();
         final JsonObject userIdJson = new JsonObject();
         userIdJson.addProperty("$ne", userId);
-        tagUsersJson.add("objectId", userIdJson);
+        tagUsersJson.add(Constants.Http.PARAM_OBJECT_ID, userIdJson);
         if (tags.size() > 1) {
             final JsonArray tagsJson = new JsonArray();
             for(String tag: tags) {
                 final JsonObject tagJson = new JsonObject();
-                tagJson.addProperty("tags", tag);
+                tagJson.addProperty(Constants.Http.User.PARAM_TAGS, tag);
                 tagsJson.add(tagJson);
             }
             tagUsersJson.add("$or", tagsJson);
         } else {
-            tagUsersJson.addProperty("tags", tags.get(0));
+            tagUsersJson.addProperty(Constants.Http.User.PARAM_TAGS, tags.get(0));
         }
         return tagUsersJson;
     }
 
-    public List<User> getTagUsers(String userId, List<String> tags) {
+    public List<UserInfo> getTagUsers(String userId, List<String> tags) {
         final JsonObject whereJson = buildTagUsersJson(userId, tags);
         String where = whereJson.toString();
-        return getUserService().getList(where, Integer.MAX_VALUE).getResults();
+        return getUserService()
+                .getInfoList(getUserInfoFields(), where)
+                .getResults();
     }
 
     public int getTagUsersCount(String userId, List<String> tags) {
@@ -367,14 +415,14 @@ public class RestService {
 
     public List<Area> getAreaListByCity(int cityId) {
         final JsonObject whereJson = new JsonObject();
-        whereJson.addProperty("city", cityId);
+        whereJson.addProperty(Constants.Http.Area.PARAM_CITY, cityId);
         String where = whereJson.toString();
         return getAreaService().getList(where, Integer.MAX_VALUE).getResults();
     }
 
     public CityGroup getCityGroup(int cityId) {
         final JsonObject whereJson = new JsonObject();
-        whereJson.addProperty("city", cityId);
+        whereJson.addProperty(Constants.Http.CityGroup.PARAM_CITY, cityId);
         String where = whereJson.toString();
         List<CityGroup> result = getCityGroupService().getList(where, 1).getResults();
         if (result.size() > 0) {
@@ -392,33 +440,21 @@ public class RestService {
         if (after != null) {
             whereJson.add("createdAt", buildDateTimeAfterJson(after));
         }
-        final JsonObject liveJson = new JsonObject();
-        liveJson.addProperty("$exists", false);
-        whereJson.add("deletedAt", liveJson);
-        String where = whereJson.toString();
-        return getMomentService().getList("-createdAt", where, limit).getResults();
-    }
-
-    private List<Moment> getMomentsBeforeCore(JsonObject whereJson, String before, int limit) {
-        whereJson.add("createdAt", buildDateTimeBeforeJson(before));
-        final JsonObject liveJson = new JsonObject();
-        liveJson.addProperty("$exists", false);
-        whereJson.add("deletedAt" ,liveJson);
-        String where = whereJson.toString();
+        String where = buildLiveJson(whereJson).toString();
         return getMomentService().getList("-createdAt", where, limit).getResults();
     }
 
     public List<Moment> getMomentsBefore(String before, int limit) {
         final JsonObject whereJson = new JsonObject();
-        return getMomentsBeforeCore(whereJson, before, limit);
+        whereJson.add("createdAt", buildDateTimeBeforeJson(before));
+        String where = buildLiveJson(whereJson).toString();
+        return getMomentService().getList("-createdAt", where, limit).getResults();
     }
 
     public List<CreditRule> getCreditRuleList() {
         final JsonObject whereJson = new JsonObject();
-        final JsonObject liveJson = new JsonObject();
-        liveJson.addProperty("$exists", false);
-        whereJson.add("deletedAt" ,liveJson);
-        String where = whereJson.toString();
-        return getCreditRuleService().getList("seq", where, Integer.MAX_VALUE).getResults();
+        String where = buildLiveJson(whereJson).toString();
+        return getCreditRuleService().getList(Constants.Http.CreditRule.PARAM_SEQ,
+                where, Integer.MAX_VALUE).getResults();
     }
 }

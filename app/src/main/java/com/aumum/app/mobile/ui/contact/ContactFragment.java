@@ -21,6 +21,7 @@ import com.aumum.app.mobile.R;
 import com.aumum.app.mobile.core.Constants;
 import com.aumum.app.mobile.core.dao.UserStore;
 import com.aumum.app.mobile.core.model.User;
+import com.aumum.app.mobile.core.model.UserInfo;
 import com.aumum.app.mobile.core.service.RestService;
 import com.aumum.app.mobile.ui.area.AreaListActivity;
 import com.aumum.app.mobile.ui.base.ItemListFragment;
@@ -48,7 +49,7 @@ import javax.inject.Inject;
  * A simple {@link Fragment} subclass.
  *
  */
-public class ContactFragment extends ItemListFragment<User>
+public class ContactFragment extends ItemListFragment<UserInfo>
         implements UserClickListener {
 
     @Inject UserStore userStore;
@@ -170,25 +171,25 @@ public class ContactFragment extends ItemListFragment<User>
     }
 
     @Override
-    protected ArrayAdapter<User> getListAdapter() {
+    protected ArrayAdapter<UserInfo> getListAdapter() {
         HeaderViewListAdapter adapter = (HeaderViewListAdapter)getListView().getAdapter();
-        return (ArrayAdapter<User>)adapter.getWrappedAdapter();
+        return (ArrayAdapter<UserInfo>)adapter.getWrappedAdapter();
     }
 
     @Override
-    protected List<User> loadDataCore(Bundle bundle) throws Exception {
+    protected List<UserInfo> loadDataCore(Bundle bundle) throws Exception {
         currentUser = userStore.getCurrentUser();
         return getSortedContacts();
     }
 
     @Override
-    protected void handleLoadResult(List<User> result) {
+    protected void handleLoadResult(List<UserInfo> result) {
         super.handleLoadResult(result);
         contactsCountText.setText(getString(R.string.label_contact_counts, result.size()));
     }
 
     @Override
-    protected ArrayAdapter<User> createAdapter(List<User> items) {
+    protected ArrayAdapter<UserInfo> createAdapter(List<UserInfo> items) {
         adapter = new ContactAdapter(getActivity(), items, this);
         return adapter;
     }
@@ -206,8 +207,8 @@ public class ContactFragment extends ItemListFragment<User>
         return true;
     }
 
-    private List<User> getSortedContacts() throws Exception {
-        List<User> contacts = userStore.getContacts();
+    private List<UserInfo> getSortedContacts() throws Exception {
+        List<UserInfo> contacts = userStore.getContacts();
         Collections.sort(contacts, initialComparator);
         return contacts;
     }

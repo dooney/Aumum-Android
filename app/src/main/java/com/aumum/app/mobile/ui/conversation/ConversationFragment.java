@@ -13,6 +13,7 @@ import com.aumum.app.mobile.core.dao.UserStore;
 import com.aumum.app.mobile.core.model.Conversation;
 import com.aumum.app.mobile.core.model.Group;
 import com.aumum.app.mobile.core.model.User;
+import com.aumum.app.mobile.core.model.UserInfo;
 import com.aumum.app.mobile.core.service.ChatService;
 import com.aumum.app.mobile.events.GroupDeletedEvent;
 import com.aumum.app.mobile.events.NewChatMessageEvent;
@@ -87,7 +88,7 @@ public class ConversationFragment extends ItemListFragment<Conversation> {
                     result.add(conversation);
                 }
             } else {
-                User contact = userStore.getUserByChatId(emConversation.getUserName());
+                UserInfo contact = userStore.getUserInfoByChatId(emConversation.getUserName());
                 if (contact != null) {
                     conversation.setContact(contact);
                     result.add(conversation);

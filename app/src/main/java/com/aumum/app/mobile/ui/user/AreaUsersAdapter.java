@@ -8,6 +8,7 @@ import android.widget.ArrayAdapter;
 
 import com.aumum.app.mobile.R;
 import com.aumum.app.mobile.core.model.User;
+import com.aumum.app.mobile.core.model.UserInfo;
 import com.aumum.app.mobile.ui.contact.AddContactListener;
 
 import java.util.List;
@@ -15,14 +16,14 @@ import java.util.List;
 /**
  * Created by Administrator on 15/01/2015.
  */
-public class AreaUsersAdapter extends ArrayAdapter<User> {
+public class AreaUsersAdapter extends ArrayAdapter<UserInfo> {
 
     private Context context;
     private User currentUser;
     private AddContactListener addContactListener;
 
     public AreaUsersAdapter(Context context,
-                            List<User> objects,
+                            List<UserInfo> objects,
                             AddContactListener addContactListener) {
         super(context, 0, objects);
         this.context = context;
@@ -46,7 +47,7 @@ public class AreaUsersAdapter extends ArrayAdapter<User> {
             card = (UserContactCard) convertView.getTag();
         }
 
-        User user = getItem(position);
+        UserInfo user = getItem(position);
         card.refresh(user, currentUser.isContact(user.getObjectId()));
 
         return convertView;

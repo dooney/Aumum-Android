@@ -8,6 +8,7 @@ import com.aumum.app.mobile.core.dao.CreditRuleStore;
 import com.aumum.app.mobile.core.dao.UserStore;
 import com.aumum.app.mobile.core.model.CreditRule;
 import com.aumum.app.mobile.core.model.User;
+import com.aumum.app.mobile.core.model.UserInfo;
 import com.aumum.app.mobile.core.service.ChatService;
 import com.aumum.app.mobile.core.service.NotificationService;
 import com.aumum.app.mobile.core.service.RestService;
@@ -44,7 +45,7 @@ public class ContactListener implements EMContactListener {
             public Boolean call() throws Exception {
                 User currentUser = userStore.getCurrentUser();
                 for (String contactId : contacts) {
-                    User user = userStore.getUserByChatId(contactId);
+                    UserInfo user = userStore.getUserInfoByChatId(contactId);
                     restService.addContact(currentUser.getObjectId(), user.getObjectId());
                     updateCredit(currentUser, CreditRule.ADD_CONTACT);
                     currentUser.addContact(user.getObjectId());
@@ -62,12 +63,12 @@ public class ContactListener implements EMContactListener {
             public Boolean call() throws Exception {
                 User currentUser = userStore.getCurrentUser();
                 for (String contactId: contacts) {
-                    User user = userStore.getUserByChatId(contactId);
+                    UserInfo user = userStore.getUserInfoByChatId(contactId);
                     chatService.deleteConversation(contactId);
                     restService.removeContact(currentUser.getObjectId(), user.getObjectId());
                     updateCredit(currentUser, CreditRule.DELETE_CONTACT);
                     currentUser.removeContact(user.getObjectId());
-                    userStore.save(user);
+                    userStore.save(currentUser);
                 }
                 return true;
             }
@@ -80,7 +81,7 @@ public class ContactListener implements EMContactListener {
             @Override
             public Boolean call() throws Exception {
                 User currentUser = userStore.getCurrentUser();
-                User user = userStore.getUserByChatId(userName);
+                UserInfo user = userStore.getUserInfoByChatId(userName);
                 if (!currentUser.isContact(user.getObjectId())) {
                     userStore.addContactRequest(user.getObjectId(), reason);
                     notificationService.pushContactInvitedNotification(user.getScreenName(), reason);
@@ -95,7 +96,7 @@ public class ContactListener implements EMContactListener {
         new SafeAsyncTask<Boolean>() {
             @Override
             public Boolean call() throws Exception {
-                User user = userStore.getUserByChatId(userName);
+                UserInfo user = userStore.getUserInfoByChatId(userName);
                 notificationService.pushContactAgreedNotification(user.getChatId(),
                         user.getScreenName());
                 return true;

@@ -5,7 +5,7 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.aumum.app.mobile.R;
-import com.aumum.app.mobile.core.model.User;
+import com.aumum.app.mobile.core.model.UserInfo;
 import com.aumum.app.mobile.ui.view.AvatarImageView;
 
 /**
@@ -21,7 +21,7 @@ public class UserCard {
         this.view = view;
     }
 
-    public void refresh(User user) {
+    public void refresh(UserInfo user) {
         AvatarImageView avatarImage = (AvatarImageView) view.findViewById(R.id.image_avatar);
         avatarImage.getFromUrl(user.getAvatarUrl());
 

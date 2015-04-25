@@ -5,7 +5,7 @@ import android.content.Intent;
 
 import com.aumum.app.mobile.Injector;
 import com.aumum.app.mobile.core.dao.UserStore;
-import com.aumum.app.mobile.core.model.User;
+import com.aumum.app.mobile.core.model.UserInfo;
 import com.aumum.app.mobile.core.service.ChatService;
 import com.aumum.app.mobile.utils.Ln;
 import com.easemob.chat.EMGroup;
@@ -33,7 +33,7 @@ public class NotificationClickListener implements OnNotificationClickListener {
         Intent intent = new Intent(activity, ChatActivity.class);
         try {
             if (emMessage.getChatType() == EMMessage.ChatType.Chat) {
-                User user = userStore.getUserByChatId(emMessage.getFrom());
+                UserInfo user = userStore.getUserInfoByChatId(emMessage.getFrom());
                 String screenName = user.getScreenName();
                 intent.putExtra(ChatActivity.INTENT_ID, emMessage.getFrom());
                 intent.putExtra(ChatActivity.INTENT_TYPE, ChatActivity.TYPE_SINGLE);

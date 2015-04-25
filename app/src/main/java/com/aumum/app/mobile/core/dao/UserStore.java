@@ -4,12 +4,15 @@ import com.aumum.app.mobile.core.Constants;
 import com.aumum.app.mobile.core.dao.entity.ContactRequestEntity;
 import com.aumum.app.mobile.core.dao.entity.GroupRequestEntity;
 import com.aumum.app.mobile.core.dao.entity.UserEntity;
+import com.aumum.app.mobile.core.dao.entity.UserInfoEntity;
 import com.aumum.app.mobile.core.dao.gen.ContactRequestEntityDao;
 import com.aumum.app.mobile.core.dao.gen.GroupRequestEntityDao;
 import com.aumum.app.mobile.core.dao.gen.UserEntityDao;
+import com.aumum.app.mobile.core.dao.gen.UserInfoEntityDao;
 import com.aumum.app.mobile.core.infra.security.ApiKeyProvider;
 import com.aumum.app.mobile.core.model.GroupRequest;
 import com.aumum.app.mobile.core.model.User;
+import com.aumum.app.mobile.core.model.UserInfo;
 import com.aumum.app.mobile.core.service.RestService;
 import com.aumum.app.mobile.core.model.ContactRequest;
 import com.aumum.app.mobile.utils.DateUtils;
@@ -28,6 +31,7 @@ public class UserStore {
     private RestService restService;
     private ApiKeyProvider apiKeyProvider;
     private UserEntityDao userEntityDao;
+    private UserInfoEntityDao userInfoEntityDao;
     private ContactRequestEntityDao contactRequestEntityDao;
     private GroupRequestEntityDao groupRequestEntityDao;
 
@@ -35,6 +39,7 @@ public class UserStore {
         this.restService = restService;
         this.apiKeyProvider = apiKeyProvider;
         this.userEntityDao = repository.getUserEntityDao();
+        this.userInfoEntityDao = repository.getUserInfoEntityDao();
         this.contactRequestEntityDao = repository.getContactRequestEntityDao();
         this.groupRequestEntityDao = repository.getGroupRequestEntityDao();
     }
@@ -76,7 +81,7 @@ public class UserStore {
 
     private UserEntity map(User user) throws Exception {
         Date createdAt = DateUtils.stringToDate(user.getCreatedAt(), Constants.DateTime.FORMAT);
-        UserEntity userEntity = new UserEntity(
+        return new UserEntity(
                 user.getObjectId(),
                 user.getUsername(),
                 user.getChatId(),
@@ -90,17 +95,38 @@ public class UserStore {
                 getJsonString(user.getContacts()),
                 getJsonString(user.getTags()),
                 user.getCredit());
-        return userEntity;
     }
 
-    public User getCurrentUserFromServer() throws Exception {
-        String currentUserId = apiKeyProvider.getAuthUserId();
-        return getUserByIdFromServer(currentUserId);
+    private UserInfo map(UserInfoEntity userInfoEntity) throws Exception {
+        String createdAt = DateUtils.dateToString(userInfoEntity.getCreatedAt(), Constants.DateTime.FORMAT);
+        return new UserInfo(
+                userInfoEntity.getObjectId(),
+                userInfoEntity.getChatId(),
+                createdAt,
+                userInfoEntity.getScreenName(),
+                userInfoEntity.getAvatarUrl());
+    }
+
+    private UserInfoEntity map(UserInfo userInfo) throws Exception {
+        Date createdAt = DateUtils.stringToDate(userInfo.getCreatedAt(), Constants.DateTime.FORMAT);
+        return new UserInfoEntity(
+                userInfo.getObjectId(),
+                userInfo.getChatId(),
+                createdAt,
+                userInfo.getScreenName(),
+                userInfo.getAvatarUrl());
     }
 
     public User getCurrentUser() throws Exception {
-        String currentUserId = apiKeyProvider.getAuthUserId();
-        return getUserById(currentUserId);
+        String id = apiKeyProvider.getAuthUserId();
+        UserEntity userEntity = userEntityDao.load(id);
+        if (userEntity != null) {
+            return map(userEntity);
+        } else {
+            User user = restService.getProfileById(id);
+            userEntityDao.insertOrReplace(map(user));
+            return user;
+        }
     }
 
     public User getUserByIdFromServer(String id) throws Exception {
@@ -118,32 +144,34 @@ public class UserStore {
         return null;
     }
 
-    public User getUserByChatIdFromServer(String id) throws Exception {
-        User user = restService.getUserByChatId(id);
-        if (user != null) {
-            userEntityDao.insertOrReplace(map(user));
-            return user;
+    public UserInfo getUserInfoByChatIdFromServer(String id) throws Exception {
+        UserInfo userInfo = restService.getUserInfoByChatId(id);
+        if (userInfo != null) {
+            userInfoEntityDao.insertOrReplace(map(userInfo));
+            return userInfo;
         }
         return null;
     }
 
-    public User getUserById(String id) throws Exception {
-        UserEntity userEntity = userEntityDao.load(id);
-        if (userEntity != null) {
-            return map(userEntity);
+    public UserInfo getUserInfoById(String id) throws Exception {
+        UserInfoEntity userInfoEntity = userInfoEntityDao.load(id);
+        if (userInfoEntity != null) {
+            return map(userInfoEntity);
         } else {
-            return getUserByIdFromServer(id);
+            UserInfo userInfo = restService.getUserInfoById(id);
+            userInfoEntityDao.insertOrReplace(map(userInfo));
+            return userInfo;
         }
     }
 
-    public User getUserByChatId(String id) throws Exception {
-        UserEntity userEntity = userEntityDao.queryBuilder()
-                .where(UserEntityDao.Properties.ChatId.eq(id))
+    public UserInfo getUserInfoByChatId(String id) throws Exception {
+        UserInfoEntity userInfoEntity = userInfoEntityDao.queryBuilder()
+                .where(UserInfoEntityDao.Properties.ChatId.eq(id))
                 .unique();
-        if (userEntity != null) {
-            return map(userEntity);
+        if (userInfoEntity != null) {
+            return map(userInfoEntity);
         } else {
-            return getUserByChatIdFromServer(id);
+            return getUserInfoByChatIdFromServer(id);
         }
     }
 
@@ -165,9 +193,9 @@ public class UserStore {
                 .list();
         List<ContactRequest> result = new ArrayList<ContactRequest>();
         for (ContactRequestEntity entity: entities) {
-            User user = getUserById(entity.getUserId());
+            UserInfo userInfo = getUserInfoById(entity.getUserId());
             boolean isAdded = currentUser.isContact(entity.getUserId());
-            result.add(new ContactRequest(user, entity.getIntro(), isAdded));
+            result.add(new ContactRequest(userInfo, entity.getIntro(), isAdded));
         }
         return result;
     }
@@ -220,42 +248,42 @@ public class UserStore {
         groupRequestEntityDao.insertOrReplace(entity);
     }
 
-    public List<User> getContacts() throws Exception {
+    public List<UserInfo> getContacts() throws Exception {
         User user = getCurrentUser();
-        List<User> result = new ArrayList<User>();
+        List<UserInfo> result = new ArrayList<>();
         if (user != null) {
             for (String contactId: user.getContacts()) {
-                result.add(getUserById(contactId));
+                result.add(getUserInfoById(contactId));
             }
         }
         return result;
     }
 
-    public List<User> getListByArea(String userId, String area) throws Exception {
-        List<User> users = restService.getAreaUsers(userId, area);
+    public List<UserInfo> getListByArea(String userId, String area) throws Exception {
+        List<UserInfo> users = restService.getAreaUsers(userId, area);
         if (users != null) {
-            for (User user: users) {
-                userEntityDao.insertOrReplace(map(user));
+            for (UserInfo user: users) {
+                userInfoEntityDao.insertOrReplace(map(user));
             }
         }
         return users;
     }
 
-    public List<User> getListByTags(String userId, List<String> tags) throws Exception {
-        List<User> users = restService.getTagUsers(userId, tags);
+    public List<UserInfo> getListByTags(String userId, List<String> tags) throws Exception {
+        List<UserInfo> users = restService.getTagUsers(userId, tags);
         if (users != null) {
-            for (User user: users) {
-                userEntityDao.insertOrReplace(map(user));
+            for (UserInfo user: users) {
+                userInfoEntityDao.insertOrReplace(map(user));
             }
         }
         return users;
     }
 
-    public List<User> getGroupUsers(List<String> chatIds) throws Exception {
-        List<User> users = restService.getGroupUsers(chatIds);
+    public List<UserInfo> getListByGroup(List<String> chatIds) throws Exception {
+        List<UserInfo> users = restService.getGroupUsers(chatIds);
         if (users != null) {
-            for (User user: users) {
-                userEntityDao.insertOrReplace(map(user));
+            for (UserInfo user: users) {
+                userInfoEntityDao.insertOrReplace(map(user));
             }
         }
         return users;

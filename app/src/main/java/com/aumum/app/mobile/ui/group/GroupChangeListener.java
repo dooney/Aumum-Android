@@ -5,7 +5,7 @@ import android.app.Activity;
 import com.aumum.app.mobile.Injector;
 import com.aumum.app.mobile.R;
 import com.aumum.app.mobile.core.dao.UserStore;
-import com.aumum.app.mobile.core.model.User;
+import com.aumum.app.mobile.core.model.UserInfo;
 import com.aumum.app.mobile.core.service.ChatService;
 import com.aumum.app.mobile.core.service.NotificationService;
 import com.aumum.app.mobile.events.GroupDeletedEvent;
@@ -50,7 +50,7 @@ public class GroupChangeListener implements com.easemob.chat.GroupChangeListener
             @Override
             public Boolean call() throws Exception {
                 userStore.addGroupRequest(groupId, appliedBy, reason);
-                User user = userStore.getUserByChatId(appliedBy);
+                UserInfo user = userStore.getUserInfoByChatId(appliedBy);
                 notificationService.pushGroupAppliedNotification(user.getScreenName(), groupName, reason);
                 return true;
             }
@@ -72,7 +72,7 @@ public class GroupChangeListener implements com.easemob.chat.GroupChangeListener
         new SafeAsyncTask<Boolean>() {
             @Override
             public Boolean call() throws Exception {
-                User user = userStore.getUserByChatId(declinedBy);
+                UserInfo user = userStore.getUserInfoByChatId(declinedBy);
                 String title = activity.getString(R.string.label_application_declined,
                         user.getScreenName());
                 notificationService.pushUserDetailsNotification(user.getObjectId(), title, reason);

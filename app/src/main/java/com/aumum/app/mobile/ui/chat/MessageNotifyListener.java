@@ -5,7 +5,7 @@ import android.content.Context;
 import com.aumum.app.mobile.Injector;
 import com.aumum.app.mobile.R;
 import com.aumum.app.mobile.core.dao.UserStore;
-import com.aumum.app.mobile.core.model.User;
+import com.aumum.app.mobile.core.model.UserInfo;
 import com.aumum.app.mobile.utils.Ln;
 import com.easemob.chat.EMMessage;
 import com.easemob.chat.OnMessageNotifyListener;
@@ -29,7 +29,7 @@ public class MessageNotifyListener implements OnMessageNotifyListener {
     @Override
     public String onNewMessageNotify(EMMessage emMessage) {
         try {
-            User user = userStore.getUserByChatId(emMessage.getFrom());
+            UserInfo user = userStore.getUserInfoByChatId(emMessage.getFrom());
             String screenName = user.getScreenName();
             String message = screenName + "：";
             if (emMessage.getType() == EMMessage.Type.TXT) {

@@ -10,7 +10,7 @@ import com.aumum.app.mobile.Injector;
 import com.aumum.app.mobile.R;
 import com.aumum.app.mobile.core.dao.UserStore;
 import com.aumum.app.mobile.core.infra.security.ApiKeyProvider;
-import com.aumum.app.mobile.core.model.User;
+import com.aumum.app.mobile.core.model.UserInfo;
 import com.aumum.app.mobile.ui.user.UserListener;
 import com.aumum.app.mobile.ui.view.AvatarImageView;
 import com.aumum.app.mobile.utils.Ln;
@@ -75,7 +75,7 @@ public abstract class ChatMessageCard
         String userName = activity.getString(R.string.label_unknown_user);
         String avatarUrl = null;
         try {
-            User user = userStore.getUserByChatId(message.getFrom());
+            UserInfo user = userStore.getUserInfoByChatId(message.getFrom());
             userName = user.getScreenName();
             avatarUrl = user.getAvatarUrl();
             UserListener userListener = new UserListener(activity, user.getObjectId());

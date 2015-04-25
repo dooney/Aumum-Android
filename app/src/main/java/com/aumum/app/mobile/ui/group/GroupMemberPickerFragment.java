@@ -7,7 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.aumum.app.mobile.R;
-import com.aumum.app.mobile.core.model.User;
+import com.aumum.app.mobile.core.model.UserInfo;
 import com.aumum.app.mobile.ui.user.UserPickerFragment;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -37,9 +37,10 @@ public class GroupMemberPickerFragment extends UserPickerFragment {
     }
 
     @Override
-    protected List<User> loadDataCore(Bundle bundle) throws Exception {
+    protected List<UserInfo> loadDataCore(Bundle bundle) throws Exception {
         Gson gson = new Gson();
-        List<User> userList = gson.fromJson(allMembers, new TypeToken<List<User>>(){}.getType());
+        List<UserInfo> userList =
+                gson.fromJson(allMembers, new TypeToken<List<UserInfo>>(){}.getType());
         Collections.sort(userList, initialComparator);
         return userList;
     }

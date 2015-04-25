@@ -9,7 +9,7 @@ import android.widget.TextView;
 
 import com.aumum.app.mobile.R;
 import com.aumum.app.mobile.core.model.GroupRequest;
-import com.aumum.app.mobile.core.model.User;
+import com.aumum.app.mobile.core.model.UserInfo;
 import com.aumum.app.mobile.ui.user.UserListener;
 import com.aumum.app.mobile.ui.view.AvatarImageView;
 
@@ -39,7 +39,7 @@ public class GroupRequestCard implements GroupRequestProcessListener.OnProcessLi
     }
 
     public void refresh(GroupRequest request) {
-        User user = request.getUser();
+        UserInfo user = request.getUser();
         layout.setOnClickListener(new UserListener(activity, user.getObjectId()));
         avatarImage.getFromUrl(user.getAvatarUrl());
         screenNameText.setText(user.getScreenName());

@@ -100,11 +100,23 @@ public final class Constants {
         public static final String URL_CREDIT_RULES_FRAG = "/1/classes/CreditRules";
 
         /**
+         * List Moments URL
+         */
+        public static final String URL_MOMENTS_FRAG = "/1/classes/moments";
+
+        /**
+         * Moment By Id URL
+         */
+        public static final String URL_MOMENT_BY_ID_FRAG = "/1/classes/moments";
+
+        /**
          * PARAMS for auth
          */
         public static final String PARAM_USERNAME = "username";
         public static final String PARAM_PASSWORD = "password";
         public static final String PARAM_EMAIL = "email";
+        public static final String PARAM_OBJECT_ID = "objectId";
+        public static final String PARAM_DELETED_AT = "deletedAt";
 
         /* Prod Keys */
         public static final String PARSE_APP_ID = "1CWTxIB11kQiHz7QAY1hZzA1PstlJ2TQuAmZ8Nc6";
@@ -129,7 +141,6 @@ public final class Constants {
 
         public static final class User {
             public static final String PARAM_CONTACTS = "contacts";
-            public static final String PARAM_PARTIES = "parties";
             public static final String PARAM_AVATAR_URL = "avatarUrl";
             public static final String PARAM_SCREEN_NAME = "screenName";
             public static final String PARAM_EMAIL = "email";
@@ -139,6 +150,18 @@ public final class Constants {
             public static final String PARAM_ABOUT = "about";
             public static final String PARAM_CHAT_ID = "chatId";
             public static final String PARAM_CREDIT = "credit";
+        }
+
+        public static final class Area {
+            public static final String PARAM_CITY = "city";
+        }
+
+        public static final class CityGroup {
+            public static final String PARAM_CITY = "city";
+        }
+
+        public static final class CreditRule {
+            public static final String PARAM_SEQ = "seq";
         }
     }
 

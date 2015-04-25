@@ -13,6 +13,7 @@ import com.aumum.app.mobile.R;
 import com.aumum.app.mobile.core.dao.UserStore;
 import com.aumum.app.mobile.core.model.CmdMessage;
 import com.aumum.app.mobile.core.model.User;
+import com.aumum.app.mobile.core.model.UserInfo;
 import com.aumum.app.mobile.core.service.ChatService;
 import com.aumum.app.mobile.ui.base.ItemListFragment;
 import com.aumum.app.mobile.ui.contact.AddContactListener;
@@ -29,7 +30,7 @@ import javax.inject.Inject;
 /**
  * Created by Administrator on 1/03/2015.
  */
-public class TagUsersFragment extends ItemListFragment<User>
+public class TagUsersFragment extends ItemListFragment<UserInfo>
         implements AddContactListener {
 
     @Inject UserStore userStore;
@@ -61,20 +62,20 @@ public class TagUsersFragment extends ItemListFragment<User>
     }
 
     @Override
-    protected ArrayAdapter<User> createAdapter(List<User> items) {
+    protected ArrayAdapter<UserInfo> createAdapter(List<UserInfo> items) {
         adapter = new TagUsersAdapter(getActivity(), items, this);
         return adapter;
     }
 
     @Override
-    protected List<User> loadDataCore(Bundle bundle) throws Exception {
+    protected List<UserInfo> loadDataCore(Bundle bundle) throws Exception {
         if (userId != null) {
-            currentUser = userStore.getUserById(userId);
+            currentUser = userStore.getUserByIdFromServer(userId);
         } else {
             currentUser = userStore.getCurrentUser();
         }
         adapter.setCurrentUser(currentUser);
-        List<User> users = userStore.getListByTags(currentUser.getObjectId(), tags);
+        List<UserInfo> users = userStore.getListByTags(currentUser.getObjectId(), tags);
         usersCount = users.size();
         if (usersCount > 0 && shouldNotify) {
             notifyTagUsers(users);
@@ -83,7 +84,7 @@ public class TagUsersFragment extends ItemListFragment<User>
     }
 
     @Override
-    protected void handleLoadResult(List<User> result) {
+    protected void handleLoadResult(List<UserInfo> result) {
         super.handleLoadResult(result);
         String title = getString(R.string.info_tag_users_found, usersCount);
         getActivity().setTitle(title);
@@ -119,11 +120,11 @@ public class TagUsersFragment extends ItemListFragment<User>
         dialog.show();
     }
 
-    private void notifyTagUsers(final List<User> users) {
+    private void notifyTagUsers(final List<UserInfo> users) {
         new SafeAsyncTask<Boolean>() {
             @Override
             public Boolean call() throws Exception {
-                for (User user: users) {
+                for (UserInfo user: users) {
                     String title = getString(R.string.info_new_tag_user_message);
                     String content = getString(R.string.info_welcome_new_user, currentUser.getScreenName());
                     CmdMessage cmdMessage = new CmdMessage(CmdMessage.Type.USER_NEW,

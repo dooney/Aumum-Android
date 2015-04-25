@@ -459,7 +459,7 @@ public class ChatFragment extends Fragment
             new SafeAsyncTask<Boolean>() {
                 @Override
                 public Boolean call() throws Exception {
-                    userStore.getUserByChatId(chatId);
+                    userStore.getUserInfoByChatId(chatId);
                     EMMessage message = chatService.getMessage(msgId);
                     preLoadMessageImage(message);
                     return true;

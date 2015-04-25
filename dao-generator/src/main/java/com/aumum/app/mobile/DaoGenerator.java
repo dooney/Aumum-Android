@@ -5,12 +5,13 @@ import de.greenrobot.daogenerator.Schema;
 
 public class DaoGenerator {
 
-    private static final int SCHEMA_VERSION = 20;
+    private static final int SCHEMA_VERSION = 22;
 
     public static void main(String args[]) throws Exception {
         Schema schema = new Schema(SCHEMA_VERSION, "com.aumum.app.mobile.core.dao.gen");
 
         addUser(schema);
+        addUserInfo(schema);
         addContactRequest(schema);
         addGroupRequest(schema);
         addCreditRule(schema);
@@ -23,7 +24,7 @@ public class DaoGenerator {
         Entity user = schema.addEntity("UserEntity");
         user.setSuperclass("BaseEntity");
         user.addStringProperty("objectId").notNull().primaryKey();
-        user.addStringProperty("username").notNull();
+        user.addStringProperty("username");
         user.addStringProperty("chatId").notNull();
         user.addDateProperty("createdAt").notNull();
         user.addStringProperty("screenName");
@@ -35,6 +36,16 @@ public class DaoGenerator {
         user.addStringProperty("contacts");
         user.addStringProperty("tags");
         user.addIntProperty("credit");
+    }
+
+    private static void addUserInfo(Schema schema) {
+        Entity user = schema.addEntity("UserInfoEntity");
+        user.setSuperclass("BaseEntity");
+        user.addStringProperty("objectId").notNull().primaryKey();
+        user.addStringProperty("chatId").notNull();
+        user.addDateProperty("createdAt").notNull();
+        user.addStringProperty("screenName");
+        user.addStringProperty("avatarUrl");
     }
 
     private static void addContactRequest(Schema schema) {

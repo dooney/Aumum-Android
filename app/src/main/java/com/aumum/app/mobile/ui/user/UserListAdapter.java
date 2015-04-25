@@ -8,17 +8,19 @@ import android.widget.ArrayAdapter;
 
 import com.aumum.app.mobile.R;
 import com.aumum.app.mobile.core.model.User;
+import com.aumum.app.mobile.core.model.UserInfo;
 
 import java.util.List;
 
 /**
  * Created by Administrator on 26/12/2014.
  */
-public class UserListAdapter extends ArrayAdapter<User> {
+public class UserListAdapter extends ArrayAdapter<UserInfo> {
 
     private Context context;
 
-    public UserListAdapter(Context context, List<User> objects) {
+    public UserListAdapter(Context context,
+                           List<UserInfo> objects) {
         super(context, 0, objects);
         this.context = context;
     }
@@ -36,7 +38,7 @@ public class UserListAdapter extends ArrayAdapter<User> {
             card = (UserCard) convertView.getTag();
         }
 
-        User user = getItem(position);
+        UserInfo user = getItem(position);
         card.refresh(user);
 
         return convertView;

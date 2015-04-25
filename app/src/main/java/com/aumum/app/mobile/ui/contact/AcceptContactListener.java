@@ -10,6 +10,7 @@ import com.aumum.app.mobile.core.dao.CreditRuleStore;
 import com.aumum.app.mobile.core.dao.UserStore;
 import com.aumum.app.mobile.core.model.CreditRule;
 import com.aumum.app.mobile.core.model.User;
+import com.aumum.app.mobile.core.model.UserInfo;
 import com.aumum.app.mobile.core.service.ChatService;
 import com.aumum.app.mobile.core.service.RestService;
 import com.aumum.app.mobile.utils.Ln;
@@ -84,7 +85,7 @@ public class AcceptContactListener implements View.OnClickListener {
                 userStore.save(currentUser);
 
                 String text = context.getString(R.string.info_invitation_accepted_and_start_chatting);
-                User user = userStore.getUserById(userId);
+                UserInfo user = userStore.getUserInfoById(userId);
                 chatService.sendSystemMessage(user.getChatId(), false, text, null);
                 return true;
             }

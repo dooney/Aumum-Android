@@ -12,7 +12,7 @@ public class GroupRequest {
     private int status;
 
     private String groupName;
-    private User user;
+    private UserInfo user;
 
     public static final int STATUS_NONE = 0;
     public static final int STATUS_APPROVED = 1;
@@ -62,11 +62,11 @@ public class GroupRequest {
         this.groupName = groupName;
     }
 
-    public User getUser() {
+    public UserInfo getUser() {
         return user;
     }
 
-    public void setUser(User user) {
+    public void setUser(UserInfo user) {
         this.user = user;
     }
 }

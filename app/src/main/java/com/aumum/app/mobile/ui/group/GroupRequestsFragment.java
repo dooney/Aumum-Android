@@ -11,6 +11,7 @@ import com.aumum.app.mobile.R;
 import com.aumum.app.mobile.core.dao.UserStore;
 import com.aumum.app.mobile.core.model.GroupRequest;
 import com.aumum.app.mobile.core.model.User;
+import com.aumum.app.mobile.core.model.UserInfo;
 import com.aumum.app.mobile.core.service.ChatService;
 import com.aumum.app.mobile.ui.base.ItemListFragment;
 import com.easemob.chat.EMGroup;
@@ -50,7 +51,7 @@ public class GroupRequestsFragment extends ItemListFragment<GroupRequest> {
         for (GroupRequest groupRequest : groupRequestList) {
             EMGroup group = chatService.getGroupById(groupRequest.getGroupId());
             groupRequest.setGroupName(group.getGroupName());
-            User user = userStore.getUserByChatId(groupRequest.getUserId());
+            UserInfo user = userStore.getUserInfoByChatId(groupRequest.getUserId());
             groupRequest.setUser(user);
         }
         return groupRequestList;

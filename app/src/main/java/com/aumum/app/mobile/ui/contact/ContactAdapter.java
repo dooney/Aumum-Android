@@ -8,7 +8,7 @@ import android.widget.ArrayAdapter;
 import android.widget.SectionIndexer;
 
 import com.aumum.app.mobile.R;
-import com.aumum.app.mobile.core.model.User;
+import com.aumum.app.mobile.core.model.UserInfo;
 import com.aumum.app.mobile.ui.user.UserClickListener;
 
 import java.util.List;
@@ -16,12 +16,13 @@ import java.util.List;
 /**
  * Created by Administrator on 21/11/2014.
  */
-public class ContactAdapter extends ArrayAdapter<User>
+public class ContactAdapter extends ArrayAdapter<UserInfo>
         implements SectionIndexer {
 
     private UserClickListener userClickListener;
 
-    public ContactAdapter(Context context, List<User> objects,
+    public ContactAdapter(Context context,
+                          List<UserInfo> objects,
                           UserClickListener userClickListener) {
         super(context, 0, objects);
         this.userClickListener = userClickListener;
@@ -40,7 +41,7 @@ public class ContactAdapter extends ArrayAdapter<User>
             card = (ContactCard) convertView.getTag();
         }
 
-        User user = getItem(position);
+        UserInfo user = getItem(position);
         card.refresh(user);
 
         int section = getSectionForPosition(position);

@@ -1,6 +1,5 @@
 package com.aumum.app.mobile.ui.user;
 
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -12,7 +11,7 @@ import android.widget.ArrayAdapter;
 import com.aumum.app.mobile.Injector;
 import com.aumum.app.mobile.R;
 import com.aumum.app.mobile.core.dao.UserStore;
-import com.aumum.app.mobile.core.model.User;
+import com.aumum.app.mobile.core.model.UserInfo;
 import com.aumum.app.mobile.ui.base.ItemListFragment;
 
 import java.util.ArrayList;
@@ -23,7 +22,7 @@ import javax.inject.Inject;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class UserListFragment extends ItemListFragment<User> {
+public class UserListFragment extends ItemListFragment<UserInfo> {
 
     @Inject UserStore userStore;
 
@@ -34,7 +33,7 @@ public class UserListFragment extends ItemListFragment<User> {
         super.onCreate(savedInstanceState);
         Injector.inject(this);
 
-        users = new ArrayList<String>();
+        users = new ArrayList<>();
         final Intent intent = getActivity().getIntent();
         users.addAll(intent.getStringArrayListExtra(UserListActivity.INTENT_USER_LIST));
     }
@@ -46,15 +45,15 @@ public class UserListFragment extends ItemListFragment<User> {
     }
 
     @Override
-    protected ArrayAdapter<User> createAdapter(List<User> items) {
+    protected ArrayAdapter<UserInfo> createAdapter(List<UserInfo> items) {
         return new UserListAdapter(getActivity(), items);
     }
 
     @Override
-    protected List<User> loadDataCore(Bundle bundle) throws Exception {
-        List<User> userList = new ArrayList<User>();
+    protected List<UserInfo> loadDataCore(Bundle bundle) throws Exception {
+        List<UserInfo> userList = new ArrayList<>();
         for (String userId: users) {
-            User user = userStore.getUserById(userId);
+            UserInfo user = userStore.getUserInfoById(userId);
             userList.add(user);
         }
         return userList;

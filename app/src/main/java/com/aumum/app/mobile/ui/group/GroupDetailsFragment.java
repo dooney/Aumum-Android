@@ -18,6 +18,7 @@ import com.aumum.app.mobile.R;
 import com.aumum.app.mobile.core.dao.UserStore;
 import com.aumum.app.mobile.core.model.CmdMessage;
 import com.aumum.app.mobile.core.model.User;
+import com.aumum.app.mobile.core.model.UserInfo;
 import com.aumum.app.mobile.core.service.ChatService;
 import com.aumum.app.mobile.ui.base.ItemListFragment;
 import com.aumum.app.mobile.ui.base.ProgressListener;
@@ -43,7 +44,7 @@ import retrofit.RetrofitError;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class GroupDetailsFragment extends ItemListFragment<User> {
+public class GroupDetailsFragment extends ItemListFragment<UserInfo> {
 
     @Inject ChatService chatService;
     @Inject UserStore userStore;
@@ -113,12 +114,12 @@ public class GroupDetailsFragment extends ItemListFragment<User> {
     }
 
     @Override
-    protected ArrayAdapter<User> createAdapter(List<User> items) {
+    protected ArrayAdapter<UserInfo> createAdapter(List<UserInfo> items) {
         return new UserListAdapter(getActivity(), items);
     }
 
     @Override
-    protected List<User> loadDataCore(Bundle bundle) throws Exception {
+    protected List<UserInfo> loadDataCore(Bundle bundle) throws Exception {
         currentUser = userStore.getCurrentUser();
         group = chatService.getGroupFromServer(groupId);
         final List<String> members = group.getMembers();
@@ -130,11 +131,11 @@ public class GroupDetailsFragment extends ItemListFragment<User> {
                 }
             }
         });
-        return userStore.getGroupUsers(members);
+        return userStore.getListByGroup(members);
     }
 
     @Override
-    protected void handleLoadResult(List<User> result) {
+    protected void handleLoadResult(List<UserInfo> result) {
         super.handleLoadResult(result);
         setTitle(group.getMembers().size());
     }
@@ -309,13 +310,13 @@ public class GroupDetailsFragment extends ItemListFragment<User> {
     }
 
     private void addUsers(final ArrayList<String> contacts) {
-        final List<User> userList = getData();
+        final List<UserInfo> userList = getData();
         new SafeAsyncTask<Boolean>() {
             @Override
             public Boolean call() throws Exception {
                 for (final String contactId : contacts) {
                     if (!group.getMembers().contains(contactId)) {
-                        User user = userStore.getUserById(contactId);
+                        UserInfo user = userStore.getUserInfoById(contactId);
                         userList.add(user);
                     }
                 }
@@ -334,7 +335,7 @@ public class GroupDetailsFragment extends ItemListFragment<User> {
                 for (final String contactId: contacts) {
                     if (!group.getMembers().contains(contactId)) {
                         chatService.addUserToGroup(groupId, contactId);
-                        User user = userStore.getUserById(contactId);
+                        UserInfo user = userStore.getUserInfoById(contactId);
                         String text = currentUser.getScreenName() + "邀请" +
                                 user.getScreenName() + "加入群组";
                         chatService.sendSystemMessage(groupId, true, text, null);
@@ -357,14 +358,14 @@ public class GroupDetailsFragment extends ItemListFragment<User> {
     }
 
     private void removeUsers(final ArrayList<String> contacts) {
-        final List<User> userList = getData();
+        final List<UserInfo> userList = getData();
         new SafeAsyncTask<Boolean>() {
             @Override
             public Boolean call() throws Exception {
                 for (final String contactId : contacts) {
                     if (!group.getMembers().contains(contactId)) {
-                        for (Iterator<User> it = userList.iterator(); it.hasNext();) {
-                            User user = it.next();
+                        for (Iterator<UserInfo> it = userList.iterator(); it.hasNext();) {
+                            UserInfo user = it.next();
                             if (user.getObjectId().equals(contactId)) {
                                 it.remove();
                             }
@@ -385,7 +386,7 @@ public class GroupDetailsFragment extends ItemListFragment<User> {
             public Boolean call() throws Exception {
                 for (final String contactId: contacts) {
                     chatService.removeUserFromGroup(groupId, contactId);
-                    User user = userStore.getUserById(contactId);
+                    UserInfo user = userStore.getUserInfoById(contactId);
                     String text = user.getScreenName() + "已被移出群组";
                     chatService.sendSystemMessage(groupId, true, text, null);
                     CmdMessage cmdMessage = new CmdMessage(CmdMessage.Type.GROUP_QUIT,

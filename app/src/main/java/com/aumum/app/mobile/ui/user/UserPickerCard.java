@@ -6,7 +6,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.aumum.app.mobile.R;
-import com.aumum.app.mobile.core.model.User;
+import com.aumum.app.mobile.core.model.UserInfo;
 import com.aumum.app.mobile.ui.view.Animation;
 import com.aumum.app.mobile.ui.view.AvatarImageView;
 
@@ -31,7 +31,7 @@ public class UserPickerCard {
         this.userClickListener = userClickListener;
     }
 
-    public void refresh(final User user) {
+    public void refresh(final UserInfo user) {
         avatarImage.getFromUrl(user.getAvatarUrl());
         screenNameText.setText(user.getScreenName());
         checkbox.setSelected(userClickListener.isSelected(user.getObjectId()));

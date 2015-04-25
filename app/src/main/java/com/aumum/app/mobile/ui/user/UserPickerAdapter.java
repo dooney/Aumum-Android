@@ -9,18 +9,20 @@ import android.widget.SectionIndexer;
 
 import com.aumum.app.mobile.R;
 import com.aumum.app.mobile.core.model.User;
+import com.aumum.app.mobile.core.model.UserInfo;
 
 import java.util.List;
 
 /**
  * Created by Administrator on 25/12/2014.
  */
-public class UserPickerAdapter extends ArrayAdapter<User>
+public class UserPickerAdapter extends ArrayAdapter<UserInfo>
         implements SectionIndexer {
 
     private UserClickListener userClickListener;
 
-    public UserPickerAdapter(Context context, List<User> objects,
+    public UserPickerAdapter(Context context,
+                             List<UserInfo> objects,
                              UserClickListener userClickListener) {
         super(context, 0, objects);
         this.userClickListener = userClickListener;
@@ -39,7 +41,7 @@ public class UserPickerAdapter extends ArrayAdapter<User>
             card = (UserPickerCard) convertView.getTag();
         }
 
-        User user = getItem(position);
+        UserInfo user = getItem(position);
         card.refresh(user);
 
         int section = getSectionForPosition(position);

@@ -9,6 +9,7 @@ import com.aumum.app.mobile.core.dao.gen.DaoMaster;
 import com.aumum.app.mobile.core.dao.gen.GroupRequestEntityDao;
 import com.aumum.app.mobile.core.dao.gen.MomentEntityDao;
 import com.aumum.app.mobile.core.dao.gen.UserEntityDao;
+import com.aumum.app.mobile.core.dao.gen.UserInfoEntityDao;
 
 /**
  * Created by Administrator on 12/11/2014.
@@ -27,6 +28,7 @@ public class Repository {
 
     public void reset() {
         getUserEntityDao().deleteAll();
+        getUserInfoEntityDao().deleteAll();
         getContactRequestEntityDao().deleteAll();
         getGroupRequestEntityDao().deleteAll();
         getCreditRuleEntityDao().deleteAll();
@@ -35,6 +37,10 @@ public class Repository {
 
     public UserEntityDao getUserEntityDao() {
         return daoMaster.newSession().getUserEntityDao();
+    }
+
+    public UserInfoEntityDao getUserInfoEntityDao() {
+        return daoMaster.newSession().getUserInfoEntityDao();
     }
 
     public ContactRequestEntityDao getContactRequestEntityDao() {
