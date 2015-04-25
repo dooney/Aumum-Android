@@ -4,6 +4,7 @@ import android.accounts.AccountManager;
 import android.content.Context;
 
 import com.aumum.app.mobile.core.dao.CreditRuleStore;
+import com.aumum.app.mobile.core.dao.MomentStore;
 import com.aumum.app.mobile.core.dao.Repository;
 import com.aumum.app.mobile.core.infra.security.ApiKeyProvider;
 import com.aumum.app.mobile.core.service.ChatService;
@@ -37,6 +38,7 @@ import com.aumum.app.mobile.ui.contact.AcceptContactListener;
 import com.aumum.app.mobile.ui.contact.ContactListener;
 import com.aumum.app.mobile.ui.contact.ContactRequestsFragment;
 import com.aumum.app.mobile.ui.account.VerifyActivity;
+import com.aumum.app.mobile.ui.moment.MomentFragment;
 import com.aumum.app.mobile.ui.report.ReportActivity;
 import com.aumum.app.mobile.ui.settings.FeedbackActivity;
 import com.aumum.app.mobile.ui.settings.NotificationActivity;
@@ -123,7 +125,8 @@ import retrofit.converter.GsonConverter;
                 GroupJoinListener.class,
                 GroupRequestProcessListener.class,
                 MyGroupsFragment.class,
-                NewGroupActivity.class
+                NewGroupActivity.class,
+                MomentFragment.class
         }
 )
 public class BootstrapModule {
@@ -175,6 +178,12 @@ public class BootstrapModule {
     @Singleton
     CreditRuleStore provideCreditRuleStore(RestService restService, Repository repository) {
         return new CreditRuleStore(restService, repository);
+    }
+
+    @Provides
+    @Singleton
+    MomentStore provideMomentStore(RestService restService, Repository repository) {
+        return new MomentStore(restService, repository);
     }
 
     @Provides

@@ -6,18 +6,28 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 
+import com.aumum.app.mobile.Injector;
 import com.aumum.app.mobile.R;
+import com.aumum.app.mobile.core.dao.MomentStore;
+import com.aumum.app.mobile.core.model.Moment;
 import com.aumum.app.mobile.ui.base.RefreshItemListFragment;
 
 import java.util.List;
 
-import it.gmariotti.cardslib.library.internal.Card;
-import it.gmariotti.cardslib.library.internal.CardArrayAdapter;
+import javax.inject.Inject;
 
 /**
  * Created by Administrator on 24/04/2015.
  */
-public class MomentFragment extends RefreshItemListFragment<Card> {
+public class MomentFragment extends RefreshItemListFragment<Moment> {
+
+    @Inject MomentStore momentStore;
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        Injector.inject(this);
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -26,17 +36,17 @@ public class MomentFragment extends RefreshItemListFragment<Card> {
     }
 
     @Override
-    protected ArrayAdapter<Card> createAdapter(List<Card> items) {
-        return new CardArrayAdapter(getActivity(), items);
+    protected ArrayAdapter<Moment> createAdapter(List<Moment> items) {
+        return new MomentCardsAdapter(getActivity(), items);
     }
 
     @Override
-    public void onRefresh() {
-
+    protected List<Moment> refresh(String after) {
+        return null;
     }
 
     @Override
-    public void onLoadMore() {
-
+    protected List<Moment> loadMore(String before) {
+        return null;
     }
 }

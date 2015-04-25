@@ -3,9 +3,6 @@
 
     <dimen name="bbuton_rounded_corner_radius">5dp</dimen>
     <dimen name="bthumbnail_rounded_corner_radius">3dp</dimen>
-    <dimen name="card_base_empty_height">0dp</dimen>
-    <dimen name="list_card_padding_left">0dp</dimen>
-    <dimen name="list_card_padding_right">0dp</dimen>
 
     <dimen name="margin_extra_small">2dp</dimen>
     <dimen name="margin_small">4dp</dimen>

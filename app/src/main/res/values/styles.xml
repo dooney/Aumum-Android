@@ -166,12 +166,6 @@
     <style name="ButtonTextView" parent="TextView.Subtitle">
         <item name="android:gravity">center_vertical</item>
     </style>
-    <style name="TextView.Time" parent="ButtonTextView">
-        <item name="android:drawableLeft">@drawable/ic_fa_clock_o</item>
-    </style>
-    <style name="TextView.Address" parent="ButtonTextView">
-        <item name="android:drawableLeft">@drawable/ic_fa_map_marker</item>
-    </style>
     <style name="TextView.Tag" parent="ButtonTextView">
         <item name="android:drawableLeft">@drawable/ic_fa_tag</item>
     </style>
@@ -185,14 +179,6 @@
     </style>
     <style name="TextView.Like.Small" parent="TextView.Like">
         <item name="android:drawableLeft">@drawable/ic_fa_thumbs_o_up_s</item>
-        <item name="android:textSize">@dimen/text_sz_small</item>
-    </style>
-    <style name="TextView.Favorite" parent="ButtonTextView">
-        <item name="android:drawableLeft">@drawable/ic_fa_star_o</item>
-        <item name="android:text">@string/label_favorite</item>
-    </style>
-    <style name="TextView.Favorite.Small" parent="TextView.Favorite">
-        <item name="android:drawableLeft">@drawable/ic_fa_star_o_s</item>
         <item name="android:textSize">@dimen/text_sz_small</item>
     </style>
     <style name="TextView.UserName" parent="TextView">
@@ -252,6 +238,12 @@
         <item name="android:lineSpacingMultiplier">1.1</item>
         <item name="android:hint">@string/hint_report_details</item>
     </style>
+
+    <!-- Moment -->
+    <style name="TextView.Moment.UserName" parent="TextView.UserName">
+        <item name="android:textSize">@dimen/text_sz_small</item>
+    </style>
+    <style name="TextView.Moment.CreatedAt" parent="TextView.Subtitle.Small" />
 
     <!-- Conversation -->
     <style name="TextView.Conversation.ScreenName" parent="TextView.UserName">

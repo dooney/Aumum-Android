@@ -6,6 +6,7 @@ import com.aumum.app.mobile.core.model.CityGroup;
 import com.aumum.app.mobile.core.model.CreditRule;
 import com.aumum.app.mobile.core.model.Feedback;
 import com.aumum.app.mobile.core.Constants;
+import com.aumum.app.mobile.core.model.Moment;
 import com.aumum.app.mobile.core.model.Report;
 import com.aumum.app.mobile.core.model.User;
 import com.aumum.app.mobile.core.model.UserTag;
@@ -72,6 +73,10 @@ public class RestService {
 
     private CreditRuleService getCreditRuleService() {
         return getRestAdapter().create(CreditRuleService.class);
+    }
+
+    private MomentService getMomentService() {
+        return getRestAdapter().create(MomentService.class);
     }
 
     private RestAdapter getRestAdapter() {
@@ -348,21 +353,6 @@ public class RestService {
         return null;
     }
 
-    public HashMap<String, String> getInAppContactList(List<String> numberList) {
-        final JsonObject whereJson = new JsonObject();
-        whereJson.add(Constants.Http.PARAM_USERNAME, buildIdListJson(numberList));
-        String where = whereJson.toString();
-        String keys = Constants.Http.PARAM_USERNAME + ",objectId";
-        List<JsonObject> result = getUserService().getList(keys, where).getResults();
-        HashMap<String, String> contactList = new HashMap<String, String>();
-        for (JsonObject jsonObject: result) {
-            String phone = jsonObject.get(Constants.Http.PARAM_USERNAME).getAsString();
-            String userId = jsonObject.get("objectId").getAsString();
-            contactList.put(phone, userId);
-        }
-        return contactList;
-    }
-
     public Report newReport(Report report) {
         Gson gson = new Gson();
         JsonObject data = gson.toJsonTree(report).getAsJsonObject();
@@ -395,6 +385,32 @@ public class RestService {
 
     public List<UserTag> getUserTags() {
         return getUserTagService().getList().getResults();
+    }
+
+    public List<Moment> getMomentsAfter(String after, int limit) {
+        final JsonObject whereJson = new JsonObject();
+        if (after != null) {
+            whereJson.add("createdAt", buildDateTimeAfterJson(after));
+        }
+        final JsonObject liveJson = new JsonObject();
+        liveJson.addProperty("$exists", false);
+        whereJson.add("deletedAt", liveJson);
+        String where = whereJson.toString();
+        return getMomentService().getList("-createdAt", where, limit).getResults();
+    }
+
+    private List<Moment> getMomentsBeforeCore(JsonObject whereJson, String before, int limit) {
+        whereJson.add("createdAt", buildDateTimeBeforeJson(before));
+        final JsonObject liveJson = new JsonObject();
+        liveJson.addProperty("$exists", false);
+        whereJson.add("deletedAt" ,liveJson);
+        String where = whereJson.toString();
+        return getMomentService().getList("-createdAt", where, limit).getResults();
+    }
+
+    public List<Moment> getMomentsBefore(String before, int limit) {
+        final JsonObject whereJson = new JsonObject();
+        return getMomentsBeforeCore(whereJson, before, limit);
     }
 
     public List<CreditRule> getCreditRuleList() {

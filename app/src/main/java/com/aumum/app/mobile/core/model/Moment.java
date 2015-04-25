@@ -6,7 +6,7 @@ import java.util.List;
 /**
  * Created by Administrator on 2/03/2015.
  */
-public class Moment extends AggregateRoot {
+public class Moment extends AggregateRoot implements RefreshItem {
 
     private String deletedAt;
     private String userId;
