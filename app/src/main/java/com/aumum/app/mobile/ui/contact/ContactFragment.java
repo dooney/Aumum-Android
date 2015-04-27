@@ -95,8 +95,6 @@ public class ContactFragment extends ItemListFragment<UserInfo>
 
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-
         mainView = view.findViewById(R.id.main_view);
 
         LayoutInflater inflater = getActivity().getLayoutInflater();
@@ -134,6 +132,8 @@ public class ContactFragment extends ItemListFragment<UserInfo>
                 }
             }
         });
+
+        super.onViewCreated(view, savedInstanceState);
     }
 
     @Override

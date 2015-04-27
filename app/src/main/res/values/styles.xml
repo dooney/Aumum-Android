@@ -386,7 +386,7 @@
     <style name="ImageView.ChatMessage.Image" parent="ImageView">
         <item name="android:maxWidth">128dp</item>
         <item name="android:maxHeight">128dp</item>
-        <item name="android:scaleType">fitCenter</item>
+        <item name="android:scaleType">fitStart</item>
     </style>
     <style name="TextView.ChatMessage.Progress" parent="TextView.Subtitle">
         <item name="android:textSize">@dimen/text_sz_small</item>

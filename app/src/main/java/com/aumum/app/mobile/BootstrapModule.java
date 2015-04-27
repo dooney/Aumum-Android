@@ -51,6 +51,7 @@ import com.aumum.app.mobile.ui.account.RegisterActivity;
 import com.aumum.app.mobile.core.Constants;
 import com.aumum.app.mobile.ui.settings.SettingsActivity;
 import com.aumum.app.mobile.ui.user.ProfileFragment;
+import com.aumum.app.mobile.ui.user.UserFragment;
 import com.aumum.app.mobile.ui.user.UserListFragment;
 import com.aumum.app.mobile.ui.user.UserTagListFragment;
 import com.aumum.app.mobile.utils.PostFromAnyThreadBus;
@@ -84,7 +85,7 @@ import retrofit.converter.GsonConverter;
                 RegisterActivity.class,
                 ResetPasswordActivity.class,
                 MainActivity.class,
-                com.aumum.app.mobile.ui.user.UserFragment.class,
+                UserFragment.class,
                 ConversationFragment.class,
                 ChatFragment.class,
                 SendMessageListener.class,
