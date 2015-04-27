@@ -19,12 +19,9 @@ import com.aumum.app.mobile.ui.chat.ChatConnectionListener;
 import com.aumum.app.mobile.ui.chat.ChatFragment;
 import com.aumum.app.mobile.ui.group.GroupChangeListener;
 import com.aumum.app.mobile.ui.group.GroupDetailsFragment;
-import com.aumum.app.mobile.ui.chat.ImageMessageCard;
 import com.aumum.app.mobile.ui.chat.MessageNotifyListener;
 import com.aumum.app.mobile.ui.chat.NotificationClickListener;
 import com.aumum.app.mobile.ui.chat.SendMessageListener;
-import com.aumum.app.mobile.ui.chat.TextMessageCard;
-import com.aumum.app.mobile.ui.chat.VoiceMessageCard;
 import com.aumum.app.mobile.ui.contact.ContactFragment;
 import com.aumum.app.mobile.ui.group.MyGroupsFragment;
 import com.aumum.app.mobile.ui.group.GroupJoinListener;
@@ -97,11 +94,8 @@ import retrofit.converter.GsonConverter;
                 ContactRequestsFragment.class,
                 AcceptContactListener.class,
                 ContactFragment.class,
-                TextMessageCard.class,
                 ProfileFragment.class,
                 SettingsActivity.class,
-                VoiceMessageCard.class,
-                ImageMessageCard.class,
                 UpdateAvatarActivity.class,
                 VerifyActivity.class,
                 CompleteProfileActivity.class,

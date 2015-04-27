@@ -4,6 +4,7 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.aumum.app.mobile.R;
+import com.aumum.app.mobile.core.model.ChatMessage;
 import com.aumum.app.mobile.ui.view.SpannableTextView;
 import com.easemob.chat.EMMessage;
 import com.easemob.chat.TextMessageBody;
@@ -25,7 +26,8 @@ public class SystemMessageCard implements ChatMessageListener {
     }
 
     @Override
-    public void refresh(EMMessage message, boolean showTimestamp, int position) {
+    public void refresh(ChatMessage chatMessage, boolean showTimestamp, int position) {
+        final EMMessage message = chatMessage.getMessage();
         if (position == 0) {
             timeStampText.setText(DateUtils.getTimestampString(new Date(message.getMsgTime())));
             timeStampText.setVisibility(View.VISIBLE);

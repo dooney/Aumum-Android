@@ -7,6 +7,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.aumum.app.mobile.R;
+import com.aumum.app.mobile.core.model.ChatMessage;
 import com.aumum.app.mobile.events.DeleteChatMessageEvent;
 import com.aumum.app.mobile.ui.image.ImageViewActivity;
 import com.aumum.app.mobile.ui.view.dialog.ListViewDialog;
@@ -28,14 +29,16 @@ public class ImageMessageCard extends ChatMessageCard {
 
     public ImageMessageCard(Activity activity,
                             Bus bus,
+                            String chatId,
                             View view) {
-        super(activity, bus, view);
+        super(activity, bus, chatId, view);
         this.image = (ImageView) view.findViewById(R.id.image_body);
         this.progressText = (TextView) view.findViewById(R.id.text_progress);
     }
 
     @Override
-    public void refresh(final EMMessage message, boolean showTimestamp, int position) {
+    public void refresh(ChatMessage chatMessage, boolean showTimestamp, int position) {
+        final EMMessage message = chatMessage.getMessage();
         ImageMessageBody imageBody = (ImageMessageBody) message.getBody();
 
         final String imageUri;
@@ -65,7 +68,7 @@ public class ImageMessageCard extends ChatMessageCard {
             });
         }
 
-        super.refresh(message, showTimestamp, position);
+        super.refresh(chatMessage, showTimestamp, position);
     }
 
     @Override

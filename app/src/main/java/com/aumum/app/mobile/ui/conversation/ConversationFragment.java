@@ -12,7 +12,6 @@ import com.aumum.app.mobile.R;
 import com.aumum.app.mobile.core.dao.UserStore;
 import com.aumum.app.mobile.core.model.Conversation;
 import com.aumum.app.mobile.core.model.Group;
-import com.aumum.app.mobile.core.model.User;
 import com.aumum.app.mobile.core.model.UserInfo;
 import com.aumum.app.mobile.core.service.ChatService;
 import com.aumum.app.mobile.events.GroupDeletedEvent;

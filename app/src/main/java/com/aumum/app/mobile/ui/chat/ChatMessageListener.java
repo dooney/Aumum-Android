@@ -1,11 +1,11 @@
 package com.aumum.app.mobile.ui.chat;
 
-import com.easemob.chat.EMMessage;
+import com.aumum.app.mobile.core.model.ChatMessage;
 
 /**
  * Created by Administrator on 24/11/2014.
  */
 public interface ChatMessageListener {
 
-    void refresh(EMMessage message, boolean showTimestamp, int position);
+    void refresh(ChatMessage message, boolean showTimestamp, int position);
 }

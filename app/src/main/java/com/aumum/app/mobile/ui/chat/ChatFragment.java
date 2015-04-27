@@ -24,12 +24,15 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.aumum.app.mobile.Injector;
 import com.aumum.app.mobile.R;
 import com.aumum.app.mobile.core.Constants;
 import com.aumum.app.mobile.core.dao.UserStore;
+import com.aumum.app.mobile.core.model.ChatMessage;
+import com.aumum.app.mobile.core.model.UserInfo;
 import com.aumum.app.mobile.core.service.ChatService;
 import com.aumum.app.mobile.events.DeleteChatMessageEvent;
 import com.aumum.app.mobile.events.GroupDeletedEvent;
@@ -61,6 +64,8 @@ import java.util.List;
 
 import javax.inject.Inject;
 
+import retrofit.RetrofitError;
+
 /**
  * A simple {@link Fragment} subclass.
  *
@@ -88,6 +93,7 @@ public class ChatFragment extends Fragment
     private ViewGroup recordingLayout;
     private TextView recordingHintText;
     private ImageView micImage;
+    private ProgressBar progressBar;
 
     private final TextWatcher watcher = validationTextWatcher();
     private ChatMessagesAdapter adapter;
@@ -119,8 +125,8 @@ public class ChatFragment extends Fragment
         conversation.resetUnreadMsgCount();
         int type = intent.getIntExtra(ChatActivity.INTENT_TYPE, ChatActivity.TYPE_SINGLE);
         isGroup = type == ChatActivity.TYPE_GROUP;
-        adapter = new ChatMessagesAdapter(getActivity(), bus, isGroup);
-        adapter.addAll(conversation.getAllMessages());
+        adapter = new ChatMessagesAdapter(getActivity(), bus, chatService.getChatId(), isGroup);
+        updateUI(conversation.getAllMessages(), -1);
 
         newMessageBroadcastReceiver = new NewMessageBroadcastReceiver();
         IntentFilter intentFilter = new IntentFilter(chatService.getNewMessageBroadcastAction());
@@ -273,6 +279,8 @@ public class ChatFragment extends Fragment
         recordingLayout = (ViewGroup) view.findViewById(R.id.layout_recording);
         recordingHintText = (TextView) view.findViewById(R.id.text_recording_hint);
         micImage = (ImageView) view.findViewById(R.id.image_mic);
+
+        progressBar = (ProgressBar) view.findViewById(R.id.pb_loading);
     }
 
     @Override
@@ -331,7 +339,7 @@ public class ChatFragment extends Fragment
                     @Override
                     protected void onSuccess(Boolean success) throws Exception {
                         if (success) {
-                            adapter.addAll(conversation.getAllMessages());
+                            updateUI(conversation.getAllMessages(), -1);
                         }
                     }
                 }.execute();
@@ -371,7 +379,7 @@ public class ChatFragment extends Fragment
             chatText.setText(null);
             EMMessage message = chatService.addTextMessage(id, isGroup, text);
             conversation.addMessage(message);
-            adapter.addAll(conversation.getAllMessages());
+            updateUI(conversation.getAllMessages(), -1);
         }
     }
 
@@ -381,7 +389,7 @@ public class ChatFragment extends Fragment
         }
         EMMessage message = chatService.addVoiceMessage(id, isGroup, filePath, length);
         conversation.addMessage(message);
-        adapter.addAll(conversation.getAllMessages());
+        updateUI(conversation.getAllMessages(), -1);
     }
 
     private void preLoadMessageImage(EMMessage message) {
@@ -407,7 +415,7 @@ public class ChatFragment extends Fragment
                     new SafeAsyncTask<Boolean>() {
                         @Override
                         public Boolean call() throws Exception {
-                            String beforeId = adapter.getItem(0).getMsgId();
+                            String beforeId = adapter.getItem(0).getMessage().getMsgId();
                             if (!isGroup) {
                                 messages.addAll(conversation.loadMoreMsgFromDB(beforeId, LIMIT_PER_LOAD));
                             } else {
@@ -422,8 +430,7 @@ public class ChatFragment extends Fragment
                         @Override
                         protected void onSuccess(Boolean success) throws Exception {
                             if (messages.size() > 0) {
-                                adapter.addAll(conversation.getAllMessages());
-                                listView.setSelection(messages.size() - 1);
+                                updateUI(conversation.getAllMessages(), messages.size() - 1);
                             }
                             if (messages.size() < LIMIT_PER_LOAD) {
                                 loadMore = false;
@@ -467,7 +474,7 @@ public class ChatFragment extends Fragment
 
                 @Override
                 protected void onSuccess(Boolean success) throws Exception {
-                    adapter.addAll(conversation.getAllMessages());
+                    updateUI(conversation.getAllMessages(), -1);
                     conversation.resetUnreadMsgCount();
                 }
             }.execute();
@@ -587,7 +594,7 @@ public class ChatFragment extends Fragment
     private void clearConversation() {
         String userName = conversation.getUserName();
         chatService.clearConversation(userName);
-        adapter.addAll(conversation.getAllMessages());
+        updateUI(conversation.getAllMessages(), 0);
     }
 
     private void reportUser(String type, String id) {
@@ -619,8 +626,50 @@ public class ChatFragment extends Fragment
 
                     @Override
                     public void onSuccess(Object value) {
-                        adapter.addAll(conversation.getAllMessages());
+                        updateUI(conversation.getAllMessages(), -1);
                     }
                 }).show();
+    }
+
+    private void updateUI(final List<EMMessage> messages, final int position) {
+        final List<ChatMessage> messageList = new ArrayList<>();
+        new SafeAsyncTask<Boolean>() {
+            @Override
+            public Boolean call() throws Exception {
+                for (EMMessage message: messages) {
+                    UserInfo user = userStore.getUserInfoByChatId(message.getFrom());
+                    if (user != null) {
+                        ChatMessage chatMessage = new ChatMessage(user, message);
+                        messageList.add(chatMessage);
+                    }
+                }
+                return true;
+            }
+
+            @Override
+            protected void onException(Exception e) throws RuntimeException {
+                if(!(e instanceof RetrofitError)) {
+                    final Throwable cause = e.getCause() != null ? e.getCause() : e;
+                    if(cause != null) {
+                        Toaster.showShort(getActivity(), cause.getMessage());
+                    }
+                }
+            }
+
+            @Override
+            protected void onSuccess(Boolean success) throws Exception {
+                adapter.addAll(messageList);
+                if (position < 0) {
+                    listView.setSelection(messageList.size() - 1);
+                } else {
+                    listView.setSelection(position);
+                }
+            }
+
+            @Override
+            protected void onFinally() throws RuntimeException {
+                progressBar.setVisibility(View.GONE);
+            }
+        }.execute();
     }
 }

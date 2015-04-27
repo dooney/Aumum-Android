@@ -139,5 +139,10 @@
 
     </RelativeLayout>
 
+    <ProgressBar
+        android:id="@+id/pb_loading"
+        style="@style/ListSpinner"
+        android:layout_centerInParent="true" />
+
 </RelativeLayout>
 

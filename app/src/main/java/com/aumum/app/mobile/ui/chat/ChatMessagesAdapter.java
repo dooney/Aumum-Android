@@ -7,6 +7,7 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 
 import com.aumum.app.mobile.R;
+import com.aumum.app.mobile.core.model.ChatMessage;
 import com.aumum.app.mobile.utils.Ln;
 import com.easemob.chat.EMMessage;
 import com.easemob.util.DateUtils;
@@ -22,8 +23,9 @@ public class ChatMessagesAdapter extends BaseAdapter {
 
     private Activity activity;
     private Bus bus;
+    private String chatId;
     private boolean isGroup;
-    private ArrayList<EMMessage> data;
+    private ArrayList<ChatMessage> data;
 
     private static final int MESSAGE_TYPE_SYSTEM = 0;
     private static final int MESSAGE_TYPE_RECV_TXT = 1;
@@ -35,16 +37,18 @@ public class ChatMessagesAdapter extends BaseAdapter {
 
     public ChatMessagesAdapter(Activity activity,
                                Bus bus,
+                               String chatId,
                                boolean isGroup) {
         this.activity = activity;
         this.bus = bus;
+        this.chatId = chatId;
         this.isGroup = isGroup;
-        data = new ArrayList<EMMessage>();
+        data = new ArrayList<>();
     }
 
     @Override
     public int getItemViewType(int position) {
-        EMMessage message = getItem(position);
+        EMMessage message = getItem(position).getMessage();
         if (message.getBooleanAttribute("isSystem", false)) {
             return MESSAGE_TYPE_SYSTEM;
         } else if (message.getType() == EMMessage.Type.TXT) {
@@ -68,7 +72,7 @@ public class ChatMessagesAdapter extends BaseAdapter {
     }
 
     @Override
-    public EMMessage getItem(int position) {
+    public ChatMessage getItem(int position) {
         return data.get(position);
     }
 
@@ -98,12 +102,12 @@ public class ChatMessagesAdapter extends BaseAdapter {
                         viewId = R.layout.chat_text_received_listitem_inner;
                     }
                     convertView = inflater.inflate(viewId, parent, false);
-                    card = new TextMessageCard(activity, bus, convertView);
+                    card = new TextMessageCard(activity, bus, chatId, convertView);
                     break;
                 case MESSAGE_TYPE_SENT_TXT:
                     viewId = R.layout.chat_text_sent_listitem_inner;
                     convertView = inflater.inflate(viewId, parent, false);
-                    card = new TextMessageCard(activity, bus, convertView);
+                    card = new TextMessageCard(activity, bus, chatId, convertView);
                     break;
                 case MESSAGE_TYPE_RECV_VOICE:
                     if (isGroup) {
@@ -112,12 +116,12 @@ public class ChatMessagesAdapter extends BaseAdapter {
                         viewId = R.layout.chat_voice_received_listitem_inner;
                     }
                     convertView = inflater.inflate(viewId, parent, false);
-                    card = new VoiceMessageCard(activity, bus, convertView);
+                    card = new VoiceMessageCard(activity, bus, chatId, convertView);
                     break;
                 case MESSAGE_TYPE_SENT_VOICE:
                     viewId = R.layout.chat_voice_sent_listitem_inner;
                     convertView = inflater.inflate(viewId, parent, false);
-                    card = new VoiceMessageCard(activity, bus, convertView);
+                    card = new VoiceMessageCard(activity, bus, chatId, convertView);
                     break;
                 case MESSAGE_TYPE_RECV_IMAGE:
                     if (isGroup) {
@@ -126,12 +130,12 @@ public class ChatMessagesAdapter extends BaseAdapter {
                         viewId = R.layout.chat_image_received_listitem_inner;
                     }
                     convertView = inflater.inflate(viewId, parent, false);
-                    card = new ImageMessageCard(activity, bus, convertView);
+                    card = new ImageMessageCard(activity, bus, chatId, convertView);
                     break;
                 case MESSAGE_TYPE_SENT_IMAGE:
                     viewId = R.layout.chat_image_sent_listitem_inner;
                     convertView = inflater.inflate(viewId, parent, false);
-                    card = new ImageMessageCard(activity, bus, convertView);
+                    card = new ImageMessageCard(activity, bus, chatId, convertView);
                     break;
                 default:
                     Ln.e(String.format("Invalid type: %d", type));
@@ -161,10 +165,10 @@ public class ChatMessagesAdapter extends BaseAdapter {
             }
         }
 
-        EMMessage message = getItem(position);
+        EMMessage message = getItem(position).getMessage();
         boolean showTimestamp = true;
         if (position > 0) {
-            EMMessage lastMessage = getItem(position - 1);
+            EMMessage lastMessage = getItem(position - 1).getMessage();
             showTimestamp = !DateUtils.isCloseEnough(message.getMsgTime(), lastMessage.getMsgTime());
         }
         card.refresh(getItem(position), showTimestamp, position);
@@ -172,7 +176,7 @@ public class ChatMessagesAdapter extends BaseAdapter {
         return convertView;
     }
 
-    public void addAll(List<EMMessage> messageList) {
+    public void addAll(List<ChatMessage> messageList) {
         data.clear();
         data.addAll(messageList);
         notifyDataSetChanged();

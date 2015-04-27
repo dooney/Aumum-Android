@@ -284,7 +284,6 @@
     <string name="label_press_to_talk">按住说话</string>
     <string name="label_move_up_to_cancel">上滑取消录音</string>
     <string name="label_release_to_cancel">松开取消录音</string>
-    <string name="label_unknown_user">未知用户</string>
     <string name="label_group_created">%1$s刚刚创建了群组</string>
     <string name="label_group_joint">%1$s刚刚加入了群组</string>
     <string name="label_group_quit">%1$s刚刚退出了群组</string>

@@ -6,6 +6,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.aumum.app.mobile.R;
+import com.aumum.app.mobile.core.model.ChatMessage;
 import com.aumum.app.mobile.events.DeleteChatMessageEvent;
 import com.aumum.app.mobile.ui.view.dialog.ListViewDialog;
 import com.aumum.app.mobile.utils.DisplayUtils;
@@ -28,8 +29,9 @@ public class VoiceMessageCard extends ChatMessageCard {
 
     public VoiceMessageCard(Activity activity,
                             Bus bus,
+                            String chatId,
                             View view) {
-        super(activity, bus, view);
+        super(activity, bus, chatId, view);
         this.view = view;
         this.voiceLayout = view.findViewById(R.id.layout_voice);
         this.voiceLengthText = (TextView) view.findViewById(R.id.text_voice_length);
@@ -37,7 +39,8 @@ public class VoiceMessageCard extends ChatMessageCard {
     }
 
     @Override
-    public void refresh(final EMMessage message, boolean showTimestamp, int position) {
+    public void refresh(ChatMessage chatMessage, boolean showTimestamp, int position) {
+        final EMMessage message = chatMessage.getMessage();
         VoiceMessageBody textBody = (VoiceMessageBody) message.getBody();
         int voiceLayoutWidth = 64 + 2 * textBody.getLength();
         if (voiceLayoutWidth > 240) {
@@ -71,7 +74,7 @@ public class VoiceMessageCard extends ChatMessageCard {
             });
         }
 
-        super.refresh(message, showTimestamp, position);
+        super.refresh(chatMessage, showTimestamp, position);
     }
 
     private void showActionDialog(final EMMessage message) {

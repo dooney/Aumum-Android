@@ -7,6 +7,7 @@ import android.content.Context;
 import android.view.View;
 
 import com.aumum.app.mobile.R;
+import com.aumum.app.mobile.core.model.ChatMessage;
 import com.aumum.app.mobile.events.DeleteChatMessageEvent;
 import com.aumum.app.mobile.ui.view.dialog.ListViewDialog;
 import com.aumum.app.mobile.ui.view.SpannableTextView;
@@ -27,13 +28,15 @@ public class TextMessageCard extends ChatMessageCard {
 
     public TextMessageCard(Activity activity,
                            Bus bus,
+                           String chatId,
                            View view) {
-        super(activity, bus, view);
+        super(activity, bus, chatId, view);
         textBodyText = (SpannableTextView) view.findViewById(R.id.text_text_body);
     }
 
     @Override
-    public void refresh(final EMMessage message, boolean showTimestamp, int position) {
+    public void refresh(ChatMessage chatMessage, boolean showTimestamp, int position) {
+        final EMMessage message = chatMessage.getMessage();
         TextMessageBody textBody = (TextMessageBody) message.getBody();
         textBodyText.setSpannableText(textBody.getMessage());
         textBodyText.setOnClickListener(new View.OnClickListener() {
@@ -43,7 +46,7 @@ public class TextMessageCard extends ChatMessageCard {
             }
         });
 
-        super.refresh(message, showTimestamp, position);
+        super.refresh(chatMessage, showTimestamp, position);
     }
 
     private void showActionDialog(final EMMessage message) {

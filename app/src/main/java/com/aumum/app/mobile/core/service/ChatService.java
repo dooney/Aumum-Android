@@ -73,6 +73,10 @@ public class ChatService {
         EMChatManager.getInstance().addConnectionListener(emConnectionListener);
     }
 
+    public String getChatId() {
+        return EMChatManager.getInstance().getCurrentUser();
+    }
+
     public void logOut() {
         if (EMChat.getInstance().isLoggedIn()) {
             EMChatManager.getInstance().logout();
