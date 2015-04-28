@@ -200,6 +200,18 @@ public class UserStore {
         return result;
     }
 
+    public boolean hasContactRequest(String userId) {
+        List<ContactRequestEntity> entities = contactRequestEntityDao.queryBuilder()
+                .orderDesc(ContactRequestEntityDao.Properties.Id)
+                .list();
+        for (ContactRequestEntity entity: entities) {
+            if (entity.getUserId().equals(userId)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     public void addGroupRequest(String groupId, String userId, String reason) {
         GroupRequestEntity groupRequestEntity = groupRequestEntityDao.queryBuilder()
                 .where(GroupRequestEntityDao.Properties.GroupId.eq(groupId))

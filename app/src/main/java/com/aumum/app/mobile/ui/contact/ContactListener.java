@@ -82,7 +82,8 @@ public class ContactListener implements EMContactListener {
             public Boolean call() throws Exception {
                 User currentUser = userStore.getCurrentUser();
                 UserInfo user = userStore.getUserInfoByChatId(userName);
-                if (!currentUser.isContact(user.getObjectId())) {
+                if (!currentUser.isContact(user.getObjectId()) &&
+                    !userStore.hasContactRequest(user.getObjectId())) {
                     userStore.addContactRequest(user.getObjectId(), reason);
                     notificationService.pushContactInvitedNotification(user.getScreenName(), reason);
                 }
