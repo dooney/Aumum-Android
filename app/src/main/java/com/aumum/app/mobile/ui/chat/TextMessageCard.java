@@ -24,6 +24,7 @@ import java.util.List;
  */
 public class TextMessageCard extends ChatMessageCard {
 
+    private View textBox;
     private SpannableTextView textBodyText;
 
     public TextMessageCard(Activity activity,
@@ -31,6 +32,7 @@ public class TextMessageCard extends ChatMessageCard {
                            String chatId,
                            View view) {
         super(activity, bus, chatId, view);
+        textBox = view.findViewById(R.id.layout_text_box);
         textBodyText = (SpannableTextView) view.findViewById(R.id.text_text_body);
     }
 
@@ -39,10 +41,13 @@ public class TextMessageCard extends ChatMessageCard {
         final EMMessage message = chatMessage.getMessage();
         TextMessageBody textBody = (TextMessageBody) message.getBody();
         textBodyText.setSpannableText(textBody.getMessage());
-        textBodyText.setOnClickListener(new View.OnClickListener() {
+
+        textBox.setLongClickable(true);
+        textBox.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
-            public void onClick(View view) {
+            public boolean onLongClick(View view) {
                 showActionDialog(message);
+                return false;
             }
         });
 

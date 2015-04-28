@@ -338,11 +338,7 @@
         <item name="android:maxWidth">225dp</item>
     </style>
     <style name="TextView.ChatMessage.SentText" parent="TextView.ChatMessage.Text">
-        <item name="android:background">@drawable/chat_sent_msg_background</item>
         <item name="android:textColor">@color/text</item>
-    </style>
-    <style name="TextView.ChatMessage.ReceivedText" parent="TextView.ChatMessage.Text">
-        <item name="android:background">@drawable/chat_received_msg_background</item>
     </style>
     <style name="ImageView.ChatMessage.FromMe" parent="ImageView">
         <item name="android:paddingTop">@dimen/margin_large</item>

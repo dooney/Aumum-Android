@@ -30,9 +30,17 @@
             style="@style/ImageView.ChatMessage.SentFailed"
             android:visibility="gone"/>
 
-        <com.aumum.app.mobile.ui.view.SpannableTextView
-            android:id="@+id/text_text_body"
-            style="@style/TextView.ChatMessage.SentText"/>
+        <FrameLayout
+            android:id="@+id/layout_text_box"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/chat_sent_msg_background">
+
+            <com.aumum.app.mobile.ui.view.SpannableTextView
+                android:id="@+id/text_text_body"
+                style="@style/TextView.ChatMessage.SentText"/>
+
+        </FrameLayout>
 
         <ImageView
             style="@style/ImageView.ChatMessage.FromMe"/>
