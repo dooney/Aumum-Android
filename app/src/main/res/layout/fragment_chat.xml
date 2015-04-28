@@ -40,12 +40,26 @@
                 style="@style/Button.Chat.Keyboard"
                 android:visibility="gone"/>
 
-            <EditText
-                android:id="@+id/et_text"
+            <RelativeLayout
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                style="@style/EditText.Chat.Text" />
+                android:layout_weight="1">
+
+                <com.keyboard.view.EmoticonsEditText
+                    android:id="@+id/et_text"
+                    style="@style/EditText.Chat.Text" />
+
+                <ImageView
+                    android:id="@+id/btn_face"
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="10dp"
+                    android:src="@drawable/icon_face_normal"
+                    />
+
+            </RelativeLayout>
 
             <FrameLayout
                 android:id="@+id/layout_press_to_talk"
