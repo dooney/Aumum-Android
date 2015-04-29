@@ -24,7 +24,7 @@ import java.util.regex.Pattern;
  * @author zhongdaxia 2014-9-2 12:05:55
  */
 
-public class EmoticonsRexgexUtils {
+public class EmoticonsRegexUtils {
 
     public static ArrayList<EmoticonBean> emoticonBeanList = null;
 

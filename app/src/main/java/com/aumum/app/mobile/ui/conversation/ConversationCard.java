@@ -10,6 +10,7 @@ import com.aumum.app.mobile.R;
 import com.aumum.app.mobile.core.model.Conversation;
 import com.aumum.app.mobile.ui.chat.ChatActivity;
 import com.aumum.app.mobile.ui.view.AvatarImageView;
+import com.aumum.app.mobile.ui.view.SpannableTextView;
 import com.easemob.chat.EMMessage;
 import com.easemob.chat.TextMessageBody;
 import com.easemob.util.DateUtils;
@@ -26,7 +27,7 @@ public class ConversationCard {
     private AvatarImageView avatarImage;
     private TextView screenNameText;
     private TextView timeStampText;
-    private TextView messageBodyText;
+    private SpannableTextView messageBodyText;
     private ImageView unreadImage;
 
     private String id;
@@ -40,7 +41,7 @@ public class ConversationCard {
         avatarImage = (AvatarImageView) view.findViewById(R.id.image_avatar);
         screenNameText = (TextView) view.findViewById(R.id.text_screen_name);
         timeStampText = (TextView) view.findViewById(R.id.text_time_stamp);
-        messageBodyText = (TextView) view.findViewById(R.id.text_message_body);
+        messageBodyText = (SpannableTextView) view.findViewById(R.id.text_message_body);
         unreadImage = (ImageView) view.findViewById(R.id.image_unread);
     }
 
@@ -74,7 +75,7 @@ public class ConversationCard {
 
             if (lastMessage.getType() == EMMessage.Type.TXT) {
                 TextMessageBody messageBody = (TextMessageBody) lastMessage.getBody();
-                messageBodyText.setText(messageBody.getMessage());
+                messageBodyText.setSpannableText(messageBody.getMessage());
             } else if (lastMessage.getType() == EMMessage.Type.VOICE) {
                 messageBodyText.setText("[" + context.getString(R.string.label_voice) + "]");
             } else if (lastMessage.getType() == EMMessage.Type.IMAGE) {
