@@ -201,10 +201,6 @@
             android:label="@string/title_activity_verify" >
         </activity>
         <activity
-            android:name=".ui.contact.MobileContactsActivity"
-            android:label="@string/title_activity_mobile_contacts" >
-        </activity>
-        <activity
             android:name=".ui.group.GroupDetailsActivity"
             android:label="@string/title_activity_group_details" >
         </activity>

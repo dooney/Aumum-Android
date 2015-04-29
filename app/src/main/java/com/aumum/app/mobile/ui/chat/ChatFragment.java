@@ -10,8 +10,6 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.PowerManager;
 import android.support.v4.app.Fragment;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -20,8 +18,6 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
-import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.ProgressBar;
@@ -37,13 +33,12 @@ import com.aumum.app.mobile.core.service.ChatService;
 import com.aumum.app.mobile.events.DeleteChatMessageEvent;
 import com.aumum.app.mobile.events.GroupDeletedEvent;
 import com.aumum.app.mobile.ui.group.GroupDetailsActivity;
-import com.aumum.app.mobile.ui.helper.TextWatcherAdapter;
 import com.aumum.app.mobile.ui.image.ImagePickerActivity;
 import com.aumum.app.mobile.ui.report.ReportActivity;
 import com.aumum.app.mobile.ui.view.dialog.ConfirmDialog;
 import com.aumum.app.mobile.ui.view.dialog.ListViewDialog;
 import com.aumum.app.mobile.ui.view.dialog.TextViewDialog;
-import com.aumum.app.mobile.utils.EditTextUtils;
+import com.aumum.app.mobile.utils.Emoticons.EmoticonsUtils;
 import com.aumum.app.mobile.utils.ImageLoaderUtils;
 import com.aumum.app.mobile.utils.Ln;
 import com.aumum.app.mobile.utils.SafeAsyncTask;
@@ -54,6 +49,7 @@ import com.easemob.chat.EMMessage;
 import com.easemob.chat.ImageMessageBody;
 import com.easemob.util.VoiceRecorder;
 import com.github.kevinsawicki.wishlist.Toaster;
+import com.keyboard.XhsEmoticonsKeyBoardBar;
 import com.squareup.otto.Bus;
 import com.squareup.otto.Subscribe;
 
@@ -71,7 +67,8 @@ import retrofit.RetrofitError;
  *
  */
 public class ChatFragment extends Fragment
-        implements AbsListView.OnScrollListener{
+        implements AbsListView.OnScrollListener,
+                   XhsEmoticonsKeyBoardBar.KeyBoardBarViewListener {
 
     @Inject ChatService chatService;
     @Inject UserStore userStore;
@@ -80,22 +77,13 @@ public class ChatFragment extends Fragment
     private String id;
     private boolean isGroup;
 
+    private XhsEmoticonsKeyBoardBar xhsEmoticonsKeyBoardBar;
     private ListView listView;
-
-    private Button voiceButton;
-    private Button keyboardButton;
-    private ViewGroup pressToTalkLayout;
-    private EditText chatText;
-    private Button typeSelectButton;
-    private Button sendButton;
-    private View typeSelectionLayout;
-    private View imageLayout;
     private ViewGroup recordingLayout;
     private TextView recordingHintText;
     private ImageView micImage;
     private ProgressBar progressBar;
 
-    private final TextWatcher watcher = validationTextWatcher();
     private ChatMessagesAdapter adapter;
     private EMConversation conversation;
     private NewMessageBroadcastReceiver newMessageBroadcastReceiver;
@@ -125,8 +113,6 @@ public class ChatFragment extends Fragment
         conversation.resetUnreadMsgCount();
         int type = intent.getIntExtra(ChatActivity.INTENT_TYPE, ChatActivity.TYPE_SINGLE);
         isGroup = type == ChatActivity.TYPE_GROUP;
-        adapter = new ChatMessagesAdapter(getActivity(), bus, chatService.getChatId(), isGroup);
-        updateUI(conversation.getAllMessages(), -1);
 
         newMessageBroadcastReceiver = new NewMessageBroadcastReceiver();
         IntentFilter intentFilter = new IntentFilter(chatService.getNewMessageBroadcastAction());
@@ -193,94 +179,22 @@ public class ChatFragment extends Fragment
         super.onViewCreated(view, savedInstanceState);
 
         listView = (ListView) view.findViewById(android.R.id.list);
-        listView.setSelector(android.R.color.transparent);
-        listView.setAdapter(adapter);
         listView.setOnScrollListener(this);
-        listView.setSelection(adapter.getCount() - 1);
 
-        voiceButton = (Button) view.findViewById(R.id.b_set_voice_mode);
-        voiceButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                view.setVisibility(View.GONE);
-                keyboardButton.setVisibility(View.VISIBLE);
-                chatText.setVisibility(View.GONE);
-                EditTextUtils.hideSoftInput(chatText);
-                pressToTalkLayout.setVisibility(View.VISIBLE);
-                typeSelectionLayout.setVisibility(View.GONE);
-            }
-        });
-        keyboardButton = (Button) view.findViewById(R.id.b_set_keyboard_mode);
-        keyboardButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                view.setVisibility(View.GONE);
-                voiceButton.setVisibility(View.VISIBLE);
-                pressToTalkLayout.setVisibility(View.GONE);
-                chatText.setVisibility(View.VISIBLE);
-                EditTextUtils.showSoftInput(chatText, true);
-            }
-        });
-        pressToTalkLayout = (ViewGroup) view.findViewById(R.id.layout_press_to_talk);
-        pressToTalkLayout.setOnTouchListener(new PressToTalkListener());
-
-        chatText = (EditText) view.findViewById(R.id.et_text);
-        chatText.addTextChangedListener(watcher);
-        chatText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View view, boolean hasFocus) {
-                if (hasFocus) {
-                    typeSelectionLayout.setVisibility(View.GONE);
-                    listView.setSelection(adapter.getCount() - 1);
-                }
-            }
-        });
-        typeSelectButton = (Button) view.findViewById(R.id.b_type_select);
-        typeSelectButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                keyboardButton.setVisibility(View.GONE);
-                voiceButton.setVisibility(View.VISIBLE);
-                pressToTalkLayout.setVisibility(View.GONE);
-                chatText.setVisibility(View.VISIBLE);
-                chatText.clearFocus();
-                EditTextUtils.hideSoftInput(chatText);
-                toggleTypeSelectionLayout();
-                listView.clearFocus();
-                listView.post(new Runnable() {
-                    @Override
-                    public void run() {
-                        listView.requestFocusFromTouch();
-                        listView.setSelection(adapter.getCount() - 1);
-                        listView.requestFocus();
-                    }
-                });
-            }
-        });
-        sendButton = (Button) view.findViewById(R.id.b_send);
-        sendButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                sendText();
-            }
-        });
-
-        typeSelectionLayout = view.findViewById(R.id.layout_type_selection);
-        imageLayout = view.findViewById(R.id.layout_image);
-        imageLayout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                final Intent intent = new Intent(getActivity(), ImagePickerActivity.class);
-                intent.putExtra(ImagePickerActivity.INTENT_ACTION, ImagePickerActivity.ACTION_MULTIPLE_PICK);
-                startActivityForResult(intent, Constants.RequestCode.IMAGE_PICKER_REQ_CODE);
-            }
-        });
+        EmoticonsUtils.initEmoticonsDB(getActivity());
+        xhsEmoticonsKeyBoardBar = (XhsEmoticonsKeyBoardBar) view.findViewById(R.id.kv_bar);
+        xhsEmoticonsKeyBoardBar.setBuilder(EmoticonsUtils.getBuilder(getActivity()));
+        xhsEmoticonsKeyBoardBar.setOnKeyBoardBarViewListener(this);
 
         recordingLayout = (ViewGroup) view.findViewById(R.id.layout_recording);
         recordingHintText = (TextView) view.findViewById(R.id.text_recording_hint);
         micImage = (ImageView) view.findViewById(R.id.image_mic);
 
         progressBar = (ProgressBar) view.findViewById(R.id.pb_loading);
+
+        adapter = new ChatMessagesAdapter(getActivity(), bus, chatService.getChatId(), isGroup);
+        listView.setAdapter(adapter);
+        updateUI(conversation.getAllMessages(), -1);
     }
 
     @Override
@@ -319,7 +233,6 @@ public class ChatFragment extends Fragment
         super.onActivityResult(requestCode, resultCode, data);
 
         if (requestCode == Constants.RequestCode.IMAGE_PICKER_REQ_CODE) {
-            toggleTypeSelectionLayout();
             if (resultCode == Activity.RESULT_OK) {
                 final String allPath[] = data.getStringArrayExtra(ImagePickerActivity.INTENT_ALL_PATH);
                 new SafeAsyncTask<Boolean>() {
@@ -350,39 +263,6 @@ public class ChatFragment extends Fragment
         }
     }
 
-    private TextWatcher validationTextWatcher() {
-        return new TextWatcherAdapter() {
-            public void afterTextChanged(final Editable gitDirEditText) {
-                updateUIWithValidation();
-            }
-        };
-    }
-
-    private void updateUIWithValidation() {
-        final boolean populated = populated(chatText);
-        if (typeSelectButton != null) {
-            typeSelectButton.setVisibility(populated ? View.GONE : View.VISIBLE);
-        }
-        if (sendButton != null) {
-            sendButton.setVisibility(populated ? View.VISIBLE : View.GONE);
-        }
-    }
-
-    private boolean populated(final EditText editText) {
-        return editText.length() > 0;
-    }
-
-    private void sendText() {
-        String text = chatText.getText().toString();
-        if (text.length() > 0) {
-            EditTextUtils.hideSoftInput(chatText);
-            chatText.setText(null);
-            EMMessage message = chatService.addTextMessage(id, isGroup, text);
-            conversation.addMessage(message);
-            updateUI(conversation.getAllMessages(), -1);
-        }
-    }
-
     private void sendVoice(String filePath, int length) {
         if (!(new File(filePath).exists())) {
             return;
@@ -408,7 +288,9 @@ public class ChatFragment extends Fragment
     @Override
     public void onScrollStateChanged(AbsListView absListView, int scrollState) {
         switch (scrollState) {
-            case AbsListView.OnScrollListener.SCROLL_STATE_IDLE:
+            case SCROLL_STATE_FLING:
+                break;
+            case SCROLL_STATE_IDLE:
                 if (absListView.getFirstVisiblePosition() == 0 && !isLoading && loadMore) {
                     isLoading = true;
                     final List<EMMessage> messages = new ArrayList<EMMessage>();
@@ -440,16 +322,42 @@ public class ChatFragment extends Fragment
                     }.execute();
                 }
                 break;
-            case AbsListView.OnScrollListener.SCROLL_STATE_TOUCH_SCROLL:
-                chatText.clearFocus();
-                EditTextUtils.hideSoftInput(chatText);
-                typeSelectionLayout.setVisibility(View.GONE);
+            case SCROLL_STATE_TOUCH_SCROLL:
+                xhsEmoticonsKeyBoardBar.reset();
                 break;
         }
     }
 
     @Override
     public void onScroll(AbsListView absListView, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+
+    }
+
+    @Override
+    public void OnKeyBoardStateChange(int state, int height) {
+        listView.post(new Runnable() {
+            @Override
+            public void run() {
+                listView.setSelection(adapter.getCount() - 1);
+            }
+        });
+    }
+
+    @Override
+    public void OnSendBtnClick(String msg) {
+        EMMessage message = chatService.addTextMessage(id, isGroup, msg);
+        conversation.addMessage(message);
+        updateUI(conversation.getAllMessages(), -1);
+        xhsEmoticonsKeyBoardBar.clearEditText();
+    }
+
+    @Override
+    public void OnVideoBtnClick() {
+
+    }
+
+    @Override
+    public void OnMultimediaBtnClick() {
 
     }
 
@@ -478,14 +386,6 @@ public class ChatFragment extends Fragment
                     conversation.resetUnreadMsgCount();
                 }
             }.execute();
-        }
-    }
-
-    private void toggleTypeSelectionLayout() {
-        if (typeSelectionLayout.getVisibility() == View.GONE) {
-            typeSelectionLayout.setVisibility(View.VISIBLE);
-        } else {
-            typeSelectionLayout.setVisibility(View.GONE);
         }
     }
 

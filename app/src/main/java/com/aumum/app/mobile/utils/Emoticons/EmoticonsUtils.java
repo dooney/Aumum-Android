@@ -48,11 +48,10 @@ public class EmoticonsUtils {
                     dbHelper.insertEmoticonSet(xhsEmoticonSetBean);
 
                     ArrayList<EmoticonBean> coverFaceArray = ParseData(coverEmojiArray, EmoticonBean.FACE_TYPE_NOMAL, ImageBase.Scheme.ASSETS);
-                    EmoticonSetBean coverEmoticonSetBean = new EmoticonSetBean("cover", 3, 7);
+                    EmoticonSetBean coverEmoticonSetBean = new EmoticonSetBean("cover", 2, 4);
                     coverEmoticonSetBean.setIconUri("assets://icon_030_cover.png");
                     coverEmoticonSetBean.setItemPadding(20);
-                    coverEmoticonSetBean.setVerticalSpacing(10);
-                    coverEmoticonSetBean.setShowDelBtn(true);
+                    coverEmoticonSetBean.setVerticalSpacing(5);
                     coverEmoticonSetBean.setEmoticonList(coverFaceArray);
                     dbHelper.insertEmoticonSet(coverEmoticonSetBean);
 
@@ -129,11 +128,7 @@ public class EmoticonsUtils {
                 }
             }
             return emojis;
-        } catch (
-                Exception e
-                )
-
-        {
+        } catch (Exception e) {
             e.printStackTrace();
         }
 

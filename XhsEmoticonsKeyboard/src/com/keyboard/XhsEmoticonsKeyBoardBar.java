@@ -28,8 +28,8 @@ import com.keyboard.view.R;
 
 public class XhsEmoticonsKeyBoardBar extends AutoHeightLayout implements IEmoticonsKeyboard, View.OnClickListener,EmoticonsToolBarView.OnToolBarItemClickListener {
 
-    public static int FUNC_CHILLDVIEW_EMOTICON = 0;
-    public static int FUNC_CHILLDVIEW_APPS = 1;
+    public static int FUNC_CHILDVIEW_EMOTICON = 0;
+    public static int FUNC_CHILDVIEW_APPS = 1;
     public int mChildViewPosition = -1;
 
     private EmoticonsPageView mEmoticonsPageView;
@@ -150,6 +150,9 @@ public class XhsEmoticonsKeyBoardBar extends AutoHeightLayout implements IEmotic
                 if (!et_chat.isFocused()) {
                     et_chat.setFocusable(true);
                     et_chat.setFocusableInTouchMode(true);
+                } else {
+                    showAutoView();
+                    Utils.openSoftKeyboard(et_chat);
                 }
                 return false;
             }
@@ -159,6 +162,7 @@ public class XhsEmoticonsKeyBoardBar extends AutoHeightLayout implements IEmotic
             public void onFocusChange(View view, boolean b) {
                 if (b) {
                     setEditableState(true);
+                    showAutoView();
                 } else {
                     setEditableState(false);
                 }
@@ -306,18 +310,18 @@ public class XhsEmoticonsKeyBoardBar extends AutoHeightLayout implements IEmotic
             switch (mKeyboardState){
                 case KEYBOARD_STATE_NONE:
                 case KEYBOARD_STATE_BOTH:
-                    show(FUNC_CHILLDVIEW_EMOTICON);
+                    show(FUNC_CHILDVIEW_EMOTICON);
                     btn_face.setImageResource(R.drawable.icon_face_pop);
                     showAutoView();
                     Utils.closeSoftKeyboard(mContext);
                     break;
                 case KEYBOARD_STATE_FUNC:
-                    if(mChildViewPosition == FUNC_CHILLDVIEW_EMOTICON){
+                    if(mChildViewPosition == FUNC_CHILDVIEW_EMOTICON){
                         btn_face.setImageResource(R.drawable.icon_face_normal);
                         Utils.openSoftKeyboard(et_chat);
                     }
                     else {
-                        show(FUNC_CHILLDVIEW_EMOTICON);
+                        show(FUNC_CHILDVIEW_EMOTICON);
                         btn_face.setImageResource(R.drawable.icon_face_pop);
                     }
                     break;
@@ -332,7 +336,7 @@ public class XhsEmoticonsKeyBoardBar extends AutoHeightLayout implements IEmotic
             switch (mKeyboardState){
                 case KEYBOARD_STATE_NONE:
                 case KEYBOARD_STATE_BOTH:
-                    show(FUNC_CHILLDVIEW_APPS);
+                    show(FUNC_CHILDVIEW_APPS);
                     btn_face.setImageResource(R.drawable.icon_face_normal);
                     rl_input.setVisibility(VISIBLE);
                     btn_voice.setVisibility(GONE);
@@ -341,11 +345,11 @@ public class XhsEmoticonsKeyBoardBar extends AutoHeightLayout implements IEmotic
                     break;
                 case KEYBOARD_STATE_FUNC:
                     btn_face.setImageResource(R.drawable.icon_face_normal);
-                    if(mChildViewPosition == FUNC_CHILLDVIEW_APPS){
+                    if(mChildViewPosition == FUNC_CHILDVIEW_APPS){
                         hideAutoView();
                     }
                     else {
-                        show(FUNC_CHILLDVIEW_APPS);
+                        show(FUNC_CHILDVIEW_APPS);
                     }
                     break;
             }
@@ -397,6 +401,12 @@ public class XhsEmoticonsKeyBoardBar extends AutoHeightLayout implements IEmotic
         });
     }
 
+    public void reset() {
+        et_chat.clearFocus();
+        btn_face.setImageResource(R.drawable.icon_face_normal);
+        hideAutoView();
+    }
+
     @Override
     public void OnSoftPop(final int height) {
         super.OnSoftPop(height);
@@ -420,8 +430,8 @@ public class XhsEmoticonsKeyBoardBar extends AutoHeightLayout implements IEmotic
     }
 
     @Override
-    public void OnSoftChanegHeight(int height) {
-        super.OnSoftChanegHeight(height);
+    public void OnSoftChangeHeight(int height) {
+        super.OnSoftChangeHeight(height);
         if(mKeyBoardBarViewListener != null){
             mKeyBoardBarViewListener.OnKeyBoardStateChange(mKeyboardState,height);
         }

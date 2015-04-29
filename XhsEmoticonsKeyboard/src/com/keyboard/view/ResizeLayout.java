@@ -8,14 +8,11 @@ import java.util.ArrayList;
 
 public class ResizeLayout extends RelativeLayout {
 
-    private static final String TAG = "ResizeLayout";
-    private Context mContext;
     private int mMaxParentHeight = 0;
-    private ArrayList<Integer> heightList = new ArrayList<Integer>();
+    private ArrayList<Integer> heightList = new ArrayList<>();
 
     public ResizeLayout(Context context, AttributeSet attrs) {
         super(context, attrs);
-        this.mContext = context;
     }
 
     @Override
@@ -41,6 +38,9 @@ public class ResizeLayout extends RelativeLayout {
     @Override
     protected void onLayout(boolean changed, int l, int t, int r, int b) {
         super.onLayout(changed, l, t, r, b);
+        if (!changed) {
+            return;
+        }
         if (heightList.size() >= 2) {
             int oldh = heightList.get(0);
             int newh = heightList.get(heightList.size() - 1);
@@ -73,7 +73,7 @@ public class ResizeLayout extends RelativeLayout {
              */
             else {
                 if (mListener != null) {
-                    mListener.OnSoftChanegHeight(softHeight);
+                    mListener.OnSoftChangeHeight(softHeight);
                 }
             }
             heightList.clear();
@@ -111,6 +111,6 @@ public class ResizeLayout extends RelativeLayout {
         void OnSoftClose(int height);
 
         /** 软键盘高度改变 */
-        void OnSoftChanegHeight(int height);
+        void OnSoftChangeHeight(int height);
     }
 }

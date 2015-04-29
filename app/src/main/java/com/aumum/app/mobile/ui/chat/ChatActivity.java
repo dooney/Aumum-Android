@@ -6,7 +6,6 @@ import android.support.v7.app.ActionBarActivity;
 
 import com.aumum.app.mobile.R;
 import com.aumum.app.mobile.ui.view.Animation;
-import com.aumum.app.mobile.utils.Emoticons.EmoticonsUtils;
 
 public class ChatActivity extends ActionBarActivity {
 
@@ -24,8 +23,6 @@ public class ChatActivity extends ActionBarActivity {
 
         final Intent intent = getIntent();
         setTitle(intent.getStringExtra(INTENT_TITLE));
-
-        EmoticonsUtils.initEmoticonsDB(getApplicationContext());
 
         Animation.scaleIn(this);
     }

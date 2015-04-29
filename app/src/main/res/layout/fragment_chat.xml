@@ -1,162 +1,59 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<com.keyboard.XhsEmoticonsKeyBoardBar
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/kv_bar"
     android:layout_width="match_parent"
-    android:layout_height="match_parent" >
+    android:layout_height="match_parent">
 
-    <ListView
-        android:id="@android:id/list"
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:divider="@null"
-        android:background="@color/grey_extra_light"
-        android:layout_above="@+id/layout_action"
-        android:transcriptMode="normal" />
+        android:layout_height="match_parent">
 
-    <LinearLayout
-        android:id="@+id/layout_action"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:background="@color/white"
-        android:layout_alignParentBottom="true"
-        android:focusable="true"
-        android:focusableInTouchMode="true">
-
-        <View style="@style/Divider"
-            android:background="@color/grey_light" />
-
-        <LinearLayout
+        <ListView
+            android:id="@android:id/list"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center_vertical">
-
-            <Button
-                android:id="@+id/b_set_voice_mode"
-                style="@style/Button.Chat.VoiceMode"/>
-
-            <Button
-                android:id="@+id/b_set_keyboard_mode"
-                style="@style/Button.Chat.Keyboard"
-                android:visibility="gone"/>
-
-            <RelativeLayout
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1">
-
-                <com.keyboard.view.EmoticonsEditText
-                    android:id="@+id/et_text"
-                    style="@style/EditText.Chat.Text" />
-
-                <ImageView
-                    android:id="@+id/btn_face"
-                    android:layout_width="25dp"
-                    android:layout_height="25dp"
-                    android:layout_alignParentRight="true"
-                    android:layout_centerVertical="true"
-                    android:layout_marginRight="10dp"
-                    android:src="@drawable/icon_face_normal"
-                    />
-
-            </RelativeLayout>
-
-            <FrameLayout
-                android:id="@+id/layout_press_to_talk"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:background="@drawable/content_box_background"
-                android:padding="@dimen/margin_medium"
-                android:visibility="gone">
-
-                <TextView
-                    style="@style/TextView.Chat.PressToTalk"
-                    android:layout_gravity="center"/>
-
-            </FrameLayout>
-
-            <Button
-                android:id="@+id/b_type_select"
-                style="@style/Button.Chat.TypeSelect" />
-
-            <Button
-                android:id="@+id/b_send"
-                style="@style/Button.Chat.Send"
-                android:visibility="gone"/>
-
-        </LinearLayout>
-
-        <View style="@style/Divider"
-            android:background="@color/grey_light" />
+            android:layout_height="match_parent"
+            android:background="#e9e9e9"
+            android:cacheColorHint="#00000000"
+            android:fadingEdge="none"
+            android:listSelector="#00000000"
+            android:divider="@null"
+            android:scrollingCache="false"
+            android:scrollbarStyle="outsideOverlay"
+            android:smoothScrollbar="true"
+            android:transcriptMode="alwaysScroll"/>
 
         <RelativeLayout
-            android:id="@+id/layout_type_selection"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:paddingTop="@dimen/margin_large"
-            android:paddingBottom="@dimen/margin_small"
-            android:paddingLeft="@dimen/margin_large"
-            android:paddingRight="@dimen/margin_large"
+            android:id="@+id/layout_recording"
+            android:layout_width="128dp"
+            android:layout_height="128dp"
+            android:padding="@dimen/margin_large"
+            android:layout_centerInParent="true"
+            android:background="@drawable/recording_background"
             android:visibility="gone">
 
-            <LinearLayout
-                android:id="@+id/layout_image"
+            <ImageView
+                android:id="@+id/image_mic"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="vertical">
+                android:layout_centerHorizontal="true"
+                android:src="@drawable/record_animate_01" />
 
-                <FrameLayout
-                    android:layout_width="@dimen/image_sz_medium"
-                    android:layout_height="@dimen/image_sz_medium"
-                    android:background="@drawable/content_box_background">
-
-                    <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:src="@drawable/ic_fa_image"
-                        android:layout_gravity="center"/>
-
-                </FrameLayout>
-
-                <TextView
-                    style="@style/TextView.ChatMessage.Type"
-                    android:text="@string/label_image"/>
-
-            </LinearLayout>
+            <TextView
+                android:id="@+id/text_recording_hint"
+                style="@style/TextView.Chat.RecordingHint"
+                android:layout_below="@id/image_mic"
+                android:layout_centerHorizontal="true"/>
 
         </RelativeLayout>
 
-    </LinearLayout>
-
-    <RelativeLayout
-        android:id="@+id/layout_recording"
-        android:layout_width="128dp"
-        android:layout_height="128dp"
-        android:padding="@dimen/margin_large"
-        android:layout_centerInParent="true"
-        android:background="@drawable/recording_background"
-        android:visibility="gone">
-
-        <ImageView
-            android:id="@+id/image_mic"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:src="@drawable/record_animate_01" />
-        
-        <TextView
-            android:id="@+id/text_recording_hint"
-            style="@style/TextView.Chat.RecordingHint"
-            android:layout_below="@id/image_mic"
-            android:layout_centerHorizontal="true"/>
+        <ProgressBar
+            android:id="@+id/pb_loading"
+            style="@style/ListSpinner"
+            android:layout_centerInParent="true" />
 
     </RelativeLayout>
 
-    <ProgressBar
-        android:id="@+id/pb_loading"
-        style="@style/ListSpinner"
-        android:layout_centerInParent="true" />
-
-</RelativeLayout>
+</com.keyboard.XhsEmoticonsKeyBoardBar>
 
