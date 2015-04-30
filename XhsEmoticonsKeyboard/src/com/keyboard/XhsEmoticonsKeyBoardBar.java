@@ -26,7 +26,10 @@ import com.keyboard.view.I.IEmoticonsKeyboard;
 import com.keyboard.view.I.IView;
 import com.keyboard.view.R;
 
-public class XhsEmoticonsKeyBoardBar extends AutoHeightLayout implements IEmoticonsKeyboard, View.OnClickListener,EmoticonsToolBarView.OnToolBarItemClickListener {
+public class XhsEmoticonsKeyBoardBar extends AutoHeightLayout
+        implements IEmoticonsKeyboard,
+                   View.OnClickListener,EmoticonsToolBarView.OnToolBarItemClickListener,
+                   View.OnTouchListener {
 
     public static int FUNC_CHILDVIEW_EMOTICON = 0;
     public static int FUNC_CHILDVIEW_APPS = 1;
@@ -73,7 +76,7 @@ public class XhsEmoticonsKeyBoardBar extends AutoHeightLayout implements IEmotic
         btn_multimedia.setOnClickListener(this);
         btn_face.setOnClickListener(this);
         btn_send.setOnClickListener(this);
-        btn_voice.setOnClickListener(this);
+        btn_voice.setOnTouchListener(this);
 
         mEmoticonsPageView.setOnIndicatorListener(new EmoticonsPageView.OnEmoticonsPageViewListener() {
             @Override
@@ -353,11 +356,6 @@ public class XhsEmoticonsKeyBoardBar extends AutoHeightLayout implements IEmotic
                 openChatInput();
             }
         }
-        else if (id == R.id.btn_voice) {
-            if(mKeyBoardBarViewListener != null){
-                mKeyBoardBarViewListener.OnVideoBtnClick();
-            }
-        }
     }
 
     public void add(View view){
@@ -443,12 +441,23 @@ public class XhsEmoticonsKeyBoardBar extends AutoHeightLayout implements IEmotic
 
     }
 
+    @Override
+    public boolean onTouch(View view, MotionEvent motionEvent) {
+        int id = view.getId();
+        if (id == R.id.btn_voice) {
+            if(mKeyBoardBarViewListener != null){
+                mKeyBoardBarViewListener.OnVideoBtnPress(view, motionEvent);
+            }
+        }
+        return false;
+    }
+
     public interface KeyBoardBarViewListener {
         public void OnKeyBoardStateChange(int state, int height);
 
         public void OnSendBtnClick(String msg);
 
-        public void OnVideoBtnClick();
+        public void OnVideoBtnPress(View view, MotionEvent motionEvent);
 
         public void OnMultimediaBtnClick();
     }

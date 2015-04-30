@@ -352,8 +352,8 @@ public class ChatFragment extends Fragment
     }
 
     @Override
-    public void OnVideoBtnClick() {
-
+    public void OnVideoBtnPress(View view, MotionEvent motionEvent) {
+        pressToTalk(view, motionEvent);
     }
 
     @Override
@@ -389,79 +389,74 @@ public class ChatFragment extends Fragment
         }
     }
 
-    class PressToTalkListener implements View.OnTouchListener {
-
-        @Override
-        public boolean onTouch(View view, MotionEvent event) {
-            switch (event.getAction()) {
-                case MotionEvent.ACTION_DOWN:
-                    if (!StorageUtils.isExitsSdCard()) {
-                        Toaster.showShort(getActivity(), R.string.error_sdcard_needed_for_voice);
-                        return false;
-                    }
-                    try {
-                        view.setPressed(true);
-                        wakeLock.acquire();
-                        VoicePlayClickListener.getInstance(getActivity()).stopPlayVoice();
-                        recordingLayout.setVisibility(View.VISIBLE);
-                        recordingHintText.setText(getString(R.string.label_move_up_to_cancel));
-                        voiceRecorder.startRecording(null, id, getActivity());
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                        view.setPressed(false);
-                        if (wakeLock.isHeld())
-                            wakeLock.release();
-                        if (voiceRecorder != null) {
-                            voiceRecorder.discardRecording();
-                        }
-                        recordingLayout.setVisibility(View.GONE);
-                        Toaster.showShort(getActivity(), R.string.error_recoding_failed);
-                        return false;
-                    }
-
-                    return true;
-                case MotionEvent.ACTION_MOVE: {
-                    if (event.getY() < 0) {
-                        recordingHintText.setText(getString(R.string.label_release_to_cancel));
-                    } else {
-                        recordingHintText.setText(getString(R.string.label_move_up_to_cancel));
-                    }
-                    return true;
+    private boolean pressToTalk(View view, MotionEvent event) {
+        switch (event.getAction()) {
+            case MotionEvent.ACTION_DOWN:
+                if (!StorageUtils.isExitsSdCard()) {
+                    Toaster.showShort(getActivity(), R.string.error_sdcard_needed_for_voice);
+                    return false;
                 }
-                case MotionEvent.ACTION_UP:
+                try {
+                    view.setPressed(true);
+                    wakeLock.acquire();
+                    VoicePlayClickListener.getInstance(getActivity()).stopPlayVoice();
+                    recordingLayout.setVisibility(View.VISIBLE);
+                    recordingHintText.setText(getString(R.string.label_move_up_to_cancel));
+                    voiceRecorder.startRecording(null, id, getActivity());
+                } catch (Exception e) {
+                    e.printStackTrace();
                     view.setPressed(false);
-                    recordingLayout.setVisibility(View.GONE);
                     if (wakeLock.isHeld())
                         wakeLock.release();
-                    if (event.getY() < 0) {
-                        // discard the recorded audio.
-                        voiceRecorder.discardRecording();
-
-                    } else {
-                        // stop recording and send voice file
-                        try {
-                            int length = voiceRecorder.stopRecoding();
-                            if (length > 0) {
-                                sendVoice(voiceRecorder.getVoiceFilePath(), length);
-                            } else if (length == EMError.INVALID_FILE) {
-                                Toaster.showShort(getActivity(), R.string.error_recoding_failed);
-                            } else {
-                                Toaster.showShort(getActivity(), R.string.error_recoding_too_short);
-                            }
-                        } catch (Exception e) {
-                            Ln.e(e);
-                            Toaster.showShort(getActivity(), R.string.error_send_recoding_failed);
-                        }
-
-                    }
-                    return true;
-                default:
-                    recordingLayout.setVisibility(View.GONE);
                     if (voiceRecorder != null) {
                         voiceRecorder.discardRecording();
                     }
+                    recordingLayout.setVisibility(View.GONE);
+                    Toaster.showShort(getActivity(), R.string.error_recoding_failed);
                     return false;
+                }
+                return true;
+            case MotionEvent.ACTION_MOVE: {
+                if (event.getY() < 0) {
+                    recordingHintText.setText(getString(R.string.label_release_to_cancel));
+                } else {
+                    recordingHintText.setText(getString(R.string.label_move_up_to_cancel));
+                }
+                return true;
             }
+            case MotionEvent.ACTION_UP:
+                view.setPressed(false);
+                recordingLayout.setVisibility(View.GONE);
+                if (wakeLock.isHeld())
+                    wakeLock.release();
+                if (event.getY() < 0) {
+                    // discard the recorded audio.
+                    voiceRecorder.discardRecording();
+
+                } else {
+                    // stop recording and send voice file
+                    try {
+                        int length = voiceRecorder.stopRecoding();
+                        if (length > 0) {
+                            sendVoice(voiceRecorder.getVoiceFilePath(), length);
+                        } else if (length == EMError.INVALID_FILE) {
+                            Toaster.showShort(getActivity(), R.string.error_recoding_failed);
+                        } else {
+                            Toaster.showShort(getActivity(), R.string.error_recoding_too_short);
+                        }
+                    } catch (Exception e) {
+                        Ln.e(e);
+                        Toaster.showShort(getActivity(), R.string.error_send_recoding_failed);
+                    }
+
+                }
+                return true;
+            default:
+                recordingLayout.setVisibility(View.GONE);
+                if (voiceRecorder != null) {
+                    voiceRecorder.discardRecording();
+                }
+                return false;
         }
     }
 
