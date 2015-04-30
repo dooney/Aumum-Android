@@ -323,25 +323,8 @@ public class XhsEmoticonsKeyBoardBar extends AutoHeightLayout
             }
         }
         else if (id == R.id.btn_multimedia) {
-            switch (mKeyboardState){
-                case KEYBOARD_STATE_NONE:
-                case KEYBOARD_STATE_BOTH:
-                    show(FUNC_CHILDVIEW_APPS);
-                    btn_face.setImageResource(R.drawable.icon_face_normal);
-                    rl_input.setVisibility(VISIBLE);
-                    btn_voice.setVisibility(GONE);
-                    showAutoView();
-                    closeChatInput();
-                    break;
-                case KEYBOARD_STATE_FUNC:
-                    btn_face.setImageResource(R.drawable.icon_face_normal);
-                    if(mChildViewPosition == FUNC_CHILDVIEW_APPS){
-                        hideAutoView();
-                    }
-                    else {
-                        show(FUNC_CHILDVIEW_APPS);
-                    }
-                    break;
+            if(mKeyBoardBarViewListener != null){
+                mKeyBoardBarViewListener.OnMultimediaBtnClick();
             }
         }
         else if (id == R.id.btn_voice_or_text) {

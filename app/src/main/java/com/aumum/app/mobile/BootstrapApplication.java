@@ -13,6 +13,7 @@ import com.aumum.app.mobile.utils.LocaleUtils;
 import com.aumum.app.mobile.utils.PreferenceUtils;
 import com.aumum.app.mobile.utils.PushUtils;
 import com.aumum.app.mobile.utils.SmsSdkUtils;
+import com.aumum.app.mobile.utils.TuSdkUtils;
 import com.aumum.app.mobile.utils.UMengUtils;
 import com.aumum.app.mobile.utils.UpYunUtils;
 
@@ -62,6 +63,7 @@ public class BootstrapApplication extends Application {
         EMChatUtils.init(this);
         UpYunUtils.init();
         SmsSdkUtils.init(this);
+        TuSdkUtils.init(this);
     }
 
     private Object getRootModule() {
