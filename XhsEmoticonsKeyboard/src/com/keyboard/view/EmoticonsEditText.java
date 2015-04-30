@@ -7,7 +7,6 @@ import android.text.Spannable;
 import android.text.TextUtils;
 import android.text.style.ImageSpan;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.widget.EditText;
 
 import com.keyboard.bean.EmoticonBean;
@@ -15,7 +14,6 @@ import com.keyboard.db.DBHelper;
 import com.keyboard.utils.imageloader.ImageLoader;
 
 import java.util.ArrayList;
-import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class EmoticonsEditText extends EditText {
@@ -68,20 +66,10 @@ public class EmoticonsEditText extends EditText {
 
     public static String emojiText(String text){
         String returnTextString = text;
-        //Pattern to match
-//        Pattern pattern = Pattern.compile("\\\\[[^\\\\]]+\\\\]", Pattern.CASE_INSENSITIVE);
-        Pattern pattern = Pattern . compile (
+        Pattern pattern = Pattern.compile (
                 "[\\ud83c\\udc00-\\ud83c\\udfff]|[\\ud83d\\udc00-\\ud83d\\udfff]|[\\u2600-\\u27ff]" ,
                 Pattern . UNICODE_CASE | Pattern . CASE_INSENSITIVE ) ;
-        Matcher matcher = pattern.matcher(text);
-        Log.i("","");
-        while (matcher.find()) {
-            String found = matcher.group();
-            Log.i("","");
-//            if(EmojiMap.get(found)==null)continue;
-//            returnTextString = returnTextString.replace(found, EmojiMap.get(found));
-        }
-        //Returning text
+        pattern.matcher(text);
         return returnTextString;
     }
 

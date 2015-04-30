@@ -152,7 +152,7 @@ public class XhsEmoticonsKeyBoardBar extends AutoHeightLayout implements IEmotic
                     et_chat.setFocusableInTouchMode(true);
                 } else {
                     showAutoView();
-                    Utils.openSoftKeyboard(et_chat);
+                    openChatInput();
                 }
                 return false;
             }
@@ -166,19 +166,6 @@ public class XhsEmoticonsKeyBoardBar extends AutoHeightLayout implements IEmotic
                 } else {
                     setEditableState(false);
                 }
-            }
-        });
-        et_chat.setOnSizeChangedListener(new EmoticonsEditText.OnSizeChangedListener() {
-            @Override
-            public void onSizeChanged() {
-                post(new Runnable() {
-                    @Override
-                    public void run() {
-                        if(mKeyBoardBarViewListener != null){
-                            mKeyBoardBarViewListener.OnKeyBoardStateChange(mKeyboardState,-1);
-                        }
-                    }
-                });
             }
         });
         et_chat.setOnTextChangedInterface(new EmoticonsEditText.OnTextChangedInterface() {
@@ -313,12 +300,12 @@ public class XhsEmoticonsKeyBoardBar extends AutoHeightLayout implements IEmotic
                     show(FUNC_CHILDVIEW_EMOTICON);
                     btn_face.setImageResource(R.drawable.icon_face_pop);
                     showAutoView();
-                    Utils.closeSoftKeyboard(mContext);
+                    closeChatInput();
                     break;
                 case KEYBOARD_STATE_FUNC:
                     if(mChildViewPosition == FUNC_CHILDVIEW_EMOTICON){
                         btn_face.setImageResource(R.drawable.icon_face_normal);
-                        Utils.openSoftKeyboard(et_chat);
+                        openChatInput();
                     }
                     else {
                         show(FUNC_CHILDVIEW_EMOTICON);
@@ -341,7 +328,7 @@ public class XhsEmoticonsKeyBoardBar extends AutoHeightLayout implements IEmotic
                     rl_input.setVisibility(VISIBLE);
                     btn_voice.setVisibility(GONE);
                     showAutoView();
-                    Utils.closeSoftKeyboard(mContext);
+                    closeChatInput();
                     break;
                 case KEYBOARD_STATE_FUNC:
                     btn_face.setImageResource(R.drawable.icon_face_normal);
@@ -363,8 +350,7 @@ public class XhsEmoticonsKeyBoardBar extends AutoHeightLayout implements IEmotic
             else{
                 rl_input.setVisibility(VISIBLE);
                 btn_voice.setVisibility(GONE);
-                setEditableState(true);
-                Utils.openSoftKeyboard(et_chat);
+                openChatInput();
             }
         }
         else if (id == R.id.btn_voice) {
@@ -405,6 +391,18 @@ public class XhsEmoticonsKeyBoardBar extends AutoHeightLayout implements IEmotic
         et_chat.clearFocus();
         btn_face.setImageResource(R.drawable.icon_face_normal);
         hideAutoView();
+    }
+
+    private void openChatInput() {
+        setEditableState(true);
+        Utils.openSoftKeyboard(et_chat);
+        mKeyboardState = KEYBOARD_STATE_BOTH;
+    }
+
+    private void closeChatInput() {
+        setEditableState(true);
+        Utils.closeSoftKeyboard(mContext);
+        mKeyboardState = mKeyboardState == KEYBOARD_STATE_BOTH ? KEYBOARD_STATE_FUNC : KEYBOARD_STATE_NONE ;
     }
 
     @Override
