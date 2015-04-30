@@ -21,6 +21,9 @@ import java.io.File;
 public class ImageLoaderUtils {
 
     public static void init(Context context) {
+        if (ImageLoader.getInstance().isInited()) {
+            ImageLoader.getInstance().destroy();
+        }
         DisplayImageOptions defaultOptions = new DisplayImageOptions.Builder()
                 .considerExifParams(true)
                 .bitmapConfig(Bitmap.Config.RGB_565)

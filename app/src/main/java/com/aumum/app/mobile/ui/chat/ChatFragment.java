@@ -43,6 +43,7 @@ import com.aumum.app.mobile.utils.ImageLoaderUtils;
 import com.aumum.app.mobile.utils.Ln;
 import com.aumum.app.mobile.utils.SafeAsyncTask;
 import com.aumum.app.mobile.utils.StorageUtils;
+import com.aumum.app.mobile.utils.TuSdkUtils;
 import com.easemob.EMError;
 import com.easemob.chat.EMConversation;
 import com.easemob.chat.EMMessage;
@@ -358,7 +359,7 @@ public class ChatFragment extends Fragment
 
     @Override
     public void OnMultimediaBtnClick() {
-
+        TuSdkUtils.openAlbum(getActivity());
     }
 
     private class NewMessageBroadcastReceiver extends BroadcastReceiver {

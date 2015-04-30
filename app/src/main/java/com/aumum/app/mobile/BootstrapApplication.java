@@ -59,11 +59,11 @@ public class BootstrapApplication extends Application {
         PushUtils.init(this);
         LocaleUtils.init(this);
         PreferenceUtils.init(this);
-        ImageLoaderUtils.init(this);
         EMChatUtils.init(this);
         UpYunUtils.init();
         SmsSdkUtils.init(this);
         TuSdkUtils.init(this);
+        ImageLoaderUtils.init(this);
     }
 
     private Object getRootModule() {
