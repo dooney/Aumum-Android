@@ -116,7 +116,7 @@
                 android:paddingRight="10dp"
                 android:text="@string/btn_text_send"
                 android:textColor="@color/btn_send_textcolor"
-                android:textSize="12sp"
+                android:textSize="14sp"
                 android:visibility="gone"
                 />
         </RelativeLayout>

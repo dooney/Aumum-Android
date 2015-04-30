@@ -25,7 +25,6 @@ import java.util.List;
 public class EmoticonsPageView extends ViewPager implements IEmoticonsKeyboard, IView {
 
     private Context mContext;
-    private int mHeight = 0;
     private int mMaxEmoticonSetPageCount = 0;
     public int mOldPagePosition = -1;
 
@@ -45,7 +44,6 @@ public class EmoticonsPageView extends ViewPager implements IEmoticonsKeyboard, 
     @Override
     protected void onSizeChanged(int w, int h, int oldw, int oldh) {
         super.onSizeChanged(w, h, oldw, oldh);
-        mHeight = h;
         EmoticonsPageView.this.post(new Runnable() {
             @Override
             public void run() {
@@ -125,7 +123,6 @@ public class EmoticonsPageView extends ViewPager implements IEmoticonsKeyboard, 
         }
 
         int screenWidth = Utils.getDisplayWidthPixels(mContext);
-        int maxPagerHeight = mHeight;
 
         mEmoticonPageViews.clear();
         mEmoticonsViewPagerAdapter.notifyDataSetChanged();
@@ -149,22 +146,7 @@ public class EmoticonsPageView extends ViewPager implements IEmoticonsKeyboard, 
                 RelativeLayout.LayoutParams gridParams = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
                 gridParams.addRule(ResizeLayout.CENTER_VERTICAL);
 
-                int itemHeight = Math.min((screenWidth - (bean.getRow() - 1) * Utils.dip2px(mContext, bean.getHorizontalSpacing())) / bean.getRow(), (maxPagerHeight - (bean.getLine() - 1) * Utils.dip2px(mContext, bean.getVerticalSpacing())) / bean.getLine());
-
-//                // 计算行距
-//                if (bean.getHeight() > 0) {
-//                    int verticalspacing = Utils.dip2px(mContext, bean.getVerticalSpacing());
-//                    itemHeight = Math.min(itemHeight,Utils.dip2px(mContext, bean.getHeight()));
-//                    while (verticalspacing > 0) {
-//                        int userdefHeigth = (bean.getLine() - 1) * verticalspacing + Utils.dip2px(mContext, bean.getHeight()) * (bean.getLine());
-//                        if (userdefHeigth <= maxPagerHeight) {
-//                            bean.setVerticalSpacing(Utils.px2dip(mContext, verticalspacing));
-//                            break;
-//                        }
-//                        bean.setVerticalSpacing(Utils.px2dip(mContext, verticalspacing));
-//                        verticalspacing = (int)Math.ceil((float)verticalspacing / 2);
-//                    }
-//                }
+                int itemHeight = (screenWidth - (bean.getRow() - 1) * Utils.dip2px(mContext, bean.getHorizontalSpacing())) / bean.getRow();
 
                 for (int i = 0; i < pageCount; i++) {
                     RelativeLayout rl = new RelativeLayout(mContext);

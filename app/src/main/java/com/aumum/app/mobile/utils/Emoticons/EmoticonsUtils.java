@@ -29,16 +29,16 @@ public class EmoticonsUtils {
                     /**
                      * FROM ASSETS
                      */
-                    ArrayList<EmoticonBean> emojiArray = ParseData(DefEmoticons.emojiArray, EmoticonBean.FACE_TYPE_NOMAL, ImageBase.Scheme.ASSETS);
+                    ArrayList<EmoticonBean> emojiArray = ParseData(DefEmoticons.emojiArray, EmoticonBean.FACE_TYPE_NORMAL, ImageBase.Scheme.ASSETS);
                     EmoticonSetBean emojiEmoticonSetBean = new EmoticonSetBean("emoji", 3, 7);
-                    emojiEmoticonSetBean.setIconUri("assets://icon_emoji");
+                    emojiEmoticonSetBean.setIconUri("assets://icon_emoji.png");
                     emojiEmoticonSetBean.setItemPadding(20);
                     emojiEmoticonSetBean.setVerticalSpacing(10);
                     emojiEmoticonSetBean.setShowDelBtn(true);
                     emojiEmoticonSetBean.setEmoticonList(emojiArray);
                     dbHelper.insertEmoticonSet(emojiEmoticonSetBean);
 
-                    ArrayList<EmoticonBean> xhsFaceArray = ParseData(xhsEmojiArray, EmoticonBean.FACE_TYPE_NOMAL, ImageBase.Scheme.ASSETS);
+                    ArrayList<EmoticonBean> xhsFaceArray = ParseData(xhsEmojiArray, EmoticonBean.FACE_TYPE_NORMAL, ImageBase.Scheme.ASSETS);
                     EmoticonSetBean xhsEmoticonSetBean = new EmoticonSetBean("xhs", 3, 7);
                     xhsEmoticonSetBean.setIconUri("assets://xhsemoji_19.png");
                     xhsEmoticonSetBean.setItemPadding(20);
@@ -47,7 +47,7 @@ public class EmoticonsUtils {
                     xhsEmoticonSetBean.setEmoticonList(xhsFaceArray);
                     dbHelper.insertEmoticonSet(xhsEmoticonSetBean);
 
-                    ArrayList<EmoticonBean> coverFaceArray = ParseData(coverEmojiArray, EmoticonBean.FACE_TYPE_NOMAL, ImageBase.Scheme.ASSETS);
+                    ArrayList<EmoticonBean> coverFaceArray = ParseData(coverEmojiArray, EmoticonBean.FACE_TYPE_NORMAL, ImageBase.Scheme.ASSETS);
                     EmoticonSetBean coverEmoticonSetBean = new EmoticonSetBean("cover", 2, 4);
                     coverEmoticonSetBean.setIconUri("assets://icon_030_cover.png");
                     coverEmoticonSetBean.setItemPadding(20);
@@ -163,21 +163,21 @@ public class EmoticonsUtils {
     };
 
     public static String[] coverEmojiArray = {
-            "icon_002_cover.png, ",
-            "icon_007_cover.png, ",
-            "icon_010_cover.png, ",
-            "icon_012_cover.png, ",
-            "icon_013_cover.png, ",
-            "icon_018_cover.png, ",
-            "icon_019_cover.png, ",
-            "icon_020_cover.png, ",
-            "icon_021_cover.png, ",
-            "icon_022_cover.png, ",
-            "icon_024_cover.png, ",
-            "icon_027_cover.png, ",
-            "icon_029_cover.png, ",
-            "icon_030_cover.png, ",
-            "icon_035_cover.png, ",
-            "icon_040_cover.png, "
+            "icon_002_cover.png, icon_002_cover",
+            "icon_007_cover.png, icon_007_cover",
+            "icon_010_cover.png, icon_010_cover",
+            "icon_012_cover.png, icon_012_cover",
+            "icon_013_cover.png, icon_013_cover",
+            "icon_018_cover.png, icon_018_cover",
+            "icon_019_cover.png, icon_019_cover",
+            "icon_020_cover.png, icon_020_cover",
+            "icon_021_cover.png, icon_021_cover",
+            "icon_022_cover.png, icon_022_cover",
+            "icon_024_cover.png, icon_024_cover",
+            "icon_027_cover.png, icon_027_cover",
+            "icon_029_cover.png, icon_029_cover",
+            "icon_030_cover.png, icon_030_cover",
+            "icon_035_cover.png, icon_035_cover",
+            "icon_040_cover.png, icon_040_cover"
     };
 }
