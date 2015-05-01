@@ -21,8 +21,7 @@
             android:divider="@null"
             android:scrollingCache="false"
             android:scrollbarStyle="outsideOverlay"
-            android:smoothScrollbar="true"
-            android:transcriptMode="alwaysScroll"/>
+            android:smoothScrollbar="true" />
 
         <RelativeLayout
             android:id="@+id/layout_recording"

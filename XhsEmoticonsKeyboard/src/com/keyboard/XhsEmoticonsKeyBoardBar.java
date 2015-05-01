@@ -166,6 +166,9 @@ public class XhsEmoticonsKeyBoardBar extends AutoHeightLayout
                 if (b) {
                     setEditableState(true);
                     showAutoView();
+                    if (mKeyBoardBarViewListener != null){
+                        mKeyBoardBarViewListener.OnKeyBoardStateChange(mKeyboardState, -1);
+                    }
                 } else {
                     setEditableState(false);
                 }
@@ -358,14 +361,9 @@ public class XhsEmoticonsKeyBoardBar extends AutoHeightLayout
                 }
             }
         }
-        post(new Runnable() {
-            @Override
-            public void run() {
-                if(mKeyBoardBarViewListener != null){
-                    mKeyBoardBarViewListener.OnKeyBoardStateChange(mKeyboardState,-1);
-                }
-            }
-        });
+        if(mKeyBoardBarViewListener != null){
+            mKeyBoardBarViewListener.OnKeyBoardStateChange(mKeyboardState,-1);
+        }
     }
 
     public void reset() {
@@ -389,15 +387,10 @@ public class XhsEmoticonsKeyBoardBar extends AutoHeightLayout
     @Override
     public void OnSoftPop(final int height) {
         super.OnSoftPop(height);
-        post(new Runnable() {
-            @Override
-            public void run() {
-                btn_face.setImageResource(R.drawable.icon_face_normal);
-                if(mKeyBoardBarViewListener != null){
-                    mKeyBoardBarViewListener.OnKeyBoardStateChange(mKeyboardState,height);
-                }
-            }
-        });
+        btn_face.setImageResource(R.drawable.icon_face_normal);
+        if(mKeyBoardBarViewListener != null){
+            mKeyBoardBarViewListener.OnKeyBoardStateChange(mKeyboardState,height);
+        }
     }
 
     @Override

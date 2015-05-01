@@ -28,6 +28,7 @@ public class ImageLoaderUtils {
                 .considerExifParams(true)
                 .bitmapConfig(Bitmap.Config.RGB_565)
                 .cacheOnDisk(true)
+                .cacheInMemory(true)
                 .build();
         ImageLoaderConfiguration config = new ImageLoaderConfiguration.Builder(context)
                 .defaultDisplayImageOptions(defaultOptions)

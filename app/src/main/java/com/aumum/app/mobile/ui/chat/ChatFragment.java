@@ -114,6 +114,8 @@ public class ChatFragment extends Fragment
         conversation.resetUnreadMsgCount();
         int type = intent.getIntExtra(ChatActivity.INTENT_TYPE, ChatActivity.TYPE_SINGLE);
         isGroup = type == ChatActivity.TYPE_GROUP;
+        adapter = new ChatMessagesAdapter(getActivity(), bus, chatService.getChatId(), isGroup);
+        updateUI(conversation.getAllMessages(), -1);
 
         newMessageBroadcastReceiver = new NewMessageBroadcastReceiver();
         IntentFilter intentFilter = new IntentFilter(chatService.getNewMessageBroadcastAction());
@@ -180,6 +182,7 @@ public class ChatFragment extends Fragment
         super.onViewCreated(view, savedInstanceState);
 
         listView = (ListView) view.findViewById(android.R.id.list);
+        listView.setAdapter(adapter);
         listView.setOnScrollListener(this);
 
         EmoticonsUtils.initEmoticonsDB(getActivity());
@@ -192,10 +195,6 @@ public class ChatFragment extends Fragment
         micImage = (ImageView) view.findViewById(R.id.image_mic);
 
         progressBar = (ProgressBar) view.findViewById(R.id.pb_loading);
-
-        adapter = new ChatMessagesAdapter(getActivity(), bus, chatService.getChatId(), isGroup);
-        listView.setAdapter(adapter);
-        updateUI(conversation.getAllMessages(), -1);
     }
 
     @Override
@@ -294,7 +293,7 @@ public class ChatFragment extends Fragment
             case SCROLL_STATE_IDLE:
                 if (absListView.getFirstVisiblePosition() == 0 && !isLoading && loadMore) {
                     isLoading = true;
-                    final List<EMMessage> messages = new ArrayList<EMMessage>();
+                    final List<EMMessage> messages = new ArrayList<>();
                     new SafeAsyncTask<Boolean>() {
                         @Override
                         public Boolean call() throws Exception {
@@ -555,7 +554,7 @@ public class ChatFragment extends Fragment
             @Override
             protected void onSuccess(Boolean success) throws Exception {
                 adapter.addAll(messageList);
-                if (position < 0) {
+                if (listView != null && position < 0) {
                     listView.setSelection(messageList.size() - 1);
                 } else {
                     listView.setSelection(position);

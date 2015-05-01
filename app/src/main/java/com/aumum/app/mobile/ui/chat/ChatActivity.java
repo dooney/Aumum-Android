@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 
 import com.aumum.app.mobile.R;
-import com.aumum.app.mobile.ui.view.Animation;
 
 public class ChatActivity extends ActionBarActivity {
 
@@ -23,7 +22,5 @@ public class ChatActivity extends ActionBarActivity {
 
         final Intent intent = getIntent();
         setTitle(intent.getStringExtra(INTENT_TITLE));
-
-        Animation.scaleIn(this);
     }
 }

@@ -9,12 +9,19 @@ import org.lasque.tusdk.impl.activity.TuFragment;
 import org.lasque.tusdk.impl.components.TuAlbumComponent;
 import org.lasque.tusdk.impl.components.base.TuSdkComponent;
 
+import java.io.File;
+
 /**
  * Created by Administrator on 30/04/2015.
  */
 public class TuSdkUtils {
 
     public static void init(Context context) {
+        String filePath = context.getExternalCacheDir().getPath() + "/lasFilterTemp/tusdk.statistics";
+        File file = new File(filePath);
+        if (file.exists()) {
+            file.delete();
+        }
         TuSdk.init(context, "003d2448e9edf965-00-2j9nn1");
     }
 
