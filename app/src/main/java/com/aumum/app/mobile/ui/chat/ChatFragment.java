@@ -33,7 +33,6 @@ import com.aumum.app.mobile.core.service.ChatService;
 import com.aumum.app.mobile.events.DeleteChatMessageEvent;
 import com.aumum.app.mobile.events.GroupDeletedEvent;
 import com.aumum.app.mobile.ui.group.GroupDetailsActivity;
-import com.aumum.app.mobile.ui.image.ImagePickerActivity;
 import com.aumum.app.mobile.ui.report.ReportActivity;
 import com.aumum.app.mobile.ui.view.dialog.ConfirmDialog;
 import com.aumum.app.mobile.ui.view.dialog.ListViewDialog;
@@ -69,7 +68,8 @@ import retrofit.RetrofitError;
  */
 public class ChatFragment extends Fragment
         implements AbsListView.OnScrollListener,
-                   XhsEmoticonsKeyBoardBar.KeyBoardBarViewListener {
+                   XhsEmoticonsKeyBoardBar.KeyBoardBarViewListener,
+                   TuSdkUtils.ImageListener {
 
     @Inject ChatService chatService;
     @Inject UserStore userStore;
@@ -232,32 +232,7 @@ public class ChatFragment extends Fragment
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        if (requestCode == Constants.RequestCode.IMAGE_PICKER_REQ_CODE) {
-            if (resultCode == Activity.RESULT_OK) {
-                final String allPath[] = data.getStringArrayExtra(ImagePickerActivity.INTENT_ALL_PATH);
-                new SafeAsyncTask<Boolean>() {
-                    @Override
-                    public Boolean call() throws Exception {
-                        if (allPath != null) {
-                            for (String path : allPath) {
-                                EMMessage message = chatService.addImageMessage(id, isGroup, path);
-                                conversation.addMessage(message);
-                                preLoadMessageImage(message);
-                            }
-                            return true;
-                        }
-                        return false;
-                    }
-
-                    @Override
-                    protected void onSuccess(Boolean success) throws Exception {
-                        if (success) {
-                            updateUI(conversation.getAllMessages(), -1);
-                        }
-                    }
-                }.execute();
-            }
-        } else if (requestCode == Constants.RequestCode.GET_GROUP_DETAILS_REQ_CODE &&
+        if (requestCode == Constants.RequestCode.GET_GROUP_DETAILS_REQ_CODE &&
                 resultCode == Activity.RESULT_OK) {
             getActivity().finish();
         }
@@ -270,19 +245,6 @@ public class ChatFragment extends Fragment
         EMMessage message = chatService.addVoiceMessage(id, isGroup, filePath, length);
         conversation.addMessage(message);
         updateUI(conversation.getAllMessages(), -1);
-    }
-
-    private void preLoadMessageImage(EMMessage message) {
-        if (message.getType() == EMMessage.Type.IMAGE) {
-            ImageMessageBody imageBody = (ImageMessageBody) message.getBody();
-            String imageUri;
-            if (message.direct == EMMessage.Direct.RECEIVE) {
-                imageUri = imageBody.getRemoteUrl();
-            } else {
-                imageUri = "file:/" + imageBody.getLocalUrl();
-            }
-            ImageLoaderUtils.loadImage(imageUri);
-        }
     }
 
     @Override
@@ -302,9 +264,6 @@ public class ChatFragment extends Fragment
                                 messages.addAll(conversation.loadMoreMsgFromDB(beforeId, LIMIT_PER_LOAD));
                             } else {
                                 messages.addAll(conversation.loadMoreGroupMsgFromDB(beforeId, LIMIT_PER_LOAD));
-                            }
-                            for (EMMessage message: messages) {
-                                preLoadMessageImage(message);
                             }
                             return true;
                         }
@@ -358,7 +317,15 @@ public class ChatFragment extends Fragment
 
     @Override
     public void OnMultimediaBtnClick() {
-        TuSdkUtils.openAlbum(getActivity());
+        TuSdkUtils.openAlbum(getActivity(), this);
+    }
+
+    @Override
+    public void onImage(String imagePath) {
+        EMMessage message = chatService.addImageMessage(id, isGroup, imagePath);
+        conversation.addMessage(message);
+        ImageLoaderUtils.loadImage(ImageLoaderUtils.getFullPath(imagePath));
+        updateUI(conversation.getAllMessages(), -1);
     }
 
     private class NewMessageBroadcastReceiver extends BroadcastReceiver {
@@ -369,14 +336,15 @@ public class ChatFragment extends Fragment
         public void onReceive(Context context, Intent intent) {
             abortBroadcast();
 
-            final String chatId = intent.getStringExtra("from");
             final String msgId = intent.getStringExtra("msgid");
             new SafeAsyncTask<Boolean>() {
                 @Override
                 public Boolean call() throws Exception {
-                    userStore.getUserInfoByChatId(chatId);
                     EMMessage message = chatService.getMessage(msgId);
-                    preLoadMessageImage(message);
+                    if (message.getType() == EMMessage.Type.IMAGE) {
+                        ImageMessageBody imageBody = (ImageMessageBody) message.getBody();
+                        ImageLoaderUtils.loadImage(imageBody.getRemoteUrl());
+                    }
                     return true;
                 }
 

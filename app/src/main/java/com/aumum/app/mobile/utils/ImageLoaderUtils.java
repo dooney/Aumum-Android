@@ -70,4 +70,8 @@ public class ImageLoaderUtils {
     public static File getFile(String imageUri) {
         return ImageLoader.getInstance().getDiskCache().get(imageUri);
     }
+
+    public static String getFullPath(String path) {
+        return "file:/" + path;
+    }
 }

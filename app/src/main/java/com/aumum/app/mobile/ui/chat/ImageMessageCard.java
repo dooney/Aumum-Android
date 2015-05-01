@@ -45,7 +45,7 @@ public class ImageMessageCard extends ChatMessageCard {
         if (message.direct == EMMessage.Direct.RECEIVE) {
             imageUri = imageBody.getRemoteUrl();
         } else {
-            imageUri = "file:/" + imageBody.getLocalUrl();
+            imageUri = ImageLoaderUtils.getFullPath(imageBody.getLocalUrl());
         }
         ImageLoaderUtils.displayImage(imageUri, image);
         image.setOnClickListener(new View.OnClickListener() {

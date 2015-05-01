@@ -327,6 +327,9 @@ public class XhsEmoticonsKeyBoardBar extends AutoHeightLayout
         }
         else if (id == R.id.btn_multimedia) {
             if(mKeyBoardBarViewListener != null){
+                mKeyBoardBarViewListener.OnKeyBoardStateChange(mKeyboardState,-1);
+            }
+            if(mKeyBoardBarViewListener != null){
                 mKeyBoardBarViewListener.OnMultimediaBtnClick();
             }
         }

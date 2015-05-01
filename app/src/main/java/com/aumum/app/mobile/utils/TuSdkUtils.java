@@ -16,6 +16,10 @@ import java.io.File;
  */
 public class TuSdkUtils {
 
+    public static interface ImageListener {
+        void onImage(String imagePath);
+    }
+
     public static void init(Context context) {
         String filePath = context.getExternalCacheDir().getPath() + "/lasFilterTemp/tusdk.statistics";
         File file = new File(filePath);
@@ -25,7 +29,8 @@ public class TuSdkUtils {
         TuSdk.init(context, "003d2448e9edf965-00-2j9nn1");
     }
 
-    public static void openAlbum(Activity activity) {
+    public static void openAlbum(Activity activity,
+                                 final ImageListener listener) {
         TuAlbumComponent comp = TuSdk.albumCommponent(activity,
                 new TuSdkComponent.TuSdkComponentDelegate()
                 {
@@ -34,7 +39,9 @@ public class TuSdkUtils {
                                                     Error error,
                                                     TuFragment lastFragment)
                     {
-
+                        if (listener != null) {
+                            listener.onImage(result.imageSqlInfo.path);
+                        }
                     }
                 });
         comp.setAutoDismissWhenCompleted(true).showComponent();
