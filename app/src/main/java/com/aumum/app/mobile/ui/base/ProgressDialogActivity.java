@@ -47,9 +47,9 @@ public abstract class ProgressDialogActivity extends ActionBarActivity
         MobclickAgent.onPause(this);
     }
 
-    protected void showMsg(final int resId) {
-        if (resId > 0) {
-            Toaster.showShort(this, getString(resId));
+    protected void showMsg(final int messageId) {
+        if (messageId > 0) {
+            Toaster.showShort(this, getString(messageId));
         }
     }
 

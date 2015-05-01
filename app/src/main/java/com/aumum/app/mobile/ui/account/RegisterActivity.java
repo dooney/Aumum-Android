@@ -22,7 +22,6 @@ import com.aumum.app.mobile.ui.view.dialog.ListViewDialog;
 import com.aumum.app.mobile.utils.EditTextUtils;
 import com.aumum.app.mobile.utils.SafeAsyncTask;
 import com.aumum.app.mobile.utils.Strings;
-import com.github.kevinsawicki.wishlist.Toaster;
 import com.mobsandgeeks.saripaar.ValidationError;
 import com.mobsandgeeks.saripaar.Validator;
 import com.mobsandgeeks.saripaar.annotation.Order;
@@ -158,8 +157,7 @@ public class RegisterActivity extends AuthenticateActivity
                         if (result == SMSSDK.RESULT_COMPLETE) {
                             startVerifyActivity();
                         } else {
-                            Toaster.showShort(RegisterActivity.this,
-                                    R.string.error_send_verification_sms);
+                            showMsg(R.string.error_send_verification_sms);
                         }
                     }
                 });
@@ -258,10 +256,7 @@ public class RegisterActivity extends AuthenticateActivity
             @Override
             protected void onException(final Exception e) throws RuntimeException {
                 if(!(e instanceof RetrofitError)) {
-                    final Throwable cause = e.getCause() != null ? e.getCause() : e;
-                    if(cause != null) {
-                        Toaster.showShort(RegisterActivity.this, cause.getMessage());
-                    }
+                    showError(e);
                 }
             }
 
@@ -297,7 +292,7 @@ public class RegisterActivity extends AuthenticateActivity
     @Override
     public void onValidationFailed(List<ValidationError> errors) {
         for (ValidationError error : errors) {
-            Toaster.showShort(this, error.getFailedRules().get(0).getMessage(this));
+            showMsg(error.getFailedRules().get(0).getMessage(this));
         }
     }
 }

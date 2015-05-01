@@ -21,7 +21,6 @@ import com.aumum.app.mobile.ui.helper.TextWatcherAdapter;
 import com.aumum.app.mobile.utils.EditTextUtils;
 import com.aumum.app.mobile.utils.Ln;
 import com.aumum.app.mobile.utils.SafeAsyncTask;
-import com.github.kevinsawicki.wishlist.Toaster;
 
 import javax.inject.Inject;
 
@@ -134,19 +133,16 @@ public class VerifyActivity extends ProgressDialogActivity {
                                 register();
                             } else {
                                 hideProgress();
-                                Toaster.showShort(VerifyActivity.this,
-                                        R.string.error_verify_code);
+                                showMsg(R.string.error_verify_code);
                             }
                         } else if (event == SMSSDK.EVENT_GET_VERIFICATION_CODE) {
                             hideProgress();
                             if (result == SMSSDK.RESULT_COMPLETE) {
-                                Toaster.showShort(VerifyActivity.this,
-                                        R.string.info_verification_sms_sent);
+                                showMsg(R.string.info_verification_sms_sent);
                                 total = RETRY_INTERVAL;
                                 countDown();
                             } else {
-                                Toaster.showShort(VerifyActivity.this,
-                                        R.string.error_send_verification_sms);
+                                showMsg(R.string.error_send_verification_sms);
                             }
                         }
                     }
@@ -261,10 +257,7 @@ public class VerifyActivity extends ProgressDialogActivity {
             @Override
             protected void onException(final Exception e) throws RuntimeException {
                 if(!(e instanceof RetrofitError)) {
-                    final Throwable cause = e.getCause() != null ? e.getCause() : e;
-                    if(cause != null) {
-                        Toaster.showShort(VerifyActivity.this, cause.getMessage());
-                    }
+                    showError(e);
                 }
                 hideProgress();
             }
@@ -293,7 +286,7 @@ public class VerifyActivity extends ProgressDialogActivity {
 
                     @Override
                     public void onError(String message) {
-                        Toaster.showShort(VerifyActivity.this, message);
+                        showMsg(message);
                         hideProgress();
                     }
                 });

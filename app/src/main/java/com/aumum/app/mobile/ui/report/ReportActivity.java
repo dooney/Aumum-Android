@@ -19,7 +19,6 @@ import com.aumum.app.mobile.ui.base.ProgressDialogActivity;
 import com.aumum.app.mobile.ui.helper.TextWatcherAdapter;
 import com.aumum.app.mobile.ui.view.dialog.ListViewDialog;
 import com.aumum.app.mobile.utils.SafeAsyncTask;
-import com.github.kevinsawicki.wishlist.Toaster;
 
 import java.util.Arrays;
 
@@ -44,14 +43,8 @@ public class ReportActivity extends ProgressDialogActivity {
     private final TextWatcher watcher = validationTextWatcher();
     private SafeAsyncTask<Boolean> task;
 
-    public final static String TYPE_PARTY = "聚会";
-    public final static String TYPE_PARTY_COMMENT = "聚会评论";
-    public final static String TYPE_ASKING = "说说";
-    public final static String TYPE_ASKING_REPLY = "说说回复";
     public final static String TYPE_USER = "用户";
     public final static String TYPE_GROUP = "群组";
-    public final static String TYPE_MOMENT = "妈妈圈";
-    public final static String TYPE_MOMENT_COMMENT = "妈妈圈评论";
     public final static String INTENT_ENTITY_TYPE = "entityType";
     public final static String INTENT_ENTITY_ID = "entityId";
 
@@ -147,16 +140,13 @@ public class ReportActivity extends ProgressDialogActivity {
             @Override
             protected void onException(final Exception e) throws RuntimeException {
                 if(!(e instanceof RetrofitError)) {
-                    final Throwable cause = e.getCause() != null ? e.getCause() : e;
-                    if(cause != null) {
-                        Toaster.showShort(ReportActivity.this, cause.getMessage());
-                    }
+                    showError(e);
                 }
             }
 
             @Override
             protected void onSuccess(Boolean success) throws Exception {
-                Toaster.showShort(ReportActivity.this, R.string.info_report_submitted);
+                showMsg(R.string.info_report_submitted);
                 finish();
             }
 

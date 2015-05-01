@@ -19,7 +19,6 @@ import com.aumum.app.mobile.ui.helper.TextWatcherAdapter;
 import com.aumum.app.mobile.ui.view.Animation;
 import com.aumum.app.mobile.utils.EditTextUtils;
 import com.aumum.app.mobile.utils.SafeAsyncTask;
-import com.github.kevinsawicki.wishlist.Toaster;
 import com.mobsandgeeks.saripaar.ValidationError;
 import com.mobsandgeeks.saripaar.Validator;
 import com.mobsandgeeks.saripaar.annotation.Email;
@@ -139,10 +138,7 @@ public class ResetPasswordActivity extends ProgressDialogActivity
             @Override
             protected void onException(final Exception e) throws RuntimeException {
                 if(!(e instanceof RetrofitError)) {
-                    final Throwable cause = e.getCause() != null ? e.getCause() : e;
-                    if(cause != null) {
-                        Toaster.showShort(ResetPasswordActivity.this, cause.getMessage());
-                    }
+                    showError(e);
                 }
             }
 
@@ -175,7 +171,7 @@ public class ResetPasswordActivity extends ProgressDialogActivity
     @Override
     public void onValidationFailed(List<ValidationError> errors) {
         for (ValidationError error : errors) {
-            Toaster.showShort(this, error.getFailedRules().get(0).getMessage(this));
+            showMsg(error.getFailedRules().get(0).getMessage(this));
         }
     }
 }

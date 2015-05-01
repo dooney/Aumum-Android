@@ -29,7 +29,6 @@ import com.aumum.app.mobile.ui.view.dialog.ListViewDialog;
 import com.aumum.app.mobile.utils.SafeAsyncTask;
 import com.easemob.EMCallBack;
 import com.easemob.chat.EMGroup;
-import com.github.kevinsawicki.wishlist.Toaster;
 import com.google.gson.Gson;
 
 import java.util.ArrayList;
@@ -174,10 +173,7 @@ public class GroupDetailsFragment extends ItemListFragment<UserInfo> {
                     @Override
                     protected void onException(final Exception e) throws RuntimeException {
                         if (!(e instanceof RetrofitError)) {
-                            final Throwable cause = e.getCause() != null ? e.getCause() : e;
-                            if (cause != null) {
-                                Toaster.showShort(getActivity(), cause.getMessage());
-                            }
+                            showError(e);
                         }
                     }
 
@@ -187,7 +183,7 @@ public class GroupDetailsFragment extends ItemListFragment<UserInfo> {
                                 null, currentUser.getObjectId(), groupId);
                         chatService.sendCmdMessage(groupId, cmdMessage, true, null);
                         chatService.deleteGroupConversation(groupId);
-                        Toaster.showShort(getActivity(), getActivity().getString(R.string.info_group_quit));
+                        showMsg(getActivity().getString(R.string.info_group_quit));
                         getActivity().setResult(Activity.RESULT_OK);
                         getActivity().finish();
                     }
@@ -204,7 +200,7 @@ public class GroupDetailsFragment extends ItemListFragment<UserInfo> {
             @Override
             public void onError(int i, String message) {
                 progressListener.hideProgress();
-                Toaster.showShort(getActivity(), message);
+                showMsg(message);
             }
 
             @Override
@@ -230,17 +226,14 @@ public class GroupDetailsFragment extends ItemListFragment<UserInfo> {
             @Override
             protected void onException(final Exception e) throws RuntimeException {
                 if (!(e instanceof RetrofitError)) {
-                    final Throwable cause = e.getCause() != null ? e.getCause() : e;
-                    if (cause != null) {
-                        Toaster.showShort(getActivity(), cause.getMessage());
-                    }
+                    showError(e);
                 }
             }
 
             @Override
             public void onSuccess(final Boolean success) {
                 chatService.deleteGroupConversation(groupId);
-                Toaster.showShort(getActivity(), R.string.info_group_deleted);
+                showMsg(R.string.info_group_deleted);
                 getActivity().setResult(Activity.RESULT_OK);
                 getActivity().finish();
             }

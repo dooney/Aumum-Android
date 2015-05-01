@@ -11,7 +11,6 @@ import com.aumum.app.mobile.core.Constants;
 import com.aumum.app.mobile.core.service.RestService;
 import com.aumum.app.mobile.ui.base.ProgressDialogActivity;
 import com.aumum.app.mobile.utils.SafeAsyncTask;
-import com.github.kevinsawicki.wishlist.Toaster;
 
 import javax.inject.Inject;
 
@@ -62,17 +61,13 @@ public class ResetPasswordSuccessActivity extends ProgressDialogActivity {
             @Override
             protected void onException(final Exception e) throws RuntimeException {
                 if(!(e instanceof RetrofitError)) {
-                    final Throwable cause = e.getCause() != null ? e.getCause() : e;
-                    if(cause != null) {
-                        Toaster.showShort(ResetPasswordSuccessActivity.this, cause.getMessage());
-                    }
+                    showError(e);
                 }
             }
 
             @Override
             public void onSuccess(final Boolean success) {
-                Toaster.showShort(ResetPasswordSuccessActivity.this,
-                        R.string.info_reset_password_email_sent);
+                showMsg(R.string.info_reset_password_email_sent);
             }
 
             @Override

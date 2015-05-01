@@ -18,7 +18,6 @@ import com.aumum.app.mobile.ui.base.ProgressDialogActivity;
 import com.aumum.app.mobile.ui.helper.TextWatcherAdapter;
 import com.aumum.app.mobile.utils.EditTextUtils;
 import com.aumum.app.mobile.utils.SafeAsyncTask;
-import com.github.kevinsawicki.wishlist.Toaster;
 
 import javax.inject.Inject;
 
@@ -102,16 +101,13 @@ public class FeedbackActivity extends ProgressDialogActivity {
             @Override
             protected void onException(final Exception e) throws RuntimeException {
                 if(!(e instanceof RetrofitError)) {
-                    final Throwable cause = e.getCause() != null ? e.getCause() : e;
-                    if(cause != null) {
-                        Toaster.showShort(FeedbackActivity.this, cause.getMessage());
-                    }
+                    showError(e);
                 }
             }
 
             @Override
             protected void onSuccess(Boolean success) throws Exception {
-                Toaster.showShort(FeedbackActivity.this, R.string.info_feedback_submitted);
+                showMsg(R.string.info_feedback_submitted);
                 finish();
             }
 

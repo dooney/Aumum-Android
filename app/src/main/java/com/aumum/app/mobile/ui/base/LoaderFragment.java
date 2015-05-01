@@ -122,6 +122,12 @@ public abstract class LoaderFragment<E> extends Fragment
         getLoaderManager().restartLoader(0, args, this);
     }
 
+    protected void showMsg(final int messageId) {
+        if (messageId > 0) {
+            Toaster.showShort(getActivity(), getString(messageId));
+        }
+    }
+
     protected void showMsg(final String message) {
         if (message != null) {
             Toaster.showShort(getActivity(), message);

@@ -35,7 +35,6 @@ import com.aumum.app.mobile.ui.view.dialog.ListViewDialog;
 import com.aumum.app.mobile.utils.EditTextUtils;
 import com.aumum.app.mobile.utils.SafeAsyncTask;
 import com.aumum.app.mobile.utils.Strings;
-import com.github.kevinsawicki.wishlist.Toaster;
 import com.squareup.otto.Bus;
 import com.squareup.otto.Subscribe;
 
@@ -194,7 +193,7 @@ public class LoginActivity extends AuthenticateActivity {
     @Subscribe
     public void onUnAuthorizedErrorEvent(UnAuthorizedErrorEvent unAuthorizedErrorEvent) {
         // Could not authorize for some reason.
-        Toaster.showShort(LoginActivity.this, R.string.error_bad_credentials);
+        showMsg(R.string.error_bad_credentials);
     }
 
     public void login() {
@@ -216,10 +215,7 @@ public class LoginActivity extends AuthenticateActivity {
             @Override
             protected void onException(final Exception e) throws RuntimeException {
                 if(!(e instanceof RetrofitError)) {
-                    final Throwable cause = e.getCause() != null ? e.getCause() : e;
-                    if(cause != null) {
-                        Toaster.showShort(LoginActivity.this, cause.getMessage());
-                    }
+                    showError(e);
                 }
                 hideProgress();
             }
@@ -254,7 +250,7 @@ public class LoginActivity extends AuthenticateActivity {
 
                     @Override
                     public void onError(String message) {
-                        Toaster.showShort(LoginActivity.this, message);
+                        showMsg(message);
                         hideProgress();
                     }
                 });

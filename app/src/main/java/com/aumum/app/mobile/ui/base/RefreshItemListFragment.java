@@ -64,10 +64,7 @@ public abstract class RefreshItemListFragment<E extends RefreshItem> extends Fra
             @Override
             protected void onException(Exception e) throws RuntimeException {
                 if(!(e instanceof RetrofitError)) {
-                    final Throwable cause = e.getCause() != null ? e.getCause() : e;
-                    if(cause != null) {
-                        Toaster.showShort(getActivity(), cause.getMessage());
-                    }
+                    showError(e);
                 }
             }
 
@@ -103,10 +100,7 @@ public abstract class RefreshItemListFragment<E extends RefreshItem> extends Fra
             @Override
             protected void onException(Exception e) throws RuntimeException {
                 if(!(e instanceof RetrofitError)) {
-                    final Throwable cause = e.getCause() != null ? e.getCause() : e;
-                    if(cause != null) {
-                        Toaster.showShort(getActivity(), cause.getMessage());
-                    }
+                    showError(e);
                 }
             }
 
@@ -130,6 +124,19 @@ public abstract class RefreshItemListFragment<E extends RefreshItem> extends Fra
         xListView.stopRefresh();
         xListView.stopLoadMore();
         xListView.setRefreshTime(getTime());
+    }
+
+    protected void showMsg(final String message) {
+        if (message != null) {
+            Toaster.showShort(getActivity(), message);
+        }
+    }
+
+    protected void showError(final Exception e) {
+        final Throwable cause = e.getCause() != null ? e.getCause() : e;
+        if(cause != null) {
+            Toaster.showShort(getActivity(), cause.getMessage());
+        }
     }
 
     protected abstract ArrayAdapter<E> createAdapter(final List<E> items);
