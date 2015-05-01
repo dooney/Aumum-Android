@@ -94,7 +94,7 @@ public abstract class LoaderFragment<E> extends Fragment
         final Exception exception = getException(loader);
         if (exception != null) {
             setHasError(true);
-            showError(getErrorMessage(exception));
+            showError(exception);
             show();
             return;
         } else {
@@ -122,18 +122,17 @@ public abstract class LoaderFragment<E> extends Fragment
         getLoaderManager().restartLoader(0, args, this);
     }
 
-    protected void showError(final String message) {
+    protected void showMsg(final String message) {
         if (message != null) {
             Toaster.showShort(getActivity(), message);
         }
     }
 
-    protected String getErrorMessage(final Exception e) {
+    protected void showError(final Exception e) {
         final Throwable cause = e.getCause() != null ? e.getCause() : e;
         if(cause != null) {
-            return(cause.getMessage());
+            Toaster.showShort(getActivity(), cause.getMessage());
         }
-        return null;
     }
 
     private Exception getException(final Loader<E> loader) {

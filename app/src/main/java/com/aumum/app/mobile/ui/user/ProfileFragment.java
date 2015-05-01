@@ -2,6 +2,7 @@ package com.aumum.app.mobile.ui.user;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -21,11 +22,11 @@ import com.aumum.app.mobile.core.dao.CreditRuleStore;
 import com.aumum.app.mobile.core.dao.UserStore;
 import com.aumum.app.mobile.core.model.CreditRule;
 import com.aumum.app.mobile.core.model.User;
+import com.aumum.app.mobile.core.service.FileUploadService;
 import com.aumum.app.mobile.core.service.RestService;
 import com.aumum.app.mobile.ui.area.AreaListActivity;
 import com.aumum.app.mobile.ui.base.LoaderFragment;
 import com.aumum.app.mobile.ui.browser.BrowserActivity;
-import com.aumum.app.mobile.ui.image.ImagePickerActivity;
 import com.aumum.app.mobile.ui.settings.SettingsActivity;
 import com.aumum.app.mobile.ui.view.AvatarImageView;
 import com.aumum.app.mobile.ui.view.dialog.ConfirmDialog;
@@ -34,8 +35,9 @@ import com.aumum.app.mobile.ui.view.dialog.ListViewDialog;
 import com.aumum.app.mobile.ui.view.dialog.TextViewDialog;
 import com.aumum.app.mobile.utils.ImageLoaderUtils;
 import com.aumum.app.mobile.utils.SafeAsyncTask;
-import com.github.kevinsawicki.wishlist.Toaster;
+import com.aumum.app.mobile.utils.TuSdkUtils;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -49,31 +51,26 @@ import retrofit.RetrofitError;
  * A simple {@link Fragment} subclass.
  *
  */
-public class ProfileFragment extends LoaderFragment<User> {
+public class ProfileFragment extends LoaderFragment<User>
+        implements TuSdkUtils.FileListener,
+                   FileUploadService.OnFileUploadListener {
 
     @Inject RestService restService;
     @Inject UserStore userStore;
     @Inject CreditRuleStore creditRuleStore;
+    @Inject FileUploadService fileUploadService;
 
     private User currentUser;
     private SafeAsyncTask<Boolean> task;
 
-    private ScrollView scrollView;
     private View mainView;
     private AvatarImageView avatarImage;
-    private View screenNameLayout;
     private TextView screenNameText;
     private TextView creditText;
-    private TextView creditInfoText;
-    private View emailLayout;
     private TextView emailText;
-    private View cityLayout;
     private TextView cityText;
-    private View areaLayout;
     private TextView areaText;
-    private View tagsLayout;
     private TextView tagsText[];
-    private View aboutLayout;
     private TextView aboutText;
 
     @Override
@@ -81,6 +78,8 @@ public class ProfileFragment extends LoaderFragment<User> {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
         Injector.inject(this);
+
+        fileUploadService.setOnFileUploadListener(this);
     }
 
     @Override
@@ -110,13 +109,13 @@ public class ProfileFragment extends LoaderFragment<User> {
     public void onViewCreated(final View view, final Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        scrollView = (ScrollView) view.findViewById(R.id.scroll_view);
+        ScrollView scrollView = (ScrollView) view.findViewById(R.id.scroll_view);
         scrollView.setHorizontalScrollBarEnabled(false);
         scrollView.setVerticalScrollBarEnabled(false);
         
         mainView = view.findViewById(R.id.main_view);
         avatarImage = (AvatarImageView) view.findViewById(R.id.image_avatar);
-        screenNameLayout = view.findViewById(R.id.layout_screen_name);
+        View screenNameLayout = view.findViewById(R.id.layout_screen_name);
         screenNameLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -125,7 +124,7 @@ public class ProfileFragment extends LoaderFragment<User> {
                             @Override
                             public void call(Object value) throws Exception {
                                 String screenName = (String) value;
-                                if (restService.getScreenNameRegistered((String)value)) {
+                                if (restService.getScreenNameRegistered((String) value)) {
                                     throw new Exception(getString(R.string.error_screen_name_registered));
                                 }
                                 restService.updateUserScreenName(currentUser.getObjectId(), screenName);
@@ -135,7 +134,7 @@ public class ProfileFragment extends LoaderFragment<User> {
 
                             @Override
                             public void onException(String errorMessage) {
-                                Toaster.showShort(getActivity(), errorMessage);
+                                showMsg(errorMessage);
                             }
 
                             @Override
@@ -148,14 +147,14 @@ public class ProfileFragment extends LoaderFragment<User> {
         });
         screenNameText = (TextView) view.findViewById(R.id.text_screen_name);
         creditText = (TextView) view.findViewById(R.id.text_credit);
-        creditInfoText = (TextView) view.findViewById(R.id.text_credit_info);
+        TextView creditInfoText = (TextView) view.findViewById(R.id.text_credit_info);
         creditInfoText.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 startCreditInfoActivity();
             }
         });
-        emailLayout = view.findViewById(R.id.layout_email);
+        View emailLayout = view.findViewById(R.id.layout_email);
         emailLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -177,7 +176,7 @@ public class ProfileFragment extends LoaderFragment<User> {
 
                             @Override
                             public void onException(String errorMessage) {
-                                Toaster.showShort(getActivity(), errorMessage);
+                                showMsg(errorMessage);
                             }
 
                             @Override
@@ -189,7 +188,7 @@ public class ProfileFragment extends LoaderFragment<User> {
             }
         });
         emailText = (TextView) view.findViewById(R.id.text_email);
-        cityLayout = view.findViewById(R.id.layout_city);
+        View cityLayout = view.findViewById(R.id.layout_city);
         cityLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -198,34 +197,34 @@ public class ProfileFragment extends LoaderFragment<User> {
                         getString(R.string.label_select_your_city),
                         Arrays.asList(cityOptions),
                         new ListViewDialog.OnItemClickListener() {
-                    @Override
-                    public void onItemClick(int i) {
-                        final String city = cityOptions[i];
-                        final String text = getString(R.string.label_confirm_city, city);
-                        new TextViewDialog(getActivity(), text, new ConfirmDialog.OnConfirmListener() {
                             @Override
-                            public void call(Object value) throws Exception {
-                                restService.updateUserCity(currentUser.getObjectId(), city);
-                                currentUser.setCity(city);
-                                userStore.save(currentUser);
-                            }
+                            public void onItemClick(int i) {
+                                final String city = cityOptions[i];
+                                final String text = getString(R.string.label_confirm_city, city);
+                                new TextViewDialog(getActivity(), text, new ConfirmDialog.OnConfirmListener() {
+                                    @Override
+                                    public void call(Object value) throws Exception {
+                                        restService.updateUserCity(currentUser.getObjectId(), city);
+                                        currentUser.setCity(city);
+                                        userStore.save(currentUser);
+                                    }
 
-                            @Override
-                            public void onException(String errorMessage) {
-                                Toaster.showShort(getActivity(), errorMessage);
-                            }
+                                    @Override
+                                    public void onException(String errorMessage) {
+                                        showMsg(errorMessage);
+                                    }
 
-                            @Override
-                            public void onSuccess(Object value) {
-                                cityText.setText(city);
+                                    @Override
+                                    public void onSuccess(Object value) {
+                                        cityText.setText(city);
+                                    }
+                                }).show();
                             }
                         }).show();
-                    }
-                }).show();
             }
         });
         cityText = (TextView) view.findViewById(R.id.text_city);
-        areaLayout = view.findViewById(R.id.layout_area);
+        View areaLayout = view.findViewById(R.id.layout_area);
         areaLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -238,14 +237,14 @@ public class ProfileFragment extends LoaderFragment<User> {
         tagsText[0] = (TextView) view.findViewById(R.id.text_tag1);
         tagsText[1] = (TextView) view.findViewById(R.id.text_tag2);
         tagsText[2] = (TextView) view.findViewById(R.id.text_tag3);
-        tagsLayout = view.findViewById(R.id.layout_tags);
+        View tagsLayout = view.findViewById(R.id.layout_tags);
         tagsLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 startUserTagListActivity();
             }
         });
-        aboutLayout = view.findViewById(R.id.layout_about);
+        View aboutLayout = view.findViewById(R.id.layout_about);
         aboutLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -264,7 +263,7 @@ public class ProfileFragment extends LoaderFragment<User> {
 
                             @Override
                             public void onException(String errorMessage) {
-                                Toaster.showShort(getActivity(), errorMessage);
+                                showMsg(errorMessage);
                             }
 
                             @Override
@@ -273,7 +272,7 @@ public class ProfileFragment extends LoaderFragment<User> {
                                 aboutText.setText(about);
                                 creditText.setText(String.valueOf(currentUser.getCredit()));
                             }
-                }).show();
+                        }).show();
             }
         });
         aboutText = (TextView) view.findViewById(R.id.text_about);
@@ -283,24 +282,7 @@ public class ProfileFragment extends LoaderFragment<User> {
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        if (requestCode == Constants.RequestCode.IMAGE_PICKER_REQ_CODE &&
-                resultCode == Activity.RESULT_OK) {
-            String imagePath = data.getStringExtra(ImagePickerActivity.INTENT_SINGLE_PATH);
-            if (imagePath != null) {
-                String imageUri = "file://" + imagePath;
-                startCropImageActivity(imageUri);
-            }
-        } else if (requestCode == Constants.RequestCode.CROP_PROFILE_IMAGE_REQ_CODE &&
-                   resultCode == Activity.RESULT_OK) {
-            String imageUrl = data.getStringExtra(UpdateAvatarActivity.INTENT_IMAGE_URL);
-            if (imageUrl != null) {
-                updateAvatar(imageUrl);
-            }
-            String imageUri = data.getStringExtra(UpdateAvatarActivity.INTENT_IMAGE_URI);
-            if (imageUri != null) {
-                ImageLoaderUtils.displayImage(imageUri, avatarImage);
-            }
-        } else if (requestCode == Constants.RequestCode.GET_AREA_LIST_REQ_CODE &&
+        if (requestCode == Constants.RequestCode.GET_AREA_LIST_REQ_CODE &&
                 resultCode == Activity.RESULT_OK) {
             String area = data.getStringExtra(AreaListActivity.INTENT_AREA);
             updateArea(area);
@@ -337,7 +319,7 @@ public class ProfileFragment extends LoaderFragment<User> {
             avatarImage.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    startImagePickerActivity();
+                    TuSdkUtils.avatar(getActivity(), ProfileFragment.this);
                 }
             });
             screenNameText.setText(user.getScreenName());
@@ -350,30 +332,17 @@ public class ProfileFragment extends LoaderFragment<User> {
         }
     }
 
-    private void startImagePickerActivity() {
-        final Intent intent = new Intent(getActivity(), ImagePickerActivity.class);
-        intent.putExtra(ImagePickerActivity.INTENT_ACTION, ImagePickerActivity.ACTION_PICK);
-        startActivityForResult(intent, Constants.RequestCode.IMAGE_PICKER_REQ_CODE);
-    }
-
-    private void startCropImageActivity(String imageUri) {
-        final Intent intent = new Intent(getActivity(), UpdateAvatarActivity.class);
-        intent.putExtra(UpdateAvatarActivity.INTENT_TITLE, getString(R.string.title_activity_change_avatar));
-        intent.putExtra(UpdateAvatarActivity.INTENT_IMAGE_URI, imageUri);
-        startActivityForResult(intent, Constants.RequestCode.CROP_PROFILE_IMAGE_REQ_CODE);
-    }
-
-    private void updateAvatar(final String fileUrl) {
+    private void updateAvatar(final String avatarUrl) {
         if (task != null) {
             return;
         }
         task = new SafeAsyncTask<Boolean>() {
             public Boolean call() throws Exception {
-                restService.updateUserAvatar(currentUser.getObjectId(), fileUrl);
+                restService.updateUserAvatar(currentUser.getObjectId(), avatarUrl);
                 if (currentUser.getAvatarUrl() == null) {
                     updateCredit(CreditRule.ADD_AVATAR);
                 }
-                currentUser.setAvatarUrl(fileUrl);
+                currentUser.setAvatarUrl(avatarUrl);
                 userStore.save(currentUser);
                 return true;
             }
@@ -381,10 +350,7 @@ public class ProfileFragment extends LoaderFragment<User> {
             @Override
             protected void onException(final Exception e) throws RuntimeException {
                 if(!(e instanceof RetrofitError)) {
-                    final Throwable cause = e.getCause() != null ? e.getCause() : e;
-                    if(cause != null) {
-                        Toaster.showShort(getActivity(), cause.getMessage());
-                    }
+                    showError(e);
                 }
             }
 
@@ -419,7 +385,7 @@ public class ProfileFragment extends LoaderFragment<User> {
 
             @Override
             public void onException(String errorMessage) {
-                Toaster.showShort(getActivity(), errorMessage);
+                showMsg(errorMessage);
             }
 
             @Override
@@ -455,7 +421,7 @@ public class ProfileFragment extends LoaderFragment<User> {
 
             @Override
             public void onException(String errorMessage) {
-                Toaster.showShort(getActivity(), errorMessage);
+                showMsg(errorMessage);
             }
 
             @Override
@@ -476,7 +442,7 @@ public class ProfileFragment extends LoaderFragment<User> {
             getActivity().runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
-                    Toaster.showShort(getActivity(), getString(R.string.info_got_credit,
+                    showMsg(getString(R.string.info_got_credit,
                             creditRule.getDescription(), credit));
                 }
             });
@@ -497,5 +463,28 @@ public class ProfileFragment extends LoaderFragment<User> {
         final Intent intent = new Intent(getActivity(), BrowserActivity.class);
         intent.putExtra(BrowserActivity.INTENT_URL, Constants.Link.CREDIT);
         startActivity(intent);
+    }
+
+    @Override
+    public void onFile(final File file) {
+        try {
+            String fileUri = file.getAbsolutePath();
+            String avatarUri = ImageLoaderUtils.getFullPath(fileUri);
+            Bitmap bitmap = ImageLoaderUtils.loadImage(avatarUri);
+            avatarImage.setImageBitmap(bitmap);
+            fileUploadService.upload(fileUri, file);
+        } catch (Exception e) {
+            showError(e);
+        }
+    }
+
+    @Override
+    public void onUploadSuccess(String remoteUrl) {
+        updateAvatar(remoteUrl);
+    }
+
+    @Override
+    public void onUploadFailure(Exception e) {
+        showError(e);
     }
 }

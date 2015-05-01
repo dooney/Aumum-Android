@@ -145,8 +145,6 @@
             android:name="com.parse.push.notification_icon"
             android:resource="@drawable/ic_launcher_notification" />
 
-        <activity android:name=".ui.user.UpdateAvatarActivity" />
-
         <meta-data
             android:name="EASEMOB_APPKEY"
             android:value="aumum#aumum" />

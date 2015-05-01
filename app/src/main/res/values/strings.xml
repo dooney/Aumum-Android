@@ -79,7 +79,6 @@
     <string name="info_authenticating">正在验证您的账号信息，请稍候</string>
     <string name="info_submitting_registration">正在提交您的注册请求，请稍候</string>
     <string name="info_submitting_password_reset">正在提交您的重置密码请求，请稍候</string>
-    <string name="info_uploading_avatar">正在上传头像图片，请稍候</string>
     <string name="info_add_contact_sent">发送添加好友请求成功，等待对方验证</string>
     <string name="info_contact_deleted">该好友已成功移除</string>
     <string name="info_group_quit">您已成功退出了该群组</string>
@@ -151,7 +150,6 @@
     <string name="title_activity_user">用户详情</string>
     <string name="title_activity_contact_requests">好友请求</string>
     <string name="title_activity_settings">我的设置</string>
-    <string name="title_activity_change_avatar">更换头像</string>
     <string name="title_activity_choose_image">选择图片</string>
     <string name="title_activity_add_image">添加图片</string>
     <string name="title_activity_complete_profile">完善个人资料</string>

@@ -41,7 +41,6 @@ import com.aumum.app.mobile.ui.settings.FeedbackActivity;
 import com.aumum.app.mobile.ui.settings.NotificationActivity;
 import com.aumum.app.mobile.ui.user.AreaUsersFragment;
 import com.aumum.app.mobile.ui.user.TagUsersFragment;
-import com.aumum.app.mobile.ui.user.UpdateAvatarActivity;
 import com.aumum.app.mobile.ui.main.MainFragment;
 import com.aumum.app.mobile.ui.like.LikesLayoutListener;
 import com.aumum.app.mobile.ui.account.ResetPasswordActivity;
@@ -97,7 +96,6 @@ import retrofit.converter.GsonConverter;
                 ContactFragment.class,
                 ProfileFragment.class,
                 SettingsActivity.class,
-                UpdateAvatarActivity.class,
                 VerifyActivity.class,
                 CompleteProfileActivity.class,
                 ResetPasswordSuccessActivity.class,

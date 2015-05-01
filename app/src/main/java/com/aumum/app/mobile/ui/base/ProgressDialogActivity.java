@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 
 import com.aumum.app.mobile.ui.view.dialog.ProgressDialog;
+import com.github.kevinsawicki.wishlist.Toaster;
 import com.umeng.analytics.MobclickAgent;
 
 /**
@@ -44,5 +45,24 @@ public abstract class ProgressDialogActivity extends ActionBarActivity
     protected void onPause() {
         super.onPause();
         MobclickAgent.onPause(this);
+    }
+
+    protected void showMsg(final int resId) {
+        if (resId > 0) {
+            Toaster.showShort(this, getString(resId));
+        }
+    }
+
+    protected void showMsg(final String message) {
+        if (message != null) {
+            Toaster.showShort(this, message);
+        }
+    }
+
+    protected void showError(final Exception e) {
+        final Throwable cause = e.getCause() != null ? e.getCause() : e;
+        if(cause != null) {
+            Toaster.showShort(this, cause.getMessage());
+        }
     }
 }

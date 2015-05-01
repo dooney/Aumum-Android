@@ -317,7 +317,7 @@ public class ChatFragment extends Fragment
 
     @Override
     public void OnMultimediaBtnClick() {
-        TuSdkUtils.openAlbum(getActivity(), this);
+        TuSdkUtils.album(getActivity(), this);
     }
 
     @Override

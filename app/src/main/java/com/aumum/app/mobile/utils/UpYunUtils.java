@@ -1,5 +1,7 @@
 package com.aumum.app.mobile.utils;
 
+import java.io.File;
+
 import main.java.com.UpYun;
 
 /**
@@ -26,8 +28,8 @@ public class UpYunUtils {
         return directory + "/" + Math.abs(imagePath.hashCode()) + ".jpg";
     }
 
-    public static boolean uploadImage(String filePath, byte[] data) {
-        return upYun.writeFile(getImageRemotePath(filePath), data);
+    public static boolean uploadImage(String filePath, File file) throws Exception {
+        return upYun.writeFile(getImageRemotePath(filePath), file);
     }
 
     public static String getImageFullPath(String imagePath) {

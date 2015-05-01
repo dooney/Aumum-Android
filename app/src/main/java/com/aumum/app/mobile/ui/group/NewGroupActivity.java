@@ -1,6 +1,6 @@
 package com.aumum.app.mobile.ui.group;
 
-import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -13,21 +13,21 @@ import android.widget.ImageView;
 
 import com.aumum.app.mobile.Injector;
 import com.aumum.app.mobile.R;
-import com.aumum.app.mobile.core.Constants;
 import com.aumum.app.mobile.core.dao.UserStore;
 import com.aumum.app.mobile.core.model.GroupDescription;
 import com.aumum.app.mobile.core.model.User;
 import com.aumum.app.mobile.core.service.ChatService;
+import com.aumum.app.mobile.core.service.FileUploadService;
 import com.aumum.app.mobile.ui.base.ProgressDialogActivity;
 import com.aumum.app.mobile.ui.helper.TextWatcherAdapter;
-import com.aumum.app.mobile.ui.image.ImagePickerActivity;
-import com.aumum.app.mobile.ui.user.UpdateAvatarActivity;
 import com.aumum.app.mobile.ui.view.Animation;
 import com.aumum.app.mobile.utils.EditTextUtils;
 import com.aumum.app.mobile.utils.ImageLoaderUtils;
 import com.aumum.app.mobile.utils.SafeAsyncTask;
+import com.aumum.app.mobile.utils.TuSdkUtils;
 import com.easemob.chat.EMGroup;
-import com.github.kevinsawicki.wishlist.Toaster;
+
+import java.io.File;
 
 import javax.inject.Inject;
 
@@ -38,10 +38,13 @@ import retrofit.RetrofitError;
 /**
  * Created by Administrator on 6/04/2015.
  */
-public class NewGroupActivity extends ProgressDialogActivity {
+public class NewGroupActivity extends ProgressDialogActivity
+    implements TuSdkUtils.FileListener,
+               FileUploadService.OnFileUploadListener {
 
     @Inject UserStore userStore;
     @Inject ChatService chatService;
+    @Inject FileUploadService fileUploadService;
 
     private Button submitButton;
     @InjectView(R.id.image_avatar) protected ImageView avatarImage;
@@ -64,10 +67,12 @@ public class NewGroupActivity extends ProgressDialogActivity {
         avatarImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startImagePickerActivity();
+                TuSdkUtils.avatar(NewGroupActivity.this, NewGroupActivity.this);
             }
         });
         nameText.addTextChangedListener(watcher);
+
+        fileUploadService.setOnFileUploadListener(this);
 
         Animation.flyIn(this);
     }
@@ -89,30 +94,6 @@ public class NewGroupActivity extends ProgressDialogActivity {
         return true;
     }
 
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-
-        if (requestCode == Constants.RequestCode.IMAGE_PICKER_REQ_CODE &&
-                resultCode == RESULT_OK) {
-            String imagePath = data.getStringExtra(ImagePickerActivity.INTENT_SINGLE_PATH);
-            if (imagePath != null) {
-                String imageUri = "file://" + imagePath;
-                startCropImageActivity(imageUri);
-            }
-        } else if (requestCode == Constants.RequestCode.CROP_PROFILE_IMAGE_REQ_CODE &&
-                resultCode == RESULT_OK) {
-            String imageUrl = data.getStringExtra(UpdateAvatarActivity.INTENT_IMAGE_URL);
-            if (imageUrl != null) {
-                avatarUrl = imageUrl;
-            }
-            String imageUri = data.getStringExtra(UpdateAvatarActivity.INTENT_IMAGE_URI);
-            if (imageUri != null) {
-                ImageLoaderUtils.displayImage(imageUri, avatarImage);
-            }
-        }
-    }
-
     private TextWatcher validationTextWatcher() {
         return new TextWatcherAdapter() {
             public void afterTextChanged(final Editable gitDirEditText) {
@@ -130,19 +111,6 @@ public class NewGroupActivity extends ProgressDialogActivity {
 
     private boolean populated(final EditText editText) {
         return editText.length() > 0;
-    }
-
-    private void startImagePickerActivity() {
-        final Intent intent = new Intent(this, ImagePickerActivity.class);
-        intent.putExtra(ImagePickerActivity.INTENT_ACTION, ImagePickerActivity.ACTION_PICK);
-        startActivityForResult(intent, Constants.RequestCode.IMAGE_PICKER_REQ_CODE);
-    }
-
-    private void startCropImageActivity(String imageUri) {
-        final Intent intent = new Intent(this, UpdateAvatarActivity.class);
-        intent.putExtra(UpdateAvatarActivity.INTENT_TITLE, getString(R.string.title_activity_change_avatar));
-        intent.putExtra(UpdateAvatarActivity.INTENT_IMAGE_URI, imageUri);
-        startActivityForResult(intent, Constants.RequestCode.CROP_PROFILE_IMAGE_REQ_CODE);
     }
 
     private void submit() {
@@ -170,10 +138,7 @@ public class NewGroupActivity extends ProgressDialogActivity {
             @Override
             protected void onException(final Exception e) throws RuntimeException {
                 if(!(e instanceof RetrofitError)) {
-                    final Throwable cause = e.getCause() != null ? e.getCause() : e;
-                    if(cause != null) {
-                        Toaster.showShort(NewGroupActivity.this, cause.getMessage());
-                    }
+                    showError(e);
                 }
             }
 
@@ -188,5 +153,28 @@ public class NewGroupActivity extends ProgressDialogActivity {
                 hideProgress();
             }
         }.execute();
+    }
+
+    @Override
+    public void onFile(final File file) {
+        try {
+            String fileUri = file.getAbsolutePath();
+            String avatarUri = ImageLoaderUtils.getFullPath(fileUri);
+            Bitmap bitmap = ImageLoaderUtils.loadImage(avatarUri);
+            avatarImage.setImageBitmap(bitmap);
+            fileUploadService.upload(fileUri, file);
+        } catch (Exception e) {
+            showError(e);
+        }
+    }
+
+    @Override
+    public void onUploadSuccess(String remoteUrl) {
+        avatarUrl = remoteUrl;
+    }
+
+    @Override
+    public void onUploadFailure(Exception e) {
+        showError(e);
     }
 }

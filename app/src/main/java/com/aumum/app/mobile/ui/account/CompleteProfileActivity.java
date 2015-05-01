@@ -2,6 +2,7 @@ package com.aumum.app.mobile.ui.account;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -21,14 +22,13 @@ import com.aumum.app.mobile.core.model.CmdMessage;
 import com.aumum.app.mobile.core.model.CreditRule;
 import com.aumum.app.mobile.core.model.User;
 import com.aumum.app.mobile.core.service.ChatService;
+import com.aumum.app.mobile.core.service.FileUploadService;
 import com.aumum.app.mobile.core.service.RestService;
 import com.aumum.app.mobile.ui.area.AreaListActivity;
 import com.aumum.app.mobile.ui.base.ProgressDialogActivity;
 import com.aumum.app.mobile.ui.helper.TextWatcherAdapter;
-import com.aumum.app.mobile.ui.image.ImagePickerActivity;
 import com.aumum.app.mobile.ui.user.AreaUsersActivity;
 import com.aumum.app.mobile.ui.user.TagUsersActivity;
-import com.aumum.app.mobile.ui.user.UpdateAvatarActivity;
 import com.aumum.app.mobile.ui.user.UserTagListActivity;
 import com.aumum.app.mobile.ui.view.Animation;
 import com.aumum.app.mobile.ui.view.dialog.ListViewDialog;
@@ -36,13 +36,14 @@ import com.aumum.app.mobile.utils.EditTextUtils;
 import com.aumum.app.mobile.utils.ImageLoaderUtils;
 import com.aumum.app.mobile.utils.Ln;
 import com.aumum.app.mobile.utils.SafeAsyncTask;
+import com.aumum.app.mobile.utils.TuSdkUtils;
 import com.aumum.app.mobile.utils.UpYunUtils;
-import com.github.kevinsawicki.wishlist.Toaster;
 import com.greenhalolabs.emailautocompletetextview.EmailAutoCompleteTextView;
 import com.mobsandgeeks.saripaar.ValidationError;
 import com.mobsandgeeks.saripaar.Validator;
 import com.mobsandgeeks.saripaar.annotation.Email;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -54,11 +55,14 @@ import butterknife.InjectView;
 import retrofit.RetrofitError;
 
 public class CompleteProfileActivity extends ProgressDialogActivity
-    implements Validator.ValidationListener {
+    implements Validator.ValidationListener,
+               TuSdkUtils.FileListener,
+               FileUploadService.OnFileUploadListener {
 
     @Inject RestService restService;
     @Inject ChatService chatService;
     @Inject CreditRuleStore creditRuleStore;
+    @Inject FileUploadService fileUploadService;
 
     private Button saveButton;
     @InjectView(R.id.container) protected View container;
@@ -102,12 +106,12 @@ public class CompleteProfileActivity extends ProgressDialogActivity
 
         userId = getIntent().getStringExtra(INTENT_USER_ID);
         UpYunUtils.setCurrentDir(userId);
-        tags = new ArrayList<String>();
+        tags = new ArrayList<>();
 
         avatarImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startImagePickerActivity();
+                TuSdkUtils.avatar(CompleteProfileActivity.this, CompleteProfileActivity.this);
             }
         });
         screenNameText.addTextChangedListener(watcher);
@@ -135,7 +139,7 @@ public class CompleteProfileActivity extends ProgressDialogActivity
             public void onClick(View view) {
                 container.requestFocus();
                 if (city == null) {
-                    Toaster.showShort(CompleteProfileActivity.this, R.string.error_city_first);
+                    showMsg(R.string.error_city_first);
                     return;
                 }
                 int cityId = Constants.Options.CITY_ID.get(city);
@@ -152,6 +156,8 @@ public class CompleteProfileActivity extends ProgressDialogActivity
         tagsText.addTextChangedListener(watcher);
         validator = new Validator(this);
         validator.setValidationListener(this);
+
+        fileUploadService.setOnFileUploadListener(this);
 
         Animation.flyIn(this);
     }
@@ -177,24 +183,7 @@ public class CompleteProfileActivity extends ProgressDialogActivity
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        if (requestCode == Constants.RequestCode.IMAGE_PICKER_REQ_CODE &&
-                resultCode == RESULT_OK) {
-            String imagePath = data.getStringExtra(ImagePickerActivity.INTENT_SINGLE_PATH);
-            if (imagePath != null) {
-                String imageUri = "file://" + imagePath;
-                startCropImageActivity(imageUri);
-            }
-        } else if (requestCode == Constants.RequestCode.CROP_PROFILE_IMAGE_REQ_CODE &&
-                resultCode == RESULT_OK) {
-            String imageUrl = data.getStringExtra(UpdateAvatarActivity.INTENT_IMAGE_URL);
-            if (imageUrl != null) {
-                updateAvatar(imageUrl);
-            }
-            String imageUri = data.getStringExtra(UpdateAvatarActivity.INTENT_IMAGE_URI);
-            if (imageUri != null) {
-                ImageLoaderUtils.displayImage(imageUri, avatarImage);
-            }
-        } else if (requestCode == Constants.RequestCode.GET_AREA_LIST_REQ_CODE &&
+        if (requestCode == Constants.RequestCode.GET_AREA_LIST_REQ_CODE &&
                 resultCode == RESULT_OK) {
             String area = data.getStringExtra(AreaListActivity.INTENT_AREA);
             updateArea(area);
@@ -285,10 +274,7 @@ public class CompleteProfileActivity extends ProgressDialogActivity
             @Override
             protected void onException(final Exception e) throws RuntimeException {
                 if(!(e instanceof RetrofitError)) {
-                    final Throwable cause = e.getCause() != null ? e.getCause() : e;
-                    if(cause != null) {
-                        Toaster.showShort(CompleteProfileActivity.this, cause.getMessage());
-                    }
+                    showError(e);
                 }
             }
 
@@ -313,19 +299,6 @@ public class CompleteProfileActivity extends ProgressDialogActivity
         task.execute();
     }
 
-    private void startImagePickerActivity() {
-        final Intent intent = new Intent(this, ImagePickerActivity.class);
-        intent.putExtra(ImagePickerActivity.INTENT_ACTION, ImagePickerActivity.ACTION_PICK);
-        startActivityForResult(intent, Constants.RequestCode.IMAGE_PICKER_REQ_CODE);
-    }
-
-    private void startCropImageActivity(String imageUri) {
-        final Intent intent = new Intent(this, UpdateAvatarActivity.class);
-        intent.putExtra(UpdateAvatarActivity.INTENT_TITLE, getString(R.string.title_activity_change_avatar));
-        intent.putExtra(UpdateAvatarActivity.INTENT_IMAGE_URI, imageUri);
-        startActivityForResult(intent, Constants.RequestCode.CROP_PROFILE_IMAGE_REQ_CODE);
-    }
-
     private void updateAvatar(final String fileUrl) {
         if (task != null) {
             return;
@@ -339,10 +312,7 @@ public class CompleteProfileActivity extends ProgressDialogActivity
             @Override
             protected void onException(final Exception e) throws RuntimeException {
                 if(!(e instanceof RetrofitError)) {
-                    final Throwable cause = e.getCause() != null ? e.getCause() : e;
-                    if(cause != null) {
-                        Toaster.showShort(CompleteProfileActivity.this, cause.getMessage());
-                    }
+                    showError(e);
                 }
             }
 
@@ -372,7 +342,7 @@ public class CompleteProfileActivity extends ProgressDialogActivity
 
     @Override
     public void onBackPressed() {
-        Toaster.showShort(this, R.string.info_profile_not_completed_yet);
+        showMsg(R.string.info_profile_not_completed_yet);
     }
 
     @Override
@@ -383,7 +353,7 @@ public class CompleteProfileActivity extends ProgressDialogActivity
     @Override
     public void onValidationFailed(List<ValidationError> errors) {
         for (ValidationError error : errors) {
-            Toaster.showShort(this, error.getFailedRules().get(0).getMessage(this));
+            showMsg(error.getFailedRules().get(0).getMessage(this));
         }
     }
 
@@ -450,5 +420,28 @@ public class CompleteProfileActivity extends ProgressDialogActivity
         if (creditRule != null) {
             restService.updateUserCredit(userId, creditRule.getCredit());
         }
+    }
+
+    @Override
+    public void onFile(final File file) {
+        try {
+            String fileUri = file.getAbsolutePath();
+            String avatarUri = ImageLoaderUtils.getFullPath(fileUri);
+            Bitmap bitmap = ImageLoaderUtils.loadImage(avatarUri);
+            avatarImage.setImageBitmap(bitmap);
+            fileUploadService.upload(fileUri, file);
+        } catch (Exception e) {
+            showError(e);
+        }
+    }
+
+    @Override
+    public void onUploadSuccess(String remoteUrl) {
+        updateAvatar(remoteUrl);
+    }
+
+    @Override
+    public void onUploadFailure(Exception e) {
+        showError(e);
     }
 }

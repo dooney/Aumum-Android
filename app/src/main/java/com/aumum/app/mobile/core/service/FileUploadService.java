@@ -3,6 +3,8 @@ package com.aumum.app.mobile.core.service;
 import com.aumum.app.mobile.utils.SafeAsyncTask;
 import com.aumum.app.mobile.utils.UpYunUtils;
 
+import java.io.File;
+
 /**
  * Created by Administrator on 18/10/2014.
  */
@@ -14,14 +16,14 @@ public class FileUploadService {
     }
 
     public static interface OnFileUploadListener {
-        public void onUploadSuccess(String fileUrl);
+        public void onUploadSuccess(String remoteUrl);
         public void onUploadFailure(Exception e);
     }
 
-    public void upload(final String fileName, final byte[] data) {
+    public void upload(final String localUri, final File file) {
         new SafeAsyncTask<Boolean>() {
             public Boolean call() throws Exception {
-                if (!UpYunUtils.uploadImage(fileName, data)) {
+                if (!UpYunUtils.uploadImage(localUri, file)) {
                     throw new Exception("网络不给力，请检查");
                 }
                 return true;
@@ -30,7 +32,8 @@ public class FileUploadService {
             @Override
             protected void onSuccess(Boolean success) throws Exception {
                 if (onFileUploadListener != null) {
-                    onFileUploadListener.onUploadSuccess(UpYunUtils.getImageFullPath(fileName));
+                    String remoteUrl = UpYunUtils.getImageFullPath(localUri);
+                    onFileUploadListener.onUploadSuccess(remoteUrl);
                 }
             }
 

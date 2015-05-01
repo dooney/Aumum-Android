@@ -59,10 +59,6 @@ public class ImageLoaderUtils {
         return ImageLoader.getInstance().loadImageSync(imageUri);
     }
 
-    public static void putInMemory(String imageUri, Bitmap bitmap) {
-        ImageLoader.getInstance().getMemoryCache().put(imageUri, bitmap);
-    }
-
     public static AbsListView.OnScrollListener getOnScrollListener() {
         return new PauseOnScrollListener(ImageLoader.getInstance(), true, true);
     }
