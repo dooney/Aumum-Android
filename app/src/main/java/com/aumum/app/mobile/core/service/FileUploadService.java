@@ -1,7 +1,6 @@
 package com.aumum.app.mobile.core.service;
 
 import com.aumum.app.mobile.utils.SafeAsyncTask;
-import com.aumum.app.mobile.utils.UpYunUtils;
 
 import java.io.File;
 
@@ -9,6 +8,7 @@ import java.io.File;
  * Created by Administrator on 18/10/2014.
  */
 public class FileUploadService {
+    private CloudStorageService cloudStorageService;
     private OnFileUploadListener onFileUploadListener;
 
     public void setOnFileUploadListener(OnFileUploadListener onFileUploadListener) {
@@ -20,11 +20,19 @@ public class FileUploadService {
         public void onUploadFailure(Exception e);
     }
 
+    public FileUploadService(CloudStorageService cloudStorageService) {
+        this.cloudStorageService = cloudStorageService;
+    }
+
+    public void init(String id) {
+        cloudStorageService.init(id);
+    }
+
     public void upload(final String localUri, final File file) {
         new SafeAsyncTask<Boolean>() {
             public Boolean call() throws Exception {
-                if (!UpYunUtils.uploadImage(localUri, file)) {
-                    throw new Exception("网络不给力，请检查");
+                if (!cloudStorageService.uploadImage(localUri, file)) {
+                    throw new Exception("文件上传失败，请重试");
                 }
                 return true;
             }
@@ -32,7 +40,7 @@ public class FileUploadService {
             @Override
             protected void onSuccess(Boolean success) throws Exception {
                 if (onFileUploadListener != null) {
-                    String remoteUrl = UpYunUtils.getImageFullPath(localUri);
+                    String remoteUrl = cloudStorageService.getRemoteUrl(localUri);
                     onFileUploadListener.onUploadSuccess(remoteUrl);
                 }
             }

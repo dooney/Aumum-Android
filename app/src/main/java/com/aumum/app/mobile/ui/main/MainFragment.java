@@ -20,6 +20,7 @@ import com.aumum.app.mobile.core.dao.CreditRuleStore;
 import com.aumum.app.mobile.core.infra.security.ApiKeyProvider;
 import com.aumum.app.mobile.core.model.CmdMessage;
 import com.aumum.app.mobile.core.service.ChatService;
+import com.aumum.app.mobile.core.service.FileUploadService;
 import com.aumum.app.mobile.core.service.NotificationService;
 import com.aumum.app.mobile.core.service.ScheduleService;
 import com.aumum.app.mobile.events.NewChatMessageEvent;
@@ -32,7 +33,6 @@ import com.aumum.app.mobile.ui.contact.ContactListener;
 import com.aumum.app.mobile.ui.view.Animation;
 import com.aumum.app.mobile.utils.Ln;
 import com.aumum.app.mobile.utils.SafeAsyncTask;
-import com.aumum.app.mobile.utils.UpYunUtils;
 import com.easemob.chat.EMMessage;
 import com.squareup.otto.Bus;
 import com.squareup.otto.Subscribe;
@@ -52,6 +52,7 @@ public class MainFragment extends Fragment
     @Inject CreditRuleStore creditRuleStore;
     @Inject NotificationService notificationService;
     @Inject ChatService chatService;
+    @Inject FileUploadService fileUploadService;
     @Inject ApiKeyProvider apiKeyProvider;
     @Inject Bus bus;
 
@@ -86,7 +87,7 @@ public class MainFragment extends Fragment
         indicator.setViewPager(pager);
 
         initChatServer();
-        initImageServer();
+        initFileUploadService();
         initScheduleService();
         initCreditRules();
     }
@@ -152,9 +153,9 @@ public class MainFragment extends Fragment
                 .setVisibility(View.INVISIBLE);
     }
 
-    private void initImageServer() {
+    private void initFileUploadService() {
         String currentUserId = apiKeyProvider.getAuthUserId();
-        UpYunUtils.setCurrentDir(currentUserId);
+        fileUploadService.init(currentUserId);
     }
 
     private void initScheduleService() {

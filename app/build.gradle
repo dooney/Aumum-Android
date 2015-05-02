@@ -33,6 +33,7 @@ dependencies {
     compile project(':XhsEmoticonsKeyboard')
     compile project(':TuSDK')
     compile files('src/main/libs/universal-image-loader-1.9.4.jar')
+    compile 'com.qiniu:qiniu-java-sdk:7.0.0'
 }
 
 android {

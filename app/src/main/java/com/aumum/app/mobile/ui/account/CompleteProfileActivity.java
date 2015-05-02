@@ -37,7 +37,6 @@ import com.aumum.app.mobile.utils.ImageLoaderUtils;
 import com.aumum.app.mobile.utils.Ln;
 import com.aumum.app.mobile.utils.SafeAsyncTask;
 import com.aumum.app.mobile.utils.TuSdkUtils;
-import com.aumum.app.mobile.utils.UpYunUtils;
 import com.greenhalolabs.emailautocompletetextview.EmailAutoCompleteTextView;
 import com.mobsandgeeks.saripaar.ValidationError;
 import com.mobsandgeeks.saripaar.Validator;
@@ -105,7 +104,8 @@ public class CompleteProfileActivity extends ProgressDialogActivity
         ButterKnife.inject(this);
 
         userId = getIntent().getStringExtra(INTENT_USER_ID);
-        UpYunUtils.setCurrentDir(userId);
+        fileUploadService.init(userId);
+        fileUploadService.setOnFileUploadListener(this);
         tags = new ArrayList<>();
 
         avatarImage.setOnClickListener(new View.OnClickListener() {
@@ -156,8 +156,6 @@ public class CompleteProfileActivity extends ProgressDialogActivity
         tagsText.addTextChangedListener(watcher);
         validator = new Validator(this);
         validator.setValidationListener(this);
-
-        fileUploadService.setOnFileUploadListener(this);
 
         Animation.flyIn(this);
     }

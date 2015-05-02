@@ -10,6 +10,7 @@ import com.aumum.app.mobile.core.infra.security.ApiKeyProvider;
 import com.aumum.app.mobile.core.service.ChatService;
 import com.aumum.app.mobile.core.service.FileUploadService;
 import com.aumum.app.mobile.core.service.NotificationService;
+import com.aumum.app.mobile.core.service.QiNiuService;
 import com.aumum.app.mobile.core.service.RestService;
 import com.aumum.app.mobile.ui.LaunchActivity;
 import com.aumum.app.mobile.ui.account.CompleteProfileActivity;
@@ -148,7 +149,7 @@ public class BootstrapModule {
 
     @Provides
     @Singleton
-    FileUploadService provideFileUploadService() { return new FileUploadService(); }
+    FileUploadService provideFileUploadService() { return new FileUploadService(new QiNiuService()); }
 
     @Provides
     @Singleton
