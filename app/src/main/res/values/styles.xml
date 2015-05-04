@@ -87,6 +87,14 @@
         <item name="android:imeOptions">actionSend</item>
         <item name="android:inputType">textMultiLine</item>
     </style>
+    <style name="EditText.MultiLine" parent="EditText">
+        <item name="android:background">@color/transparent</item>
+        <item name="android:inputType">textMultiLine</item>
+        <item name="android:lineSpacingMultiplier">1.1</item>
+    </style>
+    <style name="EditText.MultiLine.Mandatory" parent="EditText.MultiLine">
+        <item name="android:textColorHint">@color/bbutton_danger</item>
+    </style>
     <style name="EditText.Dialog" parent="EditText">
         <item name="android:layout_width">300dp</item>
         <item name="android:layout_height">wrap_content</item>
@@ -226,10 +234,7 @@
     <style name="EditText.Report.Type" parent="EditText.Mandatory">
         <item name="android:hint">@string/hint_report_type</item>
     </style>
-    <style name="EditText.Report.Details" parent="EditText.Mandatory">
-        <item name="android:background">@color/transparent</item>
-        <item name="android:inputType">textMultiLine</item>
-        <item name="android:lineSpacingMultiplier">1.1</item>
+    <style name="EditText.Report.Details" parent="EditText.MultiLine.Mandatory">
         <item name="android:hint">@string/hint_report_details</item>
     </style>
 
@@ -238,6 +243,9 @@
         <item name="android:textSize">@dimen/text_sz_small</item>
     </style>
     <style name="TextView.Moment.CreatedAt" parent="TextView.Subtitle.Small" />
+    <style name="EditText.Moment.Text" parent="EditText.MultiLine">
+        <item name="android:hint">@string/hint_moment_text</item>
+    </style>
 
     <!-- Conversation -->
     <style name="TextView.Conversation.ScreenName" parent="TextView.UserName">
@@ -260,10 +268,7 @@
     <style name="EditText.NewGroup.Name" parent="EditText.Mandatory">
         <item name="android:hint">@string/hint_group_name</item>
     </style>
-    <style name="EditText.NewGroup.Description" parent="EditText">
-        <item name="android:background">@color/transparent</item>
-        <item name="android:inputType">textMultiLine</item>
-        <item name="android:lineSpacingMultiplier">1.1</item>
+    <style name="EditText.NewGroup.Description" parent="EditText.MultiLine">
         <item name="android:hint">@string/hint_group_description</item>
     </style>
     <style name="TextView.GroupRequest.ScreenName" parent="TextView.UserName">
@@ -432,10 +437,7 @@
     </style>
 
     <!-- Feedback -->
-    <style name="EditText.Feedback.Details" parent="EditText.Mandatory">
-        <item name="android:background">@color/transparent</item>
-        <item name="android:inputType">textMultiLine</item>
-        <item name="android:lineSpacingMultiplier">1.1</item>
+    <style name="EditText.Feedback.Details" parent="EditText.MultiLine.Mandatory">
         <item name="android:hint">@string/hint_feedback_details</item>
     </style>
 
@@ -477,11 +479,8 @@
         <item name="android:hint">@string/hint_email</item>
         <item name="android:inputType">textEmailAddress</item>
     </style>
-    <style name="EditText.Register.About" parent="EditText">
+    <style name="EditText.Register.About" parent="EditText.MultiLine">
         <item name="android:hint">@string/hint_about</item>
-        <item name="android:background">@color/transparent</item>
-        <item name="android:inputType">textMultiLine</item>
-        <item name="android:lineSpacingMultiplier">1.1</item>
     </style>
     <style name="EditText.Register.ScreenName" parent="EditText.Mandatory">
         <item name="android:hint">@string/hint_screen_name</item>

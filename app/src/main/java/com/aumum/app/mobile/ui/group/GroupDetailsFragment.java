@@ -183,7 +183,6 @@ public class GroupDetailsFragment extends ItemListFragment<UserInfo> {
                                 null, currentUser.getObjectId(), groupId);
                         chatService.sendCmdMessage(groupId, cmdMessage, true, null);
                         chatService.deleteGroupConversation(groupId);
-                        showMsg(getActivity().getString(R.string.info_group_quit));
                         getActivity().setResult(Activity.RESULT_OK);
                         getActivity().finish();
                     }
@@ -233,7 +232,6 @@ public class GroupDetailsFragment extends ItemListFragment<UserInfo> {
             @Override
             public void onSuccess(final Boolean success) {
                 chatService.deleteGroupConversation(groupId);
-                showMsg(R.string.info_group_deleted);
                 getActivity().setResult(Activity.RESULT_OK);
                 getActivity().finish();
             }

@@ -234,6 +234,7 @@ public final class Constants {
         public static final int GET_AREA_LIST_REQ_CODE = 32;
         public static final int GET_USER_TAG_LIST_REQ_CODE = 33;
         public static final int NEW_GROUP_REQ_CODE = 34;
+        public static final int NEW_MOMENT_REQ_CODE = 35;
     }
 
     public static final class Link {

@@ -1,5 +1,6 @@
 package com.aumum.app.mobile.ui.moment;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -12,6 +13,7 @@ import android.widget.ImageView;
 
 import com.aumum.app.mobile.Injector;
 import com.aumum.app.mobile.R;
+import com.aumum.app.mobile.core.Constants;
 import com.aumum.app.mobile.core.dao.MomentStore;
 import com.aumum.app.mobile.core.model.Moment;
 import com.aumum.app.mobile.ui.base.RefreshItemListFragment;
@@ -113,6 +115,9 @@ public class MomentFragment extends RefreshItemListFragment<Moment>
 
     @Override
     public void onEditResult(File file) {
-
+        String localUri = file.getAbsolutePath();
+        final Intent intent = new Intent(getActivity(), NewMomentActivity.class);
+        intent.putExtra(NewMomentActivity.INTENT_IMAGE_URI, localUri);
+        startActivityForResult(intent, Constants.RequestCode.NEW_MOMENT_REQ_CODE);
     }
 }

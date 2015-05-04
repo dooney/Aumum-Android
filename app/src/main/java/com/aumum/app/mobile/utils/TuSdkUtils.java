@@ -110,15 +110,12 @@ public class TuSdkUtils {
                                             Error error,
                                             TuFragment tuFragment) {
                 if (listener != null) {
-                    File file = new File(tuSdkResult.imageSqlInfo.path);
-                    if (file.exists()) {
-                        listener.onEditResult(file);
-                    }
+                    listener.onEditResult(tuSdkResult.imageFile);
                 }
             }
         });
         TuEditEntryOption option = component.componentOption().editEntryOption();
-        option.setSaveToAlbum(true);
+        option.setSaveToTemp(true);
         option.setEnableCuter(isEnableCuter);
         option.setEnableFilter(isEnableFilter);
         option.setEnableSticker(isEnableSticker);

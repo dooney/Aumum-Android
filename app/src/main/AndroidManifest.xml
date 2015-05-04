@@ -274,6 +274,7 @@
         <activity android:name=".ui.group.MyGroupsActivity"
             android:label="@string/title_activity_my_groups">
         </activity>
+        <activity android:name=".ui.moment.NewMomentActivity" />
     </application>
 
 </manifest>

@@ -37,6 +37,7 @@ import com.aumum.app.mobile.ui.contact.ContactListener;
 import com.aumum.app.mobile.ui.contact.ContactRequestsFragment;
 import com.aumum.app.mobile.ui.account.VerifyActivity;
 import com.aumum.app.mobile.ui.moment.MomentFragment;
+import com.aumum.app.mobile.ui.moment.NewMomentActivity;
 import com.aumum.app.mobile.ui.report.ReportActivity;
 import com.aumum.app.mobile.ui.settings.FeedbackActivity;
 import com.aumum.app.mobile.ui.settings.NotificationActivity;
@@ -120,7 +121,8 @@ import retrofit.converter.GsonConverter;
                 GroupRequestProcessListener.class,
                 MyGroupsFragment.class,
                 NewGroupActivity.class,
-                MomentFragment.class
+                MomentFragment.class,
+                NewMomentActivity.class
         }
 )
 public class BootstrapModule {

@@ -78,14 +78,14 @@
     <string name="label_join">加入</string>
     <string name="label_comment">评论</string>
     <string name="label_like">点赞</string>
+    <string name="label_submit">提交</string>
+    <string name="label_publish">发布</string>
 
     <!-- Info Message -->
     <string name="info_authenticating">正在验证您的账号信息，请稍候</string>
     <string name="info_submitting_registration">正在提交您的注册请求，请稍候</string>
     <string name="info_submitting_password_reset">正在提交您的重置密码请求，请稍候</string>
     <string name="info_add_contact_sent">发送添加好友请求成功，等待对方验证</string>
-    <string name="info_contact_deleted">该好友已成功移除</string>
-    <string name="info_group_quit">您已成功退出了该群组</string>
     <string name="info_confirm_delete_contact">您确定要移除该好友？</string>
     <string name="info_confirm_logout">您确定要退出登录？</string>
     <string name="info_downloading_voice">正在下载语音，请稍候</string>
@@ -99,7 +99,6 @@
     <string name="info_reset_password_email_sent">重置密码邮件发送成功</string>
     <string name="info_chat_messages_arrived">您有来自%1$d位好友的%2$d条消息</string>
     <string name="info_invitation_accepted_and_start_chatting">你们已经是好友了，开始聊天吧！</string>
-    <string name="info_group_deleted">该群组已成功删除</string>
     <string name="info_group_name_deleted">群组#%1$s#已被删除</string>
     <string name="info_submitting_report">正在提交您的举报，请稍候</string>
     <string name="info_report_submitted">举报已成功提交，请等待审核</string>
@@ -125,6 +124,7 @@
     <string name="info_submitting_group">正在提交您的群组，请稍候</string>
     <string name="info_confirm_delete_chat_message">您确定要删除该聊天记录？</string>
     <string name="info_chat_text_copied">文本已复制到粘贴板</string>
+    <string name="info_publishing_moment">正在发布，请稍候</string>
 
     <!-- Error Message -->
     <string name="error_bad_credentials">验证失败，请输入正确的手机号码/密码</string>
@@ -191,7 +191,6 @@
     <string name="label_sign_in">登录</string>
     <string name="label_register_now">立即注册</string>
     <string name="label_sign_up">注册</string>
-    <string name="label_submit">提交</string>
     <string name="label_forgot_password">忘记密码？</string>
     <string name="label_join_now">注册新用户</string>
     <string name="label_prompt_sign_in">已有账户？登录</string>
@@ -294,6 +293,9 @@
     <string name="hint_decline_reason">拒绝理由</string>
     <string name="label_group_approved">您的入群请求已被批准</string>
     <string name="label_group_request_details">请求加入%1$s：%2$s</string>
+
+    <!-- Moment -->
+    <string name="hint_moment_text">说点儿什么吧</string>
 
     <!-- Widgets -->
     <string name="header_hint_refresh_normal">下拉刷新</string>
