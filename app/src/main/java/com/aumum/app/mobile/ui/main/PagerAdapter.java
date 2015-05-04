@@ -20,13 +20,13 @@ public class PagerAdapter extends FragmentPagerAdapter
 
     private String pages[];
 
-    public static final int PAGE_PHOTO = 0;
+    public static final int PAGE_HOME = 0;
     public static final int PAGE_CHAT = 1;
     public static final int PAGE_CONTACT = 2;
     public static final int PAGE_PROFILE = 3;
 
     private int icons[] = {
-            R.drawable.tab_photo_icon,
+            R.drawable.tab_home_icon,
             R.drawable.tab_chat_icon,
             R.drawable.tab_contact_icon,
             R.drawable.tab_profile_icon
@@ -57,7 +57,7 @@ public class PagerAdapter extends FragmentPagerAdapter
     public Fragment getItem(final int position) {
         final Fragment result;
         switch (position) {
-            case PAGE_PHOTO:
+            case PAGE_HOME:
                 result = new MomentFragment();
                 break;
             case PAGE_CHAT:

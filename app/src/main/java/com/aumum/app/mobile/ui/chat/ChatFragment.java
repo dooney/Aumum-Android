@@ -53,6 +53,8 @@ import com.keyboard.XhsEmoticonsKeyBoardBar;
 import com.squareup.otto.Bus;
 import com.squareup.otto.Subscribe;
 
+import org.lasque.tusdk.core.utils.sqllite.ImageSqlInfo;
+
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -69,7 +71,9 @@ import retrofit.RetrofitError;
 public class ChatFragment extends Fragment
         implements AbsListView.OnScrollListener,
                    XhsEmoticonsKeyBoardBar.KeyBoardBarViewListener,
-                   TuSdkUtils.ImageListener {
+                   TuSdkUtils.CameraListener,
+                   TuSdkUtils.AlbumListener,
+                   TuSdkUtils.EditListener {
 
     @Inject ChatService chatService;
     @Inject UserStore userStore;
@@ -317,15 +321,7 @@ public class ChatFragment extends Fragment
 
     @Override
     public void OnMultimediaBtnClick() {
-        TuSdkUtils.album(getActivity(), this);
-    }
-
-    @Override
-    public void onImage(String imagePath) {
-        EMMessage message = chatService.addImageMessage(id, isGroup, imagePath);
-        conversation.addMessage(message);
-        ImageLoaderUtils.loadImage(ImageLoaderUtils.getFullPath(imagePath));
-        updateUI(conversation.getAllMessages(), -1);
+        showCameraOptions();
     }
 
     private class NewMessageBroadcastReceiver extends BroadcastReceiver {
@@ -534,5 +530,44 @@ public class ChatFragment extends Fragment
                 progressBar.setVisibility(View.GONE);
             }
         }.execute();
+    }
+
+    private void showCameraOptions() {
+        String options[] = getResources().getStringArray(R.array.label_camera_actions);
+        new ListViewDialog(getActivity(), null, Arrays.asList(options),
+                new ListViewDialog.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(int i) {
+                        switch (i) {
+                            case 0:
+                                TuSdkUtils.camera(getActivity(), ChatFragment.this);
+                                break;
+                            case 1:
+                                TuSdkUtils.album(getActivity(), ChatFragment.this);
+                                break;
+                            default:
+                                break;
+                        }
+                    }
+                }).show();
+    }
+
+    @Override
+    public void onCameraResult(ImageSqlInfo imageSqlInfo) {
+        TuSdkUtils.edit(getActivity(), imageSqlInfo, false, true, true, this);
+    }
+
+    @Override
+    public void onAlbumResult(ImageSqlInfo imageSqlInfo) {
+        TuSdkUtils.edit(getActivity(), imageSqlInfo, false, true, true, this);
+    }
+
+    @Override
+    public void onEditResult(File file) {
+        String localUri = file.getAbsolutePath();
+        EMMessage message = chatService.addImageMessage(id, isGroup, localUri);
+        conversation.addMessage(message);
+        ImageLoaderUtils.loadImage(ImageLoaderUtils.getFullPath(localUri));
+        updateUI(conversation.getAllMessages(), -1);
     }
 }

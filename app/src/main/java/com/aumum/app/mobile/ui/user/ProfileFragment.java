@@ -37,6 +37,8 @@ import com.aumum.app.mobile.utils.ImageLoaderUtils;
 import com.aumum.app.mobile.utils.SafeAsyncTask;
 import com.aumum.app.mobile.utils.TuSdkUtils;
 
+import org.lasque.tusdk.core.utils.sqllite.ImageSqlInfo;
+
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -52,7 +54,9 @@ import retrofit.RetrofitError;
  *
  */
 public class ProfileFragment extends LoaderFragment<User>
-        implements TuSdkUtils.FileListener,
+        implements TuSdkUtils.CameraListener,
+                   TuSdkUtils.AlbumListener,
+                   TuSdkUtils.EditListener,
                    FileUploadService.OnFileUploadListener {
 
     @Inject RestService restService;
@@ -319,7 +323,7 @@ public class ProfileFragment extends LoaderFragment<User>
             avatarImage.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    TuSdkUtils.avatar(getActivity(), ProfileFragment.this);
+                    showCameraOptions();
                 }
             });
             screenNameText.setText(user.getScreenName());
@@ -466,7 +470,47 @@ public class ProfileFragment extends LoaderFragment<User>
     }
 
     @Override
-    public void onFile(final File file) {
+    public void onUploadSuccess(String remoteUrl) {
+        updateAvatar(remoteUrl);
+    }
+
+    @Override
+    public void onUploadFailure(Exception e) {
+        showError(e);
+    }
+
+    private void showCameraOptions() {
+        String options[] = getResources().getStringArray(R.array.label_camera_actions);
+        new ListViewDialog(getActivity(), null, Arrays.asList(options),
+                new ListViewDialog.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(int i) {
+                        switch (i) {
+                            case 0:
+                                TuSdkUtils.camera(getActivity(), ProfileFragment.this);
+                                break;
+                            case 1:
+                                TuSdkUtils.album(getActivity(), ProfileFragment.this);
+                                break;
+                            default:
+                                break;
+                        }
+                    }
+                }).show();
+    }
+
+    @Override
+    public void onCameraResult(ImageSqlInfo imageSqlInfo) {
+        TuSdkUtils.edit(getActivity(), imageSqlInfo, true, true, false, this);
+    }
+
+    @Override
+    public void onAlbumResult(ImageSqlInfo imageSqlInfo) {
+        TuSdkUtils.edit(getActivity(), imageSqlInfo, true, true, false, this);
+    }
+
+    @Override
+    public void onEditResult(File file) {
         try {
             String fileUri = file.getAbsolutePath();
             String avatarUri = ImageLoaderUtils.getFullPath(fileUri);
@@ -476,15 +520,5 @@ public class ProfileFragment extends LoaderFragment<User>
         } catch (Exception e) {
             showError(e);
         }
-    }
-
-    @Override
-    public void onUploadSuccess(String remoteUrl) {
-        updateAvatar(remoteUrl);
-    }
-
-    @Override
-    public void onUploadFailure(Exception e) {
-        showError(e);
     }
 }

@@ -20,6 +20,7 @@ import com.aumum.app.mobile.core.service.ChatService;
 import com.aumum.app.mobile.core.service.RestService;
 import com.aumum.app.mobile.ui.base.LoaderFragment;
 import com.aumum.app.mobile.ui.chat.ChatActivity;
+import com.aumum.app.mobile.ui.image.ImageViewActivity;
 import com.aumum.app.mobile.ui.view.AvatarImageView;
 import com.aumum.app.mobile.ui.view.dialog.ConfirmDialog;
 import com.aumum.app.mobile.ui.view.dialog.EditTextDialog;
@@ -132,6 +133,15 @@ public class UserFragment extends LoaderFragment<User> {
             setData(user);
 
             avatarImage.getFromUrl(user.getAvatarUrl());
+            avatarImage.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    String imageUrl = user.getAvatarUrl();
+                    final Intent intent = new Intent(getActivity(), ImageViewActivity.class);
+                    intent.putExtra(ImageViewActivity.INTENT_IMAGE_URI, imageUrl);
+                    startActivity(intent);
+                }
+            });
             creditText.setText(getString(R.string.label_user_credit, user.getCredit()));
             screenNameText.setText(user.getScreenName());
             cityText.setText(user.getCity());

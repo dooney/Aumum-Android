@@ -27,6 +27,8 @@ import com.aumum.app.mobile.utils.SafeAsyncTask;
 import com.aumum.app.mobile.utils.TuSdkUtils;
 import com.easemob.chat.EMGroup;
 
+import org.lasque.tusdk.core.utils.sqllite.ImageSqlInfo;
+
 import java.io.File;
 
 import javax.inject.Inject;
@@ -39,7 +41,8 @@ import retrofit.RetrofitError;
  * Created by Administrator on 6/04/2015.
  */
 public class NewGroupActivity extends ProgressDialogActivity
-    implements TuSdkUtils.FileListener,
+    implements TuSdkUtils.AlbumListener,
+               TuSdkUtils.EditListener,
                FileUploadService.OnFileUploadListener {
 
     @Inject UserStore userStore;
@@ -67,7 +70,7 @@ public class NewGroupActivity extends ProgressDialogActivity
         avatarImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                TuSdkUtils.avatar(NewGroupActivity.this, NewGroupActivity.this);
+                TuSdkUtils.album(NewGroupActivity.this, NewGroupActivity.this);
             }
         });
         nameText.addTextChangedListener(watcher);
@@ -156,7 +159,22 @@ public class NewGroupActivity extends ProgressDialogActivity
     }
 
     @Override
-    public void onFile(final File file) {
+    public void onUploadSuccess(String remoteUrl) {
+        avatarUrl = remoteUrl;
+    }
+
+    @Override
+    public void onUploadFailure(Exception e) {
+        showError(e);
+    }
+
+    @Override
+    public void onAlbumResult(ImageSqlInfo imageSqlInfo) {
+        TuSdkUtils.edit(this, imageSqlInfo, true, true, false, this);
+    }
+
+    @Override
+    public void onEditResult(File file) {
         try {
             String fileUri = file.getAbsolutePath();
             String avatarUri = ImageLoaderUtils.getFullPath(fileUri);
@@ -166,15 +184,5 @@ public class NewGroupActivity extends ProgressDialogActivity
         } catch (Exception e) {
             showError(e);
         }
-    }
-
-    @Override
-    public void onUploadSuccess(String remoteUrl) {
-        avatarUrl = remoteUrl;
-    }
-
-    @Override
-    public void onUploadFailure(Exception e) {
-        showError(e);
     }
 }
