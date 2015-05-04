@@ -22,6 +22,6 @@ public class UpYunService extends CloudStorageService {
 
     @Override
     public boolean uploadImage(String localUri, File file) throws Exception {
-        return upYun.writeFile(getPath(localUri), file);
+        return upYun.writeFile(getFileName(localUri), file);
     }
 }

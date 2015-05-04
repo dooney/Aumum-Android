@@ -14,12 +14,12 @@ public abstract class CloudStorageService {
         directory = id;
     }
 
-    protected String getPath(String localUri) {
-        return directory + "/" + Math.abs(localUri.hashCode()) + ".jpg";
+    protected String getFileName(String localUri) {
+        return directory + "/" + Math.abs(localUri.hashCode());
     }
 
     protected String getRemoteUrl(String localUri) {
-        return baseUrl + getPath(localUri);
+        return baseUrl + getFileName(localUri);
     }
 
     public abstract boolean uploadImage(String localUri, File file) throws Exception;

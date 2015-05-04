@@ -25,14 +25,9 @@ public class QiNiuService extends CloudStorageService {
         uploadManager = new UploadManager();
     }
 
-    private static String getKey(String filePath) {
-        Integer hashCode = Math.abs(filePath.hashCode());
-        return hashCode.toString();
-    }
-
     @Override
-    public boolean uploadImage(String filePath, File file) throws Exception {
-        Response response = uploadManager.put(file, getKey(filePath), token);
+    public boolean uploadImage(String localUri, File file) throws Exception {
+        Response response = uploadManager.put(file, getFileName(localUri), token);
         return response.isOK();
     }
 }
