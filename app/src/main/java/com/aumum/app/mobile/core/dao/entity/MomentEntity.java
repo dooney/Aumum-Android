@@ -6,25 +6,25 @@ package com.aumum.app.mobile.core.dao.entity;
 public class MomentEntity extends BaseEntity {
 
     private String userId;
-    private String details;
-    private String images;
     private String likes;
     private String comments;
+    private String text;
+    private String imageUrl;
 
     public MomentEntity(String objectId,
                        java.util.Date createdAt,
                        String userId,
-                       String details,
-                       String images,
                        String likes,
-                       String comments) {
+                       String comments,
+                       String text,
+                       String imageUrl) {
         this.objectId = objectId;
         this.createdAt = createdAt;
         this.userId = userId;
-        this.details = details;
-        this.images = images;
         this.likes = likes;
         this.comments = comments;
+        this.text = text;
+        this.imageUrl = imageUrl;
     }
 
     public String getUserId() {
@@ -33,22 +33,6 @@ public class MomentEntity extends BaseEntity {
 
     public void setUserId(String userId) {
         this.userId = userId;
-    }
-
-    public String getDetails() {
-        return details;
-    }
-
-    public void setDetails(String details) {
-        this.details = details;
-    }
-
-    public String getImages() {
-        return images;
-    }
-
-    public void setImages(String images) {
-        this.images = images;
     }
 
     public String getLikes() {
@@ -65,5 +49,21 @@ public class MomentEntity extends BaseEntity {
 
     public void setComments(String comments) {
         this.comments = comments;
+    }
+
+    public String getText() {
+        return text;
+    }
+
+    public void setText(String text) {
+        this.text = text;
+    }
+
+    public String getImageUrl() {
+        return imageUrl;
+    }
+
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
     }
 }

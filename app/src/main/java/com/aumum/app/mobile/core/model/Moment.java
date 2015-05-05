@@ -10,39 +10,31 @@ public class Moment extends AggregateRoot implements RefreshItem {
 
     private String deletedAt;
     private String userId;
-    private String details;
-    private List<String> images = new ArrayList<String>();
     private List<String> likes = new ArrayList<String>();
     private List<String> comments = new ArrayList<String>();
+    private String text;
+    private String imageUrl;
 
     private User user;
 
     public Moment(String userId,
-                  String details,
-                  List<String> images) {
+                  String text,
+                  String imageUrl) {
         this.userId = userId;
-        this.details = details;
-        if (images != null) {
-            this.images.clear();
-            this.images.addAll(images);
-        }
+        this.text = text;
+        this.imageUrl = imageUrl;
     }
 
     public Moment(String objectId,
                   String createdAt,
                   String userId,
-                  String details,
-                  List<String> images,
                   List<String> likes,
-                  List<String> comments) {
+                  List<String> comments,
+                  String text,
+                  String imageUrl) {
         this.objectId = objectId;
         this.createdAt = createdAt;
         this.userId = userId;
-        this.details = details;
-        if (images != null) {
-            this.images.clear();
-            this.images.addAll(images);
-        }
         if (likes != null) {
             this.likes.clear();
             this.likes.addAll(likes);
@@ -51,6 +43,8 @@ public class Moment extends AggregateRoot implements RefreshItem {
             this.comments.clear();
             this.comments.addAll(comments);
         }
+        this.text = text;
+        this.imageUrl = imageUrl;
     }
 
     public String getDeletedAt() {
@@ -69,20 +63,20 @@ public class Moment extends AggregateRoot implements RefreshItem {
         this.user = user;
     }
 
-    public String getDetails() {
-        return details;
-    }
-
-    public List<String> getImages() {
-        return images;
-    }
-
     public List<String> getLikes() {
         return likes;
     }
 
     public List<String> getComments() {
         return comments;
+    }
+
+    public String getText() {
+        return text;
+    }
+
+    public String getImageUrl() {
+        return imageUrl;
     }
 
     public boolean isOwner(String userId) {

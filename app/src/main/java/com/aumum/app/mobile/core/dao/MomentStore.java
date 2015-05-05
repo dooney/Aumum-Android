@@ -52,10 +52,10 @@ public class MomentStore {
                 momentEntity.getObjectId(),
                 DateUtils.dateToString(momentEntity.getCreatedAt(), Constants.DateTime.FORMAT),
                 momentEntity.getUserId(),
-                momentEntity.getDetails(),
-                getList(momentEntity.getImages()),
                 getList(momentEntity.getLikes()),
-                getList(momentEntity.getComments()));
+                getList(momentEntity.getComments()),
+                momentEntity.getText(),
+                momentEntity.getImageUrl());
     }
 
     private MomentEntity map(Moment moment) throws Exception {
@@ -64,10 +64,10 @@ public class MomentStore {
                 moment.getObjectId(),
                 createdAt,
                 moment.getUserId(),
-                moment.getDetails(),
-                gson.toJson(moment.getImages()),
                 gson.toJson(moment.getLikes()),
-                gson.toJson(moment.getComments()));
+                gson.toJson(moment.getComments()),
+                moment.getText(),
+                moment.getImageUrl());
     }
 
     public void updateOrInsert(List<Moment> momentList) throws Exception {

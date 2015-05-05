@@ -17,7 +17,9 @@ import com.aumum.app.mobile.core.Constants;
 import com.aumum.app.mobile.core.dao.CreditRuleStore;
 import com.aumum.app.mobile.core.dao.UserStore;
 import com.aumum.app.mobile.core.model.CreditRule;
+import com.aumum.app.mobile.core.model.Moment;
 import com.aumum.app.mobile.core.model.User;
+import com.aumum.app.mobile.core.service.FileUploadService;
 import com.aumum.app.mobile.core.service.RestService;
 import com.aumum.app.mobile.ui.base.ProgressDialogActivity;
 import com.aumum.app.mobile.ui.helper.TextWatcherAdapter;
@@ -33,13 +35,16 @@ import retrofit.RetrofitError;
 /**
  * Created by Administrator on 4/05/2015.
  */
-public class NewMomentActivity extends ProgressDialogActivity {
+public class NewMomentActivity extends ProgressDialogActivity
+    implements FileUploadService.OnFileUploadListener {
 
     @Inject RestService restService;
+    @Inject FileUploadService fileUploadService;
     @Inject CreditRuleStore creditRuleStore;
     @Inject UserStore userStore;
 
     public static final String INTENT_IMAGE_URI = "imageUri";
+    private String imageUri;
 
     private Button publishButton;
     @InjectView(R.id.image) protected ImageView image;
@@ -56,11 +61,12 @@ public class NewMomentActivity extends ProgressDialogActivity {
         ButterKnife.inject(this);
 
         final Intent intent = getIntent();
-        String imageUri = intent.getStringExtra(INTENT_IMAGE_URI);
+        imageUri = intent.getStringExtra(INTENT_IMAGE_URI);
         ImageLoaderUtils.displayImage(ImageLoaderUtils.getFullPath(imageUri), image);
         text.addTextChangedListener(watcher);
 
         progress.setMessageId(R.string.info_publishing_moment);
+        fileUploadService.setOnFileUploadListener(this);
     }
 
     @Override
@@ -73,7 +79,7 @@ public class NewMomentActivity extends ProgressDialogActivity {
         publishButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                publish();
+                fileUploadService.upload(imageUri);
             }
         });
         updateUIWithValidation();
@@ -94,7 +100,7 @@ public class NewMomentActivity extends ProgressDialogActivity {
         }
     }
 
-    private void publish() {
+    private void publish(final String imageUrl) {
         if (task != null) {
             return;
         }
@@ -102,6 +108,11 @@ public class NewMomentActivity extends ProgressDialogActivity {
             @Override
             public Boolean call() throws Exception {
                 User currentUser = userStore.getCurrentUser();
+                Moment moment = new Moment(currentUser.getObjectId(),
+                        text.getText().toString(), imageUrl);
+                moment = restService.newMoment(moment);
+                restService.addUserMoment(currentUser.getObjectId(),
+                        moment.getObjectId());
                 updateCredit(currentUser, CreditRule.ADD_MOMENT);
                 return true;
             }
@@ -142,5 +153,15 @@ public class NewMomentActivity extends ProgressDialogActivity {
                 }
             });
         }
+    }
+
+    @Override
+    public void onUploadSuccess(String remoteUrl) {
+        publish(remoteUrl);
+    }
+
+    @Override
+    public void onUploadFailure(Exception e) {
+        showError(e);
     }
 }

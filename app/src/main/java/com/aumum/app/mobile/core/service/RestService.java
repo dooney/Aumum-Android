@@ -401,6 +401,21 @@ public class RestService {
         return null;
     }
 
+    public JsonObject addUserMoment(String userId, String momentId) {
+        final JsonObject op = new JsonObject();
+        op.addProperty("__op", "AddUnique");
+        return updateUserMoments(op, userId, momentId);
+    }
+
+    private JsonObject updateUserMoments(JsonObject op, String userId, String momentId) {
+        final JsonObject data = new JsonObject();
+        final JsonArray userMoments = new JsonArray();
+        userMoments.add(new JsonPrimitive(momentId));
+        op.add("objects", userMoments);
+        data.add(Constants.Http.User.PARAM_MOMENTS, op);
+        return getUserService().updateById(userId, data);
+    }
+
     public Report newReport(Report report) {
         Gson gson = new Gson();
         JsonObject data = gson.toJsonTree(report).getAsJsonObject();
@@ -433,6 +448,12 @@ public class RestService {
 
     public List<UserTag> getUserTags() {
         return getUserTagService().getList().getResults();
+    }
+
+    public Moment newMoment(Moment moment) {
+        Gson gson = new Gson();
+        JsonObject data = gson.toJsonTree(moment).getAsJsonObject();
+        return getMomentService().newMoment(data);
     }
 
     public List<Moment> getMomentsAfter(String after, int limit) {

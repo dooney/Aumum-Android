@@ -1,5 +1,6 @@
 package com.aumum.app.mobile.ui.moment;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -66,6 +67,15 @@ public class MomentFragment extends RefreshItemListFragment<Moment>
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         return inflater.inflate(R.layout.fragment_moment, null);
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == Constants.RequestCode.NEW_MOMENT_REQ_CODE &&
+                resultCode == Activity.RESULT_OK) {
+
+        }
     }
 
     @Override

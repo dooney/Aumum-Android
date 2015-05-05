@@ -516,7 +516,7 @@ public class ProfileFragment extends LoaderFragment<User>
             String avatarUri = ImageLoaderUtils.getFullPath(fileUri);
             Bitmap bitmap = ImageLoaderUtils.loadImage(avatarUri);
             avatarImage.setImageBitmap(bitmap);
-            fileUploadService.upload(fileUri, file);
+            fileUploadService.upload(fileUri);
         } catch (Exception e) {
             showError(e);
         }

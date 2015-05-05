@@ -28,11 +28,15 @@ public class FileUploadService {
         cloudStorageService.init(id);
     }
 
-    public void upload(final String localUri, final File file) {
+    public void upload(final String localUri) {
         new SafeAsyncTask<Boolean>() {
             public Boolean call() throws Exception {
+                File file = new File(localUri);
+                if (!file.exists()) {
+                    throw new Exception("无效的图片地址");
+                }
                 if (!cloudStorageService.uploadImage(localUri, file)) {
-                    throw new Exception("文件上传失败，请重试");
+                    throw new Exception("图片上传失败，请重试");
                 }
                 return true;
             }
