@@ -11,7 +11,7 @@
 
     <TextView
         android:id="@+id/text_info"
-        style="@style/TextView.Dialog.Progress"
+        style="@style/TextView"
         android:padding="@dimen/margin_large"
         android:layout_gravity="center_vertical" />
 

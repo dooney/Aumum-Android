@@ -12,6 +12,7 @@ import com.github.kevinsawicki.wishlist.Toaster;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
@@ -33,6 +34,8 @@ public abstract class RefreshItemListFragment<E extends RefreshItem> extends Fra
     @Override
     public void onViewCreated(final View view, final Bundle savedInstanceState) {
         xListView = (XListView) view.findViewById(android.R.id.list);
+        xListView.setHorizontalScrollBarEnabled(false);
+        xListView.setVerticalScrollBarEnabled(false);
         xListView.setPullRefreshEnable(true);
         xListView.setPullLoadEnable(true);
         xListView.setAutoLoadEnable(true);
@@ -41,6 +44,7 @@ public abstract class RefreshItemListFragment<E extends RefreshItem> extends Fra
 
         adapter = createAdapter(dataSet);
         xListView.setAdapter(adapter);
+        autoRefresh();
     }
 
     @Override
@@ -56,8 +60,21 @@ public abstract class RefreshItemListFragment<E extends RefreshItem> extends Fra
                     after = dataSet.get(0).getCreatedAt();
                 }
                 List<E> result = refresh(after);
-                dataSet.clear();
-                dataSet.addAll(result);
+                if (result.size() > 0) {
+                    List<E> list = new ArrayList<>(dataSet);
+                    Collections.reverse(result);
+                    for (E entity : result) {
+                        list.add(0, entity);
+                    }
+                    dataSet.clear();
+                    dataSet.addAll(list);
+                    getActivity().runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            adapter.notifyDataSetChanged();
+                        }
+                    });
+                }
                 return true;
             }
 
@@ -78,6 +95,7 @@ public abstract class RefreshItemListFragment<E extends RefreshItem> extends Fra
                 task = null;
             }
         };
+        task.execute();
     }
 
     @Override
@@ -91,8 +109,18 @@ public abstract class RefreshItemListFragment<E extends RefreshItem> extends Fra
                 if (dataSet.size() > 0) {
                     RefreshItem item = dataSet.get(dataSet.size() - 1);
                     List<E> result = loadMore(item.getCreatedAt());
-                    dataSet.clear();
-                    dataSet.addAll(result);
+                    if (result.size() > 0) {
+                        List<E> list = new ArrayList<>(dataSet);
+                        list.addAll(result);
+                        dataSet.clear();
+                        dataSet.addAll(list);
+                        getActivity().runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                adapter.notifyDataSetChanged();
+                            }
+                        });
+                    }
                 }
                 return true;
             }
@@ -114,6 +142,7 @@ public abstract class RefreshItemListFragment<E extends RefreshItem> extends Fra
                 task = null;
             }
         };
+        task.execute();
     }
 
     private String getTime() {
@@ -124,6 +153,10 @@ public abstract class RefreshItemListFragment<E extends RefreshItem> extends Fra
         xListView.stopRefresh();
         xListView.stopLoadMore();
         xListView.setRefreshTime(getTime());
+    }
+
+    protected void autoRefresh() {
+        xListView.autoRefresh();
     }
 
     protected void showMsg(final String message) {
@@ -141,7 +174,7 @@ public abstract class RefreshItemListFragment<E extends RefreshItem> extends Fra
 
     protected abstract ArrayAdapter<E> createAdapter(final List<E> items);
 
-    protected abstract List<E> refresh(String after);
+    protected abstract List<E> refresh(String after) throws Exception;
 
-    protected abstract List<E> loadMore(String before);
+    protected abstract List<E> loadMore(String before) throws Exception;
 }

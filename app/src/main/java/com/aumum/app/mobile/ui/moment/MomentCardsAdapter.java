@@ -16,12 +16,9 @@ import java.util.List;
  */
 public class MomentCardsAdapter extends ArrayAdapter<Moment> {
 
-    private Activity activity;
-
     public MomentCardsAdapter(Activity activity,
                               List<Moment> objects) {
         super(activity, 0, objects);
-        this.activity = activity;
     }
 
     @Override
@@ -29,9 +26,9 @@ public class MomentCardsAdapter extends ArrayAdapter<Moment> {
         final MomentCard card;
 
         if (convertView == null) {
-            LayoutInflater inflater = LayoutInflater.from(activity);
+            LayoutInflater inflater = LayoutInflater.from(getContext());
             convertView = inflater.inflate(R.layout.moment_listitem_inner, parent, false);
-            card = new MomentCard(activity, convertView);
+            card = new MomentCard(convertView);
             convertView.setTag(card);
         } else {
             card = (MomentCard) convertView.getTag();

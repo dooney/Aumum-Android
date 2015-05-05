@@ -15,7 +15,7 @@ public class Moment extends AggregateRoot implements RefreshItem {
     private String text;
     private String imageUrl;
 
-    private User user;
+    private UserInfo user;
 
     public Moment(String userId,
                   String text,
@@ -55,11 +55,11 @@ public class Moment extends AggregateRoot implements RefreshItem {
         return userId;
     }
 
-    public User getUser() {
+    public UserInfo getUser() {
         return user;
     }
 
-    public void setUser(User user) {
+    public void setUser(UserInfo user) {
         this.user = user;
     }
 

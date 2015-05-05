@@ -1,5 +1,6 @@
 package com.aumum.app.mobile.ui.moment;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
@@ -13,7 +14,6 @@ import android.widget.ImageView;
 
 import com.aumum.app.mobile.Injector;
 import com.aumum.app.mobile.R;
-import com.aumum.app.mobile.core.Constants;
 import com.aumum.app.mobile.core.dao.CreditRuleStore;
 import com.aumum.app.mobile.core.dao.UserStore;
 import com.aumum.app.mobile.core.model.CreditRule;
@@ -79,6 +79,7 @@ public class NewMomentActivity extends ProgressDialogActivity
         publishButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                showProgress();
                 fileUploadService.upload(imageUri);
             }
         });
@@ -126,12 +127,13 @@ public class NewMomentActivity extends ProgressDialogActivity
 
             @Override
             protected void onSuccess(Boolean success) throws Exception {
-                setResult(Constants.RequestCode.NEW_MOMENT_REQ_CODE);
+                setResult(Activity.RESULT_OK);
                 finish();
             }
 
             @Override
             protected void onFinally() throws RuntimeException {
+                hideProgress();
                 task = null;
             }
         };
@@ -162,6 +164,7 @@ public class NewMomentActivity extends ProgressDialogActivity
 
     @Override
     public void onUploadFailure(Exception e) {
+        hideProgress();
         showError(e);
     }
 }

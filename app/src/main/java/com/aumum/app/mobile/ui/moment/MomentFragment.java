@@ -16,7 +16,9 @@ import com.aumum.app.mobile.Injector;
 import com.aumum.app.mobile.R;
 import com.aumum.app.mobile.core.Constants;
 import com.aumum.app.mobile.core.dao.MomentStore;
+import com.aumum.app.mobile.core.dao.UserStore;
 import com.aumum.app.mobile.core.model.Moment;
+import com.aumum.app.mobile.core.model.UserInfo;
 import com.aumum.app.mobile.ui.base.RefreshItemListFragment;
 import com.aumum.app.mobile.ui.view.dialog.ListViewDialog;
 import com.aumum.app.mobile.utils.TuSdkUtils;
@@ -38,6 +40,7 @@ public class MomentFragment extends RefreshItemListFragment<Moment>
                TuSdkUtils.EditListener {
 
     @Inject MomentStore momentStore;
+    @Inject UserStore userStore;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -72,9 +75,10 @@ public class MomentFragment extends RefreshItemListFragment<Moment>
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+
         if (requestCode == Constants.RequestCode.NEW_MOMENT_REQ_CODE &&
                 resultCode == Activity.RESULT_OK) {
-
+            autoRefresh();
         }
     }
 
@@ -84,13 +88,24 @@ public class MomentFragment extends RefreshItemListFragment<Moment>
     }
 
     @Override
-    protected List<Moment> refresh(String after) {
-        return null;
+    protected List<Moment> refresh(String after) throws Exception {
+        List<Moment> momentList = momentStore.refresh(after);
+        loadUserInfo(momentList);
+        return momentList;
     }
 
     @Override
-    protected List<Moment> loadMore(String before) {
-        return null;
+    protected List<Moment> loadMore(String before) throws Exception {
+        List<Moment> momentList = momentStore.loadMore(before);
+        loadUserInfo(momentList);
+        return momentList;
+    }
+
+    private void loadUserInfo(List<Moment> momentList) throws Exception {
+        for (Moment moment: momentList) {
+            UserInfo user = userStore.getUserInfoById(moment.getUserId());
+            moment.setUser(user);
+        }
     }
 
     private void showCameraOptions() {

@@ -81,7 +81,6 @@
     <style name="EditText.Box" parent="EditText">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
-        <item name="android:textSize">@dimen/text_sz_large</item>
         <item name="android:background">@color/transparent</item>
         <item name="android:gravity">left|top</item>
         <item name="android:imeOptions">actionSend</item>
@@ -151,6 +150,8 @@
     <style name="TextView" parent="android:Widget.TextView">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColor">@color/grey_dark</item>
+        <item name="android:textSize">@dimen/text_sz_medium</item>
     </style>
     <style name="LinkTextView" parent="TextView">
         <item name="android:textColor">@color/text_link</item>
@@ -158,7 +159,6 @@
     </style>
     <style name="TextView.Title" parent="TextView">
         <item name="android:textSize">@dimen/text_sz_large</item>
-        <item name="android:textColor">@color/black</item>
         <item name="android:maxLines">1</item>
         <item name="android:ellipsize">end</item>
     </style>
@@ -188,17 +188,11 @@
         <item name="android:maxLines">1</item>
         <item name="android:ellipsize">end</item>
     </style>
-    <style name="TextView.Content.Text" parent="TextView">
-        <item name="android:textSize">@dimen/text_sz_large</item>
-        <item name="android:lineSpacingMultiplier">1.1</item>
-    </style>
     <style name="TextView.Dialog" parent="TextView">
         <item name="android:layout_width">300dp</item>
-        <item name="android:textColor">@color/black</item>
         <item name="android:textSize">@dimen/text_sz_large</item>
     </style>
     <style name="TextView.Dialog.List" parent="TextView">
-        <item name="android:textColor">@color/black</item>
         <item name="android:textSize">@dimen/text_sz_large</item>
     </style>
     <style name="TextView.Dialog.Title" parent="TextView">
@@ -207,11 +201,6 @@
         <item name="android:padding">@dimen/margin_large</item>
         <item name="android:textColor">@color/text</item>
         <item name="android:textSize">@dimen/text_sz_large</item>
-    </style>
-    <style name="TextView.Dialog.Progress" parent="TextView">
-        <item name="android:layout_width">wrap_content</item>
-        <item name="android:textColor">@color/black</item>
-        <item name="android:textSize">@dimen/text_sz_medium</item>
     </style>
     <style name="TextView.Notification" parent="TextView">
         <item name="android:textColor">@color/bbutton_danger</item>
@@ -249,7 +238,6 @@
 
     <!-- Conversation -->
     <style name="TextView.Conversation.ScreenName" parent="TextView.UserName">
-        <item name="android:textColor">@color/black</item>
         <item name="android:textSize">@dimen/text_sz_large</item>
     </style>
     <style name="TextView.Conversation.MessageBody" parent="TextView.Subtitle">
@@ -446,7 +434,6 @@
 
     <!-- Account -->
     <style name="TextView.Account" parent="TextView">
-        <item name="android:textColor">@color/black</item>
         <item name="android:textSize">@dimen/text_sz_large</item>
     </style>
     <style name="ButtonTextView.Account.Country" parent="ButtonTextView">
