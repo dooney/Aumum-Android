@@ -14,8 +14,9 @@
 
         <TextView
             android:layout_width="wrap_content"
-            style="@style/ButtonTextView.Account.Country"
-            android:paddingLeft="@dimen/margin_extra_large"/>
+            style="@style/TextView.Account.Country"
+            android:paddingLeft="@dimen/margin_extra_large"
+            android:text="@string/label_country"/>
 
         <TextView
             android:id="@+id/text_country"

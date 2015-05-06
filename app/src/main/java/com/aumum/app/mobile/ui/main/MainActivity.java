@@ -13,6 +13,7 @@ import com.aumum.app.mobile.core.service.RestService;
 import com.aumum.app.mobile.events.LogoutEvent;
 import com.aumum.app.mobile.ui.base.BaseFragmentActivity;
 import com.aumum.app.mobile.utils.SafeAsyncTask;
+import com.aumum.app.mobile.utils.ShareUtils;
 import com.squareup.otto.Bus;
 import com.squareup.otto.Subscribe;
 
@@ -30,6 +31,7 @@ public class MainActivity extends BaseFragmentActivity {
         Injector.inject(this);
         setContentView(R.layout.activity_main);
         initScreen();
+        ShareUtils.init(this);
     }
 
     @Override
@@ -47,11 +49,14 @@ public class MainActivity extends BaseFragmentActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == Constants.RequestCode.SETTINGS_REQ_CODE && resultCode == RESULT_OK) {
+
+        if (requestCode == Constants.RequestCode.SETTINGS_REQ_CODE
+                && resultCode == RESULT_OK) {
             if (data.getBooleanExtra("logout", false)) {
                 doLogout();
             }
         }
+        ShareUtils.registerSSOCallback(requestCode, resultCode, data);
     }
 
     private void initScreen() {

@@ -445,10 +445,6 @@
     <style name="TextView.Account" parent="TextView">
         <item name="android:textSize">@dimen/text_sz_large</item>
     </style>
-    <style name="ButtonTextView.Account.Country" parent="ButtonTextView">
-        <item name="android:text">@string/label_country</item>
-        <item name="android:textSize">@dimen/text_sz_large</item>
-    </style>
     <style name="TextView.Account.Country" parent="TextView.Account" />
     <style name="TextView.Account.CountryCode" parent="TextView.Account" />
     <style name="EditText.Login.Phone" parent="EditText">

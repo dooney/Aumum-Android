@@ -8,8 +8,9 @@ import android.widget.TextView;
 
 import com.aumum.app.mobile.R;
 import com.aumum.app.mobile.core.model.Moment;
+import com.aumum.app.mobile.core.model.Share;
 import com.aumum.app.mobile.core.model.UserInfo;
-import com.aumum.app.mobile.core.service.ShareService;
+import com.aumum.app.mobile.utils.ShareUtils;
 import com.aumum.app.mobile.ui.chat.ChatActivity;
 import com.aumum.app.mobile.ui.view.AvatarImageView;
 import com.aumum.app.mobile.utils.ImageLoaderUtils;
@@ -67,8 +68,8 @@ public class MomentCard {
         shareText.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                ShareService shareService = new ShareService(activity);
-                shareService.show(moment.getText(), null, moment.getImageUrl());
+                Share share = new Share(moment.getText(), null, moment.getImageUrl());
+                ShareUtils.show(activity, share);
             }
         });
     }
