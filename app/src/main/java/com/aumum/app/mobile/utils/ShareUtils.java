@@ -77,7 +77,6 @@ public class ShareUtils {
 
     private static void setSINAShareDetails(Activity activity, Share share) {
         SinaShareContent details = new SinaShareContent();
-        share.setContent("#澳妈圈#我刚刚在@澳妈圈 上分享了照片：" + share.getTitle());
         setShareDetails(activity, details, share);
     }
 

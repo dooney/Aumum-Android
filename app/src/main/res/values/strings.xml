@@ -297,6 +297,7 @@
 
     <!-- Moment -->
     <string name="hint_moment_text">说点儿什么吧</string>
+    <string name="label_share_content">#澳妈圈#我刚刚在@澳妈圈 上分享了照片</string>
 
     <!-- Widgets -->
     <string name="header_hint_refresh_normal">下拉刷新</string>

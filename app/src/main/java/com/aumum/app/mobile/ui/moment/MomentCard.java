@@ -68,7 +68,8 @@ public class MomentCard {
         shareText.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Share share = new Share(moment.getText(), null, moment.getImageUrl());
+                String content = activity.getString(R.string.label_share_content);
+                Share share = new Share(moment.getText(), content, moment.getImageUrl());
                 ShareUtils.show(activity, share);
             }
         });
