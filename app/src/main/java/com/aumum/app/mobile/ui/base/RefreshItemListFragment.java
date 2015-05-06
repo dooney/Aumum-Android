@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.ListView;
 
 import com.aumum.app.mobile.core.model.RefreshItem;
 import com.aumum.app.mobile.ui.view.pulltorefresh.XListView;
@@ -30,6 +31,10 @@ public abstract class RefreshItemListFragment<E extends RefreshItem> extends Fra
     private List<E> dataSet = new ArrayList<>();
 
     private SafeAsyncTask<Boolean> task;
+
+    protected ListView getListView() {
+        return xListView;
+    }
 
     @Override
     public void onViewCreated(final View view, final Bundle savedInstanceState) {

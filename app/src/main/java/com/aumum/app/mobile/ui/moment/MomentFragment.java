@@ -22,6 +22,7 @@ import com.aumum.app.mobile.core.model.User;
 import com.aumum.app.mobile.core.model.UserInfo;
 import com.aumum.app.mobile.ui.base.RefreshItemListFragment;
 import com.aumum.app.mobile.ui.view.dialog.ListViewDialog;
+import com.aumum.app.mobile.utils.ImageLoaderUtils;
 import com.aumum.app.mobile.utils.TuSdkUtils;
 
 import org.lasque.tusdk.core.utils.sqllite.ImageSqlInfo;
@@ -71,6 +72,12 @@ public class MomentFragment extends RefreshItemListFragment<Moment>
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         return inflater.inflate(R.layout.fragment_moment, null);
+    }
+
+    @Override
+    public void onViewCreated(View view, Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        getListView().setOnScrollListener(ImageLoaderUtils.getOnScrollListener());
     }
 
     @Override

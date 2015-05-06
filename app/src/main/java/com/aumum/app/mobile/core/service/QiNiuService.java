@@ -16,15 +16,14 @@ public class QiNiuService extends CloudStorageService {
 
     private final String ACCESS_KEY = "bP2yEOI2QzgppmJ6tzXphUr2W6CdUq6CuKKr6cp3";
     private final String SECRET_KEY = "e5iufo1CZ9Pg34ZA5I88TPwA_BR5VlDVniWBRKes";
-    private String token;
+    private Auth auth;
     private UploadManager uploadManager;
 
     @Override
     public void init(String id) {
         super.init(id);
         baseUrl = "http://aumum.qiniudn.com/";
-        Auth auth = Auth.create(ACCESS_KEY, SECRET_KEY);
-        token = auth.uploadToken("aumum");
+        auth = Auth.create(ACCESS_KEY, SECRET_KEY);
         uploadManager = new UploadManager();
     }
 
@@ -32,6 +31,7 @@ public class QiNiuService extends CloudStorageService {
     public void uploadImage(final String localUri,
                             File file,
                             final UploadListener listener) throws Exception {
+        final String token = auth.uploadToken("aumum");
         uploadManager.put(file, getFileName(localUri), token,
                 new UpCompletionHandler() {
                     @Override

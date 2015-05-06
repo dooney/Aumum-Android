@@ -42,7 +42,7 @@ public class MomentCard {
         createdAtText.setText(moment.getCreatedAtFormatted());
 
         ImageView imageView = (ImageView) view.findViewById(R.id.image);
-        ImageLoaderUtils.displayImage(moment.getImageUrl(), imageView);
+        ImageLoaderUtils.displayImage(moment.getImageUrl(), imageView, R.drawable.photo_placeholder);
 
         TextView textView = (TextView) view.findViewById(R.id.text);
         textView.setText(moment.getText());
