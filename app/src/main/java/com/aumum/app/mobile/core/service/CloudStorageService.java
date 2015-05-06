@@ -10,6 +10,11 @@ public abstract class CloudStorageService {
     protected String directory;
     protected String baseUrl;
 
+    public static interface UploadListener {
+        public void onSuccess(String localUri);
+        public void onFailure(Exception e);
+    }
+
     public void init(String id) {
         directory = id;
     }
@@ -22,5 +27,7 @@ public abstract class CloudStorageService {
         return baseUrl + getFileName(localUri);
     }
 
-    public abstract boolean uploadImage(String localUri, File file) throws Exception;
+    public abstract void uploadImage(String localUri,
+                                     File file,
+                                     UploadListener listener) throws Exception;
 }

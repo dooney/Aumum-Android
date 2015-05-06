@@ -57,7 +57,7 @@ public class ProfileFragment extends LoaderFragment<User>
         implements TuSdkUtils.CameraListener,
                    TuSdkUtils.AlbumListener,
                    TuSdkUtils.EditListener,
-                   FileUploadService.OnFileUploadListener {
+        FileUploadService.FileUploadListener {
 
     @Inject RestService restService;
     @Inject UserStore userStore;
@@ -83,7 +83,7 @@ public class ProfileFragment extends LoaderFragment<User>
         setHasOptionsMenu(true);
         Injector.inject(this);
 
-        fileUploadService.setOnFileUploadListener(this);
+        fileUploadService.setFileUploadListener(this);
     }
 
     @Override

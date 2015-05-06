@@ -43,7 +43,7 @@ import retrofit.RetrofitError;
 public class NewGroupActivity extends ProgressDialogActivity
     implements TuSdkUtils.AlbumListener,
                TuSdkUtils.EditListener,
-               FileUploadService.OnFileUploadListener {
+        FileUploadService.FileUploadListener {
 
     @Inject UserStore userStore;
     @Inject ChatService chatService;
@@ -75,7 +75,7 @@ public class NewGroupActivity extends ProgressDialogActivity
         });
         nameText.addTextChangedListener(watcher);
 
-        fileUploadService.setOnFileUploadListener(this);
+        fileUploadService.setFileUploadListener(this);
 
         Animation.flyIn(this);
     }

@@ -1,8 +1,11 @@
 package com.aumum.app.mobile.core.service;
 
-import com.qiniu.http.Response;
-import com.qiniu.storage.UploadManager;
+import com.qiniu.android.http.ResponseInfo;
+import com.qiniu.android.storage.UpCompletionHandler;
+import com.qiniu.android.storage.UploadManager;
 import com.qiniu.util.Auth;
+
+import org.json.JSONObject;
 
 import java.io.File;
 
@@ -26,8 +29,19 @@ public class QiNiuService extends CloudStorageService {
     }
 
     @Override
-    public boolean uploadImage(String localUri, File file) throws Exception {
-        Response response = uploadManager.put(file, getFileName(localUri), token);
-        return response.isOK();
+    public void uploadImage(final String localUri,
+                            File file,
+                            final UploadListener listener) throws Exception {
+        uploadManager.put(file, getFileName(localUri), token,
+                new UpCompletionHandler() {
+                    @Override
+                    public void complete(String key, ResponseInfo info, JSONObject response) {
+                        if (info.isOK()) {
+                            listener.onSuccess(localUri);
+                        } else {
+                            listener.onFailure(new Exception(info.error));
+                        }
+                    }
+                }, null);
     }
 }

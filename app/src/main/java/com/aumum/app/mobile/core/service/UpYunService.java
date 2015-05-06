@@ -21,7 +21,11 @@ public class UpYunService extends CloudStorageService {
     }
 
     @Override
-    public boolean uploadImage(String localUri, File file) throws Exception {
-        return upYun.writeFile(getFileName(localUri), file);
+    public void uploadImage(String localUri,
+                            File file,
+                            UploadListener listener) throws Exception {
+        if (!upYun.writeFile(getFileName(localUri), file)) {
+            throw new Exception("图片上传失败，请重试");
+        }
     }
 }

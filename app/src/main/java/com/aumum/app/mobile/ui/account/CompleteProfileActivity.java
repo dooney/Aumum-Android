@@ -60,7 +60,7 @@ public class CompleteProfileActivity extends ProgressDialogActivity
                TuSdkUtils.CameraListener,
                TuSdkUtils.AlbumListener,
                TuSdkUtils.EditListener,
-               FileUploadService.OnFileUploadListener {
+        FileUploadService.FileUploadListener {
 
     @Inject RestService restService;
     @Inject ChatService chatService;
@@ -109,7 +109,7 @@ public class CompleteProfileActivity extends ProgressDialogActivity
 
         userId = getIntent().getStringExtra(INTENT_USER_ID);
         fileUploadService.init(userId);
-        fileUploadService.setOnFileUploadListener(this);
+        fileUploadService.setFileUploadListener(this);
         tags = new ArrayList<>();
 
         avatarImage.setOnClickListener(new View.OnClickListener() {

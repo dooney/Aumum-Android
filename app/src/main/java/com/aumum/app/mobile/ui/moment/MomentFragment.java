@@ -18,6 +18,7 @@ import com.aumum.app.mobile.core.Constants;
 import com.aumum.app.mobile.core.dao.MomentStore;
 import com.aumum.app.mobile.core.dao.UserStore;
 import com.aumum.app.mobile.core.model.Moment;
+import com.aumum.app.mobile.core.model.User;
 import com.aumum.app.mobile.core.model.UserInfo;
 import com.aumum.app.mobile.ui.base.RefreshItemListFragment;
 import com.aumum.app.mobile.ui.view.dialog.ListViewDialog;
@@ -102,9 +103,11 @@ public class MomentFragment extends RefreshItemListFragment<Moment>
     }
 
     private void loadUserInfo(List<Moment> momentList) throws Exception {
+        User currentUser = userStore.getCurrentUser();
         for (Moment moment: momentList) {
             UserInfo user = userStore.getUserInfoById(moment.getUserId());
             moment.setUser(user);
+            moment.setOwner(currentUser.getObjectId());
         }
     }
 

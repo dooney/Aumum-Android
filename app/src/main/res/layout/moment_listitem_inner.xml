@@ -47,4 +47,36 @@
         style="@style/TextView"
         android:padding="@dimen/margin_large"/>
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingLeft="@dimen/margin_large"
+        android:paddingRight="@dimen/margin_large">
+
+        <TextView
+            style="@style/TextView.Like"
+            android:layout_marginRight="@dimen/margin_large"/>
+
+        <TextView
+            android:id="@+id/text_chat"
+            style="@style/TextView.Chat"
+            android:layout_marginRight="@dimen/margin_large"/>
+
+        <TextView
+            style="@style/TextView.Comment" />
+
+        <FrameLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1">
+
+            <TextView
+                android:id="@+id/text_share"
+                style="@style/TextView.Share"
+                android:layout_gravity="right"/>
+
+        </FrameLayout>
+
+    </LinearLayout>
+
 </LinearLayout>

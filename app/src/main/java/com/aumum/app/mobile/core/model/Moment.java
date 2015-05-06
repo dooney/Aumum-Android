@@ -16,6 +16,7 @@ public class Moment extends AggregateRoot implements RefreshItem {
     private String imageUrl;
 
     private UserInfo user;
+    private boolean isOwner;
 
     public Moment(String userId,
                   String text,
@@ -79,8 +80,12 @@ public class Moment extends AggregateRoot implements RefreshItem {
         return imageUrl;
     }
 
-    public boolean isOwner(String userId) {
-        return userId.equals(this.userId);
+    public void setOwner(String userId) {
+         isOwner = userId.equals(this.userId);
+    }
+
+    public boolean isOwner() {
+        return isOwner;
     }
 
     public int getCommentsCount() {

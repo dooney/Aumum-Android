@@ -36,7 +36,7 @@ import retrofit.RetrofitError;
  * Created by Administrator on 4/05/2015.
  */
 public class NewMomentActivity extends ProgressDialogActivity
-    implements FileUploadService.OnFileUploadListener {
+    implements FileUploadService.FileUploadListener {
 
     @Inject RestService restService;
     @Inject FileUploadService fileUploadService;
@@ -66,7 +66,7 @@ public class NewMomentActivity extends ProgressDialogActivity
         text.addTextChangedListener(watcher);
 
         progress.setMessageId(R.string.info_publishing_moment);
-        fileUploadService.setOnFileUploadListener(this);
+        fileUploadService.setFileUploadListener(this);
     }
 
     @Override
@@ -80,7 +80,11 @@ public class NewMomentActivity extends ProgressDialogActivity
             @Override
             public void onClick(View view) {
                 showProgress();
-                fileUploadService.upload(imageUri);
+                try {
+                    fileUploadService.upload(imageUri);
+                } catch (Exception e) {
+                    showError(e);
+                }
             }
         });
         updateUIWithValidation();

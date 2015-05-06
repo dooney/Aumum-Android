@@ -77,7 +77,8 @@
     <string name="label_gif">GIF</string>
     <string name="label_join">加入</string>
     <string name="label_comment">评论</string>
-    <string name="label_like">点赞</string>
+    <string name="label_like">喜欢</string>
+    <string name="label_chat">聊天</string>
     <string name="label_submit">提交</string>
     <string name="label_publish">发布</string>
 

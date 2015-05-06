@@ -1,21 +1,19 @@
 package com.aumum.app.mobile.core.service;
 
-import com.aumum.app.mobile.utils.SafeAsyncTask;
-
 import java.io.File;
 
 /**
  * Created by Administrator on 18/10/2014.
  */
-public class FileUploadService {
+public class FileUploadService implements CloudStorageService.UploadListener {
     private CloudStorageService cloudStorageService;
-    private OnFileUploadListener onFileUploadListener;
+    private FileUploadListener fileUploadListener;
 
-    public void setOnFileUploadListener(OnFileUploadListener onFileUploadListener) {
-        this.onFileUploadListener = onFileUploadListener;
+    public void setFileUploadListener(FileUploadListener fileUploadListener) {
+        this.fileUploadListener = fileUploadListener;
     }
 
-    public static interface OnFileUploadListener {
+    public static interface FileUploadListener {
         public void onUploadSuccess(String remoteUrl);
         public void onUploadFailure(Exception e);
     }
@@ -28,33 +26,26 @@ public class FileUploadService {
         cloudStorageService.init(id);
     }
 
-    public void upload(final String localUri) {
-        new SafeAsyncTask<Boolean>() {
-            public Boolean call() throws Exception {
-                File file = new File(localUri);
-                if (!file.exists()) {
-                    throw new Exception("无效的图片地址");
-                }
-                if (!cloudStorageService.uploadImage(localUri, file)) {
-                    throw new Exception("图片上传失败，请重试");
-                }
-                return true;
-            }
+    public void upload(final String localUri) throws Exception {
+        File file = new File(localUri);
+        if (!file.exists()) {
+            throw new Exception("无效的图片地址");
+        }
+        cloudStorageService.uploadImage(localUri, file, this);
+    }
 
-            @Override
-            protected void onSuccess(Boolean success) throws Exception {
-                if (onFileUploadListener != null) {
-                    String remoteUrl = cloudStorageService.getRemoteUrl(localUri);
-                    onFileUploadListener.onUploadSuccess(remoteUrl);
-                }
-            }
+    @Override
+    public void onSuccess(String localUri) {
+        if (fileUploadListener != null) {
+            String remoteUrl = cloudStorageService.getRemoteUrl(localUri);
+            fileUploadListener.onUploadSuccess(remoteUrl);
+        }
+    }
 
-            @Override
-            protected void onException(final Exception e) throws RuntimeException {
-                if (onFileUploadListener != null) {
-                    onFileUploadListener.onUploadFailure(e);
-                }
-            }
-        }.execute();
+    @Override
+    public void onFailure(Exception e) {
+        if (fileUploadListener != null) {
+            fileUploadListener.onUploadFailure(e);
+        }
     }
 }
