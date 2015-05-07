@@ -37,6 +37,7 @@ import com.aumum.app.mobile.utils.ImageLoaderUtils;
 import com.aumum.app.mobile.utils.SafeAsyncTask;
 import com.aumum.app.mobile.utils.TuSdkUtils;
 
+import org.lasque.tusdk.core.utils.image.BitmapHelper;
 import org.lasque.tusdk.core.utils.sqllite.ImageSqlInfo;
 
 import java.io.File;
@@ -499,14 +500,19 @@ public class ProfileFragment extends LoaderFragment<User>
                 }).show();
     }
 
+    private void onPhotoResult(ImageSqlInfo imageSqlInfo) {
+        Bitmap bitmap = BitmapHelper.getBitmap(imageSqlInfo);
+        TuSdkUtils.edit(getActivity(), bitmap, true, true, false, this);
+    }
+
     @Override
     public void onCameraResult(ImageSqlInfo imageSqlInfo) {
-        TuSdkUtils.edit(getActivity(), imageSqlInfo, true, true, false, this);
+        onPhotoResult(imageSqlInfo);
     }
 
     @Override
     public void onAlbumResult(ImageSqlInfo imageSqlInfo) {
-        TuSdkUtils.edit(getActivity(), imageSqlInfo, true, true, false, this);
+        onPhotoResult(imageSqlInfo);
     }
 
     @Override

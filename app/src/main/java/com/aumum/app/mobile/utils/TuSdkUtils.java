@@ -2,9 +2,11 @@ package com.aumum.app.mobile.utils;
 
 import android.app.Activity;
 import android.content.Context;
+import android.graphics.Bitmap;
 
 import org.lasque.tusdk.core.TuSdk;
 import org.lasque.tusdk.core.TuSdkResult;
+import org.lasque.tusdk.core.struct.TuSdkSize;
 import org.lasque.tusdk.core.utils.hardware.CameraHelper;
 import org.lasque.tusdk.core.utils.sqllite.ImageSqlInfo;
 import org.lasque.tusdk.impl.activity.TuFragment;
@@ -15,6 +17,8 @@ import org.lasque.tusdk.impl.components.base.TuSdkHelperComponent;
 import org.lasque.tusdk.impl.components.camera.TuCameraFragment;
 import org.lasque.tusdk.impl.components.camera.TuCameraOption;
 import org.lasque.tusdk.impl.components.edit.TuEditEntryOption;
+import org.lasque.tusdk.impl.components.edit.TuEditTurnAndCutFragment;
+import org.lasque.tusdk.impl.components.edit.TuEditTurnAndCutOption;
 
 import java.io.File;
 
@@ -27,12 +31,16 @@ public class TuSdkUtils {
         void onCameraResult(ImageSqlInfo imageSqlInfo);
     }
 
-    public static interface EditListener {
-        void onEditResult(File file);
-    }
-
     public static interface AlbumListener {
         void onAlbumResult(ImageSqlInfo imageSqlInfo);
+    }
+
+    public static interface CropListener {
+        void onCropResult(File file);
+    }
+
+    public static interface EditListener {
+        void onEditResult(File file);
     }
 
     public static void init(Context context) {
@@ -98,7 +106,7 @@ public class TuSdkUtils {
     }
 
     public static void edit(Activity activity,
-                            ImageSqlInfo imageSqlInfo,
+                            Bitmap bitmap,
                             boolean isEnableCuter,
                             boolean isEnableFilter,
                             boolean isEnableSticker,
@@ -119,8 +127,44 @@ public class TuSdkUtils {
         option.setEnableCuter(isEnableCuter);
         option.setEnableFilter(isEnableFilter);
         option.setEnableSticker(isEnableSticker);
-        component.setImageSqlInfo(imageSqlInfo)
+        component.setImage(bitmap)
                 .setAutoDismissWhenCompleted(true)
                 .showComponent();
+    }
+
+    public static void crop(Activity activity,
+                            ImageSqlInfo imageSqlInfo,
+                            final CropListener listener) {
+        TuSdkHelperComponent component = new TuSdkHelperComponent(activity);
+        TuEditTurnAndCutOption option = new TuEditTurnAndCutOption();
+        option.setCutSize(new TuSdkSize(640, 640));
+        option.setSaveToTemp(true);
+        TuEditTurnAndCutFragment fragment = option.fragment();
+        fragment.setImageSqlInfo(imageSqlInfo);
+        fragment.setDelegate(new TuEditTurnAndCutFragment.TuEditTurnAndCutFragmentDelegate() {
+            @Override
+            public void onTuEditTurnAndCutFragmentEdited(TuEditTurnAndCutFragment tuEditTurnAndCutFragment,
+                                                         TuSdkResult tuSdkResult) {
+                tuEditTurnAndCutFragment.hubDismissRightNow();
+                tuEditTurnAndCutFragment.dismissActivityWithAnim();
+                if (listener != null) {
+                    listener.onCropResult(tuSdkResult.imageFile);
+                }
+            }
+
+            @Override
+            public boolean onTuEditTurnAndCutFragmentEditedAsync(TuEditTurnAndCutFragment tuEditTurnAndCutFragment,
+                                                                 TuSdkResult tuSdkResult) {
+                return false;
+            }
+
+            @Override
+            public void onComponentError(TuFragment tuFragment,
+                                         TuSdkResult tuSdkResult,
+                                         Error error) {
+
+            }
+        });
+        component.presentModalNavigationActivity(fragment, true);
     }
 }

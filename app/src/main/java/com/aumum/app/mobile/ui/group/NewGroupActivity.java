@@ -27,6 +27,7 @@ import com.aumum.app.mobile.utils.SafeAsyncTask;
 import com.aumum.app.mobile.utils.TuSdkUtils;
 import com.easemob.chat.EMGroup;
 
+import org.lasque.tusdk.core.utils.image.BitmapHelper;
 import org.lasque.tusdk.core.utils.sqllite.ImageSqlInfo;
 
 import java.io.File;
@@ -168,9 +169,14 @@ public class NewGroupActivity extends ProgressDialogActivity
         showError(e);
     }
 
+    private void onPhotoResult(ImageSqlInfo imageSqlInfo) {
+        Bitmap bitmap = BitmapHelper.getBitmap(imageSqlInfo);
+        TuSdkUtils.edit(this, bitmap, true, true, false, this);
+    }
+
     @Override
     public void onAlbumResult(ImageSqlInfo imageSqlInfo) {
-        TuSdkUtils.edit(this, imageSqlInfo, true, true, false, this);
+        onPhotoResult(imageSqlInfo);
     }
 
     @Override

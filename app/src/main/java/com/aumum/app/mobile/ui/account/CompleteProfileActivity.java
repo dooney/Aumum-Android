@@ -42,6 +42,7 @@ import com.mobsandgeeks.saripaar.ValidationError;
 import com.mobsandgeeks.saripaar.Validator;
 import com.mobsandgeeks.saripaar.annotation.Email;
 
+import org.lasque.tusdk.core.utils.image.BitmapHelper;
 import org.lasque.tusdk.core.utils.sqllite.ImageSqlInfo;
 
 import java.io.File;
@@ -454,14 +455,19 @@ public class CompleteProfileActivity extends ProgressDialogActivity
                 }).show();
     }
 
+    private void onPhotoResult(ImageSqlInfo imageSqlInfo) {
+        Bitmap bitmap = BitmapHelper.getBitmap(imageSqlInfo);
+        TuSdkUtils.edit(this, bitmap, true, true, false, this);
+    }
+
     @Override
     public void onCameraResult(ImageSqlInfo imageSqlInfo) {
-        TuSdkUtils.edit(this, imageSqlInfo, true, true, false, this);
+        onPhotoResult(imageSqlInfo);
     }
 
     @Override
     public void onAlbumResult(ImageSqlInfo imageSqlInfo) {
-        TuSdkUtils.edit(this, imageSqlInfo, true, true, false, this);
+        onPhotoResult(imageSqlInfo);
     }
 
     @Override

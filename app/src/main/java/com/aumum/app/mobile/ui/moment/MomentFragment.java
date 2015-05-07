@@ -2,6 +2,7 @@ package com.aumum.app.mobile.ui.moment;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -25,6 +26,7 @@ import com.aumum.app.mobile.ui.view.dialog.ListViewDialog;
 import com.aumum.app.mobile.utils.ImageLoaderUtils;
 import com.aumum.app.mobile.utils.TuSdkUtils;
 
+import org.lasque.tusdk.core.utils.image.BitmapHelper;
 import org.lasque.tusdk.core.utils.sqllite.ImageSqlInfo;
 
 import java.io.File;
@@ -39,6 +41,7 @@ import javax.inject.Inject;
 public class MomentFragment extends RefreshItemListFragment<Moment>
     implements TuSdkUtils.CameraListener,
                TuSdkUtils.AlbumListener,
+               TuSdkUtils.CropListener,
                TuSdkUtils.EditListener {
 
     @Inject MomentStore momentStore;
@@ -138,14 +141,29 @@ public class MomentFragment extends RefreshItemListFragment<Moment>
                 }).show();
     }
 
+    private void onPhotoResult(ImageSqlInfo imageSqlInfo) {
+        Bitmap bitmap = BitmapHelper.getBitmap(imageSqlInfo);
+        if (bitmap.getHeight() > bitmap.getWidth()) {
+            TuSdkUtils.crop(getActivity(), imageSqlInfo, this);
+        } else {
+            TuSdkUtils.edit(getActivity(), bitmap, false, true, true, this);
+        }
+    }
+
     @Override
     public void onCameraResult(ImageSqlInfo imageSqlInfo) {
-        TuSdkUtils.edit(getActivity(), imageSqlInfo, false, true, true, this);
+        onPhotoResult(imageSqlInfo);
     }
 
     @Override
     public void onAlbumResult(ImageSqlInfo imageSqlInfo) {
-        TuSdkUtils.edit(getActivity(), imageSqlInfo, false, true, true, this);
+        onPhotoResult(imageSqlInfo);
+    }
+
+    @Override
+    public void onCropResult(File file) {
+        Bitmap bitmap = BitmapHelper.getBitmap(file);
+        TuSdkUtils.edit(getActivity(), bitmap, false, true, true, this);
     }
 
     @Override
