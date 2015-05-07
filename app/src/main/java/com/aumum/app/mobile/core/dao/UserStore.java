@@ -74,8 +74,7 @@ public class UserStore {
                 userEntity.getArea(),
                 userEntity.getAvatarUrl(),
                 userEntity.getAbout(),
-                getList(userEntity.getContacts()),
-                getList(userEntity.getTags()));
+                getList(userEntity.getContacts()));
     }
 
     private UserEntity map(User user) throws Exception {
@@ -91,8 +90,7 @@ public class UserStore {
                 user.getArea(),
                 user.getAvatarUrl(),
                 user.getAbout(),
-                getJsonString(user.getContacts()),
-                getJsonString(user.getTags()));
+                getJsonString(user.getContacts()));
     }
 
     private UserInfo map(UserInfoEntity userInfoEntity) throws Exception {
@@ -271,16 +269,6 @@ public class UserStore {
 
     public List<UserInfo> getListByArea(String userId, String area) throws Exception {
         List<UserInfo> users = restService.getAreaUsers(userId, area);
-        if (users != null) {
-            for (UserInfo user: users) {
-                userInfoEntityDao.insertOrReplace(map(user));
-            }
-        }
-        return users;
-    }
-
-    public List<UserInfo> getListByTags(String userId, List<String> tags) throws Exception {
-        List<UserInfo> users = restService.getTagUsers(userId, tags);
         if (users != null) {
             for (UserInfo user: users) {
                 userInfoEntityDao.insertOrReplace(map(user));

@@ -27,10 +27,8 @@ import com.aumum.app.mobile.ui.area.AreaListActivity;
 import com.aumum.app.mobile.ui.base.ItemListFragment;
 import com.aumum.app.mobile.ui.group.MyGroupsActivity;
 import com.aumum.app.mobile.ui.user.AreaUsersActivity;
-import com.aumum.app.mobile.ui.user.TagUsersActivity;
 import com.aumum.app.mobile.ui.user.UserActivity;
 import com.aumum.app.mobile.ui.user.UserClickListener;
-import com.aumum.app.mobile.ui.user.UserTagListActivity;
 import com.aumum.app.mobile.ui.view.dialog.ConfirmDialog;
 import com.aumum.app.mobile.ui.view.dialog.ListViewDialog;
 import com.aumum.app.mobile.ui.view.sort.InitialComparator;
@@ -144,13 +142,6 @@ public class ContactFragment extends ItemListFragment<UserInfo>
                 resultCode == Activity.RESULT_OK) {
             String area = data.getStringExtra(AreaListActivity.INTENT_AREA);
             startAreaUsersActivity(area);
-        } else if (requestCode == Constants.RequestCode.GET_USER_TAG_LIST_REQ_CODE &&
-                resultCode == Activity.RESULT_OK) {
-            final ArrayList<String> userTags =
-                    data.getStringArrayListExtra(UserTagListActivity.INTENT_USER_TAGS);
-            if (userTags.size() > 0) {
-                startTagUsersActivity(userTags);
-            }
         }
     }
 
@@ -224,12 +215,9 @@ public class ContactFragment extends ItemListFragment<UserInfo>
                                 showSearchUserDialog();
                                 break;
                             case 1:
-                                startUserTagListActivity();
-                                break;
-                            case 2:
                                 startAreaListActivity();
                                 break;
-                            case 3:
+                            case 2:
                                 startAreaUsersActivity();
                                 break;
                             default:
@@ -313,16 +301,5 @@ public class ContactFragment extends ItemListFragment<UserInfo>
                 return true;
             }
         }.execute();
-    }
-
-    private void startUserTagListActivity() {
-        final Intent intent = new Intent(getActivity(), UserTagListActivity.class);
-        startActivityForResult(intent, Constants.RequestCode.GET_USER_TAG_LIST_REQ_CODE);
-    }
-
-    private void startTagUsersActivity(ArrayList<String> tags) {
-        final Intent intent = new Intent(getActivity(), TagUsersActivity.class);
-        intent.putStringArrayListExtra(TagUsersActivity.INTENT_TAGS, tags);
-        startActivity(intent);
     }
 }

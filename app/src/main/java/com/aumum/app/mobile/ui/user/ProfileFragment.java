@@ -38,9 +38,7 @@ import org.lasque.tusdk.core.utils.image.BitmapHelper;
 import org.lasque.tusdk.core.utils.sqllite.ImageSqlInfo;
 
 import java.io.File;
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
 
 import javax.inject.Inject;
 
@@ -70,7 +68,6 @@ public class ProfileFragment extends LoaderFragment<User>
     private TextView emailText;
     private TextView cityText;
     private TextView areaText;
-    private TextView tagsText[];
     private TextView aboutText;
 
     @Override
@@ -225,17 +222,6 @@ public class ProfileFragment extends LoaderFragment<User>
             }
         });
         areaText = (TextView) view.findViewById(R.id.text_area);
-        tagsText = new TextView[3];
-        tagsText[0] = (TextView) view.findViewById(R.id.text_tag1);
-        tagsText[1] = (TextView) view.findViewById(R.id.text_tag2);
-        tagsText[2] = (TextView) view.findViewById(R.id.text_tag3);
-        View tagsLayout = view.findViewById(R.id.layout_tags);
-        tagsLayout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                startUserTagListActivity();
-            }
-        });
         View aboutLayout = view.findViewById(R.id.layout_about);
         aboutLayout.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -274,11 +260,6 @@ public class ProfileFragment extends LoaderFragment<User>
                 resultCode == Activity.RESULT_OK) {
             String area = data.getStringExtra(AreaListActivity.INTENT_AREA);
             updateArea(area);
-        } else if (requestCode == Constants.RequestCode.GET_USER_TAG_LIST_REQ_CODE &&
-                resultCode == Activity.RESULT_OK) {
-            final ArrayList<String> userTags =
-                    data.getStringArrayListExtra(UserTagListActivity.INTENT_USER_TAGS);
-            updateTags(userTags);
         }
     }
 
@@ -314,7 +295,6 @@ public class ProfileFragment extends LoaderFragment<User>
             emailText.setText(user.getEmail());
             cityText.setText(user.getCity());
             areaText.setText(user.getArea());
-            updateTagsUI(user.getTags());
             aboutText.setText(user.getAbout());
         }
     }
@@ -374,47 +354,9 @@ public class ProfileFragment extends LoaderFragment<User>
         }).show();
     }
 
-    private void updateTagsUI(final List<String> tags) {
-        for (int i = 0; i < tagsText.length; i++) {
-            tagsText[i].setText("");
-            tagsText[i].setVisibility(View.GONE);
-        }
-        for (int i = 0; i < tags.size(); i++) {
-            tagsText[i].setText(tags.get(i));
-            tagsText[i].setVisibility(View.VISIBLE);
-        }
-    }
-
-    private void updateTags(final List<String> tags) {
-        final String text = getString(R.string.label_confirm_user_tags);
-        new TextViewDialog(getActivity(), text, new ConfirmDialog.OnConfirmListener() {
-            @Override
-            public void call(Object value) throws Exception {
-                restService.updateUserTags(currentUser.getObjectId(), tags);
-                currentUser.setTags(tags);
-                userStore.save(currentUser);
-            }
-
-            @Override
-            public void onException(String errorMessage) {
-                showMsg(errorMessage);
-            }
-
-            @Override
-            public void onSuccess(Object value) {
-                updateTagsUI(tags);
-            }
-        }).show();
-    }
-
     private void startSettingsActivity() {
         final Intent intent = new Intent(getActivity(), SettingsActivity.class);
         getActivity().startActivityForResult(intent, Constants.RequestCode.SETTINGS_REQ_CODE);
-    }
-
-    private void startUserTagListActivity() {
-        final Intent intent = new Intent(getActivity(), UserTagListActivity.class);
-        startActivityForResult(intent, Constants.RequestCode.GET_USER_TAG_LIST_REQ_CODE);
     }
 
     @Override

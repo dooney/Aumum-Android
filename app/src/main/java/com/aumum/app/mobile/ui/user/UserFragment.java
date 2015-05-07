@@ -25,8 +25,6 @@ import com.aumum.app.mobile.ui.view.dialog.EditTextDialog;
 import com.aumum.app.mobile.ui.view.dialog.TextViewDialog;
 import com.github.kevinsawicki.wishlist.Toaster;
 
-import java.util.List;
-
 import javax.inject.Inject;
 
 /**
@@ -49,7 +47,6 @@ public class UserFragment extends LoaderFragment<User> {
     private TextView screenNameText;
     private TextView cityText;
     private TextView areaText;
-    private TextView tagsText[];
     private TextView aboutText;
     private Button addContactButton;
     private ViewGroup actionLayout;
@@ -86,10 +83,6 @@ public class UserFragment extends LoaderFragment<User> {
         screenNameText = (TextView) view.findViewById(R.id.text_screen_name);
         cityText = (TextView) view.findViewById(R.id.text_city);
         areaText = (TextView) view.findViewById(R.id.text_area);
-        tagsText = new TextView[3];
-        tagsText[0] = (TextView) view.findViewById(R.id.text_tag1);
-        tagsText[1] = (TextView) view.findViewById(R.id.text_tag2);
-        tagsText[2] = (TextView) view.findViewById(R.id.text_tag3);
         aboutText = (TextView) view.findViewById(R.id.text_about);
         addContactButton = (Button) view.findViewById(R.id.b_add_contact);
         actionLayout = (ViewGroup) view.findViewById(R.id.layout_action);
@@ -140,7 +133,6 @@ public class UserFragment extends LoaderFragment<User> {
             screenNameText.setText(user.getScreenName());
             cityText.setText(user.getCity());
             areaText.setText(user.getArea());
-            updateTagsUI(user.getTags());
             aboutText.setText(user.getAbout());
             addContactButton.setVisibility(View.GONE);
             actionLayout.setVisibility(View.GONE);
@@ -214,17 +206,6 @@ public class UserFragment extends LoaderFragment<User> {
                     }
                 });
             }
-        }
-    }
-
-    private void updateTagsUI(final List<String> tags) {
-        for (int i = 0; i < tagsText.length; i++) {
-            tagsText[i].setText("");
-            tagsText[i].setVisibility(View.GONE);
-        }
-        for (int i = 0; i < tags.size(); i++) {
-            tagsText[i].setText(tags.get(i));
-            tagsText[i].setVisibility(View.VISIBLE);
         }
     }
 }

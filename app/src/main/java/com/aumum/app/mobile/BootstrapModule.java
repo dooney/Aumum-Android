@@ -41,7 +41,6 @@ import com.aumum.app.mobile.ui.report.ReportActivity;
 import com.aumum.app.mobile.ui.settings.FeedbackActivity;
 import com.aumum.app.mobile.ui.settings.NotificationActivity;
 import com.aumum.app.mobile.ui.user.AreaUsersFragment;
-import com.aumum.app.mobile.ui.user.TagUsersFragment;
 import com.aumum.app.mobile.ui.main.MainFragment;
 import com.aumum.app.mobile.ui.like.LikesLayoutListener;
 import com.aumum.app.mobile.ui.account.ResetPasswordActivity;
@@ -53,7 +52,6 @@ import com.aumum.app.mobile.ui.settings.SettingsActivity;
 import com.aumum.app.mobile.ui.user.ProfileFragment;
 import com.aumum.app.mobile.ui.user.UserFragment;
 import com.aumum.app.mobile.ui.user.UserListFragment;
-import com.aumum.app.mobile.ui.user.UserTagListFragment;
 import com.aumum.app.mobile.utils.PostFromAnyThreadBus;
 import com.aumum.app.mobile.core.api.RestAdapterRequestInterceptor;
 import com.aumum.app.mobile.core.api.RestErrorHandler;
@@ -111,8 +109,6 @@ import retrofit.converter.GsonConverter;
                 AreaListFragment.class,
                 AreaUsersFragment.class,
                 NotificationActivity.class,
-                UserTagListFragment.class,
-                TagUsersFragment.class,
                 GroupListFragment.class,
                 GroupChangeListener.class,
                 GroupRequestsFragment.class,

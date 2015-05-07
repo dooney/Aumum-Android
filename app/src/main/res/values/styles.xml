@@ -6,8 +6,9 @@
     <style name="LinearLayout.NavButton" parent="LinearLayout">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
-        <item name="android:orientation">vertical</item>
+        <item name="android:padding">@dimen/margin_large</item>
         <item name="android:background">@drawable/button_navigation</item>
+        <item name="android:gravity">center_vertical</item>
     </style>
     <style name="RelativeLayout" />
     <style name="RelativeLayout.NavButton" parent="RelativeLayout">
@@ -150,7 +151,7 @@
     <style name="TextView" parent="android:Widget.TextView">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
-        <item name="android:textColor">@color/grey_dark</item>
+        <item name="android:textColor">@color/grey_medium_dark</item>
         <item name="android:textSize">@dimen/text_sz_medium</item>
     </style>
     <style name="LinkTextView" parent="TextView">
@@ -214,9 +215,7 @@
     <style name="TextView.Notification" parent="TextView">
         <item name="android:textColor">@color/bbutton_danger</item>
     </style>
-    <style name="TextView.Empty" parent="TextView">
-        <item name="android:textColor">@color/bbutton_danger</item>
-    </style>
+    <style name="TextView.Empty" parent="TextView.Subtitle" />
     <style name="TextView.Reload" parent="TextView">
         <item name="android:text">@string/info_click_to_reload</item>
         <item name="android:textColor">@color/bbutton_danger</item>
@@ -226,6 +225,9 @@
         <item name="android:textColor">@color/text</item>
         <item name="android:textSize">@dimen/text_sz_small</item>
         <item name="android:background">@color/grey_medium</item>
+    </style>
+    <style name="TextView.Label" parent="TextView.Subtitle">
+        <item name="android:paddingRight">@dimen/margin_extra_large</item>
     </style>
 
     <!-- Report -->
@@ -378,8 +380,6 @@
     </style>
 
     <!-- User -->
-    <style name="TextView.User" parent="TextView.Title" />
-    <style name="TextView.User.ScreenName" parent="TextView.User" />
     <style name="TextView.User.Tag" parent="TextView.Subtitle">
         <item name="android:background">@drawable/tag_background</item>
         <item name="android:layout_marginRight">@dimen/margin_small</item>
@@ -388,7 +388,7 @@
         <item name="android:maxLines">1</item>
         <item name="android:ellipsize">end</item>
     </style>
-    <style name="TextView.User.About" parent="TextView.Subtitle">
+    <style name="TextView.User.About" parent="TextView">
         <item name="android:lineSpacingMultiplier">1.1</item>
     </style>
     <style name="Button.User.AddContact" parent="Button.Primary">
@@ -497,9 +497,6 @@
     </style>
     <style name="EditText.Account.Area" parent="EditText.Mandatory">
         <item name="android:hint">@string/hint_area</item>
-    </style>
-    <style name="EditText.Account.Tags" parent="EditText.Mandatory">
-        <item name="android:hint">@string/hint_tags</item>
     </style>
     <style name="Button.Account.SignUp" parent="Button.Primary">
         <item name="android:text">@string/label_sign_up</item>

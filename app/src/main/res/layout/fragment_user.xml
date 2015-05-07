@@ -41,7 +41,7 @@
 
                         <TextView
                             android:id="@+id/text_screen_name"
-                            style="@style/TextView.User.ScreenName"/>
+                            style="@style/TextView"/>
 
                     </LinearLayout>
 
@@ -55,89 +55,47 @@
                 android:orientation="vertical"
                 android:layout_marginBottom="@dimen/margin_extra_large">
 
-                <RelativeLayout
-                    style="@style/RelativeLayout.NavButton">
+                <LinearLayout
+                    style="@style/LinearLayout.NavButton">
 
                     <TextView
                         android:id="@+id/text_label_city"
-                        style="@style/TextView.User"
-                        android:layout_centerVertical="true"
-                        android:layout_marginRight="@dimen/margin_large"
+                        style="@style/TextView.Label"
                         android:text="@string/label_city"/>
 
                     <TextView
                         android:id="@+id/text_city"
-                        style="@style/TextView.Subtitle"
-                        android:layout_toRightOf="@+id/text_label_city"
-                        android:layout_alignBaseline="@+id/text_label_city"/>
+                        style="@style/TextView"/>
 
-                </RelativeLayout>
+                </LinearLayout>
 
-                <RelativeLayout
-                    style="@style/RelativeLayout.NavButton">
+                <LinearLayout
+                    style="@style/LinearLayout.NavButton">
 
                     <TextView
                         android:id="@+id/text_label_area"
-                        style="@style/TextView.User"
-                        android:layout_centerVertical="true"
-                        android:layout_marginRight="@dimen/margin_large"
+                        style="@style/TextView.Label"
                         android:text="@string/label_area"/>
 
                     <TextView
                         android:id="@+id/text_area"
-                        style="@style/TextView.Subtitle"
-                        android:layout_toRightOf="@+id/text_label_area"
-                        android:layout_alignBaseline="@+id/text_label_area"/>
+                        style="@style/TextView"/>
 
-                </RelativeLayout>
+                </LinearLayout>
 
-                <RelativeLayout
-                    style="@style/RelativeLayout.NavButton">
-
-                    <TextView
-                        android:id="@+id/text_label_tags"
-                        style="@style/TextView.User"
-                        android:layout_centerVertical="true"
-                        android:layout_marginRight="@dimen/margin_large"
-                        android:text="@string/label_tags"/>
-
-                    <TextView
-                        android:id="@+id/text_tag1"
-                        style="@style/TextView.User.Tag"
-                        android:layout_toRightOf="@+id/text_label_tags"
-                        android:layout_alignBaseline="@+id/text_label_tags"/>
-
-                    <TextView
-                        android:id="@+id/text_tag2"
-                        style="@style/TextView.User.Tag"
-                        android:layout_toRightOf="@+id/text_tag1"
-                        android:layout_alignBaseline="@+id/text_label_tags"/>
-
-                    <TextView
-                        android:id="@+id/text_tag3"
-                        style="@style/TextView.User.Tag"
-                        android:layout_toRightOf="@+id/text_tag2"
-                        android:layout_alignBaseline="@+id/text_label_tags"/>
-
-                </RelativeLayout>
-
-                <RelativeLayout
-                    style="@style/RelativeLayout.NavButton">
+                <LinearLayout
+                    style="@style/LinearLayout.NavButton">
 
                     <TextView
                         android:id="@+id/text_label_about"
-                        style="@style/TextView.User"
-                        android:layout_centerVertical="true"
-                        android:layout_marginRight="@dimen/margin_large"
+                        style="@style/TextView.Label"
                         android:text="@string/label_about"/>
 
                     <TextView
                         android:id="@+id/text_about"
-                        style="@style/TextView.User.About"
-                        android:layout_toRightOf="@+id/text_label_about"
-                        android:layout_alignBaseline="@+id/text_label_about"/>
+                        style="@style/TextView.User.About"/>
 
-                </RelativeLayout>
+                </LinearLayout>
 
             </LinearLayout>
 

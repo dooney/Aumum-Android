@@ -115,37 +115,6 @@
                 </RelativeLayout>
 
                 <RelativeLayout
-                    android:id="@+id/layout_tags"
-                    style="@style/RelativeLayout.NavButton">
-
-                    <TextView
-                        android:id="@+id/text_label_tags"
-                        style="@style/TextView.Profile"
-                        android:layout_centerVertical="true"
-                        android:layout_marginRight="@dimen/margin_large"
-                        android:text="@string/label_tags"/>
-
-                    <TextView
-                        android:id="@+id/text_tag1"
-                        style="@style/TextView.Profile.Tag"
-                        android:layout_toRightOf="@+id/text_label_tags"
-                        android:layout_alignBaseline="@+id/text_label_tags"/>
-
-                    <TextView
-                        android:id="@+id/text_tag2"
-                        style="@style/TextView.Profile.Tag"
-                        android:layout_toRightOf="@+id/text_tag1"
-                        android:layout_alignBaseline="@+id/text_label_tags"/>
-
-                    <TextView
-                        android:id="@+id/text_tag3"
-                        style="@style/TextView.Profile.Tag"
-                        android:layout_toRightOf="@+id/text_tag2"
-                        android:layout_alignBaseline="@+id/text_label_tags"/>
-
-                </RelativeLayout>
-
-                <RelativeLayout
                     android:id="@+id/layout_about"
                     style="@style/RelativeLayout.NavButton">
 

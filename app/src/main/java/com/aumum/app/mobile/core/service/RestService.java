@@ -9,7 +9,6 @@ import com.aumum.app.mobile.core.model.Moment;
 import com.aumum.app.mobile.core.model.Report;
 import com.aumum.app.mobile.core.model.User;
 import com.aumum.app.mobile.core.model.UserInfo;
-import com.aumum.app.mobile.core.model.UserTag;
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
@@ -65,10 +64,6 @@ public class RestService {
 
     private CityGroupService getCityGroupService() {
         return getRestAdapter().create(CityGroupService.class);
-    }
-
-    private UserTagService getUserTagService() {
-        return getRestAdapter().create(UserTagService.class);
     }
 
     private MomentService getMomentService() {
@@ -186,12 +181,11 @@ public class RestService {
     }
 
     private String getUserFields() {
-        return String.format("%s,%s,%s,%s,%s,%s",
+        return String.format("%s,%s,%s,%s,%s",
                 Constants.Http.User.PARAM_SCREEN_NAME,
                 Constants.Http.User.PARAM_AVATAR_URL,
                 Constants.Http.User.PARAM_CITY,
                 Constants.Http.User.PARAM_AREA,
-                Constants.Http.User.PARAM_TAGS,
                 Constants.Http.User.PARAM_ABOUT);
     }
 
@@ -287,40 +281,6 @@ public class RestService {
         return result.get("count").getAsInt();
     }
 
-    private JsonObject buildTagUsersJson(String userId, List<String> tags) {
-        final JsonObject tagUsersJson = new JsonObject();
-        final JsonObject userIdJson = new JsonObject();
-        userIdJson.addProperty("$ne", userId);
-        tagUsersJson.add(Constants.Http.PARAM_OBJECT_ID, userIdJson);
-        if (tags.size() > 1) {
-            final JsonArray tagsJson = new JsonArray();
-            for(String tag: tags) {
-                final JsonObject tagJson = new JsonObject();
-                tagJson.addProperty(Constants.Http.User.PARAM_TAGS, tag);
-                tagsJson.add(tagJson);
-            }
-            tagUsersJson.add("$or", tagsJson);
-        } else {
-            tagUsersJson.addProperty(Constants.Http.User.PARAM_TAGS, tags.get(0));
-        }
-        return tagUsersJson;
-    }
-
-    public List<UserInfo> getTagUsers(String userId, List<String> tags) {
-        final JsonObject whereJson = buildTagUsersJson(userId, tags);
-        String where = whereJson.toString();
-        return getUserService()
-                .getInfoList(getUserInfoFields(), where)
-                .getResults();
-    }
-
-    public int getTagUsersCount(String userId, List<String> tags) {
-        final JsonObject whereJson = buildTagUsersJson(userId, tags);
-        String where = whereJson.toString();
-        JsonObject result = getUserService().getCount(where, 1, 0);
-        return result.get("count").getAsInt();
-    }
-
     public JsonObject updateUserAvatar(String userId, String avatarUrl) {
         final JsonObject data = new JsonObject();
         data.addProperty(Constants.Http.User.PARAM_AVATAR_URL, avatarUrl);
@@ -333,11 +293,6 @@ public class RestService {
         data.addProperty(Constants.Http.User.PARAM_EMAIL, user.getEmail());
         data.addProperty(Constants.Http.User.PARAM_CITY, user.getCity());
         data.addProperty(Constants.Http.User.PARAM_AREA, user.getArea());
-        JsonArray tags = new JsonArray();
-        for (String tag: user.getTags()) {
-            tags.add(new JsonPrimitive(tag));
-        }
-        data.add(Constants.Http.User.PARAM_TAGS, tags);
         data.addProperty(Constants.Http.User.PARAM_ABOUT, user.getAbout());
         data.addProperty(Constants.Http.User.PARAM_CHAT_ID, user.getChatId());
         return getUserService().updateById(user.getObjectId(), data);
@@ -364,16 +319,6 @@ public class RestService {
     public JsonObject updateUserArea(String userId, String area) {
         final JsonObject data = new JsonObject();
         data.addProperty(Constants.Http.User.PARAM_AREA, area);
-        return getUserService().updateById(userId, data);
-    }
-
-    public JsonObject updateUserTags(String userId, List<String> tags) {
-        JsonArray array = new JsonArray();
-        for (String tag: tags) {
-            array.add(new JsonPrimitive(tag));
-        }
-        final JsonObject data = new JsonObject();
-        data.add(Constants.Http.User.PARAM_TAGS, array);
         return getUserService().updateById(userId, data);
     }
 
@@ -426,10 +371,6 @@ public class RestService {
             return result.get(0);
         }
         return null;
-    }
-
-    public List<UserTag> getUserTags() {
-        return getUserTagService().getList().getResults();
     }
 
     public Moment newMoment(Moment moment) {

@@ -90,11 +90,6 @@ public final class Constants {
         public static final String URL_CITY_GROUP_FRAG = "/1/classes/CityGroup";
 
         /**
-         * List User Tags URL
-         */
-        public static final String URL_USER_TAGS_FRAG = "/1/classes/UserTags";
-
-        /**
          * List Moments URL
          */
         public static final String URL_MOMENTS_FRAG = "/1/classes/Moments";
@@ -141,7 +136,6 @@ public final class Constants {
             public static final String PARAM_EMAIL = "email";
             public static final String PARAM_CITY = "city";
             public static final String PARAM_AREA = "area";
-            public static final String PARAM_TAGS = "tags";
             public static final String PARAM_ABOUT = "about";
             public static final String PARAM_CHAT_ID = "chatId";
             public static final String PARAM_MOMENTS = "moments";
@@ -223,9 +217,8 @@ public final class Constants {
         public static final int SETTINGS_REQ_CODE = 30;
         public static final int GET_GROUP_DETAILS_REQ_CODE = 31;
         public static final int GET_AREA_LIST_REQ_CODE = 32;
-        public static final int GET_USER_TAG_LIST_REQ_CODE = 33;
-        public static final int NEW_GROUP_REQ_CODE = 34;
-        public static final int NEW_MOMENT_REQ_CODE = 35;
+        public static final int NEW_GROUP_REQ_CODE = 33;
+        public static final int NEW_MOMENT_REQ_CODE = 34;
     }
 
     public static final class Link {

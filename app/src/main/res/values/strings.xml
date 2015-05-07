@@ -15,7 +15,6 @@
     </string-array>
     <string-array name="label_add_contacts">
         <item>手机号码/用户昵称</item>
-        <item>指定标签</item>
         <item>指定地区</item>
         <item>同一地区</item>
     </string-array>
@@ -113,9 +112,7 @@
     <string name="info_feedback_submitted">反馈已成功提交，感谢您的支持！</string>
     <string name="info_area_users_found">在%1$s为您找到%2$d位用户</string>
     <string name="info_new_area_user_message">同区新用户</string>
-    <string name="info_new_tag_user_message">相似标签新用户</string>
     <string name="info_welcome_new_user">%1$s刚刚加入，过去打个招呼吧！</string>
-    <string name="info_tag_users_found">按标签为您找到%,d位用户</string>
     <string name="info_no_group_found">没找到任何相关群组</string>
     <string name="info_empty_group_application_list">您还没收到任何入群请求</string>
     <string name="info_join_group_sent">发送成功，请等待群主验证</string>
@@ -166,7 +163,6 @@
     <string name="title_activity_area_list">请选择您所在的地区</string>
     <string name="title_activity_notification_settings">通知设置</string>
     <string name="title_activity_search_area">请选择您要指定的地区</string>
-    <string name="title_activity_user_tag_list">请选择您的标签</string>
     <string name="title_activity_group_list">群组列表</string>
     <string name="title_activity_group_requests">入群请求</string>
     <string name="title_activity_group_member_picker">选择群组成员</string>
@@ -182,7 +178,6 @@
     <string name="hint_email">邮箱地址 (找回密码)</string>
     <string name="hint_city">所在城市</string>
     <string name="hint_area">所在地区</string>
-    <string name="hint_tags">个人标签</string>
     <string name="hint_about">个人简介</string>
     <string name="label_city">所在城市</string>
     <string name="label_select_your_city">请选择您所在的城市</string>
@@ -222,10 +217,8 @@
     <!-- Profile -->
     <string name="label_screen_name">用户昵称</string>
     <string name="label_email_address">邮箱地址</string>
-    <string name="label_tags">个人标签</string>
     <string name="label_confirm_city">您确定变更城市为&lt;font color=#d9534f>%1$s&lt;/font>？</string>
     <string name="label_confirm_area">您确定变更地区为&lt;font color=#d9534f>%1$s&lt;/font>？</string>
-    <string name="label_confirm_user_tags">您的标签已更改，是否保存？</string>
 
     <!-- Settings -->
     <string name="label_notification">通知</string>

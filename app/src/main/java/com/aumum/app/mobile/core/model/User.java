@@ -15,7 +15,6 @@ public class User extends AggregateRoot {
     protected String avatarUrl;
     protected String about;
     protected List<String> contacts = new ArrayList<String>();
-    protected List<String> tags = new ArrayList<>();
 
     public User() {
 
@@ -31,8 +30,7 @@ public class User extends AggregateRoot {
                 String area,
                 String avatarUrl,
                 String about,
-                List<String> contacts,
-                List<String> tags) {
+                List<String> contacts) {
         this.objectId = objectId;
         this.username = username;
         this.chatId = chatId;
@@ -46,10 +44,6 @@ public class User extends AggregateRoot {
         if (contacts != null) {
             this.contacts.clear();
             this.contacts.addAll(contacts);
-        }
-        if (tags != null) {
-            this.tags.clear();
-            this.tags.addAll(tags);
         }
     }
 
@@ -120,15 +114,6 @@ public class User extends AggregateRoot {
 
     public List<String> getContacts() {
         return contacts;
-    }
-
-    public List<String> getTags() {
-        return tags;
-    }
-
-    public void setTags(List<String> tags) {
-        this.tags.clear();
-        this.tags.addAll(tags);
     }
 
     public void addContact(String contactId) {

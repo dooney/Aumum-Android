@@ -1,6 +1,5 @@
 package com.aumum.app.mobile.ui.account;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
@@ -26,8 +25,6 @@ import com.aumum.app.mobile.ui.area.AreaListActivity;
 import com.aumum.app.mobile.ui.base.ProgressDialogActivity;
 import com.aumum.app.mobile.ui.helper.TextWatcherAdapter;
 import com.aumum.app.mobile.ui.user.AreaUsersActivity;
-import com.aumum.app.mobile.ui.user.TagUsersActivity;
-import com.aumum.app.mobile.ui.user.UserTagListActivity;
 import com.aumum.app.mobile.ui.view.Animation;
 import com.aumum.app.mobile.ui.view.dialog.ListViewDialog;
 import com.aumum.app.mobile.utils.EditTextUtils;
@@ -76,19 +73,15 @@ public class CompleteProfileActivity extends ProgressDialogActivity
 
     @InjectView(R.id.et_city) protected EditText cityText;
     @InjectView(R.id.et_area) protected EditText areaText;
-    @InjectView(R.id.et_tags) protected EditText tagsText;
     @InjectView(R.id.et_about) protected EditText aboutText;
 
     private String userId;
-    private String avatarUrl;
     private String screenName;
     private String email;
     private String city;
     private String area;
-    private ArrayList<String> tags;
     private String about;
     private int areaUsersCount;
-    private int tagUsersCount;
 
     private Validator validator;
     private SafeAsyncTask<Boolean> task;
@@ -96,7 +89,6 @@ public class CompleteProfileActivity extends ProgressDialogActivity
 
     public static final String INTENT_USER_ID = "userId";
     private static final int GET_AREA_USERS_REQ_CODE = 100;
-    private static final int GET_TAG_USERS_REQ_CODE = 101;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -108,7 +100,6 @@ public class CompleteProfileActivity extends ProgressDialogActivity
         userId = getIntent().getStringExtra(INTENT_USER_ID);
         fileUploadService.init(userId);
         fileUploadService.setFileUploadListener(this);
-        tags = new ArrayList<>();
 
         avatarImage.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -149,13 +140,6 @@ public class CompleteProfileActivity extends ProgressDialogActivity
             }
         });
         areaText.addTextChangedListener(watcher);
-        tagsText.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                startUserTagListActivity();
-            }
-        });
-        tagsText.addTextChangedListener(watcher);
         validator = new Validator(this);
         validator.setValidationListener(this);
 
@@ -188,20 +172,8 @@ public class CompleteProfileActivity extends ProgressDialogActivity
             String area = data.getStringExtra(AreaListActivity.INTENT_AREA);
             updateArea(area);
         } else if (requestCode == GET_AREA_USERS_REQ_CODE) {
-            if (tagUsersCount > 0) {
-                startTagUsersActivity(tags);
-            } else {
-                setResult(RESULT_OK);
-                finish();
-            }
-        } else if (requestCode == GET_TAG_USERS_REQ_CODE) {
             setResult(RESULT_OK);
             finish();
-        } else if (requestCode == Constants.RequestCode.GET_USER_TAG_LIST_REQ_CODE &&
-                resultCode == Activity.RESULT_OK) {
-            final ArrayList<String> userTags =
-                    data.getStringArrayListExtra(UserTagListActivity.INTENT_USER_TAGS);
-            updateTags(userTags);
         }
     }
 
@@ -217,8 +189,7 @@ public class CompleteProfileActivity extends ProgressDialogActivity
         final boolean populated = populated(screenNameText) &&
                 populated(emailText) &&
                 cityText.getText().length() > 0 &&
-                areaText.getText().length() > 0 &&
-                tagsText.getText().length() > 0;
+                areaText.getText().length() > 0;
         if (saveButton != null) {
             saveButton.setEnabled(populated);
         }
@@ -256,11 +227,9 @@ public class CompleteProfileActivity extends ProgressDialogActivity
                 user.setEmail(email);
                 user.setCity(city);
                 user.setArea(area);
-                user.setTags(tags);
                 user.setAbout(about);
                 restService.updateUserProfile(user);
                 areaUsersCount = restService.getAreaUsersCount(userId, area);
-                tagUsersCount = restService.getTagUsersCount(userId, tags);
                 joinCityGroup(user);
                 return true;
             }
@@ -276,8 +245,6 @@ public class CompleteProfileActivity extends ProgressDialogActivity
             protected void onSuccess(Boolean success) throws Exception {
                 if (areaUsersCount > 0) {
                     startAreaUsersActivity(area);
-                } else if (tagUsersCount > 0) {
-                    startTagUsersActivity(tags);
                 } else {
                     setResult(RESULT_OK);
                     finish();
@@ -308,11 +275,6 @@ public class CompleteProfileActivity extends ProgressDialogActivity
                 if(!(e instanceof RetrofitError)) {
                     showError(e);
                 }
-            }
-
-            @Override
-            protected void onSuccess(Boolean success) throws Exception {
-                avatarUrl = fileUrl;
             }
 
             @Override
@@ -382,31 +344,6 @@ public class CompleteProfileActivity extends ProgressDialogActivity
                 Ln.e(e);
             }
         }.execute();
-    }
-
-    private void startUserTagListActivity() {
-        final Intent intent = new Intent(this, UserTagListActivity.class);
-        startActivityForResult(intent, Constants.RequestCode.GET_USER_TAG_LIST_REQ_CODE);
-    }
-
-    private void updateTags(final List<String> userTags) {
-        if (userTags.size() > 0) {
-            String text = "";
-            for(String tag: userTags) {
-                text += tag + "  ";
-            }
-            tagsText.setText(text);
-            tags.clear();
-            tags.addAll(userTags);
-        }
-    }
-
-    private void startTagUsersActivity(ArrayList<String> tags) {
-        final Intent intent = new Intent(this, TagUsersActivity.class);
-        intent.putExtra(TagUsersActivity.INTENT_USER_ID, userId);
-        intent.putStringArrayListExtra(TagUsersActivity.INTENT_TAGS, tags);
-        intent.putExtra(TagUsersActivity.INTENT_SHOULD_NOTIFY, true);
-        startActivityForResult(intent, GET_TAG_USERS_REQ_CODE);
     }
 
     @Override
