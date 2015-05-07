@@ -14,9 +14,7 @@ import android.widget.ImageView;
 
 import com.aumum.app.mobile.Injector;
 import com.aumum.app.mobile.R;
-import com.aumum.app.mobile.core.dao.CreditRuleStore;
 import com.aumum.app.mobile.core.dao.UserStore;
-import com.aumum.app.mobile.core.model.CreditRule;
 import com.aumum.app.mobile.core.model.Moment;
 import com.aumum.app.mobile.core.model.User;
 import com.aumum.app.mobile.core.service.FileUploadService;
@@ -40,7 +38,6 @@ public class NewMomentActivity extends ProgressDialogActivity
 
     @Inject RestService restService;
     @Inject FileUploadService fileUploadService;
-    @Inject CreditRuleStore creditRuleStore;
     @Inject UserStore userStore;
 
     public static final String INTENT_IMAGE_URI = "imageUri";
@@ -118,7 +115,6 @@ public class NewMomentActivity extends ProgressDialogActivity
                 moment = restService.newMoment(moment);
                 restService.addUserMoment(currentUser.getObjectId(),
                         moment.getObjectId());
-                updateCredit(currentUser, CreditRule.ADD_MOMENT);
                 return true;
             }
 
@@ -142,23 +138,6 @@ public class NewMomentActivity extends ProgressDialogActivity
             }
         };
         task.execute();
-    }
-
-    private void updateCredit(User currentUser, int seq) throws Exception {
-        final CreditRule creditRule = creditRuleStore.getCreditRuleBySeq(seq);
-        if (creditRule != null) {
-            final int credit = creditRule.getCredit();
-            restService.updateUserCredit(currentUser.getObjectId(), credit);
-            currentUser.updateCredit(credit);
-            userStore.save(currentUser);
-            runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    showMsg(getString(R.string.info_got_credit,
-                            creditRule.getDescription(), credit));
-                }
-            });
-        }
     }
 
     @Override

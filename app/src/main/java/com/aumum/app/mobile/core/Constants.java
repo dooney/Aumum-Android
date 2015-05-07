@@ -95,11 +95,6 @@ public final class Constants {
         public static final String URL_USER_TAGS_FRAG = "/1/classes/UserTags";
 
         /**
-         * List Credit Rules URL
-         */
-        public static final String URL_CREDIT_RULES_FRAG = "/1/classes/CreditRules";
-
-        /**
          * List Moments URL
          */
         public static final String URL_MOMENTS_FRAG = "/1/classes/Moments";
@@ -149,7 +144,6 @@ public final class Constants {
             public static final String PARAM_TAGS = "tags";
             public static final String PARAM_ABOUT = "about";
             public static final String PARAM_CHAT_ID = "chatId";
-            public static final String PARAM_CREDIT = "credit";
             public static final String PARAM_MOMENTS = "moments";
         }
 
@@ -159,10 +153,6 @@ public final class Constants {
 
         public static final class CityGroup {
             public static final String PARAM_CITY = "city";
-        }
-
-        public static final class CreditRule {
-            public static final String PARAM_SEQ = "seq";
         }
     }
 
@@ -245,7 +235,6 @@ public final class Constants {
         public static final String HOME = "http://www.aumums.com";
         public static final String VERSION_DETAILS = "http://www.aumums.com/version";
         public static final String AGREEMENT = "http://www.aumums.com/agreement";
-        public static final String CREDIT = "http://www.aumums.com/credit";
     }
 }
 

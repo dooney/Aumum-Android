@@ -3,7 +3,6 @@ package com.aumum.app.mobile;
 import android.accounts.AccountManager;
 import android.content.Context;
 
-import com.aumum.app.mobile.core.dao.CreditRuleStore;
 import com.aumum.app.mobile.core.dao.MomentStore;
 import com.aumum.app.mobile.core.dao.Repository;
 import com.aumum.app.mobile.core.infra.security.ApiKeyProvider;
@@ -168,12 +167,6 @@ public class BootstrapModule {
     @Singleton
     UserStore provideUserStore(RestService restService, ApiKeyProvider apiKeyProvider, Repository repository) {
         return new UserStore(restService, apiKeyProvider, repository);
-    }
-
-    @Provides
-    @Singleton
-    CreditRuleStore provideCreditRuleStore(RestService restService, Repository repository) {
-        return new CreditRuleStore(restService, repository);
     }
 
     @Provides

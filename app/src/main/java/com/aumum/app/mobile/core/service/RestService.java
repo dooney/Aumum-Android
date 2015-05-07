@@ -3,7 +3,6 @@ package com.aumum.app.mobile.core.service;
 
 import com.aumum.app.mobile.core.model.Area;
 import com.aumum.app.mobile.core.model.CityGroup;
-import com.aumum.app.mobile.core.model.CreditRule;
 import com.aumum.app.mobile.core.model.Feedback;
 import com.aumum.app.mobile.core.Constants;
 import com.aumum.app.mobile.core.model.Moment;
@@ -70,10 +69,6 @@ public class RestService {
 
     private UserTagService getUserTagService() {
         return getRestAdapter().create(UserTagService.class);
-    }
-
-    private CreditRuleService getCreditRuleService() {
-        return getRestAdapter().create(CreditRuleService.class);
     }
 
     private MomentService getMomentService() {
@@ -191,14 +186,13 @@ public class RestService {
     }
 
     private String getUserFields() {
-        return String.format("%s,%s,%s,%s,%s,%s,%s",
+        return String.format("%s,%s,%s,%s,%s,%s",
                 Constants.Http.User.PARAM_SCREEN_NAME,
                 Constants.Http.User.PARAM_AVATAR_URL,
                 Constants.Http.User.PARAM_CITY,
                 Constants.Http.User.PARAM_AREA,
                 Constants.Http.User.PARAM_TAGS,
-                Constants.Http.User.PARAM_ABOUT,
-                Constants.Http.User.PARAM_CREDIT);
+                Constants.Http.User.PARAM_ABOUT);
     }
 
     public User getUserById(String id) {
@@ -389,18 +383,6 @@ public class RestService {
         return getUserService().updateById(userId, data);
     }
 
-    public JsonObject updateUserCredit(String userId, int credit) {
-        if (credit != 0) {
-            final JsonObject data = new JsonObject();
-            final JsonObject opJson = new JsonObject();
-            opJson.addProperty("__op", "Increment");
-            opJson.addProperty("amount", credit);
-            data.add(Constants.Http.User.PARAM_CREDIT, opJson);
-            return getUserService().updateById(userId, data);
-        }
-        return null;
-    }
-
     public JsonObject addUserMoment(String userId, String momentId) {
         final JsonObject op = new JsonObject();
         op.addProperty("__op", "AddUnique");
@@ -470,12 +452,5 @@ public class RestService {
         whereJson.add("createdAt", buildDateTimeBeforeJson(before));
         String where = buildLiveJson(whereJson).toString();
         return getMomentService().getList("-createdAt", where, limit).getResults();
-    }
-
-    public List<CreditRule> getCreditRuleList() {
-        final JsonObject whereJson = new JsonObject();
-        String where = buildLiveJson(whereJson).toString();
-        return getCreditRuleService().getList(Constants.Http.CreditRule.PARAM_SEQ,
-                where, Integer.MAX_VALUE).getResults();
     }
 }

@@ -5,7 +5,7 @@ import de.greenrobot.daogenerator.Schema;
 
 public class DaoGenerator {
 
-    private static final int SCHEMA_VERSION = 23;
+    private static final int SCHEMA_VERSION = 24;
 
     public static void main(String args[]) throws Exception {
         Schema schema = new Schema(SCHEMA_VERSION, "com.aumum.app.mobile.core.dao.gen");
@@ -14,7 +14,6 @@ public class DaoGenerator {
         addUserInfo(schema);
         addContactRequest(schema);
         addGroupRequest(schema);
-        addCreditRule(schema);
         addMoment(schema);
 
         new de.greenrobot.daogenerator.DaoGenerator().generateAll(schema, args[0]);
@@ -35,7 +34,6 @@ public class DaoGenerator {
         user.addStringProperty("about");
         user.addStringProperty("contacts");
         user.addStringProperty("tags");
-        user.addIntProperty("credit");
     }
 
     private static void addUserInfo(Schema schema) {
@@ -62,15 +60,6 @@ public class DaoGenerator {
         request.addStringProperty("userId").notNull();
         request.addStringProperty("reason");
         request.addIntProperty("status");
-    }
-
-    private static void addCreditRule(Schema schema) {
-        Entity creditRule = schema.addEntity("CreditRuleEntity");
-        creditRule.setSuperclass("BaseEntity");
-        creditRule.addStringProperty("objectId").notNull().primaryKey();
-        creditRule.addIntProperty("seq");
-        creditRule.addIntProperty("credit");
-        creditRule.addStringProperty("description");
     }
 
     private static void addMoment(Schema schema) {

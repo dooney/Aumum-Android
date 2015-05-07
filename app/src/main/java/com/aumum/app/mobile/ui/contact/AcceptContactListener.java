@@ -6,16 +6,13 @@ import android.view.View;
 
 import com.aumum.app.mobile.Injector;
 import com.aumum.app.mobile.R;
-import com.aumum.app.mobile.core.dao.CreditRuleStore;
 import com.aumum.app.mobile.core.dao.UserStore;
-import com.aumum.app.mobile.core.model.CreditRule;
 import com.aumum.app.mobile.core.model.User;
 import com.aumum.app.mobile.core.model.UserInfo;
 import com.aumum.app.mobile.core.service.ChatService;
 import com.aumum.app.mobile.core.service.RestService;
 import com.aumum.app.mobile.utils.Ln;
 import com.aumum.app.mobile.utils.SafeAsyncTask;
-import com.github.kevinsawicki.wishlist.Toaster;
 
 import javax.inject.Inject;
 
@@ -29,7 +26,6 @@ public class AcceptContactListener implements View.OnClickListener {
     @Inject ChatService chatService;
     @Inject RestService restService;
     @Inject UserStore userStore;
-    @Inject CreditRuleStore creditRuleStore;
 
     private Activity activity;
     private String userId;
@@ -80,7 +76,6 @@ public class AcceptContactListener implements View.OnClickListener {
                 chatService.acceptInvitation(userId);
                 User currentUser = userStore.getCurrentUser();
                 restService.addContact(currentUser.getObjectId(), userId);
-                updateCredit(currentUser, CreditRule.ADD_CONTACT);
                 currentUser.addContact(userId);
                 userStore.save(currentUser);
 
@@ -119,22 +114,5 @@ public class AcceptContactListener implements View.OnClickListener {
             }
         };
         task.execute();
-    }
-
-    private void updateCredit(User currentUser, int seq) throws Exception {
-        final CreditRule creditRule = creditRuleStore.getCreditRuleBySeq(seq);
-        if (creditRule != null) {
-            final int credit = creditRule.getCredit();
-            restService.updateUserCredit(currentUser.getObjectId(), credit);
-            currentUser.updateCredit(credit);
-            userStore.save(currentUser);
-            activity.runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    Toaster.showShort(activity, activity.getString(R.string.info_got_credit,
-                            creditRule.getDescription(), credit));
-                }
-            });
-        }
     }
 }

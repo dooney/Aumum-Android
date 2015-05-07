@@ -16,10 +16,8 @@ import android.widget.ImageView;
 import com.aumum.app.mobile.Injector;
 import com.aumum.app.mobile.R;
 import com.aumum.app.mobile.core.Constants;
-import com.aumum.app.mobile.core.dao.CreditRuleStore;
 import com.aumum.app.mobile.core.model.CityGroup;
 import com.aumum.app.mobile.core.model.CmdMessage;
-import com.aumum.app.mobile.core.model.CreditRule;
 import com.aumum.app.mobile.core.model.User;
 import com.aumum.app.mobile.core.service.ChatService;
 import com.aumum.app.mobile.core.service.FileUploadService;
@@ -65,7 +63,6 @@ public class CompleteProfileActivity extends ProgressDialogActivity
 
     @Inject RestService restService;
     @Inject ChatService chatService;
-    @Inject CreditRuleStore creditRuleStore;
     @Inject FileUploadService fileUploadService;
 
     private Button saveButton;
@@ -262,12 +259,6 @@ public class CompleteProfileActivity extends ProgressDialogActivity
                 user.setTags(tags);
                 user.setAbout(about);
                 restService.updateUserProfile(user);
-                if (avatarUrl != null) {
-                    updateCredit(userId, CreditRule.ADD_AVATAR);
-                }
-                if (about != null) {
-                    updateCredit(userId, CreditRule.ADD_ABOUT);
-                }
                 areaUsersCount = restService.getAreaUsersCount(userId, area);
                 tagUsersCount = restService.getTagUsersCount(userId, tags);
                 joinCityGroup(user);
@@ -416,13 +407,6 @@ public class CompleteProfileActivity extends ProgressDialogActivity
         intent.putStringArrayListExtra(TagUsersActivity.INTENT_TAGS, tags);
         intent.putExtra(TagUsersActivity.INTENT_SHOULD_NOTIFY, true);
         startActivityForResult(intent, GET_TAG_USERS_REQ_CODE);
-    }
-
-    private void updateCredit(String userId, int seq) {
-        CreditRule creditRule = creditRuleStore.getCreditRuleBySeq(seq);
-        if (creditRule != null) {
-            restService.updateUserCredit(userId, creditRule.getCredit());
-        }
     }
 
     @Override

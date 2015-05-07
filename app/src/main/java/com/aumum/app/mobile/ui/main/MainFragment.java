@@ -16,7 +16,6 @@ import android.widget.TextView;
 
 import com.aumum.app.mobile.Injector;
 import com.aumum.app.mobile.R;
-import com.aumum.app.mobile.core.dao.CreditRuleStore;
 import com.aumum.app.mobile.core.infra.security.ApiKeyProvider;
 import com.aumum.app.mobile.core.model.CmdMessage;
 import com.aumum.app.mobile.core.service.ChatService;
@@ -49,7 +48,6 @@ import retrofit.RetrofitError;
 public class MainFragment extends Fragment
         implements ScheduleService.OnScheduleListener {
 
-    @Inject CreditRuleStore creditRuleStore;
     @Inject NotificationService notificationService;
     @Inject ChatService chatService;
     @Inject FileUploadService fileUploadService;
@@ -89,7 +87,6 @@ public class MainFragment extends Fragment
         initChatServer();
         initFileUploadService();
         initScheduleService();
-        initCreditRules();
     }
 
     @Override
@@ -160,16 +157,6 @@ public class MainFragment extends Fragment
 
     private void initScheduleService() {
         scheduleService = new ScheduleService(this);
-    }
-
-    private void initCreditRules() {
-        new SafeAsyncTask<Boolean>() {
-            @Override
-            public Boolean call() throws Exception {
-                creditRuleStore.getAll();
-                return true;
-            }
-        }.execute();
     }
 
     private void initChatServer() {

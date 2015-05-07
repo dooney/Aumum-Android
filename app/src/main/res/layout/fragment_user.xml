@@ -43,10 +43,6 @@
                             android:id="@+id/text_screen_name"
                             style="@style/TextView.User.ScreenName"/>
 
-                        <TextView
-                            android:id="@+id/text_credit"
-                            style="@style/TextView.Subtitle.Small" />
-
                     </LinearLayout>
 
                 </RelativeLayout>

@@ -12,9 +12,7 @@ import android.widget.TextView;
 
 import com.aumum.app.mobile.Injector;
 import com.aumum.app.mobile.R;
-import com.aumum.app.mobile.core.dao.CreditRuleStore;
 import com.aumum.app.mobile.core.dao.UserStore;
-import com.aumum.app.mobile.core.model.CreditRule;
 import com.aumum.app.mobile.core.model.User;
 import com.aumum.app.mobile.core.service.ChatService;
 import com.aumum.app.mobile.core.service.RestService;
@@ -38,7 +36,6 @@ import javax.inject.Inject;
 public class UserFragment extends LoaderFragment<User> {
 
     @Inject UserStore userStore;
-    @Inject CreditRuleStore creditRuleStore;
     @Inject ChatService chatService;
     @Inject RestService restService;
 
@@ -49,7 +46,6 @@ public class UserFragment extends LoaderFragment<User> {
 
     private View mainView;
     private AvatarImageView avatarImage;
-    private TextView creditText;
     private TextView screenNameText;
     private TextView cityText;
     private TextView areaText;
@@ -87,7 +83,6 @@ public class UserFragment extends LoaderFragment<User> {
 
         mainView = view.findViewById(R.id.main_view);
         avatarImage = (AvatarImageView) view.findViewById(R.id.image_avatar);
-        creditText = (TextView) view.findViewById(R.id.text_credit);
         screenNameText = (TextView) view.findViewById(R.id.text_screen_name);
         cityText = (TextView) view.findViewById(R.id.text_city);
         areaText = (TextView) view.findViewById(R.id.text_area);
@@ -142,7 +137,6 @@ public class UserFragment extends LoaderFragment<User> {
                     startActivity(intent);
                 }
             });
-            creditText.setText(getString(R.string.label_user_credit, user.getCredit()));
             screenNameText.setText(user.getScreenName());
             cityText.setText(user.getCity());
             areaText.setText(user.getArea());
@@ -176,7 +170,6 @@ public class UserFragment extends LoaderFragment<User> {
                                         chatService.deleteContact(userId);
                                         String currentUserId = currentUser.getObjectId();
                                         restService.removeContact(currentUserId, userId);
-                                        updateCredit(currentUser, CreditRule.DELETE_CONTACT);
                                         currentUser.removeContact(userId);
                                         userStore.save(currentUser);
                                     }
@@ -232,16 +225,6 @@ public class UserFragment extends LoaderFragment<User> {
         for (int i = 0; i < tags.size(); i++) {
             tagsText[i].setText(tags.get(i));
             tagsText[i].setVisibility(View.VISIBLE);
-        }
-    }
-
-    private void updateCredit(User currentUser, int seq) throws Exception {
-        CreditRule creditRule = creditRuleStore.getCreditRuleBySeq(seq);
-        if (creditRule != null) {
-            int credit = creditRule.getCredit();
-            restService.updateUserCredit(currentUser.getObjectId(), credit);
-            currentUser.updateCredit(credit);
-            userStore.save(currentUser);
         }
     }
 }

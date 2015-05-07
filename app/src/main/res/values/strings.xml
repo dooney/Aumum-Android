@@ -121,7 +121,6 @@
     <string name="info_join_group_sent">发送成功，请等待群主验证</string>
     <string name="info_user_was_removed">您已被从群%1$s里移出</string>
     <string name="info_empty_member_list">该群组没有其他成员</string>
-    <string name="info_got_credit">%1$s：获得积分%2$d</string>
     <string name="info_submitting_group">正在提交您的群组，请稍候</string>
     <string name="info_confirm_delete_chat_message">您确定要删除该聊天记录？</string>
     <string name="info_chat_text_copied">文本已复制到粘贴板</string>
@@ -219,7 +218,6 @@
     <string name="label_accept">同意</string>
     <string name="label_added">已添加</string>
     <string name="label_contact_agreed">已经同意您的添加好友请求</string>
-    <string name="label_user_credit">积分：%,d</string>
 
     <!-- Profile -->
     <string name="label_screen_name">用户昵称</string>
@@ -228,8 +226,6 @@
     <string name="label_confirm_city">您确定变更城市为&lt;font color=#d9534f>%1$s&lt;/font>？</string>
     <string name="label_confirm_area">您确定变更地区为&lt;font color=#d9534f>%1$s&lt;/font>？</string>
     <string name="label_confirm_user_tags">您的标签已更改，是否保存？</string>
-    <string name="label_credit">用户积分</string>
-    <string name="label_credit_info">积分细则</string>
 
     <!-- Settings -->
     <string name="label_notification">通知</string>

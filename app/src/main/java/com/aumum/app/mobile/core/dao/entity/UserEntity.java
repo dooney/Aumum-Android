@@ -19,7 +19,6 @@ public class UserEntity extends BaseEntity {
     private String about;
     private String contacts;
     private String tags;
-    private Integer credit;
 
     public UserEntity() {
     }
@@ -39,8 +38,7 @@ public class UserEntity extends BaseEntity {
                       String avatarUrl,
                       String about,
                       String contacts,
-                      String tags,
-                      Integer credit) {
+                      String tags) {
         this.objectId = objectId;
         this.username = username;
         this.chatId = chatId;
@@ -53,7 +51,6 @@ public class UserEntity extends BaseEntity {
         this.about = about;
         this.contacts = contacts;
         this.tags = tags;
-        this.credit = credit;
     }
 
     public String getUsername() {
@@ -134,13 +131,5 @@ public class UserEntity extends BaseEntity {
 
     public void setTags(String tags) {
         this.tags = tags;
-    }
-
-    public Integer getCredit() {
-        return credit;
-    }
-
-    public void setCredit(Integer credit) {
-        this.credit = credit;
     }
 }

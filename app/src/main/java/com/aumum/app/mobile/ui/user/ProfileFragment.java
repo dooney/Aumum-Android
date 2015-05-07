@@ -18,15 +18,12 @@ import android.widget.TextView;
 import com.aumum.app.mobile.Injector;
 import com.aumum.app.mobile.R;
 import com.aumum.app.mobile.core.Constants;
-import com.aumum.app.mobile.core.dao.CreditRuleStore;
 import com.aumum.app.mobile.core.dao.UserStore;
-import com.aumum.app.mobile.core.model.CreditRule;
 import com.aumum.app.mobile.core.model.User;
 import com.aumum.app.mobile.core.service.FileUploadService;
 import com.aumum.app.mobile.core.service.RestService;
 import com.aumum.app.mobile.ui.area.AreaListActivity;
 import com.aumum.app.mobile.ui.base.LoaderFragment;
-import com.aumum.app.mobile.ui.browser.BrowserActivity;
 import com.aumum.app.mobile.ui.settings.SettingsActivity;
 import com.aumum.app.mobile.ui.view.AvatarImageView;
 import com.aumum.app.mobile.ui.view.dialog.ConfirmDialog;
@@ -62,7 +59,6 @@ public class ProfileFragment extends LoaderFragment<User>
 
     @Inject RestService restService;
     @Inject UserStore userStore;
-    @Inject CreditRuleStore creditRuleStore;
     @Inject FileUploadService fileUploadService;
 
     private User currentUser;
@@ -71,7 +67,6 @@ public class ProfileFragment extends LoaderFragment<User>
     private View mainView;
     private AvatarImageView avatarImage;
     private TextView screenNameText;
-    private TextView creditText;
     private TextView emailText;
     private TextView cityText;
     private TextView areaText;
@@ -151,14 +146,6 @@ public class ProfileFragment extends LoaderFragment<User>
             }
         });
         screenNameText = (TextView) view.findViewById(R.id.text_screen_name);
-        creditText = (TextView) view.findViewById(R.id.text_credit);
-        TextView creditInfoText = (TextView) view.findViewById(R.id.text_credit_info);
-        creditInfoText.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                startCreditInfoActivity();
-            }
-        });
         View emailLayout = view.findViewById(R.id.layout_email);
         emailLayout.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -259,9 +246,6 @@ public class ProfileFragment extends LoaderFragment<User>
                             public void call(Object value) throws Exception {
                                 String about = (String) value;
                                 restService.updateUserAbout(currentUser.getObjectId(), about);
-                                if (currentUser.getAbout() == null) {
-                                    updateCredit(CreditRule.ADD_ABOUT);
-                                }
                                 currentUser.setAbout(about);
                                 userStore.save(currentUser);
                             }
@@ -275,7 +259,6 @@ public class ProfileFragment extends LoaderFragment<User>
                             public void onSuccess(Object value) {
                                 String about = (String) value;
                                 aboutText.setText(about);
-                                creditText.setText(String.valueOf(currentUser.getCredit()));
                             }
                         }).show();
             }
@@ -328,7 +311,6 @@ public class ProfileFragment extends LoaderFragment<User>
                 }
             });
             screenNameText.setText(user.getScreenName());
-            creditText.setText(String.valueOf(user.getCredit()));
             emailText.setText(user.getEmail());
             cityText.setText(user.getCity());
             areaText.setText(user.getArea());
@@ -344,9 +326,6 @@ public class ProfileFragment extends LoaderFragment<User>
         task = new SafeAsyncTask<Boolean>() {
             public Boolean call() throws Exception {
                 restService.updateUserAvatar(currentUser.getObjectId(), avatarUrl);
-                if (currentUser.getAvatarUrl() == null) {
-                    updateCredit(CreditRule.ADD_AVATAR);
-                }
                 currentUser.setAvatarUrl(avatarUrl);
                 userStore.save(currentUser);
                 return true;
@@ -357,11 +336,6 @@ public class ProfileFragment extends LoaderFragment<User>
                 if(!(e instanceof RetrofitError)) {
                     showError(e);
                 }
-            }
-
-            @Override
-            protected void onSuccess(Boolean success) throws Exception {
-                creditText.setText(String.valueOf(currentUser.getCredit()));
             }
 
             @Override
@@ -417,9 +391,6 @@ public class ProfileFragment extends LoaderFragment<User>
             @Override
             public void call(Object value) throws Exception {
                 restService.updateUserTags(currentUser.getObjectId(), tags);
-                if (currentUser.getTags().size() == 0) {
-                    updateCredit(CreditRule.ADD_TAGS);
-                }
                 currentUser.setTags(tags);
                 userStore.save(currentUser);
             }
@@ -432,26 +403,8 @@ public class ProfileFragment extends LoaderFragment<User>
             @Override
             public void onSuccess(Object value) {
                 updateTagsUI(tags);
-                creditText.setText(String.valueOf(currentUser.getCredit()));
             }
         }).show();
-    }
-
-    private void updateCredit(int seq) throws Exception {
-        final CreditRule creditRule = creditRuleStore.getCreditRuleBySeq(seq);
-        if (creditRule != null) {
-            final int credit = creditRule.getCredit();
-            restService.updateUserCredit(currentUser.getObjectId(), credit);
-            currentUser.updateCredit(credit);
-            userStore.save(currentUser);
-            getActivity().runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    showMsg(getString(R.string.info_got_credit,
-                            creditRule.getDescription(), credit));
-                }
-            });
-        }
     }
 
     private void startSettingsActivity() {
@@ -462,12 +415,6 @@ public class ProfileFragment extends LoaderFragment<User>
     private void startUserTagListActivity() {
         final Intent intent = new Intent(getActivity(), UserTagListActivity.class);
         startActivityForResult(intent, Constants.RequestCode.GET_USER_TAG_LIST_REQ_CODE);
-    }
-
-    private void startCreditInfoActivity() {
-        final Intent intent = new Intent(getActivity(), BrowserActivity.class);
-        intent.putExtra(BrowserActivity.INTENT_URL, Constants.Link.CREDIT);
-        startActivity(intent);
     }
 
     @Override

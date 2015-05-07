@@ -68,36 +68,6 @@
 
                 </RelativeLayout>
 
-                <RelativeLayout
-                    android:id="@+id/layout_credit"
-                    style="@style/RelativeLayout.NavButton">
-
-                    <TextView
-                        android:id="@+id/text_label_credit"
-                        style="@style/TextView.Profile"
-                        android:layout_centerVertical="true"
-                        android:text="@string/label_credit"/>
-
-                    <LinearLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:orientation="vertical"
-                        android:gravity="center_vertical|right"
-                        android:layout_alignParentRight="true">
-
-                        <TextView
-                            android:id="@+id/text_credit"
-                            style="@style/TextView.Subtitle"/>
-
-                        <TextView
-                            android:id="@+id/text_credit_info"
-                            style="@style/TextView.Profile.CreditInfo"
-                            android:text="@string/label_credit_info"/>
-
-                    </LinearLayout>
-
-                </RelativeLayout>
-
             </LinearLayout>
 
             <LinearLayout

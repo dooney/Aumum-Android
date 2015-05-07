@@ -3,10 +3,7 @@ package com.aumum.app.mobile.ui.contact;
 import android.app.Activity;
 
 import com.aumum.app.mobile.Injector;
-import com.aumum.app.mobile.R;
-import com.aumum.app.mobile.core.dao.CreditRuleStore;
 import com.aumum.app.mobile.core.dao.UserStore;
-import com.aumum.app.mobile.core.model.CreditRule;
 import com.aumum.app.mobile.core.model.User;
 import com.aumum.app.mobile.core.model.UserInfo;
 import com.aumum.app.mobile.core.service.ChatService;
@@ -14,7 +11,6 @@ import com.aumum.app.mobile.core.service.NotificationService;
 import com.aumum.app.mobile.core.service.RestService;
 import com.aumum.app.mobile.utils.SafeAsyncTask;
 import com.easemob.chat.EMContactListener;
-import com.github.kevinsawicki.wishlist.Toaster;
 
 import java.util.List;
 
@@ -26,7 +22,6 @@ import javax.inject.Inject;
 public class ContactListener implements EMContactListener {
 
     @Inject UserStore userStore;
-    @Inject CreditRuleStore creditRuleStore;
     @Inject RestService restService;
     @Inject NotificationService notificationService;
     @Inject ChatService chatService;
@@ -47,7 +42,6 @@ public class ContactListener implements EMContactListener {
                 for (String contactId : contacts) {
                     UserInfo user = userStore.getUserInfoByChatId(contactId);
                     restService.addContact(currentUser.getObjectId(), user.getObjectId());
-                    updateCredit(currentUser, CreditRule.ADD_CONTACT);
                     currentUser.addContact(user.getObjectId());
                     userStore.save(currentUser);
                 }
@@ -66,7 +60,6 @@ public class ContactListener implements EMContactListener {
                     UserInfo user = userStore.getUserInfoByChatId(contactId);
                     chatService.deleteConversation(contactId);
                     restService.removeContact(currentUser.getObjectId(), user.getObjectId());
-                    updateCredit(currentUser, CreditRule.DELETE_CONTACT);
                     currentUser.removeContact(user.getObjectId());
                     userStore.save(currentUser);
                 }
@@ -108,24 +101,5 @@ public class ContactListener implements EMContactListener {
     @Override
     public void onContactRefused(String userName) {
         return;
-    }
-
-    private void updateCredit(User currentUser, int seq) throws Exception {
-        final CreditRule creditRule = creditRuleStore.getCreditRuleBySeq(seq);
-        if (creditRule != null) {
-            final int credit = creditRule.getCredit();
-            restService.updateUserCredit(currentUser.getObjectId(), credit);
-            currentUser.updateCredit(credit);
-            userStore.save(currentUser);
-            if (credit > 0) {
-                activity.runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        Toaster.showShort(activity, activity.getString(R.string.info_got_credit,
-                                creditRule.getDescription(), credit));
-                    }
-                });
-            }
-        }
     }
 }
