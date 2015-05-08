@@ -148,7 +148,6 @@
     <string name="title_activity_login">用户登录</string>
     <string name="title_activity_register">注册新用户</string>
     <string name="title_activity_reset_password">找回密码</string>
-    <string name="title_activity_user">用户详情</string>
     <string name="title_activity_contact_requests">好友请求</string>
     <string name="title_activity_settings">我的设置</string>
     <string name="title_activity_choose_image">选择图片</string>
@@ -205,7 +204,6 @@
     <string name="label_resend_reset_password_email">再次发送邮件</string>
 
     <!-- User -->
-    <string name="label_send_message">发送消息</string>
     <string name="label_add_contact">添加好友</string>
     <string name="label_delete_contact">移除好友</string>
     <string name="hint_hello">你好</string>
@@ -292,7 +290,7 @@
     <string name="header_hint_refresh_normal">下拉刷新</string>
     <string name="header_hint_refresh_ready">放开以刷新</string>
     <string name="header_hint_refresh_loading">正在刷新&#8230;</string>
-    <string name="header_hint_refresh_time">时间：</string>
+    <string name="header_hint_refresh_time">上次刷新时间：</string>
     <string name="footer_hint_load_normal">加载更多</string>
     <string name="footer_hint_load_ready">放开以加载</string>
     <string name="title_gps_alert_dialog">GPS设置</string>

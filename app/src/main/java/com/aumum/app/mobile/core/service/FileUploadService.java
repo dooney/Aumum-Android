@@ -29,9 +29,13 @@ public class FileUploadService implements CloudStorageService.UploadListener {
     public void upload(final String localUri) throws Exception {
         File file = new File(localUri);
         if (!file.exists()) {
-            throw new Exception("无效的图片地址");
+            throw new Exception("无效的文件地址");
         }
         cloudStorageService.uploadImage(localUri, file, this);
+    }
+
+    public String getThumbnail(String url) {
+        return cloudStorageService.getThumbnail(url);
     }
 
     @Override

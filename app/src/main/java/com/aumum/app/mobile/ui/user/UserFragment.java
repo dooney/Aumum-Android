@@ -12,18 +12,25 @@ import android.widget.TextView;
 
 import com.aumum.app.mobile.Injector;
 import com.aumum.app.mobile.R;
+import com.aumum.app.mobile.core.dao.MomentStore;
 import com.aumum.app.mobile.core.dao.UserStore;
+import com.aumum.app.mobile.core.model.Moment;
 import com.aumum.app.mobile.core.model.User;
 import com.aumum.app.mobile.core.service.ChatService;
+import com.aumum.app.mobile.core.service.FileUploadService;
 import com.aumum.app.mobile.core.service.RestService;
 import com.aumum.app.mobile.ui.base.LoaderFragment;
 import com.aumum.app.mobile.ui.chat.ChatActivity;
-import com.aumum.app.mobile.ui.image.ImageViewActivity;
-import com.aumum.app.mobile.ui.view.AvatarImageView;
+import com.aumum.app.mobile.ui.album.AlbumAdapter;
 import com.aumum.app.mobile.ui.view.dialog.ConfirmDialog;
 import com.aumum.app.mobile.ui.view.dialog.EditTextDialog;
 import com.aumum.app.mobile.ui.view.dialog.TextViewDialog;
+import com.aumum.app.mobile.ui.view.pulltorefresh.XGridView;
+import com.etsy.android.grid.StaggeredGridView;
 import com.github.kevinsawicki.wishlist.Toaster;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.inject.Inject;
 
@@ -34,24 +41,26 @@ import javax.inject.Inject;
 public class UserFragment extends LoaderFragment<User> {
 
     @Inject UserStore userStore;
+    @Inject MomentStore momentStore;
     @Inject ChatService chatService;
     @Inject RestService restService;
+    @Inject FileUploadService fileUploadService;
 
     private String userId;
     private String screenName;
     private User currentUser;
     private User user;
+    private List<String> album;
 
     private View mainView;
-    private AvatarImageView avatarImage;
-    private TextView screenNameText;
+    private AlbumAdapter albumAdapter;
     private TextView cityText;
     private TextView areaText;
     private TextView aboutText;
-    private Button addContactButton;
     private ViewGroup actionLayout;
-    private Button sendMessageButton;
-    private Button deleteContactButton;
+    private View addContactButton;
+    private View chatButton;
+    private View deleteContactButton;
 
     @Override
     public void onCreate(final Bundle savedInstanceState) {
@@ -66,6 +75,7 @@ public class UserFragment extends LoaderFragment<User> {
             int index = d.lastIndexOf("@");
             screenName = d.substring(index + 1);
         }
+        album = new ArrayList<>();
     }
 
     @Override
@@ -79,15 +89,22 @@ public class UserFragment extends LoaderFragment<User> {
         super.onViewCreated(view, savedInstanceState);
 
         mainView = view.findViewById(R.id.main_view);
-        avatarImage = (AvatarImageView) view.findViewById(R.id.image_avatar);
-        screenNameText = (TextView) view.findViewById(R.id.text_screen_name);
-        cityText = (TextView) view.findViewById(R.id.text_city);
-        areaText = (TextView) view.findViewById(R.id.text_area);
-        aboutText = (TextView) view.findViewById(R.id.text_about);
-        addContactButton = (Button) view.findViewById(R.id.b_add_contact);
         actionLayout = (ViewGroup) view.findViewById(R.id.layout_action);
-        sendMessageButton = (Button) view.findViewById(R.id.b_send_message);
-        deleteContactButton = (Button) view.findViewById(R.id.b_delete_contact);
+        addContactButton = view.findViewById(R.id.b_add_contact);
+        chatButton = view.findViewById(R.id.b_chat);
+        deleteContactButton = view.findViewById(R.id.b_delete_contact);
+
+        XGridView userView = (XGridView) view.findViewById(R.id.user_view);
+        StaggeredGridView staggeredView = userView.getRefreshableView();
+        View header = getActivity().getLayoutInflater()
+                .inflate(R.layout.fragment_user_header, null, false);
+        staggeredView.addHeaderView(header);
+        cityText = (TextView) header.findViewById(R.id.text_city);
+        areaText = (TextView) header.findViewById(R.id.text_area);
+        aboutText = (TextView) header.findViewById(R.id.text_about);
+
+        albumAdapter = new AlbumAdapter(getActivity());
+        userView.setAdapter(albumAdapter);
     }
 
     @Override
@@ -112,6 +129,10 @@ public class UserFragment extends LoaderFragment<User> {
             user = userStore.getUserByScreenNameFromServer(screenName);
             userId = user.getObjectId();
         }
+        List<Moment> momentList = momentStore.loadMore(user.getMoments(), null);
+        for (Moment moment: momentList) {
+            album.add(fileUploadService.getThumbnail(moment.getImageUrl()));
+        }
         return user;
     }
 
@@ -120,17 +141,8 @@ public class UserFragment extends LoaderFragment<User> {
         if (user != null) {
             setData(user);
 
-            avatarImage.getFromUrl(user.getAvatarUrl());
-            avatarImage.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    String imageUrl = user.getAvatarUrl();
-                    final Intent intent = new Intent(getActivity(), ImageViewActivity.class);
-                    intent.putExtra(ImageViewActivity.INTENT_IMAGE_URI, imageUrl);
-                    startActivity(intent);
-                }
-            });
-            screenNameText.setText(user.getScreenName());
+            getActivity().setTitle(user.getScreenName());
+            albumAdapter.addAll(album);
             cityText.setText(user.getCity());
             areaText.setText(user.getArea());
             aboutText.setText(user.getAbout());
@@ -141,7 +153,7 @@ public class UserFragment extends LoaderFragment<User> {
             }
             if (currentUser.isContact(userId)) {
                 actionLayout.setVisibility(View.VISIBLE);
-                sendMessageButton.setOnClickListener(new View.OnClickListener() {
+                chatButton.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
                         final Intent intent = new Intent(getActivity(), ChatActivity.class);

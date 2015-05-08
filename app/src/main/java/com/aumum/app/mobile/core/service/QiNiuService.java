@@ -44,4 +44,9 @@ public class QiNiuService extends CloudStorageService {
                     }
                 }, null);
     }
+
+    @Override
+    public String getThumbnail(String url) {
+        return url + "?imageView2/1/w/400/h/400";
+    }
 }

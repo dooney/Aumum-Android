@@ -1,149 +1,110 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<RelativeLayout
+<LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:gravity="center">
 
-    <ScrollView
+    <RelativeLayout
+        android:id="@+id/main_view"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:visibility="gone">
 
-        <LinearLayout
-            android:id="@+id/main_view"
+        <com.aumum.app.mobile.ui.view.pulltorefresh.XGridView
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            android:id="@+id/user_view"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="vertical"
-            android:paddingTop="@dimen/margin_extra_large"
-            android:visibility="gone">
+            android:alwaysDrawnWithCache="true"
+            app:column_count="3"
+            app:item_margin="2dp"
+            android:layout_above="@+id/layout_action"/>
+
+        <RelativeLayout
+            android:id="@+id/layout_action"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true">
+
+            <View
+                style="@style/Divider"
+                android:background="@color/grey_light" />
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:layout_marginBottom="@dimen/margin_extra_large">
+                android:padding="@dimen/margin_large">
 
-                <RelativeLayout
-                    style="@style/RelativeLayout.NavButton">
+                <FrameLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1">
 
-                    <com.aumum.app.mobile.ui.view.AvatarImageView
-                        android:id="@+id/image_avatar"
-                        style="@style/ImageView.Avatar.Large"
-                        android:layout_marginRight="@dimen/margin_large"
-                        android:src="@drawable/ic_avatar"/>
-
-                    <LinearLayout
+                    <com.beardedhen.androidbootstrap.BootstrapButton
+                        xmlns:bootstrap="http://schemas.android.com/apk/res-auto"
+                        android:id="@+id/b_delete_contact"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:orientation="vertical"
-                        android:layout_toRightOf="@+id/image_avatar"
-                        android:layout_centerVertical="true">
+                        android:text="@string/label_delete_contact"
+                        bootstrap:bb_icon_left="fa-user-times"
+                        bootstrap:bb_type="danger"
+                        bootstrap:bb_size="small"
+                        android:layout_gravity="center"/>
 
-                        <TextView
-                            android:id="@+id/text_screen_name"
-                            style="@style/TextView"/>
+                </FrameLayout>
 
-                    </LinearLayout>
-
-                </RelativeLayout>
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:layout_marginBottom="@dimen/margin_extra_large">
-
-                <LinearLayout
-                    style="@style/LinearLayout.NavButton">
-
-                    <TextView
-                        android:id="@+id/text_label_city"
-                        style="@style/TextView.Label"
-                        android:text="@string/label_city"/>
-
-                    <TextView
-                        android:id="@+id/text_city"
-                        style="@style/TextView"/>
-
-                </LinearLayout>
-
-                <LinearLayout
-                    style="@style/LinearLayout.NavButton">
-
-                    <TextView
-                        android:id="@+id/text_label_area"
-                        style="@style/TextView.Label"
-                        android:text="@string/label_area"/>
-
-                    <TextView
-                        android:id="@+id/text_area"
-                        style="@style/TextView"/>
-
-                </LinearLayout>
-
-                <LinearLayout
-                    style="@style/LinearLayout.NavButton">
-
-                    <TextView
-                        android:id="@+id/text_label_about"
-                        style="@style/TextView.Label"
-                        android:text="@string/label_about"/>
-
-                    <TextView
-                        android:id="@+id/text_about"
-                        style="@style/TextView.User.About"/>
-
-                </LinearLayout>
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:paddingLeft="@dimen/margin_large"
-                android:paddingRight="@dimen/margin_large">
-
-                <Button
-                    android:id="@+id/b_add_contact"
-                    style="@style/Button.User.AddContact" />
-
-                <LinearLayout
-                    android:id="@+id/layout_action"
-                    android:layout_width="match_parent"
+                <FrameLayout
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical">
+                    android:layout_weight="1">
 
-                    <Button
-                        android:id="@+id/b_send_message"
-                        style="@style/Button.User.SendMessage"
-                        android:layout_marginTop="@dimen/margin_large"
-                        android:layout_marginBottom="@dimen/margin_medium"/>
+                    <com.beardedhen.androidbootstrap.BootstrapButton
+                        xmlns:bootstrap="http://schemas.android.com/apk/res-auto"
+                        android:id="@+id/b_add_contact"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/label_add_contact"
+                        bootstrap:bb_icon_left="fa-user-plus"
+                        bootstrap:bb_type="primary"
+                        bootstrap:bb_size="small"
+                        android:layout_gravity="center"/>
 
-                    <Button
-                        android:id="@+id/b_delete_contact"
-                        style="@style/Button.User.DeleteContact"
-                        android:layout_marginTop="@dimen/margin_medium"
-                        android:layout_marginBottom="@dimen/margin_large"/>
+                </FrameLayout>
 
-                </LinearLayout>
+                <FrameLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1">
+
+                    <com.beardedhen.androidbootstrap.BootstrapButton
+                        xmlns:bootstrap="http://schemas.android.com/apk/res-auto"
+                        android:id="@+id/b_chat"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/label_chat"
+                        bootstrap:bb_icon_left="fa-comments"
+                        bootstrap:bb_type="primary"
+                        bootstrap:bb_size="small"
+                        android:layout_gravity="center"/>
+
+                </FrameLayout>
 
             </LinearLayout>
 
-        </LinearLayout>
+        </RelativeLayout>
 
-    </ScrollView>
+    </RelativeLayout>
 
     <ProgressBar
         android:id="@+id/pb_loading"
-        style="@style/ListSpinner"
-        android:layout_centerInParent="true" />
+        style="@style/ListSpinner" />
 
     <TextView
         android:id="@+id/text_reload"
         style="@style/TextView.Reload"
-        android:layout_centerInParent="true"
         android:visibility="gone"/>
 
-</RelativeLayout>
+</LinearLayout>

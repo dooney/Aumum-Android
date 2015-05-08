@@ -28,4 +28,9 @@ public class UpYunService extends CloudStorageService {
             throw new Exception("图片上传失败，请重试");
         }
     }
+
+    @Override
+    public String getThumbnail(String url) {
+        return null;
+    }
 }

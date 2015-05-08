@@ -146,12 +146,6 @@ public class ContactFragment extends ItemListFragment<UserInfo>
     }
 
     @Override
-    public void onResume() {
-        super.onResume();
-        refresh(null);
-    }
-
-    @Override
     protected View getMainView() {
         return mainView;
     }

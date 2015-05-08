@@ -181,12 +181,13 @@ public class RestService {
     }
 
     private String getUserFields() {
-        return String.format("%s,%s,%s,%s,%s",
+        return String.format("%s,%s,%s,%s,%s,%s",
                 Constants.Http.User.PARAM_SCREEN_NAME,
                 Constants.Http.User.PARAM_AVATAR_URL,
                 Constants.Http.User.PARAM_CITY,
                 Constants.Http.User.PARAM_AREA,
-                Constants.Http.User.PARAM_ABOUT);
+                Constants.Http.User.PARAM_ABOUT,
+                Constants.Http.User.PARAM_MOMENTS);
     }
 
     public User getUserById(String id) {
@@ -334,7 +335,9 @@ public class RestService {
         return updateUserMoments(op, userId, momentId);
     }
 
-    private JsonObject updateUserMoments(JsonObject op, String userId, String momentId) {
+    private JsonObject updateUserMoments(JsonObject op,
+                                         String userId,
+                                         String momentId) {
         final JsonObject data = new JsonObject();
         final JsonArray userMoments = new JsonArray();
         userMoments.add(new JsonPrimitive(momentId));
@@ -388,10 +391,26 @@ public class RestService {
         return getMomentService().getList("-createdAt", where, limit).getResults();
     }
 
-    public List<Moment> getMomentsBefore(String before, int limit) {
-        final JsonObject whereJson = new JsonObject();
-        whereJson.add("createdAt", buildDateTimeBeforeJson(before));
+    private List<Moment> getMomentsBeforeCore(JsonObject whereJson,
+                                              String before,
+                                              int limit) {
+        if (before != null) {
+            whereJson.add("createdAt", buildDateTimeBeforeJson(before));
+        }
         String where = buildLiveJson(whereJson).toString();
         return getMomentService().getList("-createdAt", where, limit).getResults();
+    }
+
+    public List<Moment> getMomentsBefore(String before, int limit) {
+        final JsonObject whereJson = new JsonObject();
+        return getMomentsBeforeCore(whereJson, before, limit);
+    }
+
+    public List<Moment> getMomentsBefore(List<String> idList,
+                                         String before,
+                                         int limit) {
+        final JsonObject whereJson = new JsonObject();
+        whereJson.add("objectId", buildIdListJson(idList));
+        return getMomentsBeforeCore(whereJson, before, limit);
     }
 }

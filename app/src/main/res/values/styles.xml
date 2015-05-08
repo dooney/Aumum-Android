@@ -391,15 +391,6 @@
     <style name="TextView.User.About" parent="TextView">
         <item name="android:lineSpacingMultiplier">1.1</item>
     </style>
-    <style name="Button.User.AddContact" parent="Button.Primary">
-        <item name="android:text">@string/label_add_contact</item>
-    </style>
-    <style name="Button.User.SendMessage" parent="Button.Primary">
-        <item name="android:text">@string/label_send_message</item>
-    </style>
-    <style name="Button.User.DeleteContact" parent="Button.Danger">
-        <item name="android:text">@string/label_delete_contact</item>
-    </style>
     <style name="EditText.AddContact.Intro" parent="EditText" />
 
     <!-- Tag -->

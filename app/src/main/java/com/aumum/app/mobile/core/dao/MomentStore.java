@@ -111,4 +111,24 @@ public class MomentStore {
             return momentList;
         }
     }
+
+    public List<Moment> loadMore(List<String> idList, String time) throws Exception {
+        Date date = new Date();
+        if (time != null) {
+            date = DateUtils.stringToDate(time, Constants.DateTime.FORMAT);
+        }
+        List<MomentEntity> records = momentEntityDao.queryBuilder()
+                .where(MomentEntityDao.Properties.ObjectId.in(idList))
+                .where(MomentEntityDao.Properties.CreatedAt.lt(date))
+                .orderDesc(MomentEntityDao.Properties.CreatedAt)
+                .limit(LIMIT_PER_LOAD)
+                .list();
+        if (records.size() > 0) {
+            return map(records);
+        } else {
+            List<Moment> momentList = restService.getMomentsBefore(idList, time, LIMIT_PER_LOAD);
+            updateOrInsert(momentList);
+            return momentList;
+        }
+    }
 }

@@ -74,7 +74,8 @@ public class UserStore {
                 userEntity.getArea(),
                 userEntity.getAvatarUrl(),
                 userEntity.getAbout(),
-                getList(userEntity.getContacts()));
+                getList(userEntity.getContacts()),
+                getList(userEntity.getMoments()));
     }
 
     private UserEntity map(User user) throws Exception {
@@ -90,7 +91,8 @@ public class UserStore {
                 user.getArea(),
                 user.getAvatarUrl(),
                 user.getAbout(),
-                getJsonString(user.getContacts()));
+                getJsonString(user.getContacts()),
+                getJsonString(user.getMoments()));
     }
 
     private UserInfo map(UserInfoEntity userInfoEntity) throws Exception {

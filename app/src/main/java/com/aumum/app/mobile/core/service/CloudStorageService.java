@@ -30,4 +30,6 @@ public abstract class CloudStorageService {
     public abstract void uploadImage(String localUri,
                                      File file,
                                      UploadListener listener) throws Exception;
+
+    public abstract String getThumbnail(String url);
 }

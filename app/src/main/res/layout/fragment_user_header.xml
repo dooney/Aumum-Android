@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <LinearLayout
+            style="@style/LinearLayout.NavButton">
+
+            <TextView
+                android:id="@+id/text_label_city"
+                style="@style/TextView.Label"
+                android:text="@string/label_city"/>
+
+            <TextView
+                android:id="@+id/text_city"
+                style="@style/TextView"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            style="@style/LinearLayout.NavButton">
+
+            <TextView
+                android:id="@+id/text_label_area"
+                style="@style/TextView.Label"
+                android:text="@string/label_area"/>
+
+            <TextView
+                android:id="@+id/text_area"
+                style="@style/TextView"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            style="@style/LinearLayout.NavButton">
+
+            <TextView
+                android:id="@+id/text_label_about"
+                style="@style/TextView.Label"
+                android:text="@string/label_about"/>
+
+            <TextView
+                android:id="@+id/text_about"
+                style="@style/TextView.User.About"/>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</LinearLayout>

@@ -95,8 +95,7 @@
             android:label="@string/title_activity_reset_password" >
         </activity>
         <activity
-            android:name=".ui.user.UserActivity"
-            android:label="@string/title_activity_user" >
+            android:name=".ui.user.UserActivity" >
             <intent-filter>
                 <category android:name="android.intent.category.DEFAULT" />
 
@@ -108,7 +107,6 @@
         <activity
             android:name=".ui.user.UserSingleActivity"
             android:excludeFromRecents="true"
-            android:label="@string/title_activity_user"
             android:launchMode="singleTask"
             android:taskAffinity="" >
         </activity>

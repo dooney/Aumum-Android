@@ -35,6 +35,8 @@ dependencies {
     compile files('src/main/libs/universal-image-loader-1.9.4.jar')
     compile 'com.qiniu:qiniu-java-sdk:7.0.0'
     compile files('src/main/libs/qiniu-android-sdk-7.0.3.jar')
+    compile project(':AndroidPullToRefresh')
+    compile 'com.beardedhen:androidbootstrap:+'
 }
 
 android {
