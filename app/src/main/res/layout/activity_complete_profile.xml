@@ -14,7 +14,7 @@
             android:id="@+id/container"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:padding="@dimen/margin_large"
+            android:padding="@dimen/margin_extreme_large"
             android:orientation="vertical"
             android:focusable="true"
             android:focusableInTouchMode="true" >
@@ -42,6 +42,7 @@
             <EditText
                 android:id="@+id/et_city"
                 style="@style/EditText.Account.City"
+                android:layout_marginTop="@dimen/margin_medium"
                 android:focusable="false"
                 android:imeOptions="actionNext"
                 android:nextFocusDown="@+id/et_area" />
@@ -49,6 +50,7 @@
             <EditText
                 android:id="@+id/et_area"
                 style="@style/EditText.Account.Area"
+                android:layout_marginTop="@dimen/margin_medium"
                 android:focusable="false"
                 android:imeOptions="actionNext"
                 android:nextFocusDown="@+id/et_about"/>

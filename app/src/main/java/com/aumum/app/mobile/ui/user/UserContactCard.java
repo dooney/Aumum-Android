@@ -2,7 +2,6 @@ package com.aumum.app.mobile.ui.user;
 
 import android.content.Context;
 import android.view.View;
-import android.widget.Button;
 import android.widget.TextView;
 
 import com.aumum.app.mobile.R;
@@ -29,7 +28,7 @@ public class UserContactCard extends UserCard {
         super.refresh(user);
 
         TextView inviteButton = (TextView) view.findViewById(R.id.text_invite);
-        Button addButton = (Button) view.findViewById(R.id.b_add_contact);
+        View addButton = view.findViewById(R.id.b_add_contact);
         TextView addedText = (TextView) view.findViewById(R.id.text_added);
         inviteButton.setVisibility(View.GONE);
         addButton.setVisibility(View.GONE);

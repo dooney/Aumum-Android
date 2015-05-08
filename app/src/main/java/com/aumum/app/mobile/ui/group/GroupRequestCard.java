@@ -3,7 +3,6 @@ package com.aumum.app.mobile.ui.group;
 import android.app.Activity;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
@@ -23,7 +22,7 @@ public class GroupRequestCard implements GroupRequestProcessListener.OnProcessLi
     private AvatarImageView avatarImage;
     private TextView screenNameText;
     private TextView detailsText;
-    private Button processButton;
+    private View processButton;
     private TextView statusText;
     private ProgressBar progressBar;
 
@@ -33,7 +32,7 @@ public class GroupRequestCard implements GroupRequestProcessListener.OnProcessLi
         avatarImage = (AvatarImageView) view.findViewById(R.id.image_avatar);
         screenNameText = (TextView) view.findViewById(R.id.text_screen_name);
         detailsText = (TextView) view.findViewById(R.id.text_details);
-        processButton = (Button) view.findViewById(R.id.b_process);
+        processButton = view.findViewById(R.id.b_process);
         statusText = (TextView) view.findViewById(R.id.text_status);
         progressBar = (ProgressBar) view.findViewById(R.id.progress);
     }

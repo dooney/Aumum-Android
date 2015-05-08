@@ -6,7 +6,6 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.KeyEvent;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
@@ -44,7 +43,7 @@ public class ResetPasswordActivity extends ProgressDialogActivity
     @Email(messageResId = R.string.error_incorrect_email_format)
     protected EditText emailText;
 
-    @InjectView(R.id.b_reset_password) protected Button submitButton;
+    @InjectView(R.id.b_reset_password) protected View submitButton;
 
     private Validator validator;
     private final TextWatcher watcher = validationTextWatcher();

@@ -11,7 +11,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.Button;
 import android.widget.GridView;
 import android.widget.ImageView;
 
@@ -30,7 +29,7 @@ public class ImagePickerActivity extends ActionBarActivity {
     GalleryAdapter adapter;
 
     ImageView noMediaImage;
-    Button confirmButton;
+    View confirmButton;
 
     int action;
 
@@ -68,7 +67,7 @@ public class ImagePickerActivity extends ActionBarActivity {
             menuItem.setActionView(R.layout.menuitem_button_ok);
             menuItem.setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
             View view = menuItem.getActionView();
-            confirmButton = (Button) view.findViewById(R.id.b_ok);
+            confirmButton = view.findViewById(R.id.b_ok);
             confirmButton.setOnClickListener(mOkClickListener);
             confirmButton.setEnabled(false);
         }

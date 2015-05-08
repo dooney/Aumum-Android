@@ -3,7 +3,6 @@ package com.aumum.app.mobile.ui.contact;
 import android.app.Activity;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
@@ -26,7 +25,7 @@ public class ContactRequestCard implements AcceptContactListener.OnActionListene
     private AvatarImageView avatarImage;
     private TextView screenNameText;
     private TextView introText;
-    private Button acceptButton;
+    private View acceptButton;
     private TextView addedText;
     private ProgressBar progressBar;
 
@@ -36,7 +35,7 @@ public class ContactRequestCard implements AcceptContactListener.OnActionListene
         avatarImage = (AvatarImageView) view.findViewById(R.id.image_avatar);
         screenNameText = (TextView) view.findViewById(R.id.text_screen_name);
         introText = (TextView) view.findViewById(R.id.text_intro);
-        acceptButton = (Button) view.findViewById(R.id.b_accept);
+        acceptButton = view.findViewById(R.id.b_accept);
         addedText = (TextView) view.findViewById(R.id.text_added);
         progressBar = (ProgressBar) view.findViewById(R.id.progress);
     }

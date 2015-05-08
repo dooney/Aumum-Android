@@ -56,7 +56,7 @@ public class GroupCard {
 
         View actionLayout = view.findViewById(R.id.layout_action);
         actionLayout.setVisibility(View.GONE);
-        Button joinButton = (Button) view.findViewById(R.id.b_join);
+        View joinButton = view.findViewById(R.id.b_join);
         if (!groupDetails.isMember()) {
             joinButton.setOnClickListener(new GroupJoinListener(activity, groupDetails.getId()));
             actionLayout.setVisibility(View.VISIBLE);

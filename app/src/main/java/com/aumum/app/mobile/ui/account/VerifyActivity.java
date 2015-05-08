@@ -52,7 +52,6 @@ public class VerifyActivity extends ProgressDialogActivity {
     private long total = RETRY_INTERVAL;
     private String countryCode;
     private String phone;
-    private String verificationCode;
     private String password;
     private User user;
 
@@ -63,7 +62,7 @@ public class VerifyActivity extends ProgressDialogActivity {
     @InjectView(R.id.text_label_phone) protected TextView phoneLabelText;
     @InjectView(R.id.text_label_code_tip) protected TextView codeTipLabelText;
     @InjectView(R.id.et_verification_code) protected EditText verificationCodeText;
-    @InjectView(R.id.b_confirm) protected Button confirmButton;
+    @InjectView(R.id.b_confirm) protected View confirmButton;
     @InjectView(R.id.b_resend) protected Button resendButton;
 
     @Override
@@ -236,7 +235,7 @@ public class VerifyActivity extends ProgressDialogActivity {
         EditTextUtils.hideSoftInput(verificationCodeText);
         progress.setMessageId(R.string.info_submitting_registration);
         showProgress();
-        verificationCode = verificationCodeText.getText().toString();
+        String verificationCode = verificationCodeText.getText().toString();
         SMSSDK.submitVerificationCode(countryCode.replace("+", ""), phone, verificationCode);
     }
 

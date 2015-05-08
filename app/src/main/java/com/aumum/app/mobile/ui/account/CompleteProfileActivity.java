@@ -8,7 +8,6 @@ import android.text.TextWatcher;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 
@@ -41,7 +40,6 @@ import org.lasque.tusdk.core.utils.image.BitmapHelper;
 import org.lasque.tusdk.core.utils.sqllite.ImageSqlInfo;
 
 import java.io.File;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -62,7 +60,7 @@ public class CompleteProfileActivity extends ProgressDialogActivity
     @Inject ChatService chatService;
     @Inject FileUploadService fileUploadService;
 
-    private Button saveButton;
+    private View saveButton;
     @InjectView(R.id.container) protected View container;
     @InjectView(R.id.image_avatar) protected ImageView avatarImage;
     @InjectView(R.id.et_screen_name) protected EditText screenNameText;
@@ -152,7 +150,7 @@ public class CompleteProfileActivity extends ProgressDialogActivity
         menuItem.setActionView(R.layout.menuitem_button_save);
         menuItem.setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
         View view = menuItem.getActionView();
-        saveButton = (Button) view.findViewById(R.id.b_save);
+        saveButton = view.findViewById(R.id.b_save);
         saveButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

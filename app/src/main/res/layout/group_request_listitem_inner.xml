@@ -36,9 +36,14 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical">
 
-        <Button
+        <com.beardedhen.androidbootstrap.BootstrapButton
+            xmlns:bootstrap="http://schemas.android.com/apk/res-auto"
             android:id="@+id/b_process"
-            style="@style/Button.GroupRequest.Process" />
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/label_process"
+            bootstrap:bb_type="primary"
+            bootstrap:bb_size="small"/>
 
         <TextView
             android:id="@+id/text_status"

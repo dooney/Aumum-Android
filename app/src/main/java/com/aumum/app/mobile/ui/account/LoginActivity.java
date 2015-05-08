@@ -13,7 +13,6 @@ import android.text.TextWatcher;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnKeyListener;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.TextView.OnEditorActionListener;
@@ -60,7 +59,7 @@ public class LoginActivity extends AuthenticateActivity {
     @InjectView(R.id.text_country_code) protected TextView countryCodeText;
     @InjectView(R.id.et_phone) protected EditText phoneText;
     @InjectView(id.et_password) protected EditText passwordText;
-    @InjectView(id.b_sign_in) protected Button signInButton;
+    @InjectView(id.b_sign_in) protected View signInButton;
     @InjectView(id.t_forgot_password) protected TextView forgotPasswordText;
     @InjectView(id.t_join_now) protected TextView joinNowText;
 

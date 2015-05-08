@@ -8,7 +8,6 @@ import android.text.TextWatcher;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 
@@ -43,7 +42,7 @@ public class NewMomentActivity extends ProgressDialogActivity
     public static final String INTENT_IMAGE_URI = "imageUri";
     private String imageUri;
 
-    private Button publishButton;
+    private View publishButton;
     @InjectView(R.id.image) protected ImageView image;
     @InjectView(R.id.et_text) protected EditText text;
 
@@ -72,7 +71,7 @@ public class NewMomentActivity extends ProgressDialogActivity
         menuItem.setActionView(R.layout.menuitem_button_publish);
         menuItem.setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
         View view = menuItem.getActionView();
-        publishButton = (Button) view.findViewById(R.id.b_publish);
+        publishButton = view.findViewById(R.id.b_publish);
         publishButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

@@ -7,7 +7,6 @@ import android.text.TextWatcher;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 
@@ -50,7 +49,7 @@ public class NewGroupActivity extends ProgressDialogActivity
     @Inject ChatService chatService;
     @Inject FileUploadService fileUploadService;
 
-    private Button submitButton;
+    private View submitButton;
     @InjectView(R.id.image_avatar) protected ImageView avatarImage;
     @InjectView(R.id.et_name) protected EditText nameText;
     @InjectView(R.id.et_description) protected EditText descriptionText;
@@ -87,7 +86,7 @@ public class NewGroupActivity extends ProgressDialogActivity
         menuItem.setActionView(R.layout.menuitem_button_submit);
         menuItem.setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
         View view = menuItem.getActionView();
-        submitButton = (Button) view.findViewById(R.id.b_submit);
+        submitButton = view.findViewById(R.id.b_submit);
         submitButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

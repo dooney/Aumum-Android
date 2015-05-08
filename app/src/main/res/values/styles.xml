@@ -33,29 +33,6 @@
         <item name="android:textColor">@color/text</item>
         <item name="android:layout_margin">@dimen/margin_large</item>
     </style>
-    <style name="Button.Small">
-        <item name="android:layout_width">wrap_content</item>
-        <item name="android:layout_height">wrap_content</item>
-        <item name="android:textSize">@dimen/text_sz_medium</item>
-        <item name="android:textColor">@color/text</item>
-        <item name="android:layout_margin">0dp</item>
-    </style>
-    <style name="Button.Primary" parent="Button">
-        <item name="android:background">@drawable/bbuton_primary_rounded</item>
-    </style>
-    <style name="Button.Danger" parent="Button">
-        <item name="android:background">@drawable/bbuton_danger_rounded</item>
-    </style>
-    <style name="Button.Primary.Small" parent="Button.Small">
-        <item name="android:background">@drawable/bbuton_primary_rounded</item>
-    </style>
-    <style name="Button.Danger.Small" parent="Button.Small">
-        <item name="android:background">@drawable/bbuton_danger_rounded</item>
-    </style>
-    <style name="Button.Action" parent="Button.Primary.Small">
-        <item name="android:minWidth">48sp</item>
-        <item name="android:minHeight">32sp</item>
-    </style>
     <style name="Button.Dialog" parent="Button">
         <item name="android:background">@color/transparent</item>
         <item name="android:textColor">@drawable/button_dialog_text</item>
@@ -77,7 +54,7 @@
         <item name="android:padding">@dimen/margin_large</item>
     </style>
     <style name="EditText.Mandatory" parent="EditText">
-        <item name="android:textColorHint">@color/bbutton_danger</item>
+        <item name="android:textColorHint">@color/text_warning</item>
     </style>
     <style name="EditText.Box" parent="EditText">
         <item name="android:layout_width">match_parent</item>
@@ -93,7 +70,7 @@
         <item name="android:lineSpacingMultiplier">1.1</item>
     </style>
     <style name="EditText.MultiLine.Mandatory" parent="EditText.MultiLine">
-        <item name="android:textColorHint">@color/bbutton_danger</item>
+        <item name="android:textColorHint">@color/text_warning</item>
     </style>
     <style name="EditText.Dialog" parent="EditText">
         <item name="android:layout_width">300dp</item>
@@ -151,7 +128,7 @@
     <style name="TextView" parent="android:Widget.TextView">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
-        <item name="android:textColor">@color/grey_medium_dark</item>
+        <item name="android:textColor">@color/text_dark</item>
         <item name="android:textSize">@dimen/text_sz_medium</item>
     </style>
     <style name="LinkTextView" parent="TextView">
@@ -213,12 +190,12 @@
         <item name="android:textSize">@dimen/text_sz_large</item>
     </style>
     <style name="TextView.Notification" parent="TextView">
-        <item name="android:textColor">@color/bbutton_danger</item>
+        <item name="android:textColor">@color/text_warning</item>
     </style>
     <style name="TextView.Empty" parent="TextView.Subtitle" />
     <style name="TextView.Reload" parent="TextView">
         <item name="android:text">@string/info_click_to_reload</item>
-        <item name="android:textColor">@color/bbutton_danger</item>
+        <item name="android:textColor">@color/text_warning</item>
     </style>
     <style name="TextView.Gif" parent="TextView">
         <item name="android:text">@string/label_gif</item>
@@ -261,9 +238,6 @@
     <style name="TextView.Group.Name" parent="TextView.Title" />
     <style name="TextView.Group.Description" parent="TextView.Subtitle.Small" />
     <style name="TextView.Group.Size" parent="TextView.Subtitle.Small" />
-    <style name="Button.Group.Join" parent="Button.Action">
-        <item name="android:text">@string/label_join</item>
-    </style>
     <style name="EditText.NewGroup.Name" parent="EditText.Mandatory">
         <item name="android:hint">@string/hint_group_name</item>
     </style>
@@ -274,9 +248,6 @@
         <item name="android:textSize">@dimen/text_sz_large</item>
     </style>
     <style name="TextView.GroupRequest.Details" parent="TextView.Subtitle" />
-    <style name="Button.GroupRequest.Process" parent="Button.Action">
-        <item name="android:text">@string/label_process</item>
-    </style>
     <style name="TextView.GroupRequest.Status" parent="TextView.Subtitle" />
 
     <!-- Chat -->
@@ -362,9 +333,6 @@
         <item name="android:maxLines">1</item>
         <item name="android:ellipsize">end</item>
     </style>
-    <style name="Button.ContactRequest.Accept" parent="Button.Action">
-        <item name="android:text">@string/label_accept</item>
-    </style>
     <style name="TextView.ContactRequest.Added" parent="TextView.Subtitle">
         <item name="android:text">@string/label_added</item>
     </style>
@@ -372,18 +340,11 @@
         <item name="android:textSize">@dimen/text_sz_large</item>
         <item name="android:text">@string/label_invite</item>
     </style>
-    <style name="Button.UserContact.Add" parent="Button.Action">
-        <item name="android:text">@string/label_add</item>
-    </style>
     <style name="TextView.UserContact.Added" parent="TextView.Subtitle">
         <item name="android:text">@string/label_added</item>
     </style>
 
     <!-- User -->
-    <style name="TextView.User.Tag" parent="TextView.Subtitle">
-        <item name="android:background">@drawable/tag_background</item>
-        <item name="android:layout_marginRight">@dimen/margin_small</item>
-    </style>
     <style name="TextView.User.Interest" parent="LinkTextView">
         <item name="android:maxLines">1</item>
         <item name="android:ellipsize">end</item>
@@ -393,32 +354,22 @@
     </style>
     <style name="EditText.AddContact.Intro" parent="EditText" />
 
-    <!-- Tag -->
-    <style name="TextView.Tag.Name" parent="TextView.Title" />
-    <style name="ImageView.Tag.Checkbox" parent="ImageView">
-        <item name="android:src">@drawable/checkbox_on_focus</item>
-    </style>
-
     <!-- Profile -->
     <style name="TextView.Profile" parent="TextView.Title" />
     <style name="TextView.Profile.About" parent="TextView.Subtitle">
         <item name="android:lineSpacingMultiplier">1.1</item>
     </style>
-    <style name="TextView.Profile.Tag" parent="TextView.Subtitle">
-        <item name="android:background">@drawable/tag_background</item>
-        <item name="android:layout_marginRight">@dimen/margin_small</item>
-    </style>
 
     <!-- Settings -->
     <style name="TextView.Settings" parent="TextView.Title" />
     <style name="TextView.Settings.Logout" parent="TextView.Settings">
-        <item name="android:textColor">@color/bbutton_danger</item>
+        <item name="android:textColor">@color/text_warning</item>
     </style>
     <style name="TextView.About.Info" parent="TextView.Subtitle">
         <item name="android:textSize">@dimen/text_sz_small</item>
     </style>
     <style name="TextView.Settings.AppVersion" parent="TextView.About.Info">
-        <item name="android:textColor">@color/bbutton_danger</item>
+        <item name="android:textColor">@color/text_warning</item>
     </style>
 
     <!-- Feedback -->
@@ -478,10 +429,7 @@
         <item name="android:inputType">textEmailAddress</item>
     </style>
     <style name="TextView.ResetPassword.Email" parent="TextView">
-        <item name="android:textColor">@color/bbutton_danger</item>
-    </style>
-    <style name="Button.ResetPassword.Resend" parent="Button.Danger">
-        <item name="android:text">@string/label_resend_reset_password_email</item>
+        <item name="android:textColor">@color/text_warning</item>
     </style>
     <style name="EditText.Account.City" parent="EditText.Mandatory">
         <item name="android:hint">@string/hint_city</item>
@@ -489,24 +437,9 @@
     <style name="EditText.Account.Area" parent="EditText.Mandatory">
         <item name="android:hint">@string/hint_area</item>
     </style>
-    <style name="Button.Account.SignUp" parent="Button.Primary">
-        <item name="android:text">@string/label_sign_up</item>
-    </style>
-    <style name="Button.Account.SignIn" parent="Button.Primary">
-        <item name="android:text">@string/label_sign_in</item>
-    </style>
-    <style name="Button.Account.ResetPassword" parent="Button.Primary">
-        <item name="android:text">@string/label_submit</item>
-    </style>
     <style name="EditText.VerificationCode" parent="EditText">
         <item name="android:hint">@string/hint_verification_code</item>
         <item name="android:inputType">phone</item>
-    </style>
-    <style name="Button.Verify.Confirm" parent="Button.Primary">
-        <item name="android:text">@string/label_ok</item>
-    </style>
-    <style name="Button.Verify.Resend" parent="Button.Danger">
-        <item name="android:textSize">@dimen/text_sz_medium</item>
     </style>
 
     <!-- Widgets -->

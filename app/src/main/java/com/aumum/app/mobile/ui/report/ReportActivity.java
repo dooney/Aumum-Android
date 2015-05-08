@@ -7,7 +7,6 @@ import android.text.TextWatcher;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
 
 import com.aumum.app.mobile.Injector;
@@ -36,7 +35,7 @@ public class ReportActivity extends ProgressDialogActivity {
     private String entityType;
     private String entityId;
 
-    private Button submitButton;
+    private View submitButton;
     @InjectView(R.id.et_type) protected EditText typeText;
     @InjectView(R.id.et_details) protected EditText detailsText;
 
@@ -77,7 +76,7 @@ public class ReportActivity extends ProgressDialogActivity {
         menuItem.setActionView(R.layout.menuitem_button_submit);
         menuItem.setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
         View view = menuItem.getActionView();
-        submitButton = (Button) view.findViewById(R.id.b_submit);
+        submitButton = view.findViewById(R.id.b_submit);
         submitButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

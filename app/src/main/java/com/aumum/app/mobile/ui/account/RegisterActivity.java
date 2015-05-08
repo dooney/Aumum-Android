@@ -6,7 +6,6 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.KeyEvent;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
@@ -63,7 +62,7 @@ public class RegisterActivity extends AuthenticateActivity
     protected EditText passwordText;
 
     @InjectView(R.id.t_agreement) protected TextView agreementText;
-    @InjectView(R.id.b_sign_up) protected Button signUpButton;
+    @InjectView(R.id.b_sign_up) protected View signUpButton;
     @InjectView(R.id.t_prompt_sign_in) protected TextView promptSignInText;
 
     private final TextWatcher watcher = validationTextWatcher();

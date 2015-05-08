@@ -9,10 +9,8 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 
 import com.aumum.app.mobile.R;
-import com.aumum.app.mobile.core.model.User;
 import com.aumum.app.mobile.core.model.UserInfo;
 import com.aumum.app.mobile.ui.base.ItemListFragment;
 import com.aumum.app.mobile.ui.view.sort.InitialComparator;
@@ -33,7 +31,7 @@ public abstract class UserPickerFragment extends ItemListFragment<UserInfo>
 
     private View mainView;
     private UserPickerAdapter adapter;
-    private Button confirmButton;
+    private View confirmButton;
 
     private final int MAX_COUNT = 10;
 
@@ -51,7 +49,7 @@ public abstract class UserPickerFragment extends ItemListFragment<UserInfo>
         menuItem.setActionView(R.layout.menuitem_button_ok);
         menuItem.setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
         View view = menuItem.getActionView();
-        confirmButton = (Button) view.findViewById(R.id.b_ok);
+        confirmButton = view.findViewById(R.id.b_ok);
         confirmButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

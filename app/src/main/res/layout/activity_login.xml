@@ -3,7 +3,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="@dimen/margin_large"
+    android:padding="@dimen/margin_extreme_large"
     android:orientation="vertical"
     android:focusable="true"
     android:focusableInTouchMode="true">
@@ -15,7 +15,6 @@
         <TextView
             android:layout_width="wrap_content"
             style="@style/TextView.Account.Country"
-            android:paddingLeft="@dimen/margin_extra_large"
             android:text="@string/label_country"/>
 
         <TextView
@@ -23,7 +22,6 @@
             style="@style/TextView.Account.Country"
             android:layout_centerVertical="true"
             android:layout_alignParentRight="true"
-            android:paddingRight="@dimen/margin_medium"
             android:text="澳大利亚"/>
 
     </RelativeLayout>
@@ -35,8 +33,6 @@
         <TextView
             android:id="@+id/text_country_code"
             style="@style/TextView.Account.CountryCode"
-            android:paddingLeft="@dimen/margin_extra_large"
-            android:paddingRight="@dimen/margin_extra_large"
             android:layout_alignParentLeft="true"
             android:layout_centerVertical="true"
             android:text="+61"/>
@@ -55,27 +51,32 @@
         style="@style/EditText.Login.Password"
         android:imeOptions="actionDone" />
 
-    <Button
+    <com.beardedhen.androidbootstrap.BootstrapButton
+        xmlns:bootstrap="http://schemas.android.com/apk/res-auto"
         android:id="@+id/b_sign_in"
-        style="@style/Button.Account.SignIn" />
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/label_sign_in"
+        android:textSize="@dimen/text_sz_extra_large"
+        android:layout_marginTop="@dimen/margin_large"
+        android:layout_marginBottom="@dimen/margin_large"
+        bootstrap:bb_type="primary"/>
 
     <RelativeLayout
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent">
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
         <TextView
             android:id="@+id/t_forgot_password"
             style="@style/LinkTextView"
             android:text="@string/label_forgot_password"
-            android:layout_alignParentLeft="true"
-            android:layout_marginLeft="@dimen/margin_large"/>
+            android:layout_alignParentLeft="true"/>
 
         <TextView
             android:id="@+id/t_join_now"
             style="@style/LinkTextView"
             android:text="@string/label_join_now"
-            android:layout_alignParentRight="true"
-            android:layout_marginRight="@dimen/margin_large"/>
+            android:layout_alignParentRight="true"/>
     </RelativeLayout>
 
 </LinearLayout>

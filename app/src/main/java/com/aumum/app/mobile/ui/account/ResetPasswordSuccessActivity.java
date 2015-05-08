@@ -2,7 +2,6 @@ package com.aumum.app.mobile.ui.account;
 
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Button;
 import android.widget.TextView;
 
 import com.aumum.app.mobile.Injector;
@@ -23,7 +22,7 @@ public class ResetPasswordSuccessActivity extends ProgressDialogActivity {
     @Inject RestService restService;
 
     @InjectView(R.id.text_email) protected TextView emailText;
-    @InjectView(R.id.b_resend) protected Button resendButton;
+    @InjectView(R.id.b_resend) protected View resendButton;
 
     private String email;
     private SafeAsyncTask<Boolean> task;

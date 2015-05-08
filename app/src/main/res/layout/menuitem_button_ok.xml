@@ -6,10 +6,13 @@
     android:layout_height="wrap_content"
     android:paddingRight="@dimen/margin_large">
 
-    <Button
-        xmlns:android="http://schemas.android.com/apk/res/android"
+    <com.beardedhen.androidbootstrap.BootstrapButton
+        xmlns:bootstrap="http://schemas.android.com/apk/res-auto"
         android:id="@+id/b_ok"
-        style="@style/Button.Action"
-        android:text="@string/label_ok" />
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/label_ok"
+        bootstrap:bb_type="primary"
+        bootstrap:bb_size="small"/>
 
 </FrameLayout>

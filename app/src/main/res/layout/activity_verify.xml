@@ -1,19 +1,17 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="@dimen/margin_large"
+    android:padding="@dimen/margin_extreme_large"
     android:orientation="vertical" >
 
     <TextView
         android:id="@+id/text_label_phone"
         style="@style/TextView.Subtitle"
-        android:paddingLeft="@dimen/margin_large"
         android:paddingBottom="@dimen/margin_medium"/>
 
     <TextView
         android:id="@+id/text_label_code_tip"
         style="@style/TextView.Subtitle"
-        android:paddingLeft="@dimen/margin_large"
         android:paddingBottom="@dimen/margin_large"/>
 
     <EditText
@@ -21,12 +19,21 @@
         style="@style/EditText.VerificationCode"
         android:imeOptions="actionDone"/>
 
-    <Button
+    <com.beardedhen.androidbootstrap.BootstrapButton
+        xmlns:bootstrap="http://schemas.android.com/apk/res-auto"
         android:id="@+id/b_confirm"
-        style="@style/Button.Verify.Confirm" />
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/label_ok"
+        android:textSize="@dimen/text_sz_extra_large"
+        android:layout_marginTop="@dimen/margin_large"
+        android:layout_marginBottom="@dimen/margin_large"
+        bootstrap:bb_type="primary"/>
 
     <Button
         android:id="@+id/b_resend"
-        style="@style/Button.Verify.Resend" />
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/bbuton_danger"/>
 
 </LinearLayout>

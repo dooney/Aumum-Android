@@ -1,89 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <resources>
-
-    <color name="blue_extra_light">#c8eefc</color>  <!-- (not in handbook) -->
-    <color name="blue_light">#78c8e6</color>        <!-- "light blue" -->
-    <color name="blue_new_kid">#2EA2CC</color>      <!-- "new kid on the block blue" -->
-    <color name="blue_medium">#1e8cbe</color>       <!-- "base lighter blue" -->
-    <color name="blue_dark">#0074a2</color>         <!-- "base darker blue" -->
-    <color name="blue_extra_dark">#005684</color>   <!-- "midnight blue" -->
-    <color name="orange_medium">#f1831e</color>     <!-- "jazzy orange" -->
-    <color name="orange_dark">#d54e21</color>       <!-- "fire orange" -->
-    <color name="grey_extra_light">#eeeeee</color>  <!-- "it's everywhere grey" -->
-    <color name="grey_light">#dddddd</color>        <!-- "read grey" -->
-    <color name="grey_medium_light">#bbbbbb</color>
-    <color name="grey_medium">#999999</color>       <!-- "all T, all shade grey" -->
-    <color name="grey_medium_dark">#666666</color>  <!-- "whisper grey" -->
-    <color name="grey_dark">#333333</color>         <!-- "little eddie grey" -->
-    <color name="grey_extra_dark">#222222</color>   <!-- "big eddie grey" -->
-    <color name="semi_transparent_blue_medium">#cc1e8cbe</color>
+    <color name="transparent">#00000000</color>
+    <color name="grey_extra_light">#eeeeee</color>
+    <color name="grey_light">#dddddd</color>
+    <color name="grey_medium">#999999</color>
 
     <color name="text">#ffffff</color>
+    <color name="text_dark">#666666</color>
     <color name="text_light">#999999</color>
+    <color name="text_link">#005684</color>
     <color name="text_warning">#ffd9534f</color>
     <color name="pager_background">#F4F4F4</color>
-    <color name="text_link">#005684</color>
     <color name="divider_grey">#eeeeee</color>
-
-    <!--from Android-Bootstrap-->
-    <color name="white">#ffffffff</color>
-    <color name="black">#ff000000</color>
-    <color name="transparent">#00000000</color>
-    <color name="bbutton_edittext_border">#ccc</color>
-    <color name="bbutton_edittext_disabled">#ffe0e0e0</color>
-
-    <color name="bbutton_primary">#ff428bca</color>
-    <color name="bbutton_primary_edge">#ff357ebd</color>
-    <color name="bbutton_primary_pressed">#ff3276b1</color>
-    <color name="bbutton_primary_pressed_edge">#ff285e8e</color>
-    <color name="bbutton_primary_disabled">#a5428bca</color>
-    <color name="bbutton_primary_disabled_edge">#a5357ebd</color>
-
-    <color name="bbutton_danger">#ffd9534f</color>
-    <color name="bbutton_danger_edge">#ffd43f3a</color>
-    <color name="bbutton_danger_pressed">#ffd2322d</color>
-    <color name="bbutton_danger_pressed_edge">#ffac2925</color>
-    <color name="bbutton_danger_disabled">#a5d9534f</color>
-    <color name="bbutton_danger_disabled_edge">#a5d43f3a</color>
-
-    <color name="bbutton_success">#ff5cb85c</color>
-    <color name="bbutton_success_edge">#ff4cae4c</color>
-    <color name="bbutton_success_pressed">#ff47a447</color>
-    <color name="bbutton_success_pressed_edge">#ff398439</color>
-    <color name="bbutton_success_disabled">#a55cb85c</color>
-    <color name="bbutton_success_disabled_edge">#a54cae4c</color>
-
-    <color name="bbutton_warning">#fff0ad4e</color>
-    <color name="bbutton_warning_edge">#ffeea236</color>
-    <color name="bbutton_warning_pressed">#ffed9c28</color>
-    <color name="bbutton_warning_pressed_edge">#ffd58512</color>
-    <color name="bbutton_warning_disabled">#a5f0ad4e</color>
-    <color name="bbutton_warning_disabled_edge">#a5eea236</color>
-
-    <color name="bbutton_info">#ff5bc0de</color>
-    <color name="bbutton_info_edge">#ff46b8da</color>
-    <color name="bbutton_info_pressed">#ff39b3d7</color>
-    <color name="bbutton_info_pressed_edge">#ff269abc</color>
-    <color name="bbutton_info_disabled">#a55bc0de</color>
-    <color name="bbutton_info_disabled_edge">#a546b8da</color>
-
-    <color name="bbutton_default">#ffffffff</color>
-    <color name="bbutton_default_edge">#ffcccccc</color>
-    <color name="bbutton_default_pressed">#ffebebeb</color>
-    <color name="bbutton_default_pressed_edge">#ffadadad</color>
-    <color name="bbutton_default_disabled">#a5ffffff</color>
-    <color name="bbutton_default_disabled_edge">#a5cccccc</color>
-
-    <color name="bbutton_inverse">#ff0a0a0a</color>
-    <color name="bbutton_inverse_edge">#ff141414</color>
-    <color name="bbutton_inverse_pressed">#ff1f1f1f</color>
-    <color name="bbutton_inverse_pressed_edge">#ff292929</color>
-    <color name="bbutton_inverse_disabled">#a50a0a0a</color>
-    <color name="bbutton_inverse_disabled_edge">#a5141414</color>
-
-    <color name="bthumbnail_background">#ffffffff</color>
-    <color name="bthumbnail_placeholder">#e9e9e9</color>
-    <color name="bthumbnail_border">#dbdbdb</color>
-    <color name="bthumbnail_font">#7e7e7e</color>
 </resources>
