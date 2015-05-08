@@ -19,7 +19,7 @@ public class DBHelper {
     /**
      * 0-->1 add emoticons,emoticonset
      */
-    private static final int VERSION = 4;
+    private static final int VERSION = 1;
 
     private static final String DATABASE_NAME = "xhsemoticons.db";
     private static final String TABLE_NAME_EMOTICONS = "emoticons";
@@ -260,7 +260,7 @@ public class DBHelper {
         }
 
         private static void createEmoticonsTable(SQLiteDatabase db) {
-            db.execSQL("DROP TABLE " + TABLE_NAME_EMOTICONS);
+            db.execSQL("DROP TABLE IF EXISTS " + TABLE_NAME_EMOTICONS);
             db.execSQL("CREATE TABLE " + TABLE_NAME_EMOTICONS + " ( " +
                     TableColumns.EmoticonColumns._ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
                     TableColumns.EmoticonColumns.EVENTTYPE + " INTEGER, " +
@@ -268,7 +268,7 @@ public class DBHelper {
                     TableColumns.EmoticonColumns.ICONURI + " TEXT NOT NULL, " +
                     TableColumns.EmoticonColumns.EMOTICONSET_NAME + " TEXT NOT NULL);");
 
-            db.execSQL("DROP TABLE " + TABLE_NAME_EMOTICONSET);
+            db.execSQL("DROP TABLE IF EXISTS " + TABLE_NAME_EMOTICONSET);
             db.execSQL("CREATE TABLE " + TABLE_NAME_EMOTICONSET + " ( " +
                     TableColumns.EmoticonSetColumns._ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
                     TableColumns.EmoticonSetColumns.NAME + " TEXT NOT NULL UNIQUE, " +
@@ -296,7 +296,7 @@ public class DBHelper {
 
         private void upgradeTo(SQLiteDatabase db, int version) {
             switch (version) {
-                case 4:
+                case VERSION:
                     createEmoticonsTable(db);
                     break;
                 default:
