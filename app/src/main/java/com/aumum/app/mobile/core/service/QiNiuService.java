@@ -22,7 +22,7 @@ public class QiNiuService extends CloudStorageService {
     @Override
     public void init(String id) {
         super.init(id);
-        baseUrl = "http://aumum.qiniudn.com/";
+        baseUrl = "http://7sbnoz.com5.z0.glb.clouddn.com/";
         auth = Auth.create(ACCESS_KEY, SECRET_KEY);
         uploadManager = new UploadManager();
     }
