@@ -2,7 +2,6 @@
 package com.aumum.app.mobile.core.service;
 
 import com.aumum.app.mobile.core.model.Area;
-import com.aumum.app.mobile.core.model.CityGroup;
 import com.aumum.app.mobile.core.model.Feedback;
 import com.aumum.app.mobile.core.Constants;
 import com.aumum.app.mobile.core.model.Moment;
@@ -60,10 +59,6 @@ public class RestService {
 
     private AreaService getAreaService() {
         return getRestAdapter().create(AreaService.class);
-    }
-
-    private CityGroupService getCityGroupService() {
-        return getRestAdapter().create(CityGroupService.class);
     }
 
     private MomentService getMomentService() {
@@ -370,17 +365,6 @@ public class RestService {
         whereJson.addProperty(Constants.Http.Area.PARAM_CITY, cityId);
         String where = whereJson.toString();
         return getAreaService().getList(where, Integer.MAX_VALUE).getResults();
-    }
-
-    public CityGroup getCityGroup(int cityId) {
-        final JsonObject whereJson = new JsonObject();
-        whereJson.addProperty(Constants.Http.CityGroup.PARAM_CITY, cityId);
-        String where = whereJson.toString();
-        List<CityGroup> result = getCityGroupService().getList(where, 1).getResults();
-        if (result.size() > 0) {
-            return result.get(0);
-        }
-        return null;
     }
 
     public Moment newMoment(Moment moment) {

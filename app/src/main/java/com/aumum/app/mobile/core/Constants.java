@@ -87,11 +87,6 @@ public final class Constants {
         public static final String URL_AREAS_FRAG = "/1/classes/Areas";
 
         /**
-         * List City Group URL
-         */
-        public static final String URL_CITY_GROUP_FRAG = "/1/classes/CityGroup";
-
-        /**
          * List Moments URL
          */
         public static final String URL_MOMENTS_FRAG = "/1/classes/Moments";
@@ -145,10 +140,6 @@ public final class Constants {
         }
 
         public static final class Area {
-            public static final String PARAM_CITY = "city";
-        }
-
-        public static final class CityGroup {
             public static final String PARAM_CITY = "city";
         }
     }

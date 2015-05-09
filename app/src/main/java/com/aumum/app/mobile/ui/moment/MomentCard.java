@@ -10,6 +10,7 @@ import com.aumum.app.mobile.R;
 import com.aumum.app.mobile.core.model.Moment;
 import com.aumum.app.mobile.core.model.Share;
 import com.aumum.app.mobile.core.model.UserInfo;
+import com.aumum.app.mobile.ui.user.UserListener;
 import com.aumum.app.mobile.utils.ShareUtils;
 import com.aumum.app.mobile.ui.chat.ChatActivity;
 import com.aumum.app.mobile.ui.view.AvatarImageView;
@@ -32,11 +33,14 @@ public class MomentCard {
     public void refresh(final Moment moment) {
         final UserInfo user = moment.getUser();
 
+        UserListener userListener = new UserListener(activity, user.getObjectId());
         AvatarImageView avatarImage = (AvatarImageView) view.findViewById(R.id.image_avatar);
         avatarImage.getFromUrl(user.getAvatarUrl());
+        avatarImage.setOnClickListener(userListener);
 
         TextView userNameText = (TextView) view.findViewById(R.id.text_user_name);
         userNameText.setText(user.getScreenName());
+        userNameText.setOnClickListener(userListener);
 
         TextView createdAtText = (TextView) view.findViewById(R.id.text_createdAt);
         createdAtText.setText(moment.getCreatedAtFormatted());

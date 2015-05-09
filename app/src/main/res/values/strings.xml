@@ -6,6 +6,7 @@
     <string-array name="label_main_pages">
         <item>主页</item>
         <item>聊天</item>
+        <item>发现</item>
         <item>好友</item>
         <item>个人</item>
     </string-array>
