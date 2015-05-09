@@ -36,7 +36,7 @@ dependencies {
     compile 'com.qiniu:qiniu-java-sdk:7.0.0'
     compile files('src/main/libs/qiniu-android-sdk-7.0.3.jar')
     compile project(':AndroidPullToRefresh')
-    compile 'com.beardedhen:androidbootstrap:+'
+    compile project(':AndroidBootstrap')
 }
 
 android {

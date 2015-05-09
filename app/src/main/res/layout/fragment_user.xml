@@ -27,7 +27,8 @@
             android:id="@+id/layout_action"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true">
+            android:layout_alignParentBottom="true"
+            android:background="@color/white">
 
             <View
                 style="@style/Divider"
@@ -36,61 +37,44 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:padding="@dimen/margin_large">
+                android:padding="@dimen/margin_large"
+                android:gravity="center">
 
-                <FrameLayout
-                    android:layout_width="0dp"
+                <com.beardedhen.androidbootstrap.BootstrapButton
+                    xmlns:bootstrap="http://schemas.android.com/apk/res-auto"
+                    android:id="@+id/b_delete_contact"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1">
+                    android:text="@string/label_delete_contact"
+                    android:layout_marginLeft="@dimen/margin_medium"
+                    android:layout_marginRight="@dimen/margin_medium"
+                    bootstrap:bb_icon_left="fa-user-times"
+                    bootstrap:bb_type="danger"
+                    bootstrap:bb_size="small"/>
 
-                    <com.beardedhen.androidbootstrap.BootstrapButton
-                        xmlns:bootstrap="http://schemas.android.com/apk/res-auto"
-                        android:id="@+id/b_delete_contact"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/label_delete_contact"
-                        bootstrap:bb_icon_left="fa-user-times"
-                        bootstrap:bb_type="danger"
-                        bootstrap:bb_size="small"
-                        android:layout_gravity="center"/>
-
-                </FrameLayout>
-
-                <FrameLayout
-                    android:layout_width="0dp"
+                <com.beardedhen.androidbootstrap.BootstrapButton
+                    xmlns:bootstrap="http://schemas.android.com/apk/res-auto"
+                    android:id="@+id/b_add_contact"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1">
+                    android:text="@string/label_add_contact"
+                    android:layout_marginLeft="@dimen/margin_medium"
+                    android:layout_marginRight="@dimen/margin_medium"
+                    bootstrap:bb_icon_left="fa-user-plus"
+                    bootstrap:bb_type="primary"
+                    bootstrap:bb_size="small"/>
 
-                    <com.beardedhen.androidbootstrap.BootstrapButton
-                        xmlns:bootstrap="http://schemas.android.com/apk/res-auto"
-                        android:id="@+id/b_add_contact"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/label_add_contact"
-                        bootstrap:bb_icon_left="fa-user-plus"
-                        bootstrap:bb_type="primary"
-                        bootstrap:bb_size="small"
-                        android:layout_gravity="center"/>
-
-                </FrameLayout>
-
-                <FrameLayout
-                    android:layout_width="0dp"
+                <com.beardedhen.androidbootstrap.BootstrapButton
+                    xmlns:bootstrap="http://schemas.android.com/apk/res-auto"
+                    android:id="@+id/b_chat"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1">
-
-                    <com.beardedhen.androidbootstrap.BootstrapButton
-                        xmlns:bootstrap="http://schemas.android.com/apk/res-auto"
-                        android:id="@+id/b_chat"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/label_chat"
-                        bootstrap:bb_icon_left="fa-comments"
-                        bootstrap:bb_type="primary"
-                        bootstrap:bb_size="small"
-                        android:layout_gravity="center"/>
-
-                </FrameLayout>
+                    android:text="@string/label_chat"
+                    android:layout_marginLeft="@dimen/margin_medium"
+                    android:layout_marginRight="@dimen/margin_medium"
+                    bootstrap:bb_icon_left="fa-comments"
+                    bootstrap:bb_type="primary"
+                    bootstrap:bb_size="small"/>
 
             </LinearLayout>
 

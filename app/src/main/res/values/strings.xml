@@ -205,7 +205,7 @@
 
     <!-- User -->
     <string name="label_add_contact">添加好友</string>
-    <string name="label_delete_contact">移除好友</string>
+    <string name="label_delete_contact">移除</string>
     <string name="hint_hello">你好</string>
     <string name="label_contact_invited">%1$s请求添加好友</string>
     <string name="label_accept">同意</string>
@@ -287,12 +287,12 @@
     <string name="label_share_content">#澳妈圈#我刚刚在@澳妈圈 上分享了照片</string>
 
     <!-- Widgets -->
-    <string name="header_hint_refresh_normal">下拉刷新</string>
-    <string name="header_hint_refresh_ready">放开以刷新</string>
+    <string name="header_hint_refresh_normal">下拉可以刷新</string>
+    <string name="header_hint_refresh_ready">释放立即刷新</string>
     <string name="header_hint_refresh_loading">正在刷新&#8230;</string>
-    <string name="header_hint_refresh_time">上次刷新时间：</string>
+    <string name="header_hint_refresh_time">最后更新：</string>
     <string name="footer_hint_load_normal">加载更多</string>
-    <string name="footer_hint_load_ready">放开以加载</string>
+    <string name="footer_hint_load_ready">释放立即加载</string>
     <string name="title_gps_alert_dialog">GPS设置</string>
     <string name="info_gps_alert_dialog">GPS未开启，点击确定去设置菜单开启该功能。</string>
 

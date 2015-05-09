@@ -7,7 +7,6 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.TextView;
 
 import com.aumum.app.mobile.Injector;
@@ -28,6 +27,7 @@ import com.aumum.app.mobile.ui.view.dialog.TextViewDialog;
 import com.aumum.app.mobile.ui.view.pulltorefresh.XGridView;
 import com.etsy.android.grid.StaggeredGridView;
 import com.github.kevinsawicki.wishlist.Toaster;
+import com.handmark.pulltorefresh.library.PullToRefreshBase;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -95,6 +95,7 @@ public class UserFragment extends LoaderFragment<User> {
         deleteContactButton = view.findViewById(R.id.b_delete_contact);
 
         XGridView userView = (XGridView) view.findViewById(R.id.user_view);
+        userView.setMode(PullToRefreshBase.Mode.PULL_FROM_END);
         StaggeredGridView staggeredView = userView.getRefreshableView();
         View header = getActivity().getLayoutInflater()
                 .inflate(R.layout.fragment_user_header, null, false);
