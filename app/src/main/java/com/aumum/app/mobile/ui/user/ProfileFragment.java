@@ -18,10 +18,13 @@ import android.widget.TextView;
 import com.aumum.app.mobile.Injector;
 import com.aumum.app.mobile.R;
 import com.aumum.app.mobile.core.Constants;
+import com.aumum.app.mobile.core.dao.MomentStore;
 import com.aumum.app.mobile.core.dao.UserStore;
+import com.aumum.app.mobile.core.model.Moment;
 import com.aumum.app.mobile.core.model.User;
 import com.aumum.app.mobile.core.service.FileUploadService;
 import com.aumum.app.mobile.core.service.RestService;
+import com.aumum.app.mobile.ui.album.AlbumAdapter;
 import com.aumum.app.mobile.ui.area.AreaListActivity;
 import com.aumum.app.mobile.ui.base.LoaderFragment;
 import com.aumum.app.mobile.ui.settings.SettingsActivity;
@@ -30,15 +33,20 @@ import com.aumum.app.mobile.ui.view.dialog.ConfirmDialog;
 import com.aumum.app.mobile.ui.view.dialog.EditTextDialog;
 import com.aumum.app.mobile.ui.view.dialog.ListViewDialog;
 import com.aumum.app.mobile.ui.view.dialog.TextViewDialog;
+import com.aumum.app.mobile.ui.view.pulltorefresh.XGridView;
 import com.aumum.app.mobile.utils.ImageLoaderUtils;
 import com.aumum.app.mobile.utils.SafeAsyncTask;
 import com.aumum.app.mobile.utils.TuSdkUtils;
+import com.etsy.android.grid.StaggeredGridView;
+import com.handmark.pulltorefresh.library.PullToRefreshBase;
 
 import org.lasque.tusdk.core.utils.image.BitmapHelper;
 import org.lasque.tusdk.core.utils.sqllite.ImageSqlInfo;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 import javax.inject.Inject;
 
@@ -58,13 +66,16 @@ public class ProfileFragment extends LoaderFragment<User>
 
     @Inject RestService restService;
     @Inject UserStore userStore;
+    @Inject MomentStore momentStore;
     @Inject FileUploadService fileUploadService;
 
     private User currentUser;
+    private List<String> album;
     private SafeAsyncTask<Boolean> task;
     private ImageView imageToEdit;
 
     private View mainView;
+    private AlbumAdapter albumAdapter;
     private ImageView coverImage;
     private AvatarImageView avatarImage;
     private TextView screenNameText;
@@ -79,6 +90,7 @@ public class ProfileFragment extends LoaderFragment<User>
         setHasOptionsMenu(true);
         Injector.inject(this);
 
+        album = new ArrayList<>();
         fileUploadService.setFileUploadListener(this);
     }
 
@@ -114,6 +126,19 @@ public class ProfileFragment extends LoaderFragment<User>
         scrollView.setVerticalScrollBarEnabled(false);
         
         mainView = view.findViewById(R.id.main_view);
+        XGridView userView = (XGridView) view.findViewById(R.id.user_view);
+        userView.setMode(PullToRefreshBase.Mode.MANUAL_REFRESH_ONLY);
+        StaggeredGridView staggeredView = userView.getRefreshableView();
+        View header = getActivity().getLayoutInflater()
+                .inflate(R.layout.fragment_profile_header, null, false);
+        staggeredView.addHeaderView(header);
+        initHeaderView(header);
+
+        albumAdapter = new AlbumAdapter(getActivity());
+        userView.setAdapter(albumAdapter);
+    }
+
+    private void initHeaderView(View view) {
         coverImage = (ImageView) view.findViewById(R.id.image_cover);
         avatarImage = (AvatarImageView) view.findViewById(R.id.image_avatar);
         View screenNameLayout = view.findViewById(R.id.layout_screen_name);
@@ -280,6 +305,10 @@ public class ProfileFragment extends LoaderFragment<User>
     @Override
     protected User loadDataCore(Bundle bundle) throws Exception {
         currentUser = userStore.getCurrentUser();
+        List<Moment> momentList = momentStore.loadMore(currentUser.getMoments(), null);
+        for (Moment moment: momentList) {
+            album.add(fileUploadService.getThumbnail(moment.getImageUrl()));
+        }
         return currentUser;
     }
 
@@ -288,6 +317,7 @@ public class ProfileFragment extends LoaderFragment<User>
         if (user != null) {
             setData(user);
 
+            albumAdapter.addAll(album);
             if (user.getCoverUrl() != null) {
                 ImageLoaderUtils.displayImage(user.getCoverUrl(),
                         coverImage, R.drawable.photo_placeholder);
