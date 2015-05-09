@@ -181,13 +181,14 @@ public class RestService {
     }
 
     private String getUserFields() {
-        return String.format("%s,%s,%s,%s,%s,%s",
+        return String.format("%s,%s,%s,%s,%s,%s,%s",
                 Constants.Http.User.PARAM_SCREEN_NAME,
                 Constants.Http.User.PARAM_AVATAR_URL,
                 Constants.Http.User.PARAM_CITY,
                 Constants.Http.User.PARAM_AREA,
                 Constants.Http.User.PARAM_ABOUT,
-                Constants.Http.User.PARAM_MOMENTS);
+                Constants.Http.User.PARAM_MOMENTS,
+                Constants.Http.User.PARAM_COVER_URL);
     }
 
     public User getUserById(String id) {
@@ -285,6 +286,12 @@ public class RestService {
     public JsonObject updateUserAvatar(String userId, String avatarUrl) {
         final JsonObject data = new JsonObject();
         data.addProperty(Constants.Http.User.PARAM_AVATAR_URL, avatarUrl);
+        return getUserService().updateById(userId, data);
+    }
+
+    public JsonObject updateUserCover(String userId, String coverUrl) {
+        final JsonObject data = new JsonObject();
+        data.addProperty(Constants.Http.User.PARAM_COVER_URL, coverUrl);
         return getUserService().updateById(userId, data);
     }
 

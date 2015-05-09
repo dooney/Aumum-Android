@@ -556,7 +556,7 @@ public class ChatFragment extends Fragment
 
     private void onPhotoResult(ImageSqlInfo imageSqlInfo) {
         Bitmap bitmap = BitmapHelper.getBitmap(imageSqlInfo);
-        TuSdkUtils.edit(getActivity(), bitmap, false, true, true, this);
+        TuSdkUtils.edit(getActivity(), bitmap, true, true, this);
     }
 
     @Override

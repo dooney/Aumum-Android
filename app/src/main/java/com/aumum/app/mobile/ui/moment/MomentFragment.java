@@ -144,9 +144,9 @@ public class MomentFragment extends RefreshItemListFragment<Moment>
     private void onPhotoResult(ImageSqlInfo imageSqlInfo) {
         Bitmap bitmap = BitmapHelper.getBitmap(imageSqlInfo);
         if (bitmap.getHeight() > bitmap.getWidth()) {
-            TuSdkUtils.crop(getActivity(), imageSqlInfo, this);
+            TuSdkUtils.crop(getActivity(), imageSqlInfo, false, this);
         } else {
-            TuSdkUtils.edit(getActivity(), bitmap, false, true, true, this);
+            TuSdkUtils.edit(getActivity(), bitmap, true, true, this);
         }
     }
 
@@ -163,7 +163,7 @@ public class MomentFragment extends RefreshItemListFragment<Moment>
     @Override
     public void onCropResult(File file) {
         Bitmap bitmap = BitmapHelper.getBitmap(file);
-        TuSdkUtils.edit(getActivity(), bitmap, false, true, true, this);
+        TuSdkUtils.edit(getActivity(), bitmap, true, true, this);
     }
 
     @Override

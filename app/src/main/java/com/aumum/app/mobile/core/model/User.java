@@ -33,7 +33,8 @@ public class User extends AggregateRoot {
                 String avatarUrl,
                 String about,
                 List<String> contacts,
-                List<String> moments) {
+                List<String> moments,
+                String coverUrl) {
         this.objectId = objectId;
         this.username = username;
         this.chatId = chatId;
@@ -52,6 +53,7 @@ public class User extends AggregateRoot {
             this.moments.clear();
             this.moments.addAll(moments);
         }
+        this.coverUrl = coverUrl;
     }
 
     public String getUsername() {
@@ -129,6 +131,10 @@ public class User extends AggregateRoot {
 
     public String getCoverUrl() {
         return coverUrl;
+    }
+
+    public void setCoverUrl(String coverUrl) {
+        this.coverUrl = coverUrl;
     }
 
     public void addContact(String contactId) {

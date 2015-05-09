@@ -107,7 +107,6 @@ public class TuSdkUtils {
 
     public static void edit(Activity activity,
                             Bitmap bitmap,
-                            boolean isEnableCuter,
                             boolean isEnableFilter,
                             boolean isEnableSticker,
                             final EditListener listener) {
@@ -124,7 +123,7 @@ public class TuSdkUtils {
         });
         TuEditEntryOption option = component.componentOption().editEntryOption();
         option.setSaveToTemp(true);
-        option.setEnableCuter(isEnableCuter);
+        option.setEnableCuter(false);
         option.setEnableFilter(isEnableFilter);
         option.setEnableSticker(isEnableSticker);
         component.setImage(bitmap)
@@ -134,11 +133,13 @@ public class TuSdkUtils {
 
     public static void crop(Activity activity,
                             ImageSqlInfo imageSqlInfo,
+                            boolean isEnableFilter,
                             final CropListener listener) {
         TuSdkHelperComponent component = new TuSdkHelperComponent(activity);
         TuEditTurnAndCutOption option = new TuEditTurnAndCutOption();
         option.setCutSize(new TuSdkSize(640, 640));
         option.setSaveToTemp(true);
+        option.setEnableFilters(isEnableFilter);
         TuEditTurnAndCutFragment fragment = option.fragment();
         fragment.setImageSqlInfo(imageSqlInfo);
         fragment.setDelegate(new TuEditTurnAndCutFragment.TuEditTurnAndCutFragmentDelegate() {

@@ -52,6 +52,7 @@ import retrofit.RetrofitError;
 public class ProfileFragment extends LoaderFragment<User>
         implements TuSdkUtils.CameraListener,
                    TuSdkUtils.AlbumListener,
+                   TuSdkUtils.CropListener,
                    TuSdkUtils.EditListener,
         FileUploadService.FileUploadListener {
 
@@ -61,6 +62,7 @@ public class ProfileFragment extends LoaderFragment<User>
 
     private User currentUser;
     private SafeAsyncTask<Boolean> task;
+    private ImageView imageToEdit;
 
     private View mainView;
     private ImageView coverImage;
@@ -293,10 +295,18 @@ public class ProfileFragment extends LoaderFragment<User>
                 coverImage.setImageResource(
                         Constants.Options.CITY_COVER.get(user.getCity()));
             }
+            coverImage.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    imageToEdit = coverImage;
+                    TuSdkUtils.album(getActivity(), ProfileFragment.this);
+                }
+            });
             avatarImage.getFromUrl(user.getAvatarUrl());
             avatarImage.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
+                    imageToEdit = avatarImage;
                     showCameraOptions();
                 }
             });
@@ -316,6 +326,33 @@ public class ProfileFragment extends LoaderFragment<User>
             public Boolean call() throws Exception {
                 restService.updateUserAvatar(currentUser.getObjectId(), avatarUrl);
                 currentUser.setAvatarUrl(avatarUrl);
+                userStore.save(currentUser);
+                return true;
+            }
+
+            @Override
+            protected void onException(final Exception e) throws RuntimeException {
+                if(!(e instanceof RetrofitError)) {
+                    showError(e);
+                }
+            }
+
+            @Override
+            protected void onFinally() throws RuntimeException {
+                task = null;
+            }
+        };
+        task.execute();
+    }
+
+    private void updateCover(final String coverUrl) {
+        if (task != null) {
+            return;
+        }
+        task = new SafeAsyncTask<Boolean>() {
+            public Boolean call() throws Exception {
+                restService.updateUserCover(currentUser.getObjectId(), coverUrl);
+                currentUser.setCoverUrl(coverUrl);
                 userStore.save(currentUser);
                 return true;
             }
@@ -370,7 +407,11 @@ public class ProfileFragment extends LoaderFragment<User>
 
     @Override
     public void onUploadSuccess(String remoteUrl) {
-        updateAvatar(remoteUrl);
+        if (imageToEdit == avatarImage) {
+            updateAvatar(remoteUrl);
+        } else if (imageToEdit == coverImage) {
+            updateCover(remoteUrl);
+        }
     }
 
     @Override
@@ -399,8 +440,16 @@ public class ProfileFragment extends LoaderFragment<User>
     }
 
     private void onPhotoResult(ImageSqlInfo imageSqlInfo) {
-        Bitmap bitmap = BitmapHelper.getBitmap(imageSqlInfo);
-        TuSdkUtils.edit(getActivity(), bitmap, true, true, false, this);
+        if (imageToEdit == avatarImage) {
+            TuSdkUtils.crop(getActivity(), imageSqlInfo, true, this);
+        } else if (imageToEdit == coverImage) {
+            Bitmap bitmap = BitmapHelper.getBitmap(imageSqlInfo);
+            if (bitmap.getHeight() > bitmap.getWidth()) {
+                TuSdkUtils.crop(getActivity(), imageSqlInfo, true, this);
+            } else {
+                TuSdkUtils.edit(getActivity(), bitmap, true, false, this);
+            }
+        }
     }
 
     @Override
@@ -414,12 +463,21 @@ public class ProfileFragment extends LoaderFragment<User>
     }
 
     @Override
+    public void onCropResult(File file) {
+        onFileResult(file);
+    }
+
+    @Override
     public void onEditResult(File file) {
+        onFileResult(file);
+    }
+
+    private void onFileResult(File file) {
         try {
             String fileUri = file.getAbsolutePath();
-            String avatarUri = ImageLoaderUtils.getFullPath(fileUri);
-            Bitmap bitmap = ImageLoaderUtils.loadImage(avatarUri);
-            avatarImage.setImageBitmap(bitmap);
+            String imageUri = ImageLoaderUtils.getFullPath(fileUri);
+            Bitmap bitmap = ImageLoaderUtils.loadImage(imageUri);
+            imageToEdit.setImageBitmap(bitmap);
             fileUploadService.upload(fileUri);
         } catch (Exception e) {
             showError(e);

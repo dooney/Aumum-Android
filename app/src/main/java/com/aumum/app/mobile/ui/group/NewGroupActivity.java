@@ -26,7 +26,6 @@ import com.aumum.app.mobile.utils.SafeAsyncTask;
 import com.aumum.app.mobile.utils.TuSdkUtils;
 import com.easemob.chat.EMGroup;
 
-import org.lasque.tusdk.core.utils.image.BitmapHelper;
 import org.lasque.tusdk.core.utils.sqllite.ImageSqlInfo;
 
 import java.io.File;
@@ -42,7 +41,7 @@ import retrofit.RetrofitError;
  */
 public class NewGroupActivity extends ProgressDialogActivity
     implements TuSdkUtils.AlbumListener,
-               TuSdkUtils.EditListener,
+               TuSdkUtils.CropListener,
         FileUploadService.FileUploadListener {
 
     @Inject UserStore userStore;
@@ -169,8 +168,7 @@ public class NewGroupActivity extends ProgressDialogActivity
     }
 
     private void onPhotoResult(ImageSqlInfo imageSqlInfo) {
-        Bitmap bitmap = BitmapHelper.getBitmap(imageSqlInfo);
-        TuSdkUtils.edit(this, bitmap, true, true, false, this);
+        TuSdkUtils.crop(this, imageSqlInfo, true, this);
     }
 
     @Override
@@ -179,7 +177,7 @@ public class NewGroupActivity extends ProgressDialogActivity
     }
 
     @Override
-    public void onEditResult(File file) {
+    public void onCropResult(File file) {
         try {
             String fileUri = file.getAbsolutePath();
             String avatarUri = ImageLoaderUtils.getFullPath(fileUri);

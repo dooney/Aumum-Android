@@ -36,7 +36,6 @@ import com.mobsandgeeks.saripaar.ValidationError;
 import com.mobsandgeeks.saripaar.Validator;
 import com.mobsandgeeks.saripaar.annotation.Email;
 
-import org.lasque.tusdk.core.utils.image.BitmapHelper;
 import org.lasque.tusdk.core.utils.sqllite.ImageSqlInfo;
 
 import java.io.File;
@@ -53,7 +52,7 @@ public class CompleteProfileActivity extends ProgressDialogActivity
     implements Validator.ValidationListener,
                TuSdkUtils.CameraListener,
                TuSdkUtils.AlbumListener,
-               TuSdkUtils.EditListener,
+               TuSdkUtils.CropListener,
         FileUploadService.FileUploadListener {
 
     @Inject RestService restService;
@@ -375,8 +374,7 @@ public class CompleteProfileActivity extends ProgressDialogActivity
     }
 
     private void onPhotoResult(ImageSqlInfo imageSqlInfo) {
-        Bitmap bitmap = BitmapHelper.getBitmap(imageSqlInfo);
-        TuSdkUtils.edit(this, bitmap, true, true, false, this);
+        TuSdkUtils.crop(this, imageSqlInfo, true, this);
     }
 
     @Override
@@ -390,7 +388,7 @@ public class CompleteProfileActivity extends ProgressDialogActivity
     }
 
     @Override
-    public void onEditResult(File file) {
+    public void onCropResult(File file) {
         try {
             String fileUri = file.getAbsolutePath();
             String avatarUri = ImageLoaderUtils.getFullPath(fileUri);
