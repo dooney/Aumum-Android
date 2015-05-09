@@ -43,6 +43,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/label_add"
+        bootstrap:bb_icon_left="fa-plus"
         bootstrap:bb_type="primary"
         bootstrap:bb_size="small"/>
 

@@ -16,6 +16,7 @@ public class User extends AggregateRoot {
     protected String about;
     protected List<String> contacts = new ArrayList<String>();
     protected List<String> moments = new ArrayList<String>();
+    private String coverUrl;
 
     public User() {
 
@@ -124,6 +125,10 @@ public class User extends AggregateRoot {
 
     public List<String> getMoments() {
         return moments;
+    }
+
+    public String getCoverUrl() {
+        return coverUrl;
     }
 
     public void addContact(String contactId) {

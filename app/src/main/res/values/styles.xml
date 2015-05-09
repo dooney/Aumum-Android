@@ -216,9 +216,7 @@
     </style>
 
     <!-- Moment -->
-    <style name="TextView.Moment.UserName" parent="TextView.UserName">
-        <item name="android:textSize">@dimen/text_sz_small</item>
-    </style>
+    <style name="TextView.Moment.UserName" parent="TextView.UserName" />
     <style name="TextView.Moment.CreatedAt" parent="TextView.Subtitle.Small" />
     <style name="EditText.Moment.Text" parent="EditText.MultiLine">
         <item name="android:hint">@string/hint_moment_text</item>
@@ -345,20 +343,10 @@
     </style>
 
     <!-- User -->
-    <style name="TextView.User.Interest" parent="LinkTextView">
-        <item name="android:maxLines">1</item>
-        <item name="android:ellipsize">end</item>
-    </style>
     <style name="TextView.User.About" parent="TextView">
         <item name="android:lineSpacingMultiplier">1.1</item>
     </style>
     <style name="EditText.AddContact.Intro" parent="EditText" />
-
-    <!-- Profile -->
-    <style name="TextView.Profile" parent="TextView.Title" />
-    <style name="TextView.Profile.About" parent="TextView.Subtitle">
-        <item name="android:lineSpacingMultiplier">1.1</item>
-    </style>
 
     <!-- Settings -->
     <style name="TextView.Settings" parent="TextView.Title" />

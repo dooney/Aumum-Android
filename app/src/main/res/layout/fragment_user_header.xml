@@ -9,6 +9,28 @@
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:id="@+id/image_cover"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:adjustViewBounds="true"
+                android:scaleType="fitCenter"/>
+
+            <com.aumum.app.mobile.ui.view.AvatarImageView
+                xmlns:app="http://schemas.android.com/apk/res-auto"
+                app:border_width="2dp"
+                app:border_color="#fff"
+                android:id="@+id/image_avatar"
+                style="@style/ImageView.Avatar.Large"
+                android:src="@drawable/ic_avatar"
+                android:layout_centerInParent="true"/>
+
+        </RelativeLayout>
+
         <LinearLayout
             style="@style/LinearLayout.NavButton">
 

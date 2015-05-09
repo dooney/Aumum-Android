@@ -29,8 +29,8 @@
         <TextView
             android:id="@+id/text_createdAt"
             style="@style/TextView.Moment.CreatedAt"
-            android:layout_below="@+id/text_user_name"
-            android:layout_alignLeft="@+id/text_user_name" />
+            android:layout_alignLeft="@+id/text_user_name"
+            android:layout_alignBottom="@+id/image_avatar"/>
 
     </RelativeLayout>
 

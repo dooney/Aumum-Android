@@ -63,6 +63,7 @@ public class ProfileFragment extends LoaderFragment<User>
     private SafeAsyncTask<Boolean> task;
 
     private View mainView;
+    private ImageView coverImage;
     private AvatarImageView avatarImage;
     private TextView screenNameText;
     private TextView emailText;
@@ -111,6 +112,7 @@ public class ProfileFragment extends LoaderFragment<User>
         scrollView.setVerticalScrollBarEnabled(false);
         
         mainView = view.findViewById(R.id.main_view);
+        coverImage = (ImageView) view.findViewById(R.id.image_cover);
         avatarImage = (AvatarImageView) view.findViewById(R.id.image_avatar);
         View screenNameLayout = view.findViewById(R.id.layout_screen_name);
         screenNameLayout.setOnClickListener(new View.OnClickListener() {
@@ -284,6 +286,13 @@ public class ProfileFragment extends LoaderFragment<User>
         if (user != null) {
             setData(user);
 
+            if (user.getCoverUrl() != null) {
+                ImageLoaderUtils.displayImage(user.getCoverUrl(),
+                        coverImage, R.drawable.photo_placeholder);
+            } else {
+                coverImage.setImageResource(
+                        Constants.Options.CITY_COVER.get(user.getCity()));
+            }
             avatarImage.getFromUrl(user.getAvatarUrl());
             avatarImage.setOnClickListener(new View.OnClickListener() {
                 @Override

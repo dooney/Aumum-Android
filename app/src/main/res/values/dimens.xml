@@ -17,7 +17,7 @@
     <dimen name="text_sz_extra_large">20sp</dimen>
 
     <dimen name="image_sz_extra_small">24dp</dimen>
-    <dimen name="image_sz_small">32dp</dimen>
+    <dimen name="image_sz_small">40dp</dimen>
     <dimen name="image_sz_medium">48dp</dimen>
     <dimen name="image_sz_large">64dp</dimen>
 

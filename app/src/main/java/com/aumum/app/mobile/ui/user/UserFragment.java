@@ -7,10 +7,12 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.aumum.app.mobile.Injector;
 import com.aumum.app.mobile.R;
+import com.aumum.app.mobile.core.Constants;
 import com.aumum.app.mobile.core.dao.MomentStore;
 import com.aumum.app.mobile.core.dao.UserStore;
 import com.aumum.app.mobile.core.model.Moment;
@@ -21,10 +23,12 @@ import com.aumum.app.mobile.core.service.RestService;
 import com.aumum.app.mobile.ui.base.LoaderFragment;
 import com.aumum.app.mobile.ui.chat.ChatActivity;
 import com.aumum.app.mobile.ui.album.AlbumAdapter;
+import com.aumum.app.mobile.ui.view.AvatarImageView;
 import com.aumum.app.mobile.ui.view.dialog.ConfirmDialog;
 import com.aumum.app.mobile.ui.view.dialog.EditTextDialog;
 import com.aumum.app.mobile.ui.view.dialog.TextViewDialog;
 import com.aumum.app.mobile.ui.view.pulltorefresh.XGridView;
+import com.aumum.app.mobile.utils.ImageLoaderUtils;
 import com.etsy.android.grid.StaggeredGridView;
 import com.github.kevinsawicki.wishlist.Toaster;
 import com.handmark.pulltorefresh.library.PullToRefreshBase;
@@ -54,6 +58,8 @@ public class UserFragment extends LoaderFragment<User> {
 
     private View mainView;
     private AlbumAdapter albumAdapter;
+    private ImageView coverImage;
+    private AvatarImageView avatarImage;
     private TextView cityText;
     private TextView areaText;
     private TextView aboutText;
@@ -95,11 +101,13 @@ public class UserFragment extends LoaderFragment<User> {
         deleteContactButton = view.findViewById(R.id.b_delete_contact);
 
         XGridView userView = (XGridView) view.findViewById(R.id.user_view);
-        userView.setMode(PullToRefreshBase.Mode.PULL_FROM_END);
+        userView.setMode(PullToRefreshBase.Mode.MANUAL_REFRESH_ONLY);
         StaggeredGridView staggeredView = userView.getRefreshableView();
         View header = getActivity().getLayoutInflater()
                 .inflate(R.layout.fragment_user_header, null, false);
         staggeredView.addHeaderView(header);
+        coverImage = (ImageView) header.findViewById(R.id.image_cover);
+        avatarImage = (AvatarImageView) header.findViewById(R.id.image_avatar);
         cityText = (TextView) header.findViewById(R.id.text_city);
         areaText = (TextView) header.findViewById(R.id.text_area);
         aboutText = (TextView) header.findViewById(R.id.text_about);
@@ -144,16 +152,24 @@ public class UserFragment extends LoaderFragment<User> {
 
             getActivity().setTitle(user.getScreenName());
             albumAdapter.addAll(album);
+            if (user.getCoverUrl() != null) {
+                ImageLoaderUtils.displayImage(user.getCoverUrl(),
+                        coverImage, R.drawable.photo_placeholder);
+            } else {
+                coverImage.setImageResource(
+                        Constants.Options.CITY_COVER.get(user.getCity()));
+            }
+            avatarImage.getFromUrl(user.getAvatarUrl());
             cityText.setText(user.getCity());
             areaText.setText(user.getArea());
             aboutText.setText(user.getAbout());
-            addContactButton.setVisibility(View.GONE);
-            actionLayout.setVisibility(View.GONE);
             if (currentUser.getObjectId().equals(userId)) {
+                actionLayout.setVisibility(View.GONE);
                 return;
             }
-            if (currentUser.isContact(userId)) {
-                actionLayout.setVisibility(View.VISIBLE);
+            boolean isContact = currentUser.isContact(userId);
+            toggleActionButton(isContact);
+            if (isContact) {
                 chatButton.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
@@ -186,14 +202,12 @@ public class UserFragment extends LoaderFragment<User> {
 
                                     @Override
                                     public void onSuccess(Object value) {
-                                        actionLayout.setVisibility(View.GONE);
-                                        addContactButton.setVisibility(View.VISIBLE);
+                                        toggleActionButton(false);
                                     }
                                 }).show();
                     }
                 });
             } else {
-                addContactButton.setVisibility(View.VISIBLE);
                 addContactButton.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
@@ -219,6 +233,18 @@ public class UserFragment extends LoaderFragment<User> {
                     }
                 });
             }
+        }
+    }
+
+    private void toggleActionButton(boolean isContact) {
+        if (isContact) {
+            addContactButton.setVisibility(View.GONE);
+            deleteContactButton.setVisibility(View.VISIBLE);
+            chatButton.setVisibility(View.VISIBLE);
+        } else {
+            addContactButton.setVisibility(View.VISIBLE);
+            deleteContactButton.setVisibility(View.GONE);
+            chatButton.setVisibility(View.GONE);
         }
     }
 }

@@ -2,6 +2,8 @@
 
 package com.aumum.app.mobile.core;
 
+import com.aumum.app.mobile.R;
+
 import java.util.HashMap;
 
 /**
@@ -192,6 +194,26 @@ public final class Constants {
             {
                 put("悉尼", 0);
                 put("墨尔本", 1);
+                put("布里斯班", 2);
+                put("珀斯", 3);
+                put("阿德莱德", 4);
+                put("堪培拉", 5);
+                put("达尔文", 6);
+                put("霍巴特", 7);
+                put("奥克兰", 8);
+                put("惠灵顿", 9);
+                put("北京", 10);
+                put("上海", 11);
+                put("深圳", 12);
+                put("广州", 13);
+                put("其他城市", 1000);
+            }
+        };
+
+        public static HashMap<String, Integer> CITY_COVER = new HashMap<String, Integer>(){
+            {
+                put("悉尼", R.drawable.cover_sydney);
+                put("墨尔本", R.drawable.cover_melbourne);
                 put("布里斯班", 2);
                 put("珀斯", 3);
                 put("阿德莱德", 4);
