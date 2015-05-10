@@ -36,13 +36,13 @@ import com.aumum.app.mobile.ui.contact.ContactListener;
 import com.aumum.app.mobile.ui.contact.ContactRequestsFragment;
 import com.aumum.app.mobile.ui.account.VerifyActivity;
 import com.aumum.app.mobile.ui.moment.MomentFragment;
+import com.aumum.app.mobile.ui.moment.MomentLikeListener;
 import com.aumum.app.mobile.ui.moment.NewMomentActivity;
 import com.aumum.app.mobile.ui.report.ReportActivity;
 import com.aumum.app.mobile.ui.settings.FeedbackActivity;
 import com.aumum.app.mobile.ui.settings.NotificationActivity;
 import com.aumum.app.mobile.ui.user.AreaUsersFragment;
 import com.aumum.app.mobile.ui.main.MainFragment;
-import com.aumum.app.mobile.ui.like.LikesLayoutListener;
 import com.aumum.app.mobile.ui.account.ResetPasswordActivity;
 import com.aumum.app.mobile.ui.account.LoginActivity;
 import com.aumum.app.mobile.core.service.LogoutService;
@@ -87,7 +87,6 @@ import retrofit.converter.GsonConverter;
                 ConversationFragment.class,
                 ChatFragment.class,
                 SendMessageListener.class,
-                LikesLayoutListener.class,
                 MainFragment.class,
                 ContactListener.class,
                 ContactRequestsFragment.class,
@@ -117,7 +116,8 @@ import retrofit.converter.GsonConverter;
                 MyGroupsFragment.class,
                 NewGroupActivity.class,
                 MomentFragment.class,
-                NewMomentActivity.class
+                NewMomentActivity.class,
+                MomentLikeListener.class
         }
 )
 public class BootstrapModule {

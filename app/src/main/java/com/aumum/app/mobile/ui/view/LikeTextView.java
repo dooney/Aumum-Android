@@ -12,29 +12,14 @@ import com.aumum.app.mobile.R;
 public class LikeTextView extends AnimateTextView {
 
     private boolean isLike;
-    private int textResId;
-    private int likeResId;
-    private int likedResId;
 
-    private OnLikeListener likeListener;
+    private LikeListener likeListener;
 
-    public void setTextResId(int textResId) {
-        this.textResId = textResId;
-    }
-
-    public void setLikeResId(int likeResId) {
-        this.likeResId = likeResId;
-    }
-
-    public void setLikedResId(int likedResId) {
-        this.likedResId = likedResId;
-    }
-
-    public void setLikeListener(OnLikeListener likeListener) {
+    public void setLikeListener(LikeListener likeListener) {
         this.likeListener = likeListener;
     }
 
-    public static interface OnLikeListener {
+    public static interface LikeListener {
         public void onUnLike(LikeTextView view);
         public void onLike(LikeTextView view);
     }
@@ -51,14 +36,7 @@ public class LikeTextView extends AnimateTextView {
         super(context, attrs, defStyle);
     }
 
-    public void init(int likes, boolean isLike) {
-        if (likes > 0) {
-            setText(String.valueOf(likes));
-        } else if (textResId > 0) {
-            setText(getResources().getString(textResId));
-        } else {
-            setText(null);
-        }
+    public void init(boolean isLike) {
         this.isLike = isLike;
         toggleLike(isLike);
     }
@@ -84,33 +62,17 @@ public class LikeTextView extends AnimateTextView {
     public void update(boolean newValue) {
         isLike = newValue;
         toggleLike(isLike);
-        String currentText = getText().toString();
-        try {
-            Integer currentLikes = Integer.parseInt(currentText);
-            if (isLike) {
-                currentLikes++;
-            } else {
-                currentLikes--;
-            }
-            if (currentLikes > 0) {
-                setText(currentLikes.toString());
-            } else if (textResId > 0) {
-                setText(getResources().getString(textResId));
-            } else {
-                setText(null);
-            }
-        } catch (NumberFormatException e) {
-            setText("1");
-        }
     }
 
     private void toggleLike(boolean isLike) {
         if (isLike) {
-            setCompoundDrawablesWithIntrinsicBounds(likedResId, 0, 0, 0);
+            setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_fa_liked, 0, 0, 0);
             setTextColor(getResources().getColor(R.color.bbutton_danger));
+            setBackgroundResource(R.drawable.buttontext_background_dark);
         } else {
-            setCompoundDrawablesWithIntrinsicBounds(likeResId, 0, 0, 0);
+            setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_fa_like, 0, 0, 0);
             setTextColor(getResources().getColor(R.color.text_light));
+            setBackgroundResource(R.drawable.buttontext_background);
         }
     }
 }

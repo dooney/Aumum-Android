@@ -20,7 +20,6 @@ import com.aumum.app.mobile.core.infra.security.ApiKeyProvider;
 import com.aumum.app.mobile.core.model.CmdMessage;
 import com.aumum.app.mobile.core.service.ChatService;
 import com.aumum.app.mobile.core.service.FileUploadService;
-import com.aumum.app.mobile.core.service.NotificationService;
 import com.aumum.app.mobile.core.service.ScheduleService;
 import com.aumum.app.mobile.events.NewChatMessageEvent;
 import com.aumum.app.mobile.events.ResetChatUnreadEvent;
@@ -40,7 +39,6 @@ import javax.inject.Inject;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
-import retrofit.RetrofitError;
 
 /**
  * Fragment which houses the View pager.
@@ -48,7 +46,6 @@ import retrofit.RetrofitError;
 public class MainFragment extends Fragment
         implements ScheduleService.OnScheduleListener {
 
-    @Inject NotificationService notificationService;
     @Inject ChatService chatService;
     @Inject FileUploadService fileUploadService;
     @Inject ApiKeyProvider apiKeyProvider;
@@ -127,16 +124,6 @@ public class MainFragment extends Fragment
             }
 
             @Override
-            protected void onException(final Exception e) throws RuntimeException {
-                if(!(e instanceof RetrofitError)) {
-                    final Throwable cause = e.getCause() != null ? e.getCause() : e;
-                    if(cause != null) {
-                        Ln.e(e.getCause(), cause.getMessage());
-                    }
-                }
-            }
-
-            @Override
             protected void onFinally() throws RuntimeException {
                 task = null;
             }
@@ -179,7 +166,7 @@ public class MainFragment extends Fragment
         chatService.setGroupChangeListener(new GroupChangeListener(getActivity(), bus));
         chatService.setMessageNotifyListener(new MessageNotifyListener(getActivity()));
         chatService.setNotificationClickListener(new NotificationClickListener(getActivity()));
-        chatService.setContactListener(new ContactListener(getActivity()));
+        chatService.setContactListener(new ContactListener());
         chatService.setAppInitialized();
         chatService.loadAllResources();
     }
@@ -241,9 +228,6 @@ public class MainFragment extends Fragment
                     case CmdMessage.Type.GROUP_QUIT:
                         handleGroupQuitCmdMessage(cmdMessage);
                         break;
-                    case CmdMessage.Type.USER_NEW:
-                        handleUserDetailsCmdMessage(cmdMessage);
-                        break;
                     default:
                         break;
                 }
@@ -265,12 +249,5 @@ public class MainFragment extends Fragment
         String groupId = cmdMessage.getPayload();
         String userId = cmdMessage.getContent();
         chatService.removeGroupMember(groupId, userId);
-    }
-
-    private void handleUserDetailsCmdMessage(CmdMessage cmdMessage) {
-        String userId = cmdMessage.getPayload();
-        String title = cmdMessage.getTitle();
-        String content = cmdMessage.getContent();
-        notificationService.pushUserDetailsNotification(userId, title, content);
     }
 }

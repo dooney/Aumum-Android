@@ -90,6 +90,10 @@
         <item name="android:layout_width">@dimen/avatar_sz_medium</item>
         <item name="android:layout_height">@dimen/avatar_sz_medium</item>
     </style>
+    <style name="ImageView.Avatar.Thumbnail" parent="ImageView">
+        <item name="android:layout_width">@dimen/avatar_sz_extra_small</item>
+        <item name="android:layout_height">@dimen/avatar_sz_extra_small</item>
+    </style>
     <style name="ImageView.Avatar.Small" parent="ImageView">
         <item name="android:layout_width">@dimen/avatar_sz_small</item>
         <item name="android:layout_height">@dimen/avatar_sz_small</item>
@@ -220,6 +224,17 @@
     <style name="TextView.Moment.CreatedAt" parent="TextView.Subtitle.Small" />
     <style name="EditText.Moment.Text" parent="EditText.MultiLine">
         <item name="android:hint">@string/hint_moment_text</item>
+    </style>
+    <style name="TextView.Moment.Likes" parent="ButtonTextView">
+        <item name="android:layout_width">@dimen/avatar_sz_extra_small</item>
+        <item name="android:layout_height">@dimen/avatar_sz_extra_small</item>
+        <item name="android:gravity">center</item>
+    </style>
+    <style name="LinearLayout.Moment.UserAvatars" parent="LinearLayout">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">@dimen/avatar_sz_extra_small</item>
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:orientation">horizontal</item>
     </style>
 
     <!-- Conversation -->

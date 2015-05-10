@@ -162,6 +162,7 @@ public abstract class RefreshItemListFragment<E extends RefreshItem> extends Fra
 
     protected void autoRefresh() {
         xListView.autoRefresh();
+        xListView.setSelection(0);
     }
 
     protected void showMsg(final String message) {

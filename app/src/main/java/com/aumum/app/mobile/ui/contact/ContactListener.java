@@ -1,7 +1,5 @@
 package com.aumum.app.mobile.ui.contact;
 
-import android.app.Activity;
-
 import com.aumum.app.mobile.Injector;
 import com.aumum.app.mobile.core.dao.UserStore;
 import com.aumum.app.mobile.core.model.User;
@@ -26,11 +24,8 @@ public class ContactListener implements EMContactListener {
     @Inject NotificationService notificationService;
     @Inject ChatService chatService;
 
-    private Activity activity;
-
-    public ContactListener(Activity activity) {
+    public ContactListener() {
         Injector.inject(this);
-        this.activity = activity;
     }
 
     @Override
@@ -78,7 +73,8 @@ public class ContactListener implements EMContactListener {
                 if (!currentUser.isContact(user.getObjectId()) &&
                     !userStore.hasContactRequest(user.getObjectId())) {
                     userStore.addContactRequest(user.getObjectId(), reason);
-                    notificationService.pushContactInvitedNotification(user.getScreenName(), reason);
+                    notificationService.pushContactInvitedNotification(
+                            user.getScreenName(), reason, user.getAvatarUrl());
                 }
                 return true;
             }
@@ -91,8 +87,8 @@ public class ContactListener implements EMContactListener {
             @Override
             public Boolean call() throws Exception {
                 UserInfo user = userStore.getUserInfoByChatId(userName);
-                notificationService.pushContactAgreedNotification(user.getChatId(),
-                        user.getScreenName());
+                notificationService.pushContactAgreedNotification(
+                        user.getChatId(), user.getScreenName(), user.getAvatarUrl());
                 return true;
             }
         }.execute();

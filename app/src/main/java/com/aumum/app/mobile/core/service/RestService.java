@@ -404,4 +404,27 @@ public class RestService {
         whereJson.add("objectId", buildIdListJson(idList));
         return getMomentsBeforeCore(whereJson, before, limit);
     }
+
+    public JsonObject addMomentLike(String momentId, String userId) {
+        final JsonObject op = new JsonObject();
+        op.addProperty("__op", "AddUnique");
+        return updateMomentLikes(op, momentId, userId);
+    }
+
+    public JsonObject removeMomentLike(String momentId, String userId) {
+        final JsonObject op = new JsonObject();
+        op.addProperty("__op", "Remove");
+        return updateMomentLikes(op, momentId, userId);
+    }
+
+    private JsonObject updateMomentLikes(JsonObject op,
+                                         String momentId,
+                                         String userId) {
+        final JsonObject data = new JsonObject();
+        final JsonArray momentLikes = new JsonArray();
+        momentLikes.add(new JsonPrimitive(userId));
+        op.add("objects", momentLikes);
+        data.add(Constants.Http.Moment.PARAM_LIKES, op);
+        return getMomentService().updateById(momentId, data);
+    }
 }

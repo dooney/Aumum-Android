@@ -17,6 +17,7 @@ public class Moment extends AggregateRoot implements RefreshItem {
 
     private UserInfo user;
     private boolean isOwner;
+    private boolean isLiked;
 
     public Moment(String userId,
                   String text,
@@ -88,25 +89,16 @@ public class Moment extends AggregateRoot implements RefreshItem {
         return isOwner;
     }
 
-    public int getCommentsCount() {
-        if (comments != null) {
-            return comments.size();
-        }
-        return 0;
+    public boolean isLiked() {
+        return isLiked;
     }
 
-    public boolean isLiked(String userId) {
+    public void setLiked(String userId) {
         if (likes != null) {
-            return likes.contains(userId);
+            isLiked = likes.contains(userId);
+        } else {
+            isLiked = false;
         }
-        return false;
-    }
-
-    public int getLikesCount() {
-        if (likes != null) {
-            return likes.size();
-        }
-        return 0;
     }
 
     public void addLike(String userId) {

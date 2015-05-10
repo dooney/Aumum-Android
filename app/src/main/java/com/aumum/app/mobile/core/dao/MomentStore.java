@@ -131,4 +131,8 @@ public class MomentStore {
             return momentList;
         }
     }
+
+    public void save(Moment moment) throws Exception {
+        momentEntityDao.insertOrReplace(map(moment));
+    }
 }

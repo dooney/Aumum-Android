@@ -142,6 +142,10 @@ public final class Constants {
         public static final class Area {
             public static final String PARAM_CITY = "city";
         }
+
+        public static final class Moment {
+            public static final String PARAM_LIKES = "likes";
+        }
     }
 
     public static final class DateTime {

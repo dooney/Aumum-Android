@@ -161,4 +161,10 @@ public class User extends AggregateRoot {
         }
         return false;
     }
+
+    public void addMoment(String momentId) {
+        if (moments != null && !moments.contains(momentId)) {
+            moments.add(momentId);
+        }
+    }
 }

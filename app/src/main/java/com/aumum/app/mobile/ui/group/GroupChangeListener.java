@@ -51,7 +51,8 @@ public class GroupChangeListener implements com.easemob.chat.GroupChangeListener
             public Boolean call() throws Exception {
                 userStore.addGroupRequest(groupId, appliedBy, reason);
                 UserInfo user = userStore.getUserInfoByChatId(appliedBy);
-                notificationService.pushGroupAppliedNotification(user.getScreenName(), groupName, reason);
+                notificationService.pushGroupAppliedNotification(
+                        user.getScreenName(), groupName, reason, user.getAvatarUrl());
                 return true;
             }
         }.execute();
@@ -75,7 +76,8 @@ public class GroupChangeListener implements com.easemob.chat.GroupChangeListener
                 UserInfo user = userStore.getUserInfoByChatId(declinedBy);
                 String title = activity.getString(R.string.label_application_declined,
                         user.getScreenName());
-                notificationService.pushUserDetailsNotification(user.getObjectId(), title, reason);
+                notificationService.pushUserDetailsNotification(
+                        user.getObjectId(), title, reason, user.getAvatarUrl());
                 return true;
             }
         }.execute();

@@ -114,6 +114,8 @@ public class NewMomentActivity extends ProgressDialogActivity
                 moment = restService.newMoment(moment);
                 restService.addUserMoment(currentUser.getObjectId(),
                         moment.getObjectId());
+                currentUser.addMoment(moment.getObjectId());
+                userStore.save(currentUser);
                 return true;
             }
 

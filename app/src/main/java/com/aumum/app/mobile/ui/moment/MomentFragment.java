@@ -118,6 +118,7 @@ public class MomentFragment extends RefreshItemListFragment<Moment>
             UserInfo user = userStore.getUserInfoById(moment.getUserId());
             moment.setUser(user);
             moment.setOwner(currentUser.getObjectId());
+            moment.setLiked(currentUser.getObjectId());
         }
     }
 

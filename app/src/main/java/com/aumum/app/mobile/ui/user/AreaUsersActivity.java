@@ -12,7 +12,6 @@ public class AreaUsersActivity extends ActionBarActivity {
 
     public static final String INTENT_AREA = "area";
     public static final String INTENT_USER_ID = "userId";
-    public static final String INTENT_SHOULD_NOTIFY = "shouldNotify";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

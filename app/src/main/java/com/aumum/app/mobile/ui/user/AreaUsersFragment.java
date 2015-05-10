@@ -11,7 +11,6 @@ import android.widget.EditText;
 import com.aumum.app.mobile.Injector;
 import com.aumum.app.mobile.R;
 import com.aumum.app.mobile.core.dao.UserStore;
-import com.aumum.app.mobile.core.model.CmdMessage;
 import com.aumum.app.mobile.core.model.User;
 import com.aumum.app.mobile.core.model.UserInfo;
 import com.aumum.app.mobile.core.service.ChatService;
@@ -19,7 +18,6 @@ import com.aumum.app.mobile.ui.base.ItemListFragment;
 import com.aumum.app.mobile.ui.contact.AddContactListener;
 import com.aumum.app.mobile.ui.view.dialog.ConfirmDialog;
 import com.aumum.app.mobile.ui.view.dialog.EditTextDialog;
-import com.aumum.app.mobile.utils.SafeAsyncTask;
 import com.github.kevinsawicki.wishlist.Toaster;
 
 import java.util.List;
@@ -37,9 +35,7 @@ public class AreaUsersFragment extends ItemListFragment<UserInfo>
 
     private String area;
     private String userId;
-    private boolean shouldNotify;
     private User currentUser;
-    private int usersCount;
 
     private AreaUsersAdapter adapter;
 
@@ -51,7 +47,6 @@ public class AreaUsersFragment extends ItemListFragment<UserInfo>
         final Intent intent = getActivity().getIntent();
         area = intent.getStringExtra(AreaUsersActivity.INTENT_AREA);
         userId = intent.getStringExtra(AreaUsersActivity.INTENT_USER_ID);
-        shouldNotify = intent.getBooleanExtra(AreaUsersActivity.INTENT_SHOULD_NOTIFY, false);
     }
 
     @Override
@@ -74,18 +69,13 @@ public class AreaUsersFragment extends ItemListFragment<UserInfo>
             currentUser = userStore.getCurrentUser();
         }
         adapter.setCurrentUser(currentUser);
-        List<UserInfo> users = userStore.getListByArea(currentUser.getObjectId(), area);
-        usersCount = users.size();
-        if (usersCount > 0 && shouldNotify) {
-            notifyAreaUsers(users);
-        }
-        return users;
+        return userStore.getListByArea(currentUser.getObjectId(), area);
     }
 
     @Override
     protected void handleLoadResult(List<UserInfo> result) {
         super.handleLoadResult(result);
-        String title = getString(R.string.info_area_users_found, area, usersCount);
+        String title = getString(R.string.info_area_users_found, area, result.size());
         getActivity().setTitle(title);
     }
 
@@ -117,21 +107,5 @@ public class AreaUsersFragment extends ItemListFragment<UserInfo>
         valueText.setText(hello);
         valueText.setSelection(valueText.getText().length());
         dialog.show();
-    }
-
-    private void notifyAreaUsers(final List<UserInfo> users) {
-        new SafeAsyncTask<Boolean>() {
-            @Override
-            public Boolean call() throws Exception {
-                for (UserInfo user: users) {
-                    String title = getString(R.string.info_new_area_user_message);
-                    String content = getString(R.string.info_welcome_new_user, currentUser.getScreenName());
-                    CmdMessage cmdMessage = new CmdMessage(CmdMessage.Type.USER_NEW,
-                            title, content, currentUser.getObjectId());
-                    chatService.sendCmdMessage(user.getChatId(), cmdMessage, false, null);
-                }
-                return true;
-            }
-        }.execute();
     }
 }

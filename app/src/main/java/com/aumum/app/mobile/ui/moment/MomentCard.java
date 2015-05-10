@@ -3,6 +3,7 @@ package com.aumum.app.mobile.ui.moment;
 import android.app.Activity;
 import android.content.Intent;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -11,6 +12,7 @@ import com.aumum.app.mobile.core.model.Moment;
 import com.aumum.app.mobile.core.model.Share;
 import com.aumum.app.mobile.core.model.UserInfo;
 import com.aumum.app.mobile.ui.user.UserListener;
+import com.aumum.app.mobile.ui.view.LikeTextView;
 import com.aumum.app.mobile.utils.ShareUtils;
 import com.aumum.app.mobile.ui.chat.ChatActivity;
 import com.aumum.app.mobile.ui.view.AvatarImageView;
@@ -50,6 +52,13 @@ public class MomentCard {
 
         TextView textView = (TextView) view.findViewById(R.id.text);
         textView.setText(moment.getText());
+
+        LikeTextView likeText = (LikeTextView) view.findViewById(R.id.text_like);
+        likeText.init(moment.isLiked());
+        MomentLikeListener likeListener = new MomentLikeListener(activity, moment);
+        ViewGroup likesLayout = (ViewGroup) view.findViewById(R.id.layout_likes);
+        likeListener.updateLikesLayout(likesLayout, moment.getLikes());
+        likeText.setLikeListener(likeListener);
 
         TextView chatText = (TextView) view.findViewById(R.id.text_chat);
         if (moment.isOwner()) {

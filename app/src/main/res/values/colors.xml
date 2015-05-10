@@ -4,6 +4,7 @@
     <color name="transparent">#00000000</color>
     <color name="grey_extra_light">#eeeeee</color>
     <color name="grey_light">#dddddd</color>
+    <color name="grey_medium_light">#bbbbbb</color>
     <color name="grey_medium">#999999</color>
 
     <color name="text">#ffffff</color>

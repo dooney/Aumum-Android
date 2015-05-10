@@ -43,6 +43,6 @@ public class CmdMessage {
         public static final int DELETED = 0;
         public static final int GROUP_JOIN = 11;
         public static final int GROUP_QUIT = 12;
-        public static final int USER_NEW = 21;
+        public static final int MOMENT_LIKE = 21;
     }
 }
