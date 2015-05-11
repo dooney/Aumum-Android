@@ -117,6 +117,12 @@ public class UserStore {
                 userInfo.getAvatarUrl());
     }
 
+    private void updateOrInsert(List<UserInfo> users) throws Exception {
+        for (UserInfo user: users) {
+            userInfoEntityDao.insertOrReplace(map(user));
+        }
+    }
+
     public User getCurrentUser() throws Exception {
         String id = apiKeyProvider.getAuthUserId();
         UserEntity userEntity = userEntityDao.load(id);
@@ -173,6 +179,34 @@ public class UserStore {
         } else {
             return getUserInfoByChatIdFromServer(id);
         }
+    }
+
+    public List<UserInfo> getUserInfoList(List<String> idList) throws Exception {
+        List<UserInfo> localList = new ArrayList<>();
+        List<String> requestList = new ArrayList<>();
+        for (String id: idList) {
+            UserInfoEntity userInfoEntity = userInfoEntityDao.load(id);
+            if (userInfoEntity != null) {
+                localList.add(map(userInfoEntity));
+            } else {
+                requestList.add(id);
+            }
+        }
+        if (requestList.size() > 0) {
+            List<UserInfo> fetchList = restService.getUserInfoList(requestList);
+            updateOrInsert(fetchList);
+            localList.addAll(fetchList);
+            List<UserInfo> result = new ArrayList<>();
+            for (String id : idList) {
+                for (UserInfo user : localList) {
+                    if (user.getObjectId().equals(id)) {
+                        result.add(user);
+                    }
+                }
+            }
+            return result;
+        }
+        return localList;
     }
 
     public void addContactRequest(String userId, String intro) {
@@ -260,35 +294,31 @@ public class UserStore {
         groupRequestEntityDao.insertOrReplace(entity);
     }
 
-    public List<UserInfo> getContacts() throws Exception {
-        User user = getCurrentUser();
-        List<UserInfo> result = new ArrayList<>();
-        if (user != null) {
-            for (String contactId: user.getContacts()) {
-                result.add(getUserInfoById(contactId));
-            }
-        }
-        return result;
-    }
-
     public List<UserInfo> getListByArea(String userId, String area) throws Exception {
         List<UserInfo> users = restService.getAreaUsers(userId, area);
-        if (users != null) {
-            for (UserInfo user: users) {
-                userInfoEntityDao.insertOrReplace(map(user));
-            }
-        }
+        updateOrInsert(users);
         return users;
     }
 
     public List<UserInfo> getListByGroup(List<String> chatIds) throws Exception {
-        List<UserInfo> users = restService.getGroupUsers(chatIds);
-        if (users != null) {
-            for (UserInfo user: users) {
-                userInfoEntityDao.insertOrReplace(map(user));
+        List<UserInfo> localList = new ArrayList<>();
+        List<String> requestList = new ArrayList<>();
+        for (String chatId: chatIds) {
+            UserInfoEntity userInfoEntity = userInfoEntityDao.queryBuilder()
+                    .where(UserInfoEntityDao.Properties.ChatId.eq(chatId))
+                    .unique();
+            if (userInfoEntity != null) {
+                localList.add(map(userInfoEntity));
+            } else {
+                requestList.add(chatId);
             }
         }
-        return users;
+        if (requestList.size() > 0) {
+            List<UserInfo> fetchList = restService.getGroupUsers(requestList);
+            updateOrInsert(fetchList);
+            localList.addAll(fetchList);
+        }
+        return localList;
     }
 
     public void save(User user) throws Exception {

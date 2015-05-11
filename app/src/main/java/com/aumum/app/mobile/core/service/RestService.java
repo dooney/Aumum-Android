@@ -226,6 +226,15 @@ public class RestService {
         return null;
     }
 
+    public List<UserInfo> getUserInfoList(List<String> idList) {
+        final JsonObject whereJson = new JsonObject();
+        whereJson.add("objectId", buildIdListJson(idList));
+        String where = whereJson.toString();
+        return getUserService()
+                .getInfoList(getUserInfoFields(), where)
+                .getResults();
+    }
+
     public List<UserInfo> getGroupUsers(List<String> chatIds) {
         final JsonObject whereJson = new JsonObject();
         whereJson.add(Constants.Http.User.PARAM_CHAT_ID, buildIdListJson(chatIds));
@@ -371,6 +380,10 @@ public class RestService {
         Gson gson = new Gson();
         JsonObject data = gson.toJsonTree(moment).getAsJsonObject();
         return getMomentService().newMoment(data);
+    }
+
+    public Moment getMomentById(String momentId) {
+        return getMomentService().getById(momentId);
     }
 
     public List<Moment> getMomentsAfter(String after, int limit) {

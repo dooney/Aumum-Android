@@ -359,6 +359,7 @@ public class GroupDetailsFragment extends ItemListFragment<UserInfo> {
                             UserInfo user = it.next();
                             if (user.getObjectId().equals(contactId)) {
                                 it.remove();
+                                break;
                             }
                         }
                     }

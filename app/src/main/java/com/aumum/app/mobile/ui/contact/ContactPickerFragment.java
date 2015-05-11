@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import com.aumum.app.mobile.Injector;
 import com.aumum.app.mobile.R;
 import com.aumum.app.mobile.core.dao.UserStore;
+import com.aumum.app.mobile.core.model.User;
 import com.aumum.app.mobile.core.model.UserInfo;
 import com.aumum.app.mobile.ui.user.UserPickerFragment;
 
@@ -37,7 +38,8 @@ public class ContactPickerFragment extends UserPickerFragment {
 
     @Override
     protected List<UserInfo> loadDataCore(Bundle bundle) throws Exception {
-        List<UserInfo> contacts = userStore.getContacts();
+        User currentUser = userStore.getCurrentUser();
+        List<UserInfo> contacts = userStore.getUserInfoList(currentUser.getContacts());
         Collections.sort(contacts, initialComparator);
         return contacts;
     }

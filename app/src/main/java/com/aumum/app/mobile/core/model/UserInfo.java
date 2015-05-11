@@ -17,6 +17,12 @@ public class UserInfo extends AggregateRoot implements InitialSortable {
     }
 
     public UserInfo(String objectId,
+                    String avatarUrl) {
+        this.objectId = objectId;
+        this.avatarUrl = avatarUrl;
+    }
+
+    public UserInfo(String objectId,
                     String chatId,
                     String createdAt,
                     String screenName,

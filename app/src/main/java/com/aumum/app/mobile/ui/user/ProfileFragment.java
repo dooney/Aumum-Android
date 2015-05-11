@@ -91,7 +91,6 @@ public class ProfileFragment extends LoaderFragment<User>
         Injector.inject(this);
 
         album = new ArrayList<>();
-        fileUploadService.setFileUploadListener(this);
     }
 
     @Override
@@ -508,6 +507,7 @@ public class ProfileFragment extends LoaderFragment<User>
             String imageUri = ImageLoaderUtils.getFullPath(fileUri);
             Bitmap bitmap = ImageLoaderUtils.loadImage(imageUri);
             imageToEdit.setImageBitmap(bitmap);
+            fileUploadService.setFileUploadListener(this);
             fileUploadService.upload(fileUri);
         } catch (Exception e) {
             showError(e);

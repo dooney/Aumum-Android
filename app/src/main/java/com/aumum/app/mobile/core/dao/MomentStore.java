@@ -4,6 +4,7 @@ import com.aumum.app.mobile.core.Constants;
 import com.aumum.app.mobile.core.dao.entity.MomentEntity;
 import com.aumum.app.mobile.core.dao.gen.MomentEntityDao;
 import com.aumum.app.mobile.core.model.Moment;
+import com.aumum.app.mobile.core.model.MomentComment;
 import com.aumum.app.mobile.core.service.RestService;
 import com.aumum.app.mobile.utils.DateUtils;
 import com.google.gson.Gson;
@@ -53,7 +54,6 @@ public class MomentStore {
                 DateUtils.dateToString(momentEntity.getCreatedAt(), Constants.DateTime.FORMAT),
                 momentEntity.getUserId(),
                 getList(momentEntity.getLikes()),
-                getList(momentEntity.getComments()),
                 momentEntity.getText(),
                 momentEntity.getImageUrl());
     }
@@ -65,7 +65,6 @@ public class MomentStore {
                 createdAt,
                 moment.getUserId(),
                 gson.toJson(moment.getLikes()),
-                gson.toJson(moment.getComments()),
                 moment.getText(),
                 moment.getImageUrl());
     }
@@ -77,59 +76,72 @@ public class MomentStore {
     }
 
     public List<Moment> refresh(String time) throws Exception {
-        QueryBuilder<MomentEntity> query = momentEntityDao.queryBuilder();
-        if (time != null) {
-            Date createdAt = DateUtils.stringToDate(time, Constants.DateTime.FORMAT);
-            query = query.where(MomentEntityDao.Properties.CreatedAt.gt(createdAt));
-        }
-        List<MomentEntity> records = query
-                .orderDesc(MomentEntityDao.Properties.CreatedAt)
-                .limit(LIMIT_PER_LOAD)
-                .list();
-        if (records.size() > 0) {
-            return map(records);
-        } else {
+        try {
             int limit = time != null ? Integer.MAX_VALUE : LIMIT_PER_LOAD;
             List<Moment> momentList = restService.getMomentsAfter(time, limit);
             updateOrInsert(momentList);
             return momentList;
+        } catch (Exception e) {
+            QueryBuilder<MomentEntity> query = momentEntityDao.queryBuilder();
+            if (time != null) {
+                Date createdAt = DateUtils.stringToDate(time, Constants.DateTime.FORMAT);
+                query = query.where(MomentEntityDao.Properties.CreatedAt.gt(createdAt));
+            }
+            List<MomentEntity> records = query
+                    .orderDesc(MomentEntityDao.Properties.CreatedAt)
+                    .limit(LIMIT_PER_LOAD)
+                    .list();
+            return map(records);
         }
     }
 
     public List<Moment> loadMore(String time) throws Exception {
-        Date date = DateUtils.stringToDate(time, Constants.DateTime.FORMAT);
-        List<MomentEntity> records = momentEntityDao.queryBuilder()
-                .where(MomentEntityDao.Properties.CreatedAt.lt(date))
-                .orderDesc(MomentEntityDao.Properties.CreatedAt)
-                .limit(LIMIT_PER_LOAD)
-                .list();
-        if (records.size() > 0) {
-            return map(records);
-        } else {
+        try {
             List<Moment> momentList = restService.getMomentsBefore(time, LIMIT_PER_LOAD);
             updateOrInsert(momentList);
             return momentList;
+        } catch (Exception e) {
+            Date date = DateUtils.stringToDate(time, Constants.DateTime.FORMAT);
+            List<MomentEntity> records = momentEntityDao.queryBuilder()
+                    .where(MomentEntityDao.Properties.CreatedAt.lt(date))
+                    .orderDesc(MomentEntityDao.Properties.CreatedAt)
+                    .limit(LIMIT_PER_LOAD)
+                    .list();
+            return map(records);
         }
     }
 
     public List<Moment> loadMore(List<String> idList, String time) throws Exception {
-        Date date = new Date();
-        if (time != null) {
-            date = DateUtils.stringToDate(time, Constants.DateTime.FORMAT);
-        }
-        List<MomentEntity> records = momentEntityDao.queryBuilder()
-                .where(MomentEntityDao.Properties.ObjectId.in(idList))
-                .where(MomentEntityDao.Properties.CreatedAt.lt(date))
-                .orderDesc(MomentEntityDao.Properties.CreatedAt)
-                .limit(LIMIT_PER_LOAD)
-                .list();
-        if (records.size() > 0) {
-            return map(records);
-        } else {
+        try {
             List<Moment> momentList = restService.getMomentsBefore(idList, time, LIMIT_PER_LOAD);
             updateOrInsert(momentList);
             return momentList;
+        } catch (Exception e) {
+            Date date = new Date();
+            if (time != null) {
+                date = DateUtils.stringToDate(time, Constants.DateTime.FORMAT);
+            }
+            List<MomentEntity> records = momentEntityDao.queryBuilder()
+                    .where(MomentEntityDao.Properties.ObjectId.in(idList))
+                    .where(MomentEntityDao.Properties.CreatedAt.lt(date))
+                    .orderDesc(MomentEntityDao.Properties.CreatedAt)
+                    .limit(LIMIT_PER_LOAD)
+                    .list();
+            return map(records);
         }
+    }
+
+    public Moment getById(String momentId) {
+        MomentEntity momentEntity = momentEntityDao.load(momentId);
+        if (momentEntity != null) {
+            return map(momentEntity);
+        } else {
+            return restService.getMomentById(momentId);
+        }
+    }
+
+    public List<MomentComment> getComments(String momentId) {
+        return null;
     }
 
     public void save(Moment moment) throws Exception {

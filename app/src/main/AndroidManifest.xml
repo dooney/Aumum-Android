@@ -268,6 +268,7 @@
             android:label="@string/title_activity_my_groups">
         </activity>
         <activity android:name=".ui.moment.NewMomentActivity" />
+        <activity android:name=".ui.moment.MomentDetailsActivity" />
     </application>
 
 </manifest>

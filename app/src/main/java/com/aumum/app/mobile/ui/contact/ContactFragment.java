@@ -33,7 +33,6 @@ import com.aumum.app.mobile.ui.view.dialog.ConfirmDialog;
 import com.aumum.app.mobile.ui.view.dialog.ListViewDialog;
 import com.aumum.app.mobile.ui.view.sort.InitialComparator;
 import com.aumum.app.mobile.ui.view.sort.SideBar;
-import com.aumum.app.mobile.utils.SafeAsyncTask;
 import com.github.kevinsawicki.wishlist.Toaster;
 
 import java.util.ArrayList;
@@ -53,7 +52,8 @@ public class ContactFragment extends ItemListFragment<UserInfo>
     @Inject UserStore userStore;
     @Inject RestService restService;
 
-    private User currentUser;
+    private String city;
+    private String area;
     private InitialComparator initialComparator;
 
     private View mainView;
@@ -163,8 +163,10 @@ public class ContactFragment extends ItemListFragment<UserInfo>
 
     @Override
     protected List<UserInfo> loadDataCore(Bundle bundle) throws Exception {
-        currentUser = userStore.getCurrentUser();
-        return getSortedContacts();
+        User currentUser = userStore.getCurrentUser();
+        city = currentUser.getCity();
+        area = currentUser.getArea();
+        return getSortedContacts(currentUser);
     }
 
     @Override
@@ -192,8 +194,8 @@ public class ContactFragment extends ItemListFragment<UserInfo>
         return true;
     }
 
-    private List<UserInfo> getSortedContacts() throws Exception {
-        List<UserInfo> contacts = userStore.getContacts();
+    private List<UserInfo> getSortedContacts(User currentUser) throws Exception {
+        List<UserInfo> contacts = userStore.getUserInfoList(currentUser.getContacts());
         Collections.sort(contacts, initialComparator);
         return contacts;
     }
@@ -209,10 +211,10 @@ public class ContactFragment extends ItemListFragment<UserInfo>
                                 showSearchUserDialog();
                                 break;
                             case 1:
-                                startAreaListActivity();
+                                startAreaListActivity(city);
                                 break;
                             case 2:
-                                startAreaUsersActivity();
+                                startAreaUsersActivity(area);
                                 break;
                             default:
                                 break;
@@ -271,29 +273,11 @@ public class ContactFragment extends ItemListFragment<UserInfo>
         startActivity(intent);
     }
 
-    private void startAreaUsersActivity() {
-        new SafeAsyncTask<Boolean>() {
-            @Override
-            public Boolean call() throws Exception {
-                currentUser = userStore.getCurrentUser();
-                startAreaUsersActivity(currentUser.getArea());
-                return true;
-            }
-        }.execute();
-    }
-
-    private void startAreaListActivity() {
-        new SafeAsyncTask<Boolean>() {
-            @Override
-            public Boolean call() throws Exception {
-                currentUser = userStore.getCurrentUser();
-                final Intent intent = new Intent(getActivity(), AreaListActivity.class);
-                int cityId = Constants.Options.CITY_ID.get(currentUser.getCity());
-                intent.putExtra(AreaListActivity.INTENT_CITY, cityId);
-                intent.putExtra(AreaListActivity.INTENT_TITLE, getString(R.string.title_activity_search_area));
-                startActivityForResult(intent, Constants.RequestCode.GET_AREA_LIST_REQ_CODE);
-                return true;
-            }
-        }.execute();
+    private void startAreaListActivity(String city) {
+        final Intent intent = new Intent(getActivity(), AreaListActivity.class);
+        int cityId = Constants.Options.CITY_ID.get(city);
+        intent.putExtra(AreaListActivity.INTENT_CITY, cityId);
+        intent.putExtra(AreaListActivity.INTENT_TITLE, getString(R.string.title_activity_search_area));
+        startActivityForResult(intent, Constants.RequestCode.GET_AREA_LIST_REQ_CODE);
     }
 }

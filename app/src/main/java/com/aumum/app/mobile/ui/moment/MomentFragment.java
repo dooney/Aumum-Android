@@ -10,6 +10,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 
@@ -81,6 +82,15 @@ public class MomentFragment extends RefreshItemListFragment<Moment>
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         getListView().setOnScrollListener(ImageLoaderUtils.getOnScrollListener());
+        getListView().setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                Moment moment = (Moment) adapterView.getAdapter().getItem(i);
+                final Intent intent = new Intent(getActivity(), MomentDetailsActivity.class);
+                intent.putExtra(MomentDetailsActivity.INTENT_MOMENT_ID, moment.getObjectId());
+                startActivity(intent);
+            }
+        });
     }
 
     @Override
@@ -119,6 +129,8 @@ public class MomentFragment extends RefreshItemListFragment<Moment>
             moment.setUser(user);
             moment.setOwner(currentUser.getObjectId());
             moment.setLiked(currentUser.getObjectId());
+            List<UserInfo> users = userStore.getUserInfoList(moment.getLikes());
+            moment.setLikesInfo(users);
         }
     }
 

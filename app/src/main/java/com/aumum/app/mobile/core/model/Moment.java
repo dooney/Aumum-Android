@@ -1,6 +1,7 @@
 package com.aumum.app.mobile.core.model;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -11,13 +12,13 @@ public class Moment extends AggregateRoot implements RefreshItem {
     private String deletedAt;
     private String userId;
     private List<String> likes = new ArrayList<String>();
-    private List<String> comments = new ArrayList<String>();
     private String text;
     private String imageUrl;
 
     private UserInfo user;
-    private boolean isOwner;
-    private boolean isLiked;
+    private Boolean isOwner;
+    private Boolean isLiked;
+    private List<UserInfo> likesInfo;
 
     public Moment(String userId,
                   String text,
@@ -31,7 +32,6 @@ public class Moment extends AggregateRoot implements RefreshItem {
                   String createdAt,
                   String userId,
                   List<String> likes,
-                  List<String> comments,
                   String text,
                   String imageUrl) {
         this.objectId = objectId;
@@ -40,10 +40,6 @@ public class Moment extends AggregateRoot implements RefreshItem {
         if (likes != null) {
             this.likes.clear();
             this.likes.addAll(likes);
-        }
-        if (comments != null) {
-            this.comments.clear();
-            this.comments.addAll(comments);
         }
         this.text = text;
         this.imageUrl = imageUrl;
@@ -67,10 +63,6 @@ public class Moment extends AggregateRoot implements RefreshItem {
 
     public List<String> getLikes() {
         return likes;
-    }
-
-    public List<String> getComments() {
-        return comments;
     }
 
     public String getText() {
@@ -101,6 +93,18 @@ public class Moment extends AggregateRoot implements RefreshItem {
         }
     }
 
+    public void setLikesInfo(List<UserInfo> users) {
+        if (likesInfo == null) {
+            likesInfo = new ArrayList<>();
+        }
+        likesInfo.clear();
+        likesInfo.addAll(users);
+    }
+
+    public List<UserInfo> getLikesInfo() {
+        return likesInfo;
+    }
+
     public void addLike(String userId) {
         if (likes != null && !likes.contains(userId)) {
             likes.add(userId);
@@ -113,15 +117,22 @@ public class Moment extends AggregateRoot implements RefreshItem {
         }
     }
 
-    public void addComment(String commentId) {
-        if (comments != null && !comments.contains(commentId)) {
-            comments.add(commentId);
+    public void addLikeInfo(UserInfo user) {
+        if (likesInfo == null) {
+            likesInfo = new ArrayList<>();
         }
+        likesInfo.add(user);
     }
 
-    public void removeComment(String commentId) {
-        if (comments != null && comments.contains(commentId)) {
-            comments.remove(commentId);
+    public void removeLikeInfo(String userId) {
+        if (likesInfo != null) {
+            for (Iterator<UserInfo> it = likesInfo.iterator(); it.hasNext();) {
+                UserInfo user = it.next();
+                if (user.getObjectId().equals(userId)) {
+                    it.remove();
+                    break;
+                }
+            }
         }
     }
 }

@@ -57,7 +57,7 @@ public class MomentCard {
         likeText.init(moment.isLiked());
         MomentLikeListener likeListener = new MomentLikeListener(activity, moment);
         ViewGroup likesLayout = (ViewGroup) view.findViewById(R.id.layout_likes);
-        likeListener.updateLikesLayout(likesLayout, moment.getLikes());
+        likeListener.updateLikesLayout(likesLayout, moment.getLikesInfo());
         likeText.setLikeListener(likeListener);
 
         TextView chatText = (TextView) view.findViewById(R.id.text_chat);

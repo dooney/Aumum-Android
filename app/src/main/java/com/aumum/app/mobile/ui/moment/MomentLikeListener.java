@@ -28,10 +28,7 @@ import com.aumum.app.mobile.utils.SafeAsyncTask;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
 
 import javax.inject.Inject;
 
@@ -65,8 +62,11 @@ public class MomentLikeListener implements LikeTextView.LikeListener {
         task = new SafeAsyncTask<Boolean>() {
             public Boolean call() throws Exception {
                 User currentUser = userStore.getCurrentUser();
-                restService.removeMomentLike(moment.getObjectId(), currentUser.getObjectId());
+                restService.removeMomentLike(moment.getObjectId(),
+                        currentUser.getObjectId());
                 moment.removeLike(currentUser.getObjectId());
+                moment.removeLikeInfo(currentUser.getObjectId());
+                moment.setLiked(currentUser.getObjectId());
                 momentStore.save(moment);
                 return true;
             }
@@ -74,7 +74,7 @@ public class MomentLikeListener implements LikeTextView.LikeListener {
             @Override
             public void onSuccess(final Boolean success) {
                 ViewGroup likesLayout = (ViewGroup) rootView.findViewById(R.id.layout_likes);
-                updateLikesLayout(likesLayout, moment.getLikes());
+                updateLikesLayout(likesLayout, moment.getLikesInfo());
             }
 
             @Override
@@ -94,8 +94,12 @@ public class MomentLikeListener implements LikeTextView.LikeListener {
         task = new SafeAsyncTask<Boolean>() {
             public Boolean call() throws Exception {
                 User currentUser = userStore.getCurrentUser();
-                restService.addMomentLike(moment.getObjectId(), currentUser.getObjectId());
+                restService.addMomentLike(moment.getObjectId(),
+                        currentUser.getObjectId());
                 moment.addLike(currentUser.getObjectId());
+                moment.addLikeInfo(new UserInfo(currentUser.getObjectId(),
+                        currentUser.getAvatarUrl()));
+                moment.setLiked(currentUser.getObjectId());
                 momentStore.save(moment);
                 sendLikeMessage(rootView.getContext(), currentUser);
                 return true;
@@ -104,7 +108,7 @@ public class MomentLikeListener implements LikeTextView.LikeListener {
             @Override
             public void onSuccess(final Boolean success) {
                 ViewGroup likesLayout = (ViewGroup) rootView.findViewById(R.id.layout_likes);
-                updateLikesLayout(likesLayout, moment.getLikes());
+                updateLikesLayout(likesLayout, moment.getLikesInfo());
             }
 
             @Override
@@ -125,9 +129,9 @@ public class MomentLikeListener implements LikeTextView.LikeListener {
         }
     }
 
-    public void updateLikesLayout(ViewGroup likesLayout, List<String> likeList) {
-        final ArrayList<String> likes = new ArrayList<>();
-        likes.addAll(likeList);
+    public void updateLikesLayout(ViewGroup likesLayout, List<UserInfo> likesInfo) {
+        final ArrayList<UserInfo> likes = new ArrayList<>();
+        likes.addAll(likesInfo);
         Collections.reverse(likes);
         final int size = likes.size();
         if (size > 0) {
@@ -143,15 +147,14 @@ public class MomentLikeListener implements LikeTextView.LikeListener {
                     activity.getResources().getDimensionPixelSize(R.dimen.margin_small);
             final int maxAvatars = (int)(spaceForAvatars / avatarSizeWithMargin) - 1;
             int count = 0;
-            final HashMap<String, AvatarImageView> avatarImages = new HashMap<>();
             TextView likesText = (TextView) likesLayout.findViewById(R.id.text_likes);
             likesText.setVisibility(View.INVISIBLE);
-            for(String userId: likes) {
+            for(UserInfo user: likes) {
                 if (count < maxAvatars) {
                     AvatarImageView avatarImage = (AvatarImageView) inflater
                             .inflate(R.layout.avatar_thumbnail, layoutLikingAvatars, false);
-                    avatarImage.setOnClickListener(new UserListener(activity, userId));
-                    avatarImages.put(userId, avatarImage);
+                    avatarImage.setOnClickListener(new UserListener(activity, user.getObjectId()));
+                    avatarImage.getFromUrl(user.getAvatarUrl());
                     layoutLikingAvatars.addView(avatarImage);
                     count++;
                 } else {
@@ -160,49 +163,22 @@ public class MomentLikeListener implements LikeTextView.LikeListener {
                     likesText.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
+                            ArrayList<String> users = new ArrayList<>(moment.getLikes());
                             final Intent intent = new Intent(activity, UserListActivity.class);
                             intent.putExtra(UserListActivity.INTENT_TITLE,
                                     activity.getString(R.string.label_users_like, size));
-                            intent.putStringArrayListExtra(UserListActivity.INTENT_USER_LIST, likes);
+                            intent.putStringArrayListExtra(UserListActivity.INTENT_USER_LIST, users);
                             activity.startActivity(intent);
                         }
                     });
                     break;
                 }
             }
-            final HashMap<String, String> avatarUrls = new HashMap<>();
-            new SafeAsyncTask<Boolean>() {
-                @Override
-                public Boolean call() throws Exception {
-                    Iterator it = avatarImages.entrySet().iterator();
-                    while (it.hasNext()) {
-                        Map.Entry<String, AvatarImageView> pair =
-                                (Map.Entry<String, AvatarImageView>) it.next();
-                        String userId = pair.getKey();
-                        UserInfo user = userStore.getUserInfoById(userId);
-                        avatarUrls.put(userId, user.getAvatarUrl());
-                    }
-                    return true;
-                }
-
-                @Override
-                protected void onSuccess(Boolean success) throws Exception {
-                    Iterator it = avatarImages.entrySet().iterator();
-                    while (it.hasNext()) {
-                        Map.Entry<String, AvatarImageView> pair =
-                                (Map.Entry<String, AvatarImageView>) it.next();
-                        String userId = pair.getKey();
-                        AvatarImageView avatarImage = pair.getValue();
-                        avatarImage.getFromUrl(avatarUrls.get(userId));
-                    }
-                }
-            }.execute();
-
             if (likesLayout.getVisibility() != View.VISIBLE) {
                 Animation.fadeIn(likesLayout, Animation.Duration.SHORT);
             }
         } else {
-            Animation.fadeOut(likesLayout, Animation.Duration.SHORT);
+            likesLayout.setVisibility(View.GONE);
         }
     }
 }
