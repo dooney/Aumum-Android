@@ -21,7 +21,7 @@
         <ImageView
             android:id="@+id/image_gallery"
             style="@style/ImageView.SingleGallery"
-            android:src="@drawable/image_placeholder"/>
+            android:src="@drawable/photo_placeholder"/>
 
         <TextView
             android:id="@+id/text_gif"

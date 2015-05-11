@@ -155,7 +155,7 @@ public class GalleryAdapter extends BaseAdapter {
         holder.imgQueue.setTag(position);
 
         ImageLoaderUtils.displayImage(data.get(position).getUri(),
-                holder.imgQueue, R.drawable.image_placeholder);
+                holder.imgQueue, R.drawable.photo_placeholder);
 
         if (isActionMultiplePick) {
             holder.imgQueueMultiSelected
