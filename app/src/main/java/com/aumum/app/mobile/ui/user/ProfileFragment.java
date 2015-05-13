@@ -11,6 +11,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.ScrollView;
 import android.widget.TextView;
@@ -27,6 +28,7 @@ import com.aumum.app.mobile.core.service.RestService;
 import com.aumum.app.mobile.ui.album.AlbumAdapter;
 import com.aumum.app.mobile.ui.area.AreaListActivity;
 import com.aumum.app.mobile.ui.base.LoaderFragment;
+import com.aumum.app.mobile.ui.moment.MomentDetailsActivity;
 import com.aumum.app.mobile.ui.settings.SettingsActivity;
 import com.aumum.app.mobile.ui.view.AvatarImageView;
 import com.aumum.app.mobile.ui.view.dialog.ConfirmDialog;
@@ -71,6 +73,7 @@ public class ProfileFragment extends LoaderFragment<User>
 
     private User currentUser;
     private List<String> album;
+    private List<Moment> momentList;
     private SafeAsyncTask<Boolean> task;
     private ImageView imageToEdit;
 
@@ -91,6 +94,7 @@ public class ProfileFragment extends LoaderFragment<User>
         Injector.inject(this);
 
         album = new ArrayList<>();
+        momentList = new ArrayList<>();
     }
 
     @Override
@@ -135,6 +139,15 @@ public class ProfileFragment extends LoaderFragment<User>
 
         albumAdapter = new AlbumAdapter(getActivity());
         userView.setAdapter(albumAdapter);
+        userView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                Moment moment = momentList.get(i - 1);
+                final Intent intent = new Intent(getActivity(), MomentDetailsActivity.class);
+                intent.putExtra(MomentDetailsActivity.INTENT_MOMENT_ID, moment.getObjectId());
+                startActivity(intent);
+            }
+        });
     }
 
     private void initHeaderView(View view) {
@@ -304,9 +317,10 @@ public class ProfileFragment extends LoaderFragment<User>
     @Override
     protected User loadDataCore(Bundle bundle) throws Exception {
         currentUser = userStore.getCurrentUser();
-        List<Moment> momentList = momentStore.loadMore(currentUser.getMoments(), null);
-        for (Moment moment: momentList) {
+        List<Moment> moments = momentStore.loadMore(currentUser.getMoments(), null);
+        for (Moment moment: moments) {
             album.add(fileUploadService.getThumbnail(moment.getImageUrl()));
+            momentList.add(moment);
         }
         return currentUser;
     }
