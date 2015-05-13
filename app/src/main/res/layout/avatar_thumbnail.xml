@@ -4,5 +4,4 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/image_like_avatar"
     style="@style/ImageView.Avatar.Thumbnail"
-    android:layout_marginRight="@dimen/margin_small"
-    android:src="@drawable/ic_avatar"/>
+    android:layout_marginRight="@dimen/margin_small"/>

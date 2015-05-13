@@ -20,8 +20,7 @@
 
         <ImageView
             android:id="@+id/image_gallery"
-            style="@style/ImageView.SingleGallery"
-            android:src="@drawable/photo_placeholder"/>
+            style="@style/ImageView.SingleGallery"/>
 
         <TextView
             android:id="@+id/text_gif"

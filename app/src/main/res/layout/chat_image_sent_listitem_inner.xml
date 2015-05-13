@@ -37,14 +37,12 @@
             xmlns:app="http://schemas.android.com/apk/res-auto"
             android:id="@+id/image_body"
             style="@style/ImageView.ChatMessage.Image"
-            app:riv_corner_radius="5dp"
-            android:src="@drawable/photo_placeholder"/>
+            app:riv_corner_radius="5dp"/>
 
         <com.aumum.app.mobile.ui.view.AvatarImageView
             android:id="@+id/image_avatar"
             style="@style/ImageView.Avatar.Chat"
-            android:layout_marginLeft="@dimen/margin_medium"
-            android:src="@drawable/ic_avatar"/>
+            android:layout_marginLeft="@dimen/margin_medium"/>
 
     </LinearLayout>
 

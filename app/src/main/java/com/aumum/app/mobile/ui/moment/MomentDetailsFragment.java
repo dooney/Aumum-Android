@@ -131,8 +131,7 @@ public class MomentDetailsFragment extends ItemListFragment<MomentComment>
         createdAtText.setText(moment.getCreatedAtFormatted());
 
         ImageView imageView = (ImageView) headerView.findViewById(R.id.image);
-        ImageLoaderUtils.displayImage(moment.getImageUrl(),
-                imageView, R.drawable.photo_placeholder);
+        ImageLoaderUtils.displayImage(moment.getImageUrl(), imageView);
 
         TextView textView = (TextView) headerView.findViewById(R.id.text);
         textView.setText(moment.getText());

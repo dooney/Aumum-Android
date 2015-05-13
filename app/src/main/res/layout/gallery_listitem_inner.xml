@@ -17,8 +17,7 @@
                 android:id="@+id/image_queue"
                 android:layout_width="120dp"
                 android:layout_height="120dp"
-                android:scaleType="centerCrop"
-                android:src="@drawable/photo_placeholder" />
+                android:scaleType="centerCrop" />
         </FrameLayout>
 
         <ImageView

@@ -23,8 +23,7 @@
             android:id="@+id/image_avatar"
             style="@style/ImageView.Avatar.Chat"
             android:layout_marginRight="@dimen/margin_medium"
-            android:layout_alignParentLeft="true"
-            android:src="@drawable/ic_avatar"/>
+            android:layout_alignParentLeft="true"/>
 
         <TextView
             android:id="@+id/text_user_name"
@@ -44,8 +43,7 @@
                 xmlns:app="http://schemas.android.com/apk/res-auto"
                 android:id="@+id/image_body"
                 style="@style/ImageView.ChatMessage.Image"
-                app:riv_corner_radius="5dp"
-                android:src="@drawable/photo_placeholder"/>
+                app:riv_corner_radius="5dp"/>
 
             <ProgressBar
                 android:id="@+id/progress"

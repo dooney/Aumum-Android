@@ -12,26 +12,22 @@ import de.hdodenhof.circleimageview.CircleImageView;
  * Created by Administrator on 18/10/2014.
  */
 public class AvatarImageView extends CircleImageView {
-    private Context context;
 
     public AvatarImageView(Context context) {
         super(context);
-        this.context = context;
     }
 
     public AvatarImageView(Context context, AttributeSet attrs) {
         super(context, attrs);
-        this.context = context;
     }
 
     public AvatarImageView(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
-        this.context = context;
     }
 
     public void getFromUrl(String imageUrl) {
         if (imageUrl != null) {
-            ImageLoaderUtils.displayImage(imageUrl, this, R.drawable.ic_avatar);
+            ImageLoaderUtils.displayAvatar(imageUrl, this);
         } else {
             setImageResource(R.drawable.ic_avatar);
         }

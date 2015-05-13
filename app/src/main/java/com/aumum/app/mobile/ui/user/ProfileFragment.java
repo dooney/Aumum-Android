@@ -318,8 +318,7 @@ public class ProfileFragment extends LoaderFragment<User>
 
             albumAdapter.addAll(album);
             if (user.getCoverUrl() != null) {
-                ImageLoaderUtils.displayImage(user.getCoverUrl(),
-                        coverImage, R.drawable.photo_placeholder);
+                ImageLoaderUtils.displayImage(user.getCoverUrl(), coverImage);
             } else {
                 coverImage.setImageResource(
                         Constants.Options.CITY_COVER.get(user.getCity()));

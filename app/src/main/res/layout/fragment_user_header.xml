@@ -26,7 +26,6 @@
                 app:border_color="#fff"
                 android:id="@+id/image_avatar"
                 style="@style/ImageView.Avatar.Large"
-                android:src="@drawable/ic_avatar"
                 android:layout_centerInParent="true"/>
 
         </RelativeLayout>

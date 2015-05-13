@@ -23,8 +23,7 @@
         <com.aumum.app.mobile.ui.view.AvatarImageView
             android:id="@+id/image_avatar"
             style="@style/ImageView.Avatar.Chat"
-            android:layout_marginRight="@dimen/margin_small"
-            android:src="@drawable/ic_avatar"/>
+            android:layout_marginRight="@dimen/margin_small"/>
 
         <ImageView
             style="@style/ImageView.ChatMessage.FromYou" />

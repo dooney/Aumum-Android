@@ -6,6 +6,7 @@ import android.view.View;
 import android.widget.AbsListView;
 import android.widget.ImageView;
 
+import com.aumum.app.mobile.R;
 import com.nostra13.universalimageloader.cache.disc.naming.HashCodeFileNameGenerator;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
@@ -40,18 +41,30 @@ public class ImageLoaderUtils {
         ImageLoader.getInstance().init(config);
     }
 
-    public static void displayImage(String imageUri, ImageView imageView) {
-        ImageLoader.getInstance().displayImage(imageUri, imageView);
+    public static void displayImage(String imageUri,
+                                    final ImageView imageView) {
+        ImageLoader.getInstance().displayImage(imageUri, imageView,
+                new SimpleImageLoadingListener() {
+                    @Override
+                    public void onLoadingStarted(String imageUri, View view) {
+                        imageView.setImageResource(R.drawable.photo_placeholder);
+                        super.onLoadingStarted(imageUri, view);
+                    }
+                });
     }
 
-    public static void displayImage(String imageUri,
-                                    final ImageView imageView,
-                                    final int placeHolderResId) {
-        ImageLoader.getInstance().displayImage(imageUri, imageView,
+    public static void displayAvatar(String imageUri,
+                                     final ImageView imageView) {
+        DisplayImageOptions options = new DisplayImageOptions.Builder()
+                .bitmapConfig(Bitmap.Config.RGB_565)
+                .cacheOnDisk(true)
+                .cacheInMemory(true)
+                .build();
+        ImageLoader.getInstance().displayImage(imageUri, imageView, options,
                 new SimpleImageLoadingListener() {
             @Override
             public void onLoadingStarted(String imageUri, View view) {
-                imageView.setImageResource(placeHolderResId);
+                imageView.setImageResource(R.drawable.ic_avatar);
                 super.onLoadingStarted(imageUri, view);
             }
         });

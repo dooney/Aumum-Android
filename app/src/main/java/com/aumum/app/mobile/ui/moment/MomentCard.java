@@ -48,7 +48,7 @@ public class MomentCard {
         createdAtText.setText(moment.getCreatedAtFormatted());
 
         ImageView imageView = (ImageView) view.findViewById(R.id.image);
-        ImageLoaderUtils.displayImage(moment.getImageUrl(), imageView, R.drawable.photo_placeholder);
+        ImageLoaderUtils.displayImage(moment.getImageUrl(), imageView);
 
         TextView textView = (TextView) view.findViewById(R.id.text);
         textView.setText(moment.getText());
@@ -59,6 +59,16 @@ public class MomentCard {
         ViewGroup likesLayout = (ViewGroup) view.findViewById(R.id.layout_likes);
         likeListener.updateLikesLayout(likesLayout, moment.getLikesInfo());
         likeText.setLikeListener(likeListener);
+
+        TextView commentText = (TextView) view.findViewById(R.id.text_comment);
+        commentText.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                final Intent intent = new Intent(activity, MomentDetailsActivity.class);
+                intent.putExtra(MomentDetailsActivity.INTENT_MOMENT_ID, moment.getObjectId());
+                activity.startActivity(intent);
+            }
+        });
 
         TextView chatText = (TextView) view.findViewById(R.id.text_chat);
         if (moment.isOwner()) {

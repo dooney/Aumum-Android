@@ -153,8 +153,7 @@ public class UserFragment extends LoaderFragment<User> {
             getActivity().setTitle(user.getScreenName());
             albumAdapter.addAll(album);
             if (user.getCoverUrl() != null) {
-                ImageLoaderUtils.displayImage(user.getCoverUrl(),
-                        coverImage, R.drawable.photo_placeholder);
+                ImageLoaderUtils.displayImage(user.getCoverUrl(), coverImage);
             } else {
                 coverImage.setImageResource(
                         Constants.Options.CITY_COVER.get(user.getCity()));

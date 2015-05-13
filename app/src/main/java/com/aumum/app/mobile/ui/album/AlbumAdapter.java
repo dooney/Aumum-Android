@@ -58,8 +58,7 @@ public class AlbumAdapter extends BaseAdapter {
         } else {
             holder = (ViewHolder) convertView.getTag();
         }
-        ImageLoaderUtils.displayImage(data.get(position),
-                holder.imageView, R.drawable.photo_placeholder);
+        ImageLoaderUtils.displayImage(data.get(position), holder.imageView);
         return convertView;
     }
 

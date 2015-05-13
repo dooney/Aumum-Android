@@ -22,8 +22,7 @@
             android:id="@+id/image_no_media"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:src="@drawable/photo_placeholder" />
+            android:layout_gravity="center" />
     </FrameLayout>
 
 </LinearLayout>
