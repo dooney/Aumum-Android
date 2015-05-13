@@ -26,10 +26,8 @@ import com.keyboard.view.I.IEmoticonsKeyboard;
 import com.keyboard.view.I.IView;
 import com.keyboard.view.R;
 
-public class XhsEmoticonsKeyBoardBar extends AutoHeightLayout
-        implements IEmoticonsKeyboard,
-                   View.OnClickListener,EmoticonsToolBarView.OnToolBarItemClickListener,
-                   View.OnTouchListener {
+public class XhsEmoticonsSendBoxBar extends AutoHeightLayout
+        implements IEmoticonsKeyboard, View.OnClickListener {
 
     public static int FUNC_CHILDVIEW_EMOTICON = 0;
     public int mChildViewPosition = -1;
@@ -42,17 +40,12 @@ public class XhsEmoticonsKeyBoardBar extends AutoHeightLayout
     private RelativeLayout rl_input;
     private LinearLayout ly_foot_func;
     private ImageView btn_face;
-    private ImageView btn_multimedia;
     private Button btn_send;
-    private Button btn_voice;
-    private ImageView btn_voice_or_text;
 
-    private boolean mIsMultimediaVisibility = true;
-
-    public XhsEmoticonsKeyBoardBar(Context context, AttributeSet attrs) {
+    public XhsEmoticonsSendBoxBar(Context context, AttributeSet attrs) {
         super(context, attrs);
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        inflater.inflate(R.layout.view_keyboardbar, this);
+        inflater.inflate(R.layout.view_sendboxbar, this);
         initView();
     }
 
@@ -64,18 +57,12 @@ public class XhsEmoticonsKeyBoardBar extends AutoHeightLayout
         rl_input = (RelativeLayout) findViewById(R.id.rl_input);
         ly_foot_func = (LinearLayout) findViewById(R.id.ly_foot_func);
         btn_face = (ImageView) findViewById(R.id.btn_face);
-        btn_voice_or_text = (ImageView) findViewById(R.id.btn_voice_or_text);
-        btn_voice = (Button) findViewById(R.id.btn_voice);
-        btn_multimedia = (ImageView) findViewById(R.id.btn_multimedia);
         btn_send = (Button) findViewById(R.id.btn_send);
         et_chat = (EmoticonsEditText) findViewById(R.id.et_chat);
 
         setAutoHeightLayoutView(ly_foot_func);
-        btn_voice_or_text.setOnClickListener(this);
-        btn_multimedia.setOnClickListener(this);
         btn_face.setOnClickListener(this);
         btn_send.setOnClickListener(this);
-        btn_voice.setOnTouchListener(this);
 
         mEmoticonsPageView.setOnIndicatorListener(new EmoticonsPageView.OnEmoticonsPageViewListener() {
             @Override
@@ -170,23 +157,7 @@ public class XhsEmoticonsKeyBoardBar extends AutoHeightLayout
             @Override
             public void onTextChanged(CharSequence arg0) {
                 String str = arg0.toString();
-                if (TextUtils.isEmpty(str)) {
-                    if(mIsMultimediaVisibility){
-                        btn_multimedia.setVisibility(VISIBLE);
-                        btn_send.setVisibility(GONE);
-                    }
-                    else{
-                        btn_send.setEnabled(false);
-                    }
-                }
-                // -> 发送
-                else {
-                    if(mIsMultimediaVisibility){
-                        btn_multimedia.setVisibility(GONE);
-                        btn_send.setVisibility(VISIBLE);
-                    }
-                    btn_send.setEnabled(true);
-                }
+                btn_send.setEnabled(!TextUtils.isEmpty(str));
             }
         });
     }
@@ -201,66 +172,6 @@ public class XhsEmoticonsKeyBoardBar extends AutoHeightLayout
             et_chat.setFocusable(false);
             et_chat.setFocusableInTouchMode(false);
             rl_input.setBackgroundResource(R.drawable.input_bg_gray);
-        }
-    }
-
-    public EmoticonsToolBarView getEmoticonsToolBarView() {
-        return mEmoticonsToolBarView;
-    }
-
-    public EmoticonsPageView getEmoticonsPageView() {
-        return mEmoticonsPageView;
-    }
-
-    public EmoticonsEditText getEt_chat() {
-        return et_chat;
-    }
-
-    public void addToolView(int icon){
-        if(mEmoticonsToolBarView != null && icon > 0){
-            mEmoticonsToolBarView.addData(icon);
-        }
-    }
-
-    public void addFixedView(View view , boolean isRight){
-        if(mEmoticonsToolBarView != null){
-            mEmoticonsToolBarView.addFixedView(view,isRight);
-        }
-    }
-
-    public void clearEditText(){
-        if(et_chat != null){
-            et_chat.setText("");
-        }
-    }
-
-    public void del(){
-        if(et_chat != null){
-            int action = KeyEvent.ACTION_DOWN;
-            int code = KeyEvent.KEYCODE_DEL;
-            KeyEvent event = new KeyEvent(action, code);
-            et_chat.onKeyDown(KeyEvent.KEYCODE_DEL, event);
-        }
-    }
-
-    public void setVideoVisibility(boolean b){
-        if(b){
-            btn_voice_or_text.setVisibility(VISIBLE);
-        }
-        else{
-            btn_voice_or_text.setVisibility(GONE);
-        }
-    }
-
-    public void setMultimediaVisibility(boolean b){
-        mIsMultimediaVisibility = b;
-        if(b){
-            btn_multimedia.setVisibility(VISIBLE);
-            btn_send.setVisibility(GONE);
-        }
-        else{
-            btn_send.setVisibility(VISIBLE);
-            btn_multimedia.setVisibility(GONE);
         }
     }
 
@@ -312,27 +223,6 @@ public class XhsEmoticonsKeyBoardBar extends AutoHeightLayout
         else if (id == R.id.btn_send) {
             if(mKeyBoardBarViewListener != null){
                 mKeyBoardBarViewListener.OnSendBtnClick(et_chat.getText().toString());
-            }
-        }
-        else if (id == R.id.btn_multimedia) {
-            if(mKeyBoardBarViewListener != null){
-                mKeyBoardBarViewListener.OnKeyBoardStateChange(mKeyboardState,-1);
-            }
-            if(mKeyBoardBarViewListener != null){
-                mKeyBoardBarViewListener.OnMultimediaBtnClick();
-            }
-        }
-        else if (id == R.id.btn_voice_or_text) {
-            if(rl_input.isShown()){
-                hideAutoView();
-                rl_input.setVisibility(GONE);
-                btn_voice.setVisibility(VISIBLE);
-            }
-            else{
-                rl_input.setVisibility(VISIBLE);
-                btn_voice.setVisibility(GONE);
-                setEditableState(true);
-                Utils.openSoftKeyboard(et_chat);
             }
         }
     }
@@ -387,29 +277,9 @@ public class XhsEmoticonsKeyBoardBar extends AutoHeightLayout
     KeyBoardBarViewListener mKeyBoardBarViewListener;
     public void setOnKeyBoardBarViewListener(KeyBoardBarViewListener l) { this.mKeyBoardBarViewListener = l; }
 
-    @Override
-    public void onToolBarItemClick(int position) {
-
-    }
-
-    @Override
-    public boolean onTouch(View view, MotionEvent motionEvent) {
-        int id = view.getId();
-        if (id == R.id.btn_voice) {
-            if(mKeyBoardBarViewListener != null){
-                mKeyBoardBarViewListener.OnVideoBtnPress(view, motionEvent);
-            }
-        }
-        return false;
-    }
-
     public interface KeyBoardBarViewListener {
         public void OnKeyBoardStateChange(int state, int height);
 
         public void OnSendBtnClick(String msg);
-
-        public void OnVideoBtnPress(View view, MotionEvent motionEvent);
-
-        public void OnMultimediaBtnClick();
     }
 }

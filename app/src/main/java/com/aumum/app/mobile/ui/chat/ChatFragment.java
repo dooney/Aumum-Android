@@ -288,7 +288,7 @@ public class ChatFragment extends Fragment
                 }
                 break;
             case SCROLL_STATE_TOUCH_SCROLL:
-                xhsEmoticonsKeyBoardBar.reset();
+                xhsEmoticonsKeyBoardBar.hideAutoView();
                 break;
         }
     }

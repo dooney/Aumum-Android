@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AbsListView;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -24,8 +25,10 @@ import com.aumum.app.mobile.ui.chat.ChatActivity;
 import com.aumum.app.mobile.ui.user.UserListener;
 import com.aumum.app.mobile.ui.view.AvatarImageView;
 import com.aumum.app.mobile.ui.view.LikeTextView;
+import com.aumum.app.mobile.utils.Emoticons.EmoticonsUtils;
 import com.aumum.app.mobile.utils.ImageLoaderUtils;
 import com.aumum.app.mobile.utils.ShareUtils;
+import com.keyboard.XhsEmoticonsSendBoxBar;
 
 import java.util.List;
 
@@ -34,7 +37,8 @@ import javax.inject.Inject;
 /**
  * Created by Administrator on 11/05/2015.
  */
-public class MomentDetailsFragment extends ItemListFragment<MomentComment> {
+public class MomentDetailsFragment extends ItemListFragment<MomentComment>
+    implements XhsEmoticonsSendBoxBar.KeyBoardBarViewListener {
 
     @Inject MomentStore momentStore;
     @Inject UserStore userStore;
@@ -42,8 +46,8 @@ public class MomentDetailsFragment extends ItemListFragment<MomentComment> {
     private Moment moment;
     private String momentId;
 
-    private View mainView;
     private View headerView;
+    private XhsEmoticonsSendBoxBar emoticonsSendBoxBar;
 
     @Override
     public void onCreate(final Bundle savedInstanceState) {
@@ -62,12 +66,31 @@ public class MomentDetailsFragment extends ItemListFragment<MomentComment> {
 
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
-        mainView = view.findViewById(R.id.main_view);
-
         LayoutInflater inflater = getActivity().getLayoutInflater();
         ListView listView = (ListView) view.findViewById(android.R.id.list);
         headerView = inflater.inflate(R.layout.listview_moment_header, null);
         listView.addHeaderView(headerView, null, false);
+        listView.setOnScrollListener(new AbsListView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(AbsListView view, int scrollState) {
+                switch (scrollState) {
+                    case SCROLL_STATE_FLING:
+                        break;
+                    case SCROLL_STATE_IDLE:
+                        break;
+                    case SCROLL_STATE_TOUCH_SCROLL:
+                        emoticonsSendBoxBar.hideAutoView();
+                        break;
+                }
+            }
+            @Override
+            public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) { }
+        });
+
+        EmoticonsUtils.initEmoticonsDB(getActivity());
+        emoticonsSendBoxBar = (XhsEmoticonsSendBoxBar) view.findViewById(R.id.kv_bar);
+        emoticonsSendBoxBar.setBuilder(EmoticonsUtils.getBuilder(getActivity()));
+        emoticonsSendBoxBar.setOnKeyBoardBarViewListener(this);
 
         super.onViewCreated(view, savedInstanceState);
     }
@@ -152,12 +175,17 @@ public class MomentDetailsFragment extends ItemListFragment<MomentComment> {
     }
 
     @Override
-    protected View getMainView() {
-        return mainView;
+    protected boolean readyToShow() {
+        return true;
     }
 
     @Override
-    protected boolean readyToShow() {
-        return true;
+    public void OnKeyBoardStateChange(int state, int height) {
+
+    }
+
+    @Override
+    public void OnSendBtnClick(String msg) {
+
     }
 }

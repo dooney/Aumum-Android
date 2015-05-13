@@ -38,9 +38,6 @@ public class ResizeLayout extends RelativeLayout {
     @Override
     protected void onLayout(boolean changed, int l, int t, int r, int b) {
         super.onLayout(changed, l, t, r, b);
-        if (!changed) {
-            return;
-        }
         if (heightList.size() >= 2) {
             int oldh = heightList.get(0);
             int newh = heightList.get(heightList.size() - 1);
@@ -55,7 +52,7 @@ public class ResizeLayout extends RelativeLayout {
             /**
              * 弹出软键盘
              */
-            if (oldh == mMaxParentHeight) {
+            if (oldh == mMaxParentHeight && softHeight > 0) {
                 if (mListener != null) {
                     mListener.OnSoftPop(softHeight);
                 }
