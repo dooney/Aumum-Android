@@ -15,6 +15,9 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonPrimitive;
 
+import org.joda.time.DateTime;
+import org.joda.time.DateTimeZone;
+
 import java.util.List;
 
 import retrofit.RestAdapter;
@@ -462,5 +465,12 @@ public class RestService {
         Gson gson = new Gson();
         JsonObject data = gson.toJsonTree(comment).getAsJsonObject();
         return getMomentCommentService().newComment(data);
+    }
+
+    public JsonObject deleteMomentComment(String commentId) {
+        final JsonObject data = new JsonObject();
+        DateTime now = DateTime.now(DateTimeZone.UTC);
+        data.addProperty("deletedAt", now.toString(Constants.DateTime.FORMAT));
+        return getMomentCommentService().updateById(commentId, data);
     }
 }

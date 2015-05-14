@@ -102,6 +102,11 @@ public final class Constants {
         public static final String URL_MOMENT_COMMENTS_FRAG = "/1/classes/MomentComments";
 
         /**
+         * Moment Comment By Id URL
+         */
+        public static final String URL_MOMENT_COMMENT_BY_ID_FRAG = "/1/classes/MomentComments/{id}";
+
+        /**
          * PARAMS for auth
          */
         public static final String PARAM_USERNAME = "username";

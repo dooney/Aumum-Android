@@ -159,7 +159,7 @@ public class MomentFragment extends RefreshItemListFragment<Moment>
         if (bitmap.getHeight() > bitmap.getWidth()) {
             TuSdkUtils.crop(getActivity(), imageSqlInfo, false, this);
         } else {
-            TuSdkUtils.edit(getActivity(), bitmap, true, true, this);
+            TuSdkUtils.edit(getActivity(), imageSqlInfo, true, true, this);
         }
     }
 

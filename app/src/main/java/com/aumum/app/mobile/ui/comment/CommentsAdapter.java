@@ -16,9 +16,15 @@ import java.util.List;
  */
 public class CommentsAdapter extends ArrayAdapter<Comment> {
 
+    private Activity activity;
+    private CommentListener listener;
+
     public CommentsAdapter(Activity activity,
-                           List<Comment> objects) {
+                           List<Comment> objects,
+                           CommentListener listener) {
         super(activity, 0, objects);
+        this.activity = activity;
+        this.listener = listener;
     }
 
     @Override
@@ -28,7 +34,7 @@ public class CommentsAdapter extends ArrayAdapter<Comment> {
         if (convertView == null) {
             LayoutInflater inflater = LayoutInflater.from(getContext());
             convertView = inflater.inflate(R.layout.comment_listitem_inner, parent, false);
-            card = new CommentCard(convertView);
+            card = new CommentCard(activity, convertView, listener);
             convertView.setTag(card);
         } else {
             card = (CommentCard) convertView.getTag();

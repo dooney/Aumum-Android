@@ -11,6 +11,7 @@ public class Comment extends AggregateRoot {
     private String parentId;
 
     private UserInfo user;
+    private Boolean isOwner;
 
     public Comment(String userId,
                    String content,
@@ -36,8 +37,12 @@ public class Comment extends AggregateRoot {
         return content;
     }
 
-    public boolean isOwner(String userId) {
-        return userId.equals(this.userId);
+    public boolean isOwner() {
+        return isOwner;
+    }
+
+    public void setOwner(String userId) {
+        isOwner = userId.equals(this.userId);
     }
 
     public UserInfo getUser() {
@@ -46,5 +51,12 @@ public class Comment extends AggregateRoot {
 
     public void setUser(UserInfo user) {
         this.user = user;
+    }
+
+    public String getReplyPrefix() {
+        if (user != null) {
+            return "@" + user.getScreenName() + " : ";
+        }
+        return "";
     }
 }

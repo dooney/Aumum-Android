@@ -489,7 +489,7 @@ public class ProfileFragment extends LoaderFragment<User>
             if (bitmap.getHeight() > bitmap.getWidth()) {
                 TuSdkUtils.crop(getActivity(), imageSqlInfo, true, this);
             } else {
-                TuSdkUtils.edit(getActivity(), bitmap, true, false, this);
+                TuSdkUtils.edit(getActivity(), imageSqlInfo, true, false, this);
             }
         }
     }

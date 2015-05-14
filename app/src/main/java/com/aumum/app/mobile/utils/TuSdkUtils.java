@@ -105,27 +105,48 @@ public class TuSdkUtils {
                 .showComponent();
     }
 
-    public static void edit(Activity activity,
-                            Bitmap bitmap,
-                            boolean isEnableFilter,
-                            boolean isEnableSticker,
-                            final EditListener listener) {
+    private static TuEditComponent getEditComponent(Activity activity,
+                                                    boolean isEnableFilter,
+                                                    boolean isEnableSticker,
+                                                    final EditListener listener) {
         TuEditComponent component = TuSdk.editCommponent(activity,
                 new TuSdkComponent.TuSdkComponentDelegate() {
-            @Override
-            public void onComponentFinished(TuSdkResult tuSdkResult,
-                                            Error error,
-                                            TuFragment tuFragment) {
-                if (listener != null) {
-                    listener.onEditResult(tuSdkResult.imageFile);
-                }
-            }
-        });
+                    @Override
+                    public void onComponentFinished(TuSdkResult tuSdkResult,
+                                                    Error error,
+                                                    TuFragment tuFragment) {
+                        if (listener != null) {
+                            listener.onEditResult(tuSdkResult.imageFile);
+                        }
+                    }
+                });
         TuEditEntryOption option = component.componentOption().editEntryOption();
         option.setSaveToTemp(true);
         option.setEnableCuter(false);
         option.setEnableFilter(isEnableFilter);
         option.setEnableSticker(isEnableSticker);
+        return component;
+    }
+
+    public static void edit(Activity activity,
+                            ImageSqlInfo imageSqlInfo,
+                            boolean isEnableFilter,
+                            boolean isEnableSticker,
+                            final EditListener listener) {
+        TuEditComponent component = getEditComponent(activity,
+                isEnableFilter, isEnableSticker, listener);
+        component.setImageSqlInfo(imageSqlInfo)
+                .setAutoDismissWhenCompleted(true)
+                .showComponent();
+    }
+
+    public static void edit(Activity activity,
+                            Bitmap bitmap,
+                            boolean isEnableFilter,
+                            boolean isEnableSticker,
+                            final EditListener listener) {
+        TuEditComponent component = getEditComponent(activity,
+                isEnableFilter, isEnableSticker, listener);
         component.setImage(bitmap)
                 .setAutoDismissWhenCompleted(true)
                 .showComponent();

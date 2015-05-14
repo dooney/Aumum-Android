@@ -249,9 +249,14 @@ public class XhsEmoticonsSendBoxBar extends AutoHeightLayout
         }
     }
 
+    public void setSendText(String hintText) {
+        et_chat.setText(hintText);
+        et_chat.setSelection(hintText.length());
+        Utils.openSoftKeyboard(et_chat);
+    }
+
     public void reset() {
         et_chat.setText("");
-        setEditableState(false);
         hideAutoView();
     }
 

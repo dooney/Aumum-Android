@@ -5,7 +5,6 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
@@ -54,7 +53,6 @@ import com.keyboard.XhsEmoticonsKeyBoardBar;
 import com.squareup.otto.Bus;
 import com.squareup.otto.Subscribe;
 
-import org.lasque.tusdk.core.utils.image.BitmapHelper;
 import org.lasque.tusdk.core.utils.sqllite.ImageSqlInfo;
 
 import java.io.File;
@@ -555,8 +553,7 @@ public class ChatFragment extends Fragment
     }
 
     private void onPhotoResult(ImageSqlInfo imageSqlInfo) {
-        Bitmap bitmap = BitmapHelper.getBitmap(imageSqlInfo);
-        TuSdkUtils.edit(getActivity(), bitmap, true, true, this);
+        TuSdkUtils.edit(getActivity(), imageSqlInfo, true, true, this);
     }
 
     @Override

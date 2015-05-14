@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.HeaderViewListAdapter;
 import android.widget.ImageView;
@@ -24,6 +25,7 @@ import com.aumum.app.mobile.core.model.UserInfo;
 import com.aumum.app.mobile.core.service.RestService;
 import com.aumum.app.mobile.ui.base.ItemListFragment;
 import com.aumum.app.mobile.ui.chat.ChatActivity;
+import com.aumum.app.mobile.ui.comment.CommentListener;
 import com.aumum.app.mobile.ui.comment.CommentsAdapter;
 import com.aumum.app.mobile.ui.user.UserListener;
 import com.aumum.app.mobile.ui.view.AvatarImageView;
@@ -43,7 +45,8 @@ import javax.inject.Inject;
  * Created by Administrator on 11/05/2015.
  */
 public class MomentDetailsFragment extends ItemListFragment<Comment>
-    implements XhsEmoticonsSendBoxBar.KeyBoardBarViewListener {
+    implements XhsEmoticonsSendBoxBar.KeyBoardBarViewListener,
+               CommentListener {
 
     @Inject MomentStore momentStore;
     @Inject UserStore userStore;
@@ -93,6 +96,13 @@ public class MomentDetailsFragment extends ItemListFragment<Comment>
             @Override
             public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) { }
         });
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                Comment comment = (Comment) adapterView.getAdapter().getItem(i);
+                emoticonsSendBoxBar.setSendText(comment.getReplyPrefix());
+            }
+        });
 
         EmoticonsUtils.initEmoticonsDB(getActivity());
         emoticonsSendBoxBar = (XhsEmoticonsSendBoxBar) view.findViewById(R.id.kv_bar);
@@ -104,7 +114,7 @@ public class MomentDetailsFragment extends ItemListFragment<Comment>
 
     @Override
     protected ArrayAdapter<Comment> createAdapter(List<Comment> items) {
-        return new CommentsAdapter(getActivity(), items);
+        return new CommentsAdapter(getActivity(), items, this);
     }
 
     @Override
@@ -206,6 +216,7 @@ public class MomentDetailsFragment extends ItemListFragment<Comment>
         List<UserInfo> users = userStore.getUserInfoList(userIdList);
         for (Comment comment: comments) {
             for (UserInfo user: users) {
+                comment.setOwner(currentUser.getObjectId());
                 if (comment.getUserId().equals(user.getObjectId())) {
                     comment.setUser(user);
                     break;
@@ -228,6 +239,7 @@ public class MomentDetailsFragment extends ItemListFragment<Comment>
     @Override
     public void OnSendBtnClick(String msg) {
         Comment comment = new Comment(currentUser.getObjectId(), msg, momentId);
+        comment.setOwner(currentUser.getObjectId());
         comment.setUser(new UserInfo(currentUser.getObjectId(),
                 currentUser.getScreenName(), currentUser.getAvatarUrl()));
         getData().add(0, comment);
@@ -251,6 +263,19 @@ public class MomentDetailsFragment extends ItemListFragment<Comment>
             @Override
             protected void onSuccess(Boolean success) throws Exception {
                 getListAdapter().notifyDataSetChanged();
+            }
+        }.execute();
+    }
+
+    @Override
+    public void onDelete(final Comment comment) {
+        getData().remove(comment);
+        getListAdapter().notifyDataSetChanged();
+        new SafeAsyncTask<Boolean>() {
+            @Override
+            public Boolean call() throws Exception {
+                restService.deleteMomentComment(comment.getObjectId());
+                return true;
             }
         }.execute();
     }
