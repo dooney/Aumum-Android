@@ -271,6 +271,9 @@
         <activity android:name=".ui.moment.MomentDetailsActivity"
             android:windowSoftInputMode="adjustResize">
         </activity>
+        <activity android:name=".ui.contact.ContactActivity"
+            android:label="@string/title_activity_contact">
+        </activity>
     </application>
 
 </manifest>

@@ -7,7 +7,7 @@
         <item>主页</item>
         <item>聊天</item>
         <item>发现</item>
-        <item>好友</item>
+        <item>消息</item>
         <item>个人</item>
     </string-array>
     <string-array name="label_camera_actions">
@@ -166,6 +166,7 @@
     <string name="title_activity_group_member_picker">选择群组成员</string>
     <string name="title_activity_new_group">创建群组</string>
     <string name="title_activity_my_groups">我的群组</string>
+    <string name="title_activity_contact">我的好友</string>
 
     <!-- Account -->
     <string name="hint_login_phone">手机号码</string>
