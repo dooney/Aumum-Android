@@ -98,7 +98,7 @@ public class MomentLikeListener implements LikeTextView.LikeListener {
                         currentUser.getObjectId());
                 moment.addLike(currentUser.getObjectId());
                 moment.addLikeInfo(new UserInfo(currentUser.getObjectId(),
-                        currentUser.getAvatarUrl()));
+                        currentUser.getScreenName(), currentUser.getAvatarUrl()));
                 moment.setLiked(currentUser.getObjectId());
                 momentStore.save(moment);
                 sendLikeMessage(rootView.getContext(), currentUser);

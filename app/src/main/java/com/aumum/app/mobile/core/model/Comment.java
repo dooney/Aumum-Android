@@ -1,46 +1,23 @@
 package com.aumum.app.mobile.core.model;
 
-import java.util.ArrayList;
-import java.util.List;
-
 /**
  * Created by Administrator on 3/03/2015.
  */
 public class Comment extends AggregateRoot {
 
     private String deletedAt;
-    private String parentId;
-    private String repliedId;
-    private String content;
     private String userId;
-    private List<String> likes = new ArrayList<String>();
+    private String content;
+    private String parentId;
 
-    private User user;
+    private UserInfo user;
 
-    public Comment(String parentId,
-                   String repliedId,
+    public Comment(String userId,
                    String content,
-                   String userId) {
-        this.parentId = parentId;
-        this.repliedId = repliedId;
-        this.content = content;
+                   String parentId) {
         this.userId = userId;
-    }
-
-    public String getParentId() {
-        return parentId;
-    }
-
-    public String getRepliedId() {
-        return repliedId;
-    }
-
-    public void setContent(String content) {
         this.content = content;
-    }
-
-    public String getContent() {
-        return content;
+        this.parentId = parentId;
     }
 
     public void setUserId(String userId) {
@@ -51,29 +28,23 @@ public class Comment extends AggregateRoot {
         return userId;
     }
 
+    public void setContent(String content) {
+        this.content = content;
+    }
+
+    public String getContent() {
+        return content;
+    }
+
     public boolean isOwner(String userId) {
         return userId.equals(this.userId);
     }
 
-    public User getUser() {
+    public UserInfo getUser() {
         return user;
     }
 
-    public void setUser(User user) {
+    public void setUser(UserInfo user) {
         this.user = user;
-    }
-
-    public int getLikesCount() {
-        if (likes != null) {
-            return likes.size();
-        }
-        return 0;
-    }
-
-    public boolean isLiked(String userId) {
-        if (likes != null) {
-            return likes.contains(userId);
-        }
-        return false;
     }
 }

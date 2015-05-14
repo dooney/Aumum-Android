@@ -230,6 +230,10 @@
         <item name="android:orientation">horizontal</item>
     </style>
 
+    <!-- Moment -->
+    <style name="TextView.Comment.UserName" parent="TextView.UserName" />
+    <style name="TextView.Comment.CreatedAt" parent="TextView.Subtitle.Small" />
+
     <!-- Conversation -->
     <style name="TextView.Conversation.ScreenName" parent="TextView.UserName">
         <item name="android:textSize">@dimen/text_sz_large</item>

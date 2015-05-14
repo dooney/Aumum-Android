@@ -153,10 +153,6 @@ public abstract class LoaderFragment<E> extends Fragment
         setShown(true, isResumed());
     }
 
-    protected void hideEmpty() {
-        hide(emptyText);
-    }
-
     private void setShown(final boolean shown, final boolean animate) {
         if (getActivity() == null) {
             return;

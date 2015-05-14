@@ -3,8 +3,8 @@ package com.aumum.app.mobile.core.dao;
 import com.aumum.app.mobile.core.Constants;
 import com.aumum.app.mobile.core.dao.entity.MomentEntity;
 import com.aumum.app.mobile.core.dao.gen.MomentEntityDao;
+import com.aumum.app.mobile.core.model.Comment;
 import com.aumum.app.mobile.core.model.Moment;
-import com.aumum.app.mobile.core.model.MomentComment;
 import com.aumum.app.mobile.core.service.RestService;
 import com.aumum.app.mobile.utils.DateUtils;
 import com.google.gson.Gson;
@@ -140,8 +140,8 @@ public class MomentStore {
         }
     }
 
-    public List<MomentComment> getComments(String momentId) {
-        return null;
+    public List<Comment> getComments(String momentId) {
+        return restService.getMomentComments(momentId);
     }
 
     public void save(Moment moment) throws Exception {

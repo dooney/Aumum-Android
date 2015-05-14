@@ -97,10 +97,10 @@ public class ContactFragment extends ItemListFragment<UserInfo>
 
         LayoutInflater inflater = getActivity().getLayoutInflater();
         ListView listView = (ListView) view.findViewById(android.R.id.list);
-        View headerView = inflater.inflate(R.layout.listview_contact_header, null);
+        View headerView = inflater.inflate(R.layout.fragment_contact_header, null);
         listView.addHeaderView(headerView, null, false);
         listView.setHeaderDividersEnabled(false);
-        View footerView = inflater.inflate(R.layout.listview_contact_footer, null);
+        View footerView = inflater.inflate(R.layout.fragment_contact_footer, null);
         listView.addFooterView(footerView, null, false);
         listView.setFooterDividersEnabled(false);
         contactsCountText = (TextView) footerView.findViewById(R.id.text_count);

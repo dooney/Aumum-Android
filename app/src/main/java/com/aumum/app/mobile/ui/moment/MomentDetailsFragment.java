@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.ArrayAdapter;
+import android.widget.HeaderViewListAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -15,21 +16,25 @@ import com.aumum.app.mobile.Injector;
 import com.aumum.app.mobile.R;
 import com.aumum.app.mobile.core.dao.MomentStore;
 import com.aumum.app.mobile.core.dao.UserStore;
+import com.aumum.app.mobile.core.model.Comment;
 import com.aumum.app.mobile.core.model.Moment;
-import com.aumum.app.mobile.core.model.MomentComment;
 import com.aumum.app.mobile.core.model.Share;
 import com.aumum.app.mobile.core.model.User;
 import com.aumum.app.mobile.core.model.UserInfo;
+import com.aumum.app.mobile.core.service.RestService;
 import com.aumum.app.mobile.ui.base.ItemListFragment;
 import com.aumum.app.mobile.ui.chat.ChatActivity;
+import com.aumum.app.mobile.ui.comment.CommentsAdapter;
 import com.aumum.app.mobile.ui.user.UserListener;
 import com.aumum.app.mobile.ui.view.AvatarImageView;
 import com.aumum.app.mobile.ui.view.LikeTextView;
 import com.aumum.app.mobile.utils.Emoticons.EmoticonsUtils;
 import com.aumum.app.mobile.utils.ImageLoaderUtils;
+import com.aumum.app.mobile.utils.SafeAsyncTask;
 import com.aumum.app.mobile.utils.ShareUtils;
 import com.keyboard.XhsEmoticonsSendBoxBar;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -37,12 +42,14 @@ import javax.inject.Inject;
 /**
  * Created by Administrator on 11/05/2015.
  */
-public class MomentDetailsFragment extends ItemListFragment<MomentComment>
+public class MomentDetailsFragment extends ItemListFragment<Comment>
     implements XhsEmoticonsSendBoxBar.KeyBoardBarViewListener {
 
     @Inject MomentStore momentStore;
     @Inject UserStore userStore;
+    @Inject RestService restService;
 
+    private User currentUser;
     private Moment moment;
     private String momentId;
 
@@ -68,7 +75,7 @@ public class MomentDetailsFragment extends ItemListFragment<MomentComment>
     public void onViewCreated(View view, Bundle savedInstanceState) {
         LayoutInflater inflater = getActivity().getLayoutInflater();
         ListView listView = (ListView) view.findViewById(android.R.id.list);
-        headerView = inflater.inflate(R.layout.listview_moment_header, null);
+        headerView = inflater.inflate(R.layout.fragment_moment_details_header, null);
         listView.addHeaderView(headerView, null, false);
         listView.setOnScrollListener(new AbsListView.OnScrollListener() {
             @Override
@@ -96,25 +103,32 @@ public class MomentDetailsFragment extends ItemListFragment<MomentComment>
     }
 
     @Override
-    protected ArrayAdapter<MomentComment> createAdapter(List<MomentComment> items) {
-        return null;
+    protected ArrayAdapter<Comment> createAdapter(List<Comment> items) {
+        return new CommentsAdapter(getActivity(), items);
     }
 
     @Override
-    protected List<MomentComment> loadDataCore(Bundle bundle) throws Exception {
+    protected ArrayAdapter<Comment> getListAdapter() {
+        HeaderViewListAdapter adapter = (HeaderViewListAdapter)getListView().getAdapter();
+        return (ArrayAdapter<Comment>)adapter.getWrappedAdapter();
+    }
+
+    @Override
+    protected List<Comment> loadDataCore(Bundle bundle) throws Exception {
         moment = momentStore.getById(momentId);
-        User currentUser = userStore.getCurrentUser();
-        UserInfo user = userStore.getUserInfoById(moment.getUserId());
-        moment.setUser(user);
-        moment.setOwner(currentUser.getObjectId());
-        moment.setLiked(currentUser.getObjectId());
-        List<UserInfo> users = userStore.getUserInfoList(moment.getLikes());
-        moment.setLikesInfo(users);
-        return momentStore.getComments(momentId);
+        getActivity().runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                showMoment(moment);
+            }
+        });
+        currentUser = userStore.getCurrentUser();
+        loadUserInfo(moment);
+        loadLikes(moment);
+        return loadComments(momentId);
     }
 
-    @Override
-    protected void handleLoadResult(List<MomentComment> result) {
+    private void showMoment(final Moment moment) {
         final UserInfo user = moment.getUser();
 
         UserListener userListener = new UserListener(getActivity(), user.getObjectId());
@@ -169,8 +183,36 @@ public class MomentDetailsFragment extends ItemListFragment<MomentComment>
                 ShareUtils.show(getActivity(), share);
             }
         });
+    }
 
-        super.handleLoadResult(result);
+    private void loadUserInfo(Moment moment) throws Exception {
+        UserInfo user = userStore.getUserInfoById(moment.getUserId());
+        moment.setUser(user);
+        moment.setOwner(currentUser.getObjectId());
+    }
+
+    private void loadLikes(Moment moment) throws Exception {
+        moment.setLiked(currentUser.getObjectId());
+        List<UserInfo> users = userStore.getUserInfoList(moment.getLikes());
+        moment.setLikesInfo(users);
+    }
+
+    private List<Comment> loadComments(String momentId) throws Exception {
+        List<Comment> comments = momentStore.getComments(momentId);
+        List<String> userIdList = new ArrayList<>();
+        for (Comment comment: comments) {
+            userIdList.add(comment.getUserId());
+        }
+        List<UserInfo> users = userStore.getUserInfoList(userIdList);
+        for (Comment comment: comments) {
+            for (UserInfo user: users) {
+                if (comment.getUserId().equals(user.getObjectId())) {
+                    comment.setUser(user);
+                    break;
+                }
+            }
+        }
+        return comments;
     }
 
     @Override
@@ -185,6 +227,31 @@ public class MomentDetailsFragment extends ItemListFragment<MomentComment>
 
     @Override
     public void OnSendBtnClick(String msg) {
+        Comment comment = new Comment(currentUser.getObjectId(), msg, momentId);
+        comment.setUser(new UserInfo(currentUser.getObjectId(),
+                currentUser.getScreenName(), currentUser.getAvatarUrl()));
+        getData().add(0, comment);
+        getListAdapter().notifyDataSetChanged();
+        getListView().setSelection(1);
+        submitComment(comment);
+        emoticonsSendBoxBar.reset();
+    }
 
+    private void submitComment(final Comment comment) {
+        final Comment newComment = new Comment(
+                comment.getUserId(), comment.getContent(), momentId);
+        new SafeAsyncTask<Boolean>() {
+            @Override
+            public Boolean call() throws Exception {
+                Comment response = restService.newMomentComment(newComment);
+                comment.setObjectId(response.getObjectId());
+                return true;
+            }
+
+            @Override
+            protected void onSuccess(Boolean success) throws Exception {
+                getListAdapter().notifyDataSetChanged();
+            }
+        }.execute();
     }
 }

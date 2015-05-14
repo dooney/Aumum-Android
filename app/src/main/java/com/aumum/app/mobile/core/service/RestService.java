@@ -2,6 +2,7 @@
 package com.aumum.app.mobile.core.service;
 
 import com.aumum.app.mobile.core.model.Area;
+import com.aumum.app.mobile.core.model.Comment;
 import com.aumum.app.mobile.core.model.Feedback;
 import com.aumum.app.mobile.core.Constants;
 import com.aumum.app.mobile.core.model.Moment;
@@ -63,6 +64,10 @@ public class RestService {
 
     private MomentService getMomentService() {
         return getRestAdapter().create(MomentService.class);
+    }
+
+    private MomentCommentService getMomentCommentService() {
+        return getRestAdapter().create(MomentCommentService.class);
     }
 
     private RestAdapter getRestAdapter() {
@@ -439,5 +444,23 @@ public class RestService {
         op.add("objects", momentLikes);
         data.add(Constants.Http.Moment.PARAM_LIKES, op);
         return getMomentService().updateById(momentId, data);
+    }
+
+    public List<Comment> getMomentComments(String momentId) {
+        final JsonObject whereJson = new JsonObject();
+        whereJson.addProperty(Constants.Http.MomentComment.PARAM_PARENT_ID, momentId);
+        String where = buildLiveJson(whereJson).toString();
+        String keys = String.format("%s,%s",
+                Constants.Http.MomentComment.PARAM_USER_ID,
+                Constants.Http.MomentComment.PARAM_CONTENT);
+        return getMomentCommentService()
+                .getList(keys, "-createdAt", where, Integer.MAX_VALUE)
+                .getResults();
+    }
+
+    public Comment newMomentComment(Comment comment) {
+        Gson gson = new Gson();
+        JsonObject data = gson.toJsonTree(comment).getAsJsonObject();
+        return getMomentCommentService().newComment(data);
     }
 }
