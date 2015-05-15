@@ -281,6 +281,9 @@
     <string name="label_share_content">#澳妈圈#我刚刚在@澳妈圈 上分享了照片</string>
     <string name="label_like_moment">喜欢你的照片</string>
 
+    <!-- Message -->
+    <string name="label_contact_requests">好友请求</string>
+
     <!-- Widgets -->
     <string name="header_hint_refresh_normal">下拉可以刷新</string>
     <string name="header_hint_refresh_ready">释放立即刷新</string>

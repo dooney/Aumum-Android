@@ -10,14 +10,7 @@
         <item name="android:background">@drawable/button_navigation</item>
         <item name="android:gravity">center_vertical</item>
     </style>
-    <style name="RelativeLayout" />
-    <style name="RelativeLayout.NavButton" parent="RelativeLayout">
-        <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_height">wrap_content</item>
-        <item name="android:padding">@dimen/margin_large</item>
-        <item name="android:background">@drawable/button_navigation</item>
-    </style>
-    <style name="RelativeLayout.ListNavButton" parent="RelativeLayout">
+    <style name="LinearLayout.ListNavButton" parent="LinearLayout">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:paddingTop">@dimen/margin_medium</item>
@@ -25,6 +18,7 @@
         <item name="android:paddingLeft">@dimen/margin_large</item>
         <item name="android:paddingRight">@dimen/margin_large</item>
         <item name="android:background">@drawable/button_list_navigation</item>
+        <item name="android:gravity">center_vertical</item>
     </style>
 
     <style name="Button">
@@ -235,10 +229,8 @@
     <style name="TextView.Comment.CreatedAt" parent="TextView.Subtitle.Small" />
 
     <!-- Conversation -->
-    <style name="TextView.Conversation.ScreenName" parent="TextView.UserName">
-        <item name="android:textSize">@dimen/text_sz_large</item>
-    </style>
-    <style name="TextView.Conversation.MessageBody" parent="TextView.Subtitle">
+    <style name="TextView.Conversation.ScreenName" parent="TextView.UserName" />
+    <style name="TextView.Conversation.MessageBody" parent="TextView.Subtitle.Small">
         <item name="android:maxLines">1</item>
         <item name="android:ellipsize">end</item>
     </style>

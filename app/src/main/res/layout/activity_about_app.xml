@@ -25,45 +25,45 @@
 
     </RelativeLayout>
 
-    <RelativeLayout
+    <LinearLayout
         android:id="@+id/layout_rate_app"
-        style="@style/RelativeLayout.NavButton">
+        style="@style/LinearLayout.NavButton">
 
         <TextView
             style="@style/TextView.About"
             android:text="@string/label_rate_the_app"/>
 
-    </RelativeLayout>
+    </LinearLayout>
 
-    <RelativeLayout
+    <LinearLayout
         android:id="@+id/layout_version_details"
-        style="@style/RelativeLayout.NavButton">
+        style="@style/LinearLayout.NavButton">
 
         <TextView
             style="@style/TextView.About"
             android:text="@string/label_version_details"/>
 
-    </RelativeLayout>
+    </LinearLayout>
 
-    <RelativeLayout
+    <LinearLayout
         android:id="@+id/layout_agreement"
-        style="@style/RelativeLayout.NavButton">
+        style="@style/LinearLayout.NavButton">
 
         <TextView
             style="@style/TextView.About"
             android:text="@string/label_agreement"/>
 
-    </RelativeLayout>
+    </LinearLayout>
 
-    <RelativeLayout
+    <LinearLayout
         android:id="@+id/layout_check_for_updates"
-        style="@style/RelativeLayout.NavButton">
+        style="@style/LinearLayout.NavButton">
 
         <TextView
             style="@style/TextView.About"
             android:text="@string/label_check_for_updates"/>
 
-    </RelativeLayout>
+    </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"

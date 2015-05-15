@@ -16,28 +16,30 @@
         android:paddingRight="@dimen/margin_large"
         android:text="A"/>
 
-    <RelativeLayout
+    <LinearLayout
         android:id="@+id/layout_user_card"
-        style="@style/RelativeLayout.ListNavButton">
+        style="@style/LinearLayout.ListNavButton">
 
-        <com.aumum.app.mobile.ui.view.AvatarImageView
-            android:id="@+id/image_avatar"
-            style="@style/ImageView.Avatar"
-            android:layout_marginRight="@dimen/margin_large"/>
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1">
 
-        <TextView
-            android:id="@+id/text_screen_name"
-            style="@style/TextView.Title"
-            android:layout_toRightOf="@+id/image_avatar"
-            android:layout_centerVertical="true"/>
+            <com.aumum.app.mobile.ui.view.AvatarImageView
+                android:id="@+id/image_avatar"
+                style="@style/ImageView.Avatar"
+                android:layout_marginRight="@dimen/margin_large"/>
+
+            <TextView
+                android:id="@+id/text_screen_name"
+                style="@style/TextView.Title"/>
+
+        </LinearLayout>
 
         <ImageView
             android:id="@+id/checkbox"
-            style="@style/ImageView.Checkbox"
-            android:layout_alignParentRight="true"
-            android:paddingRight="@dimen/margin_large"
-            android:layout_centerVertical="true"/>
+            style="@style/ImageView.Checkbox"/>
 
-    </RelativeLayout>
+    </LinearLayout>
 
 </LinearLayout>

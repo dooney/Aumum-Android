@@ -16,9 +16,9 @@
         android:paddingRight="@dimen/margin_large"
         android:text="A"/>
 
-    <RelativeLayout
+    <LinearLayout
         android:id="@+id/layout_user_card"
-        style="@style/RelativeLayout.ListNavButton">
+        style="@style/LinearLayout.ListNavButton">
 
         <com.aumum.app.mobile.ui.view.AvatarImageView
             android:id="@+id/image_avatar"
@@ -28,9 +28,8 @@
         <TextView
             android:id="@+id/text_screen_name"
             style="@style/TextView.Title"
-            android:layout_toRightOf="@+id/image_avatar"
-            android:layout_centerVertical="true"/>
+            android:layout_toRightOf="@+id/image_avatar"/>
 
-    </RelativeLayout>
+    </LinearLayout>
 
 </LinearLayout>

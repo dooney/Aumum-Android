@@ -16,15 +16,14 @@
         android:paddingRight="@dimen/margin_large"
         android:text="A"/>
 
-    <RelativeLayout
+    <LinearLayout
         android:id="@+id/layout_area_card"
-        style="@style/RelativeLayout.ListNavButton">
+        style="@style/LinearLayout.ListNavButton">
 
         <TextView
             android:id="@+id/text_name"
-            style="@style/TextView.Title"
-            android:layout_centerVertical="true"/>
+            style="@style/TextView.Title"/>
 
-    </RelativeLayout>
+    </LinearLayout>
 
 </LinearLayout>
