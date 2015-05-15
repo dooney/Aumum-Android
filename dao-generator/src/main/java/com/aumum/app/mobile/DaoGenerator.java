@@ -5,16 +5,18 @@ import de.greenrobot.daogenerator.Schema;
 
 public class DaoGenerator {
 
-    private static final int SCHEMA_VERSION = 28;
+    private static final int SCHEMA_VERSION = 29;
 
     public static void main(String args[]) throws Exception {
         Schema schema = new Schema(SCHEMA_VERSION, "com.aumum.app.mobile.core.dao.gen");
 
         addUser(schema);
         addUserInfo(schema);
+        addMoment(schema);
         addContactRequest(schema);
         addGroupRequest(schema);
-        addMoment(schema);
+        addMomentLike(schema);
+        addMomentComment(schema);
 
         new de.greenrobot.daogenerator.DaoGenerator().generateAll(schema, args[0]);
     }
@@ -49,18 +51,35 @@ public class DaoGenerator {
 
     private static void addContactRequest(Schema schema) {
         Entity request = schema.addEntity("ContactRequestEntity");
-        request.addIdProperty();
-        request.addStringProperty("userId").notNull();
-        request.addStringProperty("intro");
+        request.addStringProperty("userId").notNull().primaryKey();
+        request.addDateProperty("createdAt").notNull();
+        request.addStringProperty("info");
     }
 
     private static void addGroupRequest(Schema schema) {
         Entity request = schema.addEntity("GroupRequestEntity");
-        request.addIdProperty();
-        request.addStringProperty("groupId").notNull();
+        request.addStringProperty("groupId").notNull().primaryKey();
         request.addStringProperty("userId").notNull();
-        request.addStringProperty("reason");
+        request.addDateProperty("createdAt").notNull();
+        request.addStringProperty("info");
         request.addIntProperty("status");
+    }
+
+    private static void addMomentLike(Schema schema) {
+        Entity request = schema.addEntity("MomentLikeEntity");
+        request.addIdProperty();
+        request.addStringProperty("userId").notNull();
+        request.addDateProperty("createdAt").notNull();
+        request.addStringProperty("momentId").notNull();
+    }
+
+    private static void addMomentComment(Schema schema) {
+        Entity request = schema.addEntity("MomentCommentEntity");
+        request.addIdProperty();
+        request.addStringProperty("userId").notNull();
+        request.addDateProperty("createdAt").notNull();
+        request.addStringProperty("momentId").notNull();
+        request.addStringProperty("content");
     }
 
     private static void addMoment(Schema schema) {
@@ -68,7 +87,7 @@ public class DaoGenerator {
         moment.setSuperclass("BaseEntity");
         moment.addStringProperty("objectId").notNull().primaryKey();
         moment.addDateProperty("createdAt").notNull();
-        moment.addStringProperty("userId");
+        moment.addStringProperty("userId").notNull();
         moment.addStringProperty("likes");
         moment.addStringProperty("text");
         moment.addStringProperty("imageUrl");

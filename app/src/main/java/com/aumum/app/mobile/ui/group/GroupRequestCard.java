@@ -43,7 +43,7 @@ public class GroupRequestCard implements GroupRequestProcessListener.OnProcessLi
         avatarImage.getFromUrl(user.getAvatarUrl());
         screenNameText.setText(user.getScreenName());
         String details = activity.getString(R.string.label_group_request_details,
-                request.getGroupName(), request.getReason());
+                request.getGroupName(), request.getInfo());
         detailsText.setText(details);
         processButton.setVisibility(View.GONE);
         statusText.setVisibility(View.GONE);

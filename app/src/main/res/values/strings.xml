@@ -267,7 +267,6 @@
     <string name="label_group_created">%1$s刚刚创建了群组</string>
     <string name="label_group_joint">%1$s刚刚加入了群组</string>
     <string name="label_group_quit">%1$s刚刚退出了群组</string>
-    <string name="label_application_declined">%1$s拒绝了你的入群申请</string>
     <string name="label_group_applied">%1$s请求加入%2$s</string>
     <string name="hint_join_group_reason">验证信息</string>
     <string name="label_process">处理</string>

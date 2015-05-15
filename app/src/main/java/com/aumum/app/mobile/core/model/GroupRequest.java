@@ -5,10 +5,10 @@ package com.aumum.app.mobile.core.model;
  */
 public class GroupRequest {
 
-    private Long id;
     private String groupId;
     private String userId;
-    private String reason;
+    private String createdAt;
+    private String info;
     private int status;
 
     private String groupName;
@@ -18,20 +18,16 @@ public class GroupRequest {
     public static final int STATUS_APPROVED = 1;
     public static final int STATUS_REJECTED = 2;
 
-    public GroupRequest(Long id,
-                        String groupId,
+    public GroupRequest(String groupId,
                         String userId,
-                        String reason,
+                        String createdAt,
+                        String info,
                         int status) {
-        this.id = id;
         this.groupId = groupId;
         this.userId = userId;
-        this.reason = reason;
+        this.createdAt = createdAt;
+        this.info = info;
         this.status = status;
-    }
-
-    public Long getId() {
-        return id;
     }
 
     public String getGroupId() {
@@ -42,8 +38,8 @@ public class GroupRequest {
         return userId;
     }
 
-    public String getReason() {
-        return reason;
+    public String getInfo() {
+        return info;
     }
 
     public int getStatus() {
@@ -68,5 +64,9 @@ public class GroupRequest {
 
     public void setUser(UserInfo user) {
         this.user = user;
+    }
+
+    public String getCreatedAt() {
+        return createdAt;
     }
 }

@@ -45,7 +45,7 @@ public class ContactRequestCard implements AcceptContactListener.OnActionListene
         layout.setOnClickListener(new UserListener(activity, user.getObjectId()));
         avatarImage.getFromUrl(user.getAvatarUrl());
         screenNameText.setText(user.getScreenName());
-        introText.setText(request.getIntro());
+        introText.setText(request.getInfo());
 
         acceptButton.setVisibility(View.GONE);
         addedText.setVisibility(View.GONE);

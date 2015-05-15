@@ -5,6 +5,7 @@ import android.app.Activity;
 import com.aumum.app.mobile.Injector;
 import com.aumum.app.mobile.R;
 import com.aumum.app.mobile.core.dao.UserStore;
+import com.aumum.app.mobile.core.model.GroupRequest;
 import com.aumum.app.mobile.core.model.UserInfo;
 import com.aumum.app.mobile.core.service.ChatService;
 import com.aumum.app.mobile.core.service.NotificationService;
@@ -49,7 +50,8 @@ public class GroupChangeListener implements com.easemob.chat.GroupChangeListener
         new SafeAsyncTask<Boolean>() {
             @Override
             public Boolean call() throws Exception {
-                userStore.addGroupRequest(groupId, appliedBy, reason);
+                userStore.addGroupRequest(groupId, appliedBy, reason,
+                        GroupRequest.STATUS_NONE);
                 UserInfo user = userStore.getUserInfoByChatId(appliedBy);
                 notificationService.pushGroupAppliedNotification(
                         user.getScreenName(), groupName, reason, user.getAvatarUrl());
@@ -74,10 +76,8 @@ public class GroupChangeListener implements com.easemob.chat.GroupChangeListener
             @Override
             public Boolean call() throws Exception {
                 UserInfo user = userStore.getUserInfoByChatId(declinedBy);
-                String title = activity.getString(R.string.label_application_declined,
-                        user.getScreenName());
-                notificationService.pushUserDetailsNotification(
-                        user.getObjectId(), title, reason, user.getAvatarUrl());
+                userStore.addGroupRequest(groupId, user.getObjectId(), reason,
+                        GroupRequest.STATUS_REJECTED);
                 return true;
             }
         }.execute();

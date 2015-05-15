@@ -5,12 +5,15 @@ package com.aumum.app.mobile.core.model;
  */
 public class ContactRequest {
     private UserInfo user;
-    private String intro;
+    private String info;
     private boolean isAdded;
+    private String createdAt;
 
-    public ContactRequest(UserInfo user, String intro, boolean isAdded) {
+    public ContactRequest(UserInfo user,
+                          String info,
+                          boolean isAdded) {
         this.user = user;
-        this.intro = intro;
+        this.info = info;
         this.isAdded = isAdded;
     }
 
@@ -18,8 +21,8 @@ public class ContactRequest {
         return user;
     }
 
-    public String getIntro() {
-        return intro;
+    public String getInfo() {
+        return info;
     }
 
     public boolean isAdded() {
