@@ -11,10 +11,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.HeaderViewListAdapter;
 import android.widget.ImageView;
-import android.widget.ListView;
-import android.widget.TextView;
 
 import com.aumum.app.mobile.Injector;
 import com.aumum.app.mobile.R;
@@ -25,7 +22,6 @@ import com.aumum.app.mobile.core.model.UserInfo;
 import com.aumum.app.mobile.core.service.RestService;
 import com.aumum.app.mobile.ui.area.AreaListActivity;
 import com.aumum.app.mobile.ui.base.ItemListFragment;
-import com.aumum.app.mobile.ui.group.MyGroupsActivity;
 import com.aumum.app.mobile.ui.user.AreaUsersActivity;
 import com.aumum.app.mobile.ui.user.UserActivity;
 import com.aumum.app.mobile.ui.user.UserClickListener;
@@ -55,9 +51,6 @@ public class ContactFragment extends ItemListFragment<UserInfo>
     private String city;
     private String area;
     private InitialComparator initialComparator;
-
-    private View mainView;
-    private TextView contactsCountText;
     private ContactAdapter adapter;
 
     @Override
@@ -93,32 +86,7 @@ public class ContactFragment extends ItemListFragment<UserInfo>
 
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
-        mainView = view.findViewById(R.id.main_view);
-
-        LayoutInflater inflater = getActivity().getLayoutInflater();
-        ListView listView = (ListView) view.findViewById(android.R.id.list);
-        View headerView = inflater.inflate(R.layout.fragment_contact_header, null);
-        listView.addHeaderView(headerView, null, false);
-        listView.setHeaderDividersEnabled(false);
-        View footerView = inflater.inflate(R.layout.fragment_contact_footer, null);
-        listView.addFooterView(footerView, null, false);
-        listView.setFooterDividersEnabled(false);
-        contactsCountText = (TextView) footerView.findViewById(R.id.text_count);
-
-        View myGroupsLayout = view.findViewById(R.id.layout_my_groups);
-        myGroupsLayout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                startMyGroupsActivity();
-            }
-        });
-        View contactRequestsLayout = view.findViewById(R.id.layout_contact_requests);
-        contactRequestsLayout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                startContactRequestActivity();
-            }
-        });
+        super.onViewCreated(view, savedInstanceState);
 
         SideBar sideBar = (SideBar) view.findViewById(R.id.sideBar);
         sideBar.setOnTouchingLetterChangedListener(new SideBar.OnTouchingLetterChangedListener() {
@@ -130,8 +98,6 @@ public class ContactFragment extends ItemListFragment<UserInfo>
                 }
             }
         });
-
-        super.onViewCreated(view, savedInstanceState);
     }
 
     @Override
@@ -146,19 +112,8 @@ public class ContactFragment extends ItemListFragment<UserInfo>
     }
 
     @Override
-    protected View getMainView() {
-        return mainView;
-    }
-
-    @Override
     protected boolean readyToShow() {
         return true;
-    }
-
-    @Override
-    protected ArrayAdapter<UserInfo> getListAdapter() {
-        HeaderViewListAdapter adapter = (HeaderViewListAdapter)getListView().getAdapter();
-        return (ArrayAdapter<UserInfo>)adapter.getWrappedAdapter();
     }
 
     @Override
@@ -172,7 +127,7 @@ public class ContactFragment extends ItemListFragment<UserInfo>
     @Override
     protected void handleLoadResult(List<UserInfo> result) {
         super.handleLoadResult(result);
-        contactsCountText.setText(getString(R.string.label_contact_counts, result.size()));
+        getActivity().setTitle(getString(R.string.label_my_contacts, result.size()));
     }
 
     @Override
@@ -254,16 +209,6 @@ public class ContactFragment extends ItemListFragment<UserInfo>
     private void startUserActivity(String userId) {
         final Intent intent = new Intent(getActivity(), UserActivity.class);
         intent.putExtra(UserActivity.INTENT_USER_ID, userId);
-        startActivity(intent);
-    }
-
-    private void startMyGroupsActivity() {
-        final Intent intent = new Intent(getActivity(), MyGroupsActivity.class);
-        startActivity(intent);
-    }
-
-    private void startContactRequestActivity() {
-        final Intent intent = new Intent(getActivity(), ContactRequestsActivity.class);
         startActivity(intent);
     }
 

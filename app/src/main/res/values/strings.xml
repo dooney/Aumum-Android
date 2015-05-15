@@ -255,14 +255,11 @@
     <string name="label_group_size">%,d人在线</string>
 
     <!-- Contact -->
-    <string name="label_my_groups">我的群组</string>
-    <string name="label_contact_requests">好友请求</string>
-    <string name="label_mobile_contacts">手机联系人</string>
+    <string name="label_my_contacts">我的好友 (%,d)</string>
     <string name="label_invite">邀请</string>
     <string name="hint_search_user">手机号码/用户昵称</string>
     <string name="label_select_country_code">选择手机区号</string>
     <string name="label_hello">你好，我是%1$s</string>
-    <string name="label_contact_counts">%,d位好友</string>
 
     <!-- Chat -->
     <string name="label_move_up_to_cancel">上滑取消录音</string>
