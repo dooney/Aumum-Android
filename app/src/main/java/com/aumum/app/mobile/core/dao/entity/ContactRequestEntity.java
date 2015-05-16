@@ -4,12 +4,10 @@ package com.aumum.app.mobile.core.dao.entity;
 /**
  * Entity mapped to table CONTACT_REQUEST_ENTITY.
  */
-public class ContactRequestEntity {
+public class ContactRequestEntity extends MessageEntity  {
 
     /** Not-null value. */
     private String userId;
-    /** Not-null value. */
-    private java.util.Date createdAt;
     private String info;
 
     public ContactRequestEntity() {
@@ -19,10 +17,11 @@ public class ContactRequestEntity {
         this.userId = userId;
     }
 
-    public ContactRequestEntity(String userId, java.util.Date createdAt, String info) {
+    public ContactRequestEntity(String userId, java.util.Date createdAt, String info, Boolean isRead) {
         this.userId = userId;
         this.createdAt = createdAt;
         this.info = info;
+        this.isRead = isRead;
     }
 
     /** Not-null value. */
@@ -33,16 +32,6 @@ public class ContactRequestEntity {
     /** Not-null value; ensure this value is available before it is saved to the database. */
     public void setUserId(String userId) {
         this.userId = userId;
-    }
-
-    /** Not-null value. */
-    public java.util.Date getCreatedAt() {
-        return createdAt;
-    }
-
-    /** Not-null value; ensure this value is available before it is saved to the database. */
-    public void setCreatedAt(java.util.Date createdAt) {
-        this.createdAt = createdAt;
     }
 
     public String getInfo() {

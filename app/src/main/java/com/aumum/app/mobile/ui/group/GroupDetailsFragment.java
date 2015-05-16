@@ -218,7 +218,6 @@ public class GroupDetailsFragment extends ItemListFragment<UserInfo> {
         task = new SafeAsyncTask<Boolean>() {
             public Boolean call() throws Exception {
                 chatService.deleteGroup(groupId);
-                userStore.deleteGroupRequests(groupId);
                 return true;
             }
 

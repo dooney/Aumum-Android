@@ -230,7 +230,7 @@
 
     <!-- Conversation -->
     <style name="TextView.Conversation.ScreenName" parent="TextView.UserName" />
-    <style name="TextView.Conversation.MessageBody" parent="TextView.Subtitle.Small">
+    <style name="TextView.Conversation.MessageBody" parent="TextView.Subtitle">
         <item name="android:maxLines">1</item>
         <item name="android:ellipsize">end</item>
     </style>
@@ -246,9 +246,7 @@
     <style name="EditText.NewGroup.Description" parent="EditText.MultiLine">
         <item name="android:hint">@string/hint_group_description</item>
     </style>
-    <style name="TextView.GroupRequest.ScreenName" parent="TextView.UserName">
-        <item name="android:textSize">@dimen/text_sz_large</item>
-    </style>
+    <style name="TextView.GroupRequest.ScreenName" parent="TextView.UserName" />
     <style name="TextView.GroupRequest.Details" parent="TextView.Subtitle" />
     <style name="TextView.GroupRequest.Status" parent="TextView.Subtitle" />
 
@@ -330,7 +328,7 @@
     </style>
 
     <!-- Contact -->
-    <style name="TextView.ContactRequest.ScreenName" parent="TextView.Title" />
+    <style name="TextView.ContactRequest.ScreenName" parent="TextView.UserName" />
     <style name="TextView.ContactRequest.Intro" parent="TextView.Subtitle">
         <item name="android:maxLines">1</item>
         <item name="android:ellipsize">end</item>
@@ -487,8 +485,8 @@
     </style>
 
     <style name="ProgressBar" parent="@android:style/Widget.Holo.Light.ProgressBar">
-        <item name="android:layout_width">wrap_content</item>
-        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_width">@dimen/image_sz_medium</item>
+        <item name="android:layout_height">@dimen/image_sz_medium</item>
     </style>
     <style name="ProgressBar.Small" parent="ProgressBar">
         <item name="android:layout_width">@dimen/image_sz_small</item>

@@ -8,9 +8,9 @@ import android.widget.ArrayAdapter;
 
 import com.aumum.app.mobile.Injector;
 import com.aumum.app.mobile.R;
+import com.aumum.app.mobile.core.dao.MessageStore;
 import com.aumum.app.mobile.core.dao.UserStore;
 import com.aumum.app.mobile.core.model.GroupRequest;
-import com.aumum.app.mobile.core.model.User;
 import com.aumum.app.mobile.core.model.UserInfo;
 import com.aumum.app.mobile.core.service.ChatService;
 import com.aumum.app.mobile.ui.base.ItemListFragment;
@@ -27,6 +27,7 @@ public class GroupRequestsFragment extends ItemListFragment<GroupRequest> {
 
     @Inject ChatService chatService;
     @Inject UserStore userStore;
+    @Inject MessageStore messageStore;
 
     @Override
     public void onCreate(final Bundle savedInstanceState) {
@@ -47,7 +48,7 @@ public class GroupRequestsFragment extends ItemListFragment<GroupRequest> {
 
     @Override
     protected List<GroupRequest> loadDataCore(Bundle bundle) throws Exception {
-        List<GroupRequest> groupRequestList = userStore.getGroupRequestList();
+        List<GroupRequest> groupRequestList = messageStore.getGroupRequestList();
         for (GroupRequest groupRequest : groupRequestList) {
             EMGroup group = chatService.getGroupById(groupRequest.getGroupId());
             groupRequest.setGroupName(group.getGroupName());

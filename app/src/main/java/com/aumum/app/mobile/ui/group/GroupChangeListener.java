@@ -4,6 +4,7 @@ import android.app.Activity;
 
 import com.aumum.app.mobile.Injector;
 import com.aumum.app.mobile.R;
+import com.aumum.app.mobile.core.dao.MessageStore;
 import com.aumum.app.mobile.core.dao.UserStore;
 import com.aumum.app.mobile.core.model.GroupRequest;
 import com.aumum.app.mobile.core.model.UserInfo;
@@ -22,6 +23,7 @@ import javax.inject.Inject;
 public class GroupChangeListener implements com.easemob.chat.GroupChangeListener {
 
     @Inject UserStore userStore;
+    @Inject MessageStore messageStore;
     @Inject ChatService chatService;
     @Inject NotificationService notificationService;
 
@@ -50,7 +52,7 @@ public class GroupChangeListener implements com.easemob.chat.GroupChangeListener
         new SafeAsyncTask<Boolean>() {
             @Override
             public Boolean call() throws Exception {
-                userStore.addGroupRequest(groupId, appliedBy, reason,
+                messageStore.addGroupRequest(groupId, appliedBy, reason,
                         GroupRequest.STATUS_NONE);
                 UserInfo user = userStore.getUserInfoByChatId(appliedBy);
                 notificationService.pushGroupAppliedNotification(
@@ -76,7 +78,7 @@ public class GroupChangeListener implements com.easemob.chat.GroupChangeListener
             @Override
             public Boolean call() throws Exception {
                 UserInfo user = userStore.getUserInfoByChatId(declinedBy);
-                userStore.addGroupRequest(groupId, user.getObjectId(), reason,
+                messageStore.addGroupRequest(groupId, user.getObjectId(), reason,
                         GroupRequest.STATUS_REJECTED);
                 return true;
             }

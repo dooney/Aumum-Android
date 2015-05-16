@@ -3,6 +3,7 @@ package com.aumum.app.mobile;
 import android.accounts.AccountManager;
 import android.content.Context;
 
+import com.aumum.app.mobile.core.dao.MessageStore;
 import com.aumum.app.mobile.core.dao.MomentStore;
 import com.aumum.app.mobile.core.dao.Repository;
 import com.aumum.app.mobile.core.infra.security.ApiKeyProvider;
@@ -35,6 +36,7 @@ import com.aumum.app.mobile.ui.contact.AcceptContactListener;
 import com.aumum.app.mobile.ui.contact.ContactListener;
 import com.aumum.app.mobile.ui.contact.ContactRequestsFragment;
 import com.aumum.app.mobile.ui.account.VerifyActivity;
+import com.aumum.app.mobile.ui.message.MessageFragment;
 import com.aumum.app.mobile.ui.moment.MomentDetailsFragment;
 import com.aumum.app.mobile.ui.moment.MomentFragment;
 import com.aumum.app.mobile.ui.moment.MomentLikeListener;
@@ -119,7 +121,8 @@ import retrofit.converter.GsonConverter;
                 MomentFragment.class,
                 NewMomentActivity.class,
                 MomentLikeListener.class,
-                MomentDetailsFragment.class
+                MomentDetailsFragment.class,
+                MessageFragment.class
         }
 )
 public class BootstrapModule {
@@ -171,6 +174,12 @@ public class BootstrapModule {
     @Singleton
     MomentStore provideMomentStore(RestService restService, Repository repository) {
         return new MomentStore(restService, repository);
+    }
+
+    @Provides
+    @Singleton
+    MessageStore provideMessageStore(Repository repository) {
+        return new MessageStore(repository);
     }
 
     @Provides

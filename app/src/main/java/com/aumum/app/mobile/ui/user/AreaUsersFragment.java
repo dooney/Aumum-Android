@@ -6,7 +6,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.EditText;
 
 import com.aumum.app.mobile.Injector;
 import com.aumum.app.mobile.R;
@@ -102,10 +101,7 @@ public class AreaUsersFragment extends ItemListFragment<UserInfo>
                         Toaster.showShort(getActivity(), R.string.info_add_contact_sent);
                     }
                 });
-        String hello = getString(R.string.label_hello, currentUser.getScreenName());
-        EditText valueText = dialog.getValueText();
-        valueText.setText(hello);
-        valueText.setSelection(valueText.getText().length());
+        dialog.setText(getString(R.string.label_hello, currentUser.getScreenName()));
         dialog.show();
     }
 }

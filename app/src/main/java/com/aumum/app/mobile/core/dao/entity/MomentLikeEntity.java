@@ -4,13 +4,11 @@ package com.aumum.app.mobile.core.dao.entity;
 /**
  * Entity mapped to table MOMENT_LIKE_ENTITY.
  */
-public class MomentLikeEntity {
+public class MomentLikeEntity extends MessageEntity  {
 
     private Long id;
     /** Not-null value. */
     private String userId;
-    /** Not-null value. */
-    private java.util.Date createdAt;
     /** Not-null value. */
     private String momentId;
 
@@ -21,11 +19,12 @@ public class MomentLikeEntity {
         this.id = id;
     }
 
-    public MomentLikeEntity(Long id, String userId, java.util.Date createdAt, String momentId) {
+    public MomentLikeEntity(Long id, String userId, java.util.Date createdAt, String momentId, Boolean isRead) {
         this.id = id;
         this.userId = userId;
         this.createdAt = createdAt;
         this.momentId = momentId;
+        this.isRead = isRead;
     }
 
     public Long getId() {
@@ -47,16 +46,6 @@ public class MomentLikeEntity {
     }
 
     /** Not-null value. */
-    public java.util.Date getCreatedAt() {
-        return createdAt;
-    }
-
-    /** Not-null value; ensure this value is available before it is saved to the database. */
-    public void setCreatedAt(java.util.Date createdAt) {
-        this.createdAt = createdAt;
-    }
-
-    /** Not-null value. */
     public String getMomentId() {
         return momentId;
     }
@@ -65,5 +54,4 @@ public class MomentLikeEntity {
     public void setMomentId(String momentId) {
         this.momentId = momentId;
     }
-
 }

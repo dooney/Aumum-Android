@@ -18,8 +18,9 @@ public class MainTabPageIndicator extends TabPageIndicator {
 
     public static final int TAB_HOME = 0;
     public static final int TAB_CHAT = 1;
-    public static final int TAB_MESSAGE = 2;
-    public static final int TAB_PROFILE = 3;
+    public static final int TAB_DISCOVERY = 2;
+    public static final int TAB_MESSAGE = 3;
+    public static final int TAB_PROFILE = 4;
 
     private ArrayList<ImageView> unreadImages = new ArrayList<ImageView>();
 

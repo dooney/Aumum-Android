@@ -1,14 +1,17 @@
 package com.aumum.app.mobile.ui.contact;
 
 import com.aumum.app.mobile.Injector;
+import com.aumum.app.mobile.core.dao.MessageStore;
 import com.aumum.app.mobile.core.dao.UserStore;
 import com.aumum.app.mobile.core.model.User;
 import com.aumum.app.mobile.core.model.UserInfo;
 import com.aumum.app.mobile.core.service.ChatService;
 import com.aumum.app.mobile.core.service.NotificationService;
 import com.aumum.app.mobile.core.service.RestService;
+import com.aumum.app.mobile.events.NewMessageEvent;
 import com.aumum.app.mobile.utils.SafeAsyncTask;
 import com.easemob.chat.EMContactListener;
+import com.squareup.otto.Bus;
 
 import java.util.List;
 
@@ -20,12 +23,16 @@ import javax.inject.Inject;
 public class ContactListener implements EMContactListener {
 
     @Inject UserStore userStore;
+    @Inject MessageStore messageStore;
     @Inject RestService restService;
     @Inject NotificationService notificationService;
     @Inject ChatService chatService;
 
-    public ContactListener() {
+    private Bus bus;
+
+    public ContactListener(Bus bus) {
         Injector.inject(this);
+        this.bus = bus;
     }
 
     @Override
@@ -56,6 +63,7 @@ public class ContactListener implements EMContactListener {
                     chatService.deleteConversation(contactId);
                     restService.removeContact(currentUser.getObjectId(), user.getObjectId());
                     currentUser.removeContact(user.getObjectId());
+                    messageStore.deleteContactRequest(user.getObjectId());
                     userStore.save(currentUser);
                 }
                 return true;
@@ -71,8 +79,9 @@ public class ContactListener implements EMContactListener {
                 User currentUser = userStore.getCurrentUser();
                 UserInfo user = userStore.getUserInfoByChatId(userName);
                 if (!currentUser.isContact(user.getObjectId()) &&
-                    !userStore.hasContactRequest(user.getObjectId())) {
-                    userStore.addContactRequest(user.getObjectId(), reason);
+                    !messageStore.hasContactRequest(user.getObjectId())) {
+                    messageStore.addContactRequest(user.getObjectId(), reason);
+                    bus.post(new NewMessageEvent());
                     notificationService.pushContactInvitedNotification(
                             user.getScreenName(), reason, user.getAvatarUrl());
                 }

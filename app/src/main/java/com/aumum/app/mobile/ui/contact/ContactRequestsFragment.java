@@ -9,8 +9,11 @@ import android.widget.ArrayAdapter;
 
 import com.aumum.app.mobile.Injector;
 import com.aumum.app.mobile.R;
+import com.aumum.app.mobile.core.dao.MessageStore;
 import com.aumum.app.mobile.core.dao.UserStore;
 import com.aumum.app.mobile.core.model.ContactRequest;
+import com.aumum.app.mobile.core.model.User;
+import com.aumum.app.mobile.core.model.UserInfo;
 import com.aumum.app.mobile.ui.base.ItemListFragment;
 
 import java.util.List;
@@ -24,6 +27,7 @@ import javax.inject.Inject;
 public class ContactRequestsFragment extends ItemListFragment<ContactRequest> {
 
     @Inject UserStore userStore;
+    @Inject MessageStore messageStore;
 
     @Override
     public void onCreate(final Bundle savedInstanceState) {
@@ -38,12 +42,26 @@ public class ContactRequestsFragment extends ItemListFragment<ContactRequest> {
     }
 
     @Override
+    public void onResume() {
+        super.onResume();
+        messageStore.resetContactRequestsUnread();
+    }
+
+    @Override
     protected ArrayAdapter<ContactRequest> createAdapter(List<ContactRequest> items) {
         return new ContactRequestAdapter(getActivity(), items);
     }
 
     @Override
     protected List<ContactRequest> loadDataCore(Bundle bundle) throws Exception {
-        return userStore.getContactRequestList();
+        List<ContactRequest> contactRequestList = messageStore.getContactRequestList();
+        User currentUser = userStore.getCurrentUser();
+        for (ContactRequest request: contactRequestList) {
+            UserInfo user = userStore.getUserInfoById(request.getUserId());
+            request.setUser(user);
+            boolean isAdded = currentUser.isContact(request.getUserId());
+            request.setAdded(isAdded);
+        }
+        return contactRequestList;
     }
 }

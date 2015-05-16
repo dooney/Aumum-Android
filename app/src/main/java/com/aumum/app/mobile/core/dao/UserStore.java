@@ -1,20 +1,14 @@
 package com.aumum.app.mobile.core.dao;
 
 import com.aumum.app.mobile.core.Constants;
-import com.aumum.app.mobile.core.dao.entity.ContactRequestEntity;
-import com.aumum.app.mobile.core.dao.entity.GroupRequestEntity;
 import com.aumum.app.mobile.core.dao.entity.UserEntity;
 import com.aumum.app.mobile.core.dao.entity.UserInfoEntity;
-import com.aumum.app.mobile.core.dao.gen.ContactRequestEntityDao;
-import com.aumum.app.mobile.core.dao.gen.GroupRequestEntityDao;
 import com.aumum.app.mobile.core.dao.gen.UserEntityDao;
 import com.aumum.app.mobile.core.dao.gen.UserInfoEntityDao;
 import com.aumum.app.mobile.core.infra.security.ApiKeyProvider;
-import com.aumum.app.mobile.core.model.GroupRequest;
 import com.aumum.app.mobile.core.model.User;
 import com.aumum.app.mobile.core.model.UserInfo;
 import com.aumum.app.mobile.core.service.RestService;
-import com.aumum.app.mobile.core.model.ContactRequest;
 import com.aumum.app.mobile.utils.DateUtils;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -32,16 +26,12 @@ public class UserStore {
     private ApiKeyProvider apiKeyProvider;
     private UserEntityDao userEntityDao;
     private UserInfoEntityDao userInfoEntityDao;
-    private ContactRequestEntityDao contactRequestEntityDao;
-    private GroupRequestEntityDao groupRequestEntityDao;
 
     public UserStore(RestService restService, ApiKeyProvider apiKeyProvider, Repository repository) {
         this.restService = restService;
         this.apiKeyProvider = apiKeyProvider;
         this.userEntityDao = repository.getUserEntityDao();
         this.userInfoEntityDao = repository.getUserInfoEntityDao();
-        this.contactRequestEntityDao = repository.getContactRequestEntityDao();
-        this.groupRequestEntityDao = repository.getGroupRequestEntityDao();
     }
 
     private String getJsonString(List<String> list) {
@@ -207,75 +197,6 @@ public class UserStore {
             return result;
         }
         return localList;
-    }
-
-    public void addContactRequest(String userId, String info) {
-        Date now = new Date();
-        ContactRequestEntity contactRequestEntity =
-                new ContactRequestEntity(userId, now, info);
-        contactRequestEntityDao.insertOrReplace(contactRequestEntity);
-    }
-
-    public List<ContactRequest> getContactRequestList() throws Exception {
-        User currentUser = getCurrentUser();
-        List<ContactRequestEntity> entities = contactRequestEntityDao.queryBuilder()
-                .orderDesc(ContactRequestEntityDao.Properties.CreatedAt)
-                .list();
-        List<ContactRequest> result = new ArrayList<ContactRequest>();
-        for (ContactRequestEntity entity: entities) {
-            UserInfo userInfo = getUserInfoById(entity.getUserId());
-            boolean isAdded = currentUser.isContact(entity.getUserId());
-            result.add(new ContactRequest(userInfo, entity.getInfo(), isAdded));
-        }
-        return result;
-    }
-
-    public boolean hasContactRequest(String userId) {
-        return contactRequestEntityDao.load(userId) != null;
-    }
-
-    public void addGroupRequest(String groupId,
-                                String userId,
-                                String info,
-                                int status) {
-        Date now = new Date();
-        GroupRequestEntity groupRequestEntity = new GroupRequestEntity(
-                groupId, userId, now, info, status);
-        groupRequestEntityDao.insert(groupRequestEntity);
-    }
-
-    public void deleteGroupRequests(String groupId) {
-        groupRequestEntityDao.deleteByKey(groupId);
-    }
-
-    public List<GroupRequest> getGroupRequestList() throws Exception {
-        List<GroupRequestEntity> entities = groupRequestEntityDao.queryBuilder()
-                .orderDesc(GroupRequestEntityDao.Properties.CreatedAt)
-                .list();
-        List<GroupRequest> result = new ArrayList<>();
-        for (GroupRequestEntity entity: entities) {
-            String createdAt = DateUtils.dateToString(
-                    entity.getCreatedAt(), Constants.DateTime.FORMAT);
-            result.add(new GroupRequest(
-                    entity.getGroupId(),
-                    entity.getUserId(),
-                    createdAt,
-                    entity.getInfo(),
-                    entity.getStatus()));
-        }
-        return result;
-    }
-
-    public void saveGroupRequest(GroupRequest request) throws Exception {
-        Date createdAt = DateUtils.stringToDate(
-                request.getCreatedAt(), Constants.DateTime.FORMAT);
-        GroupRequestEntity entity = new GroupRequestEntity(
-                request.getGroupId(),
-                request.getUserId(),
-                createdAt,
-                request.getInfo(),
-                request.getStatus());
-        groupRequestEntityDao.insertOrReplace(entity);
     }
 
     public List<UserInfo> getListByArea(String userId, String area) throws Exception {

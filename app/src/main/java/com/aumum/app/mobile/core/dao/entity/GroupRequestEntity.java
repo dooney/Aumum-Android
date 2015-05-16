@@ -4,14 +4,12 @@ package com.aumum.app.mobile.core.dao.entity;
 /**
  * Entity mapped to table GROUP_REQUEST_ENTITY.
  */
-public class GroupRequestEntity {
+public class GroupRequestEntity extends MessageEntity  {
 
     /** Not-null value. */
     private String groupId;
     /** Not-null value. */
     private String userId;
-    /** Not-null value. */
-    private java.util.Date createdAt;
     private String info;
     private Integer status;
 
@@ -22,12 +20,13 @@ public class GroupRequestEntity {
         this.groupId = groupId;
     }
 
-    public GroupRequestEntity(String groupId, String userId, java.util.Date createdAt, String info, Integer status) {
+    public GroupRequestEntity(String groupId, String userId, java.util.Date createdAt, String info, Integer status, Boolean isRead) {
         this.groupId = groupId;
         this.userId = userId;
         this.createdAt = createdAt;
         this.info = info;
         this.status = status;
+        this.isRead = isRead;
     }
 
     /** Not-null value. */
@@ -48,16 +47,6 @@ public class GroupRequestEntity {
     /** Not-null value; ensure this value is available before it is saved to the database. */
     public void setUserId(String userId) {
         this.userId = userId;
-    }
-
-    /** Not-null value. */
-    public java.util.Date getCreatedAt() {
-        return createdAt;
-    }
-
-    /** Not-null value; ensure this value is available before it is saved to the database. */
-    public void setCreatedAt(java.util.Date createdAt) {
-        this.createdAt = createdAt;
     }
 
     public String getInfo() {

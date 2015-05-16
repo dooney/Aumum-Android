@@ -14,6 +14,7 @@ import android.widget.TextView;
 import com.aumum.app.mobile.Injector;
 import com.aumum.app.mobile.R;
 import com.aumum.app.mobile.core.Constants;
+import com.aumum.app.mobile.core.dao.MessageStore;
 import com.aumum.app.mobile.core.dao.MomentStore;
 import com.aumum.app.mobile.core.dao.UserStore;
 import com.aumum.app.mobile.core.model.Moment;
@@ -48,6 +49,7 @@ public class UserFragment extends LoaderFragment<User> {
 
     @Inject UserStore userStore;
     @Inject MomentStore momentStore;
+    @Inject MessageStore messageStore;
     @Inject ChatService chatService;
     @Inject RestService restService;
     @Inject FileUploadService fileUploadService;
@@ -205,6 +207,7 @@ public class UserFragment extends LoaderFragment<User> {
                                         String currentUserId = currentUser.getObjectId();
                                         restService.removeContact(currentUserId, userId);
                                         currentUser.removeContact(userId);
+                                        messageStore.deleteContactRequest(userId);
                                         userStore.save(currentUser);
                                     }
 
@@ -224,7 +227,9 @@ public class UserFragment extends LoaderFragment<User> {
                 addContactButton.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        new EditTextDialog(getActivity(), R.layout.dialog_edit_text_multiline, R.string.hint_hello,
+                        EditTextDialog dialog = new EditTextDialog(getActivity(),
+                                R.layout.dialog_edit_text_multiline,
+                                R.string.hint_hello,
                                 new ConfirmDialog.OnConfirmListener() {
                                     @Override
                                     public void call(Object value) throws Exception {
@@ -242,7 +247,9 @@ public class UserFragment extends LoaderFragment<User> {
                                     public void onSuccess(Object value) {
                                         Toaster.showShort(getActivity(), R.string.info_add_contact_sent);
                                     }
-                                }).show();
+                                });
+                        dialog.setText(getString(R.string.label_hello, currentUser.getScreenName()));
+                        dialog.show();
                     }
                 });
             }

@@ -32,12 +32,13 @@ public class NotificationService {
         NotificationCompat.Builder builder = new NotificationCompat.Builder(context)
                 .setAutoCancel(true)
                 .setLights(0xffff0000, 300, 300)
-                .setSmallIcon(R.drawable.ic_launcher_notification)
                 .setContentTitle(title)
                 .setContentText(content);
         if (largeIconUrl != null) {
             Bitmap largeIcon = ImageLoaderUtils.loadImage(largeIconUrl);
             builder.setLargeIcon(largeIcon);
+        } else {
+            builder.setSmallIcon(R.drawable.ic_launcher_notification);
         }
         return builder;
     }

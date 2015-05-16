@@ -5,7 +5,7 @@ import android.view.View;
 
 import com.aumum.app.mobile.Injector;
 import com.aumum.app.mobile.R;
-import com.aumum.app.mobile.core.dao.UserStore;
+import com.aumum.app.mobile.core.dao.MessageStore;
 import com.aumum.app.mobile.core.model.CmdMessage;
 import com.aumum.app.mobile.core.model.GroupRequest;
 import com.aumum.app.mobile.core.model.UserInfo;
@@ -28,7 +28,7 @@ import retrofit.RetrofitError;
 public class GroupRequestProcessListener implements View.OnClickListener {
 
     @Inject ChatService chatService;
-    @Inject UserStore userStore;
+    @Inject MessageStore messageStore;
     private Activity activity;
     private GroupRequest request;
     private OnProcessListener listener;
@@ -89,7 +89,7 @@ public class GroupRequestProcessListener implements View.OnClickListener {
                         null, request.getUserId(), groupId);
                 chatService.sendCmdMessage(groupId, cmdMessage, true, null);
                 request.setStatus(GroupRequest.STATUS_APPROVED);
-                userStore.saveGroupRequest(request);
+                messageStore.saveGroupRequest(request);
                 return true;
             }
 
@@ -127,7 +127,7 @@ public class GroupRequestProcessListener implements View.OnClickListener {
                         String reason = (String) value;
                         chatService.declineGroupApplication(userId, groupId, reason);
                         request.setStatus(GroupRequest.STATUS_REJECTED);
-                        userStore.saveGroupRequest(request);
+                        messageStore.saveGroupRequest(request);
                     }
 
                     @Override

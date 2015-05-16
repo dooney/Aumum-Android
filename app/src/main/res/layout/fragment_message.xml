@@ -8,10 +8,28 @@
         android:id="@+id/layout_contact_requests"
         style="@style/LinearLayout.NavButton">
 
-        <com.aumum.app.mobile.ui.view.AvatarImageView
-            style="@style/ImageView.Avatar"
-            android:src="@drawable/ic_fa_add"
-            android:layout_marginRight="@dimen/margin_large"/>
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="@dimen/margin_large">
+
+            <com.aumum.app.mobile.ui.view.AvatarImageView
+                style="@style/ImageView.Avatar"
+                android:src="@drawable/ic_fa_add"/>
+
+            <FrameLayout
+                android:layout_width="@dimen/avatar_sz_medium"
+                android:layout_height="wrap_content">
+
+                <ImageView
+                    android:id="@+id/image_contact_requests_unread"
+                    style="@style/ImageView.Unread.Small"
+                    android:layout_gravity="right"
+                    android:visibility="gone"/>
+
+            </FrameLayout>
+
+        </RelativeLayout>
 
         <TextView
             style="@style/TextView.Title"

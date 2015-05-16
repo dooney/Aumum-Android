@@ -5,7 +5,7 @@ import de.greenrobot.daogenerator.Schema;
 
 public class DaoGenerator {
 
-    private static final int SCHEMA_VERSION = 29;
+    private static final int SCHEMA_VERSION = 30;
 
     public static void main(String args[]) throws Exception {
         Schema schema = new Schema(SCHEMA_VERSION, "com.aumum.app.mobile.core.dao.gen");
@@ -51,35 +51,43 @@ public class DaoGenerator {
 
     private static void addContactRequest(Schema schema) {
         Entity request = schema.addEntity("ContactRequestEntity");
+        request.setSuperclass("MessageEntity");
         request.addStringProperty("userId").notNull().primaryKey();
         request.addDateProperty("createdAt").notNull();
         request.addStringProperty("info");
+        request.addBooleanProperty("isRead");
     }
 
     private static void addGroupRequest(Schema schema) {
         Entity request = schema.addEntity("GroupRequestEntity");
+        request.setSuperclass("MessageEntity");
         request.addStringProperty("groupId").notNull().primaryKey();
         request.addStringProperty("userId").notNull();
         request.addDateProperty("createdAt").notNull();
         request.addStringProperty("info");
         request.addIntProperty("status");
+        request.addBooleanProperty("isRead");
     }
 
     private static void addMomentLike(Schema schema) {
         Entity request = schema.addEntity("MomentLikeEntity");
+        request.setSuperclass("MessageEntity");
         request.addIdProperty();
         request.addStringProperty("userId").notNull();
         request.addDateProperty("createdAt").notNull();
         request.addStringProperty("momentId").notNull();
+        request.addBooleanProperty("isRead");
     }
 
     private static void addMomentComment(Schema schema) {
         Entity request = schema.addEntity("MomentCommentEntity");
+        request.setSuperclass("MessageEntity");
         request.addIdProperty();
         request.addStringProperty("userId").notNull();
         request.addDateProperty("createdAt").notNull();
         request.addStringProperty("momentId").notNull();
         request.addStringProperty("content");
+        request.addBooleanProperty("isRead");
     }
 
     private static void addMoment(Schema schema) {

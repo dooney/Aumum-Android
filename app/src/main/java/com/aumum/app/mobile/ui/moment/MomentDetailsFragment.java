@@ -126,15 +126,15 @@ public class MomentDetailsFragment extends ItemListFragment<Comment>
     @Override
     protected List<Comment> loadDataCore(Bundle bundle) throws Exception {
         moment = momentStore.getById(momentId);
+        currentUser = userStore.getCurrentUser();
+        loadUserInfo(moment);
+        loadLikes(moment);
         getActivity().runOnUiThread(new Runnable() {
             @Override
             public void run() {
                 showMoment(moment);
             }
         });
-        currentUser = userStore.getCurrentUser();
-        loadUserInfo(moment);
-        loadLikes(moment);
         return loadComments(momentId);
     }
 

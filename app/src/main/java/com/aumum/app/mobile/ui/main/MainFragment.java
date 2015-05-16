@@ -20,9 +20,10 @@ import com.aumum.app.mobile.core.infra.security.ApiKeyProvider;
 import com.aumum.app.mobile.core.model.CmdMessage;
 import com.aumum.app.mobile.core.service.ChatService;
 import com.aumum.app.mobile.core.service.FileUploadService;
-import com.aumum.app.mobile.core.service.ScheduleService;
+import com.aumum.app.mobile.events.NewMessageEvent;
 import com.aumum.app.mobile.events.NewChatMessageEvent;
 import com.aumum.app.mobile.events.ResetChatUnreadEvent;
+import com.aumum.app.mobile.events.ResetMessageUnreadEvent;
 import com.aumum.app.mobile.ui.chat.ChatConnectionListener;
 import com.aumum.app.mobile.ui.group.GroupChangeListener;
 import com.aumum.app.mobile.ui.chat.MessageNotifyListener;
@@ -30,7 +31,6 @@ import com.aumum.app.mobile.ui.chat.NotificationClickListener;
 import com.aumum.app.mobile.ui.contact.ContactListener;
 import com.aumum.app.mobile.ui.view.Animation;
 import com.aumum.app.mobile.utils.Ln;
-import com.aumum.app.mobile.utils.SafeAsyncTask;
 import com.easemob.chat.EMMessage;
 import com.squareup.otto.Bus;
 import com.squareup.otto.Subscribe;
@@ -43,16 +43,12 @@ import butterknife.InjectView;
 /**
  * Fragment which houses the View pager.
  */
-public class MainFragment extends Fragment
-        implements ScheduleService.OnScheduleListener {
+public class MainFragment extends Fragment {
 
     @Inject ChatService chatService;
     @Inject FileUploadService fileUploadService;
     @Inject ApiKeyProvider apiKeyProvider;
     @Inject Bus bus;
-
-    private ScheduleService scheduleService;
-    private SafeAsyncTask<Boolean> task;
 
     private ConnectionChangeReceiver connectionChangeReceiver;
     private NewMessageBroadcastReceiver newMessageBroadcastReceiver;
@@ -83,20 +79,17 @@ public class MainFragment extends Fragment
 
         initChatServer();
         initFileUploadService();
-        initScheduleService();
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        scheduleService.start();
         bus.register(this);
     }
 
     @Override
     public void onPause() {
         super.onDestroy();
-        scheduleService.shutDown();
         bus.unregister(this);
     }
 
@@ -113,37 +106,27 @@ public class MainFragment extends Fragment
         super.onActivityResult(requestCode, resultCode, data);
     }
 
-    @Override
-    public void onAction() {
-        if (task != null) {
-            return;
-        }
-        task = new SafeAsyncTask<Boolean>() {
-            public Boolean call() throws Exception {
-                return true;
-            }
-
-            @Override
-            protected void onFinally() throws RuntimeException {
-                task = null;
-            }
-        };
-        task.execute();
-    }
-
     @Subscribe
     public void onResetChatUnreadEvent(ResetChatUnreadEvent event) {
         indicator.getUnreadImage(MainTabPageIndicator.TAB_CHAT)
                 .setVisibility(View.INVISIBLE);
     }
 
+    @Subscribe
+    public void onResetMessageUnreadEvent(ResetMessageUnreadEvent event) {
+        indicator.getUnreadImage(MainTabPageIndicator.TAB_MESSAGE)
+                .setVisibility(View.INVISIBLE);
+    }
+
+    @Subscribe
+    public void onNewMessageEvent(NewMessageEvent event) {
+        indicator.getUnreadImage(MainTabPageIndicator.TAB_MESSAGE)
+                .setVisibility(View.VISIBLE);
+    }
+
     private void initFileUploadService() {
         String currentUserId = apiKeyProvider.getAuthUserId();
         fileUploadService.init(currentUserId);
-    }
-
-    private void initScheduleService() {
-        scheduleService = new ScheduleService(this);
     }
 
     private void initChatServer() {
@@ -166,7 +149,7 @@ public class MainFragment extends Fragment
         chatService.setGroupChangeListener(new GroupChangeListener(getActivity(), bus));
         chatService.setMessageNotifyListener(new MessageNotifyListener(getActivity()));
         chatService.setNotificationClickListener(new NotificationClickListener(getActivity()));
-        chatService.setContactListener(new ContactListener());
+        chatService.setContactListener(new ContactListener(bus));
         chatService.setAppInitialized();
         chatService.loadAllResources();
     }
