@@ -13,6 +13,6 @@
         android:layout_height="wrap_content"
         android:text="@string/label_submit"
         bootstrap:bb_type="primary"
-        bootstrap:bb_size="small"/>
+        bootstrap:bb_size="xsmall"/>
 
 </FrameLayout>

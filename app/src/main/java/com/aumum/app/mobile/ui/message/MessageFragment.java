@@ -13,6 +13,8 @@ import com.aumum.app.mobile.R;
 import com.aumum.app.mobile.core.dao.MessageStore;
 import com.aumum.app.mobile.events.ResetMessageUnreadEvent;
 import com.aumum.app.mobile.ui.contact.ContactRequestsActivity;
+import com.aumum.app.mobile.ui.moment.MomentCommentsActivity;
+import com.aumum.app.mobile.ui.moment.MomentLikesActivity;
 import com.squareup.otto.Bus;
 
 import javax.inject.Inject;
@@ -26,6 +28,8 @@ public class MessageFragment extends Fragment {
     @Inject Bus bus;
 
     private ImageView contactRequestsUnreadImage;
+    private ImageView momentLikesUnreadImage;
+    private ImageView momentCommentsUnreadImage;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -54,6 +58,30 @@ public class MessageFragment extends Fragment {
         });
         contactRequestsUnreadImage = (ImageView) view.findViewById(
                 R.id.image_contact_requests_unread);
+
+        View momentLikesLayout = view.findViewById(R.id.layout_moment_likes);
+        momentLikesLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                final Intent intent = new Intent(
+                        getActivity(), MomentLikesActivity.class);
+                startActivity(intent);
+            }
+        });
+        momentLikesUnreadImage = (ImageView) view.findViewById(
+                R.id.image_moment_likes_unread);
+
+        View momentCommentsLayout = view.findViewById(R.id.layout_moment_comments);
+        momentCommentsLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                final Intent intent = new Intent(
+                        getActivity(), MomentCommentsActivity.class);
+                startActivity(intent);
+            }
+        });
+        momentCommentsUnreadImage = (ImageView) view.findViewById(
+                R.id.image_moment_comments_unread);
         updateUnread();
     }
 
@@ -85,6 +113,20 @@ public class MessageFragment extends Fragment {
                 contactRequestsUnreadImage.setVisibility(View.VISIBLE);
             } else {
                 contactRequestsUnreadImage.setVisibility(View.GONE);
+            }
+        }
+        if (momentLikesUnreadImage != null) {
+            if (messageStore.hasMomentLikesUnread()) {
+                momentLikesUnreadImage.setVisibility(View.VISIBLE);
+            } else {
+                momentLikesUnreadImage.setVisibility(View.GONE);
+            }
+        }
+        if (momentCommentsUnreadImage != null) {
+            if (messageStore.hasMomentCommentsUnread()) {
+                momentCommentsUnreadImage.setVisibility(View.VISIBLE);
+            } else {
+                momentCommentsUnreadImage.setVisibility(View.GONE);
             }
         }
     }

@@ -45,7 +45,7 @@
             android:layout_height="wrap_content"
             android:text="@string/label_accept"
             bootstrap:bb_type="primary"
-            bootstrap:bb_size="small"/>
+            bootstrap:bb_size="xsmall"/>
 
         <TextView
             android:id="@+id/text_added"

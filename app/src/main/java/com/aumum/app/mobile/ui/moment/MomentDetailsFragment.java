@@ -17,11 +17,13 @@ import com.aumum.app.mobile.Injector;
 import com.aumum.app.mobile.R;
 import com.aumum.app.mobile.core.dao.MomentStore;
 import com.aumum.app.mobile.core.dao.UserStore;
+import com.aumum.app.mobile.core.model.CmdMessage;
 import com.aumum.app.mobile.core.model.Comment;
 import com.aumum.app.mobile.core.model.Moment;
 import com.aumum.app.mobile.core.model.Share;
 import com.aumum.app.mobile.core.model.User;
 import com.aumum.app.mobile.core.model.UserInfo;
+import com.aumum.app.mobile.core.service.ChatService;
 import com.aumum.app.mobile.core.service.RestService;
 import com.aumum.app.mobile.ui.base.ItemListFragment;
 import com.aumum.app.mobile.ui.chat.ChatActivity;
@@ -51,6 +53,7 @@ public class MomentDetailsFragment extends ItemListFragment<Comment>
     @Inject MomentStore momentStore;
     @Inject UserStore userStore;
     @Inject RestService restService;
+    @Inject ChatService chatService;
 
     private User currentUser;
     private Moment moment;
@@ -257,6 +260,7 @@ public class MomentDetailsFragment extends ItemListFragment<Comment>
             public Boolean call() throws Exception {
                 Comment response = restService.newMomentComment(newComment);
                 comment.setObjectId(response.getObjectId());
+                sendCommentMessage(newComment);
                 return true;
             }
 
@@ -265,6 +269,18 @@ public class MomentDetailsFragment extends ItemListFragment<Comment>
                 getListAdapter().notifyDataSetChanged();
             }
         }.execute();
+    }
+
+    private void sendCommentMessage(Comment comment) throws Exception {
+        if (!moment.getUserId().equals(currentUser.getObjectId())) {
+            CmdMessage cmdMessage = new CmdMessage(
+                    CmdMessage.Type.MOMENT_COMMENT,
+                    comment.getContent(),
+                    currentUser.getObjectId(),
+                    moment.getObjectId());
+            UserInfo user = userStore.getUserInfoById(moment.getUserId());
+            chatService.sendCmdMessage(user.getChatId(), cmdMessage, false, null);
+        }
     }
 
     @Override

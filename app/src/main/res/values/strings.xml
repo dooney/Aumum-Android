@@ -147,7 +147,7 @@
     <string name="title_activity_login">用户登录</string>
     <string name="title_activity_register">注册新用户</string>
     <string name="title_activity_reset_password">找回密码</string>
-    <string name="title_activity_contact_requests">好友请求</string>
+    <string name="title_activity_contact_requests">收到的请求</string>
     <string name="title_activity_settings">我的设置</string>
     <string name="title_activity_choose_image">选择图片</string>
     <string name="title_activity_add_image">添加图片</string>
@@ -167,6 +167,8 @@
     <string name="title_activity_new_group">创建群组</string>
     <string name="title_activity_my_groups">我的群组</string>
     <string name="title_activity_contact">我的好友</string>
+    <string name="title_activity_moment_likes">收到的喜欢</string>
+    <string name="title_activity_moment_comments">收到的评论</string>
 
     <!-- Account -->
     <string name="hint_login_phone">手机号码</string>
@@ -282,7 +284,9 @@
     <string name="label_like_moment">喜欢你的照片</string>
 
     <!-- Message -->
-    <string name="label_contact_requests">好友请求</string>
+    <string name="label_contact_requests">收到的请求</string>
+    <string name="label_moment_likes">收到的喜欢</string>
+    <string name="label_moment_comments">收到的评论</string>
 
     <!-- Widgets -->
     <string name="header_hint_refresh_normal">下拉可以刷新</string>

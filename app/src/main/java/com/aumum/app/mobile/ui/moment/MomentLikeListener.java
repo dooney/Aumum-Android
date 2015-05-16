@@ -1,7 +1,6 @@
 package com.aumum.app.mobile.ui.moment;
 
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -101,7 +100,7 @@ public class MomentLikeListener implements LikeTextView.LikeListener {
                         currentUser.getScreenName(), currentUser.getAvatarUrl()));
                 moment.setLiked(currentUser.getObjectId());
                 momentStore.save(moment);
-                sendLikeMessage(rootView.getContext(), currentUser);
+                sendLikeMessage(currentUser);
                 return true;
             }
 
@@ -119,11 +118,10 @@ public class MomentLikeListener implements LikeTextView.LikeListener {
         task.execute();
     }
 
-    private void sendLikeMessage(Context context, User currentUser) throws Exception {
+    private void sendLikeMessage(User currentUser) throws Exception {
         if (!moment.getUserId().equals(currentUser.getObjectId())) {
-            String content = context.getString(R.string.label_like_moment);
             CmdMessage cmdMessage = new CmdMessage(CmdMessage.Type.MOMENT_LIKE,
-                    currentUser.getScreenName(), content, moment.getObjectId());
+                    null, currentUser.getObjectId(), moment.getObjectId());
             UserInfo user = userStore.getUserInfoById(moment.getUserId());
             chatService.sendCmdMessage(user.getChatId(), cmdMessage, false, null);
         }

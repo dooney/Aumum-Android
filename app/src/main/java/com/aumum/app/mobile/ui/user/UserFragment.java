@@ -123,10 +123,12 @@ public class UserFragment extends LoaderFragment<User> {
         userView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                Moment moment = momentList.get(i - 1);
-                final Intent intent = new Intent(getActivity(), MomentDetailsActivity.class);
-                intent.putExtra(MomentDetailsActivity.INTENT_MOMENT_ID, moment.getObjectId());
-                startActivity(intent);
+                if (momentList.size() >= i) {
+                    Moment moment = momentList.get(i - 1);
+                    final Intent intent = new Intent(getActivity(), MomentDetailsActivity.class);
+                    intent.putExtra(MomentDetailsActivity.INTENT_MOMENT_ID, moment.getObjectId());
+                    startActivity(intent);
+                }
             }
         });
     }

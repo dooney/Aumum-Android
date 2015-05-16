@@ -37,4 +37,70 @@
 
     </LinearLayout>
 
+    <LinearLayout
+        android:id="@+id/layout_moment_likes"
+        style="@style/LinearLayout.NavButton">
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="@dimen/margin_large">
+
+            <com.aumum.app.mobile.ui.view.AvatarImageView
+                style="@style/ImageView.Avatar"
+                android:src="@drawable/ic_fa_likes"/>
+
+            <FrameLayout
+                android:layout_width="@dimen/avatar_sz_medium"
+                android:layout_height="wrap_content">
+
+                <ImageView
+                    android:id="@+id/image_moment_likes_unread"
+                    style="@style/ImageView.Unread.Small"
+                    android:layout_gravity="right"
+                    android:visibility="gone"/>
+
+            </FrameLayout>
+
+        </RelativeLayout>
+
+        <TextView
+            style="@style/TextView.Title"
+            android:text="@string/label_moment_likes"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/layout_moment_comments"
+        style="@style/LinearLayout.NavButton">
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="@dimen/margin_large">
+
+            <com.aumum.app.mobile.ui.view.AvatarImageView
+                style="@style/ImageView.Avatar"
+                android:src="@drawable/ic_fa_comments"/>
+
+            <FrameLayout
+                android:layout_width="@dimen/avatar_sz_medium"
+                android:layout_height="wrap_content">
+
+                <ImageView
+                    android:id="@+id/image_moment_comments_unread"
+                    style="@style/ImageView.Unread.Small"
+                    android:layout_gravity="right"
+                    android:visibility="gone"/>
+
+            </FrameLayout>
+
+        </RelativeLayout>
+
+        <TextView
+            style="@style/TextView.Title"
+            android:text="@string/label_moment_comments"/>
+
+    </LinearLayout>
+
 </LinearLayout>

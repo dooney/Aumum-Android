@@ -16,6 +16,7 @@ import android.widget.TextView;
 
 import com.aumum.app.mobile.Injector;
 import com.aumum.app.mobile.R;
+import com.aumum.app.mobile.core.dao.MessageStore;
 import com.aumum.app.mobile.core.infra.security.ApiKeyProvider;
 import com.aumum.app.mobile.core.model.CmdMessage;
 import com.aumum.app.mobile.core.service.ChatService;
@@ -45,6 +46,7 @@ import butterknife.InjectView;
  */
 public class MainFragment extends Fragment {
 
+    @Inject MessageStore messageStore;
     @Inject ChatService chatService;
     @Inject FileUploadService fileUploadService;
     @Inject ApiKeyProvider apiKeyProvider;
@@ -108,20 +110,17 @@ public class MainFragment extends Fragment {
 
     @Subscribe
     public void onResetChatUnreadEvent(ResetChatUnreadEvent event) {
-        indicator.getUnreadImage(MainTabPageIndicator.TAB_CHAT)
-                .setVisibility(View.INVISIBLE);
+        updateTabUnread(MainTabPageIndicator.TAB_CHAT, View.INVISIBLE);
     }
 
     @Subscribe
     public void onResetMessageUnreadEvent(ResetMessageUnreadEvent event) {
-        indicator.getUnreadImage(MainTabPageIndicator.TAB_MESSAGE)
-                .setVisibility(View.INVISIBLE);
+        updateTabUnread(MainTabPageIndicator.TAB_MESSAGE, View.INVISIBLE);
     }
 
     @Subscribe
     public void onNewMessageEvent(NewMessageEvent event) {
-        indicator.getUnreadImage(MainTabPageIndicator.TAB_MESSAGE)
-                .setVisibility(View.VISIBLE);
+        updateTabUnread(MainTabPageIndicator.TAB_MESSAGE, View.VISIBLE);
     }
 
     private void initFileUploadService() {
@@ -185,8 +184,7 @@ public class MainFragment extends Fragment {
         public void onReceive(Context context, Intent intent) {
             abortBroadcast();
             if (pager.getCurrentItem() != MainTabPageIndicator.TAB_CHAT) {
-                indicator.getUnreadImage(MainTabPageIndicator.TAB_CHAT)
-                        .setVisibility(View.VISIBLE);
+                updateTabUnread(MainTabPageIndicator.TAB_CHAT, View.VISIBLE);
             } else {
                 bus.post(new NewChatMessageEvent());
             }
@@ -211,6 +209,12 @@ public class MainFragment extends Fragment {
                     case CmdMessage.Type.GROUP_QUIT:
                         handleGroupQuitCmdMessage(cmdMessage);
                         break;
+                    case CmdMessage.Type.MOMENT_LIKE:
+                        handleMomentLikeCmdMessage(cmdMessage);
+                        break;
+                    case CmdMessage.Type.MOMENT_COMMENT:
+                        handleMomentCommentCmdMessage(cmdMessage);
+                        break;
                     default:
                         break;
                 }
@@ -220,6 +224,10 @@ public class MainFragment extends Fragment {
 
             return;
         }
+    }
+
+    private void updateTabUnread(int tab, int visibility) {
+        indicator.getUnreadImage(tab).setVisibility(visibility);
     }
 
     private void handleGroupJoinCmdMessage(CmdMessage cmdMessage) {
@@ -232,5 +240,20 @@ public class MainFragment extends Fragment {
         String groupId = cmdMessage.getPayload();
         String userId = cmdMessage.getContent();
         chatService.removeGroupMember(groupId, userId);
+    }
+
+    private void handleMomentLikeCmdMessage(CmdMessage cmdMessage) {
+        String momentId = cmdMessage.getPayload();
+        String userId = cmdMessage.getContent();
+        messageStore.addMomentLike(momentId, userId);
+        updateTabUnread(MainTabPageIndicator.TAB_MESSAGE, View.VISIBLE);
+    }
+
+    private void handleMomentCommentCmdMessage(CmdMessage cmdMessage) {
+        String momentId = cmdMessage.getPayload();
+        String userId = cmdMessage.getContent();
+        String comment = cmdMessage.getTitle();
+        messageStore.addMomentComment(momentId, userId, comment);
+        updateTabUnread(MainTabPageIndicator.TAB_MESSAGE, View.VISIBLE);
     }
 }
