@@ -18,7 +18,7 @@
             android:id="@+id/image_avatar"
             style="@style/ImageView.Avatar"
             android:layout_marginLeft="@dimen/margin_large"
-            android:layout_marginRight="@dimen/margin_large"/>
+            android:layout_marginRight="@dimen/margin_medium"/>
 
         <TextView
             android:id="@+id/text_user_name"

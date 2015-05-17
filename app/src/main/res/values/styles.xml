@@ -137,6 +137,9 @@
     <style name="TextView.Subtitle.Small" parent="TextView.Subtitle">
         <item name="android:textSize">@dimen/text_sz_small</item>
     </style>
+    <style name="TextView.Multiline" parent="TextView">
+        <item name="android:lineSpacingMultiplier">1.1</item>
+    </style>
     <style name="ButtonTextView" parent="TextView.Subtitle">
         <item name="android:paddingTop">@dimen/margin_small</item>
         <item name="android:paddingBottom">@dimen/margin_small</item>
@@ -329,7 +332,7 @@
 
     <!-- Contact -->
     <style name="TextView.ContactRequest.ScreenName" parent="TextView.UserName" />
-    <style name="TextView.ContactRequest.Intro" parent="TextView.Subtitle">
+    <style name="TextView.ContactRequest.Info" parent="TextView.Subtitle">
         <item name="android:maxLines">1</item>
         <item name="android:ellipsize">end</item>
     </style>
@@ -343,12 +346,6 @@
     <style name="TextView.UserContact.Added" parent="TextView.Subtitle">
         <item name="android:text">@string/label_added</item>
     </style>
-
-    <!-- User -->
-    <style name="TextView.User.About" parent="TextView">
-        <item name="android:lineSpacingMultiplier">1.1</item>
-    </style>
-    <style name="EditText.AddContact.Intro" parent="EditText" />
 
     <!-- Settings -->
     <style name="TextView.Settings" parent="TextView.Title" />

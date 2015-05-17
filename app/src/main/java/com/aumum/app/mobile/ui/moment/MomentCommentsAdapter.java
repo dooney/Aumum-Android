@@ -7,36 +7,36 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 
 import com.aumum.app.mobile.R;
-import com.aumum.app.mobile.core.model.MomentLike;
+import com.aumum.app.mobile.core.model.MomentComment;
 
 import java.util.List;
 
 /**
- * Created by Administrator on 17/05/2015.
+ * Created by Administrator on 18/05/2015.
  */
-public class MomentLikesAdapter extends ArrayAdapter<MomentLike> {
+public class MomentCommentsAdapter extends ArrayAdapter<MomentComment> {
 
-    public MomentLikesAdapter(Activity activity,
-                              List<MomentLike> likes) {
+    public MomentCommentsAdapter(Activity activity,
+                                 List<MomentComment> likes) {
         super(activity, 0, likes);
     }
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        final MomentLikeCard card;
+        final MomentCommentCard card;
 
         if (convertView == null) {
             LayoutInflater inflater = LayoutInflater.from(getContext());
             convertView = inflater.inflate(
-                    R.layout.moment_like_listitem_inner, parent, false);
-            card = new MomentLikeCard(convertView);
+                    R.layout.moment_comment_listitem_inner, parent, false);
+            card = new MomentCommentCard(convertView);
             convertView.setTag(card);
         } else {
-            card = (MomentLikeCard) convertView.getTag();
+            card = (MomentCommentCard) convertView.getTag();
         }
 
-        MomentLike momentLike = getItem(position);
-        card.refresh(momentLike);
+        MomentComment momentComment = getItem(position);
+        card.refresh(momentComment);
 
         return convertView;
     }

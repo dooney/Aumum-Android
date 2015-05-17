@@ -11,6 +11,7 @@ import com.aumum.app.mobile.core.dao.gen.MomentCommentEntityDao;
 import com.aumum.app.mobile.core.dao.gen.MomentLikeEntityDao;
 import com.aumum.app.mobile.core.model.ContactRequest;
 import com.aumum.app.mobile.core.model.GroupRequest;
+import com.aumum.app.mobile.core.model.MomentComment;
 import com.aumum.app.mobile.core.model.MomentLike;
 import com.aumum.app.mobile.utils.DateUtils;
 import com.aumum.app.mobile.utils.TimeUtils;
@@ -144,6 +145,20 @@ public class MessageStore {
         }
     }
 
+    private List<MomentComment> mapMomentComments(List<MomentCommentEntity> entities) {
+        List<MomentComment> result = new ArrayList<>();
+        for (MomentCommentEntity entity: entities) {
+            String createdAt = TimeUtils.getFormattedTimeString(
+                    new DateTime(entity.getCreatedAt()));
+            result.add(new MomentComment(
+                    entity.getMomentId(),
+                    entity.getUserId(),
+                    createdAt,
+                    entity.getContent()));
+        }
+        return result;
+    }
+
     public void addMomentComment(String momentId, String userId, String comment) {
         Date now = new Date();
         MomentCommentEntity momentCommentEntity = new MomentCommentEntity(
@@ -155,6 +170,39 @@ public class MessageStore {
         return momentCommentEntityDao.queryBuilder()
                 .where(MomentCommentEntityDao.Properties.IsRead.eq(false))
                 .count() > 0;
+    }
+
+    public List<MomentComment> getMomentCommentsAfter(String after) throws Exception {
+        QueryBuilder<MomentCommentEntity> query = momentCommentEntityDao.queryBuilder();
+        if (after != null) {
+            Date createdAt = DateUtils.stringToDate(after, Constants.DateTime.FORMAT);
+            query = query.where(MomentLikeEntityDao.Properties.CreatedAt.gt(createdAt));
+        }
+        List<MomentCommentEntity> entities = query
+                .orderDesc(MomentCommentEntityDao.Properties.CreatedAt)
+                .limit(LIMIT_PER_LOAD)
+                .list();
+        return mapMomentComments(entities);
+    }
+
+    public List<MomentComment> getMomentCommentsBefore(String before) throws Exception {
+        Date date = DateUtils.stringToDate(before, Constants.DateTime.FORMAT);
+        List<MomentCommentEntity> entities = momentCommentEntityDao.queryBuilder()
+                .where(MomentCommentEntityDao.Properties.CreatedAt.lt(date))
+                .orderDesc(MomentCommentEntityDao.Properties.CreatedAt)
+                .limit(LIMIT_PER_LOAD)
+                .list();
+        return mapMomentComments(entities);
+    }
+
+    public void resetMomentCommentsUnread() {
+        List<MomentCommentEntity> entities = momentCommentEntityDao.queryBuilder()
+                .where(MomentCommentEntityDao.Properties.IsRead.eq(false))
+                .list();
+        for (MomentCommentEntity entity: entities) {
+            entity.setIsRead(true);
+            momentCommentEntityDao.insertOrReplace(entity);
+        }
     }
 
     public void addGroupRequest(String groupId,

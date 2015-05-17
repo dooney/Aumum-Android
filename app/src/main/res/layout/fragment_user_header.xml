@@ -68,7 +68,7 @@
 
             <TextView
                 android:id="@+id/text_about"
-                style="@style/TextView.User.About"/>
+                style="@style/TextView.Multiline"/>
 
         </LinearLayout>
 

@@ -27,7 +27,7 @@
 
         <TextView
             android:id="@+id/text_intro"
-            style="@style/TextView.ContactRequest.Intro"
+            style="@style/TextView.ContactRequest.Info"
             android:layout_alignLeft="@+id/text_screen_name"
             android:layout_alignBottom="@+id/image_avatar"/>
 
