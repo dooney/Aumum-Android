@@ -5,7 +5,7 @@ import de.greenrobot.daogenerator.Schema;
 
 public class DaoGenerator {
 
-    private static final int SCHEMA_VERSION = 30;
+    private static final int SCHEMA_VERSION = 31;
 
     public static void main(String args[]) throws Exception {
         Schema schema = new Schema(SCHEMA_VERSION, "com.aumum.app.mobile.core.dao.gen");
@@ -61,8 +61,8 @@ public class DaoGenerator {
     private static void addGroupRequest(Schema schema) {
         Entity request = schema.addEntity("GroupRequestEntity");
         request.setSuperclass("MessageEntity");
-        request.addStringProperty("groupId").notNull().primaryKey();
-        request.addStringProperty("userId").notNull();
+        request.addStringProperty("userId").notNull().primaryKey();
+        request.addStringProperty("groupId").notNull();
         request.addDateProperty("createdAt").notNull();
         request.addStringProperty("info");
         request.addIntProperty("status");

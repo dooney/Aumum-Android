@@ -11,11 +11,17 @@ import com.aumum.app.mobile.core.dao.gen.MomentCommentEntityDao;
 import com.aumum.app.mobile.core.dao.gen.MomentLikeEntityDao;
 import com.aumum.app.mobile.core.model.ContactRequest;
 import com.aumum.app.mobile.core.model.GroupRequest;
+import com.aumum.app.mobile.core.model.MomentLike;
 import com.aumum.app.mobile.utils.DateUtils;
+import com.aumum.app.mobile.utils.TimeUtils;
+
+import org.joda.time.DateTime;
 
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+
+import de.greenrobot.dao.query.QueryBuilder;
 
 /**
  * Created by Administrator on 16/05/2015.
@@ -26,6 +32,8 @@ public class MessageStore {
     private MomentLikeEntityDao momentLikeEntityDao;
     private MomentCommentEntityDao momentCommentEntityDao;
     private GroupRequestEntityDao groupRequestEntityDao;
+
+    public static final int LIMIT_PER_LOAD = 15;
 
     public MessageStore(Repository repository) {
         this.contactRequestEntityDao = repository.getContactRequestEntityDao();
@@ -51,10 +59,8 @@ public class MessageStore {
                 .list();
         List<ContactRequest> result = new ArrayList<ContactRequest>();
         for (ContactRequestEntity entity: entities) {
-            String createdAt = DateUtils.dateToString(
-                    entity.getCreatedAt(), Constants.DateTime.FORMAT);
             result.add(new ContactRequest(
-                    entity.getUserId(), entity.getInfo(), createdAt));
+                    entity.getUserId(), entity.getInfo()));
         }
         return result;
     }
@@ -79,6 +85,19 @@ public class MessageStore {
         }
     }
 
+    private List<MomentLike> mapMomentLikes(List<MomentLikeEntity> entities) {
+        List<MomentLike> result = new ArrayList<>();
+        for (MomentLikeEntity entity: entities) {
+            String createdAt = TimeUtils.getFormattedTimeString(
+                    new DateTime(entity.getCreatedAt()));
+            result.add(new MomentLike(
+                    entity.getMomentId(),
+                    entity.getUserId(),
+                    createdAt));
+        }
+        return result;
+    }
+
     public void addMomentLike(String momentId, String userId) {
         Date now = new Date();
         MomentLikeEntity momentLikeEntity = new MomentLikeEntity(
@@ -90,6 +109,39 @@ public class MessageStore {
         return momentLikeEntityDao.queryBuilder()
                 .where(MomentLikeEntityDao.Properties.IsRead.eq(false))
                 .count() > 0;
+    }
+
+    public List<MomentLike> getMomentLikesAfter(String after) throws Exception {
+        QueryBuilder<MomentLikeEntity> query = momentLikeEntityDao.queryBuilder();
+        if (after != null) {
+            Date createdAt = DateUtils.stringToDate(after, Constants.DateTime.FORMAT);
+            query = query.where(MomentLikeEntityDao.Properties.CreatedAt.gt(createdAt));
+        }
+        List<MomentLikeEntity> entities = query
+                .orderDesc(MomentLikeEntityDao.Properties.CreatedAt)
+                .limit(LIMIT_PER_LOAD)
+                .list();
+        return mapMomentLikes(entities);
+    }
+
+    public List<MomentLike> getMomentLikesBefore(String before) throws Exception {
+        Date date = DateUtils.stringToDate(before, Constants.DateTime.FORMAT);
+        List<MomentLikeEntity> entities = momentLikeEntityDao.queryBuilder()
+                .where(MomentLikeEntityDao.Properties.CreatedAt.lt(date))
+                .orderDesc(MomentLikeEntityDao.Properties.CreatedAt)
+                .limit(LIMIT_PER_LOAD)
+                .list();
+        return mapMomentLikes(entities);
+    }
+
+    public void resetMomentLikesUnread() {
+        List<MomentLikeEntity> entities = momentLikeEntityDao.queryBuilder()
+                .where(MomentLikeEntityDao.Properties.IsRead.eq(false))
+                .list();
+        for (MomentLikeEntity entity: entities) {
+            entity.setIsRead(true);
+            momentLikeEntityDao.insertOrReplace(entity);
+        }
     }
 
     public void addMomentComment(String momentId, String userId, String comment) {
@@ -121,12 +173,9 @@ public class MessageStore {
                 .list();
         List<GroupRequest> result = new ArrayList<>();
         for (GroupRequestEntity entity: entities) {
-            String createdAt = DateUtils.dateToString(
-                    entity.getCreatedAt(), Constants.DateTime.FORMAT);
             result.add(new GroupRequest(
                     entity.getGroupId(),
                     entity.getUserId(),
-                    createdAt,
                     entity.getInfo(),
                     entity.getStatus()));
         }
@@ -134,15 +183,9 @@ public class MessageStore {
     }
 
     public void saveGroupRequest(GroupRequest request) throws Exception {
-        Date createdAt = DateUtils.stringToDate(
-                request.getCreatedAt(), Constants.DateTime.FORMAT);
-        GroupRequestEntity entity = new GroupRequestEntity(
-                request.getGroupId(),
-                request.getUserId(),
-                createdAt,
-                request.getInfo(),
-                request.getStatus(),
-                true);
+        GroupRequestEntity entity = groupRequestEntityDao.load(request.getUserId());
+        entity.setStatus(request.getStatus());
+        entity.setIsRead(true);
         groupRequestEntityDao.insertOrReplace(entity);
     }
 }

@@ -5,9 +5,8 @@ package com.aumum.app.mobile.core.model;
  */
 public class GroupRequest {
 
-    private String groupId;
     private String userId;
-    private String createdAt;
+    private String groupId;
     private String info;
     private int status;
 
@@ -18,24 +17,22 @@ public class GroupRequest {
     public static final int STATUS_APPROVED = 1;
     public static final int STATUS_REJECTED = 2;
 
-    public GroupRequest(String groupId,
-                        String userId,
-                        String createdAt,
+    public GroupRequest(String userId,
+                        String groupId,
                         String info,
                         int status) {
-        this.groupId = groupId;
         this.userId = userId;
-        this.createdAt = createdAt;
+        this.groupId = groupId;
         this.info = info;
         this.status = status;
     }
 
-    public String getGroupId() {
-        return groupId;
-    }
-
     public String getUserId() {
         return userId;
+    }
+
+    public String getGroupId() {
+        return groupId;
     }
 
     public String getInfo() {
@@ -64,9 +61,5 @@ public class GroupRequest {
 
     public void setUser(UserInfo user) {
         this.user = user;
-    }
-
-    public String getCreatedAt() {
-        return createdAt;
     }
 }

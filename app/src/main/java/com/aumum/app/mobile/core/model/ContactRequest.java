@@ -7,16 +7,13 @@ public class ContactRequest {
     private String userId;
     private String info;
     private boolean isAdded;
-    private String createdAt;
 
     private UserInfo user;
 
     public ContactRequest(String userId,
-                          String info,
-                          String createdAt) {
+                          String info) {
         this.userId = userId;
         this.info = info;
-        this.createdAt = createdAt;
     }
 
     public String getUserId() {

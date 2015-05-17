@@ -7,26 +7,39 @@ package com.aumum.app.mobile.core.dao.entity;
 public class GroupRequestEntity extends MessageEntity  {
 
     /** Not-null value. */
+    private String userId;
+    /** Not-null value. */
     private String groupId;
     /** Not-null value. */
-    private String userId;
+    private java.util.Date createdAt;
     private String info;
     private Integer status;
+    private Boolean isRead;
 
     public GroupRequestEntity() {
     }
 
-    public GroupRequestEntity(String groupId) {
-        this.groupId = groupId;
+    public GroupRequestEntity(String userId) {
+        this.userId = userId;
     }
 
-    public GroupRequestEntity(String groupId, String userId, java.util.Date createdAt, String info, Integer status, Boolean isRead) {
-        this.groupId = groupId;
+    public GroupRequestEntity(String userId, String groupId, java.util.Date createdAt, String info, Integer status, Boolean isRead) {
         this.userId = userId;
+        this.groupId = groupId;
         this.createdAt = createdAt;
         this.info = info;
         this.status = status;
         this.isRead = isRead;
+    }
+
+    /** Not-null value. */
+    public String getUserId() {
+        return userId;
+    }
+
+    /** Not-null value; ensure this value is available before it is saved to the database. */
+    public void setUserId(String userId) {
+        this.userId = userId;
     }
 
     /** Not-null value. */
@@ -40,13 +53,13 @@ public class GroupRequestEntity extends MessageEntity  {
     }
 
     /** Not-null value. */
-    public String getUserId() {
-        return userId;
+    public java.util.Date getCreatedAt() {
+        return createdAt;
     }
 
     /** Not-null value; ensure this value is available before it is saved to the database. */
-    public void setUserId(String userId) {
-        this.userId = userId;
+    public void setCreatedAt(java.util.Date createdAt) {
+        this.createdAt = createdAt;
     }
 
     public String getInfo() {
@@ -63,6 +76,14 @@ public class GroupRequestEntity extends MessageEntity  {
 
     public void setStatus(Integer status) {
         this.status = status;
+    }
+
+    public Boolean getIsRead() {
+        return isRead;
+    }
+
+    public void setIsRead(Boolean isRead) {
+        this.isRead = isRead;
     }
 
 }
