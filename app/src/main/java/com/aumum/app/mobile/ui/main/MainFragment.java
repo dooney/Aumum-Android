@@ -24,6 +24,7 @@ import com.aumum.app.mobile.core.service.FileUploadService;
 import com.aumum.app.mobile.events.NewMessageEvent;
 import com.aumum.app.mobile.events.NewChatMessageEvent;
 import com.aumum.app.mobile.events.ResetChatUnreadEvent;
+import com.aumum.app.mobile.events.ResetHomeUnreadEvent;
 import com.aumum.app.mobile.events.ResetMessageUnreadEvent;
 import com.aumum.app.mobile.ui.chat.ChatConnectionListener;
 import com.aumum.app.mobile.ui.group.GroupChangeListener;
@@ -106,6 +107,11 @@ public class MainFragment extends Fragment {
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+    }
+
+    @Subscribe
+    public void onResetHomeUnreadEvent(ResetHomeUnreadEvent event) {
+        updateTabUnread(MainTabPageIndicator.TAB_HOME, View.INVISIBLE);
     }
 
     @Subscribe
@@ -209,6 +215,9 @@ public class MainFragment extends Fragment {
                     case CmdMessage.Type.GROUP_QUIT:
                         handleGroupQuitCmdMessage(cmdMessage);
                         break;
+                    case CmdMessage.Type.NEW_MOMENT:
+                        handleNewMomentCmdMessage(cmdMessage);
+                        break;
                     case CmdMessage.Type.MOMENT_LIKE:
                         handleMomentLikeCmdMessage(cmdMessage);
                         break;
@@ -240,6 +249,10 @@ public class MainFragment extends Fragment {
         String groupId = cmdMessage.getPayload();
         String userId = cmdMessage.getContent();
         chatService.removeGroupMember(groupId, userId);
+    }
+
+    private void handleNewMomentCmdMessage(CmdMessage cmdMessage) {
+        updateTabUnread(MainTabPageIndicator.TAB_HOME, View.VISIBLE);
     }
 
     private void handleMomentLikeCmdMessage(CmdMessage cmdMessage) {

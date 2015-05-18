@@ -100,7 +100,7 @@ public class MomentLikeListener implements LikeTextView.LikeListener {
                         currentUser.getScreenName(), currentUser.getAvatarUrl()));
                 moment.setLiked(currentUser.getObjectId());
                 momentStore.save(moment);
-                sendLikeMessage(currentUser);
+                notifyMomentOwner(currentUser);
                 return true;
             }
 
@@ -118,7 +118,7 @@ public class MomentLikeListener implements LikeTextView.LikeListener {
         task.execute();
     }
 
-    private void sendLikeMessage(User currentUser) throws Exception {
+    private void notifyMomentOwner(User currentUser) throws Exception {
         if (!moment.getUserId().equals(currentUser.getObjectId())) {
             CmdMessage cmdMessage = new CmdMessage(CmdMessage.Type.MOMENT_LIKE,
                     null, currentUser.getObjectId(), moment.getObjectId());

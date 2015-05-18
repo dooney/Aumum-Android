@@ -14,14 +14,19 @@ import android.widget.ImageView;
 import com.aumum.app.mobile.Injector;
 import com.aumum.app.mobile.R;
 import com.aumum.app.mobile.core.dao.UserStore;
+import com.aumum.app.mobile.core.model.CmdMessage;
 import com.aumum.app.mobile.core.model.Moment;
 import com.aumum.app.mobile.core.model.User;
+import com.aumum.app.mobile.core.model.UserInfo;
+import com.aumum.app.mobile.core.service.ChatService;
 import com.aumum.app.mobile.core.service.FileUploadService;
 import com.aumum.app.mobile.core.service.RestService;
 import com.aumum.app.mobile.ui.base.ProgressDialogActivity;
 import com.aumum.app.mobile.ui.helper.TextWatcherAdapter;
 import com.aumum.app.mobile.utils.ImageLoaderUtils;
 import com.aumum.app.mobile.utils.SafeAsyncTask;
+
+import java.util.List;
 
 import javax.inject.Inject;
 
@@ -37,6 +42,7 @@ public class NewMomentActivity extends ProgressDialogActivity
 
     @Inject RestService restService;
     @Inject FileUploadService fileUploadService;
+    @Inject ChatService chatService;
     @Inject UserStore userStore;
 
     public static final String INTENT_IMAGE_URI = "imageUri";
@@ -116,6 +122,7 @@ public class NewMomentActivity extends ProgressDialogActivity
                         moment.getObjectId());
                 currentUser.addMoment(moment.getObjectId());
                 userStore.save(currentUser);
+                notifyContacts(currentUser.getContacts());
                 return true;
             }
 
@@ -150,5 +157,23 @@ public class NewMomentActivity extends ProgressDialogActivity
     public void onUploadFailure(Exception e) {
         hideProgress();
         showError(e);
+    }
+
+    private void notifyContacts(final List<String> users) {
+        if (users.size() > 0) {
+            new SafeAsyncTask<Boolean>() {
+                @Override
+                public Boolean call() throws Exception {
+                    for (String userId: users) {
+                        UserInfo user = userStore.getUserInfoById(userId);
+                        CmdMessage cmdMessage = new CmdMessage(
+                                CmdMessage.Type.NEW_MOMENT, null, null, null);
+                        chatService.sendCmdMessage(
+                                user.getChatId(), cmdMessage, false, null);
+                    }
+                    return true;
+                }
+            }.execute();
+        }
     }
 }

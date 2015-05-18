@@ -272,7 +272,7 @@ public class MomentDetailsFragment extends ItemListFragment<Comment>
             public Boolean call() throws Exception {
                 Comment response = restService.newMomentComment(newComment);
                 comment.setObjectId(response.getObjectId());
-                sendCommentMessage(newComment);
+                notifyMomentOwner(newComment);
                 return true;
             }
 
@@ -283,7 +283,7 @@ public class MomentDetailsFragment extends ItemListFragment<Comment>
         }.execute();
     }
 
-    private void sendCommentMessage(Comment comment) throws Exception {
+    private void notifyMomentOwner(Comment comment) throws Exception {
         if (!moment.getUserId().equals(currentUser.getObjectId())) {
             CmdMessage cmdMessage = new CmdMessage(
                     CmdMessage.Type.MOMENT_COMMENT,

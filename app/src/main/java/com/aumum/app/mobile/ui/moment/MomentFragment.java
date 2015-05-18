@@ -22,10 +22,12 @@ import com.aumum.app.mobile.core.dao.UserStore;
 import com.aumum.app.mobile.core.model.Moment;
 import com.aumum.app.mobile.core.model.User;
 import com.aumum.app.mobile.core.model.UserInfo;
+import com.aumum.app.mobile.events.ResetHomeUnreadEvent;
 import com.aumum.app.mobile.ui.base.RefreshItemListFragment;
 import com.aumum.app.mobile.ui.view.dialog.ListViewDialog;
 import com.aumum.app.mobile.utils.ImageLoaderUtils;
 import com.aumum.app.mobile.utils.TuSdkUtils;
+import com.squareup.otto.Bus;
 
 import org.lasque.tusdk.core.utils.image.BitmapHelper;
 import org.lasque.tusdk.core.utils.sqllite.ImageSqlInfo;
@@ -47,6 +49,7 @@ public class MomentFragment extends RefreshItemListFragment<Moment>
 
     @Inject MomentStore momentStore;
     @Inject UserStore userStore;
+    @Inject Bus bus;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -104,6 +107,18 @@ public class MomentFragment extends RefreshItemListFragment<Moment>
     }
 
     @Override
+    public void onResume() {
+        super.onResume();
+        bus.register(this);
+    }
+
+    @Override
+    public void onPause() {
+        super.onDestroy();
+        bus.unregister(this);
+    }
+
+    @Override
     protected ArrayAdapter<Moment> createAdapter(List<Moment> items) {
         return new MomentCardsAdapter(getActivity(), items);
     }
@@ -112,6 +127,7 @@ public class MomentFragment extends RefreshItemListFragment<Moment>
     protected List<Moment> refresh(String after) throws Exception {
         List<Moment> momentList = momentStore.refresh(after);
         loadUserInfo(momentList);
+        bus.post(new ResetHomeUnreadEvent());
         return momentList;
     }
 
