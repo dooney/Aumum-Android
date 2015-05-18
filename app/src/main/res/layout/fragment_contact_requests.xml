@@ -1,25 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent" >
+    android:layout_height="match_parent">
 
-    <ListView
+    <com.aumum.app.mobile.ui.view.pulltorefresh.XListView
         android:id="@android:id/list"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:visibility="gone" />
-
-    <ProgressBar
-        android:id="@+id/pb_loading"
-        style="@style/ListSpinner"
-        android:layout_centerInParent="true" />
-
-    <TextView
-        android:id="@+id/text_empty"
-        style="@style/TextView.Empty"
-        android:layout_centerInParent="true"
-        android:text="@string/info_empty_contact_request_list"
-        android:visibility="gone"/>
+        android:layout_height="match_parent">
+    </com.aumum.app.mobile.ui.view.pulltorefresh.XListView>
 
 </RelativeLayout>

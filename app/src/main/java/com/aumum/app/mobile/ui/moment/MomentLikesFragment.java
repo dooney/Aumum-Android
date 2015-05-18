@@ -35,7 +35,6 @@ public class MomentLikesFragment extends RefreshItemListFragment<MomentLike> {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Injector.inject(this);
-        messageStore.resetMomentLikesUnread();
     }
 
     @Override

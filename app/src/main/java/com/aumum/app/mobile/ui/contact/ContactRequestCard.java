@@ -34,7 +34,7 @@ public class ContactRequestCard implements AcceptContactListener.OnActionListene
         layout = (ViewGroup) view.findViewById(R.id.layout_contact_request);
         avatarImage = (AvatarImageView) view.findViewById(R.id.image_avatar);
         screenNameText = (TextView) view.findViewById(R.id.text_screen_name);
-        introText = (TextView) view.findViewById(R.id.text_intro);
+        introText = (TextView) view.findViewById(R.id.text_info);
         acceptButton = view.findViewById(R.id.b_accept);
         addedText = (TextView) view.findViewById(R.id.text_added);
         progressBar = (ProgressBar) view.findViewById(R.id.progress);

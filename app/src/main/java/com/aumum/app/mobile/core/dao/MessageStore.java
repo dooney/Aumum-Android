@@ -14,9 +14,6 @@ import com.aumum.app.mobile.core.model.GroupRequest;
 import com.aumum.app.mobile.core.model.MomentComment;
 import com.aumum.app.mobile.core.model.MomentLike;
 import com.aumum.app.mobile.utils.DateUtils;
-import com.aumum.app.mobile.utils.TimeUtils;
-
-import org.joda.time.DateTime;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -54,16 +51,40 @@ public class MessageStore {
         contactRequestEntityDao.deleteByKey(userId);
     }
 
-    public List<ContactRequest> getContactRequestList() throws Exception {
-        List<ContactRequestEntity> entities = contactRequestEntityDao.queryBuilder()
-                .orderDesc(ContactRequestEntityDao.Properties.CreatedAt)
-                .list();
-        List<ContactRequest> result = new ArrayList<ContactRequest>();
+    private List<ContactRequest> mapContactRequests(List<ContactRequestEntity> entities) {
+        List<ContactRequest> result = new ArrayList<>();
         for (ContactRequestEntity entity: entities) {
+            String createdAt = DateUtils.dateToString(
+                    entity.getCreatedAt(), Constants.DateTime.FORMAT);
             result.add(new ContactRequest(
-                    entity.getUserId(), entity.getInfo()));
+                    entity.getUserId(),
+                    entity.getInfo(),
+                    createdAt));
         }
         return result;
+    }
+
+    public List<ContactRequest> getContactRequestsAfter(String after) throws Exception {
+        QueryBuilder<ContactRequestEntity> query = contactRequestEntityDao.queryBuilder();
+        if (after != null) {
+            Date createdAt = DateUtils.stringToDate(after, Constants.DateTime.FORMAT);
+            query = query.where(ContactRequestEntityDao.Properties.CreatedAt.gt(createdAt));
+        }
+        List<ContactRequestEntity> entities = query
+                .orderDesc(ContactRequestEntityDao.Properties.CreatedAt)
+                .limit(LIMIT_PER_LOAD)
+                .list();
+        return mapContactRequests(entities);
+    }
+
+    public List<ContactRequest> getContactRequestsBefore(String before) throws Exception {
+        Date date = DateUtils.stringToDate(before, Constants.DateTime.FORMAT);
+        List<ContactRequestEntity> entities = contactRequestEntityDao.queryBuilder()
+                .where(ContactRequestEntityDao.Properties.CreatedAt.lt(date))
+                .orderDesc(ContactRequestEntityDao.Properties.CreatedAt)
+                .limit(LIMIT_PER_LOAD)
+                .list();
+        return mapContactRequests(entities);
     }
 
     public boolean hasContactRequest(String userId) {
@@ -89,8 +110,8 @@ public class MessageStore {
     private List<MomentLike> mapMomentLikes(List<MomentLikeEntity> entities) {
         List<MomentLike> result = new ArrayList<>();
         for (MomentLikeEntity entity: entities) {
-            String createdAt = TimeUtils.getFormattedTimeString(
-                    new DateTime(entity.getCreatedAt()));
+            String createdAt = DateUtils.dateToString(
+                    entity.getCreatedAt(), Constants.DateTime.FORMAT);
             result.add(new MomentLike(
                     entity.getMomentId(),
                     entity.getUserId(),
@@ -148,8 +169,8 @@ public class MessageStore {
     private List<MomentComment> mapMomentComments(List<MomentCommentEntity> entities) {
         List<MomentComment> result = new ArrayList<>();
         for (MomentCommentEntity entity: entities) {
-            String createdAt = TimeUtils.getFormattedTimeString(
-                    new DateTime(entity.getCreatedAt()));
+            String createdAt = DateUtils.dateToString(
+                    entity.getCreatedAt(), Constants.DateTime.FORMAT);
             result.add(new MomentComment(
                     entity.getMomentId(),
                     entity.getUserId(),

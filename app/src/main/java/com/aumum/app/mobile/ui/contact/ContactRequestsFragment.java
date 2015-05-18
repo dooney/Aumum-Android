@@ -14,7 +14,7 @@ import com.aumum.app.mobile.core.dao.UserStore;
 import com.aumum.app.mobile.core.model.ContactRequest;
 import com.aumum.app.mobile.core.model.User;
 import com.aumum.app.mobile.core.model.UserInfo;
-import com.aumum.app.mobile.ui.base.ItemListFragment;
+import com.aumum.app.mobile.ui.base.RefreshItemListFragment;
 
 import java.util.List;
 
@@ -24,7 +24,7 @@ import javax.inject.Inject;
  * A simple {@link Fragment} subclass.
  *
  */
-public class ContactRequestsFragment extends ItemListFragment<ContactRequest> {
+public class ContactRequestsFragment extends RefreshItemListFragment<ContactRequest> {
 
     @Inject UserStore userStore;
     @Inject MessageStore messageStore;
@@ -42,19 +42,25 @@ public class ContactRequestsFragment extends ItemListFragment<ContactRequest> {
     }
 
     @Override
-    public void onResume() {
-        super.onResume();
-        messageStore.resetContactRequestsUnread();
-    }
-
-    @Override
     protected ArrayAdapter<ContactRequest> createAdapter(List<ContactRequest> items) {
         return new ContactRequestAdapter(getActivity(), items);
     }
 
     @Override
-    protected List<ContactRequest> loadDataCore(Bundle bundle) throws Exception {
-        List<ContactRequest> contactRequestList = messageStore.getContactRequestList();
+    protected List<ContactRequest> refresh(String after) throws Exception {
+        List<ContactRequest> requests = messageStore.getContactRequestsAfter(after);
+        loadInfo(requests);
+        return requests;
+    }
+
+    @Override
+    protected List<ContactRequest> loadMore(String before) throws Exception {
+        List<ContactRequest> requests = messageStore.getContactRequestsBefore(before);
+        loadInfo(requests);
+        return requests;
+    }
+
+    private void loadInfo(List<ContactRequest> contactRequestList) throws Exception {
         User currentUser = userStore.getCurrentUser();
         for (ContactRequest request: contactRequestList) {
             UserInfo user = userStore.getUserInfoById(request.getUserId());
@@ -62,6 +68,5 @@ public class ContactRequestsFragment extends ItemListFragment<ContactRequest> {
             boolean isAdded = currentUser.isContact(request.getUserId());
             request.setAdded(isAdded);
         }
-        return contactRequestList;
     }
 }

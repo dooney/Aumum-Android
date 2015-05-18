@@ -27,7 +27,7 @@
 
     <com.aumum.app.mobile.ui.view.SpannableTextView
         android:id="@+id/text_content"
-        style="@style/TextView"
+        style="@style/TextView.Multiline"
         android:layout_below="@+id/text_user_name"
         android:layout_alignLeft="@+id/text_user_name" />
 

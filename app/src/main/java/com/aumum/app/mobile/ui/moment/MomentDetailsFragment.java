@@ -111,6 +111,10 @@ public class MomentDetailsFragment extends ItemListFragment<Comment>
         emoticonsSendBoxBar = (XhsEmoticonsSendBoxBar) view.findViewById(R.id.kv_bar);
         emoticonsSendBoxBar.setBuilder(EmoticonsUtils.getBuilder(getActivity()));
         emoticonsSendBoxBar.setOnKeyBoardBarViewListener(this);
+        if (getActivity().getIntent().getBooleanExtra(
+                MomentDetailsActivity.INTENT_SHOW_INPUT, false)) {
+            emoticonsSendBoxBar.showInput();
+        }
 
         super.onViewCreated(view, savedInstanceState);
     }
@@ -169,6 +173,14 @@ public class MomentDetailsFragment extends ItemListFragment<Comment>
         ViewGroup likesLayout = (ViewGroup) headerView.findViewById(R.id.layout_likes);
         likeListener.updateLikesLayout(likesLayout, moment.getLikesInfo());
         likeText.setLikeListener(likeListener);
+
+        TextView commentText = (TextView) headerView.findViewById(R.id.text_comment);
+        commentText.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                emoticonsSendBoxBar.showInput();
+            }
+        });
 
         TextView chatText = (TextView) headerView.findViewById(R.id.text_chat);
         if (moment.isOwner()) {

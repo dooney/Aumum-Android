@@ -11,6 +11,7 @@ import com.aumum.app.mobile.R;
 public class MomentDetailsActivity extends ActionBarActivity {
 
     public static final String INTENT_MOMENT_ID = "momentId";
+    public static final String INTENT_SHOW_INPUT = "showInput";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

@@ -66,6 +66,7 @@ public class MomentCard {
             public void onClick(View view) {
                 final Intent intent = new Intent(activity, MomentDetailsActivity.class);
                 intent.putExtra(MomentDetailsActivity.INTENT_MOMENT_ID, moment.getObjectId());
+                intent.putExtra(MomentDetailsActivity.INTENT_SHOW_INPUT, true);
                 activity.startActivity(intent);
             }
         });

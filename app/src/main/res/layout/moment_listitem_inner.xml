@@ -43,7 +43,7 @@
 
     <TextView
         android:id="@+id/text"
-        style="@style/TextView"
+        style="@style/TextView.Multiline"
         android:padding="@dimen/margin_large"/>
 
     <LinearLayout

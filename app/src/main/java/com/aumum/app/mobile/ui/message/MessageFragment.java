@@ -51,6 +51,7 @@ public class MessageFragment extends Fragment {
         contactRequestsLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                messageStore.resetContactRequestsUnread();
                 final Intent intent = new Intent(
                         getActivity(), ContactRequestsActivity.class);
                 startActivity(intent);
@@ -63,6 +64,7 @@ public class MessageFragment extends Fragment {
         momentLikesLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                messageStore.resetMomentLikesUnread();
                 final Intent intent = new Intent(
                         getActivity(), MomentLikesActivity.class);
                 startActivity(intent);
@@ -75,6 +77,7 @@ public class MessageFragment extends Fragment {
         momentCommentsLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                messageStore.resetMomentCommentsUnread();
                 final Intent intent = new Intent(
                         getActivity(), MomentCommentsActivity.class);
                 startActivity(intent);

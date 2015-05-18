@@ -10,6 +10,9 @@ import com.aumum.app.mobile.core.model.MomentLike;
 import com.aumum.app.mobile.core.model.UserInfo;
 import com.aumum.app.mobile.ui.view.AvatarImageView;
 import com.aumum.app.mobile.utils.ImageLoaderUtils;
+import com.aumum.app.mobile.utils.TimeUtils;
+
+import org.joda.time.DateTime;
 
 /**
  * Created by Administrator on 17/05/2015.
@@ -32,7 +35,9 @@ public class MomentLikeCard {
         screenNameText.setText(user.getScreenName());
 
         TextView createdAtText = (TextView) view.findViewById(R.id.text_createdAt);
-        createdAtText.setText(momentLike.getCreatedAt());
+        String createdAt = TimeUtils.getFormattedTimeString(
+                new DateTime(momentLike.getCreatedAt()));
+        createdAtText.setText(createdAt);
 
         final Moment moment = momentLike.getMoment();
         ImageView image = (ImageView) view.findViewById(R.id.image_moment);

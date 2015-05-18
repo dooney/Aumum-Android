@@ -3,17 +3,21 @@ package com.aumum.app.mobile.core.model;
 /**
  * Created by Administrator on 19/11/2014.
  */
-public class ContactRequest {
+public class ContactRequest implements RefreshItem {
+
     private String userId;
     private String info;
     private boolean isAdded;
+    private String createdAt;
 
     private UserInfo user;
 
     public ContactRequest(String userId,
-                          String info) {
+                          String info,
+                          String createdAt) {
         this.userId = userId;
         this.info = info;
+        this.createdAt = createdAt;
     }
 
     public String getUserId() {
@@ -46,5 +50,10 @@ public class ContactRequest {
 
     public void setAdded(boolean isAdded) {
         this.isAdded = isAdded;
+    }
+
+    @Override
+    public String getCreatedAt() {
+        return createdAt;
     }
 }

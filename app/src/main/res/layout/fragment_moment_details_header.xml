@@ -43,7 +43,7 @@
 
     <TextView
         android:id="@+id/text"
-        style="@style/TextView"
+        style="@style/TextView.Multiline"
         android:padding="@dimen/margin_large"/>
 
     <LinearLayout
@@ -63,6 +63,7 @@
             android:layout_marginRight="@dimen/margin_large"/>
 
         <TextView
+            android:id="@+id/text_comment"
             style="@style/TextView.Comment" />
 
         <FrameLayout

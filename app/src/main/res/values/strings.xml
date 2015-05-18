@@ -107,7 +107,6 @@
     <string name="info_submitting_quit_group">正在处理你的退出群组请求，请稍候</string>
     <string name="info_no_users_found">没找到任何相关用户</string>
     <string name="info_empty_conversation_list">你没有任何会话记录</string>
-    <string name="info_empty_contact_request_list">你还没收到任何好友请求</string>
     <string name="info_click_to_reload">点击重试</string>
     <string name="info_submitting_feedback">正在提交你的反馈，请稍候</string>
     <string name="info_feedback_submitted">反馈已成功提交，感谢你的支持！</string>

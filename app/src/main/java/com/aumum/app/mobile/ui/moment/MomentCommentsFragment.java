@@ -35,7 +35,6 @@ public class MomentCommentsFragment extends RefreshItemListFragment<MomentCommen
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Injector.inject(this);
-        messageStore.resetMomentCommentsUnread();
     }
 
     @Override

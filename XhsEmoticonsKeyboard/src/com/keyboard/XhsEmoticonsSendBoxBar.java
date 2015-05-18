@@ -260,6 +260,11 @@ public class XhsEmoticonsSendBoxBar extends AutoHeightLayout
         hideAutoView();
     }
 
+    public void showInput() {
+        setEditableState(true);
+        Utils.openSoftKeyboard(et_chat);
+    }
+
     @Override
     public void OnSoftPop(final int height) {
         super.OnSoftPop(height);
