@@ -16,7 +16,7 @@
 
         <com.aumum.app.mobile.ui.view.AvatarImageView
             android:id="@+id/image_avatar"
-            style="@style/ImageView.Avatar" />
+            style="@style/ImageView.Avatar.Large" />
 
         <FrameLayout
             android:layout_width="@dimen/avatar_sz_medium"

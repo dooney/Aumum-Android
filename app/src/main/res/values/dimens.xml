@@ -10,6 +10,7 @@
     <dimen name="avatar_sz_small">@dimen/image_sz_small</dimen>
     <dimen name="avatar_sz_medium">@dimen/image_sz_medium</dimen>
     <dimen name="avatar_sz_large">@dimen/image_sz_large</dimen>
+    <dimen name="avatar_sz_extra_large">@dimen/image_sz_extra_large</dimen>
 
     <dimen name="text_sz_small">12sp</dimen>
     <dimen name="text_sz_medium">15sp</dimen>
@@ -18,6 +19,7 @@
 
     <dimen name="image_sz_small">28dp</dimen>
     <dimen name="image_sz_medium">40dp</dimen>
-    <dimen name="image_sz_large">64dp</dimen>
+    <dimen name="image_sz_large">52dp</dimen>
+    <dimen name="image_sz_extra_large">64dp</dimen>
 
 </resources>
