@@ -18,6 +18,7 @@ import com.aumum.app.mobile.ui.account.ResetPasswordSuccessActivity;
 import com.aumum.app.mobile.ui.area.AreaListFragment;
 import com.aumum.app.mobile.ui.chat.ChatConnectionListener;
 import com.aumum.app.mobile.ui.chat.ChatFragment;
+import com.aumum.app.mobile.ui.discovery.DiscoveryFragment;
 import com.aumum.app.mobile.ui.group.GroupChangeListener;
 import com.aumum.app.mobile.ui.group.GroupDetailsFragment;
 import com.aumum.app.mobile.ui.chat.MessageNotifyListener;
@@ -126,7 +127,8 @@ import retrofit.converter.GsonConverter;
                 MomentDetailsFragment.class,
                 MessageFragment.class,
                 MomentLikesFragment.class,
-                MomentCommentsFragment.class
+                MomentCommentsFragment.class,
+                DiscoveryFragment.class
         }
 )
 public class BootstrapModule {

@@ -283,6 +283,12 @@
     <string name="label_like_moment">喜欢你的照片</string>
     <string name="label_comment_moment">评论你的照片</string>
 
+    <!-- Discovery -->
+    <string name="label_latest">最新</string>
+    <string name="label_hottest">热门</string>
+    <string name="label_nearest">同城</string>
+    <string name="label_talent">达人榜</string>
+
     <!-- Message -->
     <string name="label_contact_requests">收到的请求</string>
     <string name="label_moment_likes">收到的喜欢</string>

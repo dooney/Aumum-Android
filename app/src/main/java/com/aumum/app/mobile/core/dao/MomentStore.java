@@ -25,6 +25,7 @@ public class MomentStore {
     private Gson gson = new Gson();
 
     public static final int LIMIT_PER_LOAD = 15;
+    public static final int LIMIT_LATEST = 10;
 
     public MomentStore(RestService restService, Repository repository) {
         this.restService = restService;
@@ -129,6 +130,14 @@ public class MomentStore {
                     .list();
             return map(records);
         }
+    }
+
+    public List<Moment> getLatestList() {
+        List<MomentEntity> records = momentEntityDao.queryBuilder()
+                .orderDesc(MomentEntityDao.Properties.CreatedAt)
+                .limit(LIMIT_LATEST)
+                .list();
+        return map(records);
     }
 
     public Moment getById(String momentId) {
