@@ -10,15 +10,19 @@ public class ScheduleService {
 
     private ScheduledThreadPoolExecutor exec;
     private OnScheduleListener onScheduleListener;
-    private final long INIT_DELAY_IN_MILLISECONDS = 60000;
-    private final long INTERVAL_IN_MILLISECONDS = 60000;
+    private long initDelay;
+    private long interval;
 
     public static interface OnScheduleListener {
         public void onAction();
     }
 
-    public ScheduleService(final OnScheduleListener onScheduleListener) {
+    public ScheduleService(final OnScheduleListener onScheduleListener,
+                           final long initDelay,
+                           final long interval) {
         this.onScheduleListener = onScheduleListener;
+        this.initDelay = initDelay;
+        this.interval = interval;
     }
 
     public void start() {
@@ -29,7 +33,7 @@ public class ScheduleService {
                 public void run() {
                     onScheduleListener.onAction();
                 }
-            }, INIT_DELAY_IN_MILLISECONDS, INTERVAL_IN_MILLISECONDS, TimeUnit.MILLISECONDS);
+            }, initDelay, interval, TimeUnit.MILLISECONDS);
         }
     }
 

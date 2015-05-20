@@ -65,6 +65,10 @@ android {
         abortOnError false
     }
 
+    dexOptions {
+        javaMaxHeapSize "4g"
+    }
+
     buildTypes {
         debug {
             minifyEnabled false

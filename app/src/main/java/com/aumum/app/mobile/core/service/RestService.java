@@ -199,10 +199,12 @@ public class RestService {
     }
 
     private String getUserInfoFields() {
-        return String.format("%s,%s,%s",
+        return String.format("%s,%s,%s,%s,%s",
                 Constants.Http.User.PARAM_CHAT_ID,
                 Constants.Http.User.PARAM_SCREEN_NAME,
-                Constants.Http.User.PARAM_AVATAR_URL);
+                Constants.Http.User.PARAM_AVATAR_URL,
+                Constants.Http.User.PARAM_CITY,
+                Constants.Http.User.PARAM_CREDIT);
     }
 
     public UserInfo getUserInfoById(String id) {
@@ -293,6 +295,24 @@ public class RestService {
         String where = whereJson.toString();
         JsonObject result = getUserService().getCount(where, 1, 0);
         return result.get("count").getAsInt();
+    }
+
+    public List<UserInfo> getCityUsers(String userId, String city) {
+        final JsonObject whereJson = new JsonObject();
+        final JsonObject userIdJson = new JsonObject();
+        userIdJson.addProperty("$ne", userId);
+        whereJson.add(Constants.Http.PARAM_OBJECT_ID, userIdJson);
+        whereJson.addProperty(Constants.Http.User.PARAM_CITY, city);
+        String where = whereJson.toString();
+        return getUserService()
+                .getInfoList(getUserInfoFields(), where)
+                .getResults();
+    }
+
+    public List<UserInfo> getCreditUsers(int limit) {
+        return getUserService()
+                .getInfoList(getUserInfoFields(), "-credit", limit)
+                .getResults();
     }
 
     public JsonObject updateUserAvatar(String userId, String avatarUrl) {
@@ -424,6 +444,10 @@ public class RestService {
         final JsonObject whereJson = new JsonObject();
         whereJson.add("objectId", buildIdListJson(idList));
         return getMomentsBeforeCore(whereJson, before, limit);
+    }
+
+    public List<Moment> getHotMoments(int limit) {
+        return getMomentService().getList("-hot", null, limit).getResults();
     }
 
     public JsonObject addMomentLike(String momentId, String userId) {

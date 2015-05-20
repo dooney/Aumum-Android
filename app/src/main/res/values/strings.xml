@@ -14,15 +14,6 @@
         <item>拍照</item>
         <item>从相册选择</item>
     </string-array>
-    <string-array name="label_add_contacts">
-        <item>手机号码/用户昵称</item>
-        <item>指定地区</item>
-        <item>同一地区</item>
-    </string-array>
-    <string-array name="label_contact_actions">
-        <item>邀请好友</item>
-        <item>好友请求</item>
-    </string-array>
     <string-array name="label_single_chat_actions">
         <item>清除聊天记录</item>
         <item>举报</item>
@@ -53,9 +44,6 @@
         <item>不实信息</item>
         <item>淫秽色情</item>
         <item>人身攻击</item>
-    </string-array>
-    <string-array name="label_conversation_actions">
-        <item>清空列表</item>
     </string-array>
     <string-array name="label_group_actions">
         <item>创建群组</item>
@@ -159,7 +147,6 @@
     <string name="title_activity_about_app">关于</string>
     <string name="title_activity_area_list">请选择你所在的地区</string>
     <string name="title_activity_notification_settings">通知设置</string>
-    <string name="title_activity_search_area">请选择你要指定的地区</string>
     <string name="title_activity_group_list">群组列表</string>
     <string name="title_activity_group_requests">入群请求</string>
     <string name="title_activity_group_member_picker">选择群组成员</string>
@@ -287,7 +274,7 @@
     <string name="label_latest">最新</string>
     <string name="label_hottest">热门</string>
     <string name="label_nearest">同城</string>
-    <string name="label_talent">达人榜</string>
+    <string name="label_talent">达人</string>
 
     <!-- Message -->
     <string name="label_contact_requests">收到的请求</string>

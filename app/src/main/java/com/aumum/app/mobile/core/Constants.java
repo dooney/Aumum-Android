@@ -147,6 +147,7 @@ public final class Constants {
             public static final String PARAM_CHAT_ID = "chatId";
             public static final String PARAM_MOMENTS = "moments";
             public static final String PARAM_COVER_URL = "coverUrl";
+            public static final String PARAM_CREDIT = "credit";
         }
 
         public static final class Area {

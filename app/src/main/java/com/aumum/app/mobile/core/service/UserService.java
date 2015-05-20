@@ -61,6 +61,11 @@ public interface UserService {
                                       @Query("where") String where);
 
     @GET(Constants.Http.URL_USERS_FRAG)
+    ListWrapper<UserInfo> getInfoList(@Query("keys") String keys,
+                                      @Query("order") String order,
+                                      @Query("limit") int limit);
+
+    @GET(Constants.Http.URL_USERS_FRAG)
     JsonObject getCount(@Query("where") String where,
                         @Query("count") int count,
                         @Query("limit") int limit);

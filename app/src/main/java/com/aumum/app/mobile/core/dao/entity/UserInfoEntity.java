@@ -14,6 +14,8 @@ public class UserInfoEntity extends BaseEntity  {
     private java.util.Date createdAt;
     private String screenName;
     private String avatarUrl;
+    private String city;
+    private Integer credit;
 
     public UserInfoEntity() {
     }
@@ -26,12 +28,16 @@ public class UserInfoEntity extends BaseEntity  {
                           String chatId,
                           java.util.Date createdAt,
                           String screenName,
-                          String avatarUrl) {
+                          String avatarUrl,
+                          String city,
+                          Integer credit) {
         this.objectId = objectId;
         this.chatId = chatId;
         this.createdAt = createdAt;
         this.screenName = screenName;
         this.avatarUrl = avatarUrl;
+        this.city = city;
+        this.credit = credit;
     }
 
     /** Not-null value. */
@@ -80,4 +86,19 @@ public class UserInfoEntity extends BaseEntity  {
         this.avatarUrl = avatarUrl;
     }
 
+    public String getCity() {
+        return city;
+    }
+
+    public void setCity(String city) {
+        this.city = city;
+    }
+
+    public Integer getCredit() {
+        return credit;
+    }
+
+    public void setCredit(Integer credit) {
+        this.credit = credit;
+    }
 }

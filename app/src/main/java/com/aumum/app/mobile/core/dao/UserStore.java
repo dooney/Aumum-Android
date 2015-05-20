@@ -14,6 +14,7 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
@@ -26,6 +27,8 @@ public class UserStore {
     private ApiKeyProvider apiKeyProvider;
     private UserEntityDao userEntityDao;
     private UserInfoEntityDao userInfoEntityDao;
+
+    public static final int LIMIT_TOP = 10;
 
     public UserStore(RestService restService, ApiKeyProvider apiKeyProvider, Repository repository) {
         this.restService = restService;
@@ -87,7 +90,7 @@ public class UserStore {
                 user.getCoverUrl());
     }
 
-    private UserInfo map(UserInfoEntity userInfoEntity) throws Exception {
+    private UserInfo map(UserInfoEntity userInfoEntity) {
         String createdAt = DateUtils.dateToString(userInfoEntity.getCreatedAt(), Constants.DateTime.FORMAT);
         return new UserInfo(
                 userInfoEntity.getObjectId(),
@@ -104,7 +107,9 @@ public class UserStore {
                 userInfo.getChatId(),
                 createdAt,
                 userInfo.getScreenName(),
-                userInfo.getAvatarUrl());
+                userInfo.getAvatarUrl(),
+                userInfo.getCity(),
+                userInfo.getCredit());
     }
 
     private void updateOrInsert(List<UserInfo> users) throws Exception {
@@ -205,6 +210,12 @@ public class UserStore {
         return users;
     }
 
+    public List<UserInfo> getListByCity(String userId, String city) throws Exception {
+        List<UserInfo> users = restService.getCityUsers(userId, city);
+        updateOrInsert(users);
+        return users;
+    }
+
     public List<UserInfo> getListByGroup(List<String> chatIds) throws Exception {
         List<UserInfo> localList = new ArrayList<>();
         List<String> requestList = new ArrayList<>();
@@ -224,6 +235,41 @@ public class UserStore {
             localList.addAll(fetchList);
         }
         return localList;
+    }
+
+    public List<UserInfo> getLocalNearestList() {
+        String userId = apiKeyProvider.getAuthUserId();
+        UserEntity entity = userEntityDao.load(userId);
+        List<UserInfoEntity> entities = userInfoEntityDao.queryBuilder()
+                .where(UserInfoEntityDao.Properties.City.eq(entity.getCity()))
+                .where(UserInfoEntityDao.Properties.ObjectId.notEq(userId))
+                .list();
+        Collections.shuffle(entities);
+        List<UserInfo> userInfoList = new ArrayList<>();
+        for (int i = 0; i < entities.size() && i <= LIMIT_TOP; i++) {
+            UserInfo userInfo = map(entities.get(i));
+            userInfoList.add(userInfo);
+        }
+        return userInfoList;
+    }
+
+    public List<UserInfo> getTalentList() throws Exception {
+        List<UserInfo> users = restService.getCreditUsers(LIMIT_TOP);
+        updateOrInsert(users);
+        return users;
+    }
+
+    public List<UserInfo> getLocalTalentList() {
+        List<UserInfoEntity> entities = userInfoEntityDao.queryBuilder()
+                .orderDesc(UserInfoEntityDao.Properties.Credit)
+                .limit(LIMIT_TOP)
+                .list();
+        List<UserInfo> userInfoList = new ArrayList<>();
+        for (UserInfoEntity entity: entities) {
+            UserInfo userInfo = map(entity);
+            userInfoList.add(userInfo);
+        }
+        return userInfoList;
     }
 
     public void save(User user) throws Exception {

@@ -9,19 +9,22 @@ public class MomentEntity extends BaseEntity {
     private String likes;
     private String text;
     private String imageUrl;
+    private Integer hot;
 
     public MomentEntity(String objectId,
                        java.util.Date createdAt,
                        String userId,
                        String likes,
                        String text,
-                       String imageUrl) {
+                       String imageUrl,
+                       Integer hot) {
         this.objectId = objectId;
         this.createdAt = createdAt;
         this.userId = userId;
         this.likes = likes;
         this.text = text;
         this.imageUrl = imageUrl;
+        this.hot = hot;
     }
 
     public String getUserId() {
@@ -54,5 +57,13 @@ public class MomentEntity extends BaseEntity {
 
     public void setImageUrl(String imageUrl) {
         this.imageUrl = imageUrl;
+    }
+
+    public Integer getHot() {
+        return hot;
+    }
+
+    public void setHot(Integer hot) {
+        this.hot = hot;
     }
 }

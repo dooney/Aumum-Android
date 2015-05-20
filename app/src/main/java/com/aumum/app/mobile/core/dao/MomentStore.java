@@ -25,7 +25,7 @@ public class MomentStore {
     private Gson gson = new Gson();
 
     public static final int LIMIT_PER_LOAD = 15;
-    public static final int LIMIT_LATEST = 10;
+    public static final int LIMIT_TOP = 10;
 
     public MomentStore(RestService restService, Repository repository) {
         this.restService = restService;
@@ -67,7 +67,8 @@ public class MomentStore {
                 moment.getUserId(),
                 gson.toJson(moment.getLikes()),
                 moment.getText(),
-                moment.getImageUrl());
+                moment.getImageUrl(),
+                moment.getHot());
     }
 
     public void updateOrInsert(List<Moment> momentList) throws Exception {
@@ -132,10 +133,30 @@ public class MomentStore {
         }
     }
 
-    public List<Moment> getLatestList() {
+    public List<Moment> getLatestList() throws Exception {
+        List<Moment> momentList = restService.getMomentsAfter(null, LIMIT_TOP);
+        updateOrInsert(momentList);
+        return momentList;
+    }
+
+    public List<Moment> getLocalLatestList() {
         List<MomentEntity> records = momentEntityDao.queryBuilder()
                 .orderDesc(MomentEntityDao.Properties.CreatedAt)
-                .limit(LIMIT_LATEST)
+                .limit(LIMIT_TOP)
+                .list();
+        return map(records);
+    }
+    
+    public List<Moment> getHottestList() throws Exception {
+        List<Moment> momentList = restService.getHotMoments(LIMIT_TOP);
+        updateOrInsert(momentList);
+        return momentList;
+    }
+
+    public List<Moment> getLocalHottestList() {
+        List<MomentEntity> records = momentEntityDao.queryBuilder()
+                .orderDesc(MomentEntityDao.Properties.Hot)
+                .limit(LIMIT_TOP)
                 .list();
         return map(records);
     }

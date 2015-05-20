@@ -17,10 +17,15 @@ import android.widget.TextView;
 import com.aumum.app.mobile.Injector;
 import com.aumum.app.mobile.R;
 import com.aumum.app.mobile.core.dao.MessageStore;
+import com.aumum.app.mobile.core.dao.MomentStore;
+import com.aumum.app.mobile.core.dao.UserStore;
 import com.aumum.app.mobile.core.infra.security.ApiKeyProvider;
 import com.aumum.app.mobile.core.model.CmdMessage;
+import com.aumum.app.mobile.core.model.User;
 import com.aumum.app.mobile.core.service.ChatService;
 import com.aumum.app.mobile.core.service.FileUploadService;
+import com.aumum.app.mobile.core.service.ScheduleService;
+import com.aumum.app.mobile.events.NewDiscoveryEvent;
 import com.aumum.app.mobile.events.NewMessageEvent;
 import com.aumum.app.mobile.events.NewChatMessageEvent;
 import com.aumum.app.mobile.events.ResetChatUnreadEvent;
@@ -33,6 +38,7 @@ import com.aumum.app.mobile.ui.chat.NotificationClickListener;
 import com.aumum.app.mobile.ui.contact.ContactListener;
 import com.aumum.app.mobile.ui.view.Animation;
 import com.aumum.app.mobile.utils.Ln;
+import com.aumum.app.mobile.utils.SafeAsyncTask;
 import com.easemob.chat.EMMessage;
 import com.squareup.otto.Bus;
 import com.squareup.otto.Subscribe;
@@ -45,13 +51,22 @@ import butterknife.InjectView;
 /**
  * Fragment which houses the View pager.
  */
-public class MainFragment extends Fragment {
+public class MainFragment extends Fragment
+        implements ScheduleService.OnScheduleListener {
 
+    @Inject UserStore userStore;
+    @Inject MomentStore momentStore;
     @Inject MessageStore messageStore;
     @Inject ChatService chatService;
     @Inject FileUploadService fileUploadService;
     @Inject ApiKeyProvider apiKeyProvider;
     @Inject Bus bus;
+
+    private ScheduleService scheduleService;
+    private SafeAsyncTask<Boolean> task;
+    private final long INIT_DELAY_IN_MILLISECONDS = 0;
+    private final long INTERVAL_IN_MILLISECONDS = 1200000;
+    private boolean firstTime;
 
     private ConnectionChangeReceiver connectionChangeReceiver;
     private NewMessageBroadcastReceiver newMessageBroadcastReceiver;
@@ -82,18 +97,21 @@ public class MainFragment extends Fragment {
 
         initChatServer();
         initFileUploadService();
+        initScheduleService();
     }
 
     @Override
     public void onResume() {
         super.onResume();
         bus.register(this);
+        scheduleService.start();
     }
 
     @Override
     public void onPause() {
         super.onDestroy();
         bus.unregister(this);
+        scheduleService.shutDown();
     }
 
     @Override
@@ -107,6 +125,38 @@ public class MainFragment extends Fragment {
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+    }
+
+    @Override
+    public void onAction() {
+        if (task != null) {
+            return;
+        }
+        task = new SafeAsyncTask<Boolean>() {
+            public Boolean call() throws Exception {
+                momentStore.getLatestList();
+                momentStore.getHottestList();
+                userStore.getTalentList();
+                if (firstTime) {
+                    User currentUser = userStore.getCurrentUser();
+                    userStore.getListByCity(
+                            currentUser.getObjectId(), currentUser.getCity());
+                    firstTime = false;
+                }
+                return true;
+            }
+
+            @Override
+            protected void onSuccess(Boolean success) throws Exception {
+                bus.post(new NewDiscoveryEvent());
+            }
+
+            @Override
+            protected void onFinally() throws RuntimeException {
+                task = null;
+            }
+        };
+        task.execute();
     }
 
     @Subscribe
@@ -132,6 +182,11 @@ public class MainFragment extends Fragment {
     private void initFileUploadService() {
         String currentUserId = apiKeyProvider.getAuthUserId();
         fileUploadService.init(currentUserId);
+    }
+
+    private void initScheduleService() {
+        scheduleService = new ScheduleService(
+                this, INIT_DELAY_IN_MILLISECONDS, INTERVAL_IN_MILLISECONDS);
     }
 
     private void initChatServer() {

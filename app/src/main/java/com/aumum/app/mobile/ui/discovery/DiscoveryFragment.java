@@ -1,11 +1,11 @@
 package com.aumum.app.mobile.ui.discovery;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.HorizontalScrollView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
@@ -13,9 +13,16 @@ import android.widget.ScrollView;
 import com.aumum.app.mobile.Injector;
 import com.aumum.app.mobile.R;
 import com.aumum.app.mobile.core.dao.MomentStore;
+import com.aumum.app.mobile.core.dao.UserStore;
 import com.aumum.app.mobile.core.model.Moment;
+import com.aumum.app.mobile.core.model.UserInfo;
+import com.aumum.app.mobile.events.NewDiscoveryEvent;
+import com.aumum.app.mobile.ui.moment.MomentDetailsActivity;
+import com.aumum.app.mobile.ui.user.UserActivity;
 import com.aumum.app.mobile.utils.ImageLoaderUtils;
 import com.keyboard.utils.Utils;
+import com.squareup.otto.Bus;
+import com.squareup.otto.Subscribe;
 
 import java.util.List;
 
@@ -27,12 +34,10 @@ import javax.inject.Inject;
 public class DiscoveryFragment extends Fragment {
 
     @Inject MomentStore momentStore;
+    @Inject UserStore userStore;
+    @Inject Bus bus;
 
     private ScrollView scrollView;
-    private HorizontalScrollView latestScroll;
-    private HorizontalScrollView hottestScroll;
-    private HorizontalScrollView nearestScroll;
-    private HorizontalScrollView talentScroll;
     private ViewGroup latestGallery;
     private ViewGroup hottestGallery;
     private ViewGroup nearestGallery;
@@ -58,66 +63,51 @@ public class DiscoveryFragment extends Fragment {
         scrollView.setHorizontalScrollBarEnabled(false);
         scrollView.setVerticalScrollBarEnabled(false);
 
-        latestScroll = (HorizontalScrollView) view.findViewById(R.id.scroll_latest);
-        latestScroll.setHorizontalScrollBarEnabled(false);
-        latestScroll.setVerticalScrollBarEnabled(false);
         latestGallery = (ViewGroup) view.findViewById(R.id.gallery_latest);
-
-        hottestScroll = (HorizontalScrollView) view.findViewById(R.id.scroll_hottest);
-        hottestScroll.setHorizontalScrollBarEnabled(false);
-        hottestScroll.setVerticalScrollBarEnabled(false);
         hottestGallery = (ViewGroup) view.findViewById(R.id.gallery_hottest);
-
-        nearestScroll = (HorizontalScrollView) view.findViewById(R.id.scroll_nearest);
-        nearestScroll.setHorizontalScrollBarEnabled(false);
-        nearestScroll.setVerticalScrollBarEnabled(false);
         nearestGallery = (ViewGroup) view.findViewById(R.id.gallery_nearest);
-
-        talentScroll = (HorizontalScrollView) view.findViewById(R.id.scroll_talent);
-        talentScroll.setHorizontalScrollBarEnabled(false);
-        talentScroll.setVerticalScrollBarEnabled(false);
         talentGallery = (ViewGroup) view.findViewById(R.id.gallery_talent);
+
+        loadList();
     }
 
     @Override
     public void onResume() {
         super.onResume();
+        bus.register(this);
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        bus.unregister(this);
+    }
+
+    private void loadList() {
         getLatestList();
         getHottestList();
-        getSameCityList();
+        getNearestList();
         getTalentList();
     }
 
     private void getLatestList() {
-        List<Moment> momentList = momentStore.getLatestList();
-        for (Moment moment: momentList) {
-            String imageUrl = moment.getImageUrl();
-            latestGallery.addView(getImageView(imageUrl));
-        }
+        List<Moment> momentList = momentStore.getLocalLatestList();
+        loadMomentsGalleryView(latestGallery, momentList);
     }
 
     private void getHottestList() {
-        List<Moment> momentList = momentStore.getLatestList();
-        for (Moment moment: momentList) {
-            String imageUrl = moment.getImageUrl();
-            hottestGallery.addView(getImageView(imageUrl));
-        }
+        List<Moment> momentList = momentStore.getLocalHottestList();
+        loadMomentsGalleryView(hottestGallery, momentList);
     }
 
-    private void getSameCityList() {
-        List<Moment> momentList = momentStore.getLatestList();
-        for (Moment moment: momentList) {
-            String imageUrl = moment.getImageUrl();
-            nearestGallery.addView(getImageView(imageUrl));
-        }
+    private void getNearestList() {
+        List<UserInfo> userList = userStore.getLocalNearestList();
+        loadUsersGalleryView(nearestGallery, userList);
     }
 
     private void getTalentList() {
-        List<Moment> momentList = momentStore.getLatestList();
-        for (Moment moment: momentList) {
-            String imageUrl = moment.getImageUrl();
-            talentGallery.addView(getImageView(imageUrl));
-        }
+        List<UserInfo> userList = userStore.getLocalTalentList();
+        loadUsersGalleryView(talentGallery, userList);
     }
 
     private View getImageView(String imageUrl) {
@@ -130,5 +120,48 @@ public class DiscoveryFragment extends Fragment {
         imageView.setScaleType(ImageView.ScaleType.FIT_CENTER);
         ImageLoaderUtils.displayImage(imageUrl, imageView);
         return imageView;
+    }
+
+    private void loadMomentsGalleryView(ViewGroup view,
+                                        List<Moment> momentList) {
+        view.removeAllViews();
+        for (final Moment moment: momentList) {
+            View image = getImageView(moment.getImageUrl());
+            view.addView(image);
+            image.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    final Intent intent = new Intent(getActivity(),
+                            MomentDetailsActivity.class);
+                    intent.putExtra(MomentDetailsActivity.INTENT_MOMENT_ID,
+                            moment.getObjectId());
+                    startActivity(intent);
+                }
+            });
+        }
+    }
+
+    private void loadUsersGalleryView(ViewGroup view,
+                                      List<UserInfo> userList) {
+        view.removeAllViews();
+        for (final UserInfo user: userList) {
+            View image = getImageView(user.getAvatarUrl());
+            view.addView(image);
+            image.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    final Intent intent = new Intent(getActivity(),
+                            UserActivity.class);
+                    intent.putExtra(UserActivity.INTENT_USER_ID,
+                            user.getObjectId());
+                    startActivity(intent);
+                }
+            });
+        }
+    }
+
+    @Subscribe
+    public void onNewDiscoveryEvent(NewDiscoveryEvent event) {
+        loadList();
     }
 }

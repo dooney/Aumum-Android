@@ -14,6 +14,7 @@ public class Moment extends AggregateRoot implements RefreshItem {
     private List<String> likes = new ArrayList<String>();
     private String text;
     private String imageUrl;
+    private Integer hot;
 
     private UserInfo user;
     private Boolean isOwner;
@@ -71,6 +72,10 @@ public class Moment extends AggregateRoot implements RefreshItem {
 
     public String getImageUrl() {
         return imageUrl;
+    }
+
+    public Integer getHot() {
+        return hot;
     }
 
     public void setOwner(String userId) {

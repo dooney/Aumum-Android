@@ -11,6 +11,8 @@ public class UserInfo extends AggregateRoot implements InitialSortable {
     protected String chatId;
     protected String screenName;
     protected String avatarUrl;
+    private String city;
+    private Integer credit;
 
     public UserInfo() {
 
@@ -59,6 +61,22 @@ public class UserInfo extends AggregateRoot implements InitialSortable {
 
     public void setAvatarUrl(String avatarUrl) {
         this.avatarUrl = avatarUrl;
+    }
+
+    public String getCity() {
+        return city;
+    }
+
+    public void setCity(String city) {
+        this.city = city;
+    }
+
+    public Integer getCredit() {
+        return credit;
+    }
+
+    public void setCredit(Integer credit) {
+        this.credit = credit;
     }
 
     @Override
