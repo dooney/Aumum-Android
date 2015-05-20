@@ -33,6 +33,8 @@ public abstract class ItemListFragment<E> extends LoaderFragment<List<E>> {
         super.onViewCreated(view, savedInstanceState);
 
         listView = (ListView) view.findViewById(android.R.id.list);
+        listView.setHorizontalScrollBarEnabled(false);
+        listView.setVerticalScrollBarEnabled(false);
 
         setListAdapter(createAdapter(getData()));
     }

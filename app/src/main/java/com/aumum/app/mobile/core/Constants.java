@@ -156,12 +156,12 @@ public final class Constants {
 
         public static final class Moment {
             public static final String PARAM_LIKES = "likes";
+            public static final String PARAM_HOT = "hot";
         }
 
         public static final class MomentComment {
-            public static final String PARAM_USER_ID = "userId";
-            public static final String PARAM_CONTENT = "content";
             public static final String PARAM_PARENT_ID = "parentId";
+            public static final String PARAM_DELETED_AT = "deletedAt";
         }
     }
 

@@ -96,6 +96,18 @@ public class DiscoveryFragment extends Fragment {
         return imageView;
     }
 
+    private View getNextView() {
+        ImageView imageView = new ImageView(getActivity());
+        LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
+                Utils.dip2px(getActivity(), 30),
+                Utils.dip2px(getActivity(), 100));
+        lp.setMargins(0, 0, 10, 0);
+        imageView.setLayoutParams(lp);
+        imageView.setScaleType(ImageView.ScaleType.FIT_CENTER);
+        imageView.setImageResource(R.drawable.next);
+        return imageView;
+    }
+
     private void loadMomentsGalleryView(ViewGroup view,
                                         List<Moment> momentList) {
         view.removeAllViews();
@@ -113,6 +125,7 @@ public class DiscoveryFragment extends Fragment {
                 }
             });
         }
+        view.addView(getNextView());
     }
 
     private void loadUsersGalleryView(ViewGroup view,
@@ -132,5 +145,6 @@ public class DiscoveryFragment extends Fragment {
                 }
             });
         }
+        view.addView(getNextView());
     }
 }

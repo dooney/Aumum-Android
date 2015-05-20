@@ -302,7 +302,7 @@ public class MomentDetailsFragment extends ItemListFragment<Comment>
         new SafeAsyncTask<Boolean>() {
             @Override
             public Boolean call() throws Exception {
-                restService.deleteMomentComment(comment.getObjectId());
+                restService.deleteMomentComment(comment);
                 return true;
             }
         }.execute();

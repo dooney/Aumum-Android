@@ -37,6 +37,10 @@ public class Comment extends AggregateRoot {
         return content;
     }
 
+    public String getParentId() {
+        return parentId;
+    }
+
     public boolean isOwner() {
         return isOwner;
     }

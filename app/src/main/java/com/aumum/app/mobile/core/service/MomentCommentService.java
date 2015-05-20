@@ -3,13 +3,8 @@ package com.aumum.app.mobile.core.service;
 import com.aumum.app.mobile.core.Constants;
 import com.aumum.app.mobile.core.api.ListWrapper;
 import com.aumum.app.mobile.core.model.Comment;
-import com.google.gson.JsonObject;
 
-import retrofit.http.Body;
 import retrofit.http.GET;
-import retrofit.http.POST;
-import retrofit.http.PUT;
-import retrofit.http.Path;
 import retrofit.http.Query;
 
 /**
@@ -18,15 +13,7 @@ import retrofit.http.Query;
 public interface MomentCommentService {
 
     @GET(Constants.Http.URL_MOMENT_COMMENTS_FRAG)
-    ListWrapper<Comment> getList(@Query("keys") String keys,
-                                 @Query("order") String order,
+    ListWrapper<Comment> getList(@Query("order") String order,
                                  @Query("where") String where,
                                  @Query("limit") int limit);
-
-    @POST(Constants.Http.URL_MOMENT_COMMENTS_FRAG)
-    Comment newComment(@Body JsonObject data);
-
-    @PUT(Constants.Http.URL_MOMENT_COMMENT_BY_ID_FRAG)
-    JsonObject updateById(@Path("id") String id,
-                          @Body JsonObject data);
 }

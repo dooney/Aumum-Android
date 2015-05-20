@@ -14,6 +14,7 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonPrimitive;
+import com.google.gson.reflect.TypeToken;
 
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
@@ -119,6 +120,16 @@ public class RestService {
         liveJson.addProperty("$exists", false);
         where.add(Constants.Http.PARAM_DELETED_AT ,liveJson);
         return where;
+    }
+
+    private JsonObject buildRequestJson(String method,
+                                        String path,
+                                        JsonObject body) {
+        final JsonObject requestJson = new JsonObject();
+        requestJson.addProperty("method", method);
+        requestJson.addProperty("path", path);
+        requestJson.add("body", body);
+        return requestJson;
     }
 
     public boolean getMobileRegistered(String mobile) {
@@ -368,21 +379,37 @@ public class RestService {
         return getUserService().updateById(userId, data);
     }
 
-    public JsonObject addUserMoment(String userId, String momentId) {
-        final JsonObject op = new JsonObject();
-        op.addProperty("__op", "AddUnique");
-        return updateUserMoments(op, userId, momentId);
-    }
-
-    private JsonObject updateUserMoments(JsonObject op,
-                                         String userId,
-                                         String momentId) {
-        final JsonObject data = new JsonObject();
+    private JsonObject buildUserMomentsRequestJson(String op,
+                                                   String userId,
+                                                   String momentId) {
+        final JsonObject body = new JsonObject();
         final JsonArray userMoments = new JsonArray();
         userMoments.add(new JsonPrimitive(momentId));
-        op.add("objects", userMoments);
-        data.add(Constants.Http.User.PARAM_MOMENTS, op);
-        return getUserService().updateById(userId, data);
+        final JsonObject opJson = new JsonObject();
+        opJson.addProperty("__op", op);
+        opJson.add("objects", userMoments);
+        body.add(Constants.Http.User.PARAM_MOMENTS, opJson);
+        String path = Constants.Http.URL_USERS_FRAG + "/" + userId;
+        return buildRequestJson("PUT", path, body);
+    }
+
+    private JsonObject buildUserCreditRequestJson(String userId) {
+        final JsonObject body = new JsonObject();
+        final JsonObject opJson = new JsonObject();
+        opJson.addProperty("__op", "Increment");
+        opJson.addProperty("amount", 100);
+        body.add(Constants.Http.User.PARAM_CREDIT, opJson);
+        String path = Constants.Http.URL_USERS_FRAG + "/" + userId;
+        return buildRequestJson("PUT", path, body);
+    }
+
+    public JsonArray addUserMoment(String userId, String momentId) {
+        final JsonObject script = new JsonObject();
+        final JsonArray requests = new JsonArray();
+        requests.add(buildUserMomentsRequestJson("AddUnique", userId, momentId));
+        requests.add(buildUserCreditRequestJson(userId));
+        script.add(Constants.Http.Batch.PARAM_REQUESTS, requests);
+        return getBatchService().execute(script);
     }
 
     public Report newReport(Report report) {
@@ -450,51 +477,91 @@ public class RestService {
         return getMomentService().getList("-hot", null, limit).getResults();
     }
 
-    public JsonObject addMomentLike(String momentId, String userId) {
-        final JsonObject op = new JsonObject();
-        op.addProperty("__op", "AddUnique");
-        return updateMomentLikes(op, momentId, userId);
-    }
-
-    public JsonObject removeMomentLike(String momentId, String userId) {
-        final JsonObject op = new JsonObject();
-        op.addProperty("__op", "Remove");
-        return updateMomentLikes(op, momentId, userId);
-    }
-
-    private JsonObject updateMomentLikes(JsonObject op,
-                                         String momentId,
-                                         String userId) {
-        final JsonObject data = new JsonObject();
+    private JsonObject buildMomentLikesRequestJson(String op,
+                                                   String momentId,
+                                                   String userId) {
+        final JsonObject body = new JsonObject();
         final JsonArray momentLikes = new JsonArray();
         momentLikes.add(new JsonPrimitive(userId));
-        op.add("objects", momentLikes);
-        data.add(Constants.Http.Moment.PARAM_LIKES, op);
-        return getMomentService().updateById(momentId, data);
+        final JsonObject opJson = new JsonObject();
+        opJson.addProperty("__op", op);
+        opJson.add("objects", momentLikes);
+        body.add(Constants.Http.Moment.PARAM_LIKES, opJson);
+        String path = Constants.Http.URL_MOMENTS_FRAG + "/" + momentId;
+        return buildRequestJson("PUT", path, body);
+    }
+
+    private JsonObject buildMomentHotRequestJson(String momentId, int credit) {
+        final JsonObject body = new JsonObject();
+        final JsonObject opJson = new JsonObject();
+        opJson.addProperty("__op", "Increment");
+        opJson.addProperty("amount", credit);
+        body.add(Constants.Http.Moment.PARAM_HOT, opJson);
+        String path = Constants.Http.URL_MOMENTS_FRAG + "/" + momentId;
+        return buildRequestJson("PUT", path, body);
+    }
+
+    public JsonArray addMomentLike(String momentId, String userId) {
+        final JsonObject script = new JsonObject();
+        final JsonArray requests = new JsonArray();
+        requests.add(buildMomentLikesRequestJson("AddUnique", momentId, userId));
+        requests.add(buildMomentHotRequestJson(momentId, 5));
+        script.add(Constants.Http.Batch.PARAM_REQUESTS, requests);
+        return getBatchService().execute(script);
+    }
+
+    public JsonArray removeMomentLike(String momentId, String userId) {
+        final JsonObject script = new JsonObject();
+        final JsonArray requests = new JsonArray();
+        requests.add(buildMomentLikesRequestJson("Remove", momentId, userId));
+        requests.add(buildMomentHotRequestJson(momentId, -5));
+        script.add(Constants.Http.Batch.PARAM_REQUESTS, requests);
+        return getBatchService().execute(script);
     }
 
     public List<Comment> getMomentComments(String momentId) {
         final JsonObject whereJson = new JsonObject();
         whereJson.addProperty(Constants.Http.MomentComment.PARAM_PARENT_ID, momentId);
         String where = buildLiveJson(whereJson).toString();
-        String keys = String.format("%s,%s",
-                Constants.Http.MomentComment.PARAM_USER_ID,
-                Constants.Http.MomentComment.PARAM_CONTENT);
         return getMomentCommentService()
-                .getList(keys, "-createdAt", where, Integer.MAX_VALUE)
+                .getList("-createdAt", where, Integer.MAX_VALUE)
                 .getResults();
     }
 
-    public Comment newMomentComment(Comment comment) {
+    private JsonObject buildNewCommentRequestJson(Comment comment) {
         Gson gson = new Gson();
-        JsonObject data = gson.toJsonTree(comment).getAsJsonObject();
-        return getMomentCommentService().newComment(data);
+        JsonObject body = gson.toJsonTree(comment).getAsJsonObject();
+        String path = Constants.Http.URL_MOMENT_COMMENTS_FRAG;
+        return buildRequestJson("POST", path, body);
     }
 
-    public JsonObject deleteMomentComment(String commentId) {
-        final JsonObject data = new JsonObject();
+    public Comment newMomentComment(Comment comment) {
+        final JsonObject script = new JsonObject();
+        final JsonArray requests = new JsonArray();
+        requests.add(buildNewCommentRequestJson(comment));
+        requests.add(buildMomentHotRequestJson(comment.getParentId(), 10));
+        script.add(Constants.Http.Batch.PARAM_REQUESTS, requests);
+        JsonArray result = getBatchService().execute(script);
+        JsonElement data = result.get(0).getAsJsonObject().get("success");
+        Gson gson = new Gson();
+        return gson.fromJson(data, new TypeToken<Comment>(){}.getType());
+    }
+
+    private JsonObject buildDeleteCommentRequestJson(String commentId) {
+        final JsonObject body = new JsonObject();
         DateTime now = DateTime.now(DateTimeZone.UTC);
-        data.addProperty("deletedAt", now.toString(Constants.DateTime.FORMAT));
-        return getMomentCommentService().updateById(commentId, data);
+        body.addProperty(Constants.Http.MomentComment.PARAM_DELETED_AT,
+                now.toString(Constants.DateTime.FORMAT));
+        String path = Constants.Http.URL_MOMENT_COMMENTS_FRAG + "/" + commentId;
+        return buildRequestJson("PUT", path, body);
+    }
+
+    public JsonArray deleteMomentComment(Comment comment) {
+        final JsonObject script = new JsonObject();
+        final JsonArray requests = new JsonArray();
+        requests.add(buildDeleteCommentRequestJson(comment.getObjectId()));
+        requests.add(buildMomentHotRequestJson(comment.getParentId(), -10));
+        script.add(Constants.Http.Batch.PARAM_REQUESTS, requests);
+        return getBatchService().execute(script);
     }
 }
