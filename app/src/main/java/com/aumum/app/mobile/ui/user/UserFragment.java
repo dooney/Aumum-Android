@@ -156,9 +156,13 @@ public class UserFragment extends LoaderFragment<User> {
             userId = user.getObjectId();
         }
         List<Moment> moments = momentStore.loadMore(user.getMoments(), null);
-        for (Moment moment: moments) {
-            album.add(fileUploadService.getThumbnail(moment.getImageUrl()));
-            momentList.add(moment);
+        if (moments.size() > 0) {
+            album.clear();
+            momentList.clear();
+            for (Moment moment : moments) {
+                album.add(fileUploadService.getThumbnail(moment.getImageUrl()));
+                momentList.add(moment);
+            }
         }
         return user;
     }

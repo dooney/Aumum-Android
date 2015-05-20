@@ -13,7 +13,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ImageView;
-import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.aumum.app.mobile.Injector;
@@ -123,10 +122,6 @@ public class ProfileFragment extends LoaderFragment<User>
     @Override
     public void onViewCreated(final View view, final Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
-        ScrollView scrollView = (ScrollView) view.findViewById(R.id.scroll_view);
-        scrollView.setHorizontalScrollBarEnabled(false);
-        scrollView.setVerticalScrollBarEnabled(false);
         
         mainView = view.findViewById(R.id.main_view);
         XGridView userView = (XGridView) view.findViewById(R.id.user_view);
@@ -318,9 +313,13 @@ public class ProfileFragment extends LoaderFragment<User>
     protected User loadDataCore(Bundle bundle) throws Exception {
         currentUser = userStore.getCurrentUser();
         List<Moment> moments = momentStore.loadMore(currentUser.getMoments(), null);
-        for (Moment moment: moments) {
-            album.add(fileUploadService.getThumbnail(moment.getImageUrl()));
-            momentList.add(moment);
+        if (moments.size() > 0) {
+            album.clear();
+            momentList.clear();
+            for (Moment moment : moments) {
+                album.add(fileUploadService.getThumbnail(moment.getImageUrl()));
+                momentList.add(moment);
+            }
         }
         return currentUser;
     }

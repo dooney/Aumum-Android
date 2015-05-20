@@ -8,7 +8,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.ScrollView;
 
 import com.aumum.app.mobile.Injector;
 import com.aumum.app.mobile.R;
@@ -16,13 +15,10 @@ import com.aumum.app.mobile.core.dao.MomentStore;
 import com.aumum.app.mobile.core.dao.UserStore;
 import com.aumum.app.mobile.core.model.Moment;
 import com.aumum.app.mobile.core.model.UserInfo;
-import com.aumum.app.mobile.events.NewDiscoveryEvent;
 import com.aumum.app.mobile.ui.moment.MomentDetailsActivity;
 import com.aumum.app.mobile.ui.user.UserActivity;
 import com.aumum.app.mobile.utils.ImageLoaderUtils;
 import com.keyboard.utils.Utils;
-import com.squareup.otto.Bus;
-import com.squareup.otto.Subscribe;
 
 import java.util.List;
 
@@ -35,9 +31,7 @@ public class DiscoveryFragment extends Fragment {
 
     @Inject MomentStore momentStore;
     @Inject UserStore userStore;
-    @Inject Bus bus;
 
-    private ScrollView scrollView;
     private ViewGroup latestGallery;
     private ViewGroup hottestGallery;
     private ViewGroup nearestGallery;
@@ -59,31 +53,11 @@ public class DiscoveryFragment extends Fragment {
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        scrollView = (ScrollView) view.findViewById(R.id.scroll_view);
-        scrollView.setHorizontalScrollBarEnabled(false);
-        scrollView.setVerticalScrollBarEnabled(false);
-
         latestGallery = (ViewGroup) view.findViewById(R.id.gallery_latest);
         hottestGallery = (ViewGroup) view.findViewById(R.id.gallery_hottest);
         nearestGallery = (ViewGroup) view.findViewById(R.id.gallery_nearest);
         talentGallery = (ViewGroup) view.findViewById(R.id.gallery_talent);
 
-        loadList();
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        bus.register(this);
-    }
-
-    @Override
-    public void onPause() {
-        super.onPause();
-        bus.unregister(this);
-    }
-
-    private void loadList() {
         getLatestList();
         getHottestList();
         getNearestList();
@@ -158,10 +132,5 @@ public class DiscoveryFragment extends Fragment {
                 }
             });
         }
-    }
-
-    @Subscribe
-    public void onNewDiscoveryEvent(NewDiscoveryEvent event) {
-        loadList();
     }
 }

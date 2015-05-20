@@ -24,8 +24,6 @@ import com.aumum.app.mobile.core.model.CmdMessage;
 import com.aumum.app.mobile.core.model.User;
 import com.aumum.app.mobile.core.service.ChatService;
 import com.aumum.app.mobile.core.service.FileUploadService;
-import com.aumum.app.mobile.core.service.ScheduleService;
-import com.aumum.app.mobile.events.NewDiscoveryEvent;
 import com.aumum.app.mobile.events.NewMessageEvent;
 import com.aumum.app.mobile.events.NewChatMessageEvent;
 import com.aumum.app.mobile.events.ResetChatUnreadEvent;
@@ -43,6 +41,8 @@ import com.easemob.chat.EMMessage;
 import com.squareup.otto.Bus;
 import com.squareup.otto.Subscribe;
 
+import java.util.Date;
+
 import javax.inject.Inject;
 
 import butterknife.ButterKnife;
@@ -51,8 +51,7 @@ import butterknife.InjectView;
 /**
  * Fragment which houses the View pager.
  */
-public class MainFragment extends Fragment
-        implements ScheduleService.OnScheduleListener {
+public class MainFragment extends Fragment {
 
     @Inject UserStore userStore;
     @Inject MomentStore momentStore;
@@ -62,11 +61,7 @@ public class MainFragment extends Fragment
     @Inject ApiKeyProvider apiKeyProvider;
     @Inject Bus bus;
 
-    private ScheduleService scheduleService;
-    private SafeAsyncTask<Boolean> task;
-    private final long INIT_DELAY_IN_MILLISECONDS = 0;
-    private final long INTERVAL_IN_MILLISECONDS = 1200000;
-    private boolean firstTime;
+    private Date lastUpdate;
 
     private ConnectionChangeReceiver connectionChangeReceiver;
     private NewMessageBroadcastReceiver newMessageBroadcastReceiver;
@@ -82,7 +77,9 @@ public class MainFragment extends Fragment
     protected View notification;
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater,
+                             ViewGroup container,
+                             Bundle savedInstanceState) {
         return inflater.inflate(R.layout.fragment_main, container, false);
     }
 
@@ -97,21 +94,27 @@ public class MainFragment extends Fragment
 
         initChatServer();
         initFileUploadService();
-        initScheduleService();
     }
 
     @Override
     public void onResume() {
         super.onResume();
         bus.register(this);
-        scheduleService.start();
+        if (lastUpdate == null) {
+            updateDiscoveryList();
+        } else {
+            Date now = new Date();
+            long duration = now.getTime() - lastUpdate.getTime();
+            if (duration >= 1200000) {
+                updateDiscoveryList();
+            }
+        }
     }
 
     @Override
     public void onPause() {
         super.onDestroy();
         bus.unregister(this);
-        scheduleService.shutDown();
     }
 
     @Override
@@ -127,36 +130,21 @@ public class MainFragment extends Fragment
         super.onActivityResult(requestCode, resultCode, data);
     }
 
-    @Override
-    public void onAction() {
-        if (task != null) {
-            return;
-        }
-        task = new SafeAsyncTask<Boolean>() {
+    public void updateDiscoveryList() {
+        new SafeAsyncTask<Boolean>() {
             public Boolean call() throws Exception {
                 momentStore.getLatestList();
                 momentStore.getHottestList();
                 userStore.getTalentList();
-                if (firstTime) {
+                if (lastUpdate == null) {
                     User currentUser = userStore.getCurrentUser();
                     userStore.getListByCity(
                             currentUser.getObjectId(), currentUser.getCity());
-                    firstTime = false;
                 }
+                lastUpdate = new Date();
                 return true;
             }
-
-            @Override
-            protected void onSuccess(Boolean success) throws Exception {
-                bus.post(new NewDiscoveryEvent());
-            }
-
-            @Override
-            protected void onFinally() throws RuntimeException {
-                task = null;
-            }
-        };
-        task.execute();
+        }.execute();
     }
 
     @Subscribe
@@ -182,11 +170,6 @@ public class MainFragment extends Fragment
     private void initFileUploadService() {
         String currentUserId = apiKeyProvider.getAuthUserId();
         fileUploadService.init(currentUserId);
-    }
-
-    private void initScheduleService() {
-        scheduleService = new ScheduleService(
-                this, INIT_DELAY_IN_MILLISECONDS, INTERVAL_IN_MILLISECONDS);
     }
 
     private void initChatServer() {
