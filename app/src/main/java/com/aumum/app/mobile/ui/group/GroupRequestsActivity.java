@@ -1,14 +1,14 @@
 package com.aumum.app.mobile.ui.group;
 
 import android.os.Bundle;
-import android.support.v7.app.ActionBarActivity;
 
 import com.aumum.app.mobile.R;
+import com.aumum.app.mobile.ui.base.BaseActionBarActivity;
 
 /**
  * Created by Administrator on 25/03/2015.
  */
-public class GroupRequestsActivity extends ActionBarActivity {
+public class GroupRequestsActivity extends BaseActionBarActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

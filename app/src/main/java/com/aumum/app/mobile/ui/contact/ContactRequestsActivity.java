@@ -1,11 +1,11 @@
 package com.aumum.app.mobile.ui.contact;
 
 import android.os.Bundle;
-import android.support.v7.app.ActionBarActivity;
 
 import com.aumum.app.mobile.R;
+import com.aumum.app.mobile.ui.base.BaseActionBarActivity;
 
-public class ContactRequestsActivity extends ActionBarActivity {
+public class ContactRequestsActivity extends BaseActionBarActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

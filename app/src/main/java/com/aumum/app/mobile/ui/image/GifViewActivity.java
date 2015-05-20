@@ -2,9 +2,9 @@ package com.aumum.app.mobile.ui.image;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.ActionBarActivity;
 
 import com.aumum.app.mobile.R;
+import com.aumum.app.mobile.ui.base.BaseActionBarActivity;
 import com.aumum.app.mobile.utils.ImageLoaderUtils;
 import com.aumum.app.mobile.utils.Ln;
 
@@ -18,7 +18,7 @@ import pl.droidsonroids.gif.GifImageView;
 /**
  * Created by Administrator on 15/03/2015.
  */
-public class GifViewActivity extends ActionBarActivity {
+public class GifViewActivity extends BaseActionBarActivity {
 
     @InjectView(R.id.image_body) protected GifImageView gifView;
 

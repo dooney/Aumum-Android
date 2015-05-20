@@ -1,11 +1,11 @@
 package com.aumum.app.mobile.ui.contact;
 
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 
 import com.aumum.app.mobile.R;
+import com.aumum.app.mobile.ui.base.BaseActionBarActivity;
 
-public class ContactPickerActivity extends ActionBarActivity {
+public class ContactPickerActivity extends BaseActionBarActivity {
 
     public static String INTENT_SELECTED_CONTACTS = "userList";
 

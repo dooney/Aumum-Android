@@ -2,11 +2,11 @@ package com.aumum.app.mobile.ui.chat;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.ActionBarActivity;
 
 import com.aumum.app.mobile.R;
+import com.aumum.app.mobile.ui.base.BaseActionBarActivity;
 
-public class ChatActivity extends ActionBarActivity {
+public class ChatActivity extends BaseActionBarActivity {
 
     public static final String INTENT_TITLE = "title";
     public static final String INTENT_TYPE = "type";

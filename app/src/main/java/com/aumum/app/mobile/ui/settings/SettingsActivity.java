@@ -2,13 +2,13 @@ package com.aumum.app.mobile.ui.settings;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.ActionBarActivity;
 import android.view.View;
 
 import com.aumum.app.mobile.Injector;
 import com.aumum.app.mobile.R;
 import com.aumum.app.mobile.core.service.ChatService;
 import com.aumum.app.mobile.core.service.LogoutService;
+import com.aumum.app.mobile.ui.base.BaseActionBarActivity;
 import com.aumum.app.mobile.ui.view.Animation;
 import com.aumum.app.mobile.ui.view.dialog.ConfirmDialog;
 import com.aumum.app.mobile.ui.view.dialog.TextViewDialog;
@@ -19,7 +19,7 @@ import javax.inject.Inject;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 
-public class SettingsActivity extends ActionBarActivity {
+public class SettingsActivity extends BaseActionBarActivity {
 
     @Inject LogoutService logoutService;
     @Inject ChatService chatService;

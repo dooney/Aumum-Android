@@ -1,12 +1,12 @@
 package com.aumum.app.mobile.ui.user;
 
 import android.content.Intent;
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 
 import com.aumum.app.mobile.R;
+import com.aumum.app.mobile.ui.base.BaseActionBarActivity;
 
-public class UserListActivity extends ActionBarActivity {
+public class UserListActivity extends BaseActionBarActivity {
 
     public static final String INTENT_TITLE = "title";
     public static final String INTENT_USER_LIST = "userList";

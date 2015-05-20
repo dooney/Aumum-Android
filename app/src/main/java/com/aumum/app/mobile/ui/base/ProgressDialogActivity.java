@@ -1,7 +1,6 @@
 package com.aumum.app.mobile.ui.base;
 
 import android.os.Bundle;
-import android.support.v7.app.ActionBarActivity;
 
 import com.aumum.app.mobile.ui.view.dialog.ProgressDialog;
 import com.github.kevinsawicki.wishlist.Toaster;
@@ -10,7 +9,7 @@ import com.umeng.analytics.MobclickAgent;
 /**
  * Created by Administrator on 8/11/2014.
  */
-public abstract class ProgressDialogActivity extends ActionBarActivity
+public abstract class ProgressDialogActivity extends BaseActionBarActivity
         implements ProgressListener {
 
     protected ProgressDialog progress;

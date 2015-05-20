@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.graphics.Bitmap;
 import android.os.Bundle;
-import android.support.v7.app.ActionBarActivity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
@@ -14,6 +13,7 @@ import android.webkit.WebViewClient;
 import android.widget.ProgressBar;
 
 import com.aumum.app.mobile.R;
+import com.aumum.app.mobile.ui.base.BaseActionBarActivity;
 import com.aumum.app.mobile.ui.view.video.VideoEnabledWebChromeClient;
 import com.aumum.app.mobile.ui.view.video.VideoEnabledWebView;
 
@@ -23,7 +23,7 @@ import butterknife.InjectView;
 /**
  * Created by Administrator on 14/01/2015.
  */
-public class BrowserActivity extends ActionBarActivity {
+public class BrowserActivity extends BaseActionBarActivity {
 
     @InjectView(R.id.webView) protected VideoEnabledWebView webView;
     @InjectView(R.id.pb_loading) protected ProgressBar progressBar;

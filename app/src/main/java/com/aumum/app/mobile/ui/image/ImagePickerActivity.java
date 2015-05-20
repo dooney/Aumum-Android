@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.provider.MediaStore;
-import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -15,6 +14,7 @@ import android.widget.GridView;
 import android.widget.ImageView;
 
 import com.aumum.app.mobile.R;
+import com.aumum.app.mobile.ui.base.BaseActionBarActivity;
 import com.aumum.app.mobile.utils.ImageLoaderUtils;
 import com.aumum.app.mobile.utils.Ln;
 import com.github.kevinsawicki.wishlist.Toaster;
@@ -22,7 +22,7 @@ import com.github.kevinsawicki.wishlist.Toaster;
 import java.util.ArrayList;
 import java.util.Collections;
 
-public class ImagePickerActivity extends ActionBarActivity {
+public class ImagePickerActivity extends BaseActionBarActivity {
 
     GridView gridGallery;
     Handler handler;

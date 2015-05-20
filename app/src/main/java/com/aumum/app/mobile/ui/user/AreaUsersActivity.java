@@ -1,14 +1,14 @@
 package com.aumum.app.mobile.ui.user;
 
 import android.os.Bundle;
-import android.support.v7.app.ActionBarActivity;
 
 import com.aumum.app.mobile.R;
+import com.aumum.app.mobile.ui.base.BaseActionBarActivity;
 
 /**
  * Created by Administrator on 15/01/2015.
  */
-public class AreaUsersActivity extends ActionBarActivity {
+public class AreaUsersActivity extends BaseActionBarActivity {
 
     public static final String INTENT_AREA = "area";
     public static final String INTENT_USER_ID = "userId";

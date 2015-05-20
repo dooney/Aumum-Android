@@ -1,11 +1,11 @@
 package com.aumum.app.mobile.ui.user;
 
 import android.os.Bundle;
-import android.support.v7.app.ActionBarActivity;
 
 import com.aumum.app.mobile.R;
+import com.aumum.app.mobile.ui.base.BaseActionBarActivity;
 
-public class UserActivity extends ActionBarActivity {
+public class UserActivity extends BaseActionBarActivity {
 
     public static final String INTENT_USER_ID = "userId";
 

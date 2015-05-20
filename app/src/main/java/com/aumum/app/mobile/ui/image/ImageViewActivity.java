@@ -2,17 +2,17 @@ package com.aumum.app.mobile.ui.image;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.ActionBarActivity;
 import android.widget.ImageView;
 import android.widget.ScrollView;
 
 import com.aumum.app.mobile.R;
+import com.aumum.app.mobile.ui.base.BaseActionBarActivity;
 import com.aumum.app.mobile.utils.ImageLoaderUtils;
 
 /**
  * Created by Administrator on 9/03/2015.
  */
-public class ImageViewActivity extends ActionBarActivity {
+public class ImageViewActivity extends BaseActionBarActivity {
 
     public static final String INTENT_IMAGE_URI = "imageUri";
 

@@ -1,11 +1,11 @@
 package com.aumum.app.mobile.ui.settings;
 
 import android.os.Bundle;
-import android.support.v7.app.ActionBarActivity;
 
 import com.aumum.app.mobile.Injector;
 import com.aumum.app.mobile.R;
 import com.aumum.app.mobile.core.service.ChatService;
+import com.aumum.app.mobile.ui.base.BaseActionBarActivity;
 import com.aumum.app.mobile.ui.view.ToggleButton;
 import com.aumum.app.mobile.utils.PreferenceUtils;
 
@@ -17,7 +17,7 @@ import butterknife.InjectView;
 /**
  * Created by Administrator on 16/01/2015.
  */
-public class NotificationActivity extends ActionBarActivity {
+public class NotificationActivity extends BaseActionBarActivity {
 
     @Inject ChatService chatService;
 

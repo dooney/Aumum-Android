@@ -3,13 +3,13 @@ package com.aumum.app.mobile.ui.settings;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.v7.app.ActionBarActivity;
 import android.text.Html;
 import android.view.View;
 import android.widget.TextView;
 
 import com.aumum.app.mobile.R;
 import com.aumum.app.mobile.core.Constants;
+import com.aumum.app.mobile.ui.base.BaseActionBarActivity;
 import com.aumum.app.mobile.ui.browser.BrowserActivity;
 import com.aumum.app.mobile.ui.view.Animation;
 
@@ -19,7 +19,7 @@ import butterknife.InjectView;
 /**
  * Created by Administrator on 13/01/2015.
  */
-public class AboutAppActivity extends ActionBarActivity {
+public class AboutAppActivity extends BaseActionBarActivity {
 
     @InjectView(R.id.layout_rate_app) protected View rateAppLayout;
     @InjectView(R.id.layout_version_details) protected View versionDetailsLayout;

@@ -1,14 +1,14 @@
 package com.aumum.app.mobile.ui.group;
 
 import android.os.Bundle;
-import android.support.v7.app.ActionBarActivity;
 
 import com.aumum.app.mobile.R;
+import com.aumum.app.mobile.ui.base.BaseActionBarActivity;
 
 /**
  * Created by Administrator on 24/03/2015.
  */
-public class GroupListActivity extends ActionBarActivity {
+public class GroupListActivity extends BaseActionBarActivity {
 
     public final static String INTENT_GROUP_LIST = "groupList";
 
