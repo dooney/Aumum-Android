@@ -4,29 +4,48 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/image_splash">
+    android:background="@color/am_red">
 
-    <LinearLayout
-        android:id="@+id/action_layout"
+    <ImageView
+        android:id="@+id/image_splash"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true">
+        android:adjustViewBounds="true"
+        android:scaleType="fitCenter"
+        android:src="@drawable/image_splash"
+        android:layout_centerInParent="true"/>
 
-        <Button
-            android:id="@+id/b_signUp"
-            style="@style/Button"
-            android:layout_margin="0dp"
-            android:background="@drawable/bbuton_danger"
-            android:text="@string/label_register_now"
-            android:layout_weight="1"/>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/image_splash"
+        android:gravity="center">
 
-        <Button
-            android:id="@+id/b_signIn"
-            style="@style/Button"
-            android:layout_margin="0dp"
-            android:background="@drawable/bbuton_primary"
-            android:text="@string/label_sign_in"
-            android:layout_weight="1"/>
+        <RelativeLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:paddingLeft="@dimen/margin_extra_large"
+            android:paddingRight="@dimen/margin_medium">
+
+            <Button
+                android:id="@+id/b_signUp"
+                style="@style/Button.SignUp"/>
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:paddingLeft="@dimen/margin_medium"
+            android:paddingRight="@dimen/margin_extra_large">
+
+            <Button
+                android:id="@+id/b_signIn"
+                style="@style/Button.SignIn"/>
+
+        </RelativeLayout>
 
     </LinearLayout>
 

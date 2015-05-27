@@ -25,9 +25,7 @@
             android:layout_height="0dp"
             android:layout_weight="1" />
 
-    <View
-        style="@style/Divider"
-        android:background="@color/grey_light" />
+    <View style="@style/Divider.Dark" />
 
     <com.aumum.app.mobile.ui.main.MainTabPageIndicator
         android:id="@+id/tpi_footer"

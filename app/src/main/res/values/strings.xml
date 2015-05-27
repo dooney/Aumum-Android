@@ -170,11 +170,12 @@
     <string name="label_select_your_city">请选择你所在的城市</string>
     <string name="label_area">所在地区</string>
     <string name="label_about">个人简介</string>
-    <string name="label_sign_in">登录</string>
-    <string name="label_register_now">立即注册</string>
-    <string name="label_sign_up">注册</string>
-    <string name="label_forgot_password">忘记密码？</string>
+    <string name="label_sign_in">用户登录</string>
+    <string name="label_sign_up">立即注册</string>
+    <string name="label_login">登录</string>
+    <string name="label_register">注册</string>
     <string name="label_join_now">注册新用户</string>
+    <string name="label_forgot_password">忘记密码？</string>
     <string name="label_prompt_sign_in">已有账户？登录</string>
     <string name="label_confirm_agreement">注册即表示同意《澳妈圈用户协议》</string>
     <string name="label_country">国家</string>

@@ -29,7 +29,7 @@ import com.aumum.app.mobile.core.model.User;
 import com.aumum.app.mobile.events.UnAuthorizedErrorEvent;
 import com.aumum.app.mobile.ui.base.AuthenticateActivity;
 import com.aumum.app.mobile.ui.helper.TextWatcherAdapter;
-import com.aumum.app.mobile.ui.view.Animation;
+import com.aumum.app.mobile.ui.view.ClearEditText;
 import com.aumum.app.mobile.ui.view.dialog.ListViewDialog;
 import com.aumum.app.mobile.utils.EditTextUtils;
 import com.aumum.app.mobile.utils.SafeAsyncTask;
@@ -55,13 +55,13 @@ public class LoginActivity extends AuthenticateActivity {
     @Inject Repository repository;
     @Inject Bus bus;
 
-    @InjectView(R.id.text_country) protected TextView countryText;
-    @InjectView(R.id.text_country_code) protected TextView countryCodeText;
-    @InjectView(R.id.et_phone) protected EditText phoneText;
-    @InjectView(id.et_password) protected EditText passwordText;
+    @InjectView(id.text_country) protected TextView countryText;
+    @InjectView(id.text_country_code) protected TextView countryCodeText;
+    @InjectView(id.et_phone) protected ClearEditText phoneText;
+    @InjectView(id.et_password) protected ClearEditText passwordText;
     @InjectView(id.b_sign_in) protected View signInButton;
+    @InjectView(id.b_join_now) protected TextView joinNowButton;
     @InjectView(id.t_forgot_password) protected TextView forgotPasswordText;
-    @InjectView(id.t_join_now) protected TextView joinNowText;
 
     private final TextWatcher watcher = validationTextWatcher();
 
@@ -104,7 +104,9 @@ public class LoginActivity extends AuthenticateActivity {
                 }).show();
             }
         });
+        phoneText.setClearButtonResId(R.drawable.ic_fa_times_y);
         phoneText.addTextChangedListener(watcher);
+        passwordText.setClearButtonResId(R.drawable.ic_fa_times_y);
         passwordText.setOnKeyListener(new OnKeyListener() {
 
             public boolean onKey(final View v, final int keyCode, final KeyEvent event) {
@@ -143,7 +145,7 @@ public class LoginActivity extends AuthenticateActivity {
                 finish();
             }
         });
-        joinNowText.setOnClickListener(new View.OnClickListener() {
+        joinNowButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 final Intent intent = new Intent();
@@ -152,8 +154,6 @@ public class LoginActivity extends AuthenticateActivity {
                 finish();
             }
         });
-
-        Animation.flyIn(this);
     }
 
     private TextWatcher validationTextWatcher() {

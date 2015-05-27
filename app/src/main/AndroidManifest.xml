@@ -80,11 +80,13 @@
         </activity>
         <activity
             android:name=".ui.account.LoginActivity"
-            android:label="@string/title_activity_login" >
+            android:label="@string/title_activity_login"
+            android:windowSoftInputMode="adjustResize">
         </activity>
         <activity
             android:name=".ui.account.RegisterActivity"
-            android:label="@string/title_activity_register" >
+            android:label="@string/title_activity_register"
+            android:windowSoftInputMode="adjustResize">
         </activity>
         <activity
             android:name=".ui.account.ResetPasswordActivity"

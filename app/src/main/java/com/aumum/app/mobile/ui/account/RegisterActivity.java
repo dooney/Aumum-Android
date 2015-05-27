@@ -16,7 +16,7 @@ import com.aumum.app.mobile.core.service.RestService;
 import com.aumum.app.mobile.ui.base.AuthenticateActivity;
 import com.aumum.app.mobile.ui.browser.BrowserActivity;
 import com.aumum.app.mobile.ui.helper.TextWatcherAdapter;
-import com.aumum.app.mobile.ui.view.Animation;
+import com.aumum.app.mobile.ui.view.ClearEditText;
 import com.aumum.app.mobile.ui.view.dialog.ListViewDialog;
 import com.aumum.app.mobile.utils.EditTextUtils;
 import com.aumum.app.mobile.utils.SafeAsyncTask;
@@ -54,15 +54,15 @@ public class RegisterActivity extends AuthenticateActivity
     @InjectView(R.id.et_phone)
     @Pattern(regex = "^\\d+$", messageResId = R.string.error_incorrect_phone)
     @Order(0)
-    protected EditText phoneText;
+    protected ClearEditText phoneText;
 
     @InjectView(R.id.et_password)
     @Size(min = 6, max = 16, messageResId = R.string.error_incorrect_password_length)
     @Order(1)
-    protected EditText passwordText;
+    protected ClearEditText passwordText;
 
     @InjectView(R.id.t_agreement) protected TextView agreementText;
-    @InjectView(R.id.b_sign_up) protected View signUpButton;
+    @InjectView(R.id.b_register) protected View registerButton;
     @InjectView(R.id.t_prompt_sign_in) protected TextView promptSignInText;
 
     private final TextWatcher watcher = validationTextWatcher();
@@ -102,12 +102,14 @@ public class RegisterActivity extends AuthenticateActivity
                         }).show();
             }
         });
+        phoneText.setClearButtonResId(R.drawable.ic_fa_times_y);
         phoneText.addTextChangedListener(watcher);
+        passwordText.setClearButtonResId(R.drawable.ic_fa_times_y);
         passwordText.addTextChangedListener(watcher);
         passwordText.setOnKeyListener(new View.OnKeyListener() {
             public boolean onKey(final View v, final int keyCode, final KeyEvent event) {
                 if (event != null && ACTION_DOWN == event.getAction()
-                        && keyCode == KEYCODE_ENTER && signUpButton.isEnabled()) {
+                        && keyCode == KEYCODE_ENTER && registerButton.isEnabled()) {
                     validator.validate();
                     return true;
                 }
@@ -118,7 +120,7 @@ public class RegisterActivity extends AuthenticateActivity
 
             public boolean onEditorAction(final TextView v, final int actionId,
                                           final KeyEvent event) {
-                if (actionId == IME_ACTION_DONE && signUpButton.isEnabled()) {
+                if (actionId == IME_ACTION_DONE && registerButton.isEnabled()) {
                     validator.validate();
                     return true;
                 }
@@ -131,7 +133,7 @@ public class RegisterActivity extends AuthenticateActivity
                 showAgreement();
             }
         });
-        signUpButton.setOnClickListener(new View.OnClickListener() {
+        registerButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 validator.validate();
@@ -166,7 +168,6 @@ public class RegisterActivity extends AuthenticateActivity
         validator.setValidationListener(this);
 
         countryText.performClick();
-        Animation.flyIn(this);
     }
 
     @Override
@@ -207,8 +208,8 @@ public class RegisterActivity extends AuthenticateActivity
     private void updateUIWithValidation() {
         final boolean populated = populated(phoneText) &&
                 populated(passwordText);
-        if (signUpButton != null) {
-            signUpButton.setEnabled(populated);
+        if (registerButton != null) {
+            registerButton.setEnabled(populated);
         }
     }
 

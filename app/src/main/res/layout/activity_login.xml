@@ -1,82 +1,167 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="@dimen/margin_extreme_large"
-    android:orientation="vertical"
-    android:focusable="true"
-    android:focusableInTouchMode="true">
+    android:background="@color/am_red">
 
-    <RelativeLayout
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="match_parent"
+        android:fillViewport="true"
+        android:scrollbars="none">
 
-        <TextView
-            android:layout_width="wrap_content"
-            style="@style/TextView.Account.Country"
-            android:text="@string/label_country"/>
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
 
-        <TextView
-            android:id="@+id/text_country"
-            style="@style/TextView.Account.Country"
-            android:layout_centerVertical="true"
-            android:layout_alignParentRight="true"
-            android:text="澳大利亚"/>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_centerInParent="true"
+                android:focusable="true"
+                android:focusableInTouchMode="true"
+                android:gravity="center"
+                android:padding="@dimen/margin_extreme_large">
 
-    </RelativeLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:paddingTop="@dimen/margin_extreme_large">
 
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:background="@drawable/list_edit_text">
 
-        <TextView
-            android:id="@+id/text_country_code"
-            style="@style/TextView.Account.CountryCode"
-            android:layout_alignParentLeft="true"
-            android:layout_centerVertical="true"
-            android:text="+61"/>
+                        <RelativeLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="50dp">
 
-        <com.aumum.app.mobile.ui.view.ClearEditText
-            android:id="@+id/et_phone"
-            style="@style/EditText.Login.Phone"
-            android:layout_toRightOf="@+id/text_country_code"
-            android:imeOptions="actionNext"
-            android:nextFocusDown="@+id/et_password" />
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:id="@+id/text_country"
+                                style="@style/TextView.Account"
+                                android:gravity="center_vertical"
+                                android:paddingLeft="11dp"
+                                android:layout_centerVertical="true"
+                                android:layout_toLeftOf="@+id/ic_country"
+                                android:text="澳大利亚"/>
 
-    </RelativeLayout>
+                            <ImageView
+                                android:id="@+id/ic_country"
+                                style="@style/ImageView"
+                                android:paddingRight="@dimen/margin_small"
+                                android:layout_centerVertical="true"
+                                android:layout_alignParentRight="true"
+                                android:src="@drawable/ic_fa_country"/>
 
-    <com.aumum.app.mobile.ui.view.ClearEditText
-        android:id="@+id/et_password"
-        style="@style/EditText.Login.Password"
-        android:imeOptions="actionDone" />
+                        </RelativeLayout>
 
-    <com.beardedhen.androidbootstrap.BootstrapButton
-        xmlns:bootstrap="http://schemas.android.com/apk/res-auto"
-        android:id="@+id/b_sign_in"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/label_sign_in"
-        android:textSize="@dimen/text_sz_extra_large"
-        android:layout_marginTop="@dimen/margin_large"
-        android:layout_marginBottom="@dimen/margin_large"
-        bootstrap:bb_type="primary"/>
+                        <View style="@style/Divider.Dark"/>
 
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
+                        <RelativeLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="50dp">
 
-        <TextView
-            android:id="@+id/t_forgot_password"
-            style="@style/LinkTextView"
-            android:text="@string/label_forgot_password"
-            android:layout_alignParentLeft="true"/>
+                            <TextView
+                                android:id="@+id/text_country_code"
+                                style="@style/TextView.Account"
+                                android:gravity="center_vertical"
+                                android:paddingLeft="11dp"
+                                android:layout_centerVertical="true"
+                                android:text="+61"/>
 
-        <TextView
-            android:id="@+id/t_join_now"
-            style="@style/LinkTextView"
-            android:text="@string/label_join_now"
-            android:layout_alignParentRight="true"/>
-    </RelativeLayout>
+                            <com.aumum.app.mobile.ui.view.ClearEditText
+                                android:id="@+id/et_phone"
+                                style="@style/EditText.Login.Phone"
+                                android:layout_centerVertical="true"
+                                android:layout_toRightOf="@+id/text_country_code"
+                                android:layout_toLeftOf="@+id/ic_mobile"
+                                android:imeOptions="actionNext"
+                                android:nextFocusDown="@+id/et_password" />
 
-</LinearLayout>
+                            <ImageView
+                                android:id="@+id/ic_mobile"
+                                style="@style/ImageView"
+                                android:paddingRight="@dimen/margin_small"
+                                android:layout_centerVertical="true"
+                                android:layout_alignParentRight="true"
+                                android:src="@drawable/ic_fa_mobile"/>
+
+                        </RelativeLayout>
+
+                        <View style="@style/Divider.Dark"/>
+
+                        <RelativeLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="50dp">
+
+                            <com.aumum.app.mobile.ui.view.ClearEditText
+                                android:id="@+id/et_password"
+                                style="@style/EditText.Login.Password"
+                                android:layout_centerVertical="true"
+                                android:layout_toLeftOf="@+id/ic_lock"
+                                android:imeOptions="actionDone" />
+
+                            <ImageView
+                                android:id="@+id/ic_lock"
+                                style="@style/ImageView"
+                                android:paddingRight="@dimen/margin_small"
+                                android:layout_centerVertical="true"
+                                android:layout_alignParentRight="true"
+                                android:src="@drawable/ic_fa_lock"/>
+
+                        </RelativeLayout>
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingTop="@dimen/margin_extreme_large">
+
+                    <RelativeLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:paddingRight="@dimen/margin_small">
+
+                        <Button
+                            android:id="@+id/b_join_now"
+                            style="@style/Button.JoinNow" />
+
+                    </RelativeLayout>
+
+                    <RelativeLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:paddingLeft="@dimen/margin_small">
+
+                        <Button
+                            android:id="@+id/b_sign_in"
+                            style="@style/Button.Login"/>
+
+                    </RelativeLayout>
+
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/t_forgot_password"
+                    style="@style/TextView.Account.Small"
+                    android:text="@string/label_forgot_password"
+                    android:paddingTop="@dimen/margin_extreme_large"/>
+
+            </LinearLayout>
+
+        </RelativeLayout>
+
+    </ScrollView>
+
+</RelativeLayout>

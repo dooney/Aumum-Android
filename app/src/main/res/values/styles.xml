@@ -22,16 +22,14 @@
     </style>
 
     <style name="Button">
-        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
-        <item name="android:textColor">@color/text</item>
-        <item name="android:layout_margin">@dimen/margin_large</item>
+        <item name="android:background">@color/transparent</item>
     </style>
     <style name="Button.Dialog" parent="Button">
-        <item name="android:background">@color/transparent</item>
+        <item name="android:layout_width">match_parent</item>
         <item name="android:textColor">@drawable/button_dialog_text</item>
         <item name="android:textSize">@dimen/text_sz_medium</item>
-        <item name="android:layout_margin">0dp</item>
     </style>
     <style name="Button.Dialog.Ok" parent="Button.Dialog">
         <item name="android:text">@string/label_ok</item>
@@ -205,6 +203,20 @@
         <item name="android:paddingRight">@dimen/margin_extra_large</item>
     </style>
 
+    <!-- Splash -->
+    <style name="Button.SignIn" parent="Button">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:textColor">@color/am_yellow</item>
+        <item name="android:text">@string/label_sign_in</item>
+        <item name="android:background">@drawable/button_yellow_round</item>
+    </style>
+    <style name="Button.SignUp" parent="Button">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:textColor">@color/am_white</item>
+        <item name="android:text">@string/label_sign_up</item>
+        <item name="android:background">@drawable/button_white_round</item>
+    </style>
+
     <!-- Report -->
     <style name="EditText.Report.Type" parent="EditText.Mandatory">
         <item name="android:hint">@string/hint_report_type</item>
@@ -374,30 +386,51 @@
     <style name="TextView.About" parent="TextView.Title" />
 
     <!-- Account -->
+    <style name="Button.Login" parent="Button.SignIn">
+        <item name="android:textSize">@dimen/text_sz_medium</item>
+        <item name="android:text">@string/label_login</item>
+    </style>
+    <style name="Button.JoinNow" parent="Button.SignUp">
+        <item name="android:textSize">@dimen/text_sz_medium</item>
+        <item name="android:text">@string/label_join_now</item>
+    </style>
+    <style name="Button.Register" parent="Button">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:textColor">@color/am_yellow</item>
+        <item name="android:text">@string/label_register</item>
+        <item name="android:background">@drawable/button_yellow_round</item>
+    </style>
     <style name="TextView.Account" parent="TextView">
         <item name="android:textSize">@dimen/text_sz_large</item>
+        <item name="android:textColor">@color/am_white</item>
     </style>
-    <style name="TextView.Account.Country" parent="TextView.Account" />
-    <style name="TextView.Account.CountryCode" parent="TextView.Account" />
-    <style name="EditText.Login.Phone" parent="EditText">
-        <item name="android:drawableLeft">@drawable/ic_fa_mobile</item>
+    <style name="TextView.Account.Small" parent="TextView">
+        <item name="android:textSize">@dimen/text_sz_small</item>
+        <item name="android:textColor">@color/am_white</item>
+    </style>
+    <style name="EditText.Account.Phone" parent="EditText">
+        <item name="android:background">@null</item>
+        <item name="android:textColor">@color/am_white</item>
+        <item name="android:textColorHint">@color/am_white_blur</item>
+        <item name="android:inputType">phone</item>
+    </style>
+    <style name="EditText.Account.Password" parent="EditText">
+        <item name="android:background">@null</item>
+        <item name="android:textColor">@color/am_white</item>
+        <item name="android:textColorHint">@color/am_white_blur</item>
+        <item name="android:inputType">textPassword</item>
+    </style>
+    <style name="EditText.Login.Phone" parent="EditText.Account.Phone">
         <item name="android:hint">@string/hint_login_phone</item>
-        <item name="android:inputType">phone</item>
     </style>
-    <style name="EditText.Login.Password" parent="EditText">
-        <item name="android:drawableLeft">@drawable/ic_fa_lock</item>
+    <style name="EditText.Login.Password" parent="EditText.Account.Password">
         <item name="android:hint">@string/hint_login_password</item>
-        <item name="android:inputType">textPassword</item>
     </style>
-    <style name="EditText.Register.Phone" parent="EditText">
-        <item name="android:drawableLeft">@drawable/ic_fa_mobile</item>
+    <style name="EditText.Register.Phone" parent="EditText.Account.Phone">
         <item name="android:hint">@string/hint_register_phone</item>
-        <item name="android:inputType">phone</item>
     </style>
-    <style name="EditText.Register.Password" parent="EditText">
-        <item name="android:drawableLeft">@drawable/ic_fa_lock</item>
+    <style name="EditText.Register.Password" parent="EditText.Account.Password">
         <item name="android:hint">@string/hint_register_password</item>
-        <item name="android:inputType">textPassword</item>
     </style>
     <style name="EditText.Register.Email" parent="EditText.Mandatory">
         <item name="android:hint">@string/hint_email</item>
@@ -409,12 +442,6 @@
     <style name="EditText.Register.ScreenName" parent="EditText.Mandatory">
         <item name="android:hint">@string/hint_screen_name</item>
         <item name="android:inputType">textPersonName</item>
-    </style>
-    <style name="LinkTextView.Register.Agreement" parent="LinkTextView">
-        <item name="android:paddingLeft">@dimen/margin_large</item>
-        <item name="android:paddingTop">@dimen/margin_small</item>
-        <item name="android:textSize">@dimen/text_sz_small</item>
-        <item name="android:text">@string/label_confirm_agreement</item>
     </style>
     <style name="EditText.ResetPassword.Email" parent="EditText">
         <item name="android:drawableLeft">@drawable/ic_fa_envelope_o</item>
@@ -450,7 +477,10 @@
     <style name="Divider">
         <item name="android:layout_height">1dp</item>
         <item name="android:layout_width">match_parent</item>
-        <item name="android:background">@color/divider_grey</item>
+        <item name="android:background">@color/grey_extra_light</item>
+    </style>
+    <style name="Divider.Dark" parent="Divider">
+        <item name="android:background">@color/grey_light</item>
     </style>
 
     <style name="Tab.View" parent="Widget">
