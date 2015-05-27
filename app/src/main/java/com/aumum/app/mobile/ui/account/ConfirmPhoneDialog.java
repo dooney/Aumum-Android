@@ -33,7 +33,7 @@ public class ConfirmPhoneDialog extends Dialog {
     private void initView(Context context) {
         TextView textView = (TextView) findViewById(R.id.text_will_send_verification_code);
         textView.setText(Html.fromHtml(context.getString(R.string.label_will_send_verification_code)));
-        Button okButton = (Button) findViewById(R.id.b_dialog_ok);
+        View okButton = findViewById(R.id.b_dialog_ok);
         okButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

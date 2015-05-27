@@ -5,7 +5,6 @@ import android.text.Html;
 import android.widget.TextView;
 
 import com.aumum.app.mobile.R;
-import com.aumum.app.mobile.ui.view.dialog.ConfirmDialog;
 
 /**
  * Created by Administrator on 31/12/2014.

@@ -71,32 +71,32 @@
     <string name="label_publish">发布</string>
 
     <!-- Info Message -->
-    <string name="info_authenticating">正在验证你的账号信息，请稍候</string>
-    <string name="info_submitting_registration">正在提交你的注册请求，请稍候</string>
-    <string name="info_submitting_password_reset">正在提交你的重置密码请求，请稍候</string>
+    <string name="info_authenticating">正在验证账号信息，请稍候</string>
+    <string name="info_submitting_registration">正在提交注册请求，请稍候</string>
+    <string name="info_submitting_password_reset">正在提交重置密码请求，请稍候</string>
     <string name="info_add_contact_sent">发送添加好友请求成功，等待对方验证</string>
     <string name="info_confirm_delete_contact">你确定要移除该好友？</string>
     <string name="info_confirm_logout">你确定要退出登录？</string>
     <string name="info_downloading_voice">正在下载语音，请稍候</string>
     <string name="info_sending_verification_sms">正在发送验证码短信，请稍候</string>
     <string name="info_verifying_mobile">正在验证手机号码，请稍候</string>
-    <string name="info_submitting_profile">正在保存你的个人资料，请稍候</string>
+    <string name="info_submitting_profile">正在保存个人资料，请稍候</string>
     <string name="info_profile_not_completed_yet">你还没填写完个人资料</string>
     <string name="info_verification_sms_sent">验证码短信已成功发送，请注意查收</string>
-    <string name="info_reset_password_tip">验证邮件24小时内有效，请尽快登陆你的邮箱点击验证链接完成验证。若未收到邮件请先确认是否在垃圾邮件中。</string>
+    <string name="info_reset_password_tip">验证邮件24小时内有效，请尽快登陆邮箱点击验证链接完成验证。若未收到邮件请先确认是否在垃圾邮件中。</string>
     <string name="info_sending_reset_password_email">正在发送密码重置邮件，请稍候</string>
     <string name="info_reset_password_email_sent">重置密码邮件发送成功</string>
     <string name="info_chat_messages_arrived">你有来自%1$d位好友的%2$d条消息</string>
     <string name="info_invitation_accepted_and_start_chatting">你们已经是好友了，开始聊天吧！</string>
     <string name="info_group_name_deleted">群组#%1$s#已被删除</string>
-    <string name="info_submitting_report">正在提交你的举报，请稍候</string>
+    <string name="info_submitting_report">正在提交举报，请稍候</string>
     <string name="info_report_submitted">举报已成功提交，请等待审核</string>
     <string name="info_deleting_group">正在删除该群组，请稍候</string>
-    <string name="info_submitting_quit_group">正在处理你的退出群组请求，请稍候</string>
+    <string name="info_submitting_quit_group">正在处理退出群组请求，请稍候</string>
     <string name="info_no_users_found">没找到任何相关用户</string>
     <string name="info_empty_conversation_list">你没有任何会话记录</string>
     <string name="info_click_to_reload">点击重试</string>
-    <string name="info_submitting_feedback">正在提交你的反馈，请稍候</string>
+    <string name="info_submitting_feedback">正在提交反馈，请稍候</string>
     <string name="info_feedback_submitted">反馈已成功提交，感谢你的支持！</string>
     <string name="info_area_users_found">在%1$s为你找到%2$d位用户</string>
     <string name="info_no_group_found">没找到任何相关群组</string>
@@ -104,7 +104,7 @@
     <string name="info_join_group_sent">发送成功，请等待群主验证</string>
     <string name="info_user_was_removed">你已被从群%1$s里移出</string>
     <string name="info_empty_member_list">该群组没有其他成员</string>
-    <string name="info_submitting_group">正在提交你的群组，请稍候</string>
+    <string name="info_submitting_group">正在提交群组，请稍候</string>
     <string name="info_confirm_delete_chat_message">你确定要删除该聊天记录？</string>
     <string name="info_chat_text_copied">文本已复制到粘贴板</string>
     <string name="info_publishing_moment">正在发布，请稍候</string>
@@ -139,7 +139,7 @@
     <string name="title_activity_choose_image">选择图片</string>
     <string name="title_activity_add_image">添加图片</string>
     <string name="title_activity_complete_profile">完善个人资料</string>
-    <string name="title_activity_verify">验证码</string>
+    <string name="title_activity_verify">手机验证</string>
     <string name="title_activity_group_details">群组成员</string>
     <string name="title_activity_contact_picker">选择好友</string>
     <string name="title_activity_report_details">举报详情</string>
@@ -181,10 +181,10 @@
     <string name="label_country">国家</string>
     <string name="label_select_your_country">请选择你所在的国家</string>
     <string name="label_confirm_phone">确认手机号码</string>
-    <string name="label_will_send_verification_code"><Data>&lt;font color=#d9534f>验证码短信&lt;/font>将被发送到这个号码:</Data></string>
-    <string name="label_your_phone"><Data>你的手机号码&lt;font color=#d9534f>%1$s %2$s&lt;/font></Data></string>
-    <string name="label_will_receive_verification_code"><Data>将会收到一条包含&lt;font color=#d9534f>4位数字验证码&lt;/font>的短信</Data></string>
-    <string name="label_will_receive_sms_within"><Data>接收短信大约需要&lt;font color=#000000>%s&lt;/font>秒</Data></string>
+    <string name="label_will_send_verification_code"><Data>&lt;font color=#ff6060>验证码短信&lt;/font>将被发送到这个号码:</Data></string>
+    <string name="label_your_phone"><Data>你的手机号码&lt;font color=#ffde00>%1$s %2$s&lt;/font></Data></string>
+    <string name="label_will_receive_verification_code"><Data>将会收到一条包含&lt;font color=#ffde00>4位数字验证码&lt;/font>的短信</Data></string>
+    <string name="label_will_receive_sms_within"><Data>接收短信大约需要&lt;font color=#ffde00>%s&lt;/font>秒</Data></string>
     <string name="hint_verification_code">请输入4位数字验证码</string>
     <string name="label_resend_verification_code">重新获取验证码</string>
     <string name="hint_reset_password_email">请输入你注册的邮箱地址</string>
@@ -199,13 +199,13 @@
     <string name="label_contact_invited">%1$s请求添加好友</string>
     <string name="label_accept">同意</string>
     <string name="label_added">已添加</string>
-    <string name="label_contact_agreed">已经同意你的添加好友请求</string>
+    <string name="label_contact_agreed">已经同意添加好友请求</string>
 
     <!-- Profile -->
     <string name="label_screen_name">用户昵称</string>
     <string name="label_email_address">邮箱地址</string>
-    <string name="label_confirm_city">你确定变更城市为&lt;font color=#d9534f>%1$s&lt;/font>？</string>
-    <string name="label_confirm_area">你确定变更地区为&lt;font color=#d9534f>%1$s&lt;/font>？</string>
+    <string name="label_confirm_city">你确定变更城市为&lt;font color=#ff6060>%1$s&lt;/font>？</string>
+    <string name="label_confirm_area">你确定变更地区为&lt;font color=#ff6060>%1$s&lt;/font>？</string>
 
     <!-- Settings -->
     <string name="label_notification">通知</string>
@@ -262,7 +262,7 @@
     <string name="label_approved">已同意</string>
     <string name="label_rejected">已拒绝</string>
     <string name="hint_decline_reason">拒绝理由</string>
-    <string name="label_group_approved">你的入群请求已被批准</string>
+    <string name="label_group_approved">入群请求已被批准</string>
     <string name="label_group_request_details">请求加入%1$s：%2$s</string>
 
     <!-- Moment -->

@@ -29,8 +29,8 @@
             android:paddingRight="@dimen/margin_medium">
 
             <Button
-                android:id="@+id/b_signUp"
-                style="@style/Button.SignUp"/>
+                android:id="@+id/b_signIn"
+                style="@style/Button.SignIn"/>
 
         </RelativeLayout>
 
@@ -42,8 +42,8 @@
             android:paddingRight="@dimen/margin_extra_large">
 
             <Button
-                android:id="@+id/b_signIn"
-                style="@style/Button.SignIn"/>
+                android:id="@+id/b_signUp"
+                style="@style/Button.SignUp"/>
 
         </RelativeLayout>
 

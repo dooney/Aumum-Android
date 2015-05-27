@@ -61,7 +61,7 @@
 
                         </RelativeLayout>
 
-                        <View style="@style/Divider.Dark"/>
+                        <View style="@style/Divider.Blur"/>
 
                         <RelativeLayout
                             android:layout_width="match_parent"
@@ -94,7 +94,7 @@
 
                         </RelativeLayout>
 
-                        <View style="@style/Divider.Dark"/>
+                        <View style="@style/Divider.Blur"/>
 
                         <RelativeLayout
                             android:layout_width="match_parent"

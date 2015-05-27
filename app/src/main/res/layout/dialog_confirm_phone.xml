@@ -15,18 +15,17 @@
 
     <TextView
         android:id="@+id/text_will_send_verification_code"
-        style="@style/TextView.Account"
+        style="@style/TextView"
         android:padding="@dimen/margin_extra_large"
         android:gravity="center_vertical"
         android:text="@string/label_will_send_verification_code"/>
 
     <TextView
         android:id="@+id/text_phone"
-        style="@style/TextView.Account"
+        style="@style/TextView"
         android:paddingLeft="@dimen/margin_extra_large"
         android:paddingBottom="@dimen/margin_extra_large"
-        android:textColor="@color/bbutton_danger"
-        android:text="0061 451271020"/>
+        android:textColor="@color/am_red"/>
 
     <View style="@style/Divider" />
 

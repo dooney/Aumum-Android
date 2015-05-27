@@ -89,8 +89,14 @@
             android:windowSoftInputMode="adjustResize">
         </activity>
         <activity
+            android:name=".ui.account.VerifyActivity"
+            android:label="@string/title_activity_verify"
+            android:windowSoftInputMode="adjustResize">
+        </activity>
+        <activity
             android:name=".ui.account.ResetPasswordActivity"
-            android:label="@string/title_activity_reset_password" >
+            android:label="@string/title_activity_reset_password"
+            android:windowSoftInputMode="adjustResize">
         </activity>
         <activity
             android:name=".ui.account.ResetPasswordSuccessActivity"
@@ -205,10 +211,6 @@
         <activity
             android:name=".ui.account.CompleteProfileActivity"
             android:label="@string/title_activity_complete_profile" >
-        </activity>
-        <activity
-            android:name=".ui.account.VerifyActivity"
-            android:label="@string/title_activity_verify" >
         </activity>
         <activity
             android:name=".ui.group.GroupDetailsActivity"

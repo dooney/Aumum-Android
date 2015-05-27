@@ -4,7 +4,6 @@ import android.content.Context;
 import android.widget.ImageView;
 
 import com.aumum.app.mobile.R;
-import com.aumum.app.mobile.ui.view.dialog.PopupDialog;
 import com.aumum.app.mobile.utils.ImageLoaderUtils;
 
 /**

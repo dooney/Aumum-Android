@@ -7,7 +7,6 @@ import android.content.Context;
 import android.widget.TextView;
 
 import com.aumum.app.mobile.R;
-import com.aumum.app.mobile.ui.view.dialog.PopupDialog;
 
 public class ProgressDialog extends PopupDialog {
 

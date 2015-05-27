@@ -6,7 +6,6 @@ import android.widget.Button;
 import android.widget.ProgressBar;
 
 import com.aumum.app.mobile.R;
-import com.aumum.app.mobile.ui.view.dialog.PopupDialog;
 import com.aumum.app.mobile.utils.SafeAsyncTask;
 
 import retrofit.RetrofitError;
@@ -16,7 +15,7 @@ import retrofit.RetrofitError;
  */
 public class ConfirmDialog extends PopupDialog {
 
-    protected Button okButton;
+    protected View okButton;
     protected Button cancelButton;
     protected ProgressBar progress;
     private OnConfirmListener listener;
@@ -34,7 +33,7 @@ public class ConfirmDialog extends PopupDialog {
     }
 
     protected void initView() {
-        okButton = (Button) findViewById(R.id.b_dialog_ok);
+        okButton = findViewById(R.id.b_dialog_ok);
         okButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

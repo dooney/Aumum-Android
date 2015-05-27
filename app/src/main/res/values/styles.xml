@@ -25,17 +25,20 @@
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:background">@color/transparent</item>
-    </style>
-    <style name="Button.Dialog" parent="Button">
-        <item name="android:layout_width">match_parent</item>
-        <item name="android:textColor">@drawable/button_dialog_text</item>
         <item name="android:textSize">@dimen/text_sz_medium</item>
     </style>
-    <style name="Button.Dialog.Ok" parent="Button.Dialog">
+    <style name="Button.Dialog.Ok" parent="Button">
         <item name="android:text">@string/label_ok</item>
+        <item name="android:textColor">@color/am_white</item>
+        <item name="android:background">@drawable/button_yellow_solid</item>
+        <item name="android:paddingTop">@dimen/margin_small</item>
+        <item name="android:paddingBottom">@dimen/margin_small</item>
+        <item name="android:paddingLeft">@dimen/margin_large</item>
+        <item name="android:paddingRight">@dimen/margin_large</item>
     </style>
-    <style name="Button.Dialog.Cancel" parent="Button.Dialog">
+    <style name="Button.Dialog.Cancel" parent="Button">
         <item name="android:text">@string/label_cancel</item>
+        <item name="android:textColor">@color/am_black</item>
     </style>
 
     <style name="EditText">
@@ -206,15 +209,15 @@
     <!-- Splash -->
     <style name="Button.SignIn" parent="Button">
         <item name="android:layout_width">match_parent</item>
-        <item name="android:textColor">@color/am_yellow</item>
+        <item name="android:textColor">@color/am_white</item>
         <item name="android:text">@string/label_sign_in</item>
-        <item name="android:background">@drawable/button_yellow_round</item>
+        <item name="android:background">@drawable/button_white_round</item>
     </style>
     <style name="Button.SignUp" parent="Button">
         <item name="android:layout_width">match_parent</item>
-        <item name="android:textColor">@color/am_white</item>
+        <item name="android:textColor">@color/am_yellow</item>
         <item name="android:text">@string/label_sign_up</item>
-        <item name="android:background">@drawable/button_white_round</item>
+        <item name="android:background">@drawable/button_yellow_round</item>
     </style>
 
     <!-- Report -->
@@ -386,19 +389,25 @@
     <style name="TextView.About" parent="TextView.Title" />
 
     <!-- Account -->
-    <style name="Button.Login" parent="Button.SignIn">
-        <item name="android:textSize">@dimen/text_sz_medium</item>
-        <item name="android:text">@string/label_login</item>
-    </style>
-    <style name="Button.JoinNow" parent="Button.SignUp">
-        <item name="android:textSize">@dimen/text_sz_medium</item>
-        <item name="android:text">@string/label_join_now</item>
-    </style>
-    <style name="Button.Register" parent="Button">
+    <style name="Button.Login" parent="Button">
         <item name="android:layout_width">match_parent</item>
         <item name="android:textColor">@color/am_yellow</item>
-        <item name="android:text">@string/label_register</item>
+        <item name="android:text">@string/label_login</item>
         <item name="android:background">@drawable/button_yellow_round</item>
+    </style>
+    <style name="Button.JoinNow" parent="Button">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:textColor">@color/am_white</item>
+        <item name="android:text">@string/label_join_now</item>
+        <item name="android:background">@drawable/button_white_round</item>
+    </style>
+    <style name="Button.Account.Large" parent="Button">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:textColor">@color/am_yellow</item>
+        <item name="android:background">@drawable/button_yellow_round</item>
+    </style>
+    <style name="Button.Register" parent="Button.Account.Large">
+        <item name="android:text">@string/label_register</item>
     </style>
     <style name="TextView.Account" parent="TextView">
         <item name="android:textSize">@dimen/text_sz_large</item>
@@ -408,16 +417,15 @@
         <item name="android:textSize">@dimen/text_sz_small</item>
         <item name="android:textColor">@color/am_white</item>
     </style>
-    <style name="EditText.Account.Phone" parent="EditText">
+    <style name="EditText.Account" parent="EditText">
         <item name="android:background">@null</item>
         <item name="android:textColor">@color/am_white</item>
-        <item name="android:textColorHint">@color/am_white_blur</item>
+        <item name="android:textColorHint">@color/am_yellow_blur</item>
+    </style>
+    <style name="EditText.Account.Phone" parent="EditText.Account">
         <item name="android:inputType">phone</item>
     </style>
-    <style name="EditText.Account.Password" parent="EditText">
-        <item name="android:background">@null</item>
-        <item name="android:textColor">@color/am_white</item>
-        <item name="android:textColorHint">@color/am_white_blur</item>
+    <style name="EditText.Account.Password" parent="EditText.Account">
         <item name="android:inputType">textPassword</item>
     </style>
     <style name="EditText.Login.Phone" parent="EditText.Account.Phone">
@@ -432,6 +440,31 @@
     <style name="EditText.Register.Password" parent="EditText.Account.Password">
         <item name="android:hint">@string/hint_register_password</item>
     </style>
+    <style name="EditText.VerificationCode" parent="EditText.Account">
+        <item name="android:hint">@string/hint_verification_code</item>
+        <item name="android:inputType">phone</item>
+    </style>
+    <style name="Button.VerifyCode" parent="Button.Account.Large">
+        <item name="android:text">@string/label_ok</item>
+        <item name="android:textSize">@dimen/text_sz_large</item>
+    </style>
+    <style name="Button.ResendCode" parent="Button">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:textColor">@color/am_white</item>
+        <item name="android:background">@drawable/button_white_round</item>
+    </style>
+    <style name="EditText.ResetPassword.Email" parent="EditText.Account">
+        <item name="android:inputType">textEmailAddress</item>
+    </style>
+    <style name="Button.ResetPassword" parent="Button.Account.Large">
+        <item name="android:text">@string/label_submit</item>
+    </style>
+    <style name="TextView.ResetPassword.Email" parent="TextView">
+        <item name="android:textColor">@color/am_yellow</item>
+    </style>
+    <style name="Button.ResendResetPassword" parent="Button.Account.Large">
+        <item name="android:text">@string/label_resend_reset_password_email</item>
+    </style>
     <style name="EditText.Register.Email" parent="EditText.Mandatory">
         <item name="android:hint">@string/hint_email</item>
         <item name="android:inputType">textEmailAddress</item>
@@ -443,23 +476,11 @@
         <item name="android:hint">@string/hint_screen_name</item>
         <item name="android:inputType">textPersonName</item>
     </style>
-    <style name="EditText.ResetPassword.Email" parent="EditText">
-        <item name="android:drawableLeft">@drawable/ic_fa_envelope_o</item>
-        <item name="android:hint">@string/hint_reset_password_email</item>
-        <item name="android:inputType">textEmailAddress</item>
-    </style>
-    <style name="TextView.ResetPassword.Email" parent="TextView">
-        <item name="android:textColor">@color/text_warning</item>
-    </style>
     <style name="EditText.Account.City" parent="EditText.Mandatory">
         <item name="android:hint">@string/hint_city</item>
     </style>
     <style name="EditText.Account.Area" parent="EditText.Mandatory">
         <item name="android:hint">@string/hint_area</item>
-    </style>
-    <style name="EditText.VerificationCode" parent="EditText">
-        <item name="android:hint">@string/hint_verification_code</item>
-        <item name="android:inputType">phone</item>
     </style>
 
     <!-- Widgets -->
@@ -479,8 +500,10 @@
         <item name="android:layout_width">match_parent</item>
         <item name="android:background">@color/grey_extra_light</item>
     </style>
-    <style name="Divider.Dark" parent="Divider">
-        <item name="android:background">@color/grey_light</item>
+    <style name="Divider.Blur">
+        <item name="android:layout_height">0.1dp</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:background">@color/am_white_blur</item>
     </style>
 
     <style name="Tab.View" parent="Widget">
@@ -520,6 +543,7 @@
     <style name="ProgressBar" parent="@android:style/Widget.Holo.Light.ProgressBar">
         <item name="android:layout_width">@dimen/image_sz_medium</item>
         <item name="android:layout_height">@dimen/image_sz_medium</item>
+        <item name="android:indeterminateDrawable">@drawable/progress_bar</item>
     </style>
     <style name="ProgressBar.Small" parent="ProgressBar">
         <item name="android:layout_width">@dimen/image_sz_small</item>

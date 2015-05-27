@@ -30,7 +30,7 @@
             android:layout_alignParentBottom="true"
             android:background="@color/white">
 
-            <View style="@style/Divider.Dark" />
+            <View style="@style/Divider.Blur" />
 
             <LinearLayout
                 android:layout_width="match_parent"

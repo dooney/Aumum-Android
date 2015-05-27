@@ -8,12 +8,15 @@
     <color name="grey_medium">#999999</color>
 
     <color name="am_red">#ffff6060</color>
-    <color name="am_red_disabled">#a5ff6060</color>
 
     <color name="am_yellow">#ffffde00</color>
+    <color name="am_yellow_blur">#85ffde00</color>
+    <color name="am_yellow_dark">#ffcc00</color>
 
     <color name="am_white">#ffffffff</color>
     <color name="am_white_blur">#55ffffff</color>
+
+    <color name="am_black">#666666</color>
 
     <color name="text">#ffffff</color>
     <color name="text_dark">#666666</color>

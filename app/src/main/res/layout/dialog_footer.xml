@@ -4,28 +4,27 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content" >
 
-    <Button
-        android:id="@+id/b_dialog_cancel"
-        android:layout_width="0dip"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        style="@style/Button.Dialog.Cancel" />
-
-    <View
-        android:layout_width="1px"
-        android:layout_height="match_parent"
-        android:background="@color/grey_light" />
-
     <RelativeLayout
         android:layout_width="0dp"
         android:layout_height="match_parent"
         android:layout_weight="1">
 
         <Button
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:id="@+id/b_dialog_cancel"
+            style="@style/Button.Dialog.Cancel"
+            android:layout_centerInParent="true"/>
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1">
+
+        <TextView
             android:id="@+id/b_dialog_ok"
-            style="@style/Button.Dialog.Ok"/>
+            style="@style/Button.Dialog.Ok"
+            android:layout_centerInParent="true"/>
 
         <ProgressBar
             android:id="@+id/progress"

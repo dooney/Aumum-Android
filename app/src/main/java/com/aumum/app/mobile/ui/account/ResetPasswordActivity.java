@@ -15,7 +15,6 @@ import com.aumum.app.mobile.core.Constants;
 import com.aumum.app.mobile.core.service.RestService;
 import com.aumum.app.mobile.ui.base.ProgressDialogActivity;
 import com.aumum.app.mobile.ui.helper.TextWatcherAdapter;
-import com.aumum.app.mobile.ui.view.Animation;
 import com.aumum.app.mobile.utils.EditTextUtils;
 import com.aumum.app.mobile.utils.SafeAsyncTask;
 import com.mobsandgeeks.saripaar.ValidationError;
@@ -91,8 +90,6 @@ public class ResetPasswordActivity extends ProgressDialogActivity
 
         validator = new Validator(this);
         validator.setValidationListener(this);
-
-        Animation.flyIn(this);
     }
 
     private TextWatcher validationTextWatcher() {

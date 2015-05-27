@@ -1,39 +1,61 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="@dimen/margin_extreme_large"
-    android:orientation="vertical" >
+    android:background="@color/am_red">
 
-    <TextView
-        android:id="@+id/text_label_phone"
-        style="@style/TextView.Subtitle"
-        android:paddingBottom="@dimen/margin_medium"/>
-
-    <TextView
-        android:id="@+id/text_label_code_tip"
-        style="@style/TextView.Subtitle"
-        android:paddingBottom="@dimen/margin_large"/>
-
-    <EditText
-        android:id="@+id/et_verification_code"
-        style="@style/EditText.VerificationCode"
-        android:imeOptions="actionDone"/>
-
-    <com.beardedhen.androidbootstrap.BootstrapButton
-        xmlns:bootstrap="http://schemas.android.com/apk/res-auto"
-        android:id="@+id/b_confirm"
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/label_ok"
-        android:textSize="@dimen/text_sz_extra_large"
-        android:layout_marginTop="@dimen/margin_large"
-        android:layout_marginBottom="@dimen/margin_large"
-        bootstrap:bb_type="primary"/>
+        android:layout_height="match_parent"
+        android:fillViewport="true"
+        android:scrollbars="none">
 
-    <Button
-        android:id="@+id/b_resend"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@drawable/bbuton_danger"/>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_centerInParent="true"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
+            android:gravity="center"
+            android:paddingLeft="@dimen/margin_extreme_large"
+            android:paddingRight="@dimen/margin_extreme_large">
 
-</LinearLayout>
+            <TextView
+                android:id="@+id/text_label_phone"
+                style="@style/TextView.Account"
+                android:paddingBottom="@dimen/margin_medium"/>
+
+            <TextView
+                android:id="@+id/text_label_code_tip"
+                style="@style/TextView.Account"
+                android:paddingBottom="@dimen/margin_large"/>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/list_edit_text"
+                android:layout_marginBottom="@dimen/margin_large">
+
+                <EditText
+                    android:id="@+id/et_verification_code"
+                    style="@style/EditText.VerificationCode"
+                    android:imeOptions="actionDone"/>
+
+            </RelativeLayout>
+
+            <Button
+                android:id="@+id/b_confirm"
+                style="@style/Button.VerifyCode"
+                android:layout_marginBottom="@dimen/margin_large"/>
+
+            <Button
+                android:id="@+id/b_resend"
+                style="@style/Button.ResendCode"/>
+
+        </LinearLayout>
+
+    </ScrollView>
+
+</RelativeLayout>
