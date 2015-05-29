@@ -2,7 +2,8 @@
 
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent" >
+    android:layout_height="match_parent"
+    android:background="@color/am_red">
 
     <ScrollView
         android:layout_width="match_parent"
@@ -10,56 +11,90 @@
         android:scrollbars="none"
         android:fillViewport="true">
 
-        <LinearLayout
-            android:id="@+id/container"
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:padding="@dimen/margin_extreme_large"
-            android:orientation="vertical"
-            android:focusable="true"
-            android:focusableInTouchMode="true" >
+            android:layout_height="match_parent">
 
-            <com.aumum.app.mobile.ui.view.AvatarImageView
-                android:id="@+id/image_avatar"
-                style="@style/ImageView.Avatar.ExtraLarge"
-                android:layout_gravity="center_horizontal" />
+            <LinearLayout
+                android:id="@+id/container"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_centerInParent="true"
+                android:focusable="true"
+                android:focusableInTouchMode="true"
+                android:gravity="center"
+                android:padding="@dimen/margin_extreme_large">
 
-            <com.aumum.app.mobile.ui.view.ClearEditText
-                android:id="@+id/et_screen_name"
-                style="@style/EditText.Register.ScreenName"
-                android:imeOptions="actionNext"
-                android:nextFocusDown="@+id/et_email" />
+                <com.aumum.app.mobile.ui.view.AvatarImageView
+                    xmlns:app="http://schemas.android.com/apk/res-auto"
+                    android:id="@+id/image_avatar"
+                    style="@style/ImageView.Avatar.ExtraLarge"
+                    android:layout_gravity="center_horizontal"
+                    app:border_width="2dp"
+                    app:border_color="@color/am_yellow"
+                    android:src="@drawable/ic_avatar_y"/>
 
-            <com.greenhalolabs.emailautocompletetextview.EmailAutoCompleteTextView
-                xmlns:app="http://schemas.android.com/apk/res-auto"
-                android:id="@+id/et_email"
-                style="@style/EditText.Register.Email"
-                app:clearButtonDrawable="@drawable/ic_fa_times"
-                android:imeOptions="actionNext"
-                android:nextFocusDown="@+id/et_city"/>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:background="@drawable/list_edit_text"
+                    android:layout_marginTop="@dimen/margin_extra_large"
+                    android:layout_marginBottom="@dimen/margin_extra_large">
 
-            <EditText
-                android:id="@+id/et_city"
-                style="@style/EditText.Account.City"
-                android:layout_marginTop="@dimen/margin_medium"
-                android:focusable="false"
-                android:imeOptions="actionNext"
-                android:nextFocusDown="@+id/et_area" />
+                    <com.aumum.app.mobile.ui.view.ClearEditText
+                        android:id="@+id/et_screen_name"
+                        style="@style/EditText.Register.ScreenName"
+                        android:imeOptions="actionNext"
+                        android:nextFocusDown="@+id/et_email" />
 
-            <EditText
-                android:id="@+id/et_area"
-                style="@style/EditText.Account.Area"
-                android:layout_marginTop="@dimen/margin_medium"
-                android:focusable="false"
-                android:imeOptions="actionNext"
-                android:nextFocusDown="@+id/et_about"/>
+                    <View style="@style/Divider.Blur"/>
 
-            <EditText
-                android:id="@+id/et_about"
-                style="@style/EditText.Register.About"
-                android:imeOptions="actionDone"/>
+                    <com.greenhalolabs.emailautocompletetextview.EmailAutoCompleteTextView
+                        xmlns:app="http://schemas.android.com/apk/res-auto"
+                        android:id="@+id/et_email"
+                        style="@style/EditText.Register.Email"
+                        app:clearButtonDrawable="@drawable/ic_fa_times_y"
+                        android:imeOptions="actionNext"
+                        android:nextFocusDown="@+id/et_city"/>
 
-        </LinearLayout>
+                    <View style="@style/Divider.Blur"/>
+
+                    <EditText
+                        android:id="@+id/et_city"
+                        style="@style/EditText.Account.City"
+                        android:focusable="false"
+                        android:imeOptions="actionNext"
+                        android:nextFocusDown="@+id/et_area" />
+
+                    <View style="@style/Divider.Blur"/>
+
+                    <EditText
+                        android:id="@+id/et_area"
+                        style="@style/EditText.Account.Area"
+                        android:focusable="false"
+                        android:imeOptions="actionNext"
+                        android:nextFocusDown="@+id/et_about"/>
+
+                    <View style="@style/Divider.Blur"/>
+
+                    <EditText
+                        android:id="@+id/et_about"
+                        android:minHeight="80dp"
+                        style="@style/EditText.Register.About"
+                        android:gravity="top|left"
+                        android:imeOptions="actionDone"/>
+
+                </LinearLayout>
+
+                <Button
+                    android:id="@+id/b_save"
+                    style="@style/Button.SaveProfile" />
+
+            </LinearLayout>
+
+        </RelativeLayout>
 
     </ScrollView>
 

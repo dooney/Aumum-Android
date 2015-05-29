@@ -162,7 +162,7 @@
     <string name="hint_register_phone">请输入要注册的手机号码</string>
     <string name="hint_register_password">请输入6-16位密码</string>
     <string name="hint_screen_name">用户昵称</string>
-    <string name="hint_email">邮箱地址 (找回密码)</string>
+    <string name="hint_email">邮箱地址</string>
     <string name="hint_city">所在城市</string>
     <string name="hint_area">所在地区</string>
     <string name="hint_about">个人简介</string>

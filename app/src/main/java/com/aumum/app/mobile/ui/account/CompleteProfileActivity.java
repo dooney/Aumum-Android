@@ -5,9 +5,8 @@ import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 
@@ -21,7 +20,6 @@ import com.aumum.app.mobile.ui.area.AreaListActivity;
 import com.aumum.app.mobile.ui.base.ProgressDialogActivity;
 import com.aumum.app.mobile.ui.helper.TextWatcherAdapter;
 import com.aumum.app.mobile.ui.user.AreaUsersActivity;
-import com.aumum.app.mobile.ui.view.Animation;
 import com.aumum.app.mobile.ui.view.dialog.ListViewDialog;
 import com.aumum.app.mobile.utils.EditTextUtils;
 import com.aumum.app.mobile.utils.ImageLoaderUtils;
@@ -54,7 +52,6 @@ public class CompleteProfileActivity extends ProgressDialogActivity
     @Inject RestService restService;
     @Inject FileUploadService fileUploadService;
 
-    private View saveButton;
     @InjectView(R.id.container) protected View container;
     @InjectView(R.id.image_avatar) protected ImageView avatarImage;
     @InjectView(R.id.et_screen_name) protected EditText screenNameText;
@@ -66,8 +63,10 @@ public class CompleteProfileActivity extends ProgressDialogActivity
     @InjectView(R.id.et_city) protected EditText cityText;
     @InjectView(R.id.et_area) protected EditText areaText;
     @InjectView(R.id.et_about) protected EditText aboutText;
+    @InjectView(R.id.b_save) protected Button saveButton;
 
     private String userId;
+    private String avatarUrl;
     private String screenName;
     private String email;
     private String city;
@@ -132,27 +131,16 @@ public class CompleteProfileActivity extends ProgressDialogActivity
             }
         });
         areaText.addTextChangedListener(watcher);
-        validator = new Validator(this);
-        validator.setValidationListener(this);
-
-        Animation.flyIn(this);
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        MenuItem menuItem = menu.add(Menu.NONE, 0, Menu.NONE, null);
-        menuItem.setActionView(R.layout.menuitem_button_save);
-        menuItem.setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
-        View view = menuItem.getActionView();
-        saveButton = view.findViewById(R.id.b_save);
         saveButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 validator.validate();
             }
         });
+        validator = new Validator(this);
+        validator.setValidationListener(this);
+
         updateUIWithValidation();
-        return true;
     }
 
     @Override
@@ -178,7 +166,8 @@ public class CompleteProfileActivity extends ProgressDialogActivity
     }
 
     private void updateUIWithValidation() {
-        final boolean populated = populated(screenNameText) &&
+        final boolean populated = avatarUrl != null &&
+                populated(screenNameText) &&
                 populated(emailText) &&
                 cityText.getText().length() > 0 &&
                 areaText.getText().length() > 0;
@@ -266,6 +255,11 @@ public class CompleteProfileActivity extends ProgressDialogActivity
                 if(!(e instanceof RetrofitError)) {
                     showError(e);
                 }
+            }
+
+            @Override
+            protected void onSuccess(Boolean success) throws Exception {
+                avatarUrl = fileUrl;
             }
 
             @Override

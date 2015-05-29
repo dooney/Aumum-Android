@@ -465,22 +465,27 @@
     <style name="Button.ResendResetPassword" parent="Button.Account.Large">
         <item name="android:text">@string/label_resend_reset_password_email</item>
     </style>
-    <style name="EditText.Register.Email" parent="EditText.Mandatory">
+    <style name="EditText.Register.ScreenName" parent="EditText.Account">
+        <item name="android:hint">@string/hint_screen_name</item>
+        <item name="android:inputType">textPersonName</item>
+    </style>
+    <style name="EditText.Account.City" parent="EditText.Account">
+        <item name="android:hint">@string/hint_city</item>
+    </style>
+    <style name="EditText.Account.Area" parent="EditText.Account">
+        <item name="android:hint">@string/hint_area</item>
+    </style>
+    <style name="EditText.Register.Email" parent="EditText.Account">
         <item name="android:hint">@string/hint_email</item>
         <item name="android:inputType">textEmailAddress</item>
     </style>
     <style name="EditText.Register.About" parent="EditText.MultiLine">
+        <item name="android:textColor">@color/am_white</item>
         <item name="android:hint">@string/hint_about</item>
+        <item name="android:textColorHint">@color/am_white_blur</item>
     </style>
-    <style name="EditText.Register.ScreenName" parent="EditText.Mandatory">
-        <item name="android:hint">@string/hint_screen_name</item>
-        <item name="android:inputType">textPersonName</item>
-    </style>
-    <style name="EditText.Account.City" parent="EditText.Mandatory">
-        <item name="android:hint">@string/hint_city</item>
-    </style>
-    <style name="EditText.Account.Area" parent="EditText.Mandatory">
-        <item name="android:hint">@string/hint_area</item>
+    <style name="Button.SaveProfile" parent="Button.Account.Large">
+        <item name="android:text">@string/label_save</item>
     </style>
 
     <!-- Widgets -->
