@@ -9,9 +9,7 @@
         <item name="android:actionMenuTextAppearance">@style/MenuItem.Text</item>
         <item name="android:windowContentOverlay">@null</item>
         <item name="mainTabViewStyle">@style/Tab.View</item>
-        <item name="topTabViewStyle">@style/Tab.View.Small</item>
         <item name="mainTabTextStyle">@style/Tab.Text</item>
-        <item name="topTabTextStyle">@style/Tab.Text.Small</item>
         <item name="tabImageStyle">@style/Tab.Image</item>
     </style>
 
