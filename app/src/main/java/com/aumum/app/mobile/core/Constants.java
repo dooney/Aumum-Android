@@ -102,11 +102,6 @@ public final class Constants {
         public static final String URL_MOMENT_COMMENTS_FRAG = "/1/classes/MomentComments";
 
         /**
-         * Moment Comment By Id URL
-         */
-        public static final String URL_MOMENT_COMMENT_BY_ID_FRAG = "/1/classes/MomentComments/{id}";
-
-        /**
          * PARAMS for auth
          */
         public static final String PARAM_USERNAME = "username";
@@ -139,6 +134,7 @@ public final class Constants {
         public static final class User {
             public static final String PARAM_CONTACTS = "contacts";
             public static final String PARAM_AVATAR_URL = "avatarUrl";
+            public static final String PARAM_USER_NAME = "username";
             public static final String PARAM_SCREEN_NAME = "screenName";
             public static final String PARAM_EMAIL = "email";
             public static final String PARAM_CITY = "city";
@@ -254,6 +250,7 @@ public final class Constants {
         public static final int GET_AREA_LIST_REQ_CODE = 32;
         public static final int NEW_GROUP_REQ_CODE = 33;
         public static final int NEW_MOMENT_REQ_CODE = 34;
+        public static final int EDIT_PROFILE_REQ_CODE = 35;
     }
 
     public static final class Link {

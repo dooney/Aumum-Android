@@ -67,7 +67,7 @@ public class LikeTextView extends AnimateTextView {
     private void toggleLike(boolean isLike) {
         if (isLike) {
             setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_fa_liked, 0, 0, 0);
-            setTextColor(getResources().getColor(R.color.bbutton_danger));
+            setTextColor(getResources().getColor(R.color.am_white));
             setBackgroundResource(R.drawable.buttontext_background_dark);
         } else {
             setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_fa_like, 0, 0, 0);

@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        style="@style/LinearLayout.NavButton">
+
+        <TextView
+            style="@style/TextView.Label"
+            android:text="@string/label_mobile"/>
+
+        <TextView
+            android:id="@+id/text_mobile"
+            style="@style/TextView.Subtitle"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        style="@style/LinearLayout.NavButton">
+
+        <TextView
+            style="@style/TextView.Label"
+            android:text="@string/label_country"/>
+
+        <TextView
+            android:id="@+id/text_country"
+            style="@style/TextView.Subtitle"/>
+
+    </LinearLayout>
+
+    <View style="@style/Divider"
+        android:layout_marginTop="@dimen/margin_large"/>
+
+    <LinearLayout
+        android:id="@+id/layout_avatar"
+        style="@style/LinearLayout.NavButton">
+
+        <TextView
+            style="@style/TextView.Label"
+            android:text="@string/label_avatar"/>
+
+        <com.aumum.app.mobile.ui.view.AvatarImageView
+            android:id="@+id/image_avatar"
+            style="@style/ImageView.Avatar.ExtraLarge"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/layout_screen_name"
+        style="@style/LinearLayout.NavButton">
+
+        <TextView
+            style="@style/TextView.Label"
+            android:text="@string/label_screen_name"/>
+
+        <TextView
+            android:id="@+id/text_screen_name"
+            style="@style/TextView"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/layout_email"
+        style="@style/LinearLayout.NavButton">
+
+        <TextView
+            style="@style/TextView.Label"
+            android:text="@string/label_email_address"/>
+
+        <TextView
+            android:id="@+id/text_email"
+            style="@style/TextView"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/layout_city"
+        style="@style/LinearLayout.NavButton">
+
+        <TextView
+            style="@style/TextView.Label"
+            android:text="@string/label_city"/>
+
+        <TextView
+            android:id="@+id/text_city"
+            style="@style/TextView"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/layout_area"
+        style="@style/LinearLayout.NavButton">
+
+        <TextView
+            style="@style/TextView.Label"
+            android:text="@string/label_area"/>
+
+        <TextView
+            android:id="@+id/text_area"
+            style="@style/TextView"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/layout_about"
+        style="@style/LinearLayout.NavButton">
+
+        <TextView
+            style="@style/TextView.Label"
+            android:text="@string/label_about"/>
+
+        <TextView
+            android:id="@+id/text_about"
+            style="@style/TextView.Multiline"/>
+
+    </LinearLayout>
+
+</LinearLayout>

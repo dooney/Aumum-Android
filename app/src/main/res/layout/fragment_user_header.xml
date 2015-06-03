@@ -9,68 +9,61 @@
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
-        <RelativeLayout
+        <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
             <ImageView
                 android:id="@+id/image_cover"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:adjustViewBounds="true"
                 android:scaleType="fitCenter"/>
 
-            <com.aumum.app.mobile.ui.view.AvatarImageView
-                xmlns:app="http://schemas.android.com/apk/res-auto"
-                app:border_width="2dp"
-                app:border_color="#fff"
-                android:id="@+id/image_avatar"
-                style="@style/ImageView.Avatar.ExtraLarge"
-                android:layout_centerInParent="true"/>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:gravity="center"
+                android:background="#80000000">
 
-        </RelativeLayout>
+                <com.aumum.app.mobile.ui.view.AvatarImageView
+                    xmlns:app="http://schemas.android.com/apk/res-auto"
+                    app:border_width="1dp"
+                    app:border_color="#fff"
+                    android:id="@+id/image_avatar"
+                    style="@style/ImageView.Avatar.ExtraLarge"
+                    android:layout_marginBottom="@dimen/margin_medium"/>
 
-        <LinearLayout
-            style="@style/LinearLayout.NavButton">
+                <TextView
+                    android:id="@+id/text_screen_name"
+                    style="@style/TextView.User.ScreenName"
+                    android:layout_marginBottom="@dimen/margin_small"/>
 
-            <TextView
-                android:id="@+id/text_label_city"
-                style="@style/TextView.Label"
-                android:text="@string/label_city"/>
+                <TextView
+                    android:id="@+id/text_address"
+                    style="@style/TextView.User.Address"
+                    android:layout_marginBottom="@dimen/margin_medium"/>
 
-            <TextView
-                android:id="@+id/text_city"
-                style="@style/TextView"/>
+                <TextView
+                    android:id="@+id/text_about"
+                    style="@style/TextView.User.About"
+                    android:layout_marginBottom="@dimen/margin_medium"
+                    android:visibility="gone"/>
 
-        </LinearLayout>
+                <TextView
+                    android:id="@+id/b_add_contact"
+                    style="@style/Button.User.AddContact"
+                    android:visibility="gone"/>
 
-        <LinearLayout
-            style="@style/LinearLayout.NavButton">
+                <TextView
+                    android:id="@+id/b_chat"
+                    style="@style/Button.User.Chat"
+                    android:visibility="gone"/>
 
-            <TextView
-                android:id="@+id/text_label_area"
-                style="@style/TextView.Label"
-                android:text="@string/label_area"/>
+            </LinearLayout>
 
-            <TextView
-                android:id="@+id/text_area"
-                style="@style/TextView"/>
-
-        </LinearLayout>
-
-        <LinearLayout
-            style="@style/LinearLayout.NavButton">
-
-            <TextView
-                android:id="@+id/text_label_about"
-                style="@style/TextView.Label"
-                android:text="@string/label_about"/>
-
-            <TextView
-                android:id="@+id/text_about"
-                style="@style/TextView.Multiline"/>
-
-        </LinearLayout>
+        </FrameLayout>
 
     </LinearLayout>
 

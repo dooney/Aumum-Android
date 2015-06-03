@@ -108,7 +108,8 @@
             android:label="@string/title_activity_reset_password" >
         </activity>
         <activity
-            android:name=".ui.user.UserActivity" >
+            android:name=".ui.user.UserActivity"
+            android:label="@string/title_activity_user">
             <intent-filter>
                 <category android:name="android.intent.category.DEFAULT" />
 
@@ -117,6 +118,8 @@
                 <data android:scheme="com.aumum.app.mobile.user" />
             </intent-filter>
         </activity>
+        <activity android:name=".ui.user.EditProfileActivity"
+            android:label="@string/title_activity_edit_profile"/>
 
         <service android:name="com.parse.PushService" />
 

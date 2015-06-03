@@ -1,45 +1,36 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<RelativeLayout
+<LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:gravity="center">
 
-    <ScrollView
+    <RelativeLayout
+        android:id="@+id/main_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:scrollbars="none"
-        android:fillViewport="true">
+        android:visibility="gone">
 
-        <LinearLayout
-            android:id="@+id/main_view"
+        <com.aumum.app.mobile.ui.view.pulltorefresh.XGridView
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            android:id="@+id/user_view"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:visibility="gone">
+            android:layout_height="match_parent"
+            android:alwaysDrawnWithCache="true"
+            app:column_count="3"
+            app:item_margin="2dp"/>
 
-            <com.aumum.app.mobile.ui.view.pulltorefresh.XGridView
-                xmlns:app="http://schemas.android.com/apk/res-auto"
-                android:id="@+id/user_view"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:alwaysDrawnWithCache="true"
-                app:column_count="3"
-                app:item_margin="2dp"/>
-
-        </LinearLayout>
-
-    </ScrollView>
+    </RelativeLayout>
 
     <ProgressBar
         android:id="@+id/pb_loading"
-        style="@style/ProgressBar.Large"
-        android:layout_centerInParent="true" />
+        style="@style/ProgressBar.Large" />
 
     <TextView
         android:id="@+id/text_reload"
         style="@style/TextView.Reload"
-        android:layout_centerInParent="true"
         android:visibility="gone"/>
 
-</RelativeLayout>
+</LinearLayout>

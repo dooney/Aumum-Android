@@ -1,5 +1,7 @@
 package com.aumum.app.mobile.core.model;
 
+import com.aumum.app.mobile.core.Constants;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -166,5 +168,18 @@ public class User extends AggregateRoot {
         if (moments != null && !moments.contains(momentId)) {
             moments.add(momentId);
         }
+    }
+
+    public String getCountry() {
+        for (int i = 0; i < Constants.Options.COUNTRY_CODES.length; i++) {
+            if (username.startsWith(Constants.Options.COUNTRY_CODES[i])) {
+                return Constants.Options.COUNTRY_OPTIONS[i];
+            }
+        }
+        return null;
+    }
+
+    public String getAddress() {
+        return area + " " + city + " " + getCountry();
     }
 }

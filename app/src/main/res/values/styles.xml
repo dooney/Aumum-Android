@@ -27,14 +27,16 @@
         <item name="android:background">@color/transparent</item>
         <item name="android:textSize">@dimen/text_sz_medium</item>
     </style>
-    <style name="Button.Dialog.Ok" parent="Button">
-        <item name="android:text">@string/label_ok</item>
-        <item name="android:textColor">@color/am_white</item>
+    <style name="Button.Primary" parent="Button">
+        <item name="android:textColor">@color/am_black</item>
         <item name="android:background">@drawable/button_yellow_solid</item>
         <item name="android:paddingTop">@dimen/margin_small</item>
         <item name="android:paddingBottom">@dimen/margin_small</item>
         <item name="android:paddingLeft">@dimen/margin_large</item>
         <item name="android:paddingRight">@dimen/margin_large</item>
+    </style>
+    <style name="Button.Dialog.Ok" parent="Button.Primary">
+        <item name="android:text">@string/label_ok</item>
     </style>
     <style name="Button.Dialog.Cancel" parent="Button">
         <item name="android:text">@string/label_cancel</item>
@@ -97,6 +99,10 @@
         <item name="android:layout_width">@dimen/avatar_sz_extra_large</item>
         <item name="android:layout_height">@dimen/avatar_sz_extra_large</item>
     </style>
+    <style name="ImageView.Avatar.ExtremeLarge" parent="ImageView">
+        <item name="android:layout_width">@dimen/avatar_sz_extreme_large</item>
+        <item name="android:layout_height">@dimen/avatar_sz_extreme_large</item>
+    </style>
     <style name="ImageView.Avatar.Chat" parent="ImageView">
         <item name="android:layout_width">40dp</item>
         <item name="android:layout_height">40dp</item>
@@ -126,10 +132,6 @@
         <item name="android:layout_height">wrap_content</item>
         <item name="android:textColor">@color/text_dark</item>
         <item name="android:textSize">@dimen/text_sz_medium</item>
-    </style>
-    <style name="LinkTextView" parent="TextView">
-        <item name="android:textColor">@color/text_link</item>
-        <item name="android:gravity">center_vertical</item>
     </style>
     <style name="TextView.Title" parent="TextView">
         <item name="android:textSize">@dimen/text_sz_large</item>
@@ -170,7 +172,8 @@
         <item name="android:text">@string/label_chat</item>
     </style>
     <style name="TextView.UserName" parent="TextView">
-        <item name="android:textColor">@color/text_link</item>
+        <item name="android:textColor">@color/am_red</item>
+        <item name="android:textStyle">bold</item>
         <item name="android:maxLines">1</item>
         <item name="android:ellipsize">end</item>
     </style>
@@ -360,7 +363,7 @@
     <style name="TextView.ContactRequest.Added" parent="TextView.Subtitle">
         <item name="android:text">@string/label_added</item>
     </style>
-    <style name="TextView.UserContact.Invite" parent="LinkTextView">
+    <style name="TextView.UserContact.Invite" parent="TextView">
         <item name="android:textSize">@dimen/text_sz_large</item>
         <item name="android:text">@string/label_invite</item>
     </style>
@@ -488,6 +491,34 @@
         <item name="android:text">@string/label_save</item>
     </style>
 
+    <!-- User -->
+    <style name="TextView.User.ScreenName" parent="TextView.UserName">
+        <item name="android:textColor">@color/am_white</item>
+        <item name="android:textSize">@dimen/text_sz_large</item>
+    </style>
+    <style name="TextView.User.Address" parent="TextView">
+        <item name="android:textColor">@color/am_white</item>
+        <item name="android:textSize">@dimen/text_sz_small</item>
+        <item name="android:drawableLeft">@drawable/ic_fa_nav</item>
+        <item name="android:gravity">center_vertical</item>
+    </style>
+    <style name="TextView.User.About" parent="TextView.Multiline">
+        <item name="android:textColor">@color/am_white</item>
+        <item name="android:textSize">@dimen/text_sz_small</item>
+    </style>
+    <style name="Button.User.AddContact" parent="Button.Primary">
+        <item name="android:text">@string/label_add_contact</item>
+        <item name="android:textSize">@dimen/text_sz_small</item>
+    </style>
+    <style name="Button.User.Chat" parent="Button.Primary">
+        <item name="android:text">@string/label_chat</item>
+        <item name="android:textSize">@dimen/text_sz_small</item>
+    </style>
+    <style name="Button.User.EditProfile" parent="Button.Primary">
+        <item name="android:text">@string/label_edit_profile</item>
+        <item name="android:textSize">@dimen/text_sz_small</item>
+    </style>
+
     <!-- Widgets -->
     <style name="Divider">
         <item name="android:layout_height">1dp</item>
@@ -502,7 +533,7 @@
 
     <style name="Tab.View" parent="Widget">
         <item name="android:gravity">center_horizontal</item>
-        <item name="android:paddingTop">@dimen/margin_small</item>
+        <item name="android:paddingTop">6dp</item>
         <item name="android:paddingLeft">@dimen/margin_large</item>
         <item name="android:paddingBottom">@dimen/margin_extra_small</item>
         <item name="android:background">@color/am_red</item>

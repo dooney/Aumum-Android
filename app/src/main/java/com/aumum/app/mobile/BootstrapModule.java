@@ -55,6 +55,7 @@ import com.aumum.app.mobile.core.service.LogoutService;
 import com.aumum.app.mobile.ui.account.RegisterActivity;
 import com.aumum.app.mobile.core.Constants;
 import com.aumum.app.mobile.ui.settings.SettingsActivity;
+import com.aumum.app.mobile.ui.user.EditProfileActivity;
 import com.aumum.app.mobile.ui.user.ProfileFragment;
 import com.aumum.app.mobile.ui.user.UserFragment;
 import com.aumum.app.mobile.ui.user.UserListFragment;
@@ -128,7 +129,8 @@ import retrofit.converter.GsonConverter;
                 MessageFragment.class,
                 MomentLikesFragment.class,
                 MomentCommentsFragment.class,
-                DiscoveryFragment.class
+                DiscoveryFragment.class,
+                EditProfileActivity.class
         }
 )
 public class BootstrapModule {

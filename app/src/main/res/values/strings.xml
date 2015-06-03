@@ -134,6 +134,7 @@
     <string name="title_activity_login">用户登录</string>
     <string name="title_activity_register">注册新用户</string>
     <string name="title_activity_reset_password">找回密码</string>
+    <string name="title_activity_user">用户详情</string>
     <string name="title_activity_contact_requests">收到的请求</string>
     <string name="title_activity_settings">我的设置</string>
     <string name="title_activity_choose_image">选择图片</string>
@@ -155,6 +156,7 @@
     <string name="title_activity_contact">我的好友</string>
     <string name="title_activity_moment_likes">收到的喜欢</string>
     <string name="title_activity_moment_comments">收到的评论</string>
+    <string name="title_activity_edit_profile">修改个人资料</string>
 
     <!-- Account -->
     <string name="hint_login_phone">手机号码</string>
@@ -178,7 +180,6 @@
     <string name="label_forgot_password">忘记密码？</string>
     <string name="label_prompt_sign_in">已有账户？登录</string>
     <string name="label_confirm_agreement">注册即表示同意《澳妈圈用户协议》</string>
-    <string name="label_country">国家</string>
     <string name="label_select_your_country">请选择你所在的国家</string>
     <string name="label_confirm_phone">确认手机号码</string>
     <string name="label_will_send_verification_code"><Data>&lt;font color=#ff6060>验证码短信&lt;/font>将被发送到这个号码:</Data></string>
@@ -202,6 +203,10 @@
     <string name="label_contact_agreed">已经同意添加好友请求</string>
 
     <!-- Profile -->
+    <string name="label_edit_profile">修改个人资料</string>
+    <string name="label_mobile">注册手机</string>
+    <string name="label_country">所在国家</string>
+    <string name="label_avatar">头像图片</string>
     <string name="label_screen_name">用户昵称</string>
     <string name="label_email_address">邮箱地址</string>
     <string name="label_confirm_city">你确定变更城市为&lt;font color=#ff6060>%1$s&lt;/font>？</string>

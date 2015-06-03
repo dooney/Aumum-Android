@@ -3,7 +3,7 @@
 <resources>
 
     <style name="Theme.Aumum.Light" parent="@style/Theme.AppCompat.Light">
-        <item name="android:windowBackground">@color/pager_background</item>
+        <item name="android:windowBackground">@color/am_white_light</item>
         <item name="actionBarStyle">@style/Widget.Styled.ActionBar</item>
         <item name="android:actionBarStyle">@style/Widget.Styled.ActionBar</item>
         <item name="android:actionMenuTextAppearance">@style/MenuItem.Text</item>
@@ -17,20 +17,12 @@
         <item name="android:windowNoTitle">true</item>
     </style>
 
-    <style name="Widget.Styled.ProgressBar" parent="@style/Widget.AppCompat.ProgressBar">
-        <item name="android:minWidth">32dp</item>
-        <item name="android:maxWidth">32dp</item>
-        <item name="android:minHeight">32dp</item>
-        <item name="android:maxHeight">32dp</item>
-    </style>
-
     <style name="Widget.Styled.ActionBar" parent="@style/Widget.AppCompat.ActionBar">
-        <item name="background">@color/am_red</item>
         <item name="titleTextStyle">@style/ActionBarTitle.Text</item>
-        <item name="android:background">@color/am_red</item>
-        <item name="android:indeterminateProgressStyle">@style/Widget.Styled.ProgressBar</item>
         <item name="android:titleTextStyle">@style/ActionBarTitle.Text</item>
         <item name="android:icon">@android:color/transparent</item>
+        <item name="background">@color/am_red</item>
+        <item name="android:background">@color/am_red</item>
     </style>
 
 </resources>
