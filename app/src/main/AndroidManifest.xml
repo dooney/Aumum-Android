@@ -217,10 +217,6 @@
         </activity>
 
         <activity
-            android:name=".ui.group.GroupDetailsActivity"
-            android:label="@string/title_activity_group_details" >
-        </activity>
-        <activity
             android:name=".ui.contact.ContactPickerActivity"
             android:label="@string/title_activity_contact_picker" >
         </activity>
@@ -250,25 +246,6 @@
         <activity android:name=".ui.image.ImageViewActivity" />
         <activity android:name=".ui.image.GifViewActivity" />
         <activity android:name=".ui.image.ImageViewPagerActivity" />
-        <activity android:name=".ui.group.GroupListActivity"
-            android:label="@string/title_activity_group_list">
-        </activity>
-        <activity
-            android:name=".ui.group.GroupRequestsActivity"
-            android:excludeFromRecents="true"
-            android:label="@string/title_activity_group_requests"
-            android:launchMode="singleTask"
-            android:taskAffinity="" >
-        </activity>
-        <activity android:name=".ui.group.GroupMemberPickerActivity"
-            android:label="@string/title_activity_group_member_picker">
-        </activity>
-        <activity android:name=".ui.group.NewGroupActivity"
-            android:label="@string/title_activity_new_group">
-        </activity>
-        <activity android:name=".ui.group.MyGroupsActivity"
-            android:label="@string/title_activity_my_groups">
-        </activity>
         <activity android:name=".ui.moment.NewMomentActivity" />
         <activity android:name=".ui.moment.MomentDetailsActivity"
             android:windowSoftInputMode="adjustResize">

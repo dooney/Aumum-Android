@@ -16,16 +16,13 @@ import com.aumum.app.mobile.Injector;
 import com.aumum.app.mobile.R;
 import com.aumum.app.mobile.core.dao.UserStore;
 import com.aumum.app.mobile.core.model.Conversation;
-import com.aumum.app.mobile.core.model.Group;
 import com.aumum.app.mobile.core.model.UserInfo;
 import com.aumum.app.mobile.core.service.ChatService;
-import com.aumum.app.mobile.events.GroupDeletedEvent;
 import com.aumum.app.mobile.events.NewChatMessageEvent;
 import com.aumum.app.mobile.events.ResetChatUnreadEvent;
 import com.aumum.app.mobile.ui.base.ItemListFragment;
 import com.aumum.app.mobile.ui.contact.ContactActivity;
 import com.easemob.chat.EMConversation;
-import com.easemob.chat.EMGroup;
 import com.squareup.otto.Bus;
 import com.squareup.otto.Subscribe;
 
@@ -54,7 +51,7 @@ public class ConversationFragment extends ItemListFragment<Conversation> {
     @Override
     public void onCreateOptionsMenu(final Menu menu, final MenuInflater inflater) {
         MenuItem users = menu.add(Menu.NONE, 0, Menu.NONE, null);
-        users.setActionView(R.layout.menuitem_users);
+        users.setActionView(R.layout.menuitem_contacts);
         users.setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
         View usersView = users.getActionView();
         ImageView usersIcon = (ImageView) usersView.findViewById(R.id.b_users);
@@ -103,27 +100,13 @@ public class ConversationFragment extends ItemListFragment<Conversation> {
         List<EMConversation> emConversations = chatService.getAllConversations();
         for (final EMConversation emConversation: emConversations) {
             Conversation conversation = new Conversation(emConversation);
-            if (emConversation.isGroup()) {
-                EMGroup emGroup = chatService.getGroupById(emConversation.getUserName());
-                if (emGroup != null) {
-                    Group group = new Group(emGroup.getGroupId(), emGroup.getGroupName());
-                    conversation.setGroup(group);
-                    result.add(conversation);
-                }
-            } else {
-                UserInfo contact = userStore.getUserInfoByChatId(emConversation.getUserName());
-                if (contact != null) {
-                    conversation.setContact(contact);
-                    result.add(conversation);
-                }
+            UserInfo contact = userStore.getUserInfoByChatId(emConversation.getUserName());
+            if (contact != null) {
+                conversation.setContact(contact);
+                result.add(conversation);
             }
         }
         return result;
-    }
-
-    @Subscribe
-    public void onGroupDeletedEvent(GroupDeletedEvent event) {
-        refresh(null);
     }
 
     @Subscribe

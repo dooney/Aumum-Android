@@ -75,7 +75,7 @@ public class AcceptContactListener implements View.OnClickListener {
 
                 String text = context.getString(R.string.info_invitation_accepted_and_start_chatting);
                 UserInfo user = userStore.getUserInfoById(userId);
-                chatService.sendSystemMessage(user.getChatId(), false, text, null);
+                chatService.sendSystemMessage(user.getChatId(), text, null);
                 return true;
             }
 

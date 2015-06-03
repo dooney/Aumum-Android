@@ -7,7 +7,6 @@ import com.easemob.chat.EMConversation;
  */
 public class Conversation {
     private UserInfo contact;
-    private Group group;
     private EMConversation emConversation;
 
     public Conversation(EMConversation emConversation) {
@@ -18,16 +17,8 @@ public class Conversation {
         this.contact = contact;
     }
 
-    public void setGroup(Group group) {
-        this.group = group;
-    }
-
     public UserInfo getContact() {
         return contact;
-    }
-
-    public Group getGroup() {
-        return group;
     }
 
     public EMConversation getEmConversation() {

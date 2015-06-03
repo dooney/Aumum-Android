@@ -24,7 +24,6 @@ public class ChatMessagesAdapter extends BaseAdapter {
     private Activity activity;
     private Bus bus;
     private String chatId;
-    private boolean isGroup;
     private ArrayList<ChatMessage> data;
 
     private static final int MESSAGE_TYPE_SYSTEM = 0;
@@ -37,12 +36,10 @@ public class ChatMessagesAdapter extends BaseAdapter {
 
     public ChatMessagesAdapter(Activity activity,
                                Bus bus,
-                               String chatId,
-                               boolean isGroup) {
+                               String chatId) {
         this.activity = activity;
         this.bus = bus;
         this.chatId = chatId;
-        this.isGroup = isGroup;
         data = new ArrayList<>();
     }
 
@@ -96,11 +93,7 @@ public class ChatMessagesAdapter extends BaseAdapter {
                     card = new SystemMessageCard(convertView);
                     break;
                 case MESSAGE_TYPE_RECV_TXT:
-                    if (isGroup) {
-                        viewId = R.layout.group_chat_text_received_listitem_inner;
-                    } else {
-                        viewId = R.layout.chat_text_received_listitem_inner;
-                    }
+                    viewId = R.layout.chat_text_received_listitem_inner;
                     convertView = inflater.inflate(viewId, parent, false);
                     card = new TextMessageCard(activity, bus, chatId, convertView);
                     break;
@@ -110,11 +103,7 @@ public class ChatMessagesAdapter extends BaseAdapter {
                     card = new TextMessageCard(activity, bus, chatId, convertView);
                     break;
                 case MESSAGE_TYPE_RECV_VOICE:
-                    if (isGroup) {
-                        viewId = R.layout.group_chat_voice_received_listitem_inner;
-                    } else {
-                        viewId = R.layout.chat_voice_received_listitem_inner;
-                    }
+                    viewId = R.layout.chat_voice_received_listitem_inner;
                     convertView = inflater.inflate(viewId, parent, false);
                     card = new VoiceMessageCard(activity, bus, chatId, convertView);
                     break;
@@ -124,11 +113,7 @@ public class ChatMessagesAdapter extends BaseAdapter {
                     card = new VoiceMessageCard(activity, bus, chatId, convertView);
                     break;
                 case MESSAGE_TYPE_RECV_IMAGE:
-                    if (isGroup) {
-                        viewId = R.layout.group_chat_image_received_listitem_inner;
-                    } else {
-                        viewId = R.layout.chat_image_received_listitem_inner;
-                    }
+                    viewId = R.layout.chat_image_received_listitem_inner;
                     convertView = inflater.inflate(viewId, parent, false);
                     card = new ImageMessageCard(activity, bus, chatId, convertView);
                     break;

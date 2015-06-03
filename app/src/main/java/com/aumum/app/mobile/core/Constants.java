@@ -246,9 +246,7 @@ public final class Constants {
         }
 
         public static final int SETTINGS_REQ_CODE = 30;
-        public static final int GET_GROUP_DETAILS_REQ_CODE = 31;
         public static final int GET_AREA_LIST_REQ_CODE = 32;
-        public static final int NEW_GROUP_REQ_CODE = 33;
         public static final int NEW_MOMENT_REQ_CODE = 34;
         public static final int EDIT_PROFILE_REQ_CODE = 35;
     }

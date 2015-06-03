@@ -1,6 +1,5 @@
 package com.aumum.app.mobile.ui.chat;
 
-import android.app.Activity;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -25,14 +24,11 @@ import android.widget.TextView;
 
 import com.aumum.app.mobile.Injector;
 import com.aumum.app.mobile.R;
-import com.aumum.app.mobile.core.Constants;
 import com.aumum.app.mobile.core.dao.UserStore;
 import com.aumum.app.mobile.core.model.ChatMessage;
 import com.aumum.app.mobile.core.model.UserInfo;
 import com.aumum.app.mobile.core.service.ChatService;
 import com.aumum.app.mobile.events.DeleteChatMessageEvent;
-import com.aumum.app.mobile.events.GroupDeletedEvent;
-import com.aumum.app.mobile.ui.group.GroupDetailsActivity;
 import com.aumum.app.mobile.ui.report.ReportActivity;
 import com.aumum.app.mobile.ui.view.dialog.ConfirmDialog;
 import com.aumum.app.mobile.ui.view.dialog.ListViewDialog;
@@ -80,7 +76,6 @@ public class ChatFragment extends Fragment
     @Inject Bus bus;
 
     private String id;
-    private boolean isGroup;
 
     private XhsEmoticonsKeyBoardBar xhsEmoticonsKeyBoardBar;
     private ListView listView;
@@ -116,9 +111,7 @@ public class ChatFragment extends Fragment
         id = intent.getStringExtra(ChatActivity.INTENT_ID);
         conversation = chatService.getConversation(id);
         conversation.resetUnreadMsgCount();
-        int type = intent.getIntExtra(ChatActivity.INTENT_TYPE, ChatActivity.TYPE_SINGLE);
-        isGroup = type == ChatActivity.TYPE_GROUP;
-        adapter = new ChatMessagesAdapter(getActivity(), bus, chatService.getChatId(), isGroup);
+        adapter = new ChatMessagesAdapter(getActivity(), bus, chatService.getChatId());
         updateUI(conversation.getAllMessages(), -1);
 
         newMessageBroadcastReceiver = new NewMessageBroadcastReceiver();
@@ -142,37 +135,19 @@ public class ChatFragment extends Fragment
 
     @Override
     public void onCreateOptionsMenu(final Menu menu, final MenuInflater inflater) {
-        int type = getActivity().getIntent().getIntExtra(ChatActivity.INTENT_TYPE, ChatActivity.TYPE_SINGLE);
-        isGroup = type == ChatActivity.TYPE_GROUP;
-        if (!isGroup) {
-            MenuItem more = menu.add(Menu.NONE, 0, Menu.NONE, null);
-            more.setActionView(R.layout.menuitem_more);
-            more.setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
-            View moreView = more.getActionView();
-            ImageView moreIcon = (ImageView) moreView.findViewById(R.id.b_more);
-            moreIcon.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    if (getActivity() != null) {
-                        showSingleChatActions();
-                    }
+        MenuItem more = menu.add(Menu.NONE, 0, Menu.NONE, null);
+        more.setActionView(R.layout.menuitem_more);
+        more.setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
+        View moreView = more.getActionView();
+        ImageView moreIcon = (ImageView) moreView.findViewById(R.id.b_more);
+        moreIcon.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (getActivity() != null) {
+                    showSingleChatActions();
                 }
-            });
-        } else {
-            MenuItem users = menu.add(Menu.NONE, 0, Menu.NONE, null);
-            users.setActionView(R.layout.menuitem_users);
-            users.setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
-            View usersView = users.getActionView();
-            ImageView usersIcon = (ImageView) usersView.findViewById(R.id.b_users);
-            usersIcon.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    if (getActivity() != null) {
-                        startGroupDetailsActivity();
-                    }
-                }
-            });
-        }
+            }
+        });
     }
 
     @Override
@@ -232,21 +207,11 @@ public class ChatFragment extends Fragment
         getActivity().unregisterReceiver(newMessageBroadcastReceiver);
     }
 
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-
-        if (requestCode == Constants.RequestCode.GET_GROUP_DETAILS_REQ_CODE &&
-                resultCode == Activity.RESULT_OK) {
-            getActivity().finish();
-        }
-    }
-
     private void sendVoice(String filePath, int length) {
         if (!(new File(filePath).exists())) {
             return;
         }
-        EMMessage message = chatService.addVoiceMessage(id, isGroup, filePath, length);
+        EMMessage message = chatService.addVoiceMessage(id, filePath, length);
         conversation.addMessage(message);
         updateUI(conversation.getAllMessages(), -1);
     }
@@ -264,11 +229,7 @@ public class ChatFragment extends Fragment
                         @Override
                         public Boolean call() throws Exception {
                             String beforeId = adapter.getItem(0).getMessage().getMsgId();
-                            if (!isGroup) {
-                                messages.addAll(conversation.loadMoreMsgFromDB(beforeId, LIMIT_PER_LOAD));
-                            } else {
-                                messages.addAll(conversation.loadMoreGroupMsgFromDB(beforeId, LIMIT_PER_LOAD));
-                            }
+                            messages.addAll(conversation.loadMoreMsgFromDB(beforeId, LIMIT_PER_LOAD));
                             return true;
                         }
 
@@ -308,7 +269,7 @@ public class ChatFragment extends Fragment
 
     @Override
     public void OnSendBtnClick(String msg) {
-        EMMessage message = chatService.addTextMessage(id, isGroup, msg);
+        EMMessage message = chatService.addTextMessage(id, msg);
         conversation.addMessage(message);
         updateUI(conversation.getAllMessages(), -1);
         xhsEmoticonsKeyBoardBar.clearEditText();
@@ -443,13 +404,6 @@ public class ChatFragment extends Fragment
                 }).show();
     }
 
-    private void startGroupDetailsActivity() {
-        String groupId = conversation.getUserName();
-        final Intent intent = new Intent(getActivity(), GroupDetailsActivity.class);
-        intent.putExtra(GroupDetailsActivity.INTENT_GROUP_ID, groupId);
-        startActivityForResult(intent, Constants.RequestCode.GET_GROUP_DETAILS_REQ_CODE);
-    }
-
     private void clearConversation() {
         String userName = conversation.getUserName();
         chatService.clearConversation(userName);
@@ -461,11 +415,6 @@ public class ChatFragment extends Fragment
         intent.putExtra(ReportActivity.INTENT_ENTITY_TYPE, type);
         intent.putExtra(ReportActivity.INTENT_ENTITY_ID, id);
         startActivity(intent);
-    }
-
-    @Subscribe
-    public void onGroupDeletedEvent(GroupDeletedEvent event) {
-        getActivity().finish();
     }
 
     @Subscribe
@@ -569,7 +518,7 @@ public class ChatFragment extends Fragment
     @Override
     public void onEditResult(File file) {
         String localUri = file.getAbsolutePath();
-        EMMessage message = chatService.addImageMessage(id, isGroup, localUri);
+        EMMessage message = chatService.addImageMessage(id, localUri);
         conversation.addMessage(message);
         ImageLoaderUtils.loadImage(ImageLoaderUtils.getFullPath(localUri));
         updateUI(conversation.getAllMessages(), -1);

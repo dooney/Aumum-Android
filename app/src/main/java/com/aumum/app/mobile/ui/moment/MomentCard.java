@@ -80,7 +80,6 @@ public class MomentCard {
                 public void onClick(View view) {
                     final Intent intent = new Intent(activity, ChatActivity.class);
                     intent.putExtra(ChatActivity.INTENT_TITLE, user.getScreenName());
-                    intent.putExtra(ChatActivity.INTENT_TYPE, ChatActivity.TYPE_SINGLE);
                     intent.putExtra(ChatActivity.INTENT_ID, user.getChatId());
                     activity.startActivity(intent);
                 }

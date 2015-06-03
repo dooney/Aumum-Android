@@ -10,11 +10,7 @@ import com.easemob.chat.EMChatOptions;
 import com.easemob.chat.EMContactListener;
 import com.easemob.chat.EMContactManager;
 import com.easemob.chat.EMConversation;
-import com.easemob.chat.EMGroup;
-import com.easemob.chat.EMGroupInfo;
-import com.easemob.chat.EMGroupManager;
 import com.easemob.chat.EMMessage;
-import com.easemob.chat.GroupChangeListener;
 import com.easemob.chat.ImageMessageBody;
 import com.easemob.chat.OnMessageNotifyListener;
 import com.easemob.chat.OnNotificationClickListener;
@@ -65,7 +61,6 @@ public class ChatService {
     }
 
     public void loadAllResources() {
-        EMGroupManager.getInstance().loadAllGroups();
         EMChatManager.getInstance().loadAllConversations();
     }
 
@@ -125,102 +120,13 @@ public class ChatService {
         EMChatManager.getInstance().deleteAllConversation();
     }
 
-    public boolean deleteGroupConversation(String groupId) {
-        return EMChatManager.getInstance().deleteConversation(groupId, true);
-    }
-
     public void clearConversation(String userName) {
         EMChatManager.getInstance().clearConversation(userName);
     }
 
-    public EMGroup createGroup(String name,
-                               String description,
-                               boolean approvalRequired) throws Exception {
-        String members[] = {};
-        EMGroup emGroup = EMGroupManager.getInstance().createPublicGroup(
-                name, description, members, approvalRequired);
-        return EMGroupManager.getInstance().createOrUpdateLocalGroup(emGroup);
-    }
-
-    public void deleteGroup(String groupId) throws Exception {
-        EMGroupManager.getInstance().exitAndDeleteGroup(groupId);
-    }
-
-    public List<EMGroup> getAllGroups() {
-        return EMGroupManager.getInstance().getAllGroups();
-    }
-
-    public List<EMGroupInfo> getPublicGroups() throws Exception {
-        return EMGroupManager.getInstance().getAllPublicGroupsFromServer();
-    }
-
-    public EMGroup getGroupFromServer(String groupId) throws Exception {
-        EMGroup emGroup = EMGroupManager.getInstance().getGroupFromServer(groupId);
-        return EMGroupManager.getInstance().createOrUpdateLocalGroup(emGroup);
-    }
-
-    public EMGroup getGroupById(String groupId) throws Exception {
-        EMGroup emGroup = EMGroupManager.getInstance().getGroup(groupId);
-        if (emGroup == null) {
-            return getGroupFromServer(groupId);
-        }
-        return emGroup;
-    }
-
-    public void addUserToGroup(String groupId, String userId) throws Exception {
-        String users[] = { userId };
-        EMGroupManager.getInstance().addUsersToGroup(groupId, users);
-    }
-
-    public void removeUserFromGroup(String groupId, String userId) throws Exception {
-        EMGroupManager.getInstance().removeUserFromGroup(groupId, userId);
-    }
-
-    public void applyJoinGroup(String groupId, String reason) throws Exception {
-        EMGroupManager.getInstance().applyJoinToGroup(groupId, reason);
-    }
-
-    public void acceptGroupApplication(String userId, String groupId) throws Exception {
-        EMGroupManager.getInstance().acceptApplication(userId, groupId);
-    }
-
-    public void declineGroupApplication(String userId, String groupId, String reason) throws Exception {
-        EMGroupManager.getInstance().declineApplication(userId, groupId, reason);
-    }
-
-    public void joinGroup(String groupId, String userId) throws Exception {
-        EMGroupManager.getInstance().joinGroup(groupId);
-        addGroupMember(groupId, userId);
-    }
-
-    public void quitGroup(String groupId, String userId) throws Exception {
-        EMGroupManager.getInstance().exitFromGroup(groupId);
-        removeGroupMember(groupId, userId);
-    }
-
-    public void addGroupMember(String groupId, String userId) {
-        EMGroup emGroup = EMGroupManager.getInstance().getGroup(groupId);
-        if (emGroup != null && !emGroup.getMembers().contains(userId)) {
-            emGroup.addMember(userId);
-        }
-    }
-
-    public void removeGroupMember(String groupId, String userId) {
-        EMGroup emGroup = EMGroupManager.getInstance().getGroup(groupId);
-        if (emGroup != null && emGroup.getMembers().contains(userId)) {
-            emGroup.removeMember(userId);
-        }
-    }
-
-    public void setGroupChangeListener(GroupChangeListener listener) {
-        EMGroupManager.getInstance().addGroupChangeListener(listener);
-    }
-
-    private EMMessage addTextMessage(String receipt, boolean isGroup, boolean isSystem, String text) {
+    private EMMessage addTextMessage(String receipt, boolean isSystem, String text) {
         EMMessage message = EMMessage.createSendMessage(EMMessage.Type.TXT);
-        if (isGroup) {
-            message.setChatType(EMMessage.ChatType.GroupChat);
-        }
+        message.setChatType(EMMessage.ChatType.GroupChat);
         if (isSystem) {
             message.setAttribute("isSystem", true);
         }
@@ -232,42 +138,36 @@ public class ChatService {
         return message;
     }
 
-    public EMMessage addTextMessage(String receipt, boolean isGroup, String text) {
-        return addTextMessage(receipt, isGroup, false, text);
+    public EMMessage addTextMessage(String receipt, String text) {
+        return addTextMessage(receipt, false, text);
     }
 
-    public void sendSystemMessage(String receipt, boolean isGroup, String text, EMCallBack callBack) {
-        EMMessage message = addTextMessage(receipt, isGroup, true, text);
+    public void sendSystemMessage(String receipt, String text, EMCallBack callBack) {
+        EMMessage message = addTextMessage(receipt, true, text);
         sendMessage(message, callBack);
     }
 
-    public EMMessage addVoiceMessage(String receipt, boolean isGroup, String filePath, int length) {
+    public EMMessage addVoiceMessage(String receipt, String filePath, int length) {
         final EMMessage message = EMMessage.createSendMessage(EMMessage.Type.VOICE);
-        if (isGroup) {
-            message.setChatType(EMMessage.ChatType.GroupChat);
-        }
+        message.setChatType(EMMessage.ChatType.GroupChat);
         VoiceMessageBody body = new VoiceMessageBody(new File(filePath), length);
         message.addBody(body);
         message.setReceipt(receipt);
         return message;
     }
 
-    public EMMessage addImageMessage(String receipt, boolean isGroup, String imagePath) {
+    public EMMessage addImageMessage(String receipt, String imagePath) {
         final EMMessage message = EMMessage.createSendMessage(EMMessage.Type.IMAGE);
-        if (isGroup) {
-            message.setChatType(EMMessage.ChatType.GroupChat);
-        }
+        message.setChatType(EMMessage.ChatType.GroupChat);
         ImageMessageBody body = new ImageMessageBody(new File(imagePath));
         message.addBody(body);
         message.setReceipt(receipt);
         return message;
     }
 
-    public void sendCmdMessage(String receipt, CmdMessage cmdMessage, boolean isGroup, EMCallBack callBack) {
+    public void sendCmdMessage(String receipt, CmdMessage cmdMessage, EMCallBack callBack) {
         final EMMessage message = EMMessage.createSendMessage(EMMessage.Type.CMD);
-        if (isGroup) {
-            message.setChatType(EMMessage.ChatType.GroupChat);
-        }
+        message.setChatType(EMMessage.ChatType.GroupChat);
         CmdMessageBody body = new CmdMessageBody("cmd");
         message.addBody(body);
         message.setReceipt(receipt);

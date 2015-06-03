@@ -19,18 +19,10 @@ import com.aumum.app.mobile.ui.area.AreaListFragment;
 import com.aumum.app.mobile.ui.chat.ChatConnectionListener;
 import com.aumum.app.mobile.ui.chat.ChatFragment;
 import com.aumum.app.mobile.ui.discovery.DiscoveryFragment;
-import com.aumum.app.mobile.ui.group.GroupChangeListener;
-import com.aumum.app.mobile.ui.group.GroupDetailsFragment;
 import com.aumum.app.mobile.ui.chat.MessageNotifyListener;
 import com.aumum.app.mobile.ui.chat.NotificationClickListener;
 import com.aumum.app.mobile.ui.chat.SendMessageListener;
 import com.aumum.app.mobile.ui.contact.ContactFragment;
-import com.aumum.app.mobile.ui.group.MyGroupsFragment;
-import com.aumum.app.mobile.ui.group.GroupJoinListener;
-import com.aumum.app.mobile.ui.group.GroupRequestProcessListener;
-import com.aumum.app.mobile.ui.group.GroupRequestsFragment;
-import com.aumum.app.mobile.ui.group.GroupListFragment;
-import com.aumum.app.mobile.ui.group.NewGroupActivity;
 import com.aumum.app.mobile.ui.contact.ContactPickerFragment;
 import com.aumum.app.mobile.ui.conversation.ConversationFragment;
 import com.aumum.app.mobile.ui.contact.AcceptContactListener;
@@ -106,7 +98,6 @@ import retrofit.converter.GsonConverter;
                 ResetPasswordSuccessActivity.class,
                 MessageNotifyListener.class,
                 NotificationClickListener.class,
-                GroupDetailsFragment.class,
                 ContactPickerFragment.class,
                 UserListFragment.class,
                 ReportActivity.class,
@@ -115,13 +106,6 @@ import retrofit.converter.GsonConverter;
                 AreaListFragment.class,
                 AreaUsersFragment.class,
                 NotificationActivity.class,
-                GroupListFragment.class,
-                GroupChangeListener.class,
-                GroupRequestsFragment.class,
-                GroupJoinListener.class,
-                GroupRequestProcessListener.class,
-                MyGroupsFragment.class,
-                NewGroupActivity.class,
                 MomentFragment.class,
                 NewMomentActivity.class,
                 MomentLikeListener.class,

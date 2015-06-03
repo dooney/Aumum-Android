@@ -123,7 +123,7 @@ public class MomentLikeListener implements LikeTextView.LikeListener {
             CmdMessage cmdMessage = new CmdMessage(CmdMessage.Type.MOMENT_LIKE,
                     null, currentUser.getObjectId(), moment.getObjectId());
             UserInfo user = userStore.getUserInfoById(moment.getUserId());
-            chatService.sendCmdMessage(user.getChatId(), cmdMessage, false, null);
+            chatService.sendCmdMessage(user.getChatId(), cmdMessage, null);
         }
     }
 

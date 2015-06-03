@@ -32,7 +32,6 @@ public class ConversationCard {
 
     private String id;
     private String screenName;
-    private int type;
 
     public ConversationCard(Context context, View view) {
         this.context = context;
@@ -50,19 +49,12 @@ public class ConversationCard {
             id = conversation.getContact().getChatId();
             screenName = conversation.getContact().getScreenName();
             avatarImage.getFromUrl(conversation.getContact().getAvatarUrl());
-            type = ChatActivity.TYPE_SINGLE;
-        } else if (conversation.getGroup() != null) {
-            id = conversation.getGroup().getChatId();
-            screenName = conversation.getGroup().getScreenName();
-            avatarImage.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_avatar_group));
-            type = ChatActivity.TYPE_GROUP;
         }
         this.view.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 final Intent intent = new Intent(context, ChatActivity.class);
                 intent.putExtra(ChatActivity.INTENT_TITLE, screenName);
-                intent.putExtra(ChatActivity.INTENT_TYPE, type);
                 intent.putExtra(ChatActivity.INTENT_ID, id);
                 context.startActivity(intent);
             }

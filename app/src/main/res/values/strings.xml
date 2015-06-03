@@ -26,28 +26,11 @@
         <item>新西兰(64)</item>
         <item>中国(86)</item>
     </string-array>
-    <string-array name="label_group_owner_actions">
-        <item>添加成员</item>
-        <item>删除成员</item>
-        <item>删除该群组</item>
-    </string-array>
-    <string-array name="label_group_member_actions">
-        <item>举报</item>
-        <item>退出</item>
-    </string-array>
-    <string-array name="label_group_process_options">
-        <item>同意</item>
-        <item>拒绝</item>
-    </string-array>
     <string-array name="label_report_types">
         <item>垃圾营销</item>
         <item>不实信息</item>
         <item>淫秽色情</item>
         <item>人身攻击</item>
-    </string-array>
-    <string-array name="label_group_actions">
-        <item>创建群组</item>
-        <item>查找群组</item>
     </string-array>
 
     <!-- General -->
@@ -88,23 +71,16 @@
     <string name="info_reset_password_email_sent">重置密码邮件发送成功</string>
     <string name="info_chat_messages_arrived">你有来自%1$d位好友的%2$d条消息</string>
     <string name="info_invitation_accepted_and_start_chatting">你们已经是好友了，开始聊天吧！</string>
-    <string name="info_group_name_deleted">群组#%1$s#已被删除</string>
     <string name="info_submitting_report">正在提交举报，请稍候</string>
     <string name="info_report_submitted">举报已成功提交，请等待审核</string>
-    <string name="info_deleting_group">正在删除该群组，请稍候</string>
-    <string name="info_submitting_quit_group">正在处理退出群组请求，请稍候</string>
     <string name="info_no_users_found">没找到任何相关用户</string>
     <string name="info_empty_conversation_list">你没有任何会话记录</string>
     <string name="info_click_to_reload">点击重试</string>
     <string name="info_submitting_feedback">正在提交反馈，请稍候</string>
     <string name="info_feedback_submitted">反馈已成功提交，感谢你的支持！</string>
     <string name="info_area_users_found">在%1$s为你找到%2$d位用户</string>
-    <string name="info_no_group_found">没找到任何相关群组</string>
-    <string name="info_empty_group_application_list">你还没收到任何入群请求</string>
-    <string name="info_join_group_sent">发送成功，请等待群主验证</string>
     <string name="info_user_was_removed">你已被从群%1$s里移出</string>
     <string name="info_empty_member_list">该群组没有其他成员</string>
-    <string name="info_submitting_group">正在提交群组，请稍候</string>
     <string name="info_confirm_delete_chat_message">你确定要删除该聊天记录？</string>
     <string name="info_chat_text_copied">文本已复制到粘贴板</string>
     <string name="info_publishing_moment">正在发布，请稍候</string>
@@ -141,18 +117,12 @@
     <string name="title_activity_add_image">添加图片</string>
     <string name="title_activity_complete_profile">完善个人资料</string>
     <string name="title_activity_verify">手机验证</string>
-    <string name="title_activity_group_details">群组成员</string>
     <string name="title_activity_contact_picker">选择好友</string>
     <string name="title_activity_report_details">举报详情</string>
     <string name="title_activity_feedback">反馈</string>
     <string name="title_activity_about_app">关于</string>
     <string name="title_activity_area_list">请选择你所在的地区</string>
     <string name="title_activity_notification_settings">通知设置</string>
-    <string name="title_activity_group_list">群组列表</string>
-    <string name="title_activity_group_requests">入群请求</string>
-    <string name="title_activity_group_member_picker">选择群组成员</string>
-    <string name="title_activity_new_group">创建群组</string>
-    <string name="title_activity_my_groups">我的群组</string>
     <string name="title_activity_contact">我的好友</string>
     <string name="title_activity_moment_likes">收到的喜欢</string>
     <string name="title_activity_moment_comments">收到的评论</string>
@@ -243,11 +213,6 @@
     <string name="label_select_report_type">请选择违规类别</string>
     <string name="hint_report_details">举报理由</string>
 
-    <!-- Conversation -->
-    <string name="hint_group_name">群组名称</string>
-    <string name="hint_group_description">群组描述</string>
-    <string name="label_group_size">%,d人在线</string>
-
     <!-- Contact -->
     <string name="label_my_contacts">我的好友 (%,d)</string>
     <string name="label_invite">邀请</string>
@@ -258,17 +223,6 @@
     <!-- Chat -->
     <string name="label_move_up_to_cancel">上滑取消录音</string>
     <string name="label_release_to_cancel">松开取消录音</string>
-    <string name="label_group_created">%1$s刚刚创建了群组</string>
-    <string name="label_group_joint">%1$s刚刚加入了群组</string>
-    <string name="label_group_quit">%1$s刚刚退出了群组</string>
-    <string name="label_group_applied">%1$s请求加入%2$s</string>
-    <string name="hint_join_group_reason">验证信息</string>
-    <string name="label_process">处理</string>
-    <string name="label_approved">已同意</string>
-    <string name="label_rejected">已拒绝</string>
-    <string name="hint_decline_reason">拒绝理由</string>
-    <string name="label_group_approved">入群请求已被批准</string>
-    <string name="label_group_request_details">请求加入%1$s：%2$s</string>
 
     <!-- Moment -->
     <string name="hint_moment_text">说点儿什么吧</string>

@@ -30,7 +30,6 @@ import com.aumum.app.mobile.events.ResetChatUnreadEvent;
 import com.aumum.app.mobile.events.ResetHomeUnreadEvent;
 import com.aumum.app.mobile.events.ResetMessageUnreadEvent;
 import com.aumum.app.mobile.ui.chat.ChatConnectionListener;
-import com.aumum.app.mobile.ui.group.GroupChangeListener;
 import com.aumum.app.mobile.ui.chat.MessageNotifyListener;
 import com.aumum.app.mobile.ui.chat.NotificationClickListener;
 import com.aumum.app.mobile.ui.contact.ContactListener;
@@ -189,7 +188,6 @@ public class MainFragment extends Fragment {
         getActivity().registerReceiver(cmdMessageBroadcastReceiver, cmdMessageIntentFilter);
 
         chatService.setConnectionListener(new ChatConnectionListener(getActivity()));
-        chatService.setGroupChangeListener(new GroupChangeListener(getActivity(), bus));
         chatService.setMessageNotifyListener(new MessageNotifyListener(getActivity()));
         chatService.setNotificationClickListener(new NotificationClickListener(getActivity()));
         chatService.setContactListener(new ContactListener(bus));
@@ -247,12 +245,6 @@ public class MainFragment extends Fragment {
                 EMMessage message = intent.getParcelableExtra("message");
                 CmdMessage cmdMessage = chatService.getCmdMessage(message);
                 switch (cmdMessage.getType()) {
-                    case CmdMessage.Type.GROUP_JOIN:
-                        handleGroupJoinCmdMessage(cmdMessage);
-                        break;
-                    case CmdMessage.Type.GROUP_QUIT:
-                        handleGroupQuitCmdMessage(cmdMessage);
-                        break;
                     case CmdMessage.Type.NEW_MOMENT:
                         handleNewMomentCmdMessage(cmdMessage);
                         break;
@@ -275,18 +267,6 @@ public class MainFragment extends Fragment {
 
     private void updateTabUnread(int tab, int visibility) {
         indicator.getUnreadImage(tab).setVisibility(visibility);
-    }
-
-    private void handleGroupJoinCmdMessage(CmdMessage cmdMessage) {
-        String groupId = cmdMessage.getPayload();
-        String userId = cmdMessage.getContent();
-        chatService.addGroupMember(groupId, userId);
-    }
-
-    private void handleGroupQuitCmdMessage(CmdMessage cmdMessage) {
-        String groupId = cmdMessage.getPayload();
-        String userId = cmdMessage.getContent();
-        chatService.removeGroupMember(groupId, userId);
     }
 
     private void handleNewMomentCmdMessage(CmdMessage cmdMessage) {

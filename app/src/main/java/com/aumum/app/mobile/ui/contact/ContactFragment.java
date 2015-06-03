@@ -56,7 +56,7 @@ public class ContactFragment extends ItemListFragment<UserInfo>
     @Override
     public void onCreateOptionsMenu(final Menu menu, final MenuInflater inflater) {
         MenuItem plus = menu.add(Menu.NONE, 0, Menu.NONE, null);
-        plus.setActionView(R.layout.menuitem_plus);
+        plus.setActionView(R.layout.menuitem_add_contact);
         plus.setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
         View plusView = plus.getActionView();
         ImageView plusIcon = (ImageView) plusView.findViewById(R.id.b_plus);

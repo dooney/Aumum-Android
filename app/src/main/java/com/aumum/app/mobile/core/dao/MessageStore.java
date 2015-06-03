@@ -2,15 +2,12 @@ package com.aumum.app.mobile.core.dao;
 
 import com.aumum.app.mobile.core.Constants;
 import com.aumum.app.mobile.core.dao.entity.ContactRequestEntity;
-import com.aumum.app.mobile.core.dao.entity.GroupRequestEntity;
 import com.aumum.app.mobile.core.dao.entity.MomentCommentEntity;
 import com.aumum.app.mobile.core.dao.entity.MomentLikeEntity;
 import com.aumum.app.mobile.core.dao.gen.ContactRequestEntityDao;
-import com.aumum.app.mobile.core.dao.gen.GroupRequestEntityDao;
 import com.aumum.app.mobile.core.dao.gen.MomentCommentEntityDao;
 import com.aumum.app.mobile.core.dao.gen.MomentLikeEntityDao;
 import com.aumum.app.mobile.core.model.ContactRequest;
-import com.aumum.app.mobile.core.model.GroupRequest;
 import com.aumum.app.mobile.core.model.MomentComment;
 import com.aumum.app.mobile.core.model.MomentLike;
 import com.aumum.app.mobile.utils.DateUtils;
@@ -29,7 +26,6 @@ public class MessageStore {
     private ContactRequestEntityDao contactRequestEntityDao;
     private MomentLikeEntityDao momentLikeEntityDao;
     private MomentCommentEntityDao momentCommentEntityDao;
-    private GroupRequestEntityDao groupRequestEntityDao;
 
     public static final int LIMIT_PER_LOAD = 15;
 
@@ -37,7 +33,6 @@ public class MessageStore {
         this.contactRequestEntityDao = repository.getContactRequestEntityDao();
         this.momentLikeEntityDao = repository.getMomentLikeEntityDao();
         this.momentCommentEntityDao = repository.getMomentCommentEntityDao();
-        this.groupRequestEntityDao = repository.getGroupRequestEntityDao();
     }
 
     public void addContactRequest(String userId, String info) {
@@ -224,37 +219,5 @@ public class MessageStore {
             entity.setIsRead(true);
             momentCommentEntityDao.insertOrReplace(entity);
         }
-    }
-
-    public void addGroupRequest(String groupId,
-                                String userId,
-                                String info,
-                                int status) {
-        Date now = new Date();
-        GroupRequestEntity groupRequestEntity = new GroupRequestEntity(
-                groupId, userId, now, info, status, false);
-        groupRequestEntityDao.insert(groupRequestEntity);
-    }
-
-    public List<GroupRequest> getGroupRequestList() throws Exception {
-        List<GroupRequestEntity> entities = groupRequestEntityDao.queryBuilder()
-                .orderDesc(GroupRequestEntityDao.Properties.CreatedAt)
-                .list();
-        List<GroupRequest> result = new ArrayList<>();
-        for (GroupRequestEntity entity: entities) {
-            result.add(new GroupRequest(
-                    entity.getGroupId(),
-                    entity.getUserId(),
-                    entity.getInfo(),
-                    entity.getStatus()));
-        }
-        return result;
-    }
-
-    public void saveGroupRequest(GroupRequest request) throws Exception {
-        GroupRequestEntity entity = groupRequestEntityDao.load(request.getUserId());
-        entity.setStatus(request.getStatus());
-        entity.setIsRead(true);
-        groupRequestEntityDao.insertOrReplace(entity);
     }
 }

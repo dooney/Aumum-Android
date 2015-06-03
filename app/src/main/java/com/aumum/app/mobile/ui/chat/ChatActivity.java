@@ -9,11 +9,7 @@ import com.aumum.app.mobile.ui.base.BaseActionBarActivity;
 public class ChatActivity extends BaseActionBarActivity {
 
     public static final String INTENT_TITLE = "title";
-    public static final String INTENT_TYPE = "type";
     public static final String INTENT_ID = "id";
-
-    public static final int TYPE_SINGLE = 1;
-    public static final int TYPE_GROUP = 2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

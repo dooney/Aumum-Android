@@ -263,20 +263,6 @@
     </style>
     <style name="TextView.Conversation.TimeStamp" parent="TextView.Subtitle.Small" />
 
-    <!-- Group -->
-    <style name="TextView.Group.Name" parent="TextView.Title" />
-    <style name="TextView.Group.Description" parent="TextView.Subtitle.Small" />
-    <style name="TextView.Group.Size" parent="TextView.Subtitle.Small" />
-    <style name="EditText.NewGroup.Name" parent="EditText.Mandatory">
-        <item name="android:hint">@string/hint_group_name</item>
-    </style>
-    <style name="EditText.NewGroup.Description" parent="EditText.MultiLine">
-        <item name="android:hint">@string/hint_group_description</item>
-    </style>
-    <style name="TextView.GroupRequest.ScreenName" parent="TextView.UserName" />
-    <style name="TextView.GroupRequest.Details" parent="TextView.Subtitle" />
-    <style name="TextView.GroupRequest.Status" parent="TextView.Subtitle" />
-
     <!-- Chat -->
     <style name="EditText.Chat.Text" parent="EditText">
         <item name="android:minHeight">40dp</item>
@@ -503,6 +489,8 @@
         <item name="android:gravity">center_vertical</item>
     </style>
     <style name="TextView.User.About" parent="TextView.Multiline">
+        <item name="android:maxWidth">200dp</item>
+        <item name="android:gravity">center</item>
         <item name="android:textColor">@color/am_white</item>
         <item name="android:textSize">@dimen/text_sz_small</item>
     </style>
