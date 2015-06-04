@@ -246,17 +246,15 @@ public final class Constants {
         }
 
         public static final int SETTINGS_REQ_CODE = 30;
-        public static final int GET_AREA_LIST_REQ_CODE = 32;
-        public static final int NEW_MOMENT_REQ_CODE = 34;
-        public static final int EDIT_PROFILE_REQ_CODE = 35;
+        public static final int GET_AREA_LIST_REQ_CODE = 31;
+        public static final int NEW_MOMENT_REQ_CODE = 32;
+        public static final int EDIT_PROFILE_REQ_CODE = 33;
     }
 
     public static final class Link {
 
         public static final String GOOGLE_PLAY_APP = "market://details?id=";
         public static final String GOOGLE_PLAY_URL = "http://play.google.com/store/apps/details?id=";
-        public static final String HOME = "http://www.aumums.com";
-        public static final String VERSION_DETAILS = "http://www.aumums.com/version";
         public static final String AGREEMENT = "http://www.aumums.com/agreement";
     }
 }

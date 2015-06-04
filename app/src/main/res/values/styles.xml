@@ -26,6 +26,7 @@
         <item name="android:layout_height">wrap_content</item>
         <item name="android:background">@color/transparent</item>
         <item name="android:textSize">@dimen/text_sz_medium</item>
+        <item name="android:gravity">center</item>
     </style>
     <style name="Button.Primary" parent="Button">
         <item name="android:textColor">@color/am_black</item>
@@ -49,30 +50,23 @@
         <item name="android:textSize">@dimen/text_sz_large</item>
         <item name="android:singleLine">true</item>
         <item name="android:padding">@dimen/margin_large</item>
-    </style>
-    <style name="EditText.Mandatory" parent="EditText">
-        <item name="android:textColorHint">@color/text_warning</item>
+        <item name="android:background">@color/transparent</item>
     </style>
     <style name="EditText.Box" parent="EditText">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
-        <item name="android:background">@color/transparent</item>
         <item name="android:gravity">left|top</item>
         <item name="android:imeOptions">actionSend</item>
         <item name="android:inputType">textMultiLine</item>
-    </style>
-    <style name="EditText.MultiLine" parent="EditText">
-        <item name="android:background">@color/transparent</item>
-        <item name="android:inputType">textMultiLine</item>
         <item name="android:lineSpacingMultiplier">1.1</item>
     </style>
-    <style name="EditText.MultiLine.Mandatory" parent="EditText.MultiLine">
-        <item name="android:textColorHint">@color/text_warning</item>
+    <style name="EditText.MultiLine" parent="EditText">
+        <item name="android:inputType">textMultiLine</item>
+        <item name="android:lineSpacingMultiplier">1.1</item>
     </style>
     <style name="EditText.Dialog" parent="EditText">
         <item name="android:layout_width">300dp</item>
         <item name="android:layout_height">wrap_content</item>
-        <item name="android:background">@color/transparent</item>
     </style>
     <style name="EditText.Dialog.Multiline" parent="EditText.Dialog">
         <item name="android:inputType">textMultiLine</item>
@@ -224,10 +218,10 @@
     </style>
 
     <!-- Report -->
-    <style name="EditText.Report.Type" parent="EditText.Mandatory">
+    <style name="EditText.Report.Type" parent="EditText">
         <item name="android:hint">@string/hint_report_type</item>
     </style>
-    <style name="EditText.Report.Details" parent="EditText.MultiLine.Mandatory">
+    <style name="EditText.Report.Details" parent="EditText.MultiLine">
         <item name="android:hint">@string/hint_report_details</item>
     </style>
 
@@ -264,9 +258,8 @@
     <style name="TextView.Conversation.TimeStamp" parent="TextView.Subtitle.Small" />
 
     <!-- Chat -->
-    <style name="EditText.Chat.Text" parent="EditText">
+    <style name="EditText.Chat.Text" parent="EditText.MultiLine">
         <item name="android:minHeight">40dp</item>
-        <item name="android:singleLine">false</item>
         <item name="android:paddingLeft">@dimen/margin_medium</item>
         <item name="android:paddingRight">@dimen/margin_medium</item>
     </style>
@@ -358,24 +351,18 @@
     </style>
 
     <!-- Settings -->
-    <style name="TextView.Settings" parent="TextView.Title" />
-    <style name="TextView.Settings.Logout" parent="TextView.Settings">
-        <item name="android:textColor">@color/text_warning</item>
-    </style>
-    <style name="TextView.About.Info" parent="TextView.Subtitle">
-        <item name="android:textSize">@dimen/text_sz_small</item>
-    </style>
-    <style name="TextView.Settings.AppVersion" parent="TextView.About.Info">
-        <item name="android:textColor">@color/text_warning</item>
+    <style name="Button.Logout" parent="Button.Primary">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:text">@string/label_logout</item>
+        <item name="android:paddingTop">@dimen/margin_large</item>
+        <item name="android:paddingBottom">@dimen/margin_large</item>
     </style>
 
     <!-- Feedback -->
-    <style name="EditText.Feedback.Details" parent="EditText.MultiLine.Mandatory">
+    <style name="EditText.Feedback.Details" parent="EditText.MultiLine">
         <item name="android:hint">@string/hint_feedback_details</item>
+        <item name="android:textSize">@dimen/text_sz_medium</item>
     </style>
-
-    <!-- About -->
-    <style name="TextView.About" parent="TextView.Title" />
 
     <!-- Account -->
     <style name="Button.Login" parent="Button">

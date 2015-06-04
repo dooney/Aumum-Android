@@ -27,11 +27,11 @@ public class ToggleButton extends View {
     /**
      * 开启颜色
      */
-    private int onColor = Color.parseColor("#4ebb7f");
+    private int onColor = Color.parseColor("#ff6060");
     /**
      * 关闭颜色
      */
-    private int offBorderColor = Color.parseColor("#dadbda");
+    private int offBorderColor = Color.parseColor("#dddddd");
     /**
      * 灰色带颜色
      */

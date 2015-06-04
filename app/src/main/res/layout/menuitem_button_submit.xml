@@ -6,13 +6,9 @@
     android:layout_height="wrap_content"
     android:paddingRight="@dimen/margin_large">
 
-    <com.beardedhen.androidbootstrap.BootstrapButton
-        xmlns:bootstrap="http://schemas.android.com/apk/res-auto"
+    <TextView
         android:id="@+id/b_submit"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/label_submit"
-        bootstrap:bb_type="primary"
-        bootstrap:bb_size="xsmall"/>
+        style="@style/Button.Primary"
+        android:text="@string/label_submit"/>
 
 </FrameLayout>

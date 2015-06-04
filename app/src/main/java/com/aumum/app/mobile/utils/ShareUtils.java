@@ -2,7 +2,9 @@ package com.aumum.app.mobile.utils;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Bitmap;
 
+import com.aumum.app.mobile.R;
 import com.aumum.app.mobile.core.Constants;
 import com.aumum.app.mobile.core.model.Share;
 import com.umeng.socialize.bean.SHARE_MEDIA;
@@ -67,10 +69,14 @@ public class ShareUtils {
             details.setShareContent(title);
         }
         String imageUrl = share.getImageUrl();
+        UMImage umImage;
         if (imageUrl != null) {
-            UMImage umImage = new UMImage(activity, imageUrl);
-            details.setShareMedia(umImage);
+            umImage = new UMImage(activity, imageUrl);
+        } else {
+            Bitmap icon = ImageLoaderUtils.loadImage("drawable://" + R.drawable.ic_share_logo);
+            umImage = new UMImage(activity, icon);
         }
+        details.setShareMedia(umImage);
         details.setTargetUrl(Constants.Link.GOOGLE_PLAY_URL + Constants.APP_NAME);
         controller.setShareMedia(details);
     }

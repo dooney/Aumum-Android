@@ -1,66 +1,137 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<LinearLayout
+<ScrollView
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:fillViewport="true"
+    android:scrollbars="none"
+    android:background="@color/am_white">
 
     <LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:layout_marginBottom="@dimen/margin_extra_large">
+        android:orientation="vertical">
 
         <LinearLayout
-            android:id="@+id/layout_notification"
-            style="@style/LinearLayout.NavButton">
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginBottom="@dimen/margin_extra_large">
 
-            <TextView
-                style="@style/TextView.Settings"
-                android:text="@string/label_notification"/>
+            <LinearLayout
+                style="@style/LinearLayout.NavButton">
+
+                <TextView
+                    style="@style/TextView.Subtitle"
+                    android:text="@string/label_notification"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                style="@style/LinearLayout.NavButton">
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1">
+
+                    <TextView
+                        style="@style/TextView.Title"
+                        android:text="@string/label_notification_sound"/>
+
+                </LinearLayout>
+
+                <com.aumum.app.mobile.ui.view.ToggleButton
+                    android:id="@+id/b_switch_sound"
+                    android:layout_width="48dp"
+                    android:layout_height="30dp" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                style="@style/LinearLayout.NavButton">
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1">
+
+                    <TextView
+                        style="@style/TextView.Title"
+                        android:text="@string/label_notification_vibrate"/>
+
+                </LinearLayout>
+
+                <com.aumum.app.mobile.ui.view.ToggleButton
+                    android:id="@+id/b_switch_vibrate"
+                    android:layout_width="48dp"
+                    android:layout_height="30dp" />
+
+            </LinearLayout>
 
         </LinearLayout>
 
-     </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:layout_marginBottom="@dimen/margin_extra_large">
-
         <LinearLayout
-            android:id="@+id/layout_feedback"
-            style="@style/LinearLayout.NavButton">
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginBottom="@dimen/margin_extra_large">
 
-            <TextView
-                style="@style/TextView.Settings"
-                android:text="@string/label_feedback"/>
+            <LinearLayout
+                android:id="@+id/layout_about_app"
+                style="@style/LinearLayout.NavButton">
+
+                <TextView
+                    style="@style/TextView.Title"
+                    android:text="@string/label_about_app"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/layout_feedback"
+                style="@style/LinearLayout.NavButton">
+
+                <TextView
+                    style="@style/TextView.Title"
+                    android:text="@string/label_feedback"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/layout_share_app"
+                style="@style/LinearLayout.NavButton">
+
+                <TextView
+                    style="@style/TextView.Title"
+                    android:text="@string/label_share_app"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/layout_agreement"
+                style="@style/LinearLayout.NavButton">
+
+                <TextView
+                    style="@style/TextView.Title"
+                    android:text="@string/label_agreement"/>
+
+            </LinearLayout>
 
         </LinearLayout>
 
-        <LinearLayout
-            android:id="@+id/layout_about_app"
-            style="@style/LinearLayout.NavButton">
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/margin_large">
 
             <TextView
-                style="@style/TextView.Settings"
-                android:text="@string/label_about_app"/>
+                android:id="@+id/b_logout"
+                style="@style/Button.Logout" />
 
-        </LinearLayout>
+        </FrameLayout>
 
     </LinearLayout>
 
-    <LinearLayout
-        android:id="@+id/layout_logout"
-        style="@style/LinearLayout.NavButton">
-
-        <TextView
-            style="@style/TextView.Settings.Logout"
-            android:layout_centerInParent="true"
-            android:text="@string/label_logout"/>
-
-    </LinearLayout>
-
-</LinearLayout>
+</ScrollView>

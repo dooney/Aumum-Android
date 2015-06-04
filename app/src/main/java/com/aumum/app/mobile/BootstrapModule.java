@@ -38,7 +38,6 @@ import com.aumum.app.mobile.ui.moment.MomentLikesFragment;
 import com.aumum.app.mobile.ui.moment.NewMomentActivity;
 import com.aumum.app.mobile.ui.report.ReportActivity;
 import com.aumum.app.mobile.ui.settings.FeedbackActivity;
-import com.aumum.app.mobile.ui.settings.NotificationActivity;
 import com.aumum.app.mobile.ui.user.AreaUsersFragment;
 import com.aumum.app.mobile.ui.main.MainFragment;
 import com.aumum.app.mobile.ui.account.ResetPasswordActivity;
@@ -105,7 +104,6 @@ import retrofit.converter.GsonConverter;
                 FeedbackActivity.class,
                 AreaListFragment.class,
                 AreaUsersFragment.class,
-                NotificationActivity.class,
                 MomentFragment.class,
                 NewMomentActivity.class,
                 MomentLikeListener.class,

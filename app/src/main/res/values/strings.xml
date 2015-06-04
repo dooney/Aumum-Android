@@ -64,7 +64,7 @@
     <string name="info_sending_verification_sms">正在发送验证码短信，请稍候</string>
     <string name="info_verifying_mobile">正在验证手机号码，请稍候</string>
     <string name="info_submitting_profile">正在保存个人资料，请稍候</string>
-    <string name="info_profile_not_completed_yet">你还没填写完个人资料</string>
+    <string name="info_profile_not_completed_yet">你还没填写完哦</string>
     <string name="info_verification_sms_sent">验证码短信已成功发送，请注意查收</string>
     <string name="info_reset_password_tip">验证邮件24小时内有效，请尽快登陆邮箱点击验证链接完成验证。若未收到邮件请先确认是否在垃圾邮件中。</string>
     <string name="info_sending_reset_password_email">正在发送密码重置邮件，请稍候</string>
@@ -115,18 +115,18 @@
     <string name="title_activity_settings">我的设置</string>
     <string name="title_activity_choose_image">选择图片</string>
     <string name="title_activity_add_image">添加图片</string>
-    <string name="title_activity_complete_profile">完善个人资料</string>
+    <string name="title_activity_complete_profile">完善资料</string>
     <string name="title_activity_verify">手机验证</string>
     <string name="title_activity_contact_picker">选择好友</string>
     <string name="title_activity_report_details">举报详情</string>
-    <string name="title_activity_feedback">反馈</string>
-    <string name="title_activity_about_app">关于</string>
+    <string name="title_activity_feedback">意见反馈</string>
+    <string name="title_activity_about_app">关于澳妈圈</string>
     <string name="title_activity_area_list">请选择你所在的地区</string>
     <string name="title_activity_notification_settings">通知设置</string>
     <string name="title_activity_contact">我的好友</string>
     <string name="title_activity_moment_likes">收到的喜欢</string>
     <string name="title_activity_moment_comments">收到的评论</string>
-    <string name="title_activity_edit_profile">修改个人资料</string>
+    <string name="title_activity_edit_profile">编辑资料</string>
 
     <!-- Account -->
     <string name="hint_login_phone">手机号码</string>
@@ -173,7 +173,7 @@
     <string name="label_contact_agreed">已经同意添加好友请求</string>
 
     <!-- Profile -->
-    <string name="label_edit_profile">修改个人资料</string>
+    <string name="label_edit_profile">编辑资料</string>
     <string name="label_mobile">注册手机</string>
     <string name="label_country">所在国家</string>
     <string name="label_avatar">头像图片</string>
@@ -183,27 +183,20 @@
     <string name="label_confirm_area">你确定变更地区为&lt;font color=#ff6060>%1$s&lt;/font>？</string>
 
     <!-- Settings -->
-    <string name="label_notification">通知</string>
-    <string name="label_feedback">反馈</string>
-    <string name="label_about_app">关于</string>
+    <string name="label_notification">消息推送</string>
+    <string name="label_about_app">关于澳妈圈</string>
+    <string name="label_feedback">意见反馈</string>
+    <string name="label_share_app">把澳妈圈告诉朋友</string>
+    <string name="label_agreement">用户协议</string>
     <string name="label_logout">退出登录</string>
     <string name="label_logout_notification">下线通知</string>
     <string name="label_connection_conflict">同一账号已在其他设备登录</string>
-    <string name="label_notification_sound">声音</string>
-    <string name="label_notification_vibrate">震动</string>
-    <string name="label_unknown_app_version">未知版本</string>
-    <string name="label_weibo_info">新浪微博：&lt;font color=#005684>@澳妈圈&lt;/font></string>
-    <string name="label_website_info">官方网址：&lt;font color=#005684>www.aumums.com&lt;/font></string>
+    <string name="label_notification_sound">推送声音</string>
+    <string name="label_notification_vibrate">推送震动</string>
+    <string name="label_share_app_text">我来澳妈圈啦！搜"%1$s"加我！一起分享美好海外生活！</string>
 
     <!-- Feedback -->
-    <string name="hint_feedback_details">你的问题或建议</string>
-
-    <!-- About -->
-    <string name="label_rate_the_app">给澳妈圈评分</string>
-    <string name="label_version_details">版本介绍</string>
-    <string name="label_agreement">用户协议</string>
-    <string name="label_check_for_updates">检查新版本</string>
-    <string name="label_website_title">澳妈圈官网</string>
+    <string name="hint_feedback_details">请您在这里填写对澳妈圈的意见，我们将不断改进，感谢支持。</string>
 
     <!-- Like -->
     <string name="label_users_like">%,d人喜欢</string>

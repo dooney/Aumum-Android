@@ -6,13 +6,19 @@ import android.view.View;
 
 import com.aumum.app.mobile.Injector;
 import com.aumum.app.mobile.R;
+import com.aumum.app.mobile.core.Constants;
+import com.aumum.app.mobile.core.dao.UserStore;
+import com.aumum.app.mobile.core.model.Share;
+import com.aumum.app.mobile.core.model.User;
 import com.aumum.app.mobile.core.service.ChatService;
 import com.aumum.app.mobile.core.service.LogoutService;
 import com.aumum.app.mobile.ui.base.BaseActionBarActivity;
-import com.aumum.app.mobile.ui.view.Animation;
+import com.aumum.app.mobile.ui.browser.BrowserActivity;
+import com.aumum.app.mobile.ui.view.ToggleButton;
 import com.aumum.app.mobile.ui.view.dialog.ConfirmDialog;
 import com.aumum.app.mobile.ui.view.dialog.TextViewDialog;
-import com.github.kevinsawicki.wishlist.Toaster;
+import com.aumum.app.mobile.utils.PreferenceUtils;
+import com.aumum.app.mobile.utils.ShareUtils;
 
 import javax.inject.Inject;
 
@@ -21,13 +27,17 @@ import butterknife.InjectView;
 
 public class SettingsActivity extends BaseActionBarActivity {
 
+    @Inject UserStore userStore;
     @Inject LogoutService logoutService;
     @Inject ChatService chatService;
 
-    @InjectView(R.id.layout_notification) protected View notificationLayout;
-    @InjectView(R.id.layout_feedback) protected View feedbackLayout;
+    @InjectView(R.id.b_switch_sound) protected ToggleButton soundSwitch;
+    @InjectView(R.id.b_switch_vibrate) protected ToggleButton vibrateSwitch;
     @InjectView(R.id.layout_about_app) protected View aboutAppLayout;
-    @InjectView(R.id.layout_logout) protected View logoutLayout;
+    @InjectView(R.id.layout_feedback) protected View feedbackLayout;
+    @InjectView(R.id.layout_share_app) protected View shareAppLayout;
+    @InjectView(R.id.layout_agreement) protected View agreementLayout;
+    @InjectView(R.id.b_logout) protected View logoutButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,10 +46,12 @@ public class SettingsActivity extends BaseActionBarActivity {
         setContentView(R.layout.activity_settings);
         ButterKnife.inject(this);
 
-        notificationLayout.setOnClickListener(new View.OnClickListener() {
+        initNotificationSettings();
+
+        aboutAppLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startNotificationActivity();
+                startAboutAppActivity();
             }
         });
         feedbackLayout.setOnClickListener(new View.OnClickListener() {
@@ -48,20 +60,59 @@ public class SettingsActivity extends BaseActionBarActivity {
                 startFeedbackActivity();
             }
         });
-        aboutAppLayout.setOnClickListener(new View.OnClickListener() {
+        shareAppLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startAboutAppActivity();
+                try {
+                    User currentUser = userStore.getCurrentUser();
+                    String content = getString(R.string.label_share_app_text,
+                            currentUser.getScreenName());
+                    Share share = new Share(content, content, null);
+                    ShareUtils.show(SettingsActivity.this, share);
+                } catch (Exception e) {
+                    showError(e);
+                }
             }
         });
-        logoutLayout.setOnClickListener(new View.OnClickListener() {
+        agreementLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                showAgreement();
+            }
+        });
+        logoutButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 showLogoutConfirmDialog();
             }
         });
+    }
 
-        Animation.flyIn(this);
+    private void initNotificationSettings() {
+        if (PreferenceUtils.isNotificationSoundEnabled()) {
+            soundSwitch.setToggleOn();
+        } else {
+            soundSwitch.setToggleOff();
+        }
+        soundSwitch.setOnToggleChanged(new ToggleButton.OnToggleChanged() {
+            @Override
+            public void onToggle(boolean on) {
+                chatService.setNotificationSoundEnabled(on);
+                PreferenceUtils.setNotificationSoundEnabled(on);
+            }
+        });
+        if (PreferenceUtils.isNotificationVibrateEnabled()) {
+            vibrateSwitch.setToggleOn();
+        } else {
+            vibrateSwitch.setToggleOff();
+        }
+        vibrateSwitch.setOnToggleChanged(new ToggleButton.OnToggleChanged() {
+            @Override
+            public void onToggle(boolean on) {
+                chatService.setNotificationVibrateEnabled(on);
+                PreferenceUtils.setNotificationVibrateEnabled(on);
+            }
+        });
     }
 
     private void showLogoutConfirmDialog() {
@@ -75,7 +126,7 @@ public class SettingsActivity extends BaseActionBarActivity {
 
                     @Override
                     public void onException(String errorMessage) {
-                        Toaster.showShort(SettingsActivity.this, errorMessage);
+                        showMsg(errorMessage);
                     }
 
                     @Override
@@ -88,8 +139,8 @@ public class SettingsActivity extends BaseActionBarActivity {
                 }).show();
     }
 
-    private void startNotificationActivity() {
-        final Intent intent = new Intent(this, NotificationActivity.class);
+    private void startAboutAppActivity() {
+        final Intent intent = new Intent(this, AboutAppActivity.class);
         startActivity(intent);
     }
 
@@ -98,8 +149,10 @@ public class SettingsActivity extends BaseActionBarActivity {
         startActivity(intent);
     }
 
-    private void startAboutAppActivity() {
-        final Intent intent = new Intent(this, AboutAppActivity.class);
+    private void showAgreement() {
+        final Intent intent = new Intent(this, BrowserActivity.class);
+        intent.putExtra(BrowserActivity.INTENT_TITLE, getString(R.string.label_agreement));
+        intent.putExtra(BrowserActivity.INTENT_URL, Constants.Link.AGREEMENT);
         startActivity(intent);
     }
 }
