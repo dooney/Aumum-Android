@@ -33,6 +33,7 @@ import com.mobsandgeeks.saripaar.annotation.Email;
 import org.lasque.tusdk.core.utils.sqllite.ImageSqlInfo;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -66,6 +67,7 @@ public class CompleteProfileActivity extends ProgressDialogActivity
     @InjectView(R.id.b_save) protected Button saveButton;
 
     private String userId;
+    private String country;
     private String avatarUrl;
     private String screenName;
     private String email;
@@ -79,6 +81,7 @@ public class CompleteProfileActivity extends ProgressDialogActivity
     private final TextWatcher watcher = validationTextWatcher();
 
     public static final String INTENT_USER_ID = "userId";
+    public static final String INTENT_COUNTRY = "country";
     private static final int GET_AREA_USERS_REQ_CODE = 100;
 
     @Override
@@ -89,6 +92,7 @@ public class CompleteProfileActivity extends ProgressDialogActivity
         ButterKnife.inject(this);
 
         userId = getIntent().getStringExtra(INTENT_USER_ID);
+        country = getIntent().getStringExtra(INTENT_COUNTRY);
         fileUploadService.init(userId);
         fileUploadService.setFileUploadListener(this);
 
@@ -104,15 +108,16 @@ public class CompleteProfileActivity extends ProgressDialogActivity
             @Override
             public void onClick(View view) {
                 container.requestFocus();
-                final String cityOptions[] = Constants.Options.CITY_OPTIONS;
+                final ArrayList<String> cities = new ArrayList(
+                        Constants.Map.CITY.get(country).keySet());
                 new ListViewDialog(CompleteProfileActivity.this,
                         getString(R.string.label_select_your_city),
-                        Arrays.asList(cityOptions),
+                        cities,
                         new ListViewDialog.OnItemClickListener() {
                     @Override
                     public void onItemClick(int i) {
-                        city = cityOptions[i];
-                        cityText.setText(cityOptions[i]);
+                        city = cities.get(i);
+                        cityText.setText(city);
                     }
                 }).show();
             }
@@ -126,7 +131,7 @@ public class CompleteProfileActivity extends ProgressDialogActivity
                     showMsg(R.string.error_city_first);
                     return;
                 }
-                int cityId = Constants.Options.CITY_ID.get(city);
+                int cityId = Constants.Map.CITY.get(country).get(city);
                 startAreaListActivity(cityId);
             }
         });
@@ -206,6 +211,7 @@ public class CompleteProfileActivity extends ProgressDialogActivity
                 user.setObjectId(userId);
                 user.setScreenName(screenName);
                 user.setEmail(email);
+                user.setCountry(country);
                 user.setCity(city);
                 user.setArea(area);
                 user.setAbout(about);

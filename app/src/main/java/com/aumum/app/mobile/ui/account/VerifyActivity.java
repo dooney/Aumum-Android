@@ -39,6 +39,7 @@ public class VerifyActivity extends ProgressDialogActivity {
     @Inject RestService restService;
     @Inject ChatService chatService;
 
+    public static final String INTENT_COUNTRY = "country";
     public static final String INTENT_COUNTRY_CODE = "countryCode";
     public static final String INTENT_PHONE = "phone";
     public static final String INTENT_USER_ID = "userId";
@@ -50,6 +51,7 @@ public class VerifyActivity extends ProgressDialogActivity {
     private final long RETRY_INTERVAL = 60;
     private final long INTERVAL = 1;
     private long total = RETRY_INTERVAL;
+    private String country;
     private String countryCode;
     private String phone;
     private String password;
@@ -73,6 +75,7 @@ public class VerifyActivity extends ProgressDialogActivity {
         ButterKnife.inject(this);
 
         final Intent intent = getIntent();
+        country = intent.getStringExtra(INTENT_COUNTRY);
         countryCode = intent.getStringExtra(INTENT_COUNTRY_CODE);
         phone = intent.getStringExtra(INTENT_PHONE);
         password = intent.getStringExtra(INTENT_PASSWORD);
@@ -294,6 +297,7 @@ public class VerifyActivity extends ProgressDialogActivity {
     private void startCompleteProfileActivity(String userId) {
         final Intent intent = new Intent(this, CompleteProfileActivity.class);
         intent.putExtra(CompleteProfileActivity.INTENT_USER_ID, userId);
+        intent.putExtra(CompleteProfileActivity.INTENT_COUNTRY, country);
         startActivityForResult(intent, COMPLETE_ACTIVITY_REQ_CODE);
     }
 }

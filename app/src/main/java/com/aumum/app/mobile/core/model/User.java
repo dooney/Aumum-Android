@@ -1,7 +1,5 @@
 package com.aumum.app.mobile.core.model;
 
-import com.aumum.app.mobile.core.Constants;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -12,6 +10,7 @@ public class User extends AggregateRoot {
     protected String screenName;
     protected String email;
     protected String sessionToken;
+    protected String country;
     protected String city;
     protected String area;
     protected String avatarUrl;
@@ -30,6 +29,7 @@ public class User extends AggregateRoot {
                 String createdAt,
                 String screenName,
                 String email,
+                String country,
                 String city,
                 String area,
                 String avatarUrl,
@@ -43,6 +43,7 @@ public class User extends AggregateRoot {
         this.createdAt = createdAt;
         this.screenName = screenName;
         this.email = email;
+        this.country = country;
         this.city = city;
         this.area = area;
         this.avatarUrl = avatarUrl;
@@ -89,6 +90,14 @@ public class User extends AggregateRoot {
 
     public String getSessionToken() {
         return sessionToken;
+    }
+
+    public void setCountry(String country) {
+        this.country = country;
+    }
+
+    public String getCountry() {
+        return country;
     }
 
     public String getCity() {
@@ -153,6 +162,7 @@ public class User extends AggregateRoot {
 
     public void resetProfile() {
         screenName = "用户" + objectId;
+        country = "其他国家";
         city = "其他城市";
         area = "其他地区";
     }
@@ -170,16 +180,7 @@ public class User extends AggregateRoot {
         }
     }
 
-    public String getCountry() {
-        for (int i = 0; i < Constants.Options.COUNTRY_CODES.length; i++) {
-            if (username.startsWith(Constants.Options.COUNTRY_CODES[i])) {
-                return Constants.Options.COUNTRY_OPTIONS[i];
-            }
-        }
-        return null;
-    }
-
     public String getAddress() {
-        return area + " " + city + " " + getCountry();
+        return area + " " + city + " " + country;
     }
 }

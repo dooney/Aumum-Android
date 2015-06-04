@@ -28,6 +28,7 @@ import com.google.gson.reflect.TypeToken;
 import org.lasque.tusdk.core.utils.sqllite.ImageSqlInfo;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.Arrays;
 
 import javax.inject.Inject;
@@ -161,14 +162,15 @@ public class EditProfileActivity extends BaseActionBarActivity
         cityLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                final String cityOptions[] = Constants.Options.CITY_OPTIONS;
+                final ArrayList<String> cities = new ArrayList(
+                        Constants.Map.CITY.get(currentUser.getCountry()).keySet());
                 new ListViewDialog(EditProfileActivity.this,
                         getString(R.string.label_select_your_city),
-                        Arrays.asList(cityOptions),
+                        cities,
                         new ListViewDialog.OnItemClickListener() {
                             @Override
                             public void onItemClick(int i) {
-                                final String city = cityOptions[i];
+                                final String city = cities.get(i);
                                 final String text = getString(R.string.label_confirm_city, city);
                                 new TextViewDialog(EditProfileActivity.this,
                                         text, new ConfirmDialog.OnConfirmListener() {
@@ -197,7 +199,9 @@ public class EditProfileActivity extends BaseActionBarActivity
         areaLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                int cityId = Constants.Options.CITY_ID.get(currentUser.getCity());
+                int cityId = Constants.Map.CITY
+                        .get(currentUser.getCountry())
+                        .get(currentUser.getCity());
                 startAreaListActivity(cityId);
             }
         });

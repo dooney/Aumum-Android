@@ -37,7 +37,7 @@ import com.aumum.app.mobile.utils.Strings;
 import com.squareup.otto.Bus;
 import com.squareup.otto.Subscribe;
 
-import java.util.Arrays;
+import java.util.ArrayList;
 
 import javax.inject.Inject;
 
@@ -81,25 +81,18 @@ public class LoginActivity extends AuthenticateActivity {
         countryText.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                final String countryOptions[] = Constants.Options.COUNTRY_OPTIONS;
+                final ArrayList<String> countries = new ArrayList<>(
+                        Constants.Map.COUNTRY.keySet());
                 new ListViewDialog(LoginActivity.this,
                         getString(R.string.label_select_your_country),
-                        Arrays.asList(countryOptions),
+                        countries,
                         new ListViewDialog.OnItemClickListener() {
                     @Override
                     public void onItemClick(int i) {
-                        countryText.setText(countryOptions[i]);
-                        switch (i) {
-                            case 1:
-                                countryCodeText.setText("+64");
-                                break;
-                            case 2:
-                                countryCodeText.setText("+86");
-                                break;
-                            default:
-                                countryCodeText.setText("+61");
-                                break;
-                        }
+                        String country = countries.get(i);
+                        countryText.setText(country);
+                        countryCodeText.setText(
+                                Constants.Map.COUNTRY.get(country));
                     }
                 }).show();
             }

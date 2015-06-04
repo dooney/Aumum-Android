@@ -16,7 +16,6 @@ import android.widget.TextView;
 
 import com.aumum.app.mobile.Injector;
 import com.aumum.app.mobile.R;
-import com.aumum.app.mobile.core.Constants;
 import com.aumum.app.mobile.core.dao.MessageStore;
 import com.aumum.app.mobile.core.dao.MomentStore;
 import com.aumum.app.mobile.core.dao.UserStore;
@@ -215,9 +214,6 @@ public class UserFragment extends LoaderFragment<User> {
             albumAdapter.addAll(album);
             if (user.getCoverUrl() != null) {
                 ImageLoaderUtils.displayImage(user.getCoverUrl(), coverImage);
-            } else {
-                coverImage.setImageResource(
-                        Constants.Options.CITY_COVER.get(user.getCity()));
             }
             avatarImage.getFromUrl(user.getAvatarUrl());
             screenNameText.setText(user.getScreenName());

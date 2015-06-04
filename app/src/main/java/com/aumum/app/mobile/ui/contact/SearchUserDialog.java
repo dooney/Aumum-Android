@@ -10,7 +10,7 @@ import com.aumum.app.mobile.ui.view.dialog.EditTextDialog;
 import com.aumum.app.mobile.ui.view.dialog.ListViewDialog;
 import com.aumum.app.mobile.utils.EditTextUtils;
 
-import java.util.Arrays;
+import java.util.ArrayList;
 
 /**
  * Created by Administrator on 13/01/2015.
@@ -30,13 +30,15 @@ public class SearchUserDialog extends EditTextDialog {
     }
 
     private void showCountryCodeListDialog() {
-        final String countryCodes[] = Constants.Options.COUNTRY_CODES;
-        String options[] = getContext().getResources().getStringArray(R.array.label_country_code_list);
-        new ListViewDialog(getContext(), null, Arrays.asList(options),
+        final ArrayList<String> countryCodes = new ArrayList<>(
+                Constants.Map.COUNTRY.values());
+        final ArrayList<String> countries = new ArrayList<>(
+                Constants.Map.COUNTRY.keySet());
+        new ListViewDialog(getContext(), null, countries,
                 new ListViewDialog.OnItemClickListener() {
                     @Override
                     public void onItemClick(int i) {
-                        valueText.setText(countryCodes[i]);
+                        valueText.setText(countryCodes.get(i));
                         EditTextUtils.showSoftInput(valueText, true);
                         valueText.setSelection(valueText.getText().length());
                     }

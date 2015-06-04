@@ -196,9 +196,9 @@ public class RestService {
 
     private String getUserFields() {
         return String.format("%s,%s,%s,%s,%s,%s,%s,%s",
-                Constants.Http.User.PARAM_USER_NAME,
                 Constants.Http.User.PARAM_SCREEN_NAME,
                 Constants.Http.User.PARAM_AVATAR_URL,
+                Constants.Http.User.PARAM_COUNTRY,
                 Constants.Http.User.PARAM_CITY,
                 Constants.Http.User.PARAM_AREA,
                 Constants.Http.User.PARAM_ABOUT,
@@ -343,6 +343,7 @@ public class RestService {
         final JsonObject data = new JsonObject();
         data.addProperty(Constants.Http.User.PARAM_SCREEN_NAME, user.getScreenName());
         data.addProperty(Constants.Http.User.PARAM_EMAIL, user.getEmail());
+        data.addProperty(Constants.Http.User.PARAM_COUNTRY, user.getCountry());
         data.addProperty(Constants.Http.User.PARAM_CITY, user.getCity());
         data.addProperty(Constants.Http.User.PARAM_AREA, user.getArea());
         data.addProperty(Constants.Http.User.PARAM_ABOUT, user.getAbout());

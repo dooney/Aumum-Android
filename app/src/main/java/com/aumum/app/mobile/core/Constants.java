@@ -4,7 +4,9 @@ package com.aumum.app.mobile.core;
 
 import com.aumum.app.mobile.R;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 
 /**
  * Bootstrap constants
@@ -134,9 +136,9 @@ public final class Constants {
         public static final class User {
             public static final String PARAM_CONTACTS = "contacts";
             public static final String PARAM_AVATAR_URL = "avatarUrl";
-            public static final String PARAM_USER_NAME = "username";
             public static final String PARAM_SCREEN_NAME = "screenName";
             public static final String PARAM_EMAIL = "email";
+            public static final String PARAM_COUNTRY = "country";
             public static final String PARAM_CITY = "city";
             public static final String PARAM_AREA = "area";
             public static final String PARAM_ABOUT = "about";
@@ -165,77 +167,43 @@ public final class Constants {
         public static final String FORMAT = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'";
     }
 
-    public static final class Options {
-        private Options() {
+    public static final class Map {
+        private Map() {
         }
 
-        public static final String COUNTRY_CODES[] = {
-                "+61",
-                "+64",
-                "+86"
-        };
-
-        public static final String COUNTRY_OPTIONS[] = {
-            "澳大利亚",
-            "新西兰",
-            "中国"
-        };
-
-        public static final String CITY_OPTIONS[] = {
-            "悉尼",
-            "墨尔本",
-            "布里斯班",
-            "珀斯",
-            "阿德莱德",
-            "堪培拉",
-            "达尔文",
-            "霍巴特",
-            "奥克兰",
-            "惠灵顿",
-            "北京",
-            "上海",
-            "深圳",
-            "广州",
-            "其他城市"
-        };
-
-        public static HashMap<String, Integer> CITY_ID = new HashMap<String, Integer>(){
+        public static LinkedHashMap<String, String> COUNTRY
+                = new LinkedHashMap<String, String>() {
             {
-                put("悉尼", 0);
-                put("墨尔本", 1);
-                put("布里斯班", 2);
-                put("珀斯", 3);
-                put("阿德莱德", 4);
-                put("堪培拉", 5);
-                put("达尔文", 6);
-                put("霍巴特", 7);
-                put("奥克兰", 8);
-                put("惠灵顿", 9);
-                put("北京", 10);
-                put("上海", 11);
-                put("深圳", 12);
-                put("广州", 13);
-                put("其他城市", 1000);
+                put("澳大利亚", "+61");
+                put("新西兰", "+64");
+                put("美国", "+1");
+                put("加拿大", "+1");
             }
         };
 
-        public static HashMap<String, Integer> CITY_COVER = new HashMap<String, Integer>(){
+        public static LinkedHashMap<String, LinkedHashMap<String, Integer>> CITY
+                = new LinkedHashMap<String, LinkedHashMap<String, Integer>>() {
             {
-                put("悉尼", R.drawable.cover_sydney);
-                put("墨尔本", R.drawable.cover_melbourne);
-                put("布里斯班", 2);
-                put("珀斯", 3);
-                put("阿德莱德", 4);
-                put("堪培拉", 5);
-                put("达尔文", 6);
-                put("霍巴特", 7);
-                put("奥克兰", 8);
-                put("惠灵顿", 9);
-                put("北京", 10);
-                put("上海", 11);
-                put("深圳", 12);
-                put("广州", 13);
-                put("其他城市", 1000);
+                put("澳大利亚", new LinkedHashMap<String, Integer>() {
+                    {
+                        put("悉尼", 0);
+                        put("墨尔本", 1);
+                        put("布里斯班", 2);
+                        put("珀斯", 3);
+                        put("阿德莱德", 4);
+                        put("堪培拉", 5);
+                        put("达尔文", 6);
+                        put("霍巴特", 7);
+                        put("其他城市", 1000);
+                    }
+                });
+                put("新西兰", new LinkedHashMap<String, Integer>() {
+                    {
+                        put("奥克兰", 8);
+                        put("惠灵顿", 9);
+                        put("其他城市", 1000);
+                    }
+                });
             }
         };
     }
@@ -253,7 +221,6 @@ public final class Constants {
 
     public static final class Link {
 
-        public static final String GOOGLE_PLAY_APP = "market://details?id=";
         public static final String GOOGLE_PLAY_URL = "http://play.google.com/store/apps/details?id=";
         public static final String AGREEMENT = "http://www.aumums.com/agreement";
     }

@@ -27,7 +27,7 @@ import com.mobsandgeeks.saripaar.annotation.Order;
 import com.mobsandgeeks.saripaar.annotation.Pattern;
 import com.mobsandgeeks.saripaar.annotation.Size;
 
-import java.util.Arrays;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -71,6 +71,7 @@ public class RegisterActivity extends AuthenticateActivity
     private EventHandler handler;
     private SafeAsyncTask<Boolean> task;
 
+    private String country;
     private String countryCode;
     private String phone;
     private String userId;
@@ -88,16 +89,18 @@ public class RegisterActivity extends AuthenticateActivity
         countryText.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                final String countryCodes[] = Constants.Options.COUNTRY_CODES;
-                final String countryOptions[] = Constants.Options.COUNTRY_OPTIONS;
+                final ArrayList<String> countries = new ArrayList<>(
+                        Constants.Map.COUNTRY.keySet());
                 new ListViewDialog(RegisterActivity.this,
                         getString(R.string.label_select_your_country),
-                        Arrays.asList(countryOptions),
+                        countries,
                         new ListViewDialog.OnItemClickListener() {
                             @Override
                             public void onItemClick(int i) {
-                                countryText.setText(countryOptions[i]);
-                                countryCodeText.setText(countryCodes[i]);
+                                String country = countries.get(i);
+                                countryText.setText(country);
+                                countryCodeText.setText(
+                                        Constants.Map.COUNTRY.get(country));
                             }
                         }).show();
             }
@@ -238,8 +241,9 @@ public class RegisterActivity extends AuthenticateActivity
 
         progress.setMessageId(R.string.info_verifying_mobile);
         showProgress();
-        countryCode = countryCodeText.getText().toString().replace(" ", "");
-        phone = Strings.removeLeadingZeros(phoneText.getText().toString().replace(" ", ""));
+        country = countryText.getText().toString().trim();
+        countryCode = countryCodeText.getText().toString().trim();
+        phone = Strings.removeLeadingZeros(phoneText.getText().toString().trim());
         EditTextUtils.hideSoftInput(phoneText);
         password = passwordText.getText().toString();
         EditTextUtils.hideSoftInput(passwordText);
@@ -278,6 +282,7 @@ public class RegisterActivity extends AuthenticateActivity
 
     private void startVerifyActivity() {
         final Intent intent = new Intent(this, VerifyActivity.class);
+        intent.putExtra(VerifyActivity.INTENT_COUNTRY, country);
         intent.putExtra(VerifyActivity.INTENT_COUNTRY_CODE, countryCode);
         intent.putExtra(VerifyActivity.INTENT_PHONE, phone);
         intent.putExtra(VerifyActivity.INTENT_PASSWORD, password);
