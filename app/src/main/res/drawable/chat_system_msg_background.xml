@@ -3,5 +3,5 @@
 <shape xmlns:android="http://schemas.android.com/apk/res/android">
     <solid
         android:color="#cccccc" />
-    <corners android:radius="@dimen/bthumbnail_rounded_corner_radius"/>
+    <corners android:radius="5dp"/>
 </shape>

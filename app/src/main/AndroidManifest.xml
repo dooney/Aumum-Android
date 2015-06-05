@@ -233,7 +233,6 @@
             android:name=".ui.area.AreaListActivity"
             android:label="@string/title_activity_area_list" >
         </activity>
-        <activity android:name=".ui.user.AreaUsersActivity" />
         <activity android:name=".ui.image.ImageViewActivity" />
         <activity android:name=".ui.moment.NewMomentActivity" />
         <activity android:name=".ui.moment.MomentDetailsActivity"

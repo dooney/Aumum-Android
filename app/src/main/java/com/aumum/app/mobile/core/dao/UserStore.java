@@ -206,37 +206,10 @@ public class UserStore {
         return localList;
     }
 
-    public List<UserInfo> getListByArea(String userId, String area) throws Exception {
-        List<UserInfo> users = restService.getAreaUsers(userId, area);
-        updateOrInsert(users);
-        return users;
-    }
-
     public List<UserInfo> getListByCity(String userId, String city) throws Exception {
         List<UserInfo> users = restService.getCityUsers(userId, city);
         updateOrInsert(users);
         return users;
-    }
-
-    public List<UserInfo> getListByGroup(List<String> chatIds) throws Exception {
-        List<UserInfo> localList = new ArrayList<>();
-        List<String> requestList = new ArrayList<>();
-        for (String chatId: chatIds) {
-            UserInfoEntity userInfoEntity = userInfoEntityDao.queryBuilder()
-                    .where(UserInfoEntityDao.Properties.ChatId.eq(chatId))
-                    .unique();
-            if (userInfoEntity != null) {
-                localList.add(map(userInfoEntity));
-            } else {
-                requestList.add(chatId);
-            }
-        }
-        if (requestList.size() > 0) {
-            List<UserInfo> fetchList = restService.getGroupUsers(requestList);
-            updateOrInsert(fetchList);
-            localList.addAll(fetchList);
-        }
-        return localList;
     }
 
     public List<UserInfo> getLocalNearestList() {

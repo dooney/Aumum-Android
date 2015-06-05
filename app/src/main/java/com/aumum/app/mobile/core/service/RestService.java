@@ -285,30 +285,6 @@ public class RestService {
         return null;
     }
 
-    private JsonObject buildAreaUsersJson(String userId, String area) {
-        final JsonObject areaUsersJson = new JsonObject();
-        final JsonObject userIdJson = new JsonObject();
-        userIdJson.addProperty("$ne", userId);
-        areaUsersJson.add(Constants.Http.PARAM_OBJECT_ID, userIdJson);
-        areaUsersJson.addProperty(Constants.Http.User.PARAM_AREA, area);
-        return areaUsersJson;
-    }
-
-    public List<UserInfo> getAreaUsers(String userId, String area) {
-        final JsonObject whereJson = buildAreaUsersJson(userId, area);
-        String where = whereJson.toString();
-        return getUserService()
-                .getInfoList(getUserInfoFields(), where)
-                .getResults();
-    }
-
-    public int getAreaUsersCount(String userId, String area) {
-        final JsonObject whereJson = buildAreaUsersJson(userId, area);
-        String where = whereJson.toString();
-        JsonObject result = getUserService().getCount(where, 1, 0);
-        return result.get("count").getAsInt();
-    }
-
     public List<UserInfo> getCityUsers(String userId, String city) {
         final JsonObject whereJson = new JsonObject();
         final JsonObject userIdJson = new JsonObject();

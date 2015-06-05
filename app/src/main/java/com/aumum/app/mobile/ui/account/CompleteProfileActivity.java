@@ -19,7 +19,6 @@ import com.aumum.app.mobile.core.service.RestService;
 import com.aumum.app.mobile.ui.area.AreaListActivity;
 import com.aumum.app.mobile.ui.base.ProgressDialogActivity;
 import com.aumum.app.mobile.ui.helper.TextWatcherAdapter;
-import com.aumum.app.mobile.ui.user.AreaUsersActivity;
 import com.aumum.app.mobile.ui.view.AvatarImageView;
 import com.aumum.app.mobile.ui.view.dialog.ListViewDialog;
 import com.aumum.app.mobile.utils.EditTextUtils;
@@ -75,7 +74,6 @@ public class CompleteProfileActivity extends ProgressDialogActivity
     private String city;
     private String area;
     private String about;
-    private int areaUsersCount;
 
     private Validator validator;
     private SafeAsyncTask<Boolean> task;
@@ -83,7 +81,6 @@ public class CompleteProfileActivity extends ProgressDialogActivity
 
     public static final String INTENT_USER_ID = "userId";
     public static final String INTENT_COUNTRY = "country";
-    private static final int GET_AREA_USERS_REQ_CODE = 100;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -157,9 +154,6 @@ public class CompleteProfileActivity extends ProgressDialogActivity
                 resultCode == RESULT_OK) {
             area = data.getStringExtra(AreaListActivity.INTENT_AREA);
             areaText.setText(area);
-        } else if (requestCode == GET_AREA_USERS_REQ_CODE) {
-            setResult(RESULT_OK);
-            finish();
         }
     }
 
@@ -223,7 +217,6 @@ public class CompleteProfileActivity extends ProgressDialogActivity
                 moment = restService.newMoment(moment);
                 restService.addUserFirstMoment(userId, moment.getObjectId());
                 user.addMoment(moment.getObjectId());
-                areaUsersCount = restService.getAreaUsersCount(userId, area);
                 return true;
             }
 
@@ -236,12 +229,8 @@ public class CompleteProfileActivity extends ProgressDialogActivity
 
             @Override
             protected void onSuccess(Boolean success) throws Exception {
-                if (areaUsersCount > 0) {
-                    startAreaUsersActivity(area);
-                } else {
-                    setResult(RESULT_OK);
-                    finish();
-                }
+                setResult(RESULT_OK);
+                finish();
             }
 
             @Override
@@ -274,13 +263,6 @@ public class CompleteProfileActivity extends ProgressDialogActivity
         for (ValidationError error : errors) {
             showMsg(error.getFailedRules().get(0).getMessage(this));
         }
-    }
-
-    private void startAreaUsersActivity(String area) {
-        final Intent intent = new Intent(this, AreaUsersActivity.class);
-        intent.putExtra(AreaUsersActivity.INTENT_AREA, area);
-        intent.putExtra(AreaUsersActivity.INTENT_USER_ID, userId);
-        startActivityForResult(intent, GET_AREA_USERS_REQ_CODE);
     }
 
     @Override

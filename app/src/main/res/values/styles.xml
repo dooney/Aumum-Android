@@ -328,13 +328,6 @@
     <style name="TextView.ContactRequest.Added" parent="TextView.Subtitle">
         <item name="android:text">@string/label_added</item>
     </style>
-    <style name="TextView.UserContact.Invite" parent="TextView">
-        <item name="android:textSize">@dimen/text_sz_large</item>
-        <item name="android:text">@string/label_invite</item>
-    </style>
-    <style name="TextView.UserContact.Added" parent="TextView.Subtitle">
-        <item name="android:text">@string/label_added</item>
-    </style>
 
     <!-- Settings -->
     <style name="Button.Logout" parent="Button.Primary">

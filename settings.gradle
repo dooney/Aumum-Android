@@ -1,4 +1,4 @@
-include ':app', ':dao-generator', ':XhsEmoticonsKeyboard', ':', ':TuSDK', ':AndroidBootstrap', ':Android-ObservableScrollView'
+include ':app', ':dao-generator', ':XhsEmoticonsKeyboard', ':', ':TuSDK', ':Android-ObservableScrollView'
 // include ':integration-tests'
 
 include ':social-sdk'
