@@ -37,6 +37,7 @@ dependencies {
     compile files('src/main/libs/qiniu-android-sdk-7.0.3.jar')
     compile project(':AndroidPullToRefresh')
     compile project(':AndroidBootstrap')
+    compile project(':Android-ObservableScrollView')
 }
 
 android {

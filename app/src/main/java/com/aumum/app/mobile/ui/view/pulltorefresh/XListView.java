@@ -14,14 +14,14 @@ import android.widget.AbsListView;
 import android.widget.AbsListView.OnScrollListener;
 import android.widget.LinearLayout;
 import android.widget.ListAdapter;
-import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.Scroller;
 import android.widget.TextView;
 
 import com.aumum.app.mobile.R;
+import com.github.ksoichiro.android.observablescrollview.ObservableListView;
 
-public class XListView extends ListView implements OnScrollListener {
+public class XListView extends ObservableListView implements OnScrollListener {
 
     private final static int SCROLL_BACK_HEADER = 0;
     private final static int SCROLL_BACK_FOOTER = 1;
