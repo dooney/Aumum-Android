@@ -213,6 +213,7 @@
     <string name="label_release_to_cancel">松开取消录音</string>
 
     <!-- Moment -->
+    <string name="label_first_moment">这是我在澳妈圈上的第一张美图~</string>
     <string name="hint_moment_text">说点儿什么吧</string>
     <string name="label_share_content">#澳妈圈#我刚刚在@澳妈圈 上分享了照片</string>
     <string name="label_like_moment">喜欢你的照片</string>

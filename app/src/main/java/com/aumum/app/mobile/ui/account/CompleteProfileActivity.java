@@ -8,11 +8,11 @@ import android.text.TextWatcher;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageView;
 
 import com.aumum.app.mobile.Injector;
 import com.aumum.app.mobile.R;
 import com.aumum.app.mobile.core.Constants;
+import com.aumum.app.mobile.core.model.Moment;
 import com.aumum.app.mobile.core.model.User;
 import com.aumum.app.mobile.core.service.FileUploadService;
 import com.aumum.app.mobile.core.service.RestService;
@@ -20,6 +20,7 @@ import com.aumum.app.mobile.ui.area.AreaListActivity;
 import com.aumum.app.mobile.ui.base.ProgressDialogActivity;
 import com.aumum.app.mobile.ui.helper.TextWatcherAdapter;
 import com.aumum.app.mobile.ui.user.AreaUsersActivity;
+import com.aumum.app.mobile.ui.view.AvatarImageView;
 import com.aumum.app.mobile.ui.view.dialog.ListViewDialog;
 import com.aumum.app.mobile.utils.EditTextUtils;
 import com.aumum.app.mobile.utils.ImageLoaderUtils;
@@ -54,7 +55,7 @@ public class CompleteProfileActivity extends ProgressDialogActivity
     @Inject FileUploadService fileUploadService;
 
     @InjectView(R.id.container) protected View container;
-    @InjectView(R.id.image_avatar) protected ImageView avatarImage;
+    @InjectView(R.id.image_avatar) protected AvatarImageView avatarImage;
     @InjectView(R.id.et_screen_name) protected EditText screenNameText;
 
     @InjectView(R.id.et_email)
@@ -154,8 +155,8 @@ public class CompleteProfileActivity extends ProgressDialogActivity
 
         if (requestCode == Constants.RequestCode.GET_AREA_LIST_REQ_CODE &&
                 resultCode == RESULT_OK) {
-            String area = data.getStringExtra(AreaListActivity.INTENT_AREA);
-            updateArea(area);
+            area = data.getStringExtra(AreaListActivity.INTENT_AREA);
+            areaText.setText(area);
         } else if (requestCode == GET_AREA_USERS_REQ_CODE) {
             setResult(RESULT_OK);
             finish();
@@ -209,6 +210,7 @@ public class CompleteProfileActivity extends ProgressDialogActivity
                 }
                 User user = new User();
                 user.setObjectId(userId);
+                user.setAvatarUrl(avatarUrl);
                 user.setScreenName(screenName);
                 user.setEmail(email);
                 user.setCountry(country);
@@ -216,6 +218,11 @@ public class CompleteProfileActivity extends ProgressDialogActivity
                 user.setArea(area);
                 user.setAbout(about);
                 restService.updateUserProfile(user);
+                Moment moment = new Moment(userId,
+                        getString(R.string.label_first_moment), avatarUrl);
+                moment = restService.newMoment(moment);
+                restService.addUserFirstMoment(userId, moment.getObjectId());
+                user.addMoment(moment.getObjectId());
                 areaUsersCount = restService.getAreaUsersCount(userId, area);
                 return true;
             }
@@ -246,45 +253,10 @@ public class CompleteProfileActivity extends ProgressDialogActivity
         task.execute();
     }
 
-    private void updateAvatar(final String fileUrl) {
-        if (task != null) {
-            return;
-        }
-        task = new SafeAsyncTask<Boolean>() {
-            public Boolean call() throws Exception {
-                restService.updateUserAvatar(userId, fileUrl);
-                return true;
-            }
-
-            @Override
-            protected void onException(final Exception e) throws RuntimeException {
-                if(!(e instanceof RetrofitError)) {
-                    showError(e);
-                }
-            }
-
-            @Override
-            protected void onSuccess(Boolean success) throws Exception {
-                avatarUrl = fileUrl;
-            }
-
-            @Override
-            protected void onFinally() throws RuntimeException {
-                task = null;
-            }
-        };
-        task.execute();
-    }
-
     private void startAreaListActivity(int city) {
         final Intent intent = new Intent(this, AreaListActivity.class);
         intent.putExtra(AreaListActivity.INTENT_CITY, city);
         startActivityForResult(intent, Constants.RequestCode.GET_AREA_LIST_REQ_CODE);
-    }
-
-    private void updateArea(String value) {
-        area = value;
-        areaText.setText(value);
     }
 
     @Override
@@ -313,7 +285,9 @@ public class CompleteProfileActivity extends ProgressDialogActivity
 
     @Override
     public void onUploadSuccess(String remoteUrl) {
-        updateAvatar(remoteUrl);
+        avatarUrl = remoteUrl;
+        avatarImage.setBorderColor(getResources().getColor(R.color.am_white));
+        updateUIWithValidation();
     }
 
     @Override

@@ -341,6 +341,7 @@ public class RestService {
 
     public JsonObject updateUserProfile(User user) {
         final JsonObject data = new JsonObject();
+        data.addProperty(Constants.Http.User.PARAM_AVATAR_URL, user.getAvatarUrl());
         data.addProperty(Constants.Http.User.PARAM_SCREEN_NAME, user.getScreenName());
         data.addProperty(Constants.Http.User.PARAM_EMAIL, user.getEmail());
         data.addProperty(Constants.Http.User.PARAM_COUNTRY, user.getCountry());
@@ -378,6 +379,18 @@ public class RestService {
     public JsonObject updateUserAbout(String userId, String about) {
         final JsonObject data = new JsonObject();
         data.addProperty(Constants.Http.User.PARAM_ABOUT, about);
+        return getUserService().updateById(userId, data);
+    }
+
+    public JsonObject addUserFirstMoment(String userId,
+                                         String momentId) {
+        final JsonObject op = new JsonObject();
+        op.addProperty("__op", "AddUnique");
+        final JsonArray moments = new JsonArray();
+        moments.add(new JsonPrimitive(momentId));
+        op.add("objects", moments);
+        final JsonObject data = new JsonObject();
+        data.add(Constants.Http.User.PARAM_MOMENTS, op);
         return getUserService().updateById(userId, data);
     }
 

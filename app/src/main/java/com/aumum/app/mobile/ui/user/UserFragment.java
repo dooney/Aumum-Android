@@ -214,6 +214,8 @@ public class UserFragment extends LoaderFragment<User> {
             albumAdapter.addAll(album);
             if (user.getCoverUrl() != null) {
                 ImageLoaderUtils.displayImage(user.getCoverUrl(), coverImage);
+            } else {
+                coverImage.setImageResource(R.drawable.cover_default);
             }
             avatarImage.getFromUrl(user.getAvatarUrl());
             screenNameText.setText(user.getScreenName());

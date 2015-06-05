@@ -47,7 +47,7 @@ public class MainTabPageIndicator extends TabPageIndicator {
         tabView.addView(textView);
 
         ImageView unreadImage = new ImageView(getContext(), null, R.attr.tabImageStyle);
-        unreadImage.setImageDrawable(getResources().getDrawable(R.drawable.image_unread_background));
+        unreadImage.setImageDrawable(getResources().getDrawable(R.drawable.unread));
         unreadImage.setVisibility(INVISIBLE);
         tabView.addView(unreadImage);
         unreadImages.add(unreadImage);

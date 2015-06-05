@@ -102,7 +102,7 @@
         <item name="android:layout_height">40dp</item>
     </style>
     <style name="ImageView.Unread.Small" parent="ImageView">
-        <item name="android:src">@drawable/image_unread_background</item>
+        <item name="android:src">@drawable/unread</item>
     </style>
     <style name="ImageView.Dialog.Popup" parent="ImageView">
         <item name="android:minWidth">300dp</item>
@@ -321,7 +321,7 @@
         <item name="android:src">@drawable/chat_received_voice_playing</item>
     </style>
     <style name="ImageView.ChatMessage.VoiceUnread" parent="ImageView">
-        <item name="android:src">@drawable/image_unread_background</item>
+        <item name="android:src">@drawable/unread</item>
     </style>
     <style name="ImageView.ChatMessage.Image" parent="ImageView">
         <item name="android:maxWidth">128dp</item>
@@ -536,7 +536,7 @@
     <style name="ProgressBar" parent="@android:style/Widget.Holo.Light.ProgressBar">
         <item name="android:layout_width">@dimen/image_sz_medium</item>
         <item name="android:layout_height">@dimen/image_sz_medium</item>
-        <item name="android:indeterminateDrawable">@drawable/spinner</item>
+        <item name="android:indeterminateDrawable">@drawable/progressbar_spinner</item>
     </style>
     <style name="ProgressBar.Small" parent="ProgressBar">
         <item name="android:layout_width">@dimen/image_sz_small</item>

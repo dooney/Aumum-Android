@@ -194,6 +194,8 @@ public class ProfileFragment extends LoaderFragment<User>
             albumAdapter.addAll(album);
             if (user.getCoverUrl() != null) {
                 ImageLoaderUtils.displayImage(user.getCoverUrl(), coverImage);
+            } else {
+                coverImage.setImageResource(R.drawable.cover_default);
             }
             coverImage.setOnClickListener(new View.OnClickListener() {
                 @Override
