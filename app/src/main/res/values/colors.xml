@@ -2,10 +2,10 @@
 
 <resources>
     <color name="transparent">#00000000</color>
-    <color name="grey_extra_light">#eeeeee</color>
-    <color name="grey_light">#dddddd</color>
-    <color name="grey_medium_light">#bbbbbb</color>
-    <color name="grey_medium">#999999</color>
+    <color name="am_grey_extra_light">#eeeeee</color>
+    <color name="am_grey_light">#dddddd</color>
+    <color name="am_grey_medium_light">#bbbbbb</color>
+    <color name="am_grey_medium">#999999</color>
 
     <color name="am_red">#ffff6060</color>
     <color name="am_red_dark">#ffd9534f</color>
@@ -19,10 +19,4 @@
     <color name="am_white_light">#f4f4f4</color>
 
     <color name="am_black">#666666</color>
-
-    <color name="text">#ffffff</color>
-    <color name="text_dark">#666666</color>
-    <color name="text_light">#999999</color>
-    <color name="text_link">#005684</color>
-    <color name="text_warning">#ffd9534f</color>
 </resources>

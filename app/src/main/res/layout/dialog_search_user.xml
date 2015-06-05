@@ -9,17 +9,6 @@
         android:id="@+id/et_value"
         style="@style/EditText.Dialog" />
 
-    <TextView
-        android:id="@+id/text_select_country_code"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:paddingLeft="@dimen/margin_large"
-        android:paddingTop="@dimen/margin_small"
-        android:paddingBottom="@dimen/margin_medium"
-        android:textColor="@color/text_link"
-        android:textSize="@dimen/text_sz_small"
-        android:text="@string/label_select_country_code"/>
-
     <View style="@style/Divider" />
 
     <include layout="@layout/dialog_footer" />

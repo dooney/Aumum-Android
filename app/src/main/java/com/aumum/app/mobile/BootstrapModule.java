@@ -23,7 +23,6 @@ import com.aumum.app.mobile.ui.chat.MessageNotifyListener;
 import com.aumum.app.mobile.ui.chat.NotificationClickListener;
 import com.aumum.app.mobile.ui.chat.SendMessageListener;
 import com.aumum.app.mobile.ui.contact.ContactFragment;
-import com.aumum.app.mobile.ui.contact.ContactPickerFragment;
 import com.aumum.app.mobile.ui.conversation.ConversationFragment;
 import com.aumum.app.mobile.ui.contact.AcceptContactListener;
 import com.aumum.app.mobile.ui.contact.ContactListener;
@@ -97,7 +96,6 @@ import retrofit.converter.GsonConverter;
                 ResetPasswordSuccessActivity.class,
                 MessageNotifyListener.class,
                 NotificationClickListener.class,
-                ContactPickerFragment.class,
                 UserListFragment.class,
                 ReportActivity.class,
                 ChatConnectionListener.class,

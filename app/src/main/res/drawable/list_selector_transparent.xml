@@ -3,6 +3,6 @@
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item android:state_window_focused="false" android:drawable="@color/transparent" />
-    <item android:state_pressed="true" android:drawable="@color/grey_extra_light" />
+    <item android:state_pressed="true" android:drawable="@color/am_grey_extra_light" />
 
 </selector>

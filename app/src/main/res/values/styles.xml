@@ -109,14 +109,6 @@
         <item name="android:minHeight">360dp</item>
         <item name="android:scaleType">fitCenter</item>
     </style>
-    <style name="ImageView.SingleGallery" parent="ImageView">
-        <item name="android:maxWidth">100dp</item>
-        <item name="android:maxHeight">108dp</item>
-        <item name="android:scaleType">fitStart</item>
-    </style>
-    <style name="ImageView.Checkbox" parent="ImageView">
-        <item name="android:src">@drawable/checkbox_on_focus</item>
-    </style>
     <style name="ImageView.Delete" parent="ImageView">
         <item name="android:src">@drawable/ic_fa_times_s</item>
     </style>
@@ -124,7 +116,7 @@
     <style name="TextView" parent="android:Widget.TextView">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
-        <item name="android:textColor">@color/text_dark</item>
+        <item name="android:textColor">@color/am_black</item>
         <item name="android:textSize">@dimen/text_sz_medium</item>
     </style>
     <style name="TextView.Title" parent="TextView">
@@ -133,7 +125,7 @@
         <item name="android:ellipsize">end</item>
     </style>
     <style name="TextView.Subtitle" parent="TextView">
-        <item name="android:textColor">@color/text_light</item>
+        <item name="android:textColor">@color/am_grey_medium</item>
     </style>
     <style name="TextView.Subtitle.Small" parent="TextView.Subtitle">
         <item name="android:textSize">@dimen/text_sz_small</item>
@@ -182,22 +174,16 @@
         <item name="android:layout_width">match_parent</item>
         <item name="android:background">@drawable/dialog_title_background</item>
         <item name="android:padding">@dimen/margin_large</item>
-        <item name="android:textColor">@color/text</item>
+        <item name="android:textColor">@color/am_white</item>
         <item name="android:textSize">@dimen/text_sz_large</item>
     </style>
     <style name="TextView.Notification" parent="TextView">
-        <item name="android:textColor">@color/text_warning</item>
+        <item name="android:textColor">@color/am_red_dark</item>
     </style>
     <style name="TextView.Empty" parent="TextView.Subtitle" />
     <style name="TextView.Reload" parent="TextView">
         <item name="android:text">@string/info_click_to_reload</item>
-        <item name="android:textColor">@color/text_warning</item>
-    </style>
-    <style name="TextView.Gif" parent="TextView">
-        <item name="android:text">@string/label_gif</item>
-        <item name="android:textColor">@color/text</item>
-        <item name="android:textSize">@dimen/text_sz_small</item>
-        <item name="android:background">@color/grey_medium</item>
+        <item name="android:textColor">@color/am_red_dark</item>
     </style>
     <style name="TextView.Label" parent="TextView.Subtitle">
         <item name="android:paddingRight">@dimen/margin_extra_large</item>
@@ -265,19 +251,19 @@
     </style>
     <style name="TextView.Chat.RecordingHint" parent="TextView">
         <item name="android:padding">@dimen/margin_small</item>
-        <item name="android:textColor">@color/text</item>
+        <item name="android:textColor">@color/am_white</item>
         <item name="android:textSize">@dimen/text_sz_small</item>
         <item name="android:text">@string/label_move_up_to_cancel</item>
     </style>
     <style name="TextView.ChatMessage.TimeStamp" parent="TextView">
-        <item name="android:textColor">@color/text</item>
+        <item name="android:textColor">@color/am_white</item>
         <item name="android:textSize">@dimen/text_sz_small</item>
         <item name="android:padding">@dimen/margin_small</item>
         <item name="android:layout_marginBottom">@dimen/margin_medium</item>
         <item name="android:background">@drawable/chat_system_msg_background</item>
     </style>
     <style name="TextView.ChatMessage.UserName" parent="TextView">
-        <item name="android:textColor">@color/text_link</item>
+        <item name="android:textColor">@color/am_red</item>
         <item name="android:textSize">@dimen/text_sz_small</item>
         <item name="android:layout_marginBottom">@dimen/margin_extra_small</item>
     </style>
@@ -288,7 +274,7 @@
         <item name="android:maxWidth">225dp</item>
     </style>
     <style name="TextView.ChatMessage.SentText" parent="TextView.ChatMessage.Text">
-        <item name="android:textColor">@color/text</item>
+        <item name="android:textColor">@color/am_white</item>
     </style>
     <style name="ImageView.ChatMessage.FromMe" parent="ImageView">
         <item name="android:paddingTop">@dimen/margin_large</item>
@@ -303,7 +289,7 @@
         <item name="android:src">@drawable/ic_fa_from_o</item>
     </style>
     <style name="TextView.ChatMessage.System" parent="TextView">
-        <item name="android:textColor">@color/text</item>
+        <item name="android:textColor">@color/am_white</item>
         <item name="android:textSize">@dimen/text_sz_small</item>
         <item name="android:padding">@dimen/margin_small</item>
         <item name="android:background">@drawable/chat_system_msg_background</item>
@@ -498,7 +484,7 @@
     <style name="Divider">
         <item name="android:layout_height">1dp</item>
         <item name="android:layout_width">match_parent</item>
-        <item name="android:background">@color/grey_extra_light</item>
+        <item name="android:background">@color/am_grey_extra_light</item>
     </style>
     <style name="Divider.Blur">
         <item name="android:layout_height">0.1dp</item>
@@ -524,12 +510,12 @@
     </style>
 
     <style name="MenuItem.Text" parent="TextView">
-        <item name="android:textColor">@color/text</item>
+        <item name="android:textColor">@color/am_white</item>
         <item name="android:textSize">@dimen/text_sz_large</item>
     </style>
 
     <style name="ActionBarTitle.Text" parent="TextView">
-        <item name="android:textColor">@color/text</item>
+        <item name="android:textColor">@color/am_white</item>
         <item name="android:textSize">@dimen/text_sz_large</item>
     </style>
 

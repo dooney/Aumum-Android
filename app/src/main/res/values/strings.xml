@@ -96,7 +96,6 @@
     <string name="error_email_registered">该邮箱地址已被注册</string>
     <string name="error_city_first">请先选择城市</string>
     <string name="error_incorrect_email_format">邮箱地址格式无效</string>
-    <string name="error_selection_no_more_than">最多只能选%,d项</string>
     <string name="error_no_network">无法找到有效的网络，请检查你的网络连接</string>
     <string name="error_invalid_image_file">找不到该图片%1$s</string>
     <string name="error_title_is_null_for_sharing">标题为空，无法分享</string>
@@ -108,8 +107,6 @@
     <string name="title_activity_user">用户详情</string>
     <string name="title_activity_contact_requests">收到的请求</string>
     <string name="title_activity_settings">我的设置</string>
-    <string name="title_activity_choose_image">选择图片</string>
-    <string name="title_activity_add_image">添加图片</string>
     <string name="title_activity_complete_profile">完善资料</string>
     <string name="title_activity_verify">手机验证</string>
     <string name="title_activity_contact_picker">选择好友</string>
@@ -205,7 +202,6 @@
     <string name="label_my_contacts">我的好友 (%,d)</string>
     <string name="label_invite">邀请</string>
     <string name="hint_search_user">手机号码/用户昵称</string>
-    <string name="label_select_country_code">手机所在国家</string>
     <string name="label_hello">你好，我是%1$s</string>
 
     <!-- Chat -->

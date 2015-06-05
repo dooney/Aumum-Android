@@ -71,7 +71,7 @@ public class LikeTextView extends AnimateTextView {
             setBackgroundResource(R.drawable.buttontext_background_dark);
         } else {
             setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_fa_like, 0, 0, 0);
-            setTextColor(getResources().getColor(R.color.text_light));
+            setTextColor(getResources().getColor(R.color.am_grey_medium));
             setBackgroundResource(R.drawable.buttontext_background);
         }
     }

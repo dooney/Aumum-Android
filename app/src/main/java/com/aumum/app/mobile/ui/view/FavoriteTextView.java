@@ -110,7 +110,7 @@ public class FavoriteTextView extends AnimateTextView {
             setTextColor(getResources().getColor(R.color.bbutton_danger));
         } else {
             setCompoundDrawablesWithIntrinsicBounds(favoriteResId, 0, 0, 0);
-            setTextColor(getResources().getColor(R.color.text_light));
+            setTextColor(getResources().getColor(R.color.am_grey_medium));
         }
     }
 }

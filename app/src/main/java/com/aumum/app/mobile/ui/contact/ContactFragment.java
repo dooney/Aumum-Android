@@ -22,6 +22,7 @@ import com.aumum.app.mobile.ui.base.ItemListFragment;
 import com.aumum.app.mobile.ui.user.UserActivity;
 import com.aumum.app.mobile.ui.user.UserClickListener;
 import com.aumum.app.mobile.ui.view.dialog.ConfirmDialog;
+import com.aumum.app.mobile.ui.view.dialog.EditTextDialog;
 import com.aumum.app.mobile.ui.view.sort.InitialComparator;
 import com.aumum.app.mobile.ui.view.sort.SideBar;
 import com.github.kevinsawicki.wishlist.Toaster;
@@ -136,7 +137,10 @@ public class ContactFragment extends ItemListFragment<UserInfo>
 
     private void showSearchUserDialog() {
         final ArrayList<String> userList = new ArrayList<String>();
-        new SearchUserDialog(getActivity(), new ConfirmDialog.OnConfirmListener() {
+        new EditTextDialog(getActivity(),
+                R.layout.dialog_search_user,
+                R.string.hint_search_user,
+                new ConfirmDialog.OnConfirmListener() {
             @Override
             public void call(Object value) throws Exception {
                 String name = (String) value;

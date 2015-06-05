@@ -177,7 +177,6 @@
             android:name=".ui.settings.SettingsActivity"
             android:label="@string/title_activity_settings" >
         </activity>
-        <activity android:name=".ui.image.ImagePickerActivity" />
         <activity
             android:name="com.tencent.tauth.AuthActivity"
             android:launchMode="singleTask"
@@ -216,10 +215,6 @@
             android:windowSoftInputMode="stateHidden|adjustResize">
         </activity>
 
-        <activity
-            android:name=".ui.contact.ContactPickerActivity"
-            android:label="@string/title_activity_contact_picker" >
-        </activity>
         <activity android:name=".ui.user.UserListActivity" />
         <activity
             android:name=".ui.report.ReportActivity"
@@ -239,13 +234,7 @@
             android:label="@string/title_activity_area_list" >
         </activity>
         <activity android:name=".ui.user.AreaUsersActivity" />
-        <activity
-            android:name=".ui.settings.NotificationActivity"
-            android:label="@string/title_activity_notification_settings" >
-        </activity>
         <activity android:name=".ui.image.ImageViewActivity" />
-        <activity android:name=".ui.image.GifViewActivity" />
-        <activity android:name=".ui.image.ImageViewPagerActivity" />
         <activity android:name=".ui.moment.NewMomentActivity" />
         <activity android:name=".ui.moment.MomentDetailsActivity"
             android:windowSoftInputMode="adjustResize">
