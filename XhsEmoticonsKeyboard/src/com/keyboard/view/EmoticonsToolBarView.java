@@ -84,7 +84,7 @@ public class EmoticonsToolBarView extends RelativeLayout implements IEmoticonsKe
             if (select == i) {
                 mToolBtnList.get(i).setBackgroundColor(getResources().getColor(R.color.toolbar_btn_select));
             } else {
-                mToolBtnList.get(i).setBackgroundColor(getResources().getColor(R.color.toolbar_btn_nomal));
+                mToolBtnList.get(i).setBackgroundColor(getResources().getColor(R.color.toolbar_btn_normal));
             }
         }
     }

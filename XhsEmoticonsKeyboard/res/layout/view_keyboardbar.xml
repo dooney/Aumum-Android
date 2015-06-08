@@ -115,7 +115,7 @@
                 android:paddingLeft="10dp"
                 android:paddingRight="10dp"
                 android:text="@string/btn_text_send"
-                android:textColor="@color/btn_send_textcolor"
+                android:textColor="@color/btn_send_text"
                 android:textSize="14sp"
                 android:visibility="gone"
                 />

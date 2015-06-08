@@ -166,6 +166,7 @@ public class ChatFragment extends Fragment
 
         EmoticonsUtils.initEmoticonsDB(getActivity());
         xhsEmoticonsKeyBoardBar = (XhsEmoticonsKeyBoardBar) view.findViewById(R.id.kv_bar);
+        xhsEmoticonsKeyBoardBar.setVideoVisibility(false);
         xhsEmoticonsKeyBoardBar.setBuilder(EmoticonsUtils.getBuilder(getActivity()));
         xhsEmoticonsKeyBoardBar.setOnKeyBoardBarViewListener(this);
 
