@@ -107,16 +107,12 @@ public class AutoHeightLayout extends ResizeLayout implements ResizeLayout.OnRes
 
     @Override
     public void OnSoftClose(int height) {
-        mKeyboardState = mKeyboardState == KEYBOARD_STATE_BOTH ? KEYBOARD_STATE_FUNC : KEYBOARD_STATE_NONE ;
+        if (mKeyboardState == KEYBOARD_STATE_BOTH) {
+            mKeyboardState = KEYBOARD_STATE_FUNC;
+        }
     }
 
     @Override
     public void OnSoftChangeHeight(final int height) {
-        post(new Runnable() {
-            @Override
-            public void run() {
-                setAutoViewHeight(height);
-            }
-        });
     }
 }
