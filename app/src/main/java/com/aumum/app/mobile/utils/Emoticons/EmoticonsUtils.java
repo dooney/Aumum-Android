@@ -47,14 +47,6 @@ public class EmoticonsUtils {
                     xhsEmoticonSetBean.setEmoticonList(xhsFaceArray);
                     dbHelper.insertEmoticonSet(xhsEmoticonSetBean);
 
-                    ArrayList<EmoticonBean> coverFaceArray = ParseData(coverEmojiArray, EmoticonBean.FACE_TYPE_NORMAL, ImageBase.Scheme.ASSETS);
-                    EmoticonSetBean coverEmoticonSetBean = new EmoticonSetBean("cover", 2, 4);
-                    coverEmoticonSetBean.setIconUri("assets://icon_030_cover.png");
-                    coverEmoticonSetBean.setItemPadding(20);
-                    coverEmoticonSetBean.setVerticalSpacing(5);
-                    coverEmoticonSetBean.setEmoticonList(coverFaceArray);
-                    dbHelper.insertEmoticonSet(coverEmoticonSetBean);
-
                     /**
                      * FROM FILE
                      */
@@ -160,24 +152,5 @@ public class EmoticonsUtils {
             "xhsemoji_19.png,[害羞]",
             "xhsemoji_20.png,[嘿嘿]",
             "xhsemoji_21.png,[嘻嘻]"
-    };
-
-    public static String[] coverEmojiArray = {
-            "icon_002_cover.png, icon_002_cover",
-            "icon_007_cover.png, icon_007_cover",
-            "icon_010_cover.png, icon_010_cover",
-            "icon_012_cover.png, icon_012_cover",
-            "icon_013_cover.png, icon_013_cover",
-            "icon_018_cover.png, icon_018_cover",
-            "icon_019_cover.png, icon_019_cover",
-            "icon_020_cover.png, icon_020_cover",
-            "icon_021_cover.png, icon_021_cover",
-            "icon_022_cover.png, icon_022_cover",
-            "icon_024_cover.png, icon_024_cover",
-            "icon_027_cover.png, icon_027_cover",
-            "icon_029_cover.png, icon_029_cover",
-            "icon_030_cover.png, icon_030_cover",
-            "icon_035_cover.png, icon_035_cover",
-            "icon_040_cover.png, icon_040_cover"
     };
 }

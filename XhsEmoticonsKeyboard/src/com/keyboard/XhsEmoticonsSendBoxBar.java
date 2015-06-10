@@ -36,7 +36,7 @@ public class XhsEmoticonsSendBoxBar extends AutoHeightLayout
     private EmoticonsIndicatorView mEmoticonsIndicatorView;
     private EmoticonsToolBarView mEmoticonsToolBarView;
 
-    private EmoticonsEditText et_chat;
+    private EmoticonsEditText et_content;
     private RelativeLayout rl_input;
     private LinearLayout ly_foot_func;
     private ImageView btn_face;
@@ -58,7 +58,7 @@ public class XhsEmoticonsSendBoxBar extends AutoHeightLayout
         ly_foot_func = (LinearLayout) findViewById(R.id.ly_foot_func);
         btn_face = (ImageView) findViewById(R.id.btn_face);
         btn_send = (Button) findViewById(R.id.btn_send);
-        et_chat = (EmoticonsEditText) findViewById(R.id.et_chat);
+        et_content = (EmoticonsEditText) findViewById(R.id.et_chat);
 
         setAutoHeightLayoutView(ly_foot_func);
         btn_face.setOnClickListener(this);
@@ -89,17 +89,17 @@ public class XhsEmoticonsSendBoxBar extends AutoHeightLayout
         mEmoticonsPageView.setIViewListener(new IView() {
             @Override
             public void onItemClick(EmoticonBean bean) {
-                if (et_chat != null) {
-                    et_chat.setFocusable(true);
-                    et_chat.setFocusableInTouchMode(true);
-                    et_chat.requestFocus();
+                if (et_content != null) {
+                    et_content.setFocusable(true);
+                    et_content.setFocusableInTouchMode(true);
+                    et_content.requestFocus();
 
                     // 删除
                     if (bean.getEventType() == EmoticonBean.FACE_TYPE_DEL) {
                         int action = KeyEvent.ACTION_DOWN;
                         int code = KeyEvent.KEYCODE_DEL;
                         KeyEvent event = new KeyEvent(action, code);
-                        et_chat.onKeyDown(KeyEvent.KEYCODE_DEL, event);
+                        et_content.onKeyDown(KeyEvent.KEYCODE_DEL, event);
                         return;
                     }
                     // 用户自定义
@@ -107,8 +107,8 @@ public class XhsEmoticonsSendBoxBar extends AutoHeightLayout
                         return;
                     }
 
-                    int index = et_chat.getSelectionStart();
-                    Editable editable = et_chat.getEditableText();
+                    int index = et_content.getSelectionStart();
+                    Editable editable = et_content.getEditableText();
                     if (index < 0) {
                         editable.append(bean.getContent());
                     } else {
@@ -133,17 +133,17 @@ public class XhsEmoticonsSendBoxBar extends AutoHeightLayout
             }
         });
 
-        et_chat.setOnTouchListener(new OnTouchListener() {
+        et_content.setOnTouchListener(new OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
-                if (!et_chat.isFocused()) {
-                    et_chat.setFocusable(true);
-                    et_chat.setFocusableInTouchMode(true);
+                if (!et_content.isFocused()) {
+                    et_content.setFocusable(true);
+                    et_content.setFocusableInTouchMode(true);
                 }
                 return false;
             }
         });
-        et_chat.setOnFocusChangeListener(new OnFocusChangeListener() {
+        et_content.setOnFocusChangeListener(new OnFocusChangeListener() {
             @Override
             public void onFocusChange(View view, boolean b) {
                 if (b) {
@@ -153,7 +153,7 @@ public class XhsEmoticonsSendBoxBar extends AutoHeightLayout
                 }
             }
         });
-        et_chat.setOnTextChangedInterface(new EmoticonsEditText.OnTextChangedInterface() {
+        et_content.setOnTextChangedInterface(new EmoticonsEditText.OnTextChangedInterface() {
             @Override
             public void onTextChanged(CharSequence arg0) {
                 String str = arg0.toString();
@@ -164,14 +164,14 @@ public class XhsEmoticonsSendBoxBar extends AutoHeightLayout
 
     private void setEditableState(boolean b) {
         if (b) {
-            et_chat.setFocusable(true);
-            et_chat.setFocusableInTouchMode(true);
-            et_chat.requestFocus();
-            rl_input.setBackgroundResource(R.drawable.input_bg_green);
+            et_content.setFocusable(true);
+            et_content.setFocusableInTouchMode(true);
+            et_content.requestFocus();
+            rl_input.setBackgroundResource(R.drawable.input_bg_sel);
         } else {
-            et_chat.setFocusable(false);
-            et_chat.setFocusableInTouchMode(false);
-            rl_input.setBackgroundResource(R.drawable.input_bg_gray);
+            et_content.setFocusable(false);
+            et_content.setFocusableInTouchMode(false);
+            rl_input.setBackgroundResource(R.drawable.input_bg_nor);
         }
     }
 
@@ -211,7 +211,7 @@ public class XhsEmoticonsSendBoxBar extends AutoHeightLayout
                 case KEYBOARD_STATE_FUNC:
                     if(mChildViewPosition == FUNC_CHILDVIEW_EMOTICON){
                         btn_face.setImageResource(R.drawable.icon_face_normal);
-                        Utils.openSoftKeyboard(et_chat);
+                        Utils.openSoftKeyboard(et_content);
                     }
                     else {
                         show(FUNC_CHILDVIEW_EMOTICON);
@@ -222,7 +222,7 @@ public class XhsEmoticonsSendBoxBar extends AutoHeightLayout
         }
         else if (id == R.id.btn_send) {
             if(mKeyBoardBarViewListener != null){
-                mKeyBoardBarViewListener.OnSendBtnClick(et_chat.getText().toString());
+                mKeyBoardBarViewListener.OnSendBtnClick(et_content.getText().toString());
             }
         }
     }
@@ -250,19 +250,19 @@ public class XhsEmoticonsSendBoxBar extends AutoHeightLayout
     }
 
     public void setSendText(String hintText) {
-        et_chat.setText(hintText);
-        et_chat.setSelection(hintText.length());
-        Utils.openSoftKeyboard(et_chat);
+        et_content.setText(hintText);
+        et_content.setSelection(hintText.length());
+        Utils.openSoftKeyboard(et_content);
     }
 
     public void reset() {
-        et_chat.setText("");
+        et_content.setText("");
         hideAutoView();
     }
 
     public void showInput() {
         setEditableState(true);
-        Utils.openSoftKeyboard(et_chat);
+        Utils.openSoftKeyboard(et_content);
     }
 
     @Override

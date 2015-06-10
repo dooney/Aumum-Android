@@ -258,6 +258,7 @@ public class MomentDetailsFragment extends ItemListFragment<Comment>
                 currentUser.getScreenName(), currentUser.getAvatarUrl()));
         getData().add(0, comment);
         getListAdapter().notifyDataSetChanged();
+        getListView().setAdapter(getListAdapter());
         getListView().setSelection(1);
         submitComment(comment);
         emoticonsSendBoxBar.reset();

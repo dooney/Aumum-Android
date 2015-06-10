@@ -14,7 +14,6 @@ import com.keyboard.db.DBHelper;
 import com.keyboard.utils.imageloader.ImageLoader;
 
 import java.util.ArrayList;
-import java.util.regex.Pattern;
 
 public class EmoticonsEditText extends EditText {
 
@@ -52,10 +51,6 @@ public class EmoticonsEditText extends EditText {
         }
     }
 
-    public void setEmoticonImageSpanSize(int width, int height) {
-
-    }
-
     @Override
     protected void onSizeChanged(int w, int h, int oldw, int oldh) {
         super.onSizeChanged(w, h, oldw, oldh);
@@ -64,19 +59,9 @@ public class EmoticonsEditText extends EditText {
         }
     }
 
-    public static String emojiText(String text){
-        String returnTextString = text;
-        Pattern pattern = Pattern.compile (
-                "[\\ud83c\\udc00-\\ud83c\\udfff]|[\\ud83d\\udc00-\\ud83d\\udfff]|[\\u2600-\\u27ff]" ,
-                Pattern . UNICODE_CASE | Pattern . CASE_INSENSITIVE ) ;
-        pattern.matcher(text);
-        return returnTextString;
-    }
-
     @Override
     protected void onTextChanged(CharSequence arg0, int start, int lengthBefore, int after) {
         super.onTextChanged(arg0, start, lengthBefore, after);
-        emojiText(arg0.toString());
         if (after > 0) {
             int end = start + after;
             String keyStr = arg0.toString().substring(start, end);

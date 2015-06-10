@@ -28,7 +28,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:background="@drawable/input_bg_gray">
+            android:background="@drawable/input_bg_nor">
 
             <com.keyboard.view.EmoticonsEditText
                 android:id="@+id/et_chat"

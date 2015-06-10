@@ -55,7 +55,7 @@
             android:layout_marginLeft="8dp"
             android:layout_toLeftOf="@+id/rl_multi_and_send"
             android:layout_toRightOf="@+id/btn_voice_or_text"
-            android:background="@drawable/input_bg_gray"
+            android:background="@drawable/input_bg_nor"
             android:orientation="horizontal">
 
             <com.keyboard.view.EmoticonsEditText

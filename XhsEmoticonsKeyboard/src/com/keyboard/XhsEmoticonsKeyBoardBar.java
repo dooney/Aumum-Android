@@ -38,7 +38,7 @@ public class XhsEmoticonsKeyBoardBar extends AutoHeightLayout
     private EmoticonsIndicatorView mEmoticonsIndicatorView;
     private EmoticonsToolBarView mEmoticonsToolBarView;
 
-    private EmoticonsEditText et_chat;
+    private EmoticonsEditText et_content;
     private RelativeLayout rl_input;
     private LinearLayout ly_foot_func;
     private ImageView btn_face;
@@ -68,7 +68,7 @@ public class XhsEmoticonsKeyBoardBar extends AutoHeightLayout
         btn_voice = (Button) findViewById(R.id.btn_voice);
         btn_multimedia = (ImageView) findViewById(R.id.btn_multimedia);
         btn_send = (Button) findViewById(R.id.btn_send);
-        et_chat = (EmoticonsEditText) findViewById(R.id.et_chat);
+        et_content = (EmoticonsEditText) findViewById(R.id.et_chat);
 
         setAutoHeightLayoutView(ly_foot_func);
         btn_voice_or_text.setOnClickListener(this);
@@ -102,17 +102,17 @@ public class XhsEmoticonsKeyBoardBar extends AutoHeightLayout
         mEmoticonsPageView.setIViewListener(new IView() {
             @Override
             public void onItemClick(EmoticonBean bean) {
-                if (et_chat != null) {
-                    et_chat.setFocusable(true);
-                    et_chat.setFocusableInTouchMode(true);
-                    et_chat.requestFocus();
+                if (et_content != null) {
+                    et_content.setFocusable(true);
+                    et_content.setFocusableInTouchMode(true);
+                    et_content.requestFocus();
 
                     // 删除
                     if (bean.getEventType() == EmoticonBean.FACE_TYPE_DEL) {
                         int action = KeyEvent.ACTION_DOWN;
                         int code = KeyEvent.KEYCODE_DEL;
                         KeyEvent event = new KeyEvent(action, code);
-                        et_chat.onKeyDown(KeyEvent.KEYCODE_DEL, event);
+                        et_content.onKeyDown(KeyEvent.KEYCODE_DEL, event);
                         return;
                     }
                     // 用户自定义
@@ -120,8 +120,8 @@ public class XhsEmoticonsKeyBoardBar extends AutoHeightLayout
                         return;
                     }
 
-                    int index = et_chat.getSelectionStart();
-                    Editable editable = et_chat.getEditableText();
+                    int index = et_content.getSelectionStart();
+                    Editable editable = et_content.getEditableText();
                     if (index < 0) {
                         editable.append(bean.getContent());
                     } else {
@@ -146,17 +146,17 @@ public class XhsEmoticonsKeyBoardBar extends AutoHeightLayout
             }
         });
 
-        et_chat.setOnTouchListener(new OnTouchListener() {
+        et_content.setOnTouchListener(new OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
-                if (!et_chat.isFocused()) {
-                    et_chat.setFocusable(true);
-                    et_chat.setFocusableInTouchMode(true);
+                if (!et_content.isFocused()) {
+                    et_content.setFocusable(true);
+                    et_content.setFocusableInTouchMode(true);
                 }
                 return false;
             }
         });
-        et_chat.setOnFocusChangeListener(new OnFocusChangeListener() {
+        et_content.setOnFocusChangeListener(new OnFocusChangeListener() {
             @Override
             public void onFocusChange(View view, boolean b) {
                 if (b) {
@@ -166,22 +166,21 @@ public class XhsEmoticonsKeyBoardBar extends AutoHeightLayout
                 }
             }
         });
-        et_chat.setOnTextChangedInterface(new EmoticonsEditText.OnTextChangedInterface() {
+        et_content.setOnTextChangedInterface(new EmoticonsEditText.OnTextChangedInterface() {
             @Override
             public void onTextChanged(CharSequence arg0) {
                 String str = arg0.toString();
                 if (TextUtils.isEmpty(str)) {
-                    if(mIsMultimediaVisibility){
+                    if (mIsMultimediaVisibility) {
                         btn_multimedia.setVisibility(VISIBLE);
                         btn_send.setVisibility(GONE);
-                    }
-                    else{
+                    } else {
                         btn_send.setEnabled(false);
                     }
                 }
                 // -> 发送
                 else {
-                    if(mIsMultimediaVisibility){
+                    if (mIsMultimediaVisibility) {
                         btn_multimedia.setVisibility(GONE);
                         btn_send.setVisibility(VISIBLE);
                     }
@@ -193,14 +192,14 @@ public class XhsEmoticonsKeyBoardBar extends AutoHeightLayout
 
     private void setEditableState(boolean b) {
         if (b) {
-            et_chat.setFocusable(true);
-            et_chat.setFocusableInTouchMode(true);
-            et_chat.requestFocus();
-            rl_input.setBackgroundResource(R.drawable.input_bg_green);
+            et_content.setFocusable(true);
+            et_content.setFocusableInTouchMode(true);
+            et_content.requestFocus();
+            rl_input.setBackgroundResource(R.drawable.input_bg_sel);
         } else {
-            et_chat.setFocusable(false);
-            et_chat.setFocusableInTouchMode(false);
-            rl_input.setBackgroundResource(R.drawable.input_bg_gray);
+            et_content.setFocusable(false);
+            et_content.setFocusableInTouchMode(false);
+            rl_input.setBackgroundResource(R.drawable.input_bg_nor);
         }
     }
 
@@ -212,8 +211,8 @@ public class XhsEmoticonsKeyBoardBar extends AutoHeightLayout
         return mEmoticonsPageView;
     }
 
-    public EmoticonsEditText getEt_chat() {
-        return et_chat;
+    public EmoticonsEditText getContent() {
+        return et_content;
     }
 
     public void addToolView(int icon){
@@ -229,17 +228,17 @@ public class XhsEmoticonsKeyBoardBar extends AutoHeightLayout
     }
 
     public void clearEditText(){
-        if(et_chat != null){
-            et_chat.setText("");
+        if(et_content != null){
+            et_content.setText("");
         }
     }
 
     public void del(){
-        if(et_chat != null){
+        if(et_content != null){
             int action = KeyEvent.ACTION_DOWN;
             int code = KeyEvent.KEYCODE_DEL;
             KeyEvent event = new KeyEvent(action, code);
-            et_chat.onKeyDown(KeyEvent.KEYCODE_DEL, event);
+            et_content.onKeyDown(KeyEvent.KEYCODE_DEL, event);
         }
     }
 
@@ -300,7 +299,7 @@ public class XhsEmoticonsKeyBoardBar extends AutoHeightLayout
                 case KEYBOARD_STATE_FUNC:
                     if(mChildViewPosition == FUNC_CHILDVIEW_EMOTICON){
                         btn_face.setImageResource(R.drawable.icon_face_normal);
-                        Utils.openSoftKeyboard(et_chat);
+                        Utils.openSoftKeyboard(et_content);
                     }
                     else {
                         show(FUNC_CHILDVIEW_EMOTICON);
@@ -311,7 +310,7 @@ public class XhsEmoticonsKeyBoardBar extends AutoHeightLayout
         }
         else if (id == R.id.btn_send) {
             if(mKeyBoardBarViewListener != null){
-                mKeyBoardBarViewListener.OnSendBtnClick(et_chat.getText().toString());
+                mKeyBoardBarViewListener.OnSendBtnClick(et_content.getText().toString());
             }
         }
         else if (id == R.id.btn_multimedia) {
@@ -332,7 +331,7 @@ public class XhsEmoticonsKeyBoardBar extends AutoHeightLayout
                 rl_input.setVisibility(VISIBLE);
                 btn_voice.setVisibility(GONE);
                 setEditableState(true);
-                Utils.openSoftKeyboard(et_chat);
+                Utils.openSoftKeyboard(et_content);
             }
         }
     }

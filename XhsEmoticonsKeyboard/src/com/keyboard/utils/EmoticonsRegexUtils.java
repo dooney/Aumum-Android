@@ -12,7 +12,6 @@ import android.widget.TextView;
 import com.keyboard.bean.EmoticonBean;
 import com.keyboard.db.DBHelper;
 import com.keyboard.utils.imageloader.ImageLoader;
-import com.keyboard.view.EmoticonsEditText;
 import com.keyboard.view.VerticalImageSpan;
 
 import java.util.ArrayList;
@@ -35,15 +34,13 @@ public class EmoticonsRegexUtils {
         return (int) Math.ceil(fm.bottom - fm.top);
     }
 
-    public static boolean setTextFace(final Context context, TextView tv ,String content, Object spannable, int width, int height) {
+    public static boolean setTextFace(final Context context, TextView tv, Object spannable) {
         boolean isEmoticonMatcher = false;
-        int fontHeight = height;
-        if (width == EmoticonsEditText.WRAP_FONT && tv!= null) {
-            fontHeight = getFontHeight(tv);
-        }
-
-        Pattern p = Pattern.compile("\\[[a-zA-Z0-9\\u4e00-\\u9fa5]+\\]");
-        Matcher m = p.matcher(content);
+        Pattern p = Pattern.compile (
+                "\\[[a-zA-Z0-9\\u4e00-\\u9fa5]+\\]|[\\ud83c\\udc00-\\ud83c\\udfff]|[\\ud83d\\udc00-\\ud83d\\udfff]|[\\u2600-\\u27ff]" ,
+                Pattern.UNICODE_CASE | Pattern.CASE_INSENSITIVE) ;
+        String text = spannable.toString();
+        Matcher m = p.matcher(text);
         if(m != null){
             while (m.find()) {
                 if (emoticonBeanList == null) {
@@ -57,31 +54,13 @@ public class EmoticonsRegexUtils {
 
                 int start = m.start();
                 int end = m.end();
-                String key = content.substring(start, end).toString();
+                String key = text.substring(start, end);
+                int fontHeight = getFontHeight(tv);
                 for (EmoticonBean bean : emoticonBeanList) {
                     if (!TextUtils.isEmpty(bean.getContent()) && bean.getContent().equals(key)) {
                         Drawable drawable = ImageLoader.getInstance(context).getDrawable(bean.getIconUri());
                         if (drawable != null) {
-                            int itemHeight;
-                            if (height == EmoticonsEditText.WRAP_DRAWABLE) {
-                                itemHeight = drawable.getIntrinsicHeight();
-                            } else if (height == EmoticonsEditText.WRAP_FONT) {
-                                itemHeight = fontHeight;
-                            } else {
-                                itemHeight = height;
-                            }
-
-                            int itemWidth;
-                            if (width == EmoticonsEditText.WRAP_DRAWABLE) {
-                                itemWidth = drawable.getIntrinsicWidth();
-                            } else if (width == EmoticonsEditText.WRAP_FONT) {
-                                itemWidth = fontHeight;
-                            } else {
-                                itemWidth = width;
-                            }
-
-                            drawable.setBounds(0, 0, itemHeight, itemWidth);
-
+                            drawable.setBounds(0, 0, fontHeight, fontHeight);
                             VerticalImageSpan imageSpan = new VerticalImageSpan(drawable);
                             if (spannable instanceof SpannableString) {
                                 ((SpannableString) spannable).setSpan(imageSpan, start ,end, Spannable.SPAN_INCLUSIVE_EXCLUSIVE);

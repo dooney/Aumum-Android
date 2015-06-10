@@ -15,7 +15,6 @@ import android.widget.TextView;
 import com.aumum.app.mobile.utils.Patterns;
 import com.aumum.app.mobile.utils.UrlSpan;
 import com.keyboard.utils.EmoticonsRegexUtils;
-import com.keyboard.view.EmoticonsEditText;
 
 /**
  * Created by Administrator on 6/12/2014.
@@ -52,8 +51,7 @@ public class SpannableTextView extends TextView {
             value.setSpan(span, start, end, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
         }
 
-        EmoticonsRegexUtils.setTextFace(getContext(), this, value.toString(),
-                value, EmoticonsEditText.WRAP_FONT, EmoticonsEditText.WRAP_FONT);
+        EmoticonsRegexUtils.setTextFace(getContext(), this, value);
         return value;
     }
 
