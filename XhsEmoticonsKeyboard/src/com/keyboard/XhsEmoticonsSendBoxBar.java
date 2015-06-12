@@ -211,6 +211,7 @@ public class XhsEmoticonsSendBoxBar extends AutoHeightLayout
                 case KEYBOARD_STATE_FUNC:
                     if(mChildViewPosition == FUNC_CHILDVIEW_EMOTICON){
                         btn_face.setImageResource(R.drawable.icon_face_normal);
+                        setEditableState(true);
                         Utils.openSoftKeyboard(et_content);
                     }
                     else {

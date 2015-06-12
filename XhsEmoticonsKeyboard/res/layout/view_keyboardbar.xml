@@ -100,8 +100,8 @@
             <!--apps 功能-->
             <ImageView
                 android:id="@+id/btn_multimedia"
-                android:layout_width="34dp"
-                android:layout_height="34dp"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
                 android:layout_centerInParent="true"
                 android:src="@drawable/btn_multi_bg"
                 />
