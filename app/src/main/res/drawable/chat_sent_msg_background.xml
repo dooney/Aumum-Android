@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
 
-<shape xmlns:android="http://schemas.android.com/apk/res/android">
-    <solid
-        android:color="@color/am_red" />
-    <corners android:radius="5dp"/>
-</shape>
+    <item android:drawable="@drawable/chat_sent_bg_pressed" android:state_pressed="true"></item>
+    <item android:drawable="@drawable/chat_sent_bg_pressed" android:state_focused="true"></item>
+    <item android:drawable="@drawable/chat_sent_bg_normal"></item>
+
+</selector>

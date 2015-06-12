@@ -21,23 +21,22 @@
         android:gravity="center_vertical">
 
         <com.aumum.app.mobile.ui.view.AvatarImageView
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            app:border_width="2dp"
+            app:border_color="#fff"
             android:id="@+id/image_avatar"
             style="@style/ImageView.Avatar.Chat"
             android:layout_marginRight="@dimen/margin_small"
             android:layout_gravity="top"/>
 
-        <ImageView
-            style="@style/ImageView.ChatMessage.FromYou"/>
-
         <FrameLayout
             android:id="@+id/layout_text_box"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@drawable/chat_received_msg_background">
+            android:layout_height="wrap_content">
 
             <com.aumum.app.mobile.ui.view.SpannableTextView
                 android:id="@+id/text_text_body"
-                style="@style/TextView.ChatMessage.Text"/>
+                style="@style/TextView.ChatMessage.ReceivedText"/>
 
         </FrameLayout>
 

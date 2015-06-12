@@ -40,6 +40,9 @@
             app:riv_corner_radius="5dp"/>
 
         <com.aumum.app.mobile.ui.view.AvatarImageView
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            app:border_width="2dp"
+            app:border_color="#fff"
             android:id="@+id/image_avatar"
             style="@style/ImageView.Avatar.Chat"
             android:layout_marginLeft="@dimen/margin_medium"/>
