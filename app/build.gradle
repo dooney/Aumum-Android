@@ -28,7 +28,6 @@ dependencies {
     compile 'com.etsy.android.grid:library:1.0.5'
     compile 'com.android.support:multidex:1.0.0'
     compile 'org.jsoup:jsoup:1.8.1'
-    compile files('src/main/libs/easemobchat_2.1.8.jar')
     compile project(':XhsEmoticonsKeyboard')
     compile project(':TuSDK')
     compile files('src/main/libs/universal-image-loader-1.9.4.jar')
@@ -36,6 +35,7 @@ dependencies {
     compile files('src/main/libs/qiniu-android-sdk-7.0.3.jar')
     compile project(':AndroidPullToRefresh')
     compile project(':Android-ObservableScrollView')
+    compile files('src/main/libs/easemobchat_2.1.9.jar')
 }
 
 android {
