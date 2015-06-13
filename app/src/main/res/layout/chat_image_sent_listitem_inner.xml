@@ -33,16 +33,16 @@
             android:layout_gravity="center_vertical"
             android:visibility="gone"/>
 
-        <com.makeramen.RoundedImageView
+        <com.aumum.app.mobile.ui.view.bubble.BubbleImageView
             xmlns:app="http://schemas.android.com/apk/res-auto"
             android:id="@+id/image_body"
             style="@style/ImageView.ChatMessage.Image"
-            app:riv_corner_radius="5dp"/>
+            app:siArrowPosition="right"/>
 
         <com.aumum.app.mobile.ui.view.AvatarImageView
             xmlns:app="http://schemas.android.com/apk/res-auto"
             app:border_width="2dp"
-            app:border_color="#fff"
+            app:border_color="@color/am_white"
             android:id="@+id/image_avatar"
             style="@style/ImageView.Avatar.Chat"
             android:layout_marginLeft="@dimen/margin_medium"/>
