@@ -23,30 +23,6 @@
             android:scrollbarStyle="outsideOverlay"
             android:smoothScrollbar="true" />
 
-        <RelativeLayout
-            android:id="@+id/layout_recording"
-            android:layout_width="128dp"
-            android:layout_height="128dp"
-            android:padding="@dimen/margin_large"
-            android:layout_centerInParent="true"
-            android:background="@drawable/recording_background"
-            android:visibility="gone">
-
-            <ImageView
-                android:id="@+id/image_mic"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerHorizontal="true"
-                android:src="@drawable/record_animate_01" />
-
-            <TextView
-                android:id="@+id/text_recording_hint"
-                style="@style/TextView.Chat.RecordingHint"
-                android:layout_below="@id/image_mic"
-                android:layout_centerHorizontal="true"/>
-
-        </RelativeLayout>
-
         <ProgressBar
             android:id="@+id/pb_loading"
             style="@style/ProgressBar.Large"

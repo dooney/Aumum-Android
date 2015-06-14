@@ -249,12 +249,6 @@
         <item name="android:paddingLeft">@dimen/margin_medium</item>
         <item name="android:paddingRight">@dimen/margin_medium</item>
     </style>
-    <style name="TextView.Chat.RecordingHint" parent="TextView">
-        <item name="android:padding">@dimen/margin_small</item>
-        <item name="android:textColor">@color/am_white</item>
-        <item name="android:textSize">@dimen/text_sz_small</item>
-        <item name="android:text">@string/label_move_up_to_cancel</item>
-    </style>
     <style name="TextView.ChatMessage.TimeStamp" parent="TextView">
         <item name="android:textColor">@color/am_white</item>
         <item name="android:textSize">@dimen/text_sz_small</item>
@@ -291,20 +285,8 @@
         <item name="android:padding">@dimen/margin_small</item>
         <item name="android:background">@drawable/chat_system_msg_background</item>
     </style>
-    <style name="TextView.ChatMessage.VoiceLength" parent="TextView.Subtitle.Small" />
-    <style name="ImageView.ChatMessage.SentVoice" parent="ImageView">
-        <item name="android:padding">11dp</item>
-        <item name="android:src">@drawable/chat_sent_voice_playing</item>
-    </style>
     <style name="ImageView.ChatMessage.SentFailed" parent="ImageView">
         <item name="android:src">@drawable/chat_msg_sent_failed_icon</item>
-    </style>
-    <style name="ImageView.ChatMessage.ReceivedVoice" parent="ImageView">
-        <item name="android:padding">11dp</item>
-        <item name="android:src">@drawable/chat_received_voice_playing</item>
-    </style>
-    <style name="ImageView.ChatMessage.VoiceUnread" parent="ImageView">
-        <item name="android:src">@drawable/unread</item>
     </style>
     <style name="ImageView.ChatMessage.Image" parent="ImageView">
         <item name="android:maxWidth">128dp</item>

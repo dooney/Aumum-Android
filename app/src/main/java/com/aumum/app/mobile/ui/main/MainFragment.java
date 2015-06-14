@@ -3,7 +3,6 @@ package com.aumum.app.mobile.ui.main;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
@@ -29,13 +28,13 @@ import com.aumum.app.mobile.events.NewChatMessageEvent;
 import com.aumum.app.mobile.events.ResetChatUnreadEvent;
 import com.aumum.app.mobile.events.ResetHomeUnreadEvent;
 import com.aumum.app.mobile.events.ResetMessageUnreadEvent;
-import com.aumum.app.mobile.ui.chat.ChatConnectionListener;
-import com.aumum.app.mobile.ui.chat.MessageNotifyListener;
-import com.aumum.app.mobile.ui.chat.NotificationClickListener;
 import com.aumum.app.mobile.ui.contact.ContactListener;
 import com.aumum.app.mobile.ui.view.Animation;
 import com.aumum.app.mobile.utils.Ln;
 import com.aumum.app.mobile.utils.SafeAsyncTask;
+import com.easemob.EMEventListener;
+import com.easemob.EMNotifierEvent;
+import com.easemob.chat.EMChatManager;
 import com.easemob.chat.EMMessage;
 import com.squareup.otto.Bus;
 import com.squareup.otto.Subscribe;
@@ -50,7 +49,7 @@ import butterknife.InjectView;
 /**
  * Fragment which houses the View pager.
  */
-public class MainFragment extends Fragment {
+public class MainFragment extends Fragment implements EMEventListener {
 
     @Inject UserStore userStore;
     @Inject MomentStore momentStore;
@@ -61,10 +60,6 @@ public class MainFragment extends Fragment {
     @Inject Bus bus;
 
     private Date lastUpdate;
-
-    private ConnectionChangeReceiver connectionChangeReceiver;
-    private NewMessageBroadcastReceiver newMessageBroadcastReceiver;
-    private CmdMessageBroadcastReceiver cmdMessageBroadcastReceiver;
 
     @InjectView(R.id.tpi_footer)
     protected MainTabPageIndicator indicator;
@@ -108,6 +103,13 @@ public class MainFragment extends Fragment {
                 updateDiscoveryList();
             }
         }
+        EMChatManager.getInstance().registerEventListener(this,
+                new EMNotifierEvent.Event[]{
+                        EMNotifierEvent.Event.EventNewMessage,
+                        EMNotifierEvent.Event.EventNewCMDMessage,
+                        EMNotifierEvent.Event.EventOfflineMessage,
+                        EMNotifierEvent.Event.EventConversationListChanged
+                });
     }
 
     @Override
@@ -117,11 +119,9 @@ public class MainFragment extends Fragment {
     }
 
     @Override
-    public void onDestroy() {
-        super.onDestroy();
-        getActivity().unregisterReceiver(connectionChangeReceiver);
-        getActivity().unregisterReceiver(newMessageBroadcastReceiver);
-        getActivity().unregisterReceiver(cmdMessageBroadcastReceiver);
+    public void onStop() {
+        EMChatManager.getInstance().unregisterEventListener(this);
+        super.onStop();
     }
 
     @Override
@@ -172,27 +172,30 @@ public class MainFragment extends Fragment {
     }
 
     private void initChatServer() {
-        connectionChangeReceiver = new ConnectionChangeReceiver();
-        IntentFilter connectionChangeIntentFilter = new IntentFilter();
-        connectionChangeIntentFilter.addAction(android.net.ConnectivityManager.CONNECTIVITY_ACTION);
-        getActivity().registerReceiver(connectionChangeReceiver, connectionChangeIntentFilter);
-
-        newMessageBroadcastReceiver = new NewMessageBroadcastReceiver();
-        IntentFilter newMessageIntentFilter = new IntentFilter(chatService.getNewMessageBroadcastAction());
-        newMessageIntentFilter.setPriority(NewMessageBroadcastReceiver.PRIORITY);
-        getActivity().registerReceiver(newMessageBroadcastReceiver, newMessageIntentFilter);
-
-        cmdMessageBroadcastReceiver = new CmdMessageBroadcastReceiver();
-        IntentFilter cmdMessageIntentFilter = new IntentFilter(chatService.getCmdMessageBroadcastAction());
-        cmdMessageIntentFilter.setPriority(CmdMessageBroadcastReceiver.PRIORITY);
-        getActivity().registerReceiver(cmdMessageBroadcastReceiver, cmdMessageIntentFilter);
-
-        chatService.setConnectionListener(new ChatConnectionListener(getActivity()));
-        chatService.setMessageNotifyListener(new MessageNotifyListener(getActivity()));
-        chatService.setNotificationClickListener(new NotificationClickListener(getActivity()));
         chatService.setContactListener(new ContactListener(bus));
         chatService.setAppInitialized();
         chatService.loadAllResources();
+    }
+
+    @Override
+    public void onEvent(EMNotifierEvent event) {
+        switch (event.getEvent()) {
+            case EventNewCMDMessage:
+                EMMessage message = (EMMessage) event.getData();
+                handleNewCmdMessage(message);
+                break;
+            case EventNewMessage:
+            case EventOfflineMessage:
+            case EventConversationListChanged:
+                if (pager.getCurrentItem() != MainTabPageIndicator.TAB_CHAT) {
+                    updateTabUnread(MainTabPageIndicator.TAB_CHAT, View.VISIBLE);
+                } else {
+                    bus.post(new NewChatMessageEvent());
+                }
+                break;
+            default:
+                break;
+        }
     }
 
     private class ConnectionChangeReceiver extends BroadcastReceiver {
@@ -219,49 +222,24 @@ public class MainFragment extends Fragment {
         notificationText.setText(R.string.error_no_network);
     }
 
-    private class NewMessageBroadcastReceiver extends BroadcastReceiver {
-        public static final int PRIORITY = 3;
-
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            abortBroadcast();
-            if (pager.getCurrentItem() != MainTabPageIndicator.TAB_CHAT) {
-                updateTabUnread(MainTabPageIndicator.TAB_CHAT, View.VISIBLE);
-            } else {
-                bus.post(new NewChatMessageEvent());
+    private void handleNewCmdMessage(EMMessage message) {
+        try {
+            CmdMessage cmdMessage = chatService.getCmdMessage(message);
+            switch (cmdMessage.getType()) {
+                case CmdMessage.Type.NEW_MOMENT:
+                    handleNewMomentCmdMessage(cmdMessage);
+                    break;
+                case CmdMessage.Type.MOMENT_LIKE:
+                    handleMomentLikeCmdMessage(cmdMessage);
+                    break;
+                case CmdMessage.Type.MOMENT_COMMENT:
+                    handleMomentCommentCmdMessage(cmdMessage);
+                    break;
+                default:
+                    break;
             }
-        }
-    }
-
-    private class CmdMessageBroadcastReceiver extends BroadcastReceiver {
-
-        public static final int PRIORITY = 3;
-
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            abortBroadcast();
-
-            try {
-                EMMessage message = intent.getParcelableExtra("message");
-                CmdMessage cmdMessage = chatService.getCmdMessage(message);
-                switch (cmdMessage.getType()) {
-                    case CmdMessage.Type.NEW_MOMENT:
-                        handleNewMomentCmdMessage(cmdMessage);
-                        break;
-                    case CmdMessage.Type.MOMENT_LIKE:
-                        handleMomentLikeCmdMessage(cmdMessage);
-                        break;
-                    case CmdMessage.Type.MOMENT_COMMENT:
-                        handleMomentCommentCmdMessage(cmdMessage);
-                        break;
-                    default:
-                        break;
-                }
-            } catch (Exception e) {
-                Ln.e(e);
-            }
-
-            return;
+        } catch (Exception e) {
+            Ln.e(e);
         }
     }
 

@@ -16,11 +16,8 @@ import com.aumum.app.mobile.ui.LaunchActivity;
 import com.aumum.app.mobile.ui.account.CompleteProfileActivity;
 import com.aumum.app.mobile.ui.account.ResetPasswordSuccessActivity;
 import com.aumum.app.mobile.ui.area.AreaListFragment;
-import com.aumum.app.mobile.ui.chat.ChatConnectionListener;
 import com.aumum.app.mobile.ui.chat.ChatFragment;
 import com.aumum.app.mobile.ui.discovery.DiscoveryFragment;
-import com.aumum.app.mobile.ui.chat.MessageNotifyListener;
-import com.aumum.app.mobile.ui.chat.NotificationClickListener;
 import com.aumum.app.mobile.ui.chat.SendMessageListener;
 import com.aumum.app.mobile.ui.contact.ContactFragment;
 import com.aumum.app.mobile.ui.conversation.ConversationFragment;
@@ -93,11 +90,8 @@ import retrofit.converter.GsonConverter;
                 VerifyActivity.class,
                 CompleteProfileActivity.class,
                 ResetPasswordSuccessActivity.class,
-                MessageNotifyListener.class,
-                NotificationClickListener.class,
                 UserListFragment.class,
                 ReportActivity.class,
-                ChatConnectionListener.class,
                 FeedbackActivity.class,
                 AreaListFragment.class,
                 MomentFragment.class,

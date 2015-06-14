@@ -47,7 +47,7 @@ public class ImageMessageCard extends ChatMessageCard {
         } else {
             imageUri = ImageLoaderUtils.getFullPath(imageBody.getLocalUrl());
         }
-        ImageLoaderUtils.displayImage(imageUri, image);
+        ImageLoaderUtils.displayImage(imageUri, image, R.drawable.photo_placeholder);
         image.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

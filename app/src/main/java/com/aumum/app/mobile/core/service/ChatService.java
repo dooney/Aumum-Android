@@ -2,7 +2,6 @@ package com.aumum.app.mobile.core.service;
 
 import com.aumum.app.mobile.core.model.CmdMessage;
 import com.easemob.EMCallBack;
-import com.easemob.EMConnectionListener;
 import com.easemob.chat.CmdMessageBody;
 import com.easemob.chat.EMChat;
 import com.easemob.chat.EMChatManager;
@@ -12,10 +11,7 @@ import com.easemob.chat.EMContactManager;
 import com.easemob.chat.EMConversation;
 import com.easemob.chat.EMMessage;
 import com.easemob.chat.ImageMessageBody;
-import com.easemob.chat.OnMessageNotifyListener;
-import com.easemob.chat.OnNotificationClickListener;
 import com.easemob.chat.TextMessageBody;
-import com.easemob.chat.VoiceMessageBody;
 import com.google.gson.Gson;
 
 import java.io.File;
@@ -62,10 +58,6 @@ public class ChatService {
 
     public void loadAllResources() {
         EMChatManager.getInstance().loadAllConversations();
-    }
-
-    public void setConnectionListener(EMConnectionListener emConnectionListener) {
-        EMChatManager.getInstance().addConnectionListener(emConnectionListener);
     }
 
     public String getChatId() {
@@ -126,7 +118,6 @@ public class ChatService {
 
     private EMMessage addTextMessage(String receipt, boolean isSystem, String text) {
         EMMessage message = EMMessage.createSendMessage(EMMessage.Type.TXT);
-        message.setChatType(EMMessage.ChatType.GroupChat);
         if (isSystem) {
             message.setAttribute("isSystem", true);
         }
@@ -147,18 +138,8 @@ public class ChatService {
         sendMessage(message, callBack);
     }
 
-    public EMMessage addVoiceMessage(String receipt, String filePath, int length) {
-        final EMMessage message = EMMessage.createSendMessage(EMMessage.Type.VOICE);
-        message.setChatType(EMMessage.ChatType.GroupChat);
-        VoiceMessageBody body = new VoiceMessageBody(new File(filePath), length);
-        message.addBody(body);
-        message.setReceipt(receipt);
-        return message;
-    }
-
     public EMMessage addImageMessage(String receipt, String imagePath) {
         final EMMessage message = EMMessage.createSendMessage(EMMessage.Type.IMAGE);
-        message.setChatType(EMMessage.ChatType.GroupChat);
         ImageMessageBody body = new ImageMessageBody(new File(imagePath));
         message.addBody(body);
         message.setReceipt(receipt);
@@ -167,7 +148,6 @@ public class ChatService {
 
     public void sendCmdMessage(String receipt, CmdMessage cmdMessage, EMCallBack callBack) {
         final EMMessage message = EMMessage.createSendMessage(EMMessage.Type.CMD);
-        message.setChatType(EMMessage.ChatType.GroupChat);
         CmdMessageBody body = new CmdMessageBody("cmd");
         message.addBody(body);
         message.setReceipt(receipt);
@@ -205,30 +185,12 @@ public class ChatService {
         EMContactManager.getInstance().setContactListener(contactListener);
     }
 
-    public String getNewMessageBroadcastAction() {
-        return EMChatManager.getInstance().getNewMessageBroadcastAction();
-    }
-
-    public String getCmdMessageBroadcastAction() {
-        return EMChatManager.getInstance().getCmdMessageBroadcastAction();
-    }
-
     public void setAppInitialized() {
         EMChat.getInstance().setAppInited();
     }
 
     public void acceptInvitation(String userId) throws Exception {
         EMChatManager.getInstance().acceptInvitation(userId);
-    }
-
-    public void setMessageNotifyListener(OnMessageNotifyListener messageNotifyListener) {
-        EMChatOptions options = EMChatManager.getInstance().getChatOptions();
-        options.setNotifyText(messageNotifyListener);
-    }
-
-    public void setNotificationClickListener(OnNotificationClickListener notificationClickListener) {
-        EMChatOptions options = EMChatManager.getInstance().getChatOptions();
-        options.setOnNotificationClickListener(notificationClickListener);
     }
 
     public void setNotificationSoundEnabled(boolean isEnabled) {

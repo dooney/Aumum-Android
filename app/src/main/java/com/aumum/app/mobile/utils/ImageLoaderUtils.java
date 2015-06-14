@@ -53,8 +53,9 @@ public class ImageLoaderUtils {
                 });
     }
 
-    public static void displayAvatar(String imageUri,
-                                     final ImageView imageView) {
+    public static void displayImage(String imageUri,
+                                    final ImageView imageView,
+                                    final int placeHolderRes) {
         DisplayImageOptions options = new DisplayImageOptions.Builder()
                 .bitmapConfig(Bitmap.Config.RGB_565)
                 .cacheOnDisk(true)
@@ -64,7 +65,7 @@ public class ImageLoaderUtils {
                 new SimpleImageLoadingListener() {
             @Override
             public void onLoadingStarted(String imageUri, View view) {
-                imageView.setImageResource(R.drawable.ic_avatar);
+                imageView.setImageResource(placeHolderRes);
                 super.onLoadingStarted(imageUri, view);
             }
         });

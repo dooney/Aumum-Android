@@ -36,7 +36,6 @@
     <string name="label_reply">回复</string>
     <string name="label_report">举报</string>
     <string name="label_image">图片</string>
-    <string name="label_voice">语音</string>
     <string name="label_share">分享</string>
     <string name="label_add">添加</string>
     <string name="label_copy">复制</string>
@@ -54,7 +53,6 @@
     <string name="info_add_contact_sent">发送添加好友请求成功，等待对方验证</string>
     <string name="info_confirm_delete_contact">你确定要移除该好友？</string>
     <string name="info_confirm_logout">你确定要退出登录？</string>
-    <string name="info_downloading_voice">正在下载语音，请稍候</string>
     <string name="info_sending_verification_sms">正在发送验证码短信，请稍候</string>
     <string name="info_verifying_mobile">正在验证手机号码，请稍候</string>
     <string name="info_submitting_profile">正在保存个人资料，请稍候</string>
@@ -63,7 +61,6 @@
     <string name="info_reset_password_tip">验证邮件24小时内有效，请尽快登陆邮箱点击验证链接完成验证。若未收到邮件请先确认是否在垃圾邮件中。</string>
     <string name="info_sending_reset_password_email">正在发送密码重置邮件，请稍候</string>
     <string name="info_reset_password_email_sent">重置密码邮件发送成功</string>
-    <string name="info_chat_messages_arrived">你有来自%1$d位好友的%2$d条消息</string>
     <string name="info_invitation_accepted_and_start_chatting">你们已经是好友了，开始聊天吧！</string>
     <string name="info_submitting_report">正在提交举报，请稍候</string>
     <string name="info_report_submitted">举报已成功提交，请等待审核</string>
@@ -79,10 +76,6 @@
     <!-- Error Message -->
     <string name="error_bad_credentials">验证失败，请输入正确的手机号码/密码</string>
     <string name="error_accept_contact">同意添加好友失败</string>
-    <string name="error_sdcard_needed_for_voice">发送语音需要SD卡支持</string>
-    <string name="error_recoding_failed">录音失败</string>
-    <string name="error_recoding_too_short">录音太短</string>
-    <string name="error_send_recoding_failed">发送录音失败</string>
     <string name="error_send_verification_sms">发送验证码短信失败</string>
     <string name="error_verify_code">验证码错误，请确认后重新输入</string>
     <string name="error_incorrect_phone">手机号码必须全为数字且没有空格</string>
@@ -176,8 +169,6 @@
     <string name="label_share_app">把澳妈圈告诉朋友</string>
     <string name="label_agreement">用户协议</string>
     <string name="label_logout">退出登录</string>
-    <string name="label_logout_notification">下线通知</string>
-    <string name="label_connection_conflict">同一账号已在其他设备登录</string>
     <string name="label_notification_sound">推送声音</string>
     <string name="label_notification_vibrate">推送震动</string>
     <string name="label_share_app_text">我来澳妈圈啦！搜"%1$s"加我！一起分享美好海外生活！</string>
@@ -197,10 +188,6 @@
     <string name="label_my_contacts">我的好友 (%,d)</string>
     <string name="hint_search_user">手机号码/用户昵称</string>
     <string name="label_hello">你好，我是%1$s</string>
-
-    <!-- Chat -->
-    <string name="label_move_up_to_cancel">上滑取消录音</string>
-    <string name="label_release_to_cancel">松开取消录音</string>
 
     <!-- Moment -->
     <string name="label_first_moment">这是我在澳妈圈上的第一张美图~</string>

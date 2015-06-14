@@ -29,10 +29,8 @@ public class ChatMessagesAdapter extends BaseAdapter {
     private static final int MESSAGE_TYPE_SYSTEM = 0;
     private static final int MESSAGE_TYPE_RECV_TXT = 1;
     private static final int MESSAGE_TYPE_SENT_TXT = 2;
-    private static final int MESSAGE_TYPE_RECV_VOICE = 3;
-    private static final int MESSAGE_TYPE_SENT_VOICE = 4;
-    private static final int MESSAGE_TYPE_RECV_IMAGE = 5;
-    private static final int MESSAGE_TYPE_SENT_IMAGE = 6;
+    private static final int MESSAGE_TYPE_RECV_IMAGE = 3;
+    private static final int MESSAGE_TYPE_SENT_IMAGE = 4;
 
     public ChatMessagesAdapter(Activity activity,
                                Bus bus,
@@ -50,8 +48,6 @@ public class ChatMessagesAdapter extends BaseAdapter {
             return MESSAGE_TYPE_SYSTEM;
         } else if (message.getType() == EMMessage.Type.TXT) {
             return message.direct == EMMessage.Direct.RECEIVE ? MESSAGE_TYPE_RECV_TXT : MESSAGE_TYPE_SENT_TXT;
-        } else if (message.getType() == EMMessage.Type.VOICE) {
-            return message.direct == EMMessage.Direct.RECEIVE ? MESSAGE_TYPE_RECV_VOICE : MESSAGE_TYPE_SENT_VOICE;
         } else if (message.getType() == EMMessage.Type.IMAGE) {
             return message.direct == EMMessage.Direct.RECEIVE ? MESSAGE_TYPE_RECV_IMAGE : MESSAGE_TYPE_SENT_IMAGE;
         }
@@ -102,16 +98,6 @@ public class ChatMessagesAdapter extends BaseAdapter {
                     convertView = inflater.inflate(viewId, parent, false);
                     card = new TextMessageCard(activity, bus, chatId, convertView);
                     break;
-                case MESSAGE_TYPE_RECV_VOICE:
-                    viewId = R.layout.chat_voice_received_listitem_inner;
-                    convertView = inflater.inflate(viewId, parent, false);
-                    card = new VoiceMessageCard(activity, bus, chatId, convertView);
-                    break;
-                case MESSAGE_TYPE_SENT_VOICE:
-                    viewId = R.layout.chat_voice_sent_listitem_inner;
-                    convertView = inflater.inflate(viewId, parent, false);
-                    card = new VoiceMessageCard(activity, bus, chatId, convertView);
-                    break;
                 case MESSAGE_TYPE_RECV_IMAGE:
                     viewId = R.layout.chat_image_received_listitem_inner;
                     convertView = inflater.inflate(viewId, parent, false);
@@ -135,10 +121,6 @@ public class ChatMessagesAdapter extends BaseAdapter {
                 case MESSAGE_TYPE_RECV_TXT:
                 case MESSAGE_TYPE_SENT_TXT:
                     card = (TextMessageCard) convertView.getTag();
-                    break;
-                case MESSAGE_TYPE_RECV_VOICE:
-                case MESSAGE_TYPE_SENT_VOICE:
-                    card = (VoiceMessageCard) convertView.getTag();
                     break;
                 case MESSAGE_TYPE_RECV_IMAGE:
                 case MESSAGE_TYPE_SENT_IMAGE:

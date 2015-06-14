@@ -68,8 +68,6 @@ public class ConversationCard {
             if (lastMessage.getType() == EMMessage.Type.TXT) {
                 TextMessageBody messageBody = (TextMessageBody) lastMessage.getBody();
                 messageBodyText.setSpannableText(messageBody.getMessage());
-            } else if (lastMessage.getType() == EMMessage.Type.VOICE) {
-                messageBodyText.setText("[" + context.getString(R.string.label_voice) + "]");
             } else if (lastMessage.getType() == EMMessage.Type.IMAGE) {
                 messageBodyText.setText("[" + context.getString(R.string.label_image) + "]");
             }

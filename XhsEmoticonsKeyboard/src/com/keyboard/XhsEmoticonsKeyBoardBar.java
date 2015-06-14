@@ -354,26 +354,12 @@ public class XhsEmoticonsKeyBoardBar extends AutoHeightLayout
                 }
             }
         }
-        if(mKeyBoardBarViewListener != null){
-            mKeyBoardBarViewListener.OnKeyBoardStateChange(mKeyboardState,-1);
-        }
     }
 
     @Override
     public void OnSoftPop(final int height) {
         super.OnSoftPop(height);
         btn_face.setImageResource(R.drawable.icon_face_normal);
-        if(mKeyBoardBarViewListener != null){
-            mKeyBoardBarViewListener.OnKeyBoardStateChange(mKeyboardState,height);
-        }
-    }
-
-    @Override
-    public void OnSoftClose(int height) {
-        super.OnSoftClose(height);
-        if(mKeyBoardBarViewListener != null){
-            mKeyBoardBarViewListener.OnKeyBoardStateChange(mKeyboardState,height);
-        }
     }
 
     @Override

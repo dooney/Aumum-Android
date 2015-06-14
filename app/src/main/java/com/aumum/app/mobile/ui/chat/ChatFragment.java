@@ -1,13 +1,7 @@
 package com.aumum.app.mobile.ui.chat;
 
-import android.content.BroadcastReceiver;
-import android.content.Context;
 import android.content.Intent;
-import android.content.IntentFilter;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.PowerManager;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -20,7 +14,6 @@ import android.widget.AbsListView;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.ProgressBar;
-import android.widget.TextView;
 
 import com.aumum.app.mobile.Injector;
 import com.aumum.app.mobile.R;
@@ -35,15 +28,14 @@ import com.aumum.app.mobile.ui.view.dialog.ListViewDialog;
 import com.aumum.app.mobile.ui.view.dialog.TextViewDialog;
 import com.aumum.app.mobile.utils.Emoticons.EmoticonsUtils;
 import com.aumum.app.mobile.utils.ImageLoaderUtils;
-import com.aumum.app.mobile.utils.Ln;
 import com.aumum.app.mobile.utils.SafeAsyncTask;
-import com.aumum.app.mobile.utils.StorageUtils;
 import com.aumum.app.mobile.utils.TuSdkUtils;
-import com.easemob.EMError;
+import com.easemob.EMEventListener;
+import com.easemob.EMNotifierEvent;
+import com.easemob.chat.EMChatManager;
 import com.easemob.chat.EMConversation;
 import com.easemob.chat.EMMessage;
 import com.easemob.chat.ImageMessageBody;
-import com.easemob.util.VoiceRecorder;
 import com.github.kevinsawicki.wishlist.Toaster;
 import com.keyboard.XhsEmoticonsKeyBoardBar;
 import com.squareup.otto.Bus;
@@ -69,7 +61,8 @@ public class ChatFragment extends Fragment
                    XhsEmoticonsKeyBoardBar.KeyBoardBarViewListener,
                    TuSdkUtils.CameraListener,
                    TuSdkUtils.AlbumListener,
-                   TuSdkUtils.EditListener {
+                   TuSdkUtils.EditListener,
+                   EMEventListener {
 
     @Inject ChatService chatService;
     @Inject UserStore userStore;
@@ -79,24 +72,10 @@ public class ChatFragment extends Fragment
 
     private XhsEmoticonsKeyBoardBar xhsEmoticonsKeyBoardBar;
     private ListView listView;
-    private ViewGroup recordingLayout;
-    private TextView recordingHintText;
-    private ImageView micImage;
     private ProgressBar progressBar;
 
     private ChatMessagesAdapter adapter;
     private EMConversation conversation;
-    private NewMessageBroadcastReceiver newMessageBroadcastReceiver;
-
-    private VoiceRecorder voiceRecorder;
-    private Drawable[] micImages;
-    private Handler micImageHandler = new Handler() {
-        @Override
-        public void handleMessage(android.os.Message msg) {
-            micImage.setImageDrawable(micImages[msg.what]);
-        }
-    };
-    private PowerManager.WakeLock wakeLock;
 
     private boolean isLoading;
     private boolean loadMore = true;
@@ -113,24 +92,6 @@ public class ChatFragment extends Fragment
         conversation.resetUnreadMsgCount();
         adapter = new ChatMessagesAdapter(getActivity(), bus, chatService.getChatId());
         updateUI(conversation.getAllMessages(), -1);
-
-        newMessageBroadcastReceiver = new NewMessageBroadcastReceiver();
-        IntentFilter intentFilter = new IntentFilter(chatService.getNewMessageBroadcastAction());
-        intentFilter.setPriority(NewMessageBroadcastReceiver.PRIORITY);
-        getActivity().registerReceiver(newMessageBroadcastReceiver, intentFilter);
-
-        micImages = new Drawable[] { getResources().getDrawable(R.drawable.record_animate_01),
-                getResources().getDrawable(R.drawable.record_animate_02), getResources().getDrawable(R.drawable.record_animate_03),
-                getResources().getDrawable(R.drawable.record_animate_04), getResources().getDrawable(R.drawable.record_animate_05),
-                getResources().getDrawable(R.drawable.record_animate_06), getResources().getDrawable(R.drawable.record_animate_07),
-                getResources().getDrawable(R.drawable.record_animate_08), getResources().getDrawable(R.drawable.record_animate_09),
-                getResources().getDrawable(R.drawable.record_animate_10), getResources().getDrawable(R.drawable.record_animate_11),
-                getResources().getDrawable(R.drawable.record_animate_12), getResources().getDrawable(R.drawable.record_animate_13),
-                getResources().getDrawable(R.drawable.record_animate_14), };
-        voiceRecorder = new VoiceRecorder(micImageHandler);
-        wakeLock = ((PowerManager) getActivity()
-                .getSystemService(Context.POWER_SERVICE))
-                .newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, "aumum");
     }
 
     @Override
@@ -170,10 +131,6 @@ public class ChatFragment extends Fragment
         xhsEmoticonsKeyBoardBar.setBuilder(EmoticonsUtils.getBuilder(getActivity()));
         xhsEmoticonsKeyBoardBar.setOnKeyBoardBarViewListener(this);
 
-        recordingLayout = (ViewGroup) view.findViewById(R.id.layout_recording);
-        recordingHintText = (TextView) view.findViewById(R.id.text_recording_hint);
-        micImage = (ImageView) view.findViewById(R.id.image_mic);
-
         progressBar = (ProgressBar) view.findViewById(R.id.pb_loading);
     }
 
@@ -181,40 +138,23 @@ public class ChatFragment extends Fragment
     public void onResume() {
         super.onResume();
         bus.register(this);
+        EMChatManager.getInstance().registerEventListener(this,
+                new EMNotifierEvent.Event[]{
+                        EMNotifierEvent.Event.EventNewMessage,
+                        EMNotifierEvent.Event.EventOfflineMessage
+                });
     }
 
     @Override
     public void onPause() {
         super.onPause();
         bus.unregister(this);
-        if (wakeLock.isHeld()) {
-            wakeLock.release();
-        }
-        VoicePlayClickListener.getInstance(getActivity()).stopPlayVoice();
-
-        try {
-            if (voiceRecorder.isRecording()) {
-                voiceRecorder.discardRecording();
-                recordingLayout.setVisibility(View.GONE);
-            }
-        } catch (Exception e) {
-            Ln.e(e);
-        }
     }
 
     @Override
-    public void onDestroy() {
-        super.onDestroy();
-        getActivity().unregisterReceiver(newMessageBroadcastReceiver);
-    }
-
-    private void sendVoice(String filePath, int length) {
-        if (!(new File(filePath).exists())) {
-            return;
-        }
-        EMMessage message = chatService.addVoiceMessage(id, filePath, length);
-        conversation.addMessage(message);
-        updateUI(conversation.getAllMessages(), -1);
+    public void onStop() {
+        EMChatManager.getInstance().unregisterEventListener(this);
+        super.onStop();
     }
 
     @Override
@@ -278,7 +218,6 @@ public class ChatFragment extends Fragment
 
     @Override
     public void OnVideoBtnPress(View view, MotionEvent motionEvent) {
-        pressToTalk(view, motionEvent);
     }
 
     @Override
@@ -286,104 +225,38 @@ public class ChatFragment extends Fragment
         showCameraOptions();
     }
 
-    private class NewMessageBroadcastReceiver extends BroadcastReceiver {
-
-        public static final int PRIORITY = 5;
-
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            abortBroadcast();
-
-            final String msgId = intent.getStringExtra("msgid");
-            new SafeAsyncTask<Boolean>() {
-                @Override
-                public Boolean call() throws Exception {
-                    EMMessage message = chatService.getMessage(msgId);
+    @Override
+    public void onEvent(final EMNotifierEvent event) {
+        new SafeAsyncTask<Boolean>() {
+            @Override
+            public Boolean call() throws Exception {
+                if (event.getEvent() ==
+                        EMNotifierEvent.Event.EventNewMessage) {
+                    EMMessage message = (EMMessage) event.getData();
                     if (message.getType() == EMMessage.Type.IMAGE) {
                         ImageMessageBody imageBody = (ImageMessageBody) message.getBody();
                         ImageLoaderUtils.loadImage(imageBody.getRemoteUrl());
                     }
-                    return true;
-                }
-
-                @Override
-                protected void onSuccess(Boolean success) throws Exception {
-                    updateUI(conversation.getAllMessages(), -1);
-                    conversation.resetUnreadMsgCount();
-                }
-            }.execute();
-        }
-    }
-
-    private boolean pressToTalk(View view, MotionEvent event) {
-        switch (event.getAction()) {
-            case MotionEvent.ACTION_DOWN:
-                if (!StorageUtils.isExitsSdCard()) {
-                    Toaster.showShort(getActivity(), R.string.error_sdcard_needed_for_voice);
-                    return false;
-                }
-                try {
-                    view.setPressed(true);
-                    wakeLock.acquire();
-                    VoicePlayClickListener.getInstance(getActivity()).stopPlayVoice();
-                    recordingLayout.setVisibility(View.VISIBLE);
-                    recordingHintText.setText(getString(R.string.label_move_up_to_cancel));
-                    voiceRecorder.startRecording(null, id, getActivity());
-                } catch (Exception e) {
-                    e.printStackTrace();
-                    view.setPressed(false);
-                    if (wakeLock.isHeld())
-                        wakeLock.release();
-                    if (voiceRecorder != null) {
-                        voiceRecorder.discardRecording();
+                } else if (event.getEvent() ==
+                        EMNotifierEvent.Event.EventOfflineMessage) {
+                    List<EMMessage> offlineMessages =
+                            (List<EMMessage>) event.getData();
+                    for (EMMessage message : offlineMessages) {
+                        if (message.getType() == EMMessage.Type.IMAGE) {
+                            ImageMessageBody imageBody = (ImageMessageBody) message.getBody();
+                            ImageLoaderUtils.loadImage(imageBody.getRemoteUrl());
+                        }
                     }
-                    recordingLayout.setVisibility(View.GONE);
-                    Toaster.showShort(getActivity(), R.string.error_recoding_failed);
-                    return false;
-                }
-                return true;
-            case MotionEvent.ACTION_MOVE: {
-                if (event.getY() < 0) {
-                    recordingHintText.setText(getString(R.string.label_release_to_cancel));
-                } else {
-                    recordingHintText.setText(getString(R.string.label_move_up_to_cancel));
                 }
                 return true;
             }
-            case MotionEvent.ACTION_UP:
-                view.setPressed(false);
-                recordingLayout.setVisibility(View.GONE);
-                if (wakeLock.isHeld())
-                    wakeLock.release();
-                if (event.getY() < 0) {
-                    // discard the recorded audio.
-                    voiceRecorder.discardRecording();
 
-                } else {
-                    // stop recording and send voice file
-                    try {
-                        int length = voiceRecorder.stopRecoding();
-                        if (length > 0) {
-                            sendVoice(voiceRecorder.getVoiceFilePath(), length);
-                        } else if (length == EMError.INVALID_FILE) {
-                            Toaster.showShort(getActivity(), R.string.error_recoding_failed);
-                        } else {
-                            Toaster.showShort(getActivity(), R.string.error_recoding_too_short);
-                        }
-                    } catch (Exception e) {
-                        Ln.e(e);
-                        Toaster.showShort(getActivity(), R.string.error_send_recoding_failed);
-                    }
-
-                }
-                return true;
-            default:
-                recordingLayout.setVisibility(View.GONE);
-                if (voiceRecorder != null) {
-                    voiceRecorder.discardRecording();
-                }
-                return false;
-        }
+            @Override
+            protected void onSuccess(Boolean success) throws Exception {
+                updateUI(conversation.getAllMessages(), -1);
+                conversation.resetUnreadMsgCount();
+            }
+        }.execute();
     }
 
     private void showSingleChatActions() {
