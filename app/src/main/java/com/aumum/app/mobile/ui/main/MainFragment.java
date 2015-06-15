@@ -3,6 +3,7 @@ package com.aumum.app.mobile.ui.main;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
@@ -30,6 +31,7 @@ import com.aumum.app.mobile.events.ResetHomeUnreadEvent;
 import com.aumum.app.mobile.events.ResetMessageUnreadEvent;
 import com.aumum.app.mobile.ui.contact.ContactListener;
 import com.aumum.app.mobile.ui.view.Animation;
+import com.aumum.app.mobile.utils.EMChatUtils;
 import com.aumum.app.mobile.utils.Ln;
 import com.aumum.app.mobile.utils.SafeAsyncTask;
 import com.easemob.EMEventListener;
@@ -40,6 +42,7 @@ import com.squareup.otto.Bus;
 import com.squareup.otto.Subscribe;
 
 import java.util.Date;
+import java.util.List;
 
 import javax.inject.Inject;
 
@@ -60,6 +63,7 @@ public class MainFragment extends Fragment implements EMEventListener {
     @Inject Bus bus;
 
     private Date lastUpdate;
+    private ConnectionChangeReceiver connectionChangeReceiver;
 
     @InjectView(R.id.tpi_footer)
     protected MainTabPageIndicator indicator;
@@ -86,7 +90,8 @@ public class MainFragment extends Fragment implements EMEventListener {
         pager.setAdapter(new PagerAdapter(getResources(), getChildFragmentManager()));
         indicator.setViewPager(pager);
 
-        initChatServer();
+        initConnectivity();
+        initChatService();
         initFileUploadService();
     }
 
@@ -103,12 +108,12 @@ public class MainFragment extends Fragment implements EMEventListener {
                 updateDiscoveryList();
             }
         }
+        EMChatUtils.pushActivity(getActivity());
         EMChatManager.getInstance().registerEventListener(this,
                 new EMNotifierEvent.Event[]{
                         EMNotifierEvent.Event.EventNewMessage,
                         EMNotifierEvent.Event.EventNewCMDMessage,
-                        EMNotifierEvent.Event.EventOfflineMessage,
-                        EMNotifierEvent.Event.EventConversationListChanged
+                        EMNotifierEvent.Event.EventOfflineMessage
                 });
     }
 
@@ -121,7 +126,14 @@ public class MainFragment extends Fragment implements EMEventListener {
     @Override
     public void onStop() {
         EMChatManager.getInstance().unregisterEventListener(this);
+        EMChatUtils.popActivity(getActivity());
         super.onStop();
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        getActivity().unregisterReceiver(connectionChangeReceiver);
     }
 
     @Override
@@ -166,32 +178,39 @@ public class MainFragment extends Fragment implements EMEventListener {
         updateTabUnread(MainTabPageIndicator.TAB_MESSAGE, View.VISIBLE);
     }
 
+    private void initConnectivity() {
+        connectionChangeReceiver = new ConnectionChangeReceiver();
+        IntentFilter connectionChangeIntentFilter = new IntentFilter();
+        connectionChangeIntentFilter.addAction(
+                android.net.ConnectivityManager.CONNECTIVITY_ACTION);
+        getActivity().registerReceiver(
+                connectionChangeReceiver, connectionChangeIntentFilter);
+    }
+
     private void initFileUploadService() {
         String currentUserId = apiKeyProvider.getAuthUserId();
         fileUploadService.init(currentUserId);
     }
 
-    private void initChatServer() {
-        chatService.setContactListener(new ContactListener(bus));
-        chatService.setAppInitialized();
+    private void initChatService() {
+        chatService.setContactListener(new ContactListener(getActivity(), bus));
         chatService.loadAllResources();
+        chatService.setAppInitialized();
     }
 
     @Override
     public void onEvent(EMNotifierEvent event) {
         switch (event.getEvent()) {
+            case EventNewMessage:
+                handleNewMessage();
+                break;
             case EventNewCMDMessage:
                 EMMessage message = (EMMessage) event.getData();
                 handleNewCmdMessage(message);
                 break;
-            case EventNewMessage:
             case EventOfflineMessage:
-            case EventConversationListChanged:
-                if (pager.getCurrentItem() != MainTabPageIndicator.TAB_CHAT) {
-                    updateTabUnread(MainTabPageIndicator.TAB_CHAT, View.VISIBLE);
-                } else {
-                    bus.post(new NewChatMessageEvent());
-                }
+                List<EMMessage> offlineMessages = (List<EMMessage>) event.getData();
+                handleOfflineMessage(offlineMessages);
                 break;
             default:
                 break;
@@ -222,12 +241,19 @@ public class MainFragment extends Fragment implements EMEventListener {
         notificationText.setText(R.string.error_no_network);
     }
 
+    private void handleNewMessage() {
+        bus.post(new NewChatMessageEvent());
+        if (pager.getCurrentItem() != MainTabPageIndicator.TAB_CHAT) {
+            updateTabUnread(MainTabPageIndicator.TAB_CHAT, View.VISIBLE);
+        }
+    }
+
     private void handleNewCmdMessage(EMMessage message) {
         try {
             CmdMessage cmdMessage = chatService.getCmdMessage(message);
             switch (cmdMessage.getType()) {
                 case CmdMessage.Type.NEW_MOMENT:
-                    handleNewMomentCmdMessage(cmdMessage);
+                    handleNewMomentCmdMessage();
                     break;
                 case CmdMessage.Type.MOMENT_LIKE:
                     handleMomentLikeCmdMessage(cmdMessage);
@@ -243,11 +269,34 @@ public class MainFragment extends Fragment implements EMEventListener {
         }
     }
 
-    private void updateTabUnread(int tab, int visibility) {
-        indicator.getUnreadImage(tab).setVisibility(visibility);
+    private void handleOfflineMessage(List<EMMessage> messages) {
+        boolean hasNewMessage = false;
+        for (EMMessage message : messages) {
+            switch (message.getType()) {
+                case CMD:
+                    handleNewCmdMessage(message);
+                    break;
+                default:
+                    hasNewMessage = true;
+                    break;
+            }
+        }
+        if (hasNewMessage) {
+            handleNewMessage();
+        }
     }
 
-    private void handleNewMomentCmdMessage(CmdMessage cmdMessage) {
+    private void updateTabUnread(final int tab,
+                                 final int visibility) {
+        getActivity().runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                indicator.getUnreadImage(tab).setVisibility(visibility);
+            }
+        });
+    }
+
+    private void handleNewMomentCmdMessage() {
         updateTabUnread(MainTabPageIndicator.TAB_HOME, View.VISIBLE);
     }
 

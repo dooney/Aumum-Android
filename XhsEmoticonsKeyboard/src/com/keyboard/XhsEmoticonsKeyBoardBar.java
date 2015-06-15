@@ -354,6 +354,9 @@ public class XhsEmoticonsKeyBoardBar extends AutoHeightLayout
                 }
             }
         }
+        if(mKeyBoardBarViewListener != null){
+            mKeyBoardBarViewListener.OnKeyBoardStateChange(mKeyboardState, -1);
+        }
     }
 
     @Override

@@ -9,7 +9,6 @@ import com.aumum.app.mobile.core.dao.Repository;
 import com.aumum.app.mobile.core.infra.security.ApiKeyProvider;
 import com.aumum.app.mobile.core.service.ChatService;
 import com.aumum.app.mobile.core.service.FileUploadService;
-import com.aumum.app.mobile.core.service.NotificationService;
 import com.aumum.app.mobile.core.service.QiNiuService;
 import com.aumum.app.mobile.core.service.RestService;
 import com.aumum.app.mobile.ui.LaunchActivity;
@@ -111,12 +110,6 @@ public class BootstrapModule {
     @Provides
     Bus provideOttoBus() {
         return new PostFromAnyThreadBus();
-    }
-
-    @Singleton
-    @Provides
-    NotificationService provideNotificationService(final Context context) {
-        return new NotificationService(context);
     }
 
     @Provides

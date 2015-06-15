@@ -97,7 +97,6 @@ public class SettingsActivity extends BaseActionBarActivity {
         soundSwitch.setOnToggleChanged(new ToggleButton.OnToggleChanged() {
             @Override
             public void onToggle(boolean on) {
-                chatService.setNotificationSoundEnabled(on);
                 PreferenceUtils.setNotificationSoundEnabled(on);
             }
         });
@@ -109,7 +108,6 @@ public class SettingsActivity extends BaseActionBarActivity {
         vibrateSwitch.setOnToggleChanged(new ToggleButton.OnToggleChanged() {
             @Override
             public void onToggle(boolean on) {
-                chatService.setNotificationVibrateEnabled(on);
                 PreferenceUtils.setNotificationVibrateEnabled(on);
             }
         });

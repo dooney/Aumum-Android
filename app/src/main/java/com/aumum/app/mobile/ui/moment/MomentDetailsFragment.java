@@ -291,7 +291,7 @@ public class MomentDetailsFragment extends ItemListFragment<Comment>
                     currentUser.getObjectId(),
                     moment.getObjectId());
             UserInfo user = userStore.getUserInfoById(moment.getUserId());
-            chatService.sendCmdMessage(user.getChatId(), cmdMessage, null);
+            chatService.sendCmdMessage(user.getChatId(), cmdMessage);
         }
     }
 

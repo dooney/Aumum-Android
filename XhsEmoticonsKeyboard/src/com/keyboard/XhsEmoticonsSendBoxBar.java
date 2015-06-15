@@ -245,6 +245,9 @@ public class XhsEmoticonsSendBoxBar extends AutoHeightLayout
                 }
             }
         }
+        if(mKeyBoardBarViewListener != null){
+            mKeyBoardBarViewListener.OnKeyBoardStateChange(mKeyboardState, -1);
+        }
     }
 
     public void setSendText(String hintText) {

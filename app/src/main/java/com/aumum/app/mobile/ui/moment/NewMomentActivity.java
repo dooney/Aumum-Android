@@ -168,8 +168,7 @@ public class NewMomentActivity extends ProgressDialogActivity
                         UserInfo user = userStore.getUserInfoById(userId);
                         CmdMessage cmdMessage = new CmdMessage(
                                 CmdMessage.Type.NEW_MOMENT, null, null, null);
-                        chatService.sendCmdMessage(
-                                user.getChatId(), cmdMessage, null);
+                        chatService.sendCmdMessage(user.getChatId(), cmdMessage);
                     }
                     return true;
                 }

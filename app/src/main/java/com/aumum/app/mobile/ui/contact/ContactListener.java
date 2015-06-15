@@ -1,14 +1,18 @@
 package com.aumum.app.mobile.ui.contact;
 
+import android.content.Context;
+
 import com.aumum.app.mobile.Injector;
+import com.aumum.app.mobile.R;
 import com.aumum.app.mobile.core.dao.MessageStore;
 import com.aumum.app.mobile.core.dao.UserStore;
 import com.aumum.app.mobile.core.model.User;
 import com.aumum.app.mobile.core.model.UserInfo;
 import com.aumum.app.mobile.core.service.ChatService;
-import com.aumum.app.mobile.core.service.NotificationService;
+import com.aumum.app.mobile.utils.NotificationUtils;
 import com.aumum.app.mobile.core.service.RestService;
 import com.aumum.app.mobile.events.NewMessageEvent;
+import com.aumum.app.mobile.ui.chat.ChatActivity;
 import com.aumum.app.mobile.utils.SafeAsyncTask;
 import com.easemob.chat.EMContactListener;
 import com.squareup.otto.Bus;
@@ -25,13 +29,14 @@ public class ContactListener implements EMContactListener {
     @Inject UserStore userStore;
     @Inject MessageStore messageStore;
     @Inject RestService restService;
-    @Inject NotificationService notificationService;
     @Inject ChatService chatService;
 
+    private Context context;
     private Bus bus;
 
-    public ContactListener(Bus bus) {
+    public ContactListener(Context context, Bus bus) {
         Injector.inject(this);
+        this.context = context;
         this.bus = bus;
     }
 
@@ -82,7 +87,7 @@ public class ContactListener implements EMContactListener {
                     !messageStore.hasContactRequest(user.getObjectId())) {
                     messageStore.addContactRequest(user.getObjectId(), reason);
                     bus.post(new NewMessageEvent());
-                    notificationService.pushContactInvitedNotification(
+                    pushContactInvitedNotification(
                             user.getScreenName(), reason, user.getAvatarUrl());
                 }
                 return true;
@@ -96,8 +101,8 @@ public class ContactListener implements EMContactListener {
             @Override
             public Boolean call() throws Exception {
                 UserInfo user = userStore.getUserInfoByChatId(userName);
-                notificationService.pushContactAgreedNotification(
-                        user.getChatId(), user.getScreenName(), user.getAvatarUrl());
+                pushContactAgreedNotification(
+                        user.getScreenName(), user.getAvatarUrl());
                 return true;
             }
         }.execute();
@@ -106,5 +111,20 @@ public class ContactListener implements EMContactListener {
     @Override
     public void onContactRefused(String userName) {
         return;
+    }
+
+    private void pushContactInvitedNotification(String userName,
+                                                String reason,
+                                                String avatarUrl) {
+        String content = context.getString(R.string.label_contact_invited, userName);
+        NotificationUtils.notify(
+                context, content, reason, avatarUrl, ContactRequestsActivity.class);
+    }
+
+    private void pushContactAgreedNotification(String userName,
+                                               String avatarUrl) {
+        String content = context.getString(R.string.label_contact_agreed);
+        NotificationUtils.notify(
+                context, userName, content, avatarUrl, ChatActivity.class);
     }
 }

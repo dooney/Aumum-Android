@@ -5,7 +5,6 @@ import com.easemob.EMCallBack;
 import com.easemob.chat.CmdMessageBody;
 import com.easemob.chat.EMChat;
 import com.easemob.chat.EMChatManager;
-import com.easemob.chat.EMChatOptions;
 import com.easemob.chat.EMContactListener;
 import com.easemob.chat.EMContactManager;
 import com.easemob.chat.EMConversation;
@@ -15,10 +14,8 @@ import com.easemob.chat.TextMessageBody;
 import com.google.gson.Gson;
 
 import java.io.File;
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
-import java.util.Hashtable;
 import java.util.List;
 
 /**
@@ -95,11 +92,8 @@ public class ChatService {
     }
 
     public List<EMConversation> getAllConversations() {
-        Hashtable<String, EMConversation> conversations = EMChatManager.getInstance().getAllConversations();
-        List<EMConversation> list = new ArrayList<EMConversation>();
-        for (EMConversation conversation : conversations.values()) {
-            list.add(conversation);
-        }
+        List<EMConversation> list = EMChatManager.getInstance()
+                .getConversationsByType(EMConversation.EMConversationType.Chat);
         sortConversationByLastChatTime(list);
         return list;
     }
@@ -133,9 +127,9 @@ public class ChatService {
         return addTextMessage(receipt, false, text);
     }
 
-    public void sendSystemMessage(String receipt, String text, EMCallBack callBack) {
+    public void sendSystemMessage(String receipt, String text) {
         EMMessage message = addTextMessage(receipt, true, text);
-        sendMessage(message, callBack);
+        sendMessage(message, null);
     }
 
     public EMMessage addImageMessage(String receipt, String imagePath) {
@@ -146,13 +140,13 @@ public class ChatService {
         return message;
     }
 
-    public void sendCmdMessage(String receipt, CmdMessage cmdMessage, EMCallBack callBack) {
+    public void sendCmdMessage(String receipt, CmdMessage cmdMessage) {
         final EMMessage message = EMMessage.createSendMessage(EMMessage.Type.CMD);
         CmdMessageBody body = new CmdMessageBody("cmd");
         message.addBody(body);
         message.setReceipt(receipt);
         message.setAttribute("payload", cmdMessage.toString());
-        sendMessage(message, callBack);
+        sendMessage(message, null);
     }
 
     public CmdMessage getCmdMessage(EMMessage message) throws Exception {
@@ -162,7 +156,8 @@ public class ChatService {
     }
 
     public EMConversation getConversation(String id) {
-        return EMChatManager.getInstance().getConversation(id);
+        return EMChatManager.getInstance()
+                .getConversationByType(id, EMConversation.EMConversationType.Chat);
     }
 
     public void sendMessage(EMMessage message, EMCallBack callBack) {
@@ -191,15 +186,5 @@ public class ChatService {
 
     public void acceptInvitation(String userId) throws Exception {
         EMChatManager.getInstance().acceptInvitation(userId);
-    }
-
-    public void setNotificationSoundEnabled(boolean isEnabled) {
-        EMChatOptions options = EMChatManager.getInstance().getChatOptions();
-        options.setNoticeBySound(isEnabled);
-    }
-
-    public void setNotificationVibrateEnabled(boolean isEnabled) {
-        EMChatOptions options = EMChatManager.getInstance().getChatOptions();
-        options.setNoticedByVibrate(isEnabled);
     }
 }

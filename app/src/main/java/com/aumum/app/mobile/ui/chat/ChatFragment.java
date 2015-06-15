@@ -26,6 +26,7 @@ import com.aumum.app.mobile.ui.report.ReportActivity;
 import com.aumum.app.mobile.ui.view.dialog.ConfirmDialog;
 import com.aumum.app.mobile.ui.view.dialog.ListViewDialog;
 import com.aumum.app.mobile.ui.view.dialog.TextViewDialog;
+import com.aumum.app.mobile.utils.EMChatUtils;
 import com.aumum.app.mobile.utils.Emoticons.EmoticonsUtils;
 import com.aumum.app.mobile.utils.ImageLoaderUtils;
 import com.aumum.app.mobile.utils.SafeAsyncTask;
@@ -89,7 +90,7 @@ public class ChatFragment extends Fragment
         final Intent intent = getActivity().getIntent();
         id = intent.getStringExtra(ChatActivity.INTENT_ID);
         conversation = chatService.getConversation(id);
-        conversation.resetUnreadMsgCount();
+        conversation.markAllMessagesAsRead();
         adapter = new ChatMessagesAdapter(getActivity(), bus, chatService.getChatId());
         updateUI(conversation.getAllMessages(), -1);
     }
@@ -138,10 +139,10 @@ public class ChatFragment extends Fragment
     public void onResume() {
         super.onResume();
         bus.register(this);
+        EMChatUtils.pushActivity(getActivity());
         EMChatManager.getInstance().registerEventListener(this,
                 new EMNotifierEvent.Event[]{
-                        EMNotifierEvent.Event.EventNewMessage,
-                        EMNotifierEvent.Event.EventOfflineMessage
+                        EMNotifierEvent.Event.EventNewMessage
                 });
     }
 
@@ -154,6 +155,7 @@ public class ChatFragment extends Fragment
     @Override
     public void onStop() {
         EMChatManager.getInstance().unregisterEventListener(this);
+        EMChatUtils.popActivity(getActivity());
         super.onStop();
     }
 
@@ -226,27 +228,14 @@ public class ChatFragment extends Fragment
     }
 
     @Override
-    public void onEvent(final EMNotifierEvent event) {
+    public void onEvent(EMNotifierEvent event) {
+        final EMMessage message = (EMMessage) event.getData();
         new SafeAsyncTask<Boolean>() {
             @Override
             public Boolean call() throws Exception {
-                if (event.getEvent() ==
-                        EMNotifierEvent.Event.EventNewMessage) {
-                    EMMessage message = (EMMessage) event.getData();
-                    if (message.getType() == EMMessage.Type.IMAGE) {
-                        ImageMessageBody imageBody = (ImageMessageBody) message.getBody();
-                        ImageLoaderUtils.loadImage(imageBody.getRemoteUrl());
-                    }
-                } else if (event.getEvent() ==
-                        EMNotifierEvent.Event.EventOfflineMessage) {
-                    List<EMMessage> offlineMessages =
-                            (List<EMMessage>) event.getData();
-                    for (EMMessage message : offlineMessages) {
-                        if (message.getType() == EMMessage.Type.IMAGE) {
-                            ImageMessageBody imageBody = (ImageMessageBody) message.getBody();
-                            ImageLoaderUtils.loadImage(imageBody.getRemoteUrl());
-                        }
-                    }
+                if (message.getType() == EMMessage.Type.IMAGE) {
+                    ImageMessageBody imageBody = (ImageMessageBody) message.getBody();
+                    ImageLoaderUtils.loadImage(imageBody.getRemoteUrl());
                 }
                 return true;
             }
@@ -254,7 +243,7 @@ public class ChatFragment extends Fragment
             @Override
             protected void onSuccess(Boolean success) throws Exception {
                 updateUI(conversation.getAllMessages(), -1);
-                conversation.resetUnreadMsgCount();
+                conversation.markAllMessagesAsRead();
             }
         }.execute();
     }

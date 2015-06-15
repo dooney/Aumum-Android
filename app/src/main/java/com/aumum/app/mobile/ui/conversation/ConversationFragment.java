@@ -75,6 +75,7 @@ public class ConversationFragment extends ItemListFragment<Conversation> {
     @Override
     public void onResume() {
         super.onResume();
+        refresh(null);
         bus.register(this);
         bus.post(new ResetChatUnreadEvent());
     }
