@@ -72,6 +72,7 @@
     <string name="info_confirm_delete_chat_message">你确定要删除该聊天记录？</string>
     <string name="info_chat_text_copied">文本已复制到粘贴板</string>
     <string name="info_publishing_moment">正在发布，请稍候</string>
+    <string name="info_you_have_new_messages">你有新的消息</string>
 
     <!-- Error Message -->
     <string name="error_bad_credentials">验证失败，请输入正确的手机号码/密码</string>

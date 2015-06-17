@@ -232,12 +232,16 @@
     <!-- Moment -->
     <style name="TextView.Comment.UserName" parent="TextView.UserName" />
     <style name="TextView.Comment.CreatedAt" parent="TextView.Subtitle.Small" />
+    <style name="TextView.Comment.Content" parent="TextView.Multiline">
+        <item name="android:textSize">@dimen/text_sz_large</item>
+    </style>
 
     <!-- Conversation -->
     <style name="TextView.Conversation.ScreenName" parent="TextView.UserName">
         <item name="android:textSize">@dimen/text_sz_large</item>
     </style>
     <style name="TextView.Conversation.MessageBody" parent="TextView.Subtitle">
+        <item name="android:textSize">@dimen/text_sz_large</item>
         <item name="android:maxLines">1</item>
         <item name="android:ellipsize">end</item>
     </style>

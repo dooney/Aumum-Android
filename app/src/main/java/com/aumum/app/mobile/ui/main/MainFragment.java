@@ -22,7 +22,6 @@ import com.aumum.app.mobile.core.dao.UserStore;
 import com.aumum.app.mobile.core.infra.security.ApiKeyProvider;
 import com.aumum.app.mobile.core.model.CmdMessage;
 import com.aumum.app.mobile.core.model.User;
-import com.aumum.app.mobile.core.service.ChatService;
 import com.aumum.app.mobile.core.service.FileUploadService;
 import com.aumum.app.mobile.events.NewMessageEvent;
 import com.aumum.app.mobile.events.NewChatMessageEvent;
@@ -32,7 +31,6 @@ import com.aumum.app.mobile.events.ResetMessageUnreadEvent;
 import com.aumum.app.mobile.ui.contact.ContactListener;
 import com.aumum.app.mobile.ui.view.Animation;
 import com.aumum.app.mobile.utils.EMChatUtils;
-import com.aumum.app.mobile.utils.Ln;
 import com.aumum.app.mobile.utils.SafeAsyncTask;
 import com.easemob.EMEventListener;
 import com.easemob.EMNotifierEvent;
@@ -42,7 +40,6 @@ import com.squareup.otto.Bus;
 import com.squareup.otto.Subscribe;
 
 import java.util.Date;
-import java.util.List;
 
 import javax.inject.Inject;
 
@@ -57,7 +54,6 @@ public class MainFragment extends Fragment implements EMEventListener {
     @Inject UserStore userStore;
     @Inject MomentStore momentStore;
     @Inject MessageStore messageStore;
-    @Inject ChatService chatService;
     @Inject FileUploadService fileUploadService;
     @Inject ApiKeyProvider apiKeyProvider;
     @Inject Bus bus;
@@ -112,9 +108,9 @@ public class MainFragment extends Fragment implements EMEventListener {
         EMChatManager.getInstance().registerEventListener(this,
                 new EMNotifierEvent.Event[]{
                         EMNotifierEvent.Event.EventNewMessage,
-                        EMNotifierEvent.Event.EventNewCMDMessage,
-                        EMNotifierEvent.Event.EventOfflineMessage
+                        EMNotifierEvent.Event.EventNewCMDMessage
                 });
+        handleCmdMessageQueue();
     }
 
     @Override
@@ -193,9 +189,9 @@ public class MainFragment extends Fragment implements EMEventListener {
     }
 
     private void initChatService() {
-        chatService.setContactListener(new ContactListener(getActivity(), bus));
-        chatService.loadAllResources();
-        chatService.setAppInitialized();
+        EMChatUtils.setContactListener(new ContactListener(getActivity(), bus));
+        EMChatUtils.loadAllResources();
+        EMChatUtils.setAppInitialized();
     }
 
     @Override
@@ -206,11 +202,10 @@ public class MainFragment extends Fragment implements EMEventListener {
                 break;
             case EventNewCMDMessage:
                 EMMessage message = (EMMessage) event.getData();
-                handleNewCmdMessage(message);
-                break;
-            case EventOfflineMessage:
-                List<EMMessage> offlineMessages = (List<EMMessage>) event.getData();
-                handleOfflineMessage(offlineMessages);
+                CmdMessage cmdMessage = EMChatUtils.getCmdMessage(message);
+                if (cmdMessage != null) {
+                    handleNewCmdMessage(cmdMessage);
+                }
                 break;
             default:
                 break;
@@ -248,42 +243,27 @@ public class MainFragment extends Fragment implements EMEventListener {
         }
     }
 
-    private void handleNewCmdMessage(EMMessage message) {
-        try {
-            CmdMessage cmdMessage = chatService.getCmdMessage(message);
-            switch (cmdMessage.getType()) {
-                case CmdMessage.Type.NEW_MOMENT:
-                    handleNewMomentCmdMessage();
-                    break;
-                case CmdMessage.Type.MOMENT_LIKE:
-                    handleMomentLikeCmdMessage(cmdMessage);
-                    break;
-                case CmdMessage.Type.MOMENT_COMMENT:
-                    handleMomentCommentCmdMessage(cmdMessage);
-                    break;
-                default:
-                    break;
-            }
-        } catch (Exception e) {
-            Ln.e(e);
+    private void handleNewCmdMessage(CmdMessage cmdMessage) {
+        switch (cmdMessage.getType()) {
+            case CmdMessage.Type.NEW_MOMENT:
+                handleNewMomentCmdMessage();
+                break;
+            case CmdMessage.Type.MOMENT_LIKE:
+                handleMomentLikeCmdMessage(cmdMessage);
+                break;
+            case CmdMessage.Type.MOMENT_COMMENT:
+                handleMomentCommentCmdMessage(cmdMessage);
+                break;
+            default:
+                break;
         }
     }
 
-    private void handleOfflineMessage(List<EMMessage> messages) {
-        boolean hasNewMessage = false;
-        for (EMMessage message : messages) {
-            switch (message.getType()) {
-                case CMD:
-                    handleNewCmdMessage(message);
-                    break;
-                default:
-                    hasNewMessage = true;
-                    break;
-            }
+    private void handleCmdMessageQueue() {
+        for (CmdMessage cmdMessage: EMChatUtils.getCmdMessageQueue()) {
+            handleNewCmdMessage(cmdMessage);
         }
-        if (hasNewMessage) {
-            handleNewMessage();
-        }
+        EMChatUtils.clearCmdMessageQueue();
     }
 
     private void updateTabUnread(final int tab,

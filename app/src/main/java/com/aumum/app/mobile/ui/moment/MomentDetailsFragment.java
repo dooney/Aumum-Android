@@ -23,7 +23,6 @@ import com.aumum.app.mobile.core.model.Moment;
 import com.aumum.app.mobile.core.model.Share;
 import com.aumum.app.mobile.core.model.User;
 import com.aumum.app.mobile.core.model.UserInfo;
-import com.aumum.app.mobile.core.service.ChatService;
 import com.aumum.app.mobile.core.service.RestService;
 import com.aumum.app.mobile.ui.base.ItemListFragment;
 import com.aumum.app.mobile.ui.chat.ChatActivity;
@@ -32,6 +31,7 @@ import com.aumum.app.mobile.ui.comment.CommentsAdapter;
 import com.aumum.app.mobile.ui.user.UserListener;
 import com.aumum.app.mobile.ui.view.AvatarImageView;
 import com.aumum.app.mobile.ui.view.LikeTextView;
+import com.aumum.app.mobile.utils.EMChatUtils;
 import com.aumum.app.mobile.utils.Emoticons.EmoticonsUtils;
 import com.aumum.app.mobile.utils.ImageLoaderUtils;
 import com.aumum.app.mobile.utils.SafeAsyncTask;
@@ -53,7 +53,6 @@ public class MomentDetailsFragment extends ItemListFragment<Comment>
     @Inject MomentStore momentStore;
     @Inject UserStore userStore;
     @Inject RestService restService;
-    @Inject ChatService chatService;
 
     private User currentUser;
     private Moment moment;
@@ -291,7 +290,7 @@ public class MomentDetailsFragment extends ItemListFragment<Comment>
                     currentUser.getObjectId(),
                     moment.getObjectId());
             UserInfo user = userStore.getUserInfoById(moment.getUserId());
-            chatService.sendCmdMessage(user.getChatId(), cmdMessage);
+            EMChatUtils.sendCmdMessage(user.getChatId(), cmdMessage);
         }
     }
 

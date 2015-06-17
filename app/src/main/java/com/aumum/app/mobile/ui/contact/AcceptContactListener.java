@@ -8,8 +8,8 @@ import com.aumum.app.mobile.R;
 import com.aumum.app.mobile.core.dao.UserStore;
 import com.aumum.app.mobile.core.model.User;
 import com.aumum.app.mobile.core.model.UserInfo;
-import com.aumum.app.mobile.core.service.ChatService;
 import com.aumum.app.mobile.core.service.RestService;
+import com.aumum.app.mobile.utils.EMChatUtils;
 import com.aumum.app.mobile.utils.SafeAsyncTask;
 
 import javax.inject.Inject;
@@ -19,7 +19,6 @@ import javax.inject.Inject;
  */
 public class AcceptContactListener implements View.OnClickListener {
 
-    @Inject ChatService chatService;
     @Inject RestService restService;
     @Inject UserStore userStore;
 
@@ -38,14 +37,14 @@ public class AcceptContactListener implements View.OnClickListener {
         this.onProgressListener = onProgressListener;
     }
 
-    public static interface OnActionListener {
-        public void onAcceptContactSuccess();
-        public void onAcceptContactFailed();
+    public interface OnActionListener {
+        void onAcceptContactSuccess();
+        void onAcceptContactFailed();
     }
 
-    public static interface OnProgressListener {
-        public void onAcceptContactStart();
-        public void onAcceptContactFinish();
+    public interface OnProgressListener {
+        void onAcceptContactStart();
+        void onAcceptContactFinish();
     }
 
     public AcceptContactListener(String userId) {
@@ -67,7 +66,7 @@ public class AcceptContactListener implements View.OnClickListener {
         }
         task = new SafeAsyncTask<Boolean>() {
             public Boolean call() throws Exception {
-                chatService.acceptInvitation(userId);
+                EMChatUtils.acceptInvitation(userId);
                 User currentUser = userStore.getCurrentUser();
                 restService.addContact(currentUser.getObjectId(), userId);
                 currentUser.addContact(userId);
@@ -75,7 +74,7 @@ public class AcceptContactListener implements View.OnClickListener {
 
                 String text = context.getString(R.string.info_invitation_accepted_and_start_chatting);
                 UserInfo user = userStore.getUserInfoById(userId);
-                chatService.sendSystemMessage(user.getChatId(), text);
+                EMChatUtils.sendSystemMessage(user.getChatId(), text);
                 return true;
             }
 

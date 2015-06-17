@@ -10,13 +10,13 @@ import com.aumum.app.mobile.core.Constants;
 import com.aumum.app.mobile.core.dao.UserStore;
 import com.aumum.app.mobile.core.model.Share;
 import com.aumum.app.mobile.core.model.User;
-import com.aumum.app.mobile.core.service.ChatService;
 import com.aumum.app.mobile.core.service.LogoutService;
 import com.aumum.app.mobile.ui.base.BaseActionBarActivity;
 import com.aumum.app.mobile.ui.browser.BrowserActivity;
 import com.aumum.app.mobile.ui.view.ToggleButton;
 import com.aumum.app.mobile.ui.view.dialog.ConfirmDialog;
 import com.aumum.app.mobile.ui.view.dialog.TextViewDialog;
+import com.aumum.app.mobile.utils.EMChatUtils;
 import com.aumum.app.mobile.utils.PreferenceUtils;
 import com.aumum.app.mobile.utils.ShareUtils;
 
@@ -29,7 +29,6 @@ public class SettingsActivity extends BaseActionBarActivity {
 
     @Inject UserStore userStore;
     @Inject LogoutService logoutService;
-    @Inject ChatService chatService;
 
     @InjectView(R.id.b_switch_sound) protected ToggleButton soundSwitch;
     @InjectView(R.id.b_switch_vibrate) protected ToggleButton vibrateSwitch;
@@ -119,7 +118,7 @@ public class SettingsActivity extends BaseActionBarActivity {
                     @Override
                     public void call(Object value) throws Exception {
                         logoutService.logout();
-                        chatService.logOut();
+                        EMChatUtils.logOut();
                     }
 
                     @Override

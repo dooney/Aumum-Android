@@ -7,7 +7,6 @@ import com.aumum.app.mobile.core.dao.MessageStore;
 import com.aumum.app.mobile.core.dao.MomentStore;
 import com.aumum.app.mobile.core.dao.Repository;
 import com.aumum.app.mobile.core.infra.security.ApiKeyProvider;
-import com.aumum.app.mobile.core.service.ChatService;
 import com.aumum.app.mobile.core.service.FileUploadService;
 import com.aumum.app.mobile.core.service.QiNiuService;
 import com.aumum.app.mobile.core.service.RestService;
@@ -17,7 +16,6 @@ import com.aumum.app.mobile.ui.account.ResetPasswordSuccessActivity;
 import com.aumum.app.mobile.ui.area.AreaListFragment;
 import com.aumum.app.mobile.ui.chat.ChatFragment;
 import com.aumum.app.mobile.ui.discovery.DiscoveryFragment;
-import com.aumum.app.mobile.ui.chat.SendMessageListener;
 import com.aumum.app.mobile.ui.contact.ContactFragment;
 import com.aumum.app.mobile.ui.conversation.ConversationFragment;
 import com.aumum.app.mobile.ui.contact.AcceptContactListener;
@@ -78,7 +76,6 @@ import retrofit.converter.GsonConverter;
                 UserFragment.class,
                 ConversationFragment.class,
                 ChatFragment.class,
-                SendMessageListener.class,
                 MainFragment.class,
                 ContactListener.class,
                 ContactRequestsFragment.class,
@@ -117,10 +114,6 @@ public class BootstrapModule {
     LogoutService provideLogoutService(final Context context, final AccountManager accountManager) {
         return new LogoutService(context, accountManager);
     }
-
-    @Provides
-    @Singleton
-    ChatService provideChatService() { return new ChatService(); }
 
     @Provides
     @Singleton

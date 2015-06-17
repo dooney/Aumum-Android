@@ -18,11 +18,11 @@ import com.aumum.app.mobile.core.model.CmdMessage;
 import com.aumum.app.mobile.core.model.Moment;
 import com.aumum.app.mobile.core.model.User;
 import com.aumum.app.mobile.core.model.UserInfo;
-import com.aumum.app.mobile.core.service.ChatService;
 import com.aumum.app.mobile.core.service.FileUploadService;
 import com.aumum.app.mobile.core.service.RestService;
 import com.aumum.app.mobile.ui.base.ProgressDialogActivity;
 import com.aumum.app.mobile.ui.helper.TextWatcherAdapter;
+import com.aumum.app.mobile.utils.EMChatUtils;
 import com.aumum.app.mobile.utils.ImageLoaderUtils;
 import com.aumum.app.mobile.utils.SafeAsyncTask;
 
@@ -42,7 +42,6 @@ public class NewMomentActivity extends ProgressDialogActivity
 
     @Inject RestService restService;
     @Inject FileUploadService fileUploadService;
-    @Inject ChatService chatService;
     @Inject UserStore userStore;
 
     public static final String INTENT_IMAGE_URI = "imageUri";
@@ -168,7 +167,7 @@ public class NewMomentActivity extends ProgressDialogActivity
                         UserInfo user = userStore.getUserInfoById(userId);
                         CmdMessage cmdMessage = new CmdMessage(
                                 CmdMessage.Type.NEW_MOMENT, null, null, null);
-                        chatService.sendCmdMessage(user.getChatId(), cmdMessage);
+                        EMChatUtils.sendCmdMessage(user.getChatId(), cmdMessage);
                     }
                     return true;
                 }

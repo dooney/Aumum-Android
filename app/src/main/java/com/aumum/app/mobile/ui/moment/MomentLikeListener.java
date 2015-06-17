@@ -15,7 +15,6 @@ import com.aumum.app.mobile.core.model.CmdMessage;
 import com.aumum.app.mobile.core.model.Moment;
 import com.aumum.app.mobile.core.model.User;
 import com.aumum.app.mobile.core.model.UserInfo;
-import com.aumum.app.mobile.core.service.ChatService;
 import com.aumum.app.mobile.core.service.RestService;
 import com.aumum.app.mobile.ui.user.UserListActivity;
 import com.aumum.app.mobile.ui.user.UserListener;
@@ -23,6 +22,7 @@ import com.aumum.app.mobile.ui.view.Animation;
 import com.aumum.app.mobile.ui.view.AvatarImageView;
 import com.aumum.app.mobile.ui.view.LikeTextView;
 import com.aumum.app.mobile.utils.DisplayUtils;
+import com.aumum.app.mobile.utils.EMChatUtils;
 import com.aumum.app.mobile.utils.SafeAsyncTask;
 
 import java.util.ArrayList;
@@ -43,7 +43,6 @@ public class MomentLikeListener implements LikeTextView.LikeListener {
     @Inject RestService restService;
     @Inject UserStore userStore;
     @Inject MomentStore momentStore;
-    @Inject ChatService chatService;
 
     public MomentLikeListener(Activity activity,
                               Moment moment) {
@@ -123,7 +122,7 @@ public class MomentLikeListener implements LikeTextView.LikeListener {
             CmdMessage cmdMessage = new CmdMessage(CmdMessage.Type.MOMENT_LIKE,
                     null, currentUser.getObjectId(), moment.getObjectId());
             UserInfo user = userStore.getUserInfoById(moment.getUserId());
-            chatService.sendCmdMessage(user.getChatId(), cmdMessage);
+            EMChatUtils.sendCmdMessage(user.getChatId(), cmdMessage);
         }
     }
 

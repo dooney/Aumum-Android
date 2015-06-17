@@ -14,10 +14,10 @@ import android.widget.TextView;
 import com.aumum.app.mobile.Injector;
 import com.aumum.app.mobile.R;
 import com.aumum.app.mobile.core.model.User;
-import com.aumum.app.mobile.core.service.ChatService;
 import com.aumum.app.mobile.core.service.RestService;
 import com.aumum.app.mobile.ui.base.ProgressDialogActivity;
 import com.aumum.app.mobile.ui.helper.TextWatcherAdapter;
+import com.aumum.app.mobile.utils.EMChatUtils;
 import com.aumum.app.mobile.utils.EditTextUtils;
 import com.aumum.app.mobile.utils.Ln;
 import com.aumum.app.mobile.utils.SafeAsyncTask;
@@ -37,7 +37,6 @@ import static android.view.inputmethod.EditorInfo.IME_ACTION_DONE;
 public class VerifyActivity extends ProgressDialogActivity {
 
     @Inject RestService restService;
-    @Inject ChatService chatService;
 
     public static final String INTENT_COUNTRY = "country";
     public static final String INTENT_COUNTRY_CODE = "countryCode";
@@ -252,7 +251,7 @@ public class VerifyActivity extends ProgressDialogActivity {
                 user = restService.register(mobile, password);
                 user.resetProfile();
                 restService.updateUserProfile(user);
-                chatService.createAccount(user.getChatId(), password);
+                EMChatUtils.createAccount(user.getChatId(), password);
                 return true;
             }
 
@@ -278,8 +277,8 @@ public class VerifyActivity extends ProgressDialogActivity {
     }
 
     private void loginChatServer(final User user) {
-        chatService.authenticate(user.getChatId(), password,
-                new ChatService.OnAuthenticateListener() {
+        EMChatUtils.authenticate(user.getChatId(), password,
+                new EMChatUtils.OnAuthenticateListener() {
                     @Override
                     public void onSuccess() {
                         startCompleteProfileActivity(user.getObjectId());

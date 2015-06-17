@@ -17,11 +17,11 @@ import com.aumum.app.mobile.R;
 import com.aumum.app.mobile.core.dao.UserStore;
 import com.aumum.app.mobile.core.model.Conversation;
 import com.aumum.app.mobile.core.model.UserInfo;
-import com.aumum.app.mobile.core.service.ChatService;
 import com.aumum.app.mobile.events.NewChatMessageEvent;
 import com.aumum.app.mobile.events.ResetChatUnreadEvent;
 import com.aumum.app.mobile.ui.base.ItemListFragment;
 import com.aumum.app.mobile.ui.contact.ContactActivity;
+import com.aumum.app.mobile.utils.EMChatUtils;
 import com.easemob.chat.EMConversation;
 import com.squareup.otto.Bus;
 import com.squareup.otto.Subscribe;
@@ -37,7 +37,6 @@ import javax.inject.Inject;
  */
 public class ConversationFragment extends ItemListFragment<Conversation> {
 
-    @Inject ChatService chatService;
     @Inject UserStore userStore;
     @Inject Bus bus;
 
@@ -98,7 +97,7 @@ public class ConversationFragment extends ItemListFragment<Conversation> {
 
     private List<Conversation> getAllConversations() throws Exception {
         List<Conversation> result = new ArrayList<Conversation>();
-        List<EMConversation> emConversations = chatService.getAllConversations();
+        List<EMConversation> emConversations = EMChatUtils.getAllConversations();
         for (final EMConversation emConversation: emConversations) {
             Conversation conversation = new Conversation(emConversation);
             UserInfo contact = userStore.getUserInfoByChatId(emConversation.getUserName());

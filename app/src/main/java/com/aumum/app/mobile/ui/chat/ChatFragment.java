@@ -19,8 +19,8 @@ import com.aumum.app.mobile.Injector;
 import com.aumum.app.mobile.R;
 import com.aumum.app.mobile.core.dao.UserStore;
 import com.aumum.app.mobile.core.model.ChatMessage;
+import com.aumum.app.mobile.core.model.CmdMessage;
 import com.aumum.app.mobile.core.model.UserInfo;
-import com.aumum.app.mobile.core.service.ChatService;
 import com.aumum.app.mobile.events.DeleteChatMessageEvent;
 import com.aumum.app.mobile.ui.report.ReportActivity;
 import com.aumum.app.mobile.ui.view.dialog.ConfirmDialog;
@@ -65,7 +65,6 @@ public class ChatFragment extends Fragment
                    TuSdkUtils.EditListener,
                    EMEventListener {
 
-    @Inject ChatService chatService;
     @Inject UserStore userStore;
     @Inject Bus bus;
 
@@ -89,9 +88,9 @@ public class ChatFragment extends Fragment
         Injector.inject(this);
         final Intent intent = getActivity().getIntent();
         id = intent.getStringExtra(ChatActivity.INTENT_ID);
-        conversation = chatService.getConversation(id);
+        conversation = EMChatUtils.getConversation(id);
         conversation.markAllMessagesAsRead();
-        adapter = new ChatMessagesAdapter(getActivity(), bus, chatService.getChatId());
+        adapter = new ChatMessagesAdapter(getActivity(), bus, EMChatUtils.getChatId());
         updateUI(conversation.getAllMessages(), -1);
     }
 
@@ -142,7 +141,8 @@ public class ChatFragment extends Fragment
         EMChatUtils.pushActivity(getActivity());
         EMChatManager.getInstance().registerEventListener(this,
                 new EMNotifierEvent.Event[]{
-                        EMNotifierEvent.Event.EventNewMessage
+                        EMNotifierEvent.Event.EventNewMessage,
+                        EMNotifierEvent.Event.EventNewCMDMessage
                 });
     }
 
@@ -212,7 +212,7 @@ public class ChatFragment extends Fragment
 
     @Override
     public void OnSendBtnClick(String msg) {
-        EMMessage message = chatService.addTextMessage(id, msg);
+        EMMessage message = EMChatUtils.addTextMessage(id, msg);
         conversation.addMessage(message);
         updateUI(conversation.getAllMessages(), -1);
         xhsEmoticonsKeyBoardBar.clearEditText();
@@ -229,7 +229,23 @@ public class ChatFragment extends Fragment
 
     @Override
     public void onEvent(EMNotifierEvent event) {
-        final EMMessage message = (EMMessage) event.getData();
+        switch (event.getEvent()) {
+            case EventNewMessage: {
+                final EMMessage message = (EMMessage) event.getData();
+                handleNewMessage(message);
+            }
+                break;
+            case EventNewCMDMessage: {
+                final EMMessage message = (EMMessage) event.getData();
+                handleNewCmdMessage(message);
+            }
+                break;
+            default:
+                break;
+        }
+    }
+
+    private void handleNewMessage(final EMMessage message) {
         new SafeAsyncTask<Boolean>() {
             @Override
             public Boolean call() throws Exception {
@@ -246,6 +262,13 @@ public class ChatFragment extends Fragment
                 conversation.markAllMessagesAsRead();
             }
         }.execute();
+    }
+
+    private void handleNewCmdMessage(final EMMessage message) {
+        CmdMessage cmdMessage = EMChatUtils.getCmdMessage(message);
+        if (cmdMessage != null) {
+            EMChatUtils.pushCmdMessageQueue(cmdMessage);
+        }
     }
 
     private void showSingleChatActions() {
@@ -269,7 +292,7 @@ public class ChatFragment extends Fragment
 
     private void clearConversation() {
         String userName = conversation.getUserName();
-        chatService.clearConversation(userName);
+        EMChatUtils.clearConversation(userName);
         updateUI(conversation.getAllMessages(), 0);
     }
 
@@ -310,6 +333,7 @@ public class ChatFragment extends Fragment
                 for (EMMessage message: messages) {
                     UserInfo user = userStore.getUserInfoByChatId(message.getFrom());
                     if (user != null) {
+                        message.setAttribute("screenName", user.getScreenName());
                         ChatMessage chatMessage = new ChatMessage(user, message);
                         messageList.add(chatMessage);
                     }
@@ -381,7 +405,7 @@ public class ChatFragment extends Fragment
     @Override
     public void onEditResult(File file) {
         String localUri = file.getAbsolutePath();
-        EMMessage message = chatService.addImageMessage(id, localUri);
+        EMMessage message = EMChatUtils.addImageMessage(id, localUri);
         conversation.addMessage(message);
         ImageLoaderUtils.loadImage(ImageLoaderUtils.getFullPath(localUri));
         updateUI(conversation.getAllMessages(), -1);

@@ -2,7 +2,6 @@ package com.aumum.app.mobile.utils;
 
 import android.app.NotificationManager;
 import android.app.PendingIntent;
-import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -20,23 +19,19 @@ public class NotificationUtils {
                               String title,
                               String content,
                               String largeIconUrl,
-                              Class<?> cls) {
+                              Intent intent) {
         NotificationCompat.Builder builder = new NotificationCompat.Builder(context)
                 .setAutoCancel(true)
                 .setLights(0xffff0000, 300, 300)
                 .setContentTitle(title)
                 .setContentText(content);
-        if (largeIconUrl != null) {
-            Bitmap largeIcon = ImageLoaderUtils.loadImage(largeIconUrl);
-            builder.setLargeIcon(largeIcon);
-        } else {
-            builder.setSmallIcon(R.drawable.ic_launcher_notification);
+        if (largeIconUrl == null) {
+            largeIconUrl = "drawable://" + R.drawable.ic_launcher;
         }
+        Bitmap largeIcon = ImageLoaderUtils.loadImage(largeIconUrl);
+        builder.setLargeIcon(largeIcon);
 
-        Intent intent = new Intent();
-        intent.setComponent(new ComponentName(context, cls));
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-
         PendingIntent notifyIntent = PendingIntent
                 .getActivity(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
         builder.setContentIntent(notifyIntent);

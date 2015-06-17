@@ -21,7 +21,6 @@ import com.aumum.app.mobile.core.dao.MomentStore;
 import com.aumum.app.mobile.core.dao.UserStore;
 import com.aumum.app.mobile.core.model.Moment;
 import com.aumum.app.mobile.core.model.User;
-import com.aumum.app.mobile.core.service.ChatService;
 import com.aumum.app.mobile.core.service.FileUploadService;
 import com.aumum.app.mobile.core.service.RestService;
 import com.aumum.app.mobile.ui.base.LoaderFragment;
@@ -33,6 +32,7 @@ import com.aumum.app.mobile.ui.view.dialog.ConfirmDialog;
 import com.aumum.app.mobile.ui.view.dialog.EditTextDialog;
 import com.aumum.app.mobile.ui.view.dialog.TextViewDialog;
 import com.aumum.app.mobile.ui.view.pulltorefresh.XGridView;
+import com.aumum.app.mobile.utils.EMChatUtils;
 import com.aumum.app.mobile.utils.ImageLoaderUtils;
 import com.etsy.android.grid.StaggeredGridView;
 import com.github.kevinsawicki.wishlist.Toaster;
@@ -52,7 +52,6 @@ public class UserFragment extends LoaderFragment<User> {
     @Inject UserStore userStore;
     @Inject MomentStore momentStore;
     @Inject MessageStore messageStore;
-    @Inject ChatService chatService;
     @Inject RestService restService;
     @Inject FileUploadService fileUploadService;
 
@@ -107,8 +106,8 @@ public class UserFragment extends LoaderFragment<User> {
                             new ConfirmDialog.OnConfirmListener() {
                                 @Override
                                 public void call(Object value) throws Exception {
-                                    chatService.deleteConversation(user.getChatId());
-                                    chatService.deleteContact(userId);
+                                    EMChatUtils.deleteConversation(user.getChatId());
+                                    EMChatUtils.deleteContact(userId);
                                     String currentUserId = currentUser.getObjectId();
                                     restService.removeContact(currentUserId, userId);
                                     currentUser.removeContact(userId);
@@ -248,7 +247,7 @@ public class UserFragment extends LoaderFragment<User> {
                                         @Override
                                         public void call(Object value) throws Exception {
                                             String hello = (String) value;
-                                            chatService.addContact(userId, hello);
+                                            EMChatUtils.addContact(userId, hello);
                                             Thread.sleep(1000);
                                         }
 

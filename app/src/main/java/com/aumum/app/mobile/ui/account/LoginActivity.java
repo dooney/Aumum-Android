@@ -23,7 +23,6 @@ import com.aumum.app.mobile.R.id;
 import com.aumum.app.mobile.R.layout;
 import com.aumum.app.mobile.core.Constants;
 import com.aumum.app.mobile.core.dao.Repository;
-import com.aumum.app.mobile.core.service.ChatService;
 import com.aumum.app.mobile.core.service.RestService;
 import com.aumum.app.mobile.core.model.User;
 import com.aumum.app.mobile.events.UnAuthorizedErrorEvent;
@@ -31,6 +30,7 @@ import com.aumum.app.mobile.ui.base.AuthenticateActivity;
 import com.aumum.app.mobile.ui.helper.TextWatcherAdapter;
 import com.aumum.app.mobile.ui.view.ClearEditText;
 import com.aumum.app.mobile.ui.view.dialog.ListViewDialog;
+import com.aumum.app.mobile.utils.EMChatUtils;
 import com.aumum.app.mobile.utils.EditTextUtils;
 import com.aumum.app.mobile.utils.SafeAsyncTask;
 import com.aumum.app.mobile.utils.Strings;
@@ -51,7 +51,6 @@ import retrofit.RetrofitError;
 public class LoginActivity extends AuthenticateActivity {
 
     @Inject RestService restService;
-    @Inject ChatService chatService;
     @Inject Repository repository;
     @Inject Bus bus;
 
@@ -231,9 +230,9 @@ public class LoginActivity extends AuthenticateActivity {
     }
 
     private void resetChatServer(final User user) {
-        chatService.logOut();
-        chatService.authenticate(user.getChatId(), password,
-                new ChatService.OnAuthenticateListener() {
+        EMChatUtils.logOut();
+        EMChatUtils.authenticate(user.getChatId(), password,
+                new EMChatUtils.OnAuthenticateListener() {
                     @Override
                     public void onSuccess() {
                         finishAuthentication(user.getObjectId(), password, user.getSessionToken());
