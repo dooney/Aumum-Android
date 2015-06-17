@@ -66,22 +66,50 @@ public class DiscoveryFragment extends Fragment {
 
     private void getLatestList() {
         List<Moment> momentList = momentStore.getLocalLatestList();
-        loadMomentsGalleryView(latestGallery, momentList);
+        loadMomentsGalleryView(latestGallery,
+                momentList,
+                new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+            }
+        });
     }
 
     private void getHottestList() {
         List<Moment> momentList = momentStore.getLocalHottestList();
-        loadMomentsGalleryView(hottestGallery, momentList);
+        loadMomentsGalleryView(hottestGallery,
+                momentList,
+                new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+            }
+        });
     }
 
     private void getNearestList() {
         List<UserInfo> userList = userStore.getLocalNearestList();
-        loadUsersGalleryView(nearestGallery, userList);
+        loadUsersGalleryView(nearestGallery,
+                userList,
+                new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+            }
+        });
     }
 
     private void getTalentList() {
         List<UserInfo> userList = userStore.getLocalTalentList();
-        loadUsersGalleryView(talentGallery, userList);
+        loadUsersGalleryView(talentGallery,
+                userList,
+                new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+            }
+        });
     }
 
     private View getImageView(String imageUrl) {
@@ -109,7 +137,8 @@ public class DiscoveryFragment extends Fragment {
     }
 
     private void loadMomentsGalleryView(ViewGroup view,
-                                        List<Moment> momentList) {
+                                        List<Moment> momentList,
+                                        View.OnClickListener nextClickListener) {
         view.removeAllViews();
         for (final Moment moment: momentList) {
             View image = getImageView(moment.getImageUrl());
@@ -125,11 +154,14 @@ public class DiscoveryFragment extends Fragment {
                 }
             });
         }
-        view.addView(getNextView());
+        View nextView = getNextView();
+        nextView.setOnClickListener(nextClickListener);
+        view.addView(nextView);
     }
 
     private void loadUsersGalleryView(ViewGroup view,
-                                      List<UserInfo> userList) {
+                                      List<UserInfo> userList,
+                                      View.OnClickListener nextClickListener) {
         view.removeAllViews();
         for (final UserInfo user: userList) {
             View image = getImageView(user.getAvatarUrl());
@@ -145,6 +177,8 @@ public class DiscoveryFragment extends Fragment {
                 }
             });
         }
-        view.addView(getNextView());
+        View nextView = getNextView();
+        nextView.setOnClickListener(nextClickListener);
+        view.addView(nextView);
     }
 }

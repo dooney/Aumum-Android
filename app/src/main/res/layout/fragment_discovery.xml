@@ -14,7 +14,7 @@
             android:layout_height="match_parent"
             android:orientation="vertical">
 
-            <LinearLayout
+            <FrameLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@drawable/list_selector_white"
@@ -22,38 +22,9 @@
                 android:paddingTop="@dimen/margin_small"
                 android:paddingBottom="@dimen/margin_small">
 
-                <RelativeLayout
-                    android:layout_width="100dp"
-                    android:layout_height="100dp"
-                    android:background="#ff39b3d7"
-                    android:layout_marginRight="@dimen/margin_small">
-
-                    <LinearLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:orientation="vertical"
-                        android:layout_centerInParent="true"
-                        android:gravity="center">
-
-                        <ImageView
-                            style="@style/ImageView"
-                            android:src="@drawable/ic_fa_alert"
-                            android:layout_marginBottom="@dimen/margin_large"/>
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:textColor="@color/white"
-                            android:text="@string/label_latest"/>
-
-                    </LinearLayout>
-
-                </RelativeLayout>
-
                 <HorizontalScrollView
-                    android:layout_width="0dp"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
                     android:scrollbars="none">
 
                     <LinearLayout
@@ -64,9 +35,22 @@
 
                 </HorizontalScrollView>
 
-            </LinearLayout>
+                <RelativeLayout
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    android:background="#80000000"
+                    android:padding="@dimen/margin_medium">
 
-            <LinearLayout
+                    <TextView
+                        style="@style/TextView.Discovery.Category"
+                        android:text="@string/label_latest"
+                        android:layout_alignParentBottom="true"/>
+
+                </RelativeLayout>
+
+            </FrameLayout>
+
+            <FrameLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@drawable/list_selector_white"
@@ -74,38 +58,9 @@
                 android:paddingTop="@dimen/margin_small"
                 android:paddingBottom="@dimen/margin_small">
 
-                <RelativeLayout
-                    android:layout_width="100dp"
-                    android:layout_height="100dp"
-                    android:background="#ffd2322d"
-                    android:layout_marginRight="@dimen/margin_small">
-
-                    <LinearLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:orientation="vertical"
-                        android:layout_centerInParent="true"
-                        android:gravity="center">
-
-                        <ImageView
-                            style="@style/ImageView"
-                            android:src="@drawable/ic_fa_flame"
-                            android:layout_marginBottom="@dimen/margin_large"/>
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:textColor="@color/white"
-                            android:text="@string/label_hottest"/>
-
-                    </LinearLayout>
-
-                </RelativeLayout>
-
                 <HorizontalScrollView
-                    android:layout_width="0dp"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
                     android:scrollbars="none">
 
                     <LinearLayout
@@ -116,9 +71,22 @@
 
                 </HorizontalScrollView>
 
-            </LinearLayout>
+                <RelativeLayout
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    android:background="#80000000"
+                    android:padding="@dimen/margin_medium">
 
-            <LinearLayout
+                    <TextView
+                        style="@style/TextView.Discovery.Category"
+                        android:text="@string/label_hottest"
+                        android:layout_alignParentBottom="true"/>
+
+                </RelativeLayout>
+
+            </FrameLayout>
+
+            <FrameLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@drawable/list_selector_white"
@@ -126,38 +94,9 @@
                 android:paddingTop="@dimen/margin_small"
                 android:paddingBottom="@dimen/margin_small">
 
-                <RelativeLayout
-                    android:layout_width="100dp"
-                    android:layout_height="100dp"
-                    android:background="#ffed9c28"
-                    android:layout_marginRight="@dimen/margin_small">
-
-                    <LinearLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:orientation="vertical"
-                        android:layout_centerInParent="true"
-                        android:gravity="center">
-
-                        <ImageView
-                            style="@style/ImageView"
-                            android:src="@drawable/ic_fa_local"
-                            android:layout_marginBottom="@dimen/margin_large"/>
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:textColor="@color/white"
-                            android:text="@string/label_nearest"/>
-
-                    </LinearLayout>
-
-                </RelativeLayout>
-
                 <HorizontalScrollView
-                    android:layout_width="0dp"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
                     android:scrollbars="none">
 
                     <LinearLayout
@@ -168,9 +107,22 @@
 
                 </HorizontalScrollView>
 
-            </LinearLayout>
+                <RelativeLayout
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    android:background="#80000000"
+                    android:padding="@dimen/margin_medium">
 
-            <LinearLayout
+                    <TextView
+                        style="@style/TextView.Discovery.Category"
+                        android:text="@string/label_nearest"
+                        android:layout_alignParentBottom="true"/>
+
+                </RelativeLayout>
+
+            </FrameLayout>
+
+            <FrameLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@drawable/list_selector_white"
@@ -178,38 +130,9 @@
                 android:paddingTop="@dimen/margin_small"
                 android:paddingBottom="@dimen/margin_small">
 
-                <RelativeLayout
-                    android:layout_width="100dp"
-                    android:layout_height="100dp"
-                    android:background="#ff47a447"
-                    android:layout_marginRight="@dimen/margin_small">
-
-                    <LinearLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:orientation="vertical"
-                        android:layout_centerInParent="true"
-                        android:gravity="center">
-
-                        <ImageView
-                            style="@style/ImageView"
-                            android:src="@drawable/ic_fa_award"
-                            android:layout_marginBottom="@dimen/margin_large"/>
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:textColor="@color/white"
-                            android:text="@string/label_talent"/>
-
-                    </LinearLayout>
-
-                </RelativeLayout>
-
                 <HorizontalScrollView
-                    android:layout_width="0dp"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
                     android:scrollbars="none">
 
                     <LinearLayout
@@ -220,7 +143,20 @@
 
                 </HorizontalScrollView>
 
-            </LinearLayout>
+                <RelativeLayout
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    android:background="#80000000"
+                    android:padding="@dimen/margin_medium">
+
+                    <TextView
+                        style="@style/TextView.Discovery.Category"
+                        android:text="@string/label_talent"
+                        android:layout_alignParentBottom="true"/>
+
+                </RelativeLayout>
+
+            </FrameLayout>
 
         </LinearLayout>
 

@@ -229,7 +229,7 @@
         <item name="android:orientation">horizontal</item>
     </style>
 
-    <!-- Moment -->
+    <!-- Comment -->
     <style name="TextView.Comment.UserName" parent="TextView.UserName" />
     <style name="TextView.Comment.CreatedAt" parent="TextView.Subtitle.Small" />
     <style name="TextView.Comment.Content" parent="TextView.Multiline">
@@ -300,6 +300,11 @@
     <style name="TextView.ChatMessage.Progress" parent="TextView.Subtitle">
         <item name="android:textSize">@dimen/text_sz_small</item>
         <item name="android:paddingRight">@dimen/margin_small</item>
+    </style>
+
+    <!-- Discovery -->
+    <style name="TextView.Discovery.Category" parent="TextView.Subtitle.Small">
+        <item name="android:textColor">@color/am_yellow</item>
     </style>
 
     <!-- Contact -->
