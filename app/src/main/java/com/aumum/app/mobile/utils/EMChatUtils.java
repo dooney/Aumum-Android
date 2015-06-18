@@ -60,7 +60,7 @@ public class EMChatUtils {
         EMChat.getInstance().setDebugMode(false);
 
         EMChatOptions options = EMChatManager.getInstance().getChatOptions();
-        options.setAcceptInvitationAlways(true);
+        options.setAcceptInvitationAlways(false);
         options.setUseRoster(true);
 
         EMChatManager.getInstance().registerEventListener(new EMEventListener() {

@@ -23,6 +23,8 @@ public class NotificationUtils {
         NotificationCompat.Builder builder = new NotificationCompat.Builder(context)
                 .setAutoCancel(true)
                 .setLights(0xffff0000, 300, 300)
+                .setTicker(content)
+                .setSmallIcon(R.drawable.ic_launcher)
                 .setContentTitle(title)
                 .setContentText(content);
         if (largeIconUrl == null) {
@@ -35,7 +37,7 @@ public class NotificationUtils {
         PendingIntent notifyIntent = PendingIntent
                 .getActivity(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
         builder.setContentIntent(notifyIntent);
-        NotificationManager mNotificationManager =
+        NotificationManager notificationManager =
                 (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
         if (PreferenceUtils.isNotificationSoundEnabled()) {
             builder.setSound(RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION));
@@ -43,6 +45,6 @@ public class NotificationUtils {
         if (PreferenceUtils.isNotificationVibrateEnabled()) {
             builder.setVibrate(new long[]{0, 200, 200, 200});
         }
-        mNotificationManager.notify(0, builder.build());
+        notificationManager.notify(0, builder.build());
     }
 }
