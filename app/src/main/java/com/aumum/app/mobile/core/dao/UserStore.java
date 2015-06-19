@@ -207,12 +207,12 @@ public class UserStore {
     }
 
     public List<UserInfo> getListByCity(String userId, String city) throws Exception {
-        List<UserInfo> users = restService.getCityUsers(userId, city);
+        List<UserInfo> users = restService.getCityUsers(userId, city, LIMIT_TOP);
         updateOrInsert(users);
         return users;
     }
 
-    public List<UserInfo> getLocalNearestList() {
+    public List<UserInfo> getLocalNearByList() {
         String userId = apiKeyProvider.getAuthUserId();
         UserEntity entity = userEntityDao.load(userId);
         List<UserInfoEntity> entities = userInfoEntityDao.queryBuilder()

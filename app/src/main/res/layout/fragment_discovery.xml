@@ -100,7 +100,7 @@
                     android:scrollbars="none">
 
                     <LinearLayout
-                        android:id="@+id/gallery_nearest"
+                        android:id="@+id/gallery_nearby"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:orientation="horizontal" />
@@ -115,7 +115,7 @@
 
                     <TextView
                         style="@style/TextView.Discovery.Category"
-                        android:text="@string/label_nearest"
+                        android:text="@string/label_nearby"
                         android:layout_alignParentBottom="true"/>
 
                 </RelativeLayout>

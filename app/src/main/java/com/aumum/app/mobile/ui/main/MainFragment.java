@@ -22,6 +22,7 @@ import com.aumum.app.mobile.core.dao.UserStore;
 import com.aumum.app.mobile.core.infra.security.ApiKeyProvider;
 import com.aumum.app.mobile.core.model.CmdMessage;
 import com.aumum.app.mobile.core.model.User;
+import com.aumum.app.mobile.core.model.UserInfo;
 import com.aumum.app.mobile.core.service.FileUploadService;
 import com.aumum.app.mobile.events.NewMessageEvent;
 import com.aumum.app.mobile.events.NewChatMessageEvent;
@@ -39,7 +40,9 @@ import com.easemob.chat.EMMessage;
 import com.squareup.otto.Bus;
 import com.squareup.otto.Subscribe;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import javax.inject.Inject;
 
@@ -137,17 +140,25 @@ public class MainFragment extends Fragment implements EMEventListener {
         super.onActivityResult(requestCode, resultCode, data);
     }
 
+    private void getMomentsByUserList(List<UserInfo> users) throws Exception {
+        List<String> userIds = new ArrayList<>();
+        for (UserInfo user: users) {
+            userIds.add(user.getObjectId());
+        }
+        momentStore.getListByUsers(userIds);
+    }
+
     public void updateDiscoveryList() {
         new SafeAsyncTask<Boolean>() {
             public Boolean call() throws Exception {
                 momentStore.getLatestList();
                 momentStore.getHottestList();
-                userStore.getTalentList();
-                if (lastUpdate == null) {
-                    User currentUser = userStore.getCurrentUser();
-                    userStore.getListByCity(
-                            currentUser.getObjectId(), currentUser.getCity());
-                }
+                List<UserInfo> talentList = userStore.getTalentList();
+                getMomentsByUserList(talentList);
+                User currentUser = userStore.getCurrentUser();
+                List<UserInfo> nearByList = userStore.getListByCity(
+                        currentUser.getObjectId(), currentUser.getCity());
+                getMomentsByUserList(nearByList);
                 lastUpdate = new Date();
                 return true;
             }

@@ -62,6 +62,7 @@ public interface UserService {
 
     @GET(Constants.Http.URL_USERS_FRAG)
     ListWrapper<UserInfo> getInfoList(@Query("keys") String keys,
+                                      @Query("where") String where,
                                       @Query("order") String order,
                                       @Query("limit") int limit);
 

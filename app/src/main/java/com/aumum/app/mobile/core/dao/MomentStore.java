@@ -161,6 +161,21 @@ public class MomentStore {
         return map(records);
     }
 
+    public List<Moment> getListByUsers(List<String> userIds) throws Exception {
+        List<Moment> momentList = restService.getMomentsByUsers(userIds, LIMIT_TOP);
+        updateOrInsert(momentList);
+        return momentList;
+    }
+
+    public List<Moment> getLocalListByUsers(List<String> userIds) {
+        List<MomentEntity> records = momentEntityDao.queryBuilder()
+                .where(MomentEntityDao.Properties.UserId.in(userIds))
+                .orderDesc(MomentEntityDao.Properties.CreatedAt)
+                .limit(LIMIT_TOP)
+                .list();
+        return map(records);
+    }
+
     public Moment getById(String momentId) {
         MomentEntity momentEntity = momentEntityDao.load(momentId);
         if (momentEntity != null) {

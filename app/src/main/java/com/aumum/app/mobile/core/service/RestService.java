@@ -257,15 +257,6 @@ public class RestService {
                 .getResults();
     }
 
-    public List<UserInfo> getGroupUsers(List<String> chatIds) {
-        final JsonObject whereJson = new JsonObject();
-        whereJson.add(Constants.Http.User.PARAM_CHAT_ID, buildIdListJson(chatIds));
-        String where = whereJson.toString();
-        return getUserService()
-                .getInfoList(getUserInfoFields(), where)
-                .getResults();
-    }
-
     public String getUserByName(String name) {
         final JsonObject whereJson = new JsonObject();
         JsonArray jsonArray = new JsonArray();
@@ -285,7 +276,7 @@ public class RestService {
         return null;
     }
 
-    public List<UserInfo> getCityUsers(String userId, String city) {
+    public List<UserInfo> getCityUsers(String userId, String city, int limit) {
         final JsonObject whereJson = new JsonObject();
         final JsonObject userIdJson = new JsonObject();
         userIdJson.addProperty("$ne", userId);
@@ -293,13 +284,13 @@ public class RestService {
         whereJson.addProperty(Constants.Http.User.PARAM_CITY, city);
         String where = whereJson.toString();
         return getUserService()
-                .getInfoList(getUserInfoFields(), where)
+                .getInfoList(getUserInfoFields(), where, null, limit)
                 .getResults();
     }
 
     public List<UserInfo> getCreditUsers(int limit) {
         return getUserService()
-                .getInfoList(getUserInfoFields(), "-credit", limit)
+                .getInfoList(getUserInfoFields(), null, "-credit", limit)
                 .getResults();
     }
 
@@ -466,6 +457,13 @@ public class RestService {
 
     public List<Moment> getHotMoments(int limit) {
         return getMomentService().getList("-hot", null, limit).getResults();
+    }
+
+    public List<Moment> getMomentsByUsers(List<String> userIds, int limit) {
+        final JsonObject whereJson = new JsonObject();
+        whereJson.add("userId", buildIdListJson(userIds));
+        String where = buildLiveJson(whereJson).toString();
+        return getMomentService().getList("-createdAt", where, limit).getResults();
     }
 
     private JsonObject buildMomentLikesRequestJson(String op,

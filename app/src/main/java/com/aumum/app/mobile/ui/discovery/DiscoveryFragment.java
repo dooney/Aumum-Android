@@ -16,10 +16,10 @@ import com.aumum.app.mobile.core.dao.UserStore;
 import com.aumum.app.mobile.core.model.Moment;
 import com.aumum.app.mobile.core.model.UserInfo;
 import com.aumum.app.mobile.ui.moment.MomentDetailsActivity;
-import com.aumum.app.mobile.ui.user.UserActivity;
 import com.aumum.app.mobile.utils.ImageLoaderUtils;
 import com.keyboard.utils.Utils;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -34,7 +34,7 @@ public class DiscoveryFragment extends Fragment {
 
     private ViewGroup latestGallery;
     private ViewGroup hottestGallery;
-    private ViewGroup nearestGallery;
+    private ViewGroup nearByGallery;
     private ViewGroup talentGallery;
 
     @Override
@@ -55,12 +55,12 @@ public class DiscoveryFragment extends Fragment {
 
         latestGallery = (ViewGroup) view.findViewById(R.id.gallery_latest);
         hottestGallery = (ViewGroup) view.findViewById(R.id.gallery_hottest);
-        nearestGallery = (ViewGroup) view.findViewById(R.id.gallery_nearest);
+        nearByGallery = (ViewGroup) view.findViewById(R.id.gallery_nearby);
         talentGallery = (ViewGroup) view.findViewById(R.id.gallery_talent);
 
         getLatestList();
         getHottestList();
-        getNearestList();
+        getNearByList();
         getTalentList();
     }
 
@@ -69,11 +69,11 @@ public class DiscoveryFragment extends Fragment {
         loadMomentsGalleryView(latestGallery,
                 momentList,
                 new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
+                    @Override
+                    public void onClick(View view) {
 
-            }
-        });
+                    }
+                });
     }
 
     private void getHottestList() {
@@ -81,35 +81,45 @@ public class DiscoveryFragment extends Fragment {
         loadMomentsGalleryView(hottestGallery,
                 momentList,
                 new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
+                    @Override
+                    public void onClick(View view) {
 
-            }
-        });
+                    }
+                });
     }
 
-    private void getNearestList() {
-        List<UserInfo> userList = userStore.getLocalNearestList();
-        loadUsersGalleryView(nearestGallery,
-                userList,
+    private void getNearByList() {
+        List<UserInfo> userList = userStore.getLocalNearByList();
+        List<Moment> momentList = getMomentsByUserList(userList);
+        loadMomentsGalleryView(nearByGallery,
+                momentList,
                 new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
+                    @Override
+                    public void onClick(View view) {
 
-            }
-        });
+                    }
+                });
     }
 
     private void getTalentList() {
         List<UserInfo> userList = userStore.getLocalTalentList();
-        loadUsersGalleryView(talentGallery,
-                userList,
+        List<Moment> momentList = getMomentsByUserList(userList);
+        loadMomentsGalleryView(talentGallery,
+                momentList,
                 new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
+                    @Override
+                    public void onClick(View view) {
 
-            }
-        });
+                    }
+                });
+    }
+
+    private List<Moment> getMomentsByUserList(List<UserInfo> users) {
+        List<String> userIds = new ArrayList<>();
+        for (UserInfo user : users) {
+            userIds.add(user.getObjectId());
+        }
+        return momentStore.getLocalListByUsers(userIds);
     }
 
     private View getImageView(String imageUrl) {
@@ -150,29 +160,6 @@ public class DiscoveryFragment extends Fragment {
                             MomentDetailsActivity.class);
                     intent.putExtra(MomentDetailsActivity.INTENT_MOMENT_ID,
                             moment.getObjectId());
-                    startActivity(intent);
-                }
-            });
-        }
-        View nextView = getNextView();
-        nextView.setOnClickListener(nextClickListener);
-        view.addView(nextView);
-    }
-
-    private void loadUsersGalleryView(ViewGroup view,
-                                      List<UserInfo> userList,
-                                      View.OnClickListener nextClickListener) {
-        view.removeAllViews();
-        for (final UserInfo user: userList) {
-            View image = getImageView(user.getAvatarUrl());
-            view.addView(image);
-            image.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    final Intent intent = new Intent(getActivity(),
-                            UserActivity.class);
-                    intent.putExtra(UserActivity.INTENT_USER_ID,
-                            user.getObjectId());
                     startActivity(intent);
                 }
             });
