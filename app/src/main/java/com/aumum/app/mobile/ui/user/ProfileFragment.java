@@ -125,7 +125,7 @@ public class ProfileFragment extends LoaderFragment<User>
         gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                Moment moment = momentList.get(i - 1);
+                Moment moment = momentList.get(i);
                 final Intent intent = new Intent(getActivity(), MomentDetailsActivity.class);
                 intent.putExtra(MomentDetailsActivity.INTENT_MOMENT_ID, moment.getObjectId());
                 startActivity(intent);

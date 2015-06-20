@@ -149,8 +149,8 @@ public class UserFragment extends LoaderFragment<User> {
         gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                if (momentList.size() >= i && i > 1) {
-                    Moment moment = momentList.get(i - 1);
+                if (momentList.size() >= i) {
+                    Moment moment = momentList.get(i);
                     final Intent intent = new Intent(getActivity(), MomentDetailsActivity.class);
                     intent.putExtra(MomentDetailsActivity.INTENT_MOMENT_ID, moment.getObjectId());
                     startActivity(intent);
@@ -184,9 +184,10 @@ public class UserFragment extends LoaderFragment<User> {
         currentUser = userStore.getCurrentUser();
         if (userId != null) {
             if (userId.equals(currentUser.getObjectId())) {
-                return currentUser;
+                user = currentUser;
+            } else {
+                user = userStore.getUserByIdFromServer(userId);
             }
-            user = userStore.getUserByIdFromServer(userId);
         } else if (screenName != null) {
             user = userStore.getUserByScreenNameFromServer(screenName);
             userId = user.getObjectId();
