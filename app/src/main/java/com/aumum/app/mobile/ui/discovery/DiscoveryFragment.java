@@ -16,6 +16,7 @@ import com.aumum.app.mobile.core.dao.UserStore;
 import com.aumum.app.mobile.core.model.Moment;
 import com.aumum.app.mobile.core.model.UserInfo;
 import com.aumum.app.mobile.ui.moment.MomentDetailsActivity;
+import com.aumum.app.mobile.ui.moment.MomentGridActivity;
 import com.aumum.app.mobile.utils.ImageLoaderUtils;
 import com.keyboard.utils.Utils;
 
@@ -71,7 +72,7 @@ public class DiscoveryFragment extends Fragment {
                 new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-
+                        startMomentGridActivity(MomentGridActivity.QUERY_LATEST);
                     }
                 });
     }
@@ -83,7 +84,7 @@ public class DiscoveryFragment extends Fragment {
                 new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-
+                        startMomentGridActivity(MomentGridActivity.QUERY_HOTTEST);
                     }
                 });
     }
@@ -96,7 +97,7 @@ public class DiscoveryFragment extends Fragment {
                 new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-
+                        startMomentGridActivity(MomentGridActivity.QUERY_NEARBY);
                     }
                 });
     }
@@ -109,7 +110,7 @@ public class DiscoveryFragment extends Fragment {
                 new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-
+                        startMomentGridActivity(MomentGridActivity.QUERY_TALENT);
                     }
                 });
     }
@@ -167,5 +168,11 @@ public class DiscoveryFragment extends Fragment {
         View nextView = getNextView();
         nextView.setOnClickListener(nextClickListener);
         view.addView(nextView);
+    }
+
+    private void startMomentGridActivity(int query) {
+        final Intent intent = new Intent(getActivity(), MomentGridActivity.class);
+        intent.putExtra(MomentGridActivity.INTENT_QUERY, query);
+        startActivity(intent);
     }
 }

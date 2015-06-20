@@ -243,6 +243,7 @@
         <activity android:name=".ui.moment.MomentCommentsActivity"
             android:label="@string/title_activity_moment_comments">
         </activity>
+        <activity android:name=".ui.moment.MomentGridActivity" />
     </application>
 
 </manifest>

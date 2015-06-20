@@ -28,15 +28,13 @@ import com.aumum.app.mobile.ui.chat.ChatActivity;
 import com.aumum.app.mobile.ui.album.AlbumAdapter;
 import com.aumum.app.mobile.ui.moment.MomentDetailsActivity;
 import com.aumum.app.mobile.ui.view.AvatarImageView;
+import com.aumum.app.mobile.ui.view.PagingGridView;
 import com.aumum.app.mobile.ui.view.dialog.ConfirmDialog;
 import com.aumum.app.mobile.ui.view.dialog.EditTextDialog;
 import com.aumum.app.mobile.ui.view.dialog.TextViewDialog;
-import com.aumum.app.mobile.ui.view.pulltorefresh.XGridView;
 import com.aumum.app.mobile.utils.EMChatUtils;
 import com.aumum.app.mobile.utils.ImageLoaderUtils;
-import com.etsy.android.grid.StaggeredGridView;
 import com.github.kevinsawicki.wishlist.Toaster;
-import com.handmark.pulltorefresh.library.PullToRefreshBase;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -63,6 +61,7 @@ public class UserFragment extends LoaderFragment<User> {
     private List<Moment> momentList;
 
     private View mainView;
+    private PagingGridView gridView;
     private AlbumAdapter albumAdapter;
     private ImageView coverImage;
     private AvatarImageView avatarImage;
@@ -141,24 +140,13 @@ public class UserFragment extends LoaderFragment<User> {
         super.onViewCreated(view, savedInstanceState);
 
         mainView = view.findViewById(R.id.main_view);
+        View header = view.findViewById(R.id.header_view);
+        initHeaderView(header);
 
-        XGridView userView = (XGridView) view.findViewById(R.id.user_view);
-        userView.setMode(PullToRefreshBase.Mode.MANUAL_REFRESH_ONLY);
-        StaggeredGridView staggeredView = userView.getRefreshableView();
-        View header = getActivity().getLayoutInflater()
-                .inflate(R.layout.fragment_user_header, null, false);
-        staggeredView.addHeaderView(header);
-        coverImage = (ImageView) header.findViewById(R.id.image_cover);
-        avatarImage = (AvatarImageView) header.findViewById(R.id.image_avatar);
-        screenNameText = (TextView) header.findViewById(R.id.text_screen_name);
-        addressText = (TextView) header.findViewById(R.id.text_address);
-        aboutText = (TextView) header.findViewById(R.id.text_about);
-        addContactButton = header.findViewById(R.id.b_add_contact);
-        chatButton = header.findViewById(R.id.b_chat);
-
+        gridView = (PagingGridView) view.findViewById(R.id.grid_view);
         albumAdapter = new AlbumAdapter(getActivity());
-        userView.setAdapter(albumAdapter);
-        userView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        gridView.setAdapter(albumAdapter);
+        gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 if (momentList.size() >= i && i > 1) {
@@ -169,6 +157,16 @@ public class UserFragment extends LoaderFragment<User> {
                 }
             }
         });
+    }
+
+    private void initHeaderView(View view) {
+        coverImage = (ImageView) view.findViewById(R.id.image_cover);
+        avatarImage = (AvatarImageView) view.findViewById(R.id.image_avatar);
+        screenNameText = (TextView) view.findViewById(R.id.text_screen_name);
+        addressText = (TextView) view.findViewById(R.id.text_address);
+        aboutText = (TextView) view.findViewById(R.id.text_about);
+        addContactButton = view.findViewById(R.id.b_add_contact);
+        chatButton = view.findViewById(R.id.b_chat);
     }
 
     @Override

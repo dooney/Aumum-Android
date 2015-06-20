@@ -1,24 +1,28 @@
 package com.aumum.app.mobile.ui.view;
 
-/**
- * Created by Administrator on 29/10/2014.
- */
 import android.content.Context;
 import android.util.AttributeSet;
-import android.widget.ListView;
+import android.view.View;
 
-public class ListViewForScrollView extends ListView {
-    public ListViewForScrollView(Context context) {
+/**
+ * Created by Administrator on 20/06/2015.
+ */
+public class PagingGridView extends com.paging.gridview.PagingGridView {
+
+    public PagingGridView(Context context) {
         super(context);
     }
 
-    public ListViewForScrollView(Context context, AttributeSet attrs) {
+    public PagingGridView(Context context, AttributeSet attrs) {
         super(context, attrs);
     }
 
-    public ListViewForScrollView(Context context, AttributeSet attrs,
-                                 int defStyle) {
+    public PagingGridView(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
+    }
+
+    @Override
+    public void addFooterView(View v) {
     }
 
     @Override

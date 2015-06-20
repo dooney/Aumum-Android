@@ -28,13 +28,11 @@ import com.aumum.app.mobile.ui.base.LoaderFragment;
 import com.aumum.app.mobile.ui.moment.MomentDetailsActivity;
 import com.aumum.app.mobile.ui.settings.SettingsActivity;
 import com.aumum.app.mobile.ui.view.AvatarImageView;
-import com.aumum.app.mobile.ui.view.pulltorefresh.XGridView;
+import com.aumum.app.mobile.ui.view.PagingGridView;
 import com.aumum.app.mobile.utils.ImageLoaderUtils;
 import com.aumum.app.mobile.utils.SafeAsyncTask;
 import com.aumum.app.mobile.utils.TuSdkUtils;
-import com.etsy.android.grid.StaggeredGridView;
 import com.google.gson.Gson;
-import com.handmark.pulltorefresh.library.PullToRefreshBase;
 
 import org.lasque.tusdk.core.utils.image.BitmapHelper;
 import org.lasque.tusdk.core.utils.sqllite.ImageSqlInfo;
@@ -68,6 +66,7 @@ public class ProfileFragment extends LoaderFragment<User>
     private SafeAsyncTask<Boolean> task;
 
     private View mainView;
+    private PagingGridView gridView;
     private AlbumAdapter albumAdapter;
     private ImageView coverImage;
     private AvatarImageView avatarImage;
@@ -115,19 +114,15 @@ public class ProfileFragment extends LoaderFragment<User>
     @Override
     public void onViewCreated(final View view, final Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        
+
         mainView = view.findViewById(R.id.main_view);
-        XGridView userView = (XGridView) view.findViewById(R.id.user_view);
-        userView.setMode(PullToRefreshBase.Mode.MANUAL_REFRESH_ONLY);
-        StaggeredGridView staggeredView = userView.getRefreshableView();
-        View header = getActivity().getLayoutInflater()
-                .inflate(R.layout.fragment_profile_header, null, false);
-        staggeredView.addHeaderView(header);
+        View header = view.findViewById(R.id.header_view);
         initHeaderView(header);
 
+        gridView = (PagingGridView) view.findViewById(R.id.grid_view);
         albumAdapter = new AlbumAdapter(getActivity());
-        userView.setAdapter(albumAdapter);
-        userView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        gridView.setAdapter(albumAdapter);
+        gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 Moment moment = momentList.get(i - 1);

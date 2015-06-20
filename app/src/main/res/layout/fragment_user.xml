@@ -7,22 +7,96 @@
     android:orientation="vertical"
     android:gravity="center">
 
-    <RelativeLayout
+    <ScrollView
         android:id="@+id/main_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:fillViewport="true"
+        android:scrollbars="none"
         android:visibility="gone">
 
-        <com.aumum.app.mobile.ui.view.pulltorefresh.XGridView
-            xmlns:app="http://schemas.android.com/apk/res-auto"
-            android:id="@+id/user_view"
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:alwaysDrawnWithCache="true"
-            app:column_count="3"
-            app:item_margin="2dp"/>
+            android:layout_height="wrap_content">
 
-    </RelativeLayout>
+            <LinearLayout
+                android:id="@+id/header_view"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:paddingBottom="@dimen/margin_extra_small">
+
+                <FrameLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <ImageView
+                        android:id="@+id/image_cover"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:adjustViewBounds="true"
+                        android:scaleType="fitCenter"/>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="vertical"
+                        android:gravity="center"
+                        android:background="#80000000">
+
+                        <com.aumum.app.mobile.ui.view.AvatarImageView
+                            xmlns:app="http://schemas.android.com/apk/res-auto"
+                            app:border_width="2dp"
+                            app:border_color="#fff"
+                            android:id="@+id/image_avatar"
+                            style="@style/ImageView.Avatar.ExtraLarge"
+                            android:layout_marginBottom="@dimen/margin_medium"/>
+
+                        <TextView
+                            android:id="@+id/text_screen_name"
+                            style="@style/TextView.User.ScreenName"
+                            android:layout_marginBottom="@dimen/margin_small"/>
+
+                        <TextView
+                            android:id="@+id/text_address"
+                            style="@style/TextView.User.Address"
+                            android:layout_marginBottom="@dimen/margin_medium"/>
+
+                        <TextView
+                            android:id="@+id/text_about"
+                            style="@style/TextView.User.About"
+                            android:layout_marginBottom="@dimen/margin_medium"
+                            android:visibility="gone"/>
+
+                        <TextView
+                            android:id="@+id/b_add_contact"
+                            style="@style/Button.User.AddContact"
+                            android:visibility="gone"/>
+
+                        <TextView
+                            android:id="@+id/b_chat"
+                            style="@style/Button.User.Chat"
+                            android:visibility="gone"/>
+
+                    </LinearLayout>
+
+                </FrameLayout>
+
+            </LinearLayout>
+
+            <com.aumum.app.mobile.ui.view.PagingGridView
+                android:id="@+id/grid_view"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scrollbars="none"
+                android:horizontalSpacing="2dp"
+                android:verticalSpacing="2dp"
+                android:numColumns="3"
+                android:layout_below="@+id/header_view"/>
+
+        </RelativeLayout>
+
+    </ScrollView>
 
     <ProgressBar
         android:id="@+id/pb_loading"
