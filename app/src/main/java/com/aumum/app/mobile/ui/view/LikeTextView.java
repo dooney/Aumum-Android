@@ -19,9 +19,9 @@ public class LikeTextView extends AnimateTextView {
         this.likeListener = likeListener;
     }
 
-    public static interface LikeListener {
-        public void onUnLike(LikeTextView view);
-        public void onLike(LikeTextView view);
+    public interface LikeListener {
+        void onUnLike(LikeTextView view);
+        void onLike(LikeTextView view);
     }
 
     public LikeTextView(Context context) {
@@ -64,7 +64,7 @@ public class LikeTextView extends AnimateTextView {
         toggleLike(isLike);
     }
 
-    private void toggleLike(boolean isLike) {
+    protected void toggleLike(boolean isLike) {
         if (isLike) {
             setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_fa_liked, 0, 0, 0);
             setTextColor(getResources().getColor(R.color.am_white));

@@ -26,6 +26,7 @@ import com.aumum.app.mobile.ui.message.MessageFragment;
 import com.aumum.app.mobile.ui.moment.MomentCommentsFragment;
 import com.aumum.app.mobile.ui.moment.MomentDetailsFragment;
 import com.aumum.app.mobile.ui.moment.MomentFragment;
+import com.aumum.app.mobile.ui.moment.MomentGridFragment;
 import com.aumum.app.mobile.ui.moment.MomentLikeListener;
 import com.aumum.app.mobile.ui.moment.MomentLikesFragment;
 import com.aumum.app.mobile.ui.moment.NewMomentActivity;
@@ -98,7 +99,8 @@ import retrofit.converter.GsonConverter;
                 MomentLikesFragment.class,
                 MomentCommentsFragment.class,
                 DiscoveryFragment.class,
-                EditProfileActivity.class
+                EditProfileActivity.class,
+                MomentGridFragment.class
         }
 )
 public class BootstrapModule {

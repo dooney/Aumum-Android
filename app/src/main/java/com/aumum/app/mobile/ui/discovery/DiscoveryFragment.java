@@ -130,7 +130,7 @@ public class DiscoveryFragment extends Fragment {
                 Utils.dip2px(getActivity(), 100));
         lp.setMargins(0, 0, 10, 0);
         imageView.setLayoutParams(lp);
-        imageView.setScaleType(ImageView.ScaleType.FIT_CENTER);
+        imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
         ImageLoaderUtils.displayImage(imageUrl, imageView);
         return imageView;
     }

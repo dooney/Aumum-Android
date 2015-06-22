@@ -66,7 +66,6 @@ public class ProfileFragment extends LoaderFragment<User>
     private SafeAsyncTask<Boolean> task;
 
     private View mainView;
-    private PagingGridView gridView;
     private AlbumAdapter albumAdapter;
     private ImageView coverImage;
     private AvatarImageView avatarImage;
@@ -119,7 +118,7 @@ public class ProfileFragment extends LoaderFragment<User>
         View header = view.findViewById(R.id.header_view);
         initHeaderView(header);
 
-        gridView = (PagingGridView) view.findViewById(R.id.grid_view);
+        PagingGridView gridView = (PagingGridView) view.findViewById(R.id.grid_view);
         albumAdapter = new AlbumAdapter(getActivity());
         gridView.setAdapter(albumAdapter);
         gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
