@@ -1,37 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:gravity="center"
     android:padding="@dimen/margin_extra_small">
 
-    <ScrollView
-        android:id="@+id/main_view"
+    <com.aumum.app.mobile.ui.view.PagingGridView
+        android:id="@+id/grid_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:fillViewport="true"
         android:scrollbars="none"
-        android:visibility="gone">
-
-        <com.aumum.app.mobile.ui.view.PagingGridView
-            android:id="@+id/grid_view"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:scrollbars="none"
-            android:horizontalSpacing="2dp"
-            android:verticalSpacing="2dp"
-            android:numColumns="2"/>
-
-    </ScrollView>
+        android:horizontalSpacing="2dp"
+        android:verticalSpacing="2dp"
+        android:numColumns="2"
+        android:visibility="gone"/>
 
     <ProgressBar
         android:id="@+id/pb_loading"
-        style="@style/ProgressBar.Large" />
+        style="@style/ProgressBar.Large"
+        android:layout_centerInParent="true"/>
 
     <TextView
         android:id="@+id/text_reload"
         style="@style/TextView.Reload"
+        android:layout_centerInParent="true"
         android:visibility="gone"/>
 
-</LinearLayout>
+</RelativeLayout>

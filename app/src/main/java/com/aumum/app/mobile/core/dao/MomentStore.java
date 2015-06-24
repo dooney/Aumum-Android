@@ -24,12 +24,16 @@ public class MomentStore {
     private MomentEntityDao momentEntityDao;
     private Gson gson = new Gson();
 
-    public static final int LIMIT_PER_LOAD = 15;
+    public static final int LIMIT_PER_LOAD = 16;
     public static final int LIMIT_TOP = 10;
 
     public MomentStore(RestService restService, Repository repository) {
         this.restService = restService;
         this.momentEntityDao = repository.getMomentEntityDao();
+    }
+
+    public boolean isFullLoad(int count) {
+        return count == LIMIT_PER_LOAD;
     }
 
     private List<String> getList(String data) {

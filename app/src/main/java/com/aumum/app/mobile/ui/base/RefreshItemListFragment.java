@@ -66,13 +66,10 @@ public abstract class RefreshItemListFragment<E extends RefreshItem> extends Fra
                 }
                 List<E> result = refresh(after);
                 if (result.size() > 0) {
-                    List<E> list = new ArrayList<>(dataSet);
                     Collections.reverse(result);
                     for (E entity : result) {
-                        list.add(0, entity);
+                        dataSet.add(0, entity);
                     }
-                    dataSet.clear();
-                    dataSet.addAll(list);
                     getActivity().runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
@@ -115,10 +112,7 @@ public abstract class RefreshItemListFragment<E extends RefreshItem> extends Fra
                     RefreshItem item = dataSet.get(dataSet.size() - 1);
                     List<E> result = loadMore(item.getCreatedAt());
                     if (result.size() > 0) {
-                        List<E> list = new ArrayList<>(dataSet);
-                        list.addAll(result);
-                        dataSet.clear();
-                        dataSet.addAll(list);
+                        dataSet.addAll(result);
                         getActivity().runOnUiThread(new Runnable() {
                             @Override
                             public void run() {

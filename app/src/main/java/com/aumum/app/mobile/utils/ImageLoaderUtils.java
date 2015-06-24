@@ -11,11 +11,8 @@ import com.nostra13.universalimageloader.cache.disc.naming.HashCodeFileNameGener
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
-import com.nostra13.universalimageloader.core.display.FadeInBitmapDisplayer;
 import com.nostra13.universalimageloader.core.listener.PauseOnScrollListener;
 import com.nostra13.universalimageloader.core.listener.SimpleImageLoadingListener;
-
-import java.io.File;
 
 /**
  * Created by Administrator on 5/11/2014.
@@ -31,7 +28,6 @@ public class ImageLoaderUtils {
                 .bitmapConfig(Bitmap.Config.RGB_565)
                 .cacheOnDisk(true)
                 .cacheInMemory(true)
-                .displayer(new FadeInBitmapDisplayer(1500))
                 .build();
         ImageLoaderConfiguration config = new ImageLoaderConfiguration.Builder(context)
                 .defaultDisplayImageOptions(defaultOptions)
@@ -77,10 +73,6 @@ public class ImageLoaderUtils {
 
     public static AbsListView.OnScrollListener getOnScrollListener() {
         return new PauseOnScrollListener(ImageLoader.getInstance(), true, false);
-    }
-
-    public static File getFile(String imageUri) {
-        return ImageLoader.getInstance().getDiskCache().get(imageUri);
     }
 
     public static String getFullPath(String path) {

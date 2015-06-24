@@ -27,7 +27,7 @@ public class MessageStore {
     private MomentLikeEntityDao momentLikeEntityDao;
     private MomentCommentEntityDao momentCommentEntityDao;
 
-    public static final int LIMIT_PER_LOAD = 15;
+    public static final int LIMIT_PER_LOAD = 16;
 
     public MessageStore(Repository repository) {
         this.contactRequestEntityDao = repository.getContactRequestEntityDao();
