@@ -50,7 +50,7 @@ public class AlbumAdapter extends BaseAdapter {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         final ViewHolder holder;
-        if (convertView == null) {
+        if (convertView == null || convertView.getTag() == null) {
             convertView = inflater.inflate(R.layout.album_listitem_inner, null);
             holder = new ViewHolder();
             holder.imageView = (ImageView) convertView.findViewById(R.id.image);

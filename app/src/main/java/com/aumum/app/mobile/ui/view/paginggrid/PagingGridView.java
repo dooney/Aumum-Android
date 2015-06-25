@@ -1,4 +1,4 @@
-package com.aumum.app.mobile.ui.view;
+package com.aumum.app.mobile.ui.view.paginggrid;
 
 import android.content.Context;
 import android.util.AttributeSet;
@@ -8,16 +8,13 @@ import android.widget.AbsListView;
 import android.widget.ListAdapter;
 
 import com.aumum.app.mobile.R;
-import com.paging.gridview.FooterViewGridAdapter;
-import com.paging.gridview.HeaderGridView;
-import com.paging.gridview.PagingBaseAdapter;
 
 import java.util.List;
 
 /**
  * Created by Administrator on 20/06/2015.
  */
-public class PagingGridView extends HeaderGridView {
+public class PagingGridView extends HeaderFooterGridView {
 
     private boolean isLoading;
     private boolean hasMoreItems;
@@ -55,7 +52,7 @@ public class PagingGridView extends HeaderGridView {
         setHasMoreItems(hasMoreItems);
         isLoading = false;
         if (newItems != null && newItems.size() > 0) {
-            ListAdapter adapter = ((FooterViewGridAdapter)this.getAdapter()).getWrappedAdapter();
+            ListAdapter adapter = ((HeaderFooterViewGridAdapter)this.getAdapter()).getWrappedAdapter();
             if(adapter instanceof PagingBaseAdapter) {
                 ((PagingBaseAdapter)adapter).addMoreItems(newItems);
             }

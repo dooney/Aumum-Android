@@ -1,0 +1,59 @@
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/header_view"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:paddingBottom="@dimen/margin_extra_small">
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:id="@+id/image_cover"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:adjustViewBounds="true"
+            android:scaleType="fitCenter"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:gravity="center"
+            android:background="#80000000">
+
+            <com.aumum.app.mobile.ui.view.AvatarImageView
+                xmlns:app="http://schemas.android.com/apk/res-auto"
+                app:border_width="2dp"
+                app:border_color="#fff"
+                android:id="@+id/image_avatar"
+                style="@style/ImageView.Avatar.ExtraLarge"
+                android:layout_marginBottom="@dimen/margin_medium"/>
+
+            <TextView
+                android:id="@+id/text_screen_name"
+                style="@style/TextView.User.ScreenName"
+                android:layout_marginBottom="@dimen/margin_small"/>
+
+            <TextView
+                android:id="@+id/text_address"
+                style="@style/TextView.User.Address"
+                android:layout_marginBottom="@dimen/margin_medium"/>
+
+            <TextView
+                android:id="@+id/text_about"
+                style="@style/TextView.User.About"
+                android:layout_marginBottom="@dimen/margin_medium"
+                android:visibility="gone"/>
+
+            <TextView
+                android:id="@+id/b_edit_profile"
+                style="@style/Button.User.EditProfile"/>
+
+        </LinearLayout>
+
+    </FrameLayout>
+
+</LinearLayout>

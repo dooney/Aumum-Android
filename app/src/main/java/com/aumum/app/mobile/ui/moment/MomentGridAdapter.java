@@ -26,9 +26,9 @@ public class MomentGridAdapter extends ArrayAdapter<Moment> {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        final MomentGridCard card;
+        MomentGridCard card;
 
-        if (convertView == null) {
+        if (convertView == null || convertView.getTag() == null) {
             LayoutInflater inflater = LayoutInflater.from(getContext());
             convertView = inflater.inflate(R.layout.moment_grid_listitem_inner, parent, false);
             card = new MomentGridCard(activity, convertView);

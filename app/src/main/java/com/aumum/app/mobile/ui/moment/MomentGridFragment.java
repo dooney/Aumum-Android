@@ -15,7 +15,7 @@ import com.aumum.app.mobile.core.model.Moment;
 import com.aumum.app.mobile.core.model.User;
 import com.aumum.app.mobile.core.model.UserInfo;
 import com.aumum.app.mobile.ui.base.LoaderFragment;
-import com.aumum.app.mobile.ui.view.PagingGridView;
+import com.aumum.app.mobile.ui.view.paginggrid.PagingGridView;
 import com.aumum.app.mobile.utils.SafeAsyncTask;
 
 import java.util.ArrayList;
@@ -65,7 +65,6 @@ public class MomentGridFragment extends LoaderFragment<List<Moment>> {
                 startActivity(intent);
             }
         });
-        gridView.setHasMoreItems(true);
         gridView.setPagingListener(new PagingGridView.Paging() {
             @Override
             public void onLoadMoreItems() {
@@ -78,10 +77,10 @@ public class MomentGridFragment extends LoaderFragment<List<Moment>> {
                         List<Moment> dataSet = getData();
                         if (dataSet.size() > 0) {
                             Moment last = dataSet.get(dataSet.size() - 1);
-                            List<Moment> result = loadMore(last.getCreatedAt(), query);
-                            final int count = result.size();
+                            List<Moment> moments = loadMore(last.getCreatedAt(), query);
+                            final int count = moments.size();
                             if (count > 0) {
-                                dataSet.addAll(result);
+                                dataSet.addAll(moments);
                                 getActivity().runOnUiThread(new Runnable() {
                                     @Override
                                     public void run() {
@@ -155,6 +154,7 @@ public class MomentGridFragment extends LoaderFragment<List<Moment>> {
     @Override
     protected void handleLoadResult(List<Moment> result) {
         if (result != null) {
+            gridView.setHasMoreItems(momentStore.isFullLoad(result.size()));
             getData().clear();
             getData().addAll(result);
             adapter.notifyDataSetChanged();

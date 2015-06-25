@@ -28,18 +28,21 @@ import com.aumum.app.mobile.ui.chat.ChatActivity;
 import com.aumum.app.mobile.ui.album.AlbumAdapter;
 import com.aumum.app.mobile.ui.moment.MomentDetailsActivity;
 import com.aumum.app.mobile.ui.view.AvatarImageView;
-import com.aumum.app.mobile.ui.view.PagingGridView;
+import com.aumum.app.mobile.ui.view.paginggrid.PagingGridView;
 import com.aumum.app.mobile.ui.view.dialog.ConfirmDialog;
 import com.aumum.app.mobile.ui.view.dialog.EditTextDialog;
 import com.aumum.app.mobile.ui.view.dialog.TextViewDialog;
 import com.aumum.app.mobile.utils.EMChatUtils;
 import com.aumum.app.mobile.utils.ImageLoaderUtils;
+import com.aumum.app.mobile.utils.SafeAsyncTask;
 import com.github.kevinsawicki.wishlist.Toaster;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
+
+import retrofit.RetrofitError;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -59,8 +62,9 @@ public class UserFragment extends LoaderFragment<User> {
     private User user;
     private List<String> album;
     private List<Moment> momentList;
+    private SafeAsyncTask<Boolean> task;
 
-    private View mainView;
+    private PagingGridView gridView;
     private AlbumAdapter albumAdapter;
     private ImageView coverImage;
     private AvatarImageView avatarImage;
@@ -138,22 +142,76 @@ public class UserFragment extends LoaderFragment<User> {
     public void onViewCreated(final View view, final Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        mainView = view.findViewById(R.id.main_view);
-        View header = view.findViewById(R.id.header_view);
+        View header = getActivity().getLayoutInflater()
+                .inflate(R.layout.grid_user_header, null);
         initHeaderView(header);
-
-        PagingGridView gridView = (PagingGridView) view.findViewById(R.id.grid_view);
         albumAdapter = new AlbumAdapter(getActivity());
+        gridView = (PagingGridView) view.findViewById(R.id.grid_view);
+        gridView.addHeaderView(header);
         gridView.setAdapter(albumAdapter);
         gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                if (momentList.size() >= i) {
-                    Moment moment = momentList.get(i);
-                    final Intent intent = new Intent(getActivity(), MomentDetailsActivity.class);
-                    intent.putExtra(MomentDetailsActivity.INTENT_MOMENT_ID, moment.getObjectId());
-                    startActivity(intent);
+                Moment moment = momentList.get(i - gridView.getNumColumns());
+                final Intent intent = new Intent(getActivity(), MomentDetailsActivity.class);
+                intent.putExtra(MomentDetailsActivity.INTENT_MOMENT_ID, moment.getObjectId());
+                startActivity(intent);
+            }
+        });
+        gridView.setPagingListener(new PagingGridView.Paging() {
+            @Override
+            public void onLoadMoreItems() {
+                if (task != null) {
+                    return;
                 }
+                task = new SafeAsyncTask<Boolean>() {
+                    @Override
+                    public Boolean call() throws Exception {
+                        if (momentList.size() > 0) {
+                            Moment last = momentList.get(momentList.size() - 1);
+                            List<Moment> moments = momentStore.loadMore(
+                                    currentUser.getMoments(), last.getCreatedAt());
+                            final int count = moments.size();
+                            if (count > 0) {
+                                for (Moment moment : moments) {
+                                    album.add(fileUploadService.getThumbnail(
+                                            moment.getImageUrl()));
+                                    momentList.add(moment);
+                                }
+                                getActivity().runOnUiThread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        if (!momentStore.isFullLoad(count)) {
+                                            gridView.onFinishLoading(false, null);
+                                        }
+                                        albumAdapter.notifyDataSetChanged();
+                                    }
+                                });
+                            } else {
+                                getActivity().runOnUiThread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        gridView.onFinishLoading(false, null);
+                                    }
+                                });
+                            }
+                        }
+                        return true;
+                    }
+
+                    @Override
+                    protected void onException(Exception e) throws RuntimeException {
+                        if (!(e instanceof RetrofitError)) {
+                            showError(e);
+                        }
+                    }
+
+                    @Override
+                    protected void onFinally() throws RuntimeException {
+                        task = null;
+                    }
+                };
+                task.execute();
             }
         });
     }
@@ -175,7 +233,7 @@ public class UserFragment extends LoaderFragment<User> {
 
     @Override
     protected View getMainView() {
-        return mainView;
+        return gridView;
     }
 
     @Override
@@ -208,6 +266,7 @@ public class UserFragment extends LoaderFragment<User> {
         if (user != null) {
             setData(user);
 
+            gridView.setHasMoreItems(momentStore.isFullLoad(album.size()));
             albumAdapter.addAll(album);
             if (user.getCoverUrl() != null) {
                 ImageLoaderUtils.displayImage(user.getCoverUrl(), coverImage);

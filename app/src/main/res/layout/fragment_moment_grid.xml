@@ -4,7 +4,7 @@
     android:layout_height="match_parent"
     android:padding="@dimen/margin_extra_small">
 
-    <com.aumum.app.mobile.ui.view.PagingGridView
+    <com.aumum.app.mobile.ui.view.paginggrid.PagingGridView
         android:id="@+id/grid_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"

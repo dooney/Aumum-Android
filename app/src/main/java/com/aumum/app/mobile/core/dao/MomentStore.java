@@ -24,7 +24,7 @@ public class MomentStore {
     private MomentEntityDao momentEntityDao;
     private Gson gson = new Gson();
 
-    public static final int LIMIT_PER_LOAD = 16;
+    public static final int LIMIT_PER_LOAD = 12;
     public static final int LIMIT_TOP = 10;
 
     public MomentStore(RestService restService, Repository repository) {
