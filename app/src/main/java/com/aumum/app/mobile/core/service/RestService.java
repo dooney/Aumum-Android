@@ -385,13 +385,49 @@ public class RestService {
         return buildRequestJson("PUT", path, body);
     }
 
-    public JsonArray addUserMoment(String userId, String momentId) {
+    public void addUserMoment(String userId, String momentId) {
         final JsonObject script = new JsonObject();
         final JsonArray requests = new JsonArray();
         requests.add(buildUserMomentsRequestJson("AddUnique", userId, momentId));
+        requests.add(buildUserTimelineRequestJson("AddUnique", userId, momentId));
         requests.add(buildUserCreditRequestJson(userId));
         script.add(Constants.Http.Batch.PARAM_REQUESTS, requests);
-        return getBatchService().execute(script);
+        getBatchService().execute(script);
+    }
+
+    private JsonObject buildUserTimelineRequestJson(String op,
+                                                    String userId,
+                                                    String momentId) {
+        final JsonObject body = new JsonObject();
+        final JsonArray timeline = new JsonArray();
+        timeline.add(new JsonPrimitive(momentId));
+        final JsonObject opJson = new JsonObject();
+        opJson.addProperty("__op", op);
+        opJson.add("objects", timeline);
+        body.add(Constants.Http.User.PARAM_TIMELINE, opJson);
+        String path = Constants.Http.URL_USERS_FRAG + "/" + userId;
+        return buildRequestJson("PUT", path, body);
+    }
+    
+    public void addUsersTimeline(List<String> idList, String momentId) {
+        final int requestMaxCount = 50;
+        JsonObject script = null;
+        JsonArray requests = null;
+        for (String userId: idList) {
+            if (script == null) {
+                script = new JsonObject();
+            }
+            if (requests == null) {
+                requests = new JsonArray();
+            }
+            requests.add(buildUserTimelineRequestJson("AddUnique", userId, momentId));
+            if (requests.size() == requestMaxCount || requests.size() == idList.size()) {
+                script.add(Constants.Http.Batch.PARAM_REQUESTS, requests);
+                getBatchService().executeWithKey(script);
+                script = null;
+                requests = null;
+            }
+        }
     }
 
     public Report newReport(Report report) {
@@ -500,22 +536,22 @@ public class RestService {
         return buildRequestJson("PUT", path, body);
     }
 
-    public JsonArray addMomentLike(String momentId, String userId) {
+    public void addMomentLike(String momentId, String userId) {
         final JsonObject script = new JsonObject();
         final JsonArray requests = new JsonArray();
         requests.add(buildMomentLikesRequestJson("AddUnique", momentId, userId));
         requests.add(buildMomentHotRequestJson(momentId, 5));
         script.add(Constants.Http.Batch.PARAM_REQUESTS, requests);
-        return getBatchService().execute(script);
+        getBatchService().execute(script);
     }
 
-    public JsonArray removeMomentLike(String momentId, String userId) {
+    public void removeMomentLike(String momentId, String userId) {
         final JsonObject script = new JsonObject();
         final JsonArray requests = new JsonArray();
         requests.add(buildMomentLikesRequestJson("Remove", momentId, userId));
         requests.add(buildMomentHotRequestJson(momentId, -5));
         script.add(Constants.Http.Batch.PARAM_REQUESTS, requests);
-        return getBatchService().execute(script);
+        getBatchService().execute(script);
     }
 
     public List<Comment> getMomentComments(String momentId) {
@@ -555,12 +591,12 @@ public class RestService {
         return buildRequestJson("PUT", path, body);
     }
 
-    public JsonArray deleteMomentComment(Comment comment) {
+    public void deleteMomentComment(Comment comment) {
         final JsonObject script = new JsonObject();
         final JsonArray requests = new JsonArray();
         requests.add(buildDeleteCommentRequestJson(comment.getObjectId()));
         requests.add(buildMomentHotRequestJson(comment.getParentId(), -10));
         script.add(Constants.Http.Batch.PARAM_REQUESTS, requests);
-        return getBatchService().execute(script);
+        getBatchService().execute(script);
     }
 }

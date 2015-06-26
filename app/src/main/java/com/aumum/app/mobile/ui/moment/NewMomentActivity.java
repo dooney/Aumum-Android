@@ -46,6 +46,8 @@ public class NewMomentActivity extends ProgressDialogActivity
 
     public static final String INTENT_IMAGE_URI = "imageUri";
     private String imageUri;
+    private User currentUser;
+    private Moment moment;
 
     private View publishButton;
     @InjectView(R.id.image) protected ImageView image;
@@ -113,15 +115,14 @@ public class NewMomentActivity extends ProgressDialogActivity
         task = new SafeAsyncTask<Boolean>() {
             @Override
             public Boolean call() throws Exception {
-                User currentUser = userStore.getCurrentUser();
-                Moment moment = new Moment(currentUser.getObjectId(),
+                currentUser = userStore.getCurrentUser();
+                moment = new Moment(currentUser.getObjectId(),
                         text.getText().toString(), imageUrl);
                 moment = restService.newMoment(moment);
                 restService.addUserMoment(currentUser.getObjectId(),
                         moment.getObjectId());
                 currentUser.addMoment(moment.getObjectId());
                 userStore.save(currentUser);
-                notifyContacts(currentUser.getContacts());
                 return true;
             }
 
@@ -134,6 +135,7 @@ public class NewMomentActivity extends ProgressDialogActivity
 
             @Override
             protected void onSuccess(Boolean success) throws Exception {
+                notifyContacts();
                 setResult(Activity.RESULT_OK);
                 finish();
             }
@@ -158,12 +160,14 @@ public class NewMomentActivity extends ProgressDialogActivity
         showError(e);
     }
 
-    private void notifyContacts(final List<String> users) {
+    private void notifyContacts() {
+        final List<String> users = currentUser.getContacts();
         if (users.size() > 0) {
             new SafeAsyncTask<Boolean>() {
                 @Override
                 public Boolean call() throws Exception {
-                    for (String userId: users) {
+                    restService.addUsersTimeline(users, moment.getObjectId());
+                    for (String userId : users) {
                         UserInfo user = userStore.getUserInfoById(userId);
                         CmdMessage cmdMessage = new CmdMessage(
                                 CmdMessage.Type.NEW_MOMENT, null, null, null);
@@ -171,7 +175,7 @@ public class NewMomentActivity extends ProgressDialogActivity
                     }
                     return true;
                 }
-            }.execute();
+             }.execute();
         }
     }
 }
