@@ -145,14 +145,14 @@ public class MainFragment extends Fragment implements EMEventListener {
         for (UserInfo user: users) {
             userIds.add(user.getObjectId());
         }
-        momentStore.getListByUsers(userIds);
+        momentStore.getListByUsers(userIds, null);
     }
 
     public void updateDiscoveryList() {
         new SafeAsyncTask<Boolean>() {
             public Boolean call() throws Exception {
-                momentStore.getLatestList();
-                momentStore.getHottestList();
+                momentStore.getLatestList(null);
+                momentStore.getHottestList(null);
                 List<UserInfo> talentList = userStore.getTalentList();
                 getMomentsByUserList(talentList);
                 User currentUser = userStore.getCurrentUser();

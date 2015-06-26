@@ -47,6 +47,7 @@ public class MomentLikesFragment extends RefreshItemListFragment<MomentLike> {
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        getListView().setPullRefreshEnable(false);
         getListView().setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {

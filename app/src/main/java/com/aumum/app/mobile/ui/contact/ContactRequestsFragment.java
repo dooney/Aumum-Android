@@ -42,6 +42,12 @@ public class ContactRequestsFragment extends RefreshItemListFragment<ContactRequ
     }
 
     @Override
+    public void onViewCreated(View view, Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        getListView().setPullRefreshEnable(false);
+    }
+
+    @Override
     protected ArrayAdapter<ContactRequest> createAdapter(List<ContactRequest> items) {
         return new ContactRequestAdapter(getActivity(), items);
     }

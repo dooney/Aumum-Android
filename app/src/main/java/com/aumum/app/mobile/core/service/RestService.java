@@ -455,13 +455,23 @@ public class RestService {
         return getMomentsBeforeCore(whereJson, before, limit);
     }
 
-    public List<Moment> getHotMoments(int limit) {
-        return getMomentService().getList("-hot", null, limit).getResults();
+    public List<Moment> getHotMoments(String before, int limit) {
+        final JsonObject whereJson = new JsonObject();
+        if (before != null) {
+            whereJson.add("createdAt", buildDateTimeBeforeJson(before));
+        }
+        String where = buildLiveJson(whereJson).toString();
+        return getMomentService().getList("-hot", where, limit).getResults();
     }
 
-    public List<Moment> getMomentsByUsers(List<String> userIds, int limit) {
+    public List<Moment> getMomentsByUsers(List<String> userIds,
+                                          String before,
+                                          int limit) {
         final JsonObject whereJson = new JsonObject();
         whereJson.add("userId", buildIdListJson(userIds));
+        if (before != null) {
+            whereJson.add("createdAt", buildDateTimeBeforeJson(before));
+        }
         String where = buildLiveJson(whereJson).toString();
         return getMomentService().getList("-createdAt", where, limit).getResults();
     }

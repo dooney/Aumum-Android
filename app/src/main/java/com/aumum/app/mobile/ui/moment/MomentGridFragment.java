@@ -78,6 +78,7 @@ public class MomentGridFragment extends LoaderFragment<List<Moment>> {
                         if (dataSet.size() > 0) {
                             Moment last = dataSet.get(dataSet.size() - 1);
                             List<Moment> moments = loadMore(last.getCreatedAt(), query);
+                            loadUserInfo(moments);
                             final int count = moments.size();
                             if (count > 0) {
                                 dataSet.addAll(moments);
@@ -137,7 +138,7 @@ public class MomentGridFragment extends LoaderFragment<List<Moment>> {
 
     @Override
     protected List<Moment> loadDataCore(Bundle bundle) throws Exception {
-        List<Moment> momentList = momentStore.refresh(null);
+        List<Moment> momentList = refresh(query);
         loadUserInfo(momentList);
         return momentList;
     }
@@ -161,9 +162,50 @@ public class MomentGridFragment extends LoaderFragment<List<Moment>> {
         }
     }
 
+    private List<Moment> getMomentsByUserList(List<UserInfo> users,
+                                              String before) throws Exception {
+        List<String> userIds = new ArrayList<>();
+        for (UserInfo user : users) {
+            userIds.add(user.getObjectId());
+        }
+        return momentStore.getListByUsers(userIds, before);
+    }
+
+    private List<Moment> refresh(int query) throws Exception {
+        switch (query) {
+            case MomentGridActivity.QUERY_LATEST:
+                return momentStore.getLatestList(null);
+            case MomentGridActivity.QUERY_HOTTEST:
+                return momentStore.getHottestList(null);
+            case MomentGridActivity.QUERY_NEARBY: {
+                List<UserInfo> userList = userStore.getLocalNearByList();
+                return getMomentsByUserList(userList, null);
+            }
+            case MomentGridActivity.QUERY_TALENT: {
+                List<UserInfo> userList = userStore.getLocalTalentList();
+                return getMomentsByUserList(userList, null);
+            }
+            default:
+                return new ArrayList<>();
+        }
+    }
+
     private List<Moment> loadMore(String before, int query) throws Exception {
-        List<Moment> momentList = momentStore.loadMore(before);
-        loadUserInfo(momentList);
-        return momentList;
+        switch (query) {
+            case MomentGridActivity.QUERY_LATEST:
+                return momentStore.getLatestList(before);
+            case MomentGridActivity.QUERY_HOTTEST:
+                return momentStore.getHottestList(before);
+            case MomentGridActivity.QUERY_NEARBY: {
+                List<UserInfo> userList = userStore.getLocalNearByList();
+                return getMomentsByUserList(userList, before);
+            }
+            case MomentGridActivity.QUERY_TALENT: {
+                List<UserInfo> userList = userStore.getLocalTalentList();
+                return getMomentsByUserList(userList, before);
+            }
+            default:
+                return new ArrayList<>();
+        }
     }
 }

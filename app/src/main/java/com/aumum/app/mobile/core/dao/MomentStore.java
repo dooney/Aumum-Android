@@ -25,7 +25,6 @@ public class MomentStore {
     private Gson gson = new Gson();
 
     public static final int LIMIT_PER_LOAD = 12;
-    public static final int LIMIT_TOP = 10;
 
     public MomentStore(RestService restService, Repository repository) {
         this.restService = restService;
@@ -137,8 +136,8 @@ public class MomentStore {
         }
     }
 
-    public List<Moment> getLatestList() throws Exception {
-        List<Moment> momentList = restService.getMomentsAfter(null, LIMIT_TOP);
+    public List<Moment> getLatestList(String before) throws Exception {
+        List<Moment> momentList = restService.getMomentsBefore(before, LIMIT_PER_LOAD);
         updateOrInsert(momentList);
         return momentList;
     }
@@ -146,13 +145,13 @@ public class MomentStore {
     public List<Moment> getLocalLatestList() {
         List<MomentEntity> records = momentEntityDao.queryBuilder()
                 .orderDesc(MomentEntityDao.Properties.CreatedAt)
-                .limit(LIMIT_TOP)
+                .limit(LIMIT_PER_LOAD)
                 .list();
         return map(records);
     }
     
-    public List<Moment> getHottestList() throws Exception {
-        List<Moment> momentList = restService.getHotMoments(LIMIT_TOP);
+    public List<Moment> getHottestList(String before) throws Exception {
+        List<Moment> momentList = restService.getHotMoments(before, LIMIT_PER_LOAD);
         updateOrInsert(momentList);
         return momentList;
     }
@@ -160,13 +159,14 @@ public class MomentStore {
     public List<Moment> getLocalHottestList() {
         List<MomentEntity> records = momentEntityDao.queryBuilder()
                 .orderDesc(MomentEntityDao.Properties.Hot)
-                .limit(LIMIT_TOP)
+                .limit(LIMIT_PER_LOAD)
                 .list();
         return map(records);
     }
 
-    public List<Moment> getListByUsers(List<String> userIds) throws Exception {
-        List<Moment> momentList = restService.getMomentsByUsers(userIds, LIMIT_TOP);
+    public List<Moment> getListByUsers(List<String> userIds,
+                                       String before) throws Exception {
+        List<Moment> momentList = restService.getMomentsByUsers(userIds, before, LIMIT_PER_LOAD);
         updateOrInsert(momentList);
         return momentList;
     }
@@ -175,7 +175,7 @@ public class MomentStore {
         List<MomentEntity> records = momentEntityDao.queryBuilder()
                 .where(MomentEntityDao.Properties.UserId.in(userIds))
                 .orderDesc(MomentEntityDao.Properties.CreatedAt)
-                .limit(LIMIT_TOP)
+                .limit(LIMIT_PER_LOAD)
                 .list();
         return map(records);
     }

@@ -32,7 +32,7 @@ public abstract class RefreshItemListFragment<E extends RefreshItem> extends Fra
 
     private SafeAsyncTask<Boolean> task;
 
-    protected ListView getListView() {
+    protected XListView getListView() {
         return xListView;
     }
 
@@ -64,15 +64,15 @@ public abstract class RefreshItemListFragment<E extends RefreshItem> extends Fra
                 if (dataSet.size() > 0) {
                     after = dataSet.get(0).getCreatedAt();
                 }
-                List<E> result = refresh(after);
+                final List<E> result = refresh(after);
                 if (result.size() > 0) {
                     Collections.reverse(result);
-                    for (E entity : result) {
-                        dataSet.add(0, entity);
-                    }
                     getActivity().runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
+                            for (E entity : result) {
+                                dataSet.add(0, entity);
+                            }
                             adapter.notifyDataSetChanged();
                         }
                     });
@@ -110,12 +110,12 @@ public abstract class RefreshItemListFragment<E extends RefreshItem> extends Fra
             public Boolean call() throws Exception {
                 if (dataSet.size() > 0) {
                     RefreshItem item = dataSet.get(dataSet.size() - 1);
-                    List<E> result = loadMore(item.getCreatedAt());
+                    final List<E> result = loadMore(item.getCreatedAt());
                     if (result.size() > 0) {
-                        dataSet.addAll(result);
                         getActivity().runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
+                                dataSet.addAll(result);
                                 adapter.notifyDataSetChanged();
                             }
                         });
