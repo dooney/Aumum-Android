@@ -146,7 +146,6 @@ public final class Constants {
             public static final String PARAM_MOMENTS = "moments";
             public static final String PARAM_COVER_URL = "coverUrl";
             public static final String PARAM_CREDIT = "credit";
-            public static final String PARAM_TIMELINE = "timeline";
         }
 
         public static final class Area {
@@ -156,6 +155,7 @@ public final class Constants {
         public static final class Moment {
             public static final String PARAM_LIKES = "likes";
             public static final String PARAM_HOT = "hot";
+            public static final String PARAM_FOLLOWERS = "followers";
         }
 
         public static final class MomentComment {

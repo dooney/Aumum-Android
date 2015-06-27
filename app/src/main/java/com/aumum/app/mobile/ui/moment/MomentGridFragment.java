@@ -77,7 +77,7 @@ public class MomentGridFragment extends LoaderFragment<List<Moment>> {
                         List<Moment> dataSet = getData();
                         if (dataSet.size() > 0) {
                             Moment last = dataSet.get(dataSet.size() - 1);
-                            List<Moment> moments = loadMore(last.getCreatedAt(), query);
+                            List<Moment> moments = loadMore(last, query);
                             loadUserInfo(moments);
                             final int count = moments.size();
                             if (count > 0) {
@@ -176,7 +176,7 @@ public class MomentGridFragment extends LoaderFragment<List<Moment>> {
             case MomentGridActivity.QUERY_LATEST:
                 return momentStore.getLatestList(null);
             case MomentGridActivity.QUERY_HOTTEST:
-                return momentStore.getHottestList(null);
+                return momentStore.getHottestList(Integer.MAX_VALUE);
             case MomentGridActivity.QUERY_NEARBY: {
                 List<UserInfo> userList = userStore.getLocalNearByList();
                 return getMomentsByUserList(userList, null);
@@ -190,19 +190,19 @@ public class MomentGridFragment extends LoaderFragment<List<Moment>> {
         }
     }
 
-    private List<Moment> loadMore(String before, int query) throws Exception {
+    private List<Moment> loadMore(Moment last, int query) throws Exception {
         switch (query) {
             case MomentGridActivity.QUERY_LATEST:
-                return momentStore.getLatestList(before);
+                return momentStore.getLatestList(last.getCreatedAt());
             case MomentGridActivity.QUERY_HOTTEST:
-                return momentStore.getHottestList(before);
+                return momentStore.getHottestList(last.getHot());
             case MomentGridActivity.QUERY_NEARBY: {
                 List<UserInfo> userList = userStore.getLocalNearByList();
-                return getMomentsByUserList(userList, before);
+                return getMomentsByUserList(userList, last.getCreatedAt());
             }
             case MomentGridActivity.QUERY_TALENT: {
                 List<UserInfo> userList = userStore.getLocalTalentList();
-                return getMomentsByUserList(userList, before);
+                return getMomentsByUserList(userList, last.getCreatedAt());
             }
             default:
                 return new ArrayList<>();

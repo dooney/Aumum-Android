@@ -166,7 +166,7 @@ public class NewMomentActivity extends ProgressDialogActivity
             new SafeAsyncTask<Boolean>() {
                 @Override
                 public Boolean call() throws Exception {
-                    restService.addUsersTimeline(users, moment.getObjectId());
+                    restService.addMomentFollowers(moment.getObjectId(), users);
                     for (String userId : users) {
                         UserInfo user = userStore.getUserInfoById(userId);
                         CmdMessage cmdMessage = new CmdMessage(

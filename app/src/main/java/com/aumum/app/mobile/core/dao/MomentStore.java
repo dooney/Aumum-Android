@@ -80,10 +80,10 @@ public class MomentStore {
         }
     }
 
-    public List<Moment> refresh(String time) throws Exception {
+    public List<Moment> refresh(String userId, String time) throws Exception {
         try {
             int limit = time != null ? Integer.MAX_VALUE : LIMIT_PER_LOAD;
-            List<Moment> momentList = restService.getMomentsAfter(time, limit);
+            List<Moment> momentList = restService.getTimelineAfter(userId, time, limit);
             updateOrInsert(momentList);
             return momentList;
         } catch (Exception e) {
@@ -100,9 +100,9 @@ public class MomentStore {
         }
     }
 
-    public List<Moment> loadMore(String time) throws Exception {
+    public List<Moment> loadMore(String userId, String time) throws Exception {
         try {
-            List<Moment> momentList = restService.getMomentsBefore(time, LIMIT_PER_LOAD);
+            List<Moment> momentList = restService.getTimelineBefore(userId, time, LIMIT_PER_LOAD);
             updateOrInsert(momentList);
             return momentList;
         } catch (Exception e) {
@@ -150,8 +150,8 @@ public class MomentStore {
         return map(records);
     }
     
-    public List<Moment> getHottestList(String before) throws Exception {
-        List<Moment> momentList = restService.getHotMoments(before, LIMIT_PER_LOAD);
+    public List<Moment> getHottestList(int hot) throws Exception {
+        List<Moment> momentList = restService.getHotMoments(hot, LIMIT_PER_LOAD);
         updateOrInsert(momentList);
         return momentList;
     }

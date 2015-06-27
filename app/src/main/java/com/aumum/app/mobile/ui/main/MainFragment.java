@@ -152,7 +152,7 @@ public class MainFragment extends Fragment implements EMEventListener {
         new SafeAsyncTask<Boolean>() {
             public Boolean call() throws Exception {
                 momentStore.getLatestList(null);
-                momentStore.getHottestList(null);
+                momentStore.getHottestList(Integer.MAX_VALUE);
                 List<UserInfo> talentList = userStore.getTalentList();
                 getMomentsByUserList(talentList);
                 User currentUser = userStore.getCurrentUser();

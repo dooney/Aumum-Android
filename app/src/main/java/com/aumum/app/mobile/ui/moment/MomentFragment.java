@@ -125,26 +125,30 @@ public class MomentFragment extends RefreshItemListFragment<Moment>
 
     @Override
     protected List<Moment> refresh(String after) throws Exception {
-        List<Moment> momentList = momentStore.refresh(after);
-        loadUserInfo(momentList);
+        User currentUser = userStore.getCurrentUser();
+        String currentUserId = currentUser.getObjectId();
+        List<Moment> momentList = momentStore.refresh(currentUserId, after);
+        loadUserInfo(currentUserId, momentList);
         bus.post(new ResetHomeUnreadEvent());
         return momentList;
     }
 
     @Override
     protected List<Moment> loadMore(String before) throws Exception {
-        List<Moment> momentList = momentStore.loadMore(before);
-        loadUserInfo(momentList);
+        User currentUser = userStore.getCurrentUser();
+        String currentUserId = currentUser.getObjectId();
+        List<Moment> momentList = momentStore.loadMore(currentUserId, before);
+        loadUserInfo(currentUserId, momentList);
         return momentList;
     }
 
-    private void loadUserInfo(List<Moment> momentList) throws Exception {
-        User currentUser = userStore.getCurrentUser();
+    private void loadUserInfo(String currentUserId,
+                              List<Moment> momentList) throws Exception {
         for (Moment moment: momentList) {
             UserInfo user = userStore.getUserInfoById(moment.getUserId());
             moment.setUser(user);
-            moment.setOwner(currentUser.getObjectId());
-            moment.setLiked(currentUser.getObjectId());
+            moment.setOwner(currentUserId);
+            moment.setLiked(currentUserId);
             List<UserInfo> users = userStore.getUserInfoList(moment.getLikes());
             moment.setLikesInfo(users);
         }

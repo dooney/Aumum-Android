@@ -5,7 +5,6 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 
 import retrofit.http.Body;
-import retrofit.http.Headers;
 import retrofit.http.POST;
 
 /**
@@ -15,8 +14,4 @@ public interface BatchService {
 
     @POST(Constants.Http.URL_BATCH_FRAG)
     JsonArray execute(@Body JsonObject script);
-
-    @Headers(Constants.Http.HEADER_PARSE_MASTER_KEY + ": " + Constants.Http.PARSE_MASTER_KEY)
-    @POST(Constants.Http.URL_BATCH_FRAG)
-    JsonArray executeWithKey(@Body JsonObject script);
 }

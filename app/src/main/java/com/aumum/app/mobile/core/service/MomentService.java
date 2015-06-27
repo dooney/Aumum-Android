@@ -8,6 +8,7 @@ import com.google.gson.JsonObject;
 import retrofit.http.Body;
 import retrofit.http.GET;
 import retrofit.http.POST;
+import retrofit.http.PUT;
 import retrofit.http.Path;
 import retrofit.http.Query;
 
@@ -26,4 +27,7 @@ public interface MomentService {
 
     @GET(Constants.Http.URL_MOMENT_BY_ID_FRAG)
     Moment getById(@Path("id") String id);
+
+    @PUT(Constants.Http.URL_MOMENT_BY_ID_FRAG)
+    JsonObject updateById(@Path("id") String id, @Body JsonObject data);
 }
