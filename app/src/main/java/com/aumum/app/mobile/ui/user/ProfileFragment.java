@@ -50,6 +50,7 @@ public class ProfileFragment extends LoaderFragment<User> {
     private User currentUser;
     private List<String> album;
     private List<Moment> momentList;
+    private int photoCount;
     private SafeAsyncTask<Boolean> task;
 
     private PagingGridView gridView;
@@ -59,6 +60,7 @@ public class ProfileFragment extends LoaderFragment<User> {
     private TextView addressText;
     private TextView aboutText;
     private View editProfileButton;
+    private TextView photoCountText;
 
     @Override
     public void onCreate(final Bundle savedInstanceState) {
@@ -127,8 +129,8 @@ public class ProfileFragment extends LoaderFragment<User> {
                     public Boolean call() throws Exception {
                         if (momentList.size() > 0) {
                             Moment last = momentList.get(momentList.size() - 1);
-                            List<Moment> moments = momentStore.loadMore(
-                                    currentUser.getMoments(), last.getCreatedAt());
+                            List<Moment> moments = momentStore.getUserMoments(
+                                    currentUser.getObjectId(), last.getCreatedAt());
                             final int count = moments.size();
                             if (count > 0) {
                                 for (Moment moment : moments) {
@@ -180,6 +182,7 @@ public class ProfileFragment extends LoaderFragment<User> {
         addressText = (TextView) view.findViewById(R.id.text_address);
         aboutText = (TextView) view.findViewById(R.id.text_about);
         editProfileButton = view.findViewById(R.id.b_edit_profile);
+        photoCountText = (TextView) view.findViewById(R.id.text_photo_count);
     }
 
     @Override
@@ -209,7 +212,8 @@ public class ProfileFragment extends LoaderFragment<User> {
     @Override
     protected User loadDataCore(Bundle bundle) throws Exception {
         currentUser = userStore.getCurrentUser();
-        List<Moment> moments = momentStore.loadMore(currentUser.getMoments(), null);
+        photoCount = momentStore.getUserMomentsCount(currentUser.getObjectId());
+        List<Moment> moments = momentStore.getUserMoments(currentUser.getObjectId(), null);
         if (moments.size() > 0) {
             album.clear();
             momentList.clear();
@@ -239,6 +243,7 @@ public class ProfileFragment extends LoaderFragment<User> {
                 }
             });
             updateProfile(user);
+            photoCountText.setText(String.valueOf(photoCount));
         }
     }
 

@@ -19,7 +19,6 @@ public class UserEntity extends BaseEntity {
     private String avatarUrl;
     private String about;
     private String contacts;
-    private String moments;
 
     public UserEntity() {
     }
@@ -39,8 +38,7 @@ public class UserEntity extends BaseEntity {
                       String area,
                       String avatarUrl,
                       String about,
-                      String contacts,
-                      String moments) {
+                      String contacts) {
         this.objectId = objectId;
         this.username = username;
         this.chatId = chatId;
@@ -53,7 +51,6 @@ public class UserEntity extends BaseEntity {
         this.avatarUrl = avatarUrl;
         this.about = about;
         this.contacts = contacts;
-        this.moments = moments;
     }
 
     public String getUsername() {
@@ -134,13 +131,5 @@ public class UserEntity extends BaseEntity {
 
     public void setContacts(String contacts) {
         this.contacts = contacts;
-    }
-
-    public String getMoments() {
-        return moments;
-    }
-
-    public void setMoments(String moments) {
-        this.moments = moments;
     }
 }

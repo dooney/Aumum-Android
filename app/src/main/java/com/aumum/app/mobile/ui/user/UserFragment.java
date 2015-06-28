@@ -60,6 +60,7 @@ public class UserFragment extends LoaderFragment<User> {
     private User user;
     private List<String> album;
     private List<Moment> momentList;
+    private int photoCount;
     private SafeAsyncTask<Boolean> task;
 
     private PagingGridView gridView;
@@ -71,6 +72,7 @@ public class UserFragment extends LoaderFragment<User> {
     private View addContactButton;
     private View chatButton;
     private MenuItem deleteContact;
+    private TextView photoCountText;
 
     @Override
     public void onCreate(final Bundle savedInstanceState) {
@@ -166,8 +168,8 @@ public class UserFragment extends LoaderFragment<User> {
                     public Boolean call() throws Exception {
                         if (momentList.size() > 0) {
                             Moment last = momentList.get(momentList.size() - 1);
-                            List<Moment> moments = momentStore.loadMore(
-                                    currentUser.getMoments(), last.getCreatedAt());
+                            List<Moment> moments = momentStore.getUserMoments(
+                                    user.getObjectId(), last.getCreatedAt());
                             final int count = moments.size();
                             if (count > 0) {
                                 for (Moment moment : moments) {
@@ -220,6 +222,7 @@ public class UserFragment extends LoaderFragment<User> {
         aboutText = (TextView) view.findViewById(R.id.text_about);
         addContactButton = view.findViewById(R.id.b_add_contact);
         chatButton = view.findViewById(R.id.b_chat);
+        photoCountText = (TextView) view.findViewById(R.id.text_photo_count);
     }
 
     @Override
@@ -245,7 +248,8 @@ public class UserFragment extends LoaderFragment<User> {
             user = userStore.getUserByScreenNameFromServer(screenName);
             userId = user.getObjectId();
         }
-        List<Moment> moments = momentStore.loadMore(user.getMoments(), null);
+        photoCount = momentStore.getUserMomentsCount(userId);
+        List<Moment> moments = momentStore.getUserMoments(userId, null);
         if (moments.size() > 0) {
             album.clear();
             momentList.clear();
@@ -271,6 +275,7 @@ public class UserFragment extends LoaderFragment<User> {
                 aboutText.setText(user.getAbout());
                 aboutText.setVisibility(View.VISIBLE);
             }
+            photoCountText.setText(String.valueOf(photoCount));
             if (!currentUser.getObjectId().equals(userId)) {
                 boolean isContact = currentUser.isContact(userId);
                 toggleActionButton(isContact);

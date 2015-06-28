@@ -23,8 +23,8 @@
                 android:paddingRight="@dimen/margin_extreme_large">
 
                 <TextView
-                    style="@style/TextView.Title"
-                    android:text="1123"/>
+                    android:id="@+id/text_photo_count"
+                    style="@style/TextView.Title"/>
 
                 <TextView
                     style="@style/TextView.Subtitle.Small"

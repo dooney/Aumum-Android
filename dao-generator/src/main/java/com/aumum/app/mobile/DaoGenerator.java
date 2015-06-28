@@ -35,7 +35,6 @@ public class DaoGenerator {
         user.addStringProperty("avatarUrl");
         user.addStringProperty("about");
         user.addStringProperty("contacts");
-        user.addStringProperty("moments");
     }
 
     private static void addUserInfo(Schema schema) {

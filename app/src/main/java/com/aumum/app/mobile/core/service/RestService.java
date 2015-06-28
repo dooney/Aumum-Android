@@ -195,14 +195,13 @@ public class RestService {
     }
 
     private String getUserFields() {
-        return String.format("%s,%s,%s,%s,%s,%s,%s",
+        return String.format("%s,%s,%s,%s,%s,%s",
                 Constants.Http.User.PARAM_SCREEN_NAME,
                 Constants.Http.User.PARAM_AVATAR_URL,
                 Constants.Http.User.PARAM_COUNTRY,
                 Constants.Http.User.PARAM_CITY,
                 Constants.Http.User.PARAM_AREA,
-                Constants.Http.User.PARAM_ABOUT,
-                Constants.Http.User.PARAM_MOMENTS);
+                Constants.Http.User.PARAM_ABOUT);
     }
 
     public User getUserById(String id) {
@@ -342,31 +341,6 @@ public class RestService {
         return getUserService().updateById(userId, data);
     }
 
-    public JsonObject addUserFirstMoment(String userId,
-                                         String momentId) {
-        final JsonObject op = new JsonObject();
-        op.addProperty("__op", "AddUnique");
-        final JsonArray moments = new JsonArray();
-        moments.add(new JsonPrimitive(momentId));
-        op.add("objects", moments);
-        final JsonObject data = new JsonObject();
-        data.add(Constants.Http.User.PARAM_MOMENTS, op);
-        return getUserService().updateById(userId, data);
-    }
-
-    private JsonObject buildUserMomentsRequestJson(String userId,
-                                                   String momentId) {
-        final JsonObject body = new JsonObject();
-        final JsonArray userMoments = new JsonArray();
-        userMoments.add(new JsonPrimitive(momentId));
-        final JsonObject opJson = new JsonObject();
-        opJson.addProperty("__op", "AddUnique");
-        opJson.add("objects", userMoments);
-        body.add(Constants.Http.User.PARAM_MOMENTS, opJson);
-        String path = Constants.Http.URL_USERS_FRAG + "/" + userId;
-        return buildRequestJson("PUT", path, body);
-    }
-
     private JsonObject buildUserCreditRequestJson(String userId) {
         final JsonObject body = new JsonObject();
         final JsonObject opJson = new JsonObject();
@@ -393,7 +367,6 @@ public class RestService {
     public void addUserMoment(String userId, String momentId) {
         final JsonObject script = new JsonObject();
         final JsonArray requests = new JsonArray();
-        requests.add(buildUserMomentsRequestJson(userId, momentId));
         requests.add(buildUserCreditRequestJson(userId));
         requests.add(buildMomentFollowersRequestJson(momentId, userId));
         script.add(Constants.Http.Batch.PARAM_REQUESTS, requests);
@@ -457,14 +430,6 @@ public class RestService {
         return getMomentsBeforeCore(whereJson, before, limit);
     }
 
-    public List<Moment> getMomentsBefore(List<String> idList,
-                                         String before,
-                                         int limit) {
-        final JsonObject whereJson = new JsonObject();
-        whereJson.add("objectId", buildIdListJson(idList));
-        return getMomentsBeforeCore(whereJson, before, limit);
-    }
-
     public List<Moment> getHotMoments(int hot, int limit) {
         final JsonObject whereJson = new JsonObject();
         final JsonObject hotJson = new JsonObject();
@@ -484,6 +449,26 @@ public class RestService {
         }
         String where = buildLiveJson(whereJson).toString();
         return getMomentService().getList("-createdAt", where, limit).getResults();
+    }
+
+    public List<Moment> getMomentsByUser(String userId,
+                                         String before,
+                                         int limit) {
+        final JsonObject whereJson = new JsonObject();
+        whereJson.addProperty("userId", userId);
+        if (before != null) {
+            whereJson.add("createdAt", buildDateTimeBeforeJson(before));
+        }
+        String where = buildLiveJson(whereJson).toString();
+        return getMomentService().getList("-createdAt", where, limit).getResults();
+    }
+
+    public int getMomentsCountByUser(String userId) {
+        final JsonObject whereJson = new JsonObject();
+        whereJson.addProperty("userId", userId);
+        String where = buildLiveJson(whereJson).toString();
+        JsonObject result = getMomentService().getCount(where, 1, 0);
+        return result.get("count").getAsInt();
     }
 
     private JsonObject buildMomentLikesRequestJson(String op,

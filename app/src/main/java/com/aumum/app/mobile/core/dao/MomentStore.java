@@ -100,13 +100,14 @@ public class MomentStore {
         }
     }
 
-    public List<Moment> loadMore(String userId, String time) throws Exception {
+    public List<Moment> loadMore(String userId, String before) throws Exception {
         try {
-            List<Moment> momentList = restService.getTimelineBefore(userId, time, LIMIT_PER_LOAD);
+            List<Moment> momentList = restService.getTimelineBefore(
+                    userId, before, LIMIT_PER_LOAD);
             updateOrInsert(momentList);
             return momentList;
         } catch (Exception e) {
-            Date date = DateUtils.stringToDate(time, Constants.DateTime.FORMAT);
+            Date date = DateUtils.stringToDate(before, Constants.DateTime.FORMAT);
             List<MomentEntity> records = momentEntityDao.queryBuilder()
                     .where(MomentEntityDao.Properties.CreatedAt.lt(date))
                     .orderDesc(MomentEntityDao.Properties.CreatedAt)
@@ -116,24 +117,16 @@ public class MomentStore {
         }
     }
 
-    public List<Moment> loadMore(List<String> idList, String time) throws Exception {
-        try {
-            List<Moment> momentList = restService.getMomentsBefore(idList, time, LIMIT_PER_LOAD);
-            updateOrInsert(momentList);
-            return momentList;
-        } catch (Exception e) {
-            Date date = new Date();
-            if (time != null) {
-                date = DateUtils.stringToDate(time, Constants.DateTime.FORMAT);
-            }
-            List<MomentEntity> records = momentEntityDao.queryBuilder()
-                    .where(MomentEntityDao.Properties.ObjectId.in(idList))
-                    .where(MomentEntityDao.Properties.CreatedAt.lt(date))
-                    .orderDesc(MomentEntityDao.Properties.CreatedAt)
-                    .limit(LIMIT_PER_LOAD)
-                    .list();
-            return map(records);
-        }
+    public List<Moment> getUserMoments(String userId,
+                                       String before) throws Exception {
+        List<Moment> momentList = restService.getMomentsByUser(
+                userId, before, LIMIT_PER_LOAD);
+        updateOrInsert(momentList);
+        return momentList;
+    }
+
+    public int getUserMomentsCount(String userId) {
+        return restService.getMomentsCountByUser(userId);
     }
 
     public List<Moment> getLatestList(String before) throws Exception {
@@ -166,7 +159,8 @@ public class MomentStore {
 
     public List<Moment> getListByUsers(List<String> userIds,
                                        String before) throws Exception {
-        List<Moment> momentList = restService.getMomentsByUsers(userIds, before, LIMIT_PER_LOAD);
+        List<Moment> momentList = restService.getMomentsByUsers(
+                userIds, before, LIMIT_PER_LOAD);
         updateOrInsert(momentList);
         return momentList;
     }

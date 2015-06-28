@@ -143,7 +143,6 @@ public final class Constants {
             public static final String PARAM_AREA = "area";
             public static final String PARAM_ABOUT = "about";
             public static final String PARAM_CHAT_ID = "chatId";
-            public static final String PARAM_MOMENTS = "moments";
             public static final String PARAM_CREDIT = "credit";
         }
 

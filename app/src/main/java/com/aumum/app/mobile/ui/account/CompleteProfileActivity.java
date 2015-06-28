@@ -214,9 +214,7 @@ public class CompleteProfileActivity extends ProgressDialogActivity
                 restService.updateUserProfile(user);
                 Moment moment = new Moment(userId,
                         getString(R.string.label_first_moment), avatarUrl);
-                moment = restService.newMoment(moment);
-                restService.addUserFirstMoment(userId, moment.getObjectId());
-                user.addMoment(moment.getObjectId());
+                restService.newMoment(moment);
                 return true;
             }
 
