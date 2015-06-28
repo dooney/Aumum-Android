@@ -29,6 +29,8 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
+import me.leolin.shortcutbadger.ShortcutBadger;
+
 /**
  * Created by Administrator on 10/11/2014.
  */
@@ -71,6 +73,7 @@ public class EMChatUtils {
                         if (activities.isEmpty()) {
                             EMMessage message = (EMMessage) event.getData();
                             notifyOnNewMessage(context, message);
+                            updateAppBadge(context);
                         }
                         break;
                     case EventNewCMDMessage:
@@ -118,6 +121,11 @@ public class EMChatUtils {
 
     public static void clearCmdMessageQueue() {
         cmdMessageQueue.clear();
+    }
+
+    public static void updateAppBadge(Context context) {
+        ShortcutBadger.with(context).count(
+                EMChatManager.getInstance().getUnreadMsgsCount());
     }
 
     public interface OnAuthenticateListener {

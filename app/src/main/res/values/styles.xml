@@ -187,6 +187,12 @@
     <style name="TextView.Label" parent="TextView.Subtitle">
         <item name="android:paddingRight">@dimen/margin_extra_large</item>
     </style>
+    <style name="TextView.Unread" parent="TextView">
+        <item name="android:textSize">@dimen/text_sz_small</item>
+        <item name="android:textColor">@color/am_white</item>
+        <item name="android:background">@drawable/unread_count_bg</item>
+        <item name="android:gravity">center</item>
+    </style>
 
     <!-- Splash -->
     <style name="Button.SignIn" parent="Button">

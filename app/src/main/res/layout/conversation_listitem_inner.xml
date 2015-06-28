@@ -22,9 +22,9 @@
             android:layout_width="@dimen/avatar_sz_large"
             android:layout_height="wrap_content">
 
-            <ImageView
-                android:id="@+id/image_unread"
-                style="@style/ImageView.Unread.Small"
+            <TextView
+                android:id="@+id/text_unread"
+                style="@style/TextView.Unread"
                 android:layout_gravity="right"/>
 
         </FrameLayout>

@@ -3,7 +3,6 @@ package com.aumum.app.mobile.ui.conversation;
 import android.content.Context;
 import android.content.Intent;
 import android.view.View;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.aumum.app.mobile.R;
@@ -28,7 +27,7 @@ public class ConversationCard {
     private TextView screenNameText;
     private TextView timeStampText;
     private SpannableTextView messageBodyText;
-    private ImageView unreadImage;
+    private TextView unreadText;
 
     private String id;
     private String screenName;
@@ -41,7 +40,7 @@ public class ConversationCard {
         screenNameText = (TextView) view.findViewById(R.id.text_screen_name);
         timeStampText = (TextView) view.findViewById(R.id.text_time_stamp);
         messageBodyText = (SpannableTextView) view.findViewById(R.id.text_message_body);
-        unreadImage = (ImageView) view.findViewById(R.id.image_unread);
+        unreadText = (TextView) view.findViewById(R.id.text_unread);
     }
 
     public void refresh(Conversation conversation) {
@@ -76,10 +75,12 @@ public class ConversationCard {
             messageBodyText.setVisibility(View.GONE);
         }
 
-        if (conversation.getEmConversation().getUnreadMsgCount() > 0) {
-            unreadImage.setVisibility(View.VISIBLE);
+        int unreadCount = conversation.getEmConversation().getUnreadMsgCount();
+        if (unreadCount > 0) {
+            unreadText.setVisibility(View.VISIBLE);
+            unreadText.setText(String.valueOf(unreadCount));
         } else {
-            unreadImage.setVisibility(View.GONE);
+            unreadText.setVisibility(View.GONE);
         }
     }
 }

@@ -90,6 +90,7 @@ public class ChatFragment extends Fragment
         id = intent.getStringExtra(ChatActivity.INTENT_ID);
         conversation = EMChatUtils.getConversation(id);
         conversation.markAllMessagesAsRead();
+        EMChatUtils.updateAppBadge(getActivity().getApplicationContext());
         adapter = new ChatMessagesAdapter(getActivity(), bus, EMChatUtils.getChatId());
         updateUI(conversation.getAllMessages(), -1);
     }
