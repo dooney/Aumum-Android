@@ -29,7 +29,7 @@
                 <com.aumum.app.mobile.ui.view.AvatarImageView
                     xmlns:app="http://schemas.android.com/apk/res-auto"
                     android:id="@+id/image_avatar"
-                    style="@style/ImageView.Avatar.ExtremeLarge"
+                    style="@style/ImageView.Avatar.ExtraLarge"
                     android:layout_gravity="center_horizontal"
                     app:border_width="2dp"
                     app:border_color="@color/am_yellow"

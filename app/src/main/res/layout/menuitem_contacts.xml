@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-
-<ImageView
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/b_users"
-    style="@style/ImageView"
-    android:paddingRight="@dimen/margin_large"
-    android:src="@drawable/ic_fa_users_o" />

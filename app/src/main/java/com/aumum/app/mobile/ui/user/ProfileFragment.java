@@ -1,7 +1,6 @@
 package com.aumum.app.mobile.ui.user;
 
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -22,22 +21,15 @@ import com.aumum.app.mobile.core.dao.UserStore;
 import com.aumum.app.mobile.core.model.Moment;
 import com.aumum.app.mobile.core.model.User;
 import com.aumum.app.mobile.core.service.FileUploadService;
-import com.aumum.app.mobile.core.service.RestService;
 import com.aumum.app.mobile.ui.album.AlbumAdapter;
 import com.aumum.app.mobile.ui.base.LoaderFragment;
 import com.aumum.app.mobile.ui.moment.MomentDetailsActivity;
 import com.aumum.app.mobile.ui.settings.SettingsActivity;
 import com.aumum.app.mobile.ui.view.AvatarImageView;
 import com.aumum.app.mobile.ui.view.paginggrid.PagingGridView;
-import com.aumum.app.mobile.utils.ImageLoaderUtils;
 import com.aumum.app.mobile.utils.SafeAsyncTask;
-import com.aumum.app.mobile.utils.TuSdkUtils;
 import com.google.gson.Gson;
 
-import org.lasque.tusdk.core.utils.image.BitmapHelper;
-import org.lasque.tusdk.core.utils.sqllite.ImageSqlInfo;
-
-import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -49,13 +41,8 @@ import retrofit.RetrofitError;
  * A simple {@link Fragment} subclass.
  *
  */
-public class ProfileFragment extends LoaderFragment<User>
-        implements TuSdkUtils.AlbumListener,
-                   TuSdkUtils.CropListener,
-                   TuSdkUtils.EditListener,
-                   FileUploadService.FileUploadListener {
+public class ProfileFragment extends LoaderFragment<User> {
 
-    @Inject RestService restService;
     @Inject UserStore userStore;
     @Inject MomentStore momentStore;
     @Inject FileUploadService fileUploadService;
@@ -67,7 +54,6 @@ public class ProfileFragment extends LoaderFragment<User>
 
     private PagingGridView gridView;
     private AlbumAdapter albumAdapter;
-    private ImageView coverImage;
     private AvatarImageView avatarImage;
     private TextView screenNameText;
     private TextView addressText;
@@ -189,7 +175,6 @@ public class ProfileFragment extends LoaderFragment<User>
     }
 
     private void initHeaderView(View view) {
-        coverImage = (ImageView) view.findViewById(R.id.image_cover);
         avatarImage = (AvatarImageView) view.findViewById(R.id.image_avatar);
         screenNameText = (TextView) view.findViewById(R.id.text_screen_name);
         addressText = (TextView) view.findViewById(R.id.text_address);
@@ -243,17 +228,6 @@ public class ProfileFragment extends LoaderFragment<User>
 
             gridView.setHasMoreItems(momentStore.isFullLoad(album.size()));
             albumAdapter.addAll(album);
-            if (user.getCoverUrl() != null) {
-                ImageLoaderUtils.displayImage(user.getCoverUrl(), coverImage);
-            } else {
-                coverImage.setImageResource(R.drawable.cover_default);
-            }
-            coverImage.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    TuSdkUtils.album(getActivity(), ProfileFragment.this);
-                }
-            });
             editProfileButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -275,77 +249,6 @@ public class ProfileFragment extends LoaderFragment<User>
         if (user.getAbout() != null) {
             aboutText.setText(user.getAbout());
             aboutText.setVisibility(View.VISIBLE);
-        }
-    }
-
-    private void updateCover(final String coverUrl) {
-        if (task != null) {
-            return;
-        }
-        task = new SafeAsyncTask<Boolean>() {
-            public Boolean call() throws Exception {
-                restService.updateUserCover(currentUser.getObjectId(), coverUrl);
-                currentUser.setCoverUrl(coverUrl);
-                userStore.save(currentUser);
-                return true;
-            }
-
-            @Override
-            protected void onException(final Exception e) throws RuntimeException {
-                if(!(e instanceof RetrofitError)) {
-                    showError(e);
-                }
-            }
-
-            @Override
-            protected void onFinally() throws RuntimeException {
-                task = null;
-            }
-        };
-        task.execute();
-    }
-
-    @Override
-    public void onUploadSuccess(String remoteUrl) {
-        updateCover(remoteUrl);
-    }
-
-    @Override
-    public void onUploadFailure(Exception e) {
-        showError(e);
-    }
-
-    private void onPhotoResult(ImageSqlInfo imageSqlInfo) {
-        Bitmap bitmap = BitmapHelper.getBitmap(imageSqlInfo);
-        if (bitmap.getHeight() > bitmap.getWidth()) {
-            TuSdkUtils.crop(getActivity(), imageSqlInfo, true, this);
-        } else {
-            TuSdkUtils.edit(getActivity(), imageSqlInfo, true, false, this);
-        }
-    }
-
-    @Override
-    public void onAlbumResult(ImageSqlInfo imageSqlInfo) {
-        onPhotoResult(imageSqlInfo);
-    }
-
-    @Override
-    public void onCropResult(File file) {
-        onFileResult(file);
-    }
-
-    @Override
-    public void onEditResult(File file) {
-        onFileResult(file);
-    }
-
-    private void onFileResult(File file) {
-        try {
-            String fileUri = file.getAbsolutePath();
-            fileUploadService.setFileUploadListener(this);
-            fileUploadService.upload(fileUri);
-        } catch (Exception e) {
-            showError(e);
         }
     }
 }

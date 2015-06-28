@@ -11,7 +11,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.aumum.app.mobile.Injector;
@@ -33,7 +32,6 @@ import com.aumum.app.mobile.ui.view.dialog.ConfirmDialog;
 import com.aumum.app.mobile.ui.view.dialog.EditTextDialog;
 import com.aumum.app.mobile.ui.view.dialog.TextViewDialog;
 import com.aumum.app.mobile.utils.EMChatUtils;
-import com.aumum.app.mobile.utils.ImageLoaderUtils;
 import com.aumum.app.mobile.utils.SafeAsyncTask;
 import com.github.kevinsawicki.wishlist.Toaster;
 
@@ -66,7 +64,6 @@ public class UserFragment extends LoaderFragment<User> {
 
     private PagingGridView gridView;
     private AlbumAdapter albumAdapter;
-    private ImageView coverImage;
     private AvatarImageView avatarImage;
     private TextView screenNameText;
     private TextView addressText;
@@ -217,7 +214,6 @@ public class UserFragment extends LoaderFragment<User> {
     }
 
     private void initHeaderView(View view) {
-        coverImage = (ImageView) view.findViewById(R.id.image_cover);
         avatarImage = (AvatarImageView) view.findViewById(R.id.image_avatar);
         screenNameText = (TextView) view.findViewById(R.id.text_screen_name);
         addressText = (TextView) view.findViewById(R.id.text_address);
@@ -268,11 +264,6 @@ public class UserFragment extends LoaderFragment<User> {
 
             gridView.setHasMoreItems(momentStore.isFullLoad(album.size()));
             albumAdapter.addAll(album);
-            if (user.getCoverUrl() != null) {
-                ImageLoaderUtils.displayImage(user.getCoverUrl(), coverImage);
-            } else {
-                coverImage.setImageResource(R.drawable.cover_default);
-            }
             avatarImage.getFromUrl(user.getAvatarUrl());
             screenNameText.setText(user.getScreenName());
             addressText.setText(user.getAddress());

@@ -36,6 +36,9 @@
         <item name="android:paddingLeft">@dimen/margin_large</item>
         <item name="android:paddingRight">@dimen/margin_large</item>
     </style>
+    <style name="Button.Primary.Small" parent="Button.Primary">
+        <item name="android:textSize">@dimen/text_sz_small</item>
+    </style>
     <style name="Button.Dialog.Ok" parent="Button.Primary">
         <item name="android:text">@string/label_ok</item>
     </style>
@@ -92,10 +95,6 @@
     <style name="ImageView.Avatar.ExtraLarge" parent="ImageView">
         <item name="android:layout_width">@dimen/avatar_sz_extra_large</item>
         <item name="android:layout_height">@dimen/avatar_sz_extra_large</item>
-    </style>
-    <style name="ImageView.Avatar.ExtremeLarge" parent="ImageView">
-        <item name="android:layout_width">@dimen/avatar_sz_extreme_large</item>
-        <item name="android:layout_height">@dimen/avatar_sz_extreme_large</item>
     </style>
     <style name="ImageView.Avatar.Chat" parent="ImageView">
         <item name="android:layout_width">42dp</item>
@@ -434,7 +433,7 @@
 
     <!-- User -->
     <style name="TextView.User.ScreenName" parent="TextView.UserName">
-        <item name="android:textColor">@color/am_white</item>
+        <item name="android:textColor">@color/am_yellow</item>
         <item name="android:textSize">@dimen/text_sz_large</item>
     </style>
     <style name="TextView.User.Address" parent="TextView">
@@ -443,23 +442,20 @@
         <item name="android:drawableLeft">@drawable/ic_fa_nav</item>
         <item name="android:gravity">center_vertical</item>
     </style>
-    <style name="TextView.User.About" parent="TextView.Multiline">
-        <item name="android:maxWidth">200dp</item>
-        <item name="android:gravity">center</item>
+    <style name="TextView.User.About" parent="TextView">
         <item name="android:textColor">@color/am_white</item>
         <item name="android:textSize">@dimen/text_sz_small</item>
+        <item name="android:maxLines">1</item>
+        <item name="android:ellipsize">end</item>
     </style>
-    <style name="Button.User.AddContact" parent="Button.Primary">
+    <style name="Button.User.AddContact" parent="Button.Primary.Small">
         <item name="android:text">@string/label_add_contact</item>
-        <item name="android:textSize">@dimen/text_sz_small</item>
     </style>
-    <style name="Button.User.Chat" parent="Button.Primary">
-        <item name="android:text">@string/label_chat</item>
-        <item name="android:textSize">@dimen/text_sz_small</item>
+    <style name="Button.User.Chat" parent="Button.Primary.Small">
+        <item name="android:text">@string/label_send_message</item>
     </style>
-    <style name="Button.User.EditProfile" parent="Button.Primary">
+    <style name="Button.User.EditProfile" parent="Button.Primary.Small">
         <item name="android:text">@string/label_edit_profile</item>
-        <item name="android:textSize">@dimen/text_sz_small</item>
     </style>
 
     <!-- Widgets -->
