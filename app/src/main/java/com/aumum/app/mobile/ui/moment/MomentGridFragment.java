@@ -30,8 +30,8 @@ import retrofit.RetrofitError;
  */
 public class MomentGridFragment extends LoaderFragment<List<Moment>> {
 
-    @Inject MomentStore momentStore;
-    @Inject UserStore userStore;
+    protected @Inject MomentStore momentStore;
+    protected @Inject UserStore userStore;
 
     private PagingGridView gridView;
     private MomentGridAdapter adapter;
@@ -171,7 +171,7 @@ public class MomentGridFragment extends LoaderFragment<List<Moment>> {
         return momentStore.getListByUsers(userIds, before);
     }
 
-    private List<Moment> refresh(int query) throws Exception {
+    protected List<Moment> refresh(int query) throws Exception {
         switch (query) {
             case MomentGridActivity.QUERY_LATEST:
                 return momentStore.getLatestList(null);
@@ -190,7 +190,7 @@ public class MomentGridFragment extends LoaderFragment<List<Moment>> {
         }
     }
 
-    private List<Moment> loadMore(Moment last, int query) throws Exception {
+    protected List<Moment> loadMore(Moment last, int query) throws Exception {
         switch (query) {
             case MomentGridActivity.QUERY_LATEST:
                 return momentStore.getLatestList(last.getCreatedAt());

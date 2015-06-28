@@ -23,6 +23,7 @@ import com.aumum.app.mobile.core.model.User;
 import com.aumum.app.mobile.core.service.FileUploadService;
 import com.aumum.app.mobile.ui.album.AlbumAdapter;
 import com.aumum.app.mobile.ui.base.LoaderFragment;
+import com.aumum.app.mobile.ui.contact.ContactActivity;
 import com.aumum.app.mobile.ui.moment.MomentDetailsActivity;
 import com.aumum.app.mobile.ui.settings.SettingsActivity;
 import com.aumum.app.mobile.ui.view.AvatarImageView;
@@ -61,6 +62,8 @@ public class ProfileFragment extends LoaderFragment<User> {
     private TextView aboutText;
     private View editProfileButton;
     private TextView photoCountText;
+    private TextView contactCountText;
+    private View contactLayout;
 
     @Override
     public void onCreate(final Bundle savedInstanceState) {
@@ -107,7 +110,7 @@ public class ProfileFragment extends LoaderFragment<User> {
         initHeaderView(header);
         albumAdapter = new AlbumAdapter(getActivity());
         gridView = (PagingGridView) view.findViewById(R.id.grid_view);
-        gridView.addHeaderView(header);
+        gridView.addHeaderView(header, null, false);
         gridView.setAdapter(albumAdapter);
         gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -183,6 +186,8 @@ public class ProfileFragment extends LoaderFragment<User> {
         aboutText = (TextView) view.findViewById(R.id.text_about);
         editProfileButton = view.findViewById(R.id.b_edit_profile);
         photoCountText = (TextView) view.findViewById(R.id.text_photo_count);
+        contactCountText = (TextView) view.findViewById(R.id.text_contact_count);
+        contactLayout = view.findViewById(R.id.layout_contact);
     }
 
     @Override
@@ -244,6 +249,14 @@ public class ProfileFragment extends LoaderFragment<User> {
             });
             updateProfile(user);
             photoCountText.setText(String.valueOf(photoCount));
+            contactCountText.setText(String.valueOf(currentUser.getContacts().size()));
+            contactLayout.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    final Intent intent = new Intent(getActivity(), ContactActivity.class);
+                    startActivity(intent);
+                }
+            });
         }
     }
 

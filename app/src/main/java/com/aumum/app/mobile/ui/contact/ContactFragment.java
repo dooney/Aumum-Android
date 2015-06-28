@@ -107,7 +107,7 @@ public class ContactFragment extends ItemListFragment<UserInfo>
     @Override
     protected void handleLoadResult(List<UserInfo> result) {
         super.handleLoadResult(result);
-        getActivity().setTitle(getString(R.string.label_my_contacts, result.size()));
+        getActivity().setTitle(getString(R.string.label_contacts, result.size()));
     }
 
     @Override

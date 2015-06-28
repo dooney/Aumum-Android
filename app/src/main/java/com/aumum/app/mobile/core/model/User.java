@@ -15,7 +15,7 @@ public class User extends AggregateRoot {
     protected String area;
     protected String avatarUrl;
     protected String about;
-    protected List<String> contacts = new ArrayList<>();
+    protected ArrayList<String> contacts = new ArrayList<>();
 
     public User() {
 
@@ -123,7 +123,7 @@ public class User extends AggregateRoot {
         this.about = about;
     }
 
-    public List<String> getContacts() {
+    public ArrayList<String> getContacts() {
         return contacts;
     }
 

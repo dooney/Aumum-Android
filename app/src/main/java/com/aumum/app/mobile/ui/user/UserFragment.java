@@ -73,6 +73,8 @@ public class UserFragment extends LoaderFragment<User> {
     private View chatButton;
     private MenuItem deleteContact;
     private TextView photoCountText;
+    private TextView contactCountText;
+    private View contactLayout;
 
     @Override
     public void onCreate(final Bundle savedInstanceState) {
@@ -146,7 +148,7 @@ public class UserFragment extends LoaderFragment<User> {
         initHeaderView(header);
         albumAdapter = new AlbumAdapter(getActivity());
         gridView = (PagingGridView) view.findViewById(R.id.grid_view);
-        gridView.addHeaderView(header);
+        gridView.addHeaderView(header, null, false);
         gridView.setAdapter(albumAdapter);
         gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -223,6 +225,8 @@ public class UserFragment extends LoaderFragment<User> {
         addContactButton = view.findViewById(R.id.b_add_contact);
         chatButton = view.findViewById(R.id.b_chat);
         photoCountText = (TextView) view.findViewById(R.id.text_photo_count);
+        contactCountText = (TextView) view.findViewById(R.id.text_contact_count);
+        contactLayout = view.findViewById(R.id.layout_contact);
     }
 
     @Override
@@ -276,6 +280,19 @@ public class UserFragment extends LoaderFragment<User> {
                 aboutText.setVisibility(View.VISIBLE);
             }
             photoCountText.setText(String.valueOf(photoCount));
+            contactCountText.setText(String.valueOf(user.getContacts().size()));
+            contactLayout.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    final Intent intent = new Intent(
+                            getActivity(), UserContactsActivity.class);
+                    intent.putExtra(UserContactsActivity.INTENT_TITLE,
+                            getString(R.string.label_user_contacts, user.getScreenName()));
+                    intent.putStringArrayListExtra(UserContactsActivity.INTENT_CONTACTS,
+                            user.getContacts());
+                    startActivity(intent);
+                }
+            });
             if (!currentUser.getObjectId().equals(userId)) {
                 boolean isContact = currentUser.isContact(userId);
                 toggleActionButton(isContact);

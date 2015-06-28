@@ -195,17 +195,30 @@ public class RestService {
     }
 
     private String getUserFields() {
-        return String.format("%s,%s,%s,%s,%s,%s",
+        return String.format("%s,%s,%s,%s,%s,%s,%s",
                 Constants.Http.User.PARAM_SCREEN_NAME,
                 Constants.Http.User.PARAM_AVATAR_URL,
                 Constants.Http.User.PARAM_COUNTRY,
                 Constants.Http.User.PARAM_CITY,
                 Constants.Http.User.PARAM_AREA,
-                Constants.Http.User.PARAM_ABOUT);
+                Constants.Http.User.PARAM_ABOUT,
+                Constants.Http.User.PARAM_CONTACTS);
     }
 
     public User getUserById(String id) {
         return getUserService().getById(id, getUserFields());
+    }
+
+    public User getUserByScreenName(String screenName) {
+        final JsonObject whereJson = new JsonObject();
+        whereJson.addProperty(Constants.Http.User.PARAM_SCREEN_NAME, screenName);
+        String where = whereJson.toString();
+        List<User> result = getUserService()
+                .getList(getUserFields(), where).getResults();
+        if (result.size() > 0) {
+            return result.get(0);
+        }
+        return null;
     }
 
     private String getUserInfoFields() {
@@ -219,18 +232,6 @@ public class RestService {
 
     public UserInfo getUserInfoById(String id) {
         return getUserService().getInfoById(id, getUserInfoFields());
-    }
-
-    public User getUserByScreenName(String screenName) {
-        final JsonObject whereJson = new JsonObject();
-        whereJson.addProperty(Constants.Http.User.PARAM_SCREEN_NAME, screenName);
-        String where = whereJson.toString();
-        List<User> result = getUserService()
-                .getList(getUserFields(), where).getResults();
-        if (result.size() > 0) {
-            return result.get(0);
-        }
-        return null;
     }
 
     public UserInfo getUserInfoByChatId(String id) {

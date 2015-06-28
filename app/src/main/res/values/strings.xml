@@ -65,7 +65,6 @@
     <string name="info_submitting_report">正在提交举报，请稍候</string>
     <string name="info_report_submitted">举报已成功提交，请等待审核</string>
     <string name="info_no_users_found">没找到任何相关用户</string>
-    <string name="info_empty_conversation_list">你没有任何会话记录</string>
     <string name="info_click_to_reload">点击重试</string>
     <string name="info_submitting_feedback">正在提交反馈，请稍候</string>
     <string name="info_feedback_submitted">反馈已成功提交，感谢你的支持！</string>
@@ -104,7 +103,6 @@
     <string name="title_activity_about_app">关于澳妈圈</string>
     <string name="title_activity_area_list">请选择你所在的地区</string>
     <string name="title_activity_notification_settings">通知设置</string>
-    <string name="title_activity_contact">我的好友</string>
     <string name="title_activity_moment_likes">收到的喜欢</string>
     <string name="title_activity_moment_comments">收到的评论</string>
     <string name="title_activity_edit_profile">编辑资料</string>
@@ -155,6 +153,7 @@
     <string name="label_accept">同意</string>
     <string name="label_added">已添加</string>
     <string name="label_contact_agreed">已经同意添加好友请求</string>
+    <string name="label_user_contacts">%1$s的好友照片</string>
 
     <!-- Profile -->
     <string name="label_edit_profile">编辑资料</string>
@@ -189,7 +188,7 @@
     <string name="hint_report_details">举报理由</string>
 
     <!-- Contact -->
-    <string name="label_my_contacts">我的好友 (%,d)</string>
+    <string name="label_contacts">好友 (%,d)</string>
     <string name="hint_search_user">手机号码/用户昵称</string>
     <string name="label_hello">你好，我是%1$s</string>
 

@@ -41,6 +41,7 @@ import com.aumum.app.mobile.core.Constants;
 import com.aumum.app.mobile.ui.settings.SettingsActivity;
 import com.aumum.app.mobile.ui.user.EditProfileActivity;
 import com.aumum.app.mobile.ui.user.ProfileFragment;
+import com.aumum.app.mobile.ui.user.UserContactsFragment;
 import com.aumum.app.mobile.ui.user.UserFragment;
 import com.aumum.app.mobile.ui.user.UserListFragment;
 import com.aumum.app.mobile.utils.PostFromAnyThreadBus;
@@ -100,7 +101,8 @@ import retrofit.converter.GsonConverter;
                 MomentCommentsFragment.class,
                 DiscoveryFragment.class,
                 EditProfileActivity.class,
-                MomentGridFragment.class
+                MomentGridFragment.class,
+                UserContactsFragment.class
         }
 )
 public class BootstrapModule {

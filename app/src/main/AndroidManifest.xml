@@ -234,9 +234,7 @@
         <activity android:name=".ui.moment.MomentDetailsActivity"
             android:windowSoftInputMode="adjustResize">
         </activity>
-        <activity android:name=".ui.contact.ContactActivity"
-            android:label="@string/title_activity_contact">
-        </activity>
+        <activity android:name=".ui.contact.ContactActivity" />
         <activity android:name=".ui.moment.MomentLikesActivity"
             android:label="@string/title_activity_moment_likes">
         </activity>
@@ -244,6 +242,7 @@
             android:label="@string/title_activity_moment_comments">
         </activity>
         <activity android:name=".ui.moment.MomentGridActivity" />
+        <activity android:name=".ui.user.UserContactsActivity" />
     </application>
 
 </manifest>

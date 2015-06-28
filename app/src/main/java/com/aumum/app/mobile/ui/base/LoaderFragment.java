@@ -22,7 +22,6 @@ public abstract class LoaderFragment<E> extends Fragment
         implements LoaderManager.LoaderCallbacks<E> {
     protected E data;
     protected ProgressBar progressBar;
-    protected TextView emptyText;
     protected TextView reloadText;
     protected boolean isShown;
     protected boolean hasError;
@@ -55,7 +54,6 @@ public abstract class LoaderFragment<E> extends Fragment
         super.onViewCreated(view, savedInstanceState);
 
         progressBar = (ProgressBar) view.findViewById(R.id.pb_loading);
-        emptyText = (TextView) view.findViewById(R.id.text_empty);
         reloadText = (TextView) view.findViewById(R.id.text_reload);
         if (reloadText != null) {
             reloadText.setOnClickListener(new View.OnClickListener() {
@@ -111,7 +109,7 @@ public abstract class LoaderFragment<E> extends Fragment
     }
 
     protected void reload() {
-        hide(emptyText).hide(reloadText).show(progressBar);
+        hide(reloadText).show(progressBar);
         refresh(null);
     }
 
@@ -165,12 +163,12 @@ public abstract class LoaderFragment<E> extends Fragment
                 // no fade effect
                 if (!readyToShow()) {
                     if (hasError) {
-                        hide(progressBar).hide(emptyText).hide(mainView).show(reloadText);
+                        hide(progressBar).hide(mainView).show(reloadText);
                     } else {
-                        hide(progressBar).hide(reloadText).hide(mainView).show(emptyText);
+                        hide(progressBar).hide(reloadText).hide(mainView);
                     }
                 } else {
-                    hide(progressBar).hide(emptyText).hide(reloadText).show(mainView);
+                    hide(progressBar).hide(reloadText).show(mainView);
                 }
             }
             return;
@@ -180,17 +178,17 @@ public abstract class LoaderFragment<E> extends Fragment
 
         if (shown) {
             if (readyToShow()) {
-                hide(progressBar).hide(emptyText).hide(reloadText)
+                hide(progressBar).hide(reloadText)
                         .fadeIn(mainView, animate).show(mainView);
             } else {
                 if (hasError) {
-                    hide(progressBar).hide(emptyText).hide(mainView).show(reloadText);
+                    hide(progressBar).hide(mainView).show(reloadText);
                 } else {
-                    hide(progressBar).hide(reloadText).hide(mainView).show(emptyText);
+                    hide(progressBar).hide(reloadText).hide(mainView);
                 }
             }
         } else {
-            hide(emptyText).hide(reloadText).hide(mainView)
+            hide(reloadText).hide(mainView)
                     .fadeIn(progressBar, animate).show(progressBar);
         }
         return;
