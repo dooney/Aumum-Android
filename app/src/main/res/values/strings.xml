@@ -206,9 +206,9 @@
     <string name="label_talent">达人</string>
 
     <!-- Message -->
-    <string name="label_contact_requests">收到的请求</string>
-    <string name="label_moment_likes">收到的喜欢</string>
-    <string name="label_moment_comments">收到的评论</string>
+    <string name="label_contact_requests">请求</string>
+    <string name="label_moment_likes">喜欢</string>
+    <string name="label_moment_comments">评论</string>
 
     <!-- Widgets -->
     <string name="header_hint_refresh_normal">下拉可以刷新</string>
