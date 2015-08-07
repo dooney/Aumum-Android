@@ -167,8 +167,7 @@ public class NewMomentActivity extends ProgressDialogActivity
                     restService.addMomentFollowers(moment.getObjectId(), users);
                     for (String userId : users) {
                         UserInfo user = userStore.getUserInfoById(userId);
-                        CmdMessage cmdMessage = new CmdMessage(
-                                CmdMessage.Type.NEW_MOMENT, null, null, null);
+                        CmdMessage cmdMessage = new CmdMessage(CmdMessage.Type.NEW_MOMENT);
                         EMChatUtils.sendCmdMessage(user.getChatId(), cmdMessage);
                     }
                     return true;

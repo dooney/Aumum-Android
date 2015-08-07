@@ -8,8 +8,10 @@ import com.aumum.app.mobile.Injector;
 import com.aumum.app.mobile.R;
 import com.aumum.app.mobile.core.dao.MessageStore;
 import com.aumum.app.mobile.core.dao.UserStore;
+import com.aumum.app.mobile.core.model.CmdMessage;
 import com.aumum.app.mobile.core.model.User;
 import com.aumum.app.mobile.core.model.UserInfo;
+import com.aumum.app.mobile.ui.user.UserSingleActivity;
 import com.aumum.app.mobile.utils.EMChatUtils;
 import com.aumum.app.mobile.utils.NotificationUtils;
 import com.aumum.app.mobile.core.service.RestService;
@@ -69,7 +71,6 @@ public class ContactListener implements EMContactListener {
                     EMChatUtils.deleteConversation(contactId);
                     restService.removeContact(currentUser.getObjectId(), user.getObjectId());
                     currentUser.removeContact(user.getObjectId());
-                    messageStore.deleteContactRequest(user.getObjectId());
                     userStore.save(currentUser);
                 }
                 return true;
@@ -84,11 +85,15 @@ public class ContactListener implements EMContactListener {
             public Boolean call() throws Exception {
                 User currentUser = userStore.getCurrentUser();
                 UserInfo user = userStore.getUserInfoByChatId(userName);
-                if (!currentUser.isContact(user.getObjectId()) &&
-                    !messageStore.hasContactRequest(user.getObjectId())) {
-                    messageStore.addContactRequest(user.getObjectId(), reason);
+                if (!currentUser.isContact(user.getObjectId())) {
+                    CmdMessage cmdMessage = new CmdMessage(CmdMessage.Type.NEW_CONTACT);
+                    cmdMessage.setUserId(user.getObjectId());
+                    cmdMessage.setScreenName(user.getScreenName());
+                    cmdMessage.setAvatarUrl(user.getAvatarUrl());
+                    cmdMessage.setContent(reason);
+                    messageStore.addMessage(cmdMessage);
                     bus.post(new NewMessageEvent());
-                    pushContactInvitedNotification(
+                    pushContactInvitedNotification(user.getObjectId(),
                             user.getScreenName(), reason, user.getAvatarUrl());
                 }
                 return true;
@@ -114,12 +119,14 @@ public class ContactListener implements EMContactListener {
         return;
     }
 
-    private void pushContactInvitedNotification(String userName,
+    private void pushContactInvitedNotification(String userId,
+                                                String userName,
                                                 String reason,
                                                 String avatarUrl) {
         String content = context.getString(R.string.label_contact_invited, userName);
         Intent intent = new Intent();
-        intent.setComponent(new ComponentName(context, ContactRequestsActivity.class));
+        intent.putExtra(UserSingleActivity.INTENT_USER_ID, userId);
+        intent.setComponent(new ComponentName(context, UserSingleActivity.class));
         NotificationUtils.notify(context, content, reason, avatarUrl, intent);
     }
 

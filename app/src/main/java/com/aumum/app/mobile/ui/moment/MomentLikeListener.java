@@ -119,8 +119,12 @@ public class MomentLikeListener implements LikeTextView.LikeListener {
 
     private void notifyMomentOwner(User currentUser) throws Exception {
         if (!moment.getUserId().equals(currentUser.getObjectId())) {
-            CmdMessage cmdMessage = new CmdMessage(CmdMessage.Type.MOMENT_LIKE,
-                    null, currentUser.getObjectId(), moment.getObjectId());
+            CmdMessage cmdMessage = new CmdMessage(CmdMessage.Type.MOMENT_LIKE);
+            cmdMessage.setUserId(currentUser.getObjectId());
+            cmdMessage.setScreenName(currentUser.getScreenName());
+            cmdMessage.setAvatarUrl(currentUser.getAvatarUrl());
+            cmdMessage.setMomentId(moment.getObjectId());
+            cmdMessage.setImageUrl(moment.getImageUrl());
             UserInfo user = userStore.getUserInfoById(moment.getUserId());
             EMChatUtils.sendCmdMessage(user.getChatId(), cmdMessage);
         }

@@ -292,17 +292,12 @@ public class MainFragment extends Fragment implements EMEventListener {
     }
 
     private void handleMomentLikeCmdMessage(CmdMessage cmdMessage) {
-        String momentId = cmdMessage.getPayload();
-        String userId = cmdMessage.getContent();
-        messageStore.addMomentLike(momentId, userId);
+        messageStore.addMessage(cmdMessage);
         updateTabUnread(MainTabPageIndicator.TAB_MESSAGE, View.VISIBLE);
     }
 
     private void handleMomentCommentCmdMessage(CmdMessage cmdMessage) {
-        String momentId = cmdMessage.getPayload();
-        String userId = cmdMessage.getContent();
-        String comment = cmdMessage.getTitle();
-        messageStore.addMomentComment(momentId, userId, comment);
+        messageStore.addMessage(cmdMessage);
         updateTabUnread(MainTabPageIndicator.TAB_MESSAGE, View.VISIBLE);
     }
 }

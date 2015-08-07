@@ -20,15 +20,12 @@ import com.aumum.app.mobile.ui.contact.ContactFragment;
 import com.aumum.app.mobile.ui.conversation.ConversationFragment;
 import com.aumum.app.mobile.ui.contact.AcceptContactListener;
 import com.aumum.app.mobile.ui.contact.ContactListener;
-import com.aumum.app.mobile.ui.contact.ContactRequestsFragment;
 import com.aumum.app.mobile.ui.account.VerifyActivity;
 import com.aumum.app.mobile.ui.message.MessageFragment;
-import com.aumum.app.mobile.ui.moment.MomentCommentsFragment;
 import com.aumum.app.mobile.ui.moment.MomentDetailsFragment;
 import com.aumum.app.mobile.ui.moment.MomentFragment;
 import com.aumum.app.mobile.ui.moment.MomentGridFragment;
 import com.aumum.app.mobile.ui.moment.MomentLikeListener;
-import com.aumum.app.mobile.ui.moment.MomentLikesFragment;
 import com.aumum.app.mobile.ui.moment.NewMomentActivity;
 import com.aumum.app.mobile.ui.report.ReportActivity;
 import com.aumum.app.mobile.ui.settings.FeedbackActivity;
@@ -80,7 +77,6 @@ import retrofit.converter.GsonConverter;
                 ChatFragment.class,
                 MainFragment.class,
                 ContactListener.class,
-                ContactRequestsFragment.class,
                 AcceptContactListener.class,
                 ContactFragment.class,
                 ProfileFragment.class,
@@ -97,8 +93,6 @@ import retrofit.converter.GsonConverter;
                 MomentLikeListener.class,
                 MomentDetailsFragment.class,
                 MessageFragment.class,
-                MomentLikesFragment.class,
-                MomentCommentsFragment.class,
                 DiscoveryFragment.class,
                 EditProfileActivity.class,
                 MomentGridFragment.class,

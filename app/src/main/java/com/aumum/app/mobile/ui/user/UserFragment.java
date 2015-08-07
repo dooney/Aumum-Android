@@ -15,7 +15,6 @@ import android.widget.TextView;
 
 import com.aumum.app.mobile.Injector;
 import com.aumum.app.mobile.R;
-import com.aumum.app.mobile.core.dao.MessageStore;
 import com.aumum.app.mobile.core.dao.MomentStore;
 import com.aumum.app.mobile.core.dao.UserStore;
 import com.aumum.app.mobile.core.model.Moment;
@@ -50,7 +49,6 @@ public class UserFragment extends LoaderFragment<User> {
 
     @Inject UserStore userStore;
     @Inject MomentStore momentStore;
-    @Inject MessageStore messageStore;
     @Inject RestService restService;
     @Inject FileUploadService fileUploadService;
 
@@ -114,7 +112,6 @@ public class UserFragment extends LoaderFragment<User> {
                                     String currentUserId = currentUser.getObjectId();
                                     restService.removeContact(currentUserId, userId);
                                     currentUser.removeContact(userId);
-                                    messageStore.deleteContactRequest(userId);
                                     userStore.save(currentUser);
                                 }
 

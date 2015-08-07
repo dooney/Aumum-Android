@@ -5,7 +5,7 @@ import de.greenrobot.daogenerator.Schema;
 
 public class DaoGenerator {
 
-    private static final int SCHEMA_VERSION = 35;
+    private static final int SCHEMA_VERSION = 36;
 
     public static void main(String args[]) throws Exception {
         Schema schema = new Schema(SCHEMA_VERSION, "com.aumum.app.mobile.core.dao.gen");
@@ -13,9 +13,7 @@ public class DaoGenerator {
         addUser(schema);
         addUserInfo(schema);
         addMoment(schema);
-        addContactRequest(schema);
-        addMomentLike(schema);
-        addMomentComment(schema);
+        addMessage(schema);
 
         new de.greenrobot.daogenerator.DaoGenerator().generateAll(schema, args[0]);
     }
@@ -49,36 +47,6 @@ public class DaoGenerator {
         user.addIntProperty("credit");
     }
 
-    private static void addContactRequest(Schema schema) {
-        Entity request = schema.addEntity("ContactRequestEntity");
-        request.setSuperclass("MessageEntity");
-        request.addStringProperty("userId").notNull().primaryKey();
-        request.addDateProperty("createdAt").notNull();
-        request.addStringProperty("info");
-        request.addBooleanProperty("isRead");
-    }
-
-    private static void addMomentLike(Schema schema) {
-        Entity request = schema.addEntity("MomentLikeEntity");
-        request.setSuperclass("MessageEntity");
-        request.addIdProperty();
-        request.addStringProperty("userId").notNull();
-        request.addDateProperty("createdAt").notNull();
-        request.addStringProperty("momentId").notNull();
-        request.addBooleanProperty("isRead");
-    }
-
-    private static void addMomentComment(Schema schema) {
-        Entity request = schema.addEntity("MomentCommentEntity");
-        request.setSuperclass("MessageEntity");
-        request.addIdProperty();
-        request.addStringProperty("userId").notNull();
-        request.addDateProperty("createdAt").notNull();
-        request.addStringProperty("momentId").notNull();
-        request.addStringProperty("content");
-        request.addBooleanProperty("isRead");
-    }
-
     private static void addMoment(Schema schema) {
         Entity moment = schema.addEntity("MomentEntity");
         moment.setSuperclass("BaseEntity");
@@ -89,5 +57,19 @@ public class DaoGenerator {
         moment.addStringProperty("text");
         moment.addStringProperty("imageUrl");
         moment.addIntProperty("hot");
+    }
+
+    private static void addMessage(Schema schema) {
+        Entity message = schema.addEntity("MessageEntity");
+        message.addIdProperty();
+        message.addIntProperty("type");
+        message.addStringProperty("userId").notNull();
+        message.addDateProperty("createdAt").notNull();
+        message.addStringProperty("screenName");
+        message.addStringProperty("avatarUrl");
+        message.addStringProperty("momentId");
+        message.addStringProperty("imageUrl");
+        message.addStringProperty("content");
+        message.addBooleanProperty("isRead");
     }
 }

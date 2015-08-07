@@ -94,7 +94,6 @@
     <string name="title_activity_register">注册新用户</string>
     <string name="title_activity_reset_password">找回密码</string>
     <string name="title_activity_user">用户详情</string>
-    <string name="title_activity_contact_requests">收到的请求</string>
     <string name="title_activity_settings">我的设置</string>
     <string name="title_activity_complete_profile">完善资料</string>
     <string name="title_activity_verify">手机验证</string>
@@ -103,8 +102,6 @@
     <string name="title_activity_about_app">关于澳妈圈</string>
     <string name="title_activity_area_list">请选择你所在的地区</string>
     <string name="title_activity_notification_settings">通知设置</string>
-    <string name="title_activity_moment_likes">收到的喜欢</string>
-    <string name="title_activity_moment_comments">收到的评论</string>
     <string name="title_activity_edit_profile">编辑资料</string>
 
     <!-- Account -->

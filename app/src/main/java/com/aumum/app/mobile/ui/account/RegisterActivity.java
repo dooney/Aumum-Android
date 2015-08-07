@@ -23,9 +23,10 @@ import com.aumum.app.mobile.utils.SafeAsyncTask;
 import com.aumum.app.mobile.utils.Strings;
 import com.mobsandgeeks.saripaar.ValidationError;
 import com.mobsandgeeks.saripaar.Validator;
+import com.mobsandgeeks.saripaar.annotation.Max;
+import com.mobsandgeeks.saripaar.annotation.Min;
 import com.mobsandgeeks.saripaar.annotation.Order;
 import com.mobsandgeeks.saripaar.annotation.Pattern;
-import com.mobsandgeeks.saripaar.annotation.Size;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -57,7 +58,8 @@ public class RegisterActivity extends AuthenticateActivity
     protected ClearEditText phoneText;
 
     @InjectView(R.id.et_password)
-    @Size(min = 6, max = 16, messageResId = R.string.error_incorrect_password_length)
+    @Min(value = 6, messageResId = R.string.error_incorrect_password_length)
+    @Max(value = 16, messageResId = R.string.error_incorrect_password_length)
     @Order(1)
     protected ClearEditText passwordText;
 

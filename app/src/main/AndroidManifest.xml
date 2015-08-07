@@ -114,6 +114,12 @@
                 <data android:scheme="com.aumum.app.mobile.user" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".ui.user.UserSingleActivity"
+            android:label="@string/title_activity_user"
+            android:launchMode="singleTask"
+            android:noHistory="true" >
+        </activity>
         <activity android:name=".ui.user.EditProfileActivity"
             android:label="@string/title_activity_edit_profile"/>
 
@@ -157,17 +163,9 @@
 
         <activity
             android:name=".ui.chat.ChatActivity"
-            android:excludeFromRecents="true"
             android:launchMode="singleTask"
-            android:taskAffinity=""
+            android:noHistory="true"
             android:windowSoftInputMode="adjustResize" >
-        </activity>
-        <activity
-            android:name=".ui.contact.ContactRequestsActivity"
-            android:excludeFromRecents="true"
-            android:label="@string/title_activity_contact_requests"
-            android:launchMode="singleTask"
-            android:taskAffinity="" >
         </activity>
         <activity
             android:name=".ui.settings.SettingsActivity"
@@ -235,12 +233,6 @@
             android:windowSoftInputMode="adjustResize">
         </activity>
         <activity android:name=".ui.contact.ContactActivity" />
-        <activity android:name=".ui.moment.MomentLikesActivity"
-            android:label="@string/title_activity_moment_likes">
-        </activity>
-        <activity android:name=".ui.moment.MomentCommentsActivity"
-            android:label="@string/title_activity_moment_comments">
-        </activity>
         <activity android:name=".ui.moment.MomentGridActivity" />
         <activity android:name=".ui.user.UserContactsActivity" />
     </application>

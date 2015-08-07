@@ -284,11 +284,13 @@ public class MomentDetailsFragment extends ItemListFragment<Comment>
 
     private void notifyMomentOwner(Comment comment) throws Exception {
         if (!moment.getUserId().equals(currentUser.getObjectId())) {
-            CmdMessage cmdMessage = new CmdMessage(
-                    CmdMessage.Type.MOMENT_COMMENT,
-                    comment.getContent(),
-                    currentUser.getObjectId(),
-                    moment.getObjectId());
+            CmdMessage cmdMessage = new CmdMessage(CmdMessage.Type.MOMENT_COMMENT);
+            cmdMessage.setUserId(currentUser.getObjectId());
+            cmdMessage.setScreenName(currentUser.getScreenName());
+            cmdMessage.setAvatarUrl(currentUser.getAvatarUrl());
+            cmdMessage.setMomentId(moment.getObjectId());
+            cmdMessage.setImageUrl(moment.getImageUrl());
+            cmdMessage.setContent(comment.getContent());
             UserInfo user = userStore.getUserInfoById(moment.getUserId());
             EMChatUtils.sendCmdMessage(user.getChatId(), cmdMessage);
         }
