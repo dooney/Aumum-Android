@@ -250,7 +250,15 @@ public class EMChatUtils {
         CmdMessageBody body = new CmdMessageBody("cmd");
         message.addBody(body);
         message.setReceipt(receipt);
-        message.setAttribute("payload", cmdMessage.toString());
+        message.setAttribute("type", cmdMessage.getType());
+        message.setAttribute("userId", cmdMessage.getUserId());
+        message.setAttribute("screenName", cmdMessage.getScreenName());
+        message.setAttribute("avatarUrl", cmdMessage.getAvatarUrl());
+        message.setAttribute("momentId", cmdMessage.getMomentId());
+        message.setAttribute("imageUrl", cmdMessage.getImageUrl());
+        if (cmdMessage.getContent() != null) {
+            message.setAttribute("content", cmdMessage.getContent());
+        }
         sendMessage(message, null);
     }
 
